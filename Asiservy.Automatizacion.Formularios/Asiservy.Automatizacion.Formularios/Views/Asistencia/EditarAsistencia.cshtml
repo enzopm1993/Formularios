@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "EditarAsistencia";
+}
+<script src="~/Scripts/jquery-3.0.0.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/AsistenciaJS/EditarAsistencia.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="~/Content/EditarAsistenciaCss/EditAsistencia.css" rel="stylesheet" />
+<h4>EditarAsistencia</h4>
+<div class="container table-responsive" >
+    <table>
+        <tr>
+            <td>Fecha:</td>
+            <td>@DateTime.Now.ToShortDateString()</td>
+        </tr>
+        <tr>
+            <td>Limpiador:</td>
+            <td>
+
+                <div class="ui-widget">
+
+                    <select id="combobox">
+                        <option value="">Select one...</option>
+                        <option value="Anchundia Anchundia Aura Maria">Anchundia Anchundia Aura Maria</option>
+                        <option value="Anchundia Parrales Viviana">Anchundia Parrales Viviana</option>
+                        <option value="Bailon Mero María Ines">Bailon Mero María Ines</option>
+                        <option value="Bravo Mnzaba Betsy Janet">Bravo Mnzaba Betsy Janet</option>
+                        <option value="Cardenas Espinoza Patricia">Cardenas Espinoza Patricia</option>
+                        <option value="Espinal Delgado Joyce Maryeli">Espinal Delgado Joyce Maryeli</option>
+                        <option value="García Cedeño Mariuxi Katherine">García Cedeño Mariuxi Katherine</option>
+                        <option value="Intriago Sornoza Mayra Johana">Intriago Sornoza Mayra Johana</option>
+                        <option value="Jaramillo Gómez María Elizabeth">Jaramillo Gómez María Elizabeth</option>
+                        <option value="Macias Chancay Sandy Ismenia">Macias Chancay Sandy Ismenia</option>
+                        <option value="Moreira Zambrano Mercedes">Moreira Zambrano Mercedes</option>
+                        <option value="Posligua Santana Francisca">Posligua Santana Francisca</option>
+                        <option value="Quijano Moreira Emily Juliana">Quijano Moreira Emily Juliana</option>
+                        <option value="Reyes Raamirez Jessenia Katehrine">Reyes Raamirez Jessenia Katehrine</option>
+                        <option value="Rezabala Suarez Jova Alexandra">Rezabala Suarez Jova Alexandra</option>
+                        <option value="Silvia Indio Mariana Gabriela">Silvia Indio Mariana Gabriela</option>
+                        <option value="Valencia Ochoa Gema Jhael">Valencia Ochoa Gema Jhael</option>
+                        <option value="Vera Intriago Diana Gabriela">Vera Intriago Diana Gabriela</option>
+                        <option value="Zambrano Solorzano Nury Juana">Zambrano Solorzano Nury Juana</option>
+                    
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Motivo</td>
+            <td>
+                <select id="combobox" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left">
+                    <option value="">Seleccione...</option>
+                    <option value="1">Atraso</option>
+                    <option value="2">Presente</option>
+                    <option value="3">Falta</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Observación:</td>
+            <td><textarea rows="7" cols="30"></textarea></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td colspan="2"><center><input type="button" value="Guardar" class="btn-primary"/></center></td>
+        </tr>
+    </table>
+
+</div>
+
