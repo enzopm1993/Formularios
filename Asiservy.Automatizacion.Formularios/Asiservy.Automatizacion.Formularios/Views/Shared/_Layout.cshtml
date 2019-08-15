@@ -14,7 +14,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="#">
-<img src="~/Content/images/asilogo.jpg" /> </a>
+<img src="~/Content/images/asilogo.jpg" class="img-responsive"/> </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,7 +26,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Procesos <span class="sr-only">(current)</span></a>
                     <div class="dropdown-menu" aria-labelledby="themes">
-                        <a class="dropdown-item" href="#">Opcion1</a>
+                        @Html.ActionLink("Control  de Asistencia", "Index", "Asistencia",null, new { @class= "dropdown-item" })
+                        @*<a class="dropdown-item" href="#">Control  de Asistencia</a>*@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Opción2</a>
                         <a class="dropdown-item" href="#">Opción3</a>

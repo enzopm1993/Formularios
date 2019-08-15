@@ -9,6 +9,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     public class AsistenciaController : Controller
     {
         // GET: Asistencia
+        [Authorize]
         public ActionResult Index()
         {
             return View();
