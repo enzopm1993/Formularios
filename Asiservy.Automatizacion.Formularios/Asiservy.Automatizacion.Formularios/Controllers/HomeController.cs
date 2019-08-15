@@ -9,6 +9,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     public class HomeController : Controller
     {
         // GET: Home
+        [Authorize]
         public ActionResult Home()
         {
             var a = "Prueba commit";

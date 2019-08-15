@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+<br /> <br />
+<div align="center" style='width:100%; border-width:1px;'>
+    <div>
+        <div class="card border-secondary mb-3" style="max-width: 20rem;">
+            <div class="card-header"><h4 class="panel-title">Ingrese sus datos</h4></div>
+            <div class="card-body">
+                <fieldset>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Usuario" name="usuario" type="text" autofocus id="txtUsuario">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Contraseña" name="password" type="password" id="txtPassword">
+                    </div>
+                    <center><button id="btnIngresar" class="btn btn-success">Ingresar</button></center>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+<script>
+
+   $('#logoutli').hide();
+   $("#btnIngresar").on("click", function () {
+        if ($("#txtUsuario").val().trim() == "" || $("#txtPassword").val().trim() == "") {
+            alert("Ingrese los campos requeridos");
+            return;
+        }
+
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            url: "@Url.Action("LogIn", "Login")",
+            data: JSON.stringify( { usuario: $("#txtUsuario").val(), password: $("#txtPassword").val()}),
+        success: function (data) {
+            if(data == 1)
+            {
+                $('#logoutli').show();
+                var returnUrl = "@Request.QueryString["ReturnUrl"]";
+
+                if (returnUrl == "") {
+
+                    window.location.href = "@Url.Action("Home", "Home")";
+                }
+                else {
+                    window.location.href = returnUrl;
+                }
+            }
+            else {
+                alert("Usuario y/o clave incorrectos");
+            }
+        }
+    });
+    });
+</script>

@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
@@ -17,12 +19,11 @@
         </button>
 
 
-        @*<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes" aria-expanded="false">Themes <span class="caret"></span></a>*@
 
         <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav" style="width:100%">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" >Procesos <span class="sr-only">(current)</span></a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Procesos <span class="sr-only">(current)</span></a>
                     <div class="dropdown-menu" aria-labelledby="themes">
                         <a class="dropdown-item" href="#">Opcion1</a>
                         <div class="dropdown-divider"></div>
@@ -57,11 +58,16 @@
                         <a class="dropdown-item" href="#">Opción3</a>
                     </div>
                 </li>
-            </ul>
+                <li  style="width:100%" id="logoutli">
+                        <a   class="nav-link" style="float:right" href="/Login/Logout?Length=11">Logout</a>
+                </li>
             
+            </ul>
         </div>
+        
+        
     </nav>
-   
+
 
     <div class="container-fluid body-content">
         @RenderBody()
@@ -70,7 +76,6 @@
             <p>&copy; @DateTime.Now.Year - Asiservy S.A</p>
         </footer>
     </div>
-    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+   
 </body>
 </html>
