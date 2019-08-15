@@ -4,27 +4,37 @@
 }
 
 
-<div style="padding-top: 100px; padding-bottom: 100px">
+<div style="padding-top: 10px; padding-bottom: 100px">
+
+    <h4 class="custom-control-inline">Fecha: &nbsp; <p id="date"></p> </h4>
 
     <div class="table-responsive">
 
-        <table class="table cellspacing='0' cellpadding='0' ">
-            <tr class="text-center align-text-bottom">
-                <td rowspan="2">Listado</td>
-                <td rowspan="2">Check</td>
-                <td rowspan="2">Estado</td>
-                <td colspan="3">Cuchillos</td>
-                <td rowspan="2"> Observación</td>
+        <table class="table table-bordered">
+            <tr class="text-center">
+                <td class="align-bottom" rowspan="2"><b> Personal</b></td>
+                <td class="align-bottom" rowspan="2"><b>Check</b> </td>
+                <td class="align-bottom" rowspan="2"><b>Estado</b> </td>
+                <td class="align-middle" colspan="3"><b>Cuchillos</b> </td>
+                <td class="align-bottom" rowspan="2"><b>Observación</b> </td>
             </tr>
-            <tr class="">
+            <tr>
                 <td>
-                    <div class="divCuchilloRojo"> &nbsp; </div>
+                    <div class="">
+                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
+                    </div>
                 </td>
                 <td>
-                    <div class="divCuchilloBlanco"> &nbsp; </div>
+                    <div class="">
+
+                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
+                    </div>
                 </td>
                 <td>
-                    <div class="divCuchilloNegro"> &nbsp; </div>
+                    <div class="">
+
+                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -65,8 +75,8 @@
                     </label>
                 </td>
                 <td>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="Observacion" placeholder="Observacion">
+                    <div>
+                        <input type="text" class="form-control-plaintext" id="Observacion" placeholder="Observacion">
                     </div>
                 </td>
 
@@ -110,13 +120,16 @@
                 </td>
                 <td>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="Observacion" placeholder="Observacion">
+                        <input type="text" class="form-control-plaintext" id="Observacion1" placeholder="Observacion">
                     </div>
                 </td>
 
             </tr>
         </table>
 
+        <div class="text-center" style="width:100%">
+            <button type="button" class="btn btn-info">GUARDAR</button>
+        </div>
 
 
     </div>
