@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div style="padding-top: 100px; padding-bottom: 100px">
+
+    <div class="table-responsive">
+
+        <table class="table cellspacing='0' cellpadding='0' ">
+            <tr class="text-center align-text-bottom">
+                <td rowspan="2">Listado</td>
+                <td rowspan="2">Check</td>
+                <td rowspan="2">Estado</td>
+                <td colspan="3">Cuchillos</td>
+                <td rowspan="2"> Observación</td>
+            </tr>
+            <tr class="">
+                <td>
+                    <div class="divCuchilloRojo"> &nbsp; </div>
+                </td>
+                <td>
+                    <div class="divCuchilloBlanco"> &nbsp; </div>
+                </td>
+                <td>
+                    <div class="divCuchilloNegro"> &nbsp; </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    José Delgado
+                </td>
+                <td>
+                    <label class="container containerCheck">
+                        <input type="checkbox" class="check" onchange="fillBook(0)" id="CheckAsistencia">
+                        <span class="checkmark" id="spanAsistencia"></span>
+                    </label>
+                </td>
+
+                <td>
+                    <select class="custom-select" id="SelectEstado" onchange="CambioEstado(0)">
+                        <option selected>Seleccione</option>
+                        <option value="1">Presente</option>
+                        <option value="2">Atraso</option>
+                        <option value="3">Falta</option>
+                    </select>
+                </td>
+                <td>
+                    <label class="container containerAzul">
+                        <input type="checkbox" class="check">
+                        <span class="checkmark">21</span>
+                    </label>
+                </td>
+                <td>
+                    <label class="container containerAzul">
+                        <input type="checkbox" class="check">
+                        <span class="checkmark">22</span>
+                    </label>
+                </td>
+                <td>
+                    <label class="container containerAzul">
+                        <input type="checkbox" class="check">
+                        <span class="checkmark">23</span>
+                    </label>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="Observacion" placeholder="Observacion">
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    Jorge Mazza
+                </td>
+                <td>
+                    <label class="container containerCheck">
+                        <input type="checkbox" class="check" onchange="fillBook(1)" id="CheckAsistencia1">
+                        <span class="checkmark" id="spanAsistencia1"></span>
+                    </label>
+                </td>
+
+                <td>
+                    <select class="custom-select" id="SelectEstado1" onchange="CambioEstado(1)">
+                        <option selected>Seleccione</option>
+                        <option value="1">Presente</option>
+                        <option value="2">Atraso</option>
+                        <option value="3">Falta</option>
+                    </select>
+                </td>
+                <td class="align-content-center">
+                    <label class="container containerAzul">
+                        <input type="checkbox" class="check">
+                        <span class="checkmark">21</span>
+                    </label>
+                </td>
+                <td>
+                    <label class="container containerAzul">
+                        <input type="checkbox" class="check">
+                        <span class="checkmark">22</span>
+                    </label>
+                </td>
+                <td>
+                    <label class="container containerAzul">
+                        <input type="checkbox" class="check">
+                        <span class="checkmark">23</span>
+                    </label>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="Observacion" placeholder="Observacion">
+                    </div>
+                </td>
+
+            </tr>
+        </table>
+
+
+
+    </div>
+
+</div>
+
+<link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
+<script src="~/Scripts/AsistenciaJS/Asistencia.js"></script>
+
