@@ -178,6 +178,7 @@
     <Content Include="Views\Home\ViewPrueba.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Asistencia\Index.cshtml" />
+    <Content Include="Views\Asistencia\Cuchillo.cshtml" />
     <Content Include="Views\Asistencia\EditarAsistencia.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
