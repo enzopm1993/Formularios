@@ -14,7 +14,8 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="#">
-<img src="~/Content/images/asilogo.jpg" class="img-responsive"/> </a>
+            <img src="~/Content/images/asilogo.jpg" class="img-responsive" />
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,7 +27,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Procesos <span class="sr-only">(current)</span></a>
                     <div class="dropdown-menu" aria-labelledby="themes">
-                        @Html.ActionLink("Control  de Asistencia", "Index", "Asistencia",null, new { @class= "dropdown-item" })
+                        @Html.ActionLink("Control  de Asistencia", "Index", "Asistencia", null, new { @class = "dropdown-item" })
                         @*<a class="dropdown-item" href="#">Control  de Asistencia</a>*@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Opción2</a>
@@ -60,24 +61,25 @@
                         <a class="dropdown-item" href="#">Opción3</a>
                     </div>
                 </li>
-                <li  style="width:100%" id="logoutli">
-                        <a   class="nav-link" style="float:right" href="/Login/Logout?Length=11">Logout</a>
+                <li style="width:100%" id="logoutli">
+                    <a class="nav-link" style="float:right" href="/Login/Logout?Length=11">Logout</a>
                 </li>
-            
+
             </ul>
         </div>
-        
-        
+
+
     </nav>
 
 
-    <div class="container-fluid body-content">
+    <div style="height:auto" class="container-fluid body-content ">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Asiservy S.A</p>
-        </footer>
+
     </div>
-   
+    
+    <footer class="fixed-bottom">
+        <hr />
+        <p>&copy; @DateTime.Now.Year - Asiservy S.A</p>
+    </footer>
 </body>
 </html>
