@@ -21,8 +21,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return View();
         }
 
-        // GET: Asistencia/Create
-        public ActionResult Create()
+        [Authorize]
+        // GET: Asistencia/Cuchillo
+        public ActionResult Cuchillo()
         {
             return View();
         }
