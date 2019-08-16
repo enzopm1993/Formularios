@@ -14,7 +14,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
-
+        [Authorize]
+        public ActionResult EditarAsistencia()
+        {
+            return View();
+        }
         // GET: Asistencia/Details/5
         public ActionResult Details(int id)
         {
