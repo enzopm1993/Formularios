@@ -51,11 +51,9 @@
                     <label class="btn btn-light text-xs-center" id="LabelAsistencia">
                         <input type="checkbox" autocomplete="on" onchange="fillBook(0)" id="CheckAsistencia">
                     </label>
-
                 </td>
-
                 <td>
-                    <select class="custom-select" id="SelectEstado" onchange="CambioEstado(0)">
+                    <select class="custom-select" id="SelectEstado" onchange="CambioEstado(1)">
                         <option selected>Seleccione</option>
                         <option value="1">Presente</option>
                         <option value="2">Atraso</option>
@@ -79,7 +77,7 @@
                 <td class="text-center">
                     <div class="col-xs-2 text-xs-center">
                         <label class="btn btn-light text-xs-center" id="labelCuchilloBlanco">
-                            <input type="checkbox" autocomplete="off" onchange="Cuchillo(3,1)" id="CheckCuchilloBlanco">31
+                            <input type="checkbox" onchange="Cuchillo(3,1)" id="CheckCuchilloBlanco">31
                         </label>
                     </div>
                 </td>
@@ -95,13 +93,13 @@
                     Jorge Mazza
                 </td>
                 <td class="text-center">
-                    <label class="btn btn-light text-xs-center" id="LabelAsistencia1">
-                        <input type="checkbox" autocomplete="on" onchange="fillBook(1)" id="CheckAsistencia1">
+                    <label class="btn btn-light text-xs-center" id="LabelAsistencia2">
+                        <input type="checkbox" autocomplete="on" onchange="fillBook(2)" id="CheckAsistencia2">
                     </label>
                 </td>
 
                 <td>
-                    <select class="custom-select" id="SelectEstado1" onchange="CambioEstado(1)">
+                    <select class="custom-select" id="SelectEstado2" onchange="CambioEstado(2)">
                         <option selected>Seleccione</option>
                         <option value="1">Presente</option>
                         <option value="2">Atraso</option>
@@ -131,7 +129,7 @@
                 </td>
                 <td>
                     <div class="form-group">
-                        <input type="text" class="form-control-plaintext" id="Observacion1" placeholder="Observacion">
+                        <input type="text" class="form-control-plaintext" id="Observacion2" placeholder="Observacion">
                     </div>
                 </td>
 

@@ -17,7 +17,7 @@ function Cuchillo(color, fila) {
     //console.log(desCheck);
     var label = document.getElementById(desLabel);
     var check = document.getElementById(desCheck).checked;
-    console.log(check);
+    //console.log(check);
 
     if (check) {
         label.style.background = "#27D5C3";
