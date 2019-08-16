@@ -38,7 +38,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Producción</a>
                     <div class="dropdown-menu" aria-labelledby="themes">
-                        <a class="dropdown-item" href="#">Opcion1</a>
+                        @Html.ActionLink("Bandeja de Solicitudes", "BandejaProduccion", "SolicitudPermiso", null, new { @class = "dropdown-item" })
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Opción2</a>
                         <a class="dropdown-item" href="#">Opción3</a>
@@ -47,7 +47,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Recursos Humanos</a>
                     <div class="dropdown-menu" aria-labelledby="themes">
-                        <a class="dropdown-item" href="#">Opcion1</a>
+                        @Html.ActionLink("Bandeja de Solicitudes", "BandejaRRHH", "SolicitudPErmiso", null, new { @class = "dropdown-item" })
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Opción2</a>
                         <a class="dropdown-item" href="#">Opción3</a>

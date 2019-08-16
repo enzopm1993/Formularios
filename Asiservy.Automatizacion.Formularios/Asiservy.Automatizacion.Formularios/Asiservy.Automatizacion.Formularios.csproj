@@ -149,6 +149,7 @@
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SolicitudPermisoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -175,6 +176,8 @@
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Asistencia\Index.cshtml" />
     <Content Include="Views\Asistencia\Cuchillo.cshtml" />
+    <Content Include="Views\SolicitudPermiso\BandejaProduccion.cshtml" />
+    <Content Include="Views\SolicitudPermiso\BandejaRRHH.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -185,7 +188,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\SolicitudPermiso\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
