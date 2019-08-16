@@ -13,18 +13,18 @@ document.getElementById("date").innerHTML = d + "/" + m + "/" + y;
 function fillBook(valor) {
     var desSelectEstado = "SelectEstado";
     var desCheckAsistencia = "CheckAsistencia";
-    var desspanAsistencia = "spanAsistencia";
+    var desLabelAsistencia = "LabelAsistencia";
     var desObservacion = "Observacion"
     if (valor != 0) {
         desSelectEstado +=  valor;
         desCheckAsistencia += valor;
-        desspanAsistencia += valor;
+        desLabelAsistencia += valor;
         desObservacion += valor;
     }
    // console.log(desCheckAsistencia);
     var SelectEstado = document.getElementById(desSelectEstado);
     var chexkAsistencia = document.getElementById(desCheckAsistencia).checked;
-    var span = document.getElementById(desspanAsistencia);
+    var label = document.getElementById(desLabelAsistencia);
     var observacion = document.getElementById(desObservacion);
 
     var Hora = new Date().getHours();
@@ -34,17 +34,16 @@ function fillBook(valor) {
     if (chexkAsistencia) {
         if (Hora >= 10) {
             SelectEstado.selectedIndex = 2;
-            span.style.backgroundColor = "yellow";
+            label.style.backgroundColor = "yellow";
             observacion.value = "Ingreso: "+Hora.toString() + ":" + Minuto.toString() + " AM ";
         } else {
             SelectEstado.selectedIndex = 1;
-            span.style.backgroundColor = "greenyellow";
-
+            label.style.backgroundColor = "greenyellow";
         }
     }
     else {
         SelectEstado.selectedIndex = 0;
-        span.style.backgroundColor = "#ccc";
+        label.style.backgroundColor = "#ccc";
         observacion.value = "";
     }
 }
@@ -52,32 +51,32 @@ function fillBook(valor) {
 function CambioEstado(valor) {
     var desSelectEstado = "SelectEstado";
     var desCheckAsistencia = "CheckAsistencia";
-    var desspanAsistencia = "spanAsistencia";
+    var desLabelAsistencia = "LabelAsistencia";
     var desObservacion = "Observacion"
 
     if (valor != 0) {
         desSelectEstado += valor;
         desCheckAsistencia += valor;
-        desspanAsistencia += valor;
+        desLabelAsistencia += valor;
         desObservacion += valor;
     }
 
 
     var SelectEstado = document.getElementById(desSelectEstado).value;
-    var span = document.getElementById(desspanAsistencia);
+    var label = document.getElementById(desLabelAsistencia);
     var CheckAsistencia = document.getElementById(desCheckAsistencia);
     var observacion = document.getElementById(desObservacion);
 
 
     if (SelectEstado == 1) {
         CheckAsistencia.checked = true;
-        span.style.backgroundColor = "greenyellow";
+        label.style.backgroundColor = "greenyellow";
         observacion.value = "";
     }
 
     if (SelectEstado == 2) {
         CheckAsistencia.checked = true;
-        span.style.backgroundColor = "yellow";
+        label.style.backgroundColor = "yellow";
         var Hora = new Date().getHours();
         var Minuto = new Date().getMinutes();
         observacion.value = "Ingreso: " + Hora.toString() + ":" + Minuto.toString() + " AM ";
@@ -85,7 +84,7 @@ function CambioEstado(valor) {
     }
 
     if (SelectEstado == 3) {
-        span.style.backgroundColor = "red";
+        label.style.backgroundColor = "red";
         CheckAsistencia.checked = true;
         observacion.value = "";
 

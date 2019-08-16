@@ -4,6 +4,12 @@
 }
 
 
+<script>
+    $(function () {
+        $("input").checkboxradio();
+    });
+</script>
+
 <div style="padding-top: 10px; padding-bottom: 100px">
 
     <h4 class="custom-control-inline">Fecha: &nbsp; <p id="date"></p> </h4>
@@ -42,10 +48,10 @@
                     José Delgado
                 </td>
                 <td class="text-center">
-                    <label class="container containerCheck">
-                        <input type="checkbox" class="check" onchange="fillBook(0)" id="CheckAsistencia">
-                        <span class="checkmark" id="spanAsistencia"></span>
+                    <label class="btn btn-light text-xs-center" id="LabelAsistencia">
+                        <input type="checkbox" autocomplete="on" onchange="fillBook(0)" id="CheckAsistencia">
                     </label>
+
                 </td>
 
                 <td>
@@ -56,23 +62,26 @@
                         <option value="3">Falta</option>
                     </select>
                 </td>
-                <td class="text-center">
-                    <label class="container containerAzul">
-                        <input type="checkbox" class="check">
-                        <span class="checkmark">21</span>
-                    </label>
+                <td class="text-center align-content-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloRojo">
+                            <input type="checkbox" onchange="Cuchillo(1,1)" id="CheckCuchilloRojo">21
+                        </label>
+                    </div>
                 </td>
                 <td class="text-center">
-                    <label class="container containerAzul">
-                        <input type="checkbox" class="check">
-                        <span class="checkmark">22</span>
-                    </label>
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
+                            <input type="checkbox" onchange="Cuchillo(2,1)" id="CheckCuchilloNegro">01
+                        </label>
+                    </div>
                 </td>
                 <td class="text-center">
-                    <label class="container containerAzul">
-                        <input type="checkbox" class="check">
-                        <span class="checkmark">23</span>
-                    </label>
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloBlanco">
+                            <input type="checkbox" autocomplete="off" onchange="Cuchillo(3,1)" id="CheckCuchilloBlanco">31
+                        </label>
+                    </div>
                 </td>
                 <td class="text-center">
                     <div>
@@ -86,9 +95,8 @@
                     Jorge Mazza
                 </td>
                 <td class="text-center">
-                    <label class="container containerCheck">
-                        <input type="checkbox" class="check" onchange="fillBook(1)" id="CheckAsistencia1">
-                        <span class="checkmark" id="spanAsistencia1"></span>
+                    <label class="btn btn-light text-xs-center" id="LabelAsistencia1">
+                        <input type="checkbox" autocomplete="on" onchange="fillBook(1)" id="CheckAsistencia1">
                     </label>
                 </td>
 
@@ -100,23 +108,26 @@
                         <option value="3">Falta</option>
                     </select>
                 </td>
-                <td class="text-center">
-                    <label class="container containerAzul">
-                        <input type="checkbox" class="check">
-                        <span class="checkmark">21</span>
-                    </label>
+                <td class="text-center align-content-center">
+                    <div class="col-xs-2 text-xs-center" data-toggle="">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloRojo2">
+                            <input type="checkbox" autocomplete="on" onchange="Cuchillo(1,2)" id="CheckCuchilloRojo2">22
+                        </label>
+                    </div>
                 </td>
                 <td class="text-center">
-                    <label class="container containerAzul">
-                        <input type="checkbox" class="check">
-                        <span class="checkmark" >22</span >
-                    </label>
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloNegro2">
+                            <input type="checkbox" autocomplete="on" onchange="Cuchillo(2,2)" id="CheckCuchilloNegro2">02
+                        </label>
+                    </div>
                 </td>
                 <td class="text-center">
-                    <label class="container containerAzul">
-                        <input type="checkbox" class="check">
-                        <span class="checkmark">23</span>
-                    </label>
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloBlanco2">
+                            <input type="checkbox" autocomplete="on" onchange="Cuchillo(3,2)" id="CheckCuchilloBlanco2">32
+                        </label>
+                    </div>
                 </td>
                 <td>
                     <div class="form-group">
@@ -128,7 +139,7 @@
         </table>
 
         <div class="text-center" style="width:100%">
-            <button type="button" class="btn btn-info">GUARDAR</button>
+            <button type="button" class="btn btn-info" onclick="prueba()">GUARDAR</button>
         </div>
 
 
@@ -138,4 +149,5 @@
 
 <link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
 <script src="~/Scripts/AsistenciaJS/Asistencia.js"></script>
-
+<script src="~/Scripts/jquery-3.0.0.js"></script>
+<script src="~/Scripts/AsistenciaJS/Cuchillo.js"></script>
