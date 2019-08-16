@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Asiservy.Automatizacion.Formularios.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,90 +7,87 @@ using System.Web.Mvc;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
+
     public class SolicitudPermisoController : Controller
-    {
+    {       
+
         [Authorize]
         // GET: SolicitudPermiso
         public ActionResult BandejaProduccion()
         {
-            return View();
+            List<Solicitud> solicitud = new List<Solicitud>();
+
+            solicitud.Add(new Solicitud { codigo = "1", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Jose" });
+            solicitud.Add(new Solicitud { codigo = "2", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Morales Victor" });
+            solicitud.Add(new Solicitud { codigo = "3", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Cazares Julio" });
+            solicitud.Add(new Solicitud { codigo = "4", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Vera Jose" });
+            solicitud.Add(new Solicitud { codigo = "5", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Chavez Jorge" });
+            solicitud.Add(new Solicitud {codigo="6",fecha="16/08/2019" ,Motivo="Vacaciones",Area="Proceso",Empleado="Santiago Emilio" });
+
+
+            return View(solicitud);
         }
+        [HttpPost]
+        public ActionResult BandejaProduccion(string buscar, string SelectPermiso)
+        {
+            List<Solicitud> solicitud = new List<Solicitud>();
+
+            solicitud.Add(new Solicitud { codigo = "1", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Jose" });
+            solicitud.Add(new Solicitud { codigo = "2", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Morales Victor" });
+            solicitud.Add(new Solicitud { codigo = "3", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Cazares Julio" });
+            solicitud.Add(new Solicitud { codigo = "4", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Vera Jose" });
+            solicitud.Add(new Solicitud { codigo = "5", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Chavez Jorge" });
+            solicitud.Add(new Solicitud { codigo = "6", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Emilio" });
+            if(SelectPermiso=="1")
+                return View(solicitud.Where(x=>x.codigo.Contains(buscar)).ToList());
+            if(SelectPermiso=="2")
+                return View(solicitud.Where(x => x.Area.Contains(buscar)).ToList());
+            if (SelectPermiso == "3")
+                return View(solicitud.Where(x => x.Empleado.Contains(buscar)).ToList());
+
+            return View(solicitud.ToList());
+
+
+        }
+
 
         [Authorize]
         public ActionResult BandejaRRHH()
         {
-            return View();
-        }
-        // GET: SolicitudPermiso/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
+            List<Solicitud> solicitud = new List<Solicitud>();
+
+            solicitud.Add(new Solicitud { codigo = "1", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Jose" });
+            solicitud.Add(new Solicitud { codigo = "2", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Morales Victor" });
+            solicitud.Add(new Solicitud { codigo = "3", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Cazares Julio" });
+            solicitud.Add(new Solicitud { codigo = "4", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Vera Jose" });
+            solicitud.Add(new Solicitud { codigo = "5", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Chavez Jorge" });
+            solicitud.Add(new Solicitud { codigo = "6", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Emilio" });
+
+
+            return View(solicitud);
         }
 
-        // GET: SolicitudPermiso/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: SolicitudPermiso/Create
+        [Authorize]
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult BandejaRRHH(string buscar, string SelectPermiso)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            List<Solicitud> solicitud = new List<Solicitud>();
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            solicitud.Add(new Solicitud { codigo = "1", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Jose" });
+            solicitud.Add(new Solicitud { codigo = "2", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Morales Victor" });
+            solicitud.Add(new Solicitud { codigo = "3", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Cazares Julio" });
+            solicitud.Add(new Solicitud { codigo = "4", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Vera Jose" });
+            solicitud.Add(new Solicitud { codigo = "5", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Chavez Jorge" });
+            solicitud.Add(new Solicitud { codigo = "6", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Emilio" });
+            if (SelectPermiso == "1")
+                return View(solicitud.Where(x => x.codigo.Contains(buscar)).ToList());
+            if (SelectPermiso == "2")
+                return View(solicitud.Where(x => x.Area.Contains(buscar)).ToList());
+            if (SelectPermiso == "3")
+                return View(solicitud.Where(x => x.Empleado.Contains(buscar)).ToList());
+
+            return View(solicitud.ToList());
         }
-
-        // GET: SolicitudPermiso/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: SolicitudPermiso/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: SolicitudPermiso/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: SolicitudPermiso/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }
