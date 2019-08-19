@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\AsistenciaCss\Asistencia.css" />
+    <Content Include="Content\AsistenciaCss\CambiarPersonal.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -142,6 +143,7 @@
     <Content Include="Content\SolicitudPermisoCss\SolicitudPermiso.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\AsistenciaJS\Asistencia.js" />
+    <Content Include="Scripts\AsistenciaJS\CambiarPersonal.js" />
     <Content Include="Scripts\AsistenciaJS\Cuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\EditarAsistencia.js" />
     <Content Include="Scripts\AsistenciaJS\PersonalNomina.js" />
@@ -238,6 +240,7 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\SolicitudPermisoJS\Bandeja.js" />
+    <Content Include="Scripts\SolicitudPermisoJS\SolicitudPermiso.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -254,6 +257,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Empleado.cs" />
     <Compile Include="Models\Solicitud.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -286,6 +290,7 @@
     <Content Include="Views\SolicitudPermiso\SolicitudPermiso.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudPermisoDispensario.cshtml" />
     <Content Include="Views\Asistencia\CambiarPersonalDeArea.cshtml" />
+    <Content Include="Views\Asistencia\Empleados.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

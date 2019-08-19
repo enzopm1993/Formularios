@@ -1,0 +1,13 @@
+﻿@model  List<Asiservy.Automatizacion.Formularios.Models.Empleado>
+
+@{WebGrid webGrid = new WebGrid(source: Model, canSort: false, rowsPerPage: 5);
+
+}
+
+@webGrid.GetHtml(
+       htmlAttributes: new { @id = "WebGrid", @class = "Grid table table-hover table-bordered" },
+       columns: webGrid.Columns(
+                   webGrid.Column("Cedula", "Cédula"),
+                   webGrid.Column("Nombre", "Nombre")
+                
+       ))
