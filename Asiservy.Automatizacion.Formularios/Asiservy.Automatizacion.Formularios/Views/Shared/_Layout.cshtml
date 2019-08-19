@@ -47,8 +47,6 @@
                     <div class="dropdown-menu" aria-labelledby="themes">
                         @Html.ActionLink("Bandeja de Solicitudes", "BandejaRRHH", "SolicitudPErmiso", null, new { @class = "dropdown-item" })
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Opción2</a>
-                        <a class="dropdown-item" href="#">Opción3</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -56,8 +54,14 @@
                     <div class="dropdown-menu" aria-labelledby="themes">
                         <a class="dropdown-item" href="#">Opcion1</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Opción2</a>
-                        <a class="dropdown-item" href="#">Opción3</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Reportes</a>
+                    <div class="dropdown-menu" aria-labelledby="themes">
+                        @Html.ActionLink("Distribucion de personal por lineas", "ReporteDistribucion", "Asistencia", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Personal en nomina por linea", "PersonalNomina", "Asistencia", null, new { @class = "dropdown-item" })
+                        <div class="dropdown-divider"></div>
                     </div>
                 </li>
                 <li style="width:100%" id="logoutli">

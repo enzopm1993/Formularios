@@ -1,4 +1,14 @@
-﻿
+﻿var i = 0;
+$("tr").each(function () {
+    var desCheck = "CheckCuchilloNegro";
+    if (i > 1)
+        desCheck += i;
+    var x = document.getElementById(desCheck);
+    if (x != null)
+        x.disabled = true;
+    i++;
+});
+
 n = new Date();
 //Año
 y = n.getFullYear();
@@ -95,8 +105,8 @@ function LimpiarBloquearCheckCuchillo(valor,bool) {
     var desCheckCuchilloNegro = "CheckCuchilloNegro";
 
     var desLabelCuchilloRojo = "labelCuchilloRojo";
-    var desLabelCuchilloBlanco = "LabelCuchilloBlanco";
-    var desLabelCuchilloNegro = "LabelCuchilloNegro";
+    var desLabelCuchilloBlanco = "labelCuchilloBlanco";
+    var desLabelCuchilloNegro = "labelCuchilloNegro";
     if (valor > "1" ) {
         desCheckCuchilloRojo += valor;
         desCheckCuchilloBlanco += valor;
@@ -114,12 +124,12 @@ function LimpiarBloquearCheckCuchillo(valor,bool) {
     var label3 = document.getElementById(desLabelCuchilloNegro);
 
     label1.style.background = "#ccc";
-  //  label2.style.background = "#ccc";
-    // label3.style.background = "#ccc";
-    console.log(desLabelCuchilloBlanco);
-    console.log(label1);
-    console.log(label2);
-    console.log(label3);
+    label2.style.background = "#ccc";
+    label3.style.background = "#ccc";
+    //console.log(desLabelCuchilloBlanco);
+    //console.log(label1);
+    //console.log(label2);
+    //console.log(label3);
     if (bool) {
         cuchilloRojo.checked = !bool;
         cuchilloNegro.checked = !bool;

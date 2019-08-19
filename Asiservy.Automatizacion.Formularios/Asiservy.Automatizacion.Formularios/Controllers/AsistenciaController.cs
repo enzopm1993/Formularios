@@ -32,64 +32,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return View();
         }
 
-        // POST: Asistencia/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [Authorize]
+        // GET: Asistencia/Cuchillo
+        public ActionResult ReporteDistribucion()
         {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
-
-        // GET: Asistencia/Edit/5
-        public ActionResult Edit(int id)
+        [Authorize]
+        // GET: Asistencia/Cuchillo
+        public ActionResult PersonalNomina()
         {
             return View();
         }
 
-        // POST: Asistencia/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Asistencia/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Asistencia/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
