@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewBag.Title = "SolicitudPermiso";
+}
+
+
+<script src="~/Scripts/jquery-3.0.0.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/gijgo/combined/gijgo.min.js"></script>
+<link href="~/Content/gijgo/combined/gijgo.min.css" rel="stylesheet" />
+<link href="~/Content/SolicitudPermisoCss/SolicitudPermiso.css" rel="stylesheet" />
+
+@*<h4>SolicitudPermiso</h4>*@
+<br />
+<div style="padding-bottom: 50px" class="container-fluid">
+    <center>
+        <table>
+            <tr>
+                <td>Fecha:</td>
+                <td>@DateTime.Now.ToShortDateString()</td>
+            </tr>
+            <tr>
+                <td>
+                    Supervisor:
+                </td>
+                <td>
+                    <select style="width:244px" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left">
+                        <option value="">Seleccione...</option>
+                        <option value="1">Juan Albarado</option>
+                        <option value="2">Pedro Maldonado</option>
+                        <option value="3">Maria Araujo</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Empleado: </td>
+                <td>
+                    <div class="ui-widget">
+
+                        <select id="combobox">
+                            <option value="">Select one...</option>
+                            <option value="Anchundia Anchundia Aura Maria">Anchundia Anchundia Aura Maria</option>
+                            <option value="Anchundia Parrales Viviana">Anchundia Parrales Viviana</option>
+                            <option value="Bailon Mero María Ines">Bailon Mero María Ines</option>
+                            <option value="Bravo Mnzaba Betsy Janet">Bravo Mnzaba Betsy Janet</option>
+                            <option value="Cardenas Espinoza Patricia">Cardenas Espinoza Patricia</option>
+                            <option value="Espinal Delgado Joyce Maryeli">Espinal Delgado Joyce Maryeli</option>
+                            <option value="García Cedeño Mariuxi Katherine">García Cedeño Mariuxi Katherine</option>
+                            <option value="Intriago Sornoza Mayra Johana">Intriago Sornoza Mayra Johana</option>
+                            <option value="Jaramillo Gómez María Elizabeth">Jaramillo Gómez María Elizabeth</option>
+                            <option value="Macias Chancay Sandy Ismenia">Macias Chancay Sandy Ismenia</option>
+                            <option value="Moreira Zambrano Mercedes">Moreira Zambrano Mercedes</option>
+                            <option value="Posligua Santana Francisca">Posligua Santana Francisca</option>
+                            <option value="Quijano Moreira Emily Juliana">Quijano Moreira Emily Juliana</option>
+                            <option value="Reyes Raamirez Jessenia Katehrine">Reyes Raamirez Jessenia Katehrine</option>
+                            <option value="Rezabala Suarez Jova Alexandra">Rezabala Suarez Jova Alexandra</option>
+                            <option value="Silvia Indio Mariana Gabriela">Silvia Indio Mariana Gabriela</option>
+                            <option value="Valencia Ochoa Gema Jhael">Valencia Ochoa Gema Jhael</option>
+                            <option value="Vera Intriago Diana Gabriela">Vera Intriago Diana Gabriela</option>
+                            <option value="Zambrano Solorzano Nury Juana">Zambrano Solorzano Nury Juana</option>
+
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Área:</td>
+                <td>
+                    <select style="width:244px" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left">
+                        <option value="">Seleccione...</option>
+                        <option value="1">Procesos</option>
+                        <option value="2">Pouch</option>
+                        <option value="3">Lata</option>
+                        <option value="3">Etiquetado</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Motivo:</td>
+                <td>
+                    <select style="width:244px" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left">
+                        <option value="">Seleccione...</option>
+                        <option value="1">Enfermedad</option>
+                        <option value="2">Calamidad Doméstica</option>
+                        <option value="3">Comisión de seervicios</option>
+                        <option value="4">Asuntos Particulares</option>
+                        <option value="5">Vacaciones</option>
+                        <option value="6">Fijo</option>
+                        <option value="7">Eventual</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Fecha desde:</td>
+                <td>
+
+                    <input id="fechadesde" width="245" />
+
+                </td>
+            </tr>
+            <tr>
+                <td>Fecha hasta:</td>
+                <td>
+                    <input id="fechahasta" width="245" />
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <br />
+                    <center><input type="button" value="Guardar" class="btn-info" /></center>
+                </td>
+            </tr>
+        </table>
+    </center>
+</div>
+<script src="~/Scripts/SolicitudPermisoJS/SolicitudPermiso.js"></script>

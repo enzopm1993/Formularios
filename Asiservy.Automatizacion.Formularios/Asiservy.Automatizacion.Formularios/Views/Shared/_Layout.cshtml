@@ -31,6 +31,8 @@
                         @Html.ActionLink("Editar Asistencia", "EditarAsistencia", "Asistencia", null, new { @class = "dropdown-item" })
                         <div class="dropdown-divider"></div>
                         @Html.ActionLink("Control  de Cuchillos", "Cuchillo", "Asistencia", null, new { @class = "dropdown-item" })
+                        <div class="dropdown-divider"></div>
+                        @Html.ActionLink("Solicitud Permiso", "SolicitudPermiso", "SolicitudPermiso", null, new { @class = "dropdown-item" })
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -38,7 +40,8 @@
                     <div class="dropdown-menu" aria-labelledby="themes">
                         @Html.ActionLink("Bandeja de Solicitudes", "BandejaProduccion", "SolicitudPermiso", null, new { @class = "dropdown-item" })
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Opción2</a>
+                        @Html.ActionLink("Solicitud Permiso", "SolicitudPermiso", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+
                         <a class="dropdown-item" href="#">Opción3</a>
                     </div>
                 </li>
@@ -52,7 +55,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Dispensario Médico</a>
                     <div class="dropdown-menu" aria-labelledby="themes">
-                        <a class="dropdown-item" href="#">Opcion1</a>
+                        @Html.ActionLink("Solicitud Permiso", "SolicitudPermisoDispensario", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+
                         <div class="dropdown-divider"></div>
                     </div>
                 </li>
