@@ -14,6 +14,7 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public string Area { get; set; }
         public string Empleado { get; set; }
         public string TipoFiltro { get; set; }
+        public bool AprobadoProduccion { get; set; }
     }
 
 }

@@ -12,21 +12,30 @@
 <h3>Bandeja de Producción</h3>
 
 <div class="table-responsive">
-    @using (Html.BeginForm("BandejaProduccion", "SolicitudPermiso", FormMethod.Post, new { @id = "WebGridForm", @class = "" }))
-    {
-        <span>Buscar:</span> @Html.TextBox("buscar",new { @id="search"})
-        
-    }
+
+    <table>
+        <tr>
+            <td>Buscar:</td>
+            <td>@Html.TextBox("buscar", null, new { id = "search", @class = "form-control" })</td>
+            <td><input type="button" class="form-control" name="limpiar" onclick="LimpiarTexto()" value="X" /></td>
+        </tr>
+    </table>
     <br />
+    <div style="float:left">
+        <label>Todos</label>
+        <input type="checkbox" name="name" value="" id="checkTodos" onchange="checkTodos()" />
+    </div>
     @webGrid.GetHtml(
         htmlAttributes: new { @id = "WebGrid", @class = "Grid table table-hover table-bordered" },
         columns: webGrid.Columns(
-                    webGrid.Column("codigo", "Solicitud"),
-                    webGrid.Column("fecha", "Fecha"),
-                    webGrid.Column("Motivo", "Motivo"),
-                    webGrid.Column("Area", "Area"),
-                    webGrid.Column("Empleado", "Empleado")
-        ))
+                            webGrid.Column(header: "Check", format: @<text><input class="case" name="case" type="checkbox" id="solicitud-@item.codigo" /></text>),
+                            webGrid.Column("codigo", "Solicitud"),
+                            webGrid.Column("fecha", "Fecha"),
+                            webGrid.Column("Motivo", "Motivo"),
+                            webGrid.Column("Area", "Area"),
+                            webGrid.Column("Empleado", "Empleado"),
+                            webGrid.Column(header: "", format: @<text><input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" /></text>)
+                            ))
 
     @if (Model.Count == 0)
     {
@@ -40,7 +49,8 @@
         </script>
     }
 </div>
-
+<div class="container-fluid text-center"> <input type="button" class="btn btn-info" name="name" value="Aprobar" /></div>
+<br />
 
 <div class="modal fade" id="myModal">
     <div class="modal-dialog">
