@@ -144,6 +144,8 @@
     <Content Include="Scripts\AsistenciaJS\Asistencia.js" />
     <Content Include="Scripts\AsistenciaJS\Cuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\EditarAsistencia.js" />
+    <Content Include="Scripts\AsistenciaJS\PersonalNomina.js" />
+    <Content Include="Scripts\AsistenciaJS\ReporteDistribucion.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -229,12 +231,13 @@
     <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\Mensajes\Mensajes.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
-    <Content Include="Scripts\SolicitudPermisoJS\SolicitudPermiso.js" />
+    <Content Include="Scripts\SolicitudPermisoJS\Bandeja.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -246,6 +249,7 @@
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MensajeController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -276,6 +280,9 @@
     <Content Include="Views\SolicitudPermiso\BandejaProduccion.cshtml" />
     <Content Include="Views\SolicitudPermiso\BandejaRRHH.cshtml" />
     <Content Include="Views\Asistencia\EditarAsistencia.cshtml" />
+    <Content Include="Views\Mensaje\Error.cshtml" />
+    <Content Include="Views\Asistencia\ReporteDistribucion.cshtml" />
+    <Content Include="Views\Asistencia\PersonalNomina.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudPermiso.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudPermisoDispensario.cshtml" />
     <Content Include="Views\Asistencia\CambiarPersonalDeArea.cshtml" />

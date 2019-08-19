@@ -3,20 +3,13 @@
     ViewBag.Title = "Index";
 }
 
-
-<script>
-    $(function () {
-        $("input").checkboxradio();
-    });
-</script>
-
 <div style="padding-top: 10px; padding-bottom: 100px">
 
     <h4 class="custom-control-inline">Fecha: &nbsp; <p id="date"></p> </h4>
 
     <div class="table-responsive">
 
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="TableCuchillos">
             <tr class="text-center">
                 <td class="align-bottom" rowspan="2"><b> Personal</b></td>
                 <td class="align-bottom" rowspan="2"><b>Check</b> </td>
@@ -137,15 +130,16 @@
         </table>
 
         <div class="text-center" style="width:100%">
-            <button type="button" class="btn btn-info" onclick="prueba()">GUARDAR</button>
+            <button type="button" class="btn btn-info" onclick="Mensaje('Registro Exitoso')">GUARDAR</button>
         </div>
 
 
     </div>
 
 </div>
+<div id="ModalMensaje"> </div>
 
 <link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
+<script src="~/Scripts/Mensajes/Mensajes.js"></script>
 <script src="~/Scripts/AsistenciaJS/Asistencia.js"></script>
-<script src="~/Scripts/jquery-3.0.0.js"></script>
 <script src="~/Scripts/AsistenciaJS/Cuchillo.js"></script>

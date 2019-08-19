@@ -1,4 +1,16 @@
-﻿
+﻿$(document).ready(function () {
+    $("#search").keyup(function () {
+        _this = this;
+        // Show only matching TR, hide rest of them
+        $.each($("#WebGrid tbody tr"), function () {
+            if ($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+                $(this).hide();
+            else
+                $(this).show();
+        });
+    });
+});
+
     $("body").on("click", ".Grid tfoot a", function () {
         $('#WebGridForm').attr('action', $(this).attr('href')).submit();
     return false;
@@ -155,7 +167,3 @@ $(function () {
         $("#combobox").toggle();
     });
 });
-
-//datepicker
-$('#fechadesde').datetimepicker({ footer: true, modal: true });
-$('#fechahasta').datetimepicker({ footer: true, modal: true });

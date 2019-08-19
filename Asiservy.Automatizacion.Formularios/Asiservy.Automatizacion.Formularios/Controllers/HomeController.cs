@@ -12,14 +12,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult Home()
         {
-            var a = "Prueba commit";
             return View();
         }
 
         public ActionResult ViewPrueba()
         {
-            var a = "Prueba commit";
             return View();
-        }
+        }      
+
     }
 }

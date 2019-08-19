@@ -1,4 +1,14 @@
 ﻿
+var i = 0;
+$("tr").each(function () {
+    var desCheck = "CheckCuchilloNegro";
+    if(i>1)
+        desCheck += i;
+    var x = document.getElementById(desCheck);
+    if (x != null)
+        x.disabled = true;
+    i++;
+});
 
 
 function Cuchillo(color, fila) {
@@ -25,8 +35,19 @@ function Cuchillo(color, fila) {
     } else {
         label.style.background = "#ccc";
         document.getElementById(desCheck).checked = false;
-        
+    }
 
+}
+
+function Guardar() {
+    var Estado = document.getElementById("SelectEstado");
+   // console.log(Estado);
+    //console.log(Estado.selectedIndex);
+    if (Estado.selectedIndex == 0) {
+        Mensaje("Seleccione un estado..");
+        //   alert("Seleccione un Estado..");
+    } else {
+        Mensaje("Registro Guardado Exitosamente");
     }
 
 }

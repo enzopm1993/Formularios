@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "ReporteDistribucion";
+}
+
+<h4>Reporte de distribucion de personal por lineas</h4>
+
+<form action="/" class="form-inline" method="post">
+    <table class="">
+        <tr>
+            <td><input class="form-control" type="date" name="inputDate" id="inputDate"></td>
+            <td>
+                <input type="button" class="btn btn-info" value="Buscar" />
+            </td>
+        </tr>
+    </table>
+</form>
+<br />
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <tr>
+            <th>Cargos</th>
+            <th>Presentes</th>
+            <th>Finalizan</th>
+            <th>Faltas</th>
+            <th>Permiso Medico</th>
+            <th>Otras areas</th>
+            <th>Vacaciones</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <td>DESPELLEJADORES</td>
+            <td>12</td>
+            <td>12</td>
+            <td>1</td>
+            <td>1PM</td>
+            <td>2POUCH, 1BODEGA</td>
+            <td>1</td>
+            <td>17</td>
+        </tr>
+        <tr>
+            <td>LIMP. LOMO</td>
+            <td>33</td>
+            <td>32</td>
+            <td>1</td>
+            <td>1PM</td>
+            <td>6POUCH</td>
+            <td>1</td>
+            <td>43</td>
+        </tr>
+        <tr>
+            <td>LIMP. MIGA</td>
+            <td>4</td>
+            <td>4</td>
+            <td>1</td>
+            <td>1PM</td>
+            <td>1POUCH</td>
+            <td>1</td>
+            <td>6</td>
+        </tr>
+    </table>
+</div>
+
+<script src="~/Scripts/jquery-3.0.0.js"></script>
+<script src="~/Scripts/AsistenciaJS/ReporteDistribucion.js"></script>
