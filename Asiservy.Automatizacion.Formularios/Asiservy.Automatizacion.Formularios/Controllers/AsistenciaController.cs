@@ -19,6 +19,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
+        public ActionResult CambiarPersonalDeArea()
+        {
+            return View();
+        }
+
         // GET: Asistencia/Details/5
         public ActionResult Details(int id)
         {

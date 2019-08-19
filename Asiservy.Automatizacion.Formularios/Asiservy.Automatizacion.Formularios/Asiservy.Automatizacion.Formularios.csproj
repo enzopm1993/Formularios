@@ -278,6 +278,7 @@
     <Content Include="Views\Asistencia\EditarAsistencia.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudPermiso.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudPermisoDispensario.cshtml" />
+    <Content Include="Views\Asistencia\CambiarPersonalDeArea.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
