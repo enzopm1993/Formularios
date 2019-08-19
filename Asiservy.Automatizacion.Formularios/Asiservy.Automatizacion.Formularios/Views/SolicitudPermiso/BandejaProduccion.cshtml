@@ -14,19 +14,8 @@
 <div class="table-responsive">
     @using (Html.BeginForm("BandejaProduccion", "SolicitudPermiso", FormMethod.Post, new { @id = "WebGridForm", @class = "" }))
     {
-    <div class="form-group">
-        <select class="custom-select" name="SelectPermiso">
-            <option value="1">Solicitud</option>
-            <option value="2">Area</option>
-            <option value="3">Empleado</option>
-        </select>
-
-    </div>
-    
-        <span>Buscar:</span> @Html.TextBox("buscar")
-        <input type="submit" value="Buscar" class="btn btn-info" />
-          
-
+        <span>Buscar:</span> @Html.TextBox("buscar",new { @id="search"})
+        
     }
     <br />
     @webGrid.GetHtml(
@@ -60,84 +49,84 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Solicitud Permiso</h4>
             </div>
-                <div class="modal-body">
-                    
-                    <div class="table-responsive">
-                        <table class="table table-borderless">
-                            <tr>
-                                <td>
-                                    <label class="">Solicitud</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" id="txtSolicitud" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="">Fecha Ingreso</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" id="txtFecha" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="">Motivo</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" id="txtMotivo" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="">Area</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" id="txtArea" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="">Empleado</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" id="txtEmpleado" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="">Fecha Inicio</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" id="txtFechaInicioPermiso" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="">Fecha Fin</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" id="txtFechaFinPermiso" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="">Observacion</label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" id="txtObservacion" />
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
- 
+            <div class="modal-body">
+
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td>
+                                <label class="">Solicitud</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="txtSolicitud" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="">Fecha Ingreso</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="txtFecha" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="">Motivo</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="txtMotivo" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="">Area</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="txtArea" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="">Empleado</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="txtEmpleado" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="">Fecha Inicio</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="txtFechaInicioPermiso" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="">Fecha Fin</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="txtFechaFinPermiso" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="">Observacion</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="txtObservacion" />
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Aprobar</button>
-                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Aprobar</button>
+            </div>
 
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<script src="~/Scripts/SolicitudPermisoJS/SolicitudPermiso.js"></script>
+<script src="~/Scripts/SolicitudPermisoJS/Bandeja.js"></script>
