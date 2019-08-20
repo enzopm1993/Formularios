@@ -64,6 +64,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return PartialView("Empleados",Empleados);
 
         }
+        public ActionResult RptAsistencia()
+        {
+            return View();
+        }
 
     }
 }

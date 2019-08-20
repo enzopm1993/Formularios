@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewBag.Title = "RptAsistencia";
+}
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.js"></script>
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+<link href="~/Content/AsistenciaCss/RptAsistencia.css" rel="stylesheet" />
+
+@*<h4>RptAsistencia</h4>*@
+<div class="container " style="padding-bottom:100px">
+    <fieldset class="form-group col-6">
+        <legend>Parámetros</legend>
+
+        <table class="table table-borderless">
+            <tr>
+                <td>
+                    Área:
+                </td>
+                <td>
+                    <select class="browser-default custom-select" id="comboarea">
+                        <option selected>Seleccione..</option>
+                        <option value="Procesos">Procesos</option>
+                        <option value="Febrero">Pouch</option>
+                        <option value="Marzo">Lomo</option>
+                        <option value="Marzo">Lata</option>
+
+                    </select>
+                </td>
+            </tr>
+            <tr id="trlineas">
+                <td>
+                    Líneas:
+                </td>
+                <td>
+                    <select class="browser-default custom-select" id="combolineas">
+                        <option selected value="0">Seleccione..</option>
+                        <option value="Enero">1</option>
+                        <option value="Febrero">2</option>
+                        <option value="Marzo">3</option>
+                        <option value="Marzo">4</option>
+                        <option value="Marzo">5</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Mes:
+                </td>
+                <td>
+                    <select class="browser-default custom-select" id="combomes">
+                        <option selected value="0">Seleccione..</option>
+                        <option value="Enero">Enero</option>
+                        <option value="Febrero">Febrero</option>
+                        <option value="Marzo">Marzo</option>
+                        <option value="Abril">Abril</option>
+                        <option value="Mayo">Mayo</option>
+                        <option value="Junio">Junio</option>
+                        <option value="Julio">Julio</option>
+                        <option value="Agosto">Agosto</option>
+                        <option value="Septiembre">Septiembre</option>
+                        <option value="Octubre">Octubre</option>
+                        <option value="Noviembre">Noviembre</option>
+                        <option value="Diciembre">Diciembre</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Semana:
+                </td>
+                <td>
+                    <select class="browser-default custom-select" id="combosemana">
+                        <option selected value="0">Seleccione..</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Día:
+                </td>
+                <td>
+                    <select class="browser-default custom-select" id="combodia">
+                        <option selected value="0">Seleccione..</option>
+                        <option value="1">Lunes</option>
+                        <option value="2">Martes</option>
+                        <option value="3">Miércoles</option>
+                        <option value="4">Jueves</option>
+                        <option value="5">Viernes</option>
+                        <option value="6">Sábado</option>
+
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <center> <input type="button" id="ConsultarEmpleados" value="Consultar" class="btn-primary" onclick="ConsultarEmpleados();" /></center>
+    </fieldset>
+
+
+    <div class="table-responsive" id="tbldia">
+
+        <table class="table table-bordered" id="tblrptdia">
+            <thead>
+                <tr class="text-center">
+                    <th><b> Personal</b></th>
+
+                    <th><b>Estado</b> </th>
+
+                    <th><b>Observación</b> </th>
+                </tr>
+            </thead>
+            <tbody>
+                
+               
+                <tr>
+                    <td>
+                        José Delgado
+                    </td>
+                    
+                    <td>
+                        <center>A</center>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        Jorge Mazza
+                    </td>
+                    <td>
+                        <center>P</center>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+    </div>
+
+    <div id="tblmes" class="table-responsive">
+        <table class="table table-bordered" id="tblrptmes">
+            <thead><tr class="tableizer-firstrow"><th>personal</th><th></th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead>
+            <tbody>
+                <tr><td>&nbsp;</td><td>J</td><td>V</td><td>S</td><td>D</td><td>L</td><td>M</td><td>M</td><td>J</td><td>V</td><td>S</td><td>D</td><td>L</td><td>M</td><td>M</td><td>J</td><td>V</td><td>S</td><td>D</td><td>L</td><td>M</td><td>M</td><td>J</td><td>V</td><td>S</td><td>D</td><td>L</td><td>M</td><td>M</td><td>J</td><td>V</td><td>S</td></tr>
+                <tr><td>&nbsp;</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td></tr>
+                <tr><td>José Delgado</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>A</td></tr>
+                <tr><td>Jorge Mazza</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>A</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="tblsemana">
+        <table class="table table-bordered" id="tblsemanarpt">
+            <thead><tr class="tableizer-firstrow"><th>personal</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead>
+            <tbody>
+                <tr><td>&nbsp;</td><td>L</td><td>M</td><td>M</td><td>J</td><td>V</td><td>S</td><td>D</td></tr>
+                <tr><td>&nbsp;</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+                <tr><td>José Delgado</td><td>A</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>P</td></tr>
+                <tr><td>Jorge Mazza</td><td>A</td><td>P</td><td>A</td><td>F</td><td>P</td><td>A</td><td>P</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="~/Scripts/AsistenciaJS/RptAsistencia.js"></script>
+
