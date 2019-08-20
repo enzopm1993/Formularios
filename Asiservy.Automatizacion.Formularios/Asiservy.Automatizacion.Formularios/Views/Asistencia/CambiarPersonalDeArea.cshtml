@@ -1,0 +1,134 @@
+﻿@model  List<Asiservy.Automatizacion.Formularios.Models.Empleado>
+@{
+    ViewBag.Title = "CambiarPersonalDeArea";
+}
+<link href="~/Content/AsistenciaCss/CambiarPersonal.css" rel="stylesheet" />
+@{WebGrid webGrid = new WebGrid(source: Model, canSort: false, rowsPerPage: 5);
+
+}
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <fieldset class="form-group">
+                <legend>Origen</legend>
+                <table>
+                    <tr>
+                        <td>Área:</td>
+                        <td>
+                            <select class="browser-default custom-select" id="comboarea">
+                                <option selected>Seleccione..</option>
+                                <option value="procesos">Procesos</option>
+                                <option value="pouch">Pouch</option>
+                                <option value="lata">Lata</option>
+                                <option value="lomo">Lomo</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Línea:</td>
+                        <td>
+                            <select class="browser-default custom-select">
+                                <option selected>Seleccione..</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Cargo:</td>
+                        <td>
+                            <select class="browser-default custom-select">
+                                <option selected>Seleccione..</option>
+                                <option>Limpiador</option>
+                                <option>despellejador</option>
+                                <option>Miga</option>
+                                <option>Cacho</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <br />
+                <center> <input type="button" id="ConsultarEmpleados" value="Consultar" class="btn-primary" onclick="ConsultarEmpleados();" /></center>
+            </fieldset>
+        </div>
+
+        <div class="col-6">
+            <fieldset class="form-group">
+                <legend>Mover a</legend>
+                <table>
+                    <tr>
+                        <td>Área:</td>
+                        <td>
+                            <select class="browser-default custom-select" id="comboarea">
+                                <option selected>Seleccione..</option>
+                                <option value="procesos">Procesos</option>
+                                <option value="pouch">Pouch</option>
+                                <option value="lata">Lata</option>
+                                <option value="lomo">Lomo</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Línea:</td>
+                        <td>
+                            <select class="browser-default custom-select">
+                                <option selected>Seleccione..</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Cargo:</td>
+                        <td>
+                            <select class="browser-default custom-select">
+                                <option selected>Seleccione..</option>
+                                <option>Limpiador</option>
+                                <option>despellejador</option>
+                                <option>Miga</option>
+                                <option>Cacho</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                    </tr>
+                </table>
+                <br /><br />
+            </fieldset>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div id="DivEmpleados">
+         
+        </div>
+    </div>
+</div>
+<script>
+    function ConsultarEmpleados() {
+        $.ajax({
+            type: "GET",
+            url: "/Asistencia/ConsultarEmpleado",
+            success: function (data) {
+                $('#DivEmpleados').html(data);
+            }
+        });
+    }
+</script>
+
