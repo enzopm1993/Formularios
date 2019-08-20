@@ -90,12 +90,18 @@ $('#comboarea').change(function () {
 function ConsultarEmpleados() {
     if (($('#combodia').val() != "0") && ($('#combomes').val() != "0") && ($('#combosemana').val() != "0")) {
         $('#tbldia').show();
+        $('#tblmes').hide();
+        $('#tblsemana').hide();
     }
     if (($('#combodia').val() == "0") && ($('#combomes').val() != "0") && ($('#combosemana').val() != "0")) {
         $('#tblsemana').show();
+        $('#tbldia').hide();
+        $('#tblmes').hide();
     }
     if (($('#combodia').val() == "0") && ($('#combomes').val() != "0") && ($('#combosemana').val() == "0")) {
         $('#tblmes').show();
+        $('#tblsemana').hide();
+        $('#tbldia').hide();
     }
     if (($('#combodia').val() == "0") && ($('#combomes').val() == "0") && ($('#combosemana').val() == "0")) {
         $('#tbldia').hide();
