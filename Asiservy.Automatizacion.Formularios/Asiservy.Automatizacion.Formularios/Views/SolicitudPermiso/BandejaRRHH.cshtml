@@ -10,42 +10,46 @@
 }
 
 <h3>Bandeja de RRHH</h3>
+<div style="float:left">
+    <label>Todos</label>
+    <input type="checkbox" name="name" value="" id="checkTodos" onchange="checkTodos()" />
+</div>
 
 <div class="table-responsive">
-    <table>
-        <tr>
-            <td>Buscar:</td>
-            <td>@Html.TextBox("buscar", null, new { id = "search", @class = "form-control" })</td>
-            <td><input type="button" class="form-control" name="limpiar" onclick="LimpiarTexto()" value="X" /></td>
-        </tr>
+    <table id="TableBandejaRRHH" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Check</th>
+                <th>Solicitud</th>
+                <th>Fecha</th>
+                <th>Motivo</th>
+                <th>Area</th>
+                <th>Empleado</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input class="case" name="case" type="checkbox" id="solicitud1" /></td>
+                <td>System Architect</td>
+                <td>Edinburgh</td>
+                <td>61</td>
+                <td>2011/04/25</td>
+                <td>$320,800</td>
+                <td><input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" /></td>
+            </tr>
+            <tr>
+                <td><input class="case" name="case" type="checkbox" id="solicitud2" /></td>
+                <td>Garrett Winters</td>
+                <td>Accountant</td>
+                <td>Tokyo</td>
+                <td>63</td>
+                <td>2011/07/25</td>
+                <td><input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" /></td>
+
+            </tr>
+        </tbody>
     </table>
-    <br />
-    <div style="float:left">
-        <label>Todos</label>
-        <input type="checkbox" name="name" value="" id="checkTodos" onchange="checkTodos()" />
-    </div>
-    @webGrid.GetHtml(
-        htmlAttributes: new { @id = "WebGrid", @class = "Grid table table-hover table-bordered" },
-        columns: webGrid.Columns(
-                                webGrid.Column(header: "Check", format: @<text><input class="case" name="case" type="checkbox" id="solicitud-@item.codigo" /></text>),
-                                webGrid.Column("codigo", "Solicitud"),
-                                webGrid.Column("fecha", "Fecha"),
-                                webGrid.Column("Motivo", "Motivo"),
-                                webGrid.Column("Area", "Area"),
-                                webGrid.Column("Empleado", "Empleado"),
-                                 webGrid.Column(header: "", format: @<text><input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" /></text>)
-                                                                          ))
-    @if (Model.Count == 0)
-    {
-        <script type="text/javascript">
-            $(function () {
-                var row = $("#WebGrid")[0].insertRow(-1);
-                var cell = $(row.insertCell(-1));
-                cell.html("No records found.");
-                cell.attr("colspan", "4").attr("align", "center");
-            });
-        </script>
-    }
 </div>
 <div class="container-fluid text-center"> <input type="button" class="btn btn-info" name="name" value="Aprobar" /></div>
 
@@ -137,4 +141,10 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 <script src="~/Scripts/SolicitudPermisoJS/Bandeja.js"></script>
