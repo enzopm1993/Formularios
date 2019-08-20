@@ -5,8 +5,9 @@ var mes = ("0" + (d.getMonth() + 1));
 var anio = d.getFullYear();
 var fechatotal = anio + "-" + mes + "-" + dia
 var dateControl = document.querySelector('input[type="date"]');
-dateControl.value = fechatotal;
-
+if (dateControl != null) {
+    dateControl.value = fechatotal;
+}
 
 //Tabla con paginacion, busqueda, ordenar
 $(document).ready(function () {

@@ -4,12 +4,13 @@
 }
 
 
-<script src="~/Scripts/jquery-3.0.0.js"></script>
 <script src="~/Scripts/jquery-ui.js"></script>
 <link href="~/Content/jquery-ui.css" rel="stylesheet" />
 <script src="~/Scripts/gijgo/combined/gijgo.min.js"></script>
 <link href="~/Content/gijgo/combined/gijgo.min.css" rel="stylesheet" />
 <link href="~/Content/SolicitudPermisoCss/SolicitudPermiso.css" rel="stylesheet" />
+<script src="~/Scripts/SolicitudPermisoJS/SolicitudPermiso.js"></script>
+<script src="~/Scripts/Mensajes/Mensajes.js"></script>
 
 @*<h4>SolicitudPermiso</h4>*@
 <br />
@@ -109,10 +110,10 @@
             <tr>
                 <td colspan="2">
                     <br />
-                    <center><input type="button" value="Guardar" class="btn btn-info" /></center>
+                    <center><input type="button" value="Guardar" onclick="Mensaje('Registrado Exitosamente..');" class="btn btn-info" /></center>
                 </td>
             </tr>
         </table>
     </center>
 </div>
-<script src="~/Scripts/SolicitudPermisoJS/SolicitudPermiso.js"></script>
+<div id="ModalMensaje"> </div>
