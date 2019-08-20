@@ -31,16 +31,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
-
-        // GET: Asistencia/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        
 
         [Authorize]
         // GET: Asistencia/Cuchillo
         public ActionResult Cuchillo()
+        {
+            return View();
+        }
+        [Authorize]
+        // GET: Asistencia/Cuchillo
+        public ActionResult RptCuchillo()
         {
             return View();
         }

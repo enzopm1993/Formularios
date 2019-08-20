@@ -1,0 +1,234 @@
+﻿
+@{
+    ViewBag.Title = "RptCuchillo";
+}
+
+
+
+
+<h4>Reporte de Cuchillo</h4>
+
+
+<div class="table-responsive">
+    <table>
+        <tr>
+            <th>Fecha:</th>
+            <th><input class="form-control" type="date" name="name" id="date" value="" /></th>
+            <th>Estado: </th>
+            <th>
+                <select class="form-control">
+                    <option>Seleccione</option>
+                    <option>Entrada</option>
+                    <option>Ida Almuerzo</option>
+                    <option>Regreso Almmuerzo</option>
+                    <option>Salida</option>
+                </select>
+            </th>
+        </tr>
+
+    </table>
+    <br />
+    <table id="TableReporteCuchillos" class="table" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Empleado</th>
+                <th>
+                    <div class="text-center">
+                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
+
+                    </div>
+                </th>
+                <th>
+                    <div class="text-center">
+                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
+
+                    </div>
+                </th>
+                <th>
+                    <div class="text-center">
+                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
+
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>1</th>
+                <th>Reyes Mileydy Margarita</th>
+
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-info text-xs-center" id="labelCuchilloBlanco">
+                            21
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
+                            02
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloRojo">
+                            --
+                        </label>
+                    </div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <th>2</th>
+                <th>Faria Bemera Jazmina</th>
+
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-info text-xs-center" id="labelCuchilloBlanco">
+                            93
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
+                            --
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloRojo">
+                            33
+                        </label>
+                    </div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <th>3</th>
+                <th>Coronel Espinoza Fanny</th>
+
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-info text-xs-center" id="labelCuchilloBlanco">
+                            92
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-info text-xs-center" id="labelCuchilloNegro">
+                            32
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloRojo">
+                            --
+                        </label>
+                    </div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <th>4</th>
+                <th>Reyes Mesa Maria</th>
+
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-info text-xs-center" id="labelCuchilloBlanco">
+                            91
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
+                            --
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-info text-xs-center" id="labelCuchilloRojo">
+                            31
+                        </label>
+                    </div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <th>6</th>
+                <th>Jama Chanchingre Sura</th>
+
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-info text-xs-center" id="labelCuchilloBlanco">
+                            90
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-info text-xs-center" id="labelCuchilloNegro">
+                            30
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloRojo">
+                            --
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>5</th>
+                <th>Jama Chanchingre Sura</th>
+
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-info text-xs-center" id="labelCuchilloBlanco">
+                            90
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-info text-xs-center" id="labelCuchilloNegro">
+                            30
+                        </label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="col-xs-2 text-xs-center">
+                        <label class="btn btn-light text-xs-center" id="labelCuchilloRojo">
+                            --
+                        </label>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<br />
+<br />
+<link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/AsistenciaJS/Cuchillo.js"></script>
+    
