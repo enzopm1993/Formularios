@@ -1,4 +1,50 @@
-﻿function LimpiarTexto() {
+﻿//Fecha del sistema para los input
+var d = new Date();
+var dia = d.getDate();
+var mes = ("0" + (d.getMonth() + 1));
+var anio = d.getFullYear();
+var fechatotal = anio + "-" + mes + "-" + dia
+var dateControl = document.querySelector('input[type="date"]');
+if (dateControl != null) {
+    dateControl.value = fechatotal;
+}
+
+//Tabla con paginacion, busqueda, ordenar
+$(document).ready(function () {
+    $('#TableReporteCuchillos').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        "pageLength": 5,
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+        "pagingType": "full_numbers"
+    });
+});
+
+
+//Limpia el campo de busqueda creado sin DataTable.net
+function LimpiarTexto() {
         $.each($("#TableCuchillos tbody tr"), function () {
                 $(this).show();
         });
@@ -6,6 +52,7 @@
     $("#search").val("");
  }
 
+//Busqueda Manual para tablas
 $(document).ready(function () {
     $("#search").keyup(function () {
         _this = this;
@@ -19,6 +66,8 @@ $(document).ready(function () {
     });
 });
 
+
+//Bloquear todos los cuchillos negros que no se usan por el momento
 var i = 0;
 $("tr").each(function () {
     var desCheck = "CheckCuchilloNegro";
@@ -31,6 +80,7 @@ $("tr").each(function () {
 });
 
 
+//pintan celda de check de cuchillo
 function Cuchillo(color, fila) {
 
     var desLabel = "labelCuchillo";

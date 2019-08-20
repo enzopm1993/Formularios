@@ -11,10 +11,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
         // GET: Asistencia
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Asistencia()
         {
             return View();
         }
+
+        [Authorize]
+        public ActionResult RptAsistencia()
+        {
+            return View();
+        }
+
         [Authorize]
         public ActionResult EditarAsistencia()
         {
@@ -24,16 +31,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
-
-        // GET: Asistencia/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        
 
         [Authorize]
         // GET: Asistencia/Cuchillo
         public ActionResult Cuchillo()
+        {
+            return View();
+        }
+        [Authorize]
+        // GET: Asistencia/Cuchillo
+        public ActionResult RptCuchillo()
         {
             return View();
         }

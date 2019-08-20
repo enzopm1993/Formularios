@@ -4,18 +4,17 @@
 }
 
 
-<script src="~/Scripts/jquery-3.0.0.js"></script>
 <script src="~/Scripts/jquery-ui.js"></script>
 <link href="~/Content/jquery-ui.css" rel="stylesheet" />
 <script src="~/Scripts/gijgo/combined/gijgo.min.js"></script>
 <link href="~/Content/gijgo/combined/gijgo.min.css" rel="stylesheet" />
 <link href="~/Content/SolicitudPermisoCss/SolicitudPermiso.css" rel="stylesheet" />
-
+<script src="~/Scripts/Mensajes/Mensajes.js"></script>
 @*<h4>SolicitudPermiso</h4>*@
 <br />
 <div style="padding-bottom: 50px" class="container-fluid">
     <center>
-        <table  class="table-borderless">
+        <table class="table-borderless">
             <tr>
                 <td>Fecha:</td>
                 <td>@DateTime.Now.ToShortDateString()</td>
@@ -79,7 +78,7 @@
             <tr>
                 <td>Diagnóstico:</td>
                 <td>
-                   <textarea rows="5" cols="32"></textarea>
+                    <textarea rows="5" cols="32"></textarea>
                 </td>
             </tr>
             <tr>
@@ -100,10 +99,11 @@
             <tr>
                 <td colspan="2">
                     <br />
-                    <center><input type="button" value="Guardar" class="btn-info" /></center>
+                    <center><input type="button" value="Guardar" onclick="Mensaje('Registro Exitoso')" class="btn btn-info" /></center>
                 </td>
             </tr>
         </table>
     </center>
 </div>
+<div id="ModalMensaje"> </div>
 <script src="~/Scripts/SolicitudPermisoJS/SolicitudPermiso.js"></script>

@@ -27,7 +27,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Procesos <span class="sr-only">(current)</span></a>
                     <div class="dropdown-menu" aria-labelledby="themes">
-                        @Html.ActionLink("Control  de Asistencia", "Index", "Asistencia", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Control  de Asistencia", "Asistencia", "Asistencia", null, new { @class = "dropdown-item" })
                         @Html.ActionLink("Editar Asistencia", "EditarAsistencia", "Asistencia", null, new { @class = "dropdown-item" })
                         @Html.ActionLink("Control  de Cuchillos", "Cuchillo", "Asistencia", null, new { @class = "dropdown-item" })
                         <div class="dropdown-divider"></div>
@@ -67,6 +67,7 @@
                     <div class="dropdown-menu" aria-labelledby="themes">
                         @Html.ActionLink("Distribucion de personal por lineas", "ReporteDistribucion", "Asistencia", null, new { @class = "dropdown-item" })
                         @Html.ActionLink("Personal en nomina por linea", "PersonalNomina", "Asistencia", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Control de cuchillos", "RptCuchillo", "Asistencia", null, new { @class = "dropdown-item" })
                         <div class="dropdown-divider"></div>
                     </div>
                 </li>

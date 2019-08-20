@@ -608,7 +608,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Login\Login.cshtml" />
-    <Content Include="Views\Asistencia\Index.cshtml" />
+    <Content Include="Views\Asistencia\Asistencia.cshtml" />
     <Content Include="Views\Asistencia\Cuchillo.cshtml" />
     <Content Include="Views\SolicitudPermiso\BandejaProduccion.cshtml" />
     <Content Include="Views\SolicitudPermiso\BandejaRRHH.cshtml" />
@@ -621,6 +621,7 @@
     <Content Include="Views\Asistencia\CambiarPersonalDeArea.cshtml" />
     <Content Include="Views\Asistencia\Empleados.cshtml" />
     <Content Include="Views\Asistencia\RptAsistencia.cshtml" />
+    <Content Include="Views\Asistencia\RptCuchillo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
