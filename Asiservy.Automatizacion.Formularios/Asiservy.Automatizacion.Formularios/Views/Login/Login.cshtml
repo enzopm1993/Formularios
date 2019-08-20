@@ -2,7 +2,12 @@
 @{
     ViewBag.Title = "Login";
 }
-<!-- Modal -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="menup">
+    <a class="navbar-brand" href="../Home/Home">
+        <img src="~/Content/images/asilogo.jpg" class="img-responsive" />
+    </a>
+</nav>
+<!-- Modal --><br />
 <div class="modal fade" id="ModalErrorLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -74,11 +79,13 @@
 <script src="~/Scripts/jquery-3.0.0.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script>
-
+   $('#menu').hide();
    $('#logoutli').hide();
-   $("#btnIngresar").on("click", function () {
+    $("#btnIngresar").on("click", function () {
+        $('#menup').hide();
         if ($("#txtUsuario").val().trim() == "" || $("#txtPassword").val().trim() == "") {
             $("#ModalErrorLogin2").modal("show");
+            
             return;
         }
 
@@ -90,7 +97,11 @@
         success: function (data) {
             if(data == 1)
             {
+                $('#menup').hide();
+                $('#menu').show();
+                
                 $('#logoutli').show();
+
                 var returnUrl = "@Request.QueryString["ReturnUrl"]";
 
                 if (returnUrl == "") {
