@@ -1,4 +1,5 @@
-﻿var i = 0;
+﻿//Bloqueo de el chceck de cuchillos negros
+var i = 0;
 $("tr").each(function () {
     var desCheck = "CheckCuchilloNegro";
     if (i > 1)
@@ -9,17 +10,15 @@ $("tr").each(function () {
     i++;
 });
 
+//fecha del sistema
 n = new Date();
-//Año
 y = n.getFullYear();
-//Mes
 m = n.getMonth() + 1;
-//Día
 d = n.getDate();
-
-//Lo ordenas a gusto.
 document.getElementById("date").innerHTML = d + "/" + m + "/" + y;
 
+
+//check de asistencia validar, si es atraso
 function fillBook(valor) {
     var desSelectEstado = "SelectEstado";
     var desCheckAsistencia = "CheckAsistencia";
@@ -36,10 +35,8 @@ function fillBook(valor) {
     var chexkAsistencia = document.getElementById(desCheckAsistencia).checked;
     var label = document.getElementById(desLabelAsistencia);
     var observacion = document.getElementById(desObservacion);
-
     var Hora = new Date().getHours();
     var Minuto = new Date().getMinutes();
-
     //console.log(Hora);
     if (chexkAsistencia) {
         if (Hora >= 10) {
@@ -58,6 +55,7 @@ function fillBook(valor) {
     }
 }
 
+//Seleccion de estados, validacion por estado
 function CambioEstado(valor) {
     var desSelectEstado = "SelectEstado";
     var desCheckAsistencia = "CheckAsistencia";
@@ -99,6 +97,7 @@ function CambioEstado(valor) {
     }
 }
 
+//bloquea o desbloquea los check de cuchillos dependiendo de los parametros
 function LimpiarBloquearCheckCuchillo(valor,bool) {
     var desCheckCuchilloRojo = "CheckCuchilloRojo";
     var desCheckCuchilloBlanco = "CheckCuchilloBlanco";
@@ -125,18 +124,18 @@ function LimpiarBloquearCheckCuchillo(valor,bool) {
 
     label1.style.background = "#ccc";
     label2.style.background = "#ccc";
-    label3.style.background = "#ccc";
+   // label3.style.background = "#ccc";
     //console.log(desLabelCuchilloBlanco);
     //console.log(label1);
     //console.log(label2);
     //console.log(label3);
     if (bool) {
         cuchilloRojo.checked = !bool;
-        cuchilloNegro.checked = !bool;
+     //   cuchilloNegro.checked = !bool;
         cuchilloBlanco.checked = !bool;
     }
     cuchilloRojo.disabled = bool;
-    cuchilloNegro.disabled = bool;
+    //cuchilloNegro.disabled = bool;
     cuchilloBlanco.disabled = bool;
 
 
