@@ -11,10 +11,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
         // GET: Asistencia
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Asistencia()
         {
             return View();
         }
+
+        [Authorize]
+        public ActionResult RptAsistencia()
+        {
+            return View();
+        }
+
         [Authorize]
         public ActionResult EditarAsistencia()
         {

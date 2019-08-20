@@ -2,6 +2,23 @@
     $('#TableBandejaRRHH').DataTable();
 });
 
+function checkTodos() {
+    var i = 1;
+    var bool = document.getElementById("checkTodos").checked;
+    $('#TableBandejaRRHH tr').each(function () {       
+        var desSol="solicitud"
+        var x = $(this).find("td").eq(1).html();
+        if (x != null) {
+            desSol += i;
+            document.getElementById(desSol).checked = bool;
+            i++;
+        }
+    });
+}
+function Mostrar() {
+    $('#ModalAprobacion').modal('toggle')
+}
+
 
 //$(document).ready(function () {
 //    $("#search").keyup(function () {
@@ -16,25 +33,7 @@
 //    });
 //});
 
-function checkTodos() {
-    var i = 1;
-    var bool = document.getElementById("checkTodos").checked;
-    $('#TableBandejaRRHH tr').each(function () {       
-        var desSol="solicitud"
-        var x = $(this).find("td").eq(1).html();
-        if (x != null) {
-            desSol += i;
-            document.getElementById(desSol).checked = bool;
-            i++;
-        }
-    });
-}
 
-function Mostrar() {
-
-    $('#myModal').modal('toggle')
-
-}
 
 //    $("body").on("click", ".Grid tfoot a", function () {
 //        $('#WebGridForm').attr('action', $(this).attr('href')).submit();
