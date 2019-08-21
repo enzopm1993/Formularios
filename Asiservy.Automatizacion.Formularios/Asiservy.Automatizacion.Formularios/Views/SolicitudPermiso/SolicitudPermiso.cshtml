@@ -9,36 +9,37 @@
 <script src="~/Scripts/gijgo/combined/gijgo.min.js"></script>
 <link href="~/Content/gijgo/combined/gijgo.min.css" rel="stylesheet" />
 <link href="~/Content/SolicitudPermisoCss/SolicitudPermiso.css" rel="stylesheet" />
-
 <script src="~/Scripts/Mensajes/Mensajes.js"></script>
-
+<style>
+    input, select, textarea {
+        max-width:100%
+    }
+</style>
 @*<h4>SolicitudPermiso</h4>*@
-<br />
-<div style="padding-bottom: 50px" class="container-fluid">
-    <center>
-        <table class="table-borderless">
-            <tr>
-                <td style="text-align:right">Fecha:</td>
-                <td>@DateTime.Now.ToShortDateString()</td>
-            </tr>
-            <tr>
-                <td style="text-align:right">
-                    Supervisor:
-                </td>
-                <td>
-                    <select style="width:251px" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left">
-                        <option value="">Seleccione...</option>
-                        <option value="1">Juan Albarado</option>
-                        <option value="2">Pedro Maldonado</option>
-                        <option value="3">Maria Araujo</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align:right">Empleado: </td>
-                <td>
-                    <div class="ui-widget">
 
+
+<br />
+<div style="padding:0 5% 0 0" class="container-fluid">
+    <div class="row">
+
+        <div class="col-md-2"></div>
+        <div class="col-md-8 col-sm-12">
+            <div class="form-group">
+                <label>Fecha: @DateTime.Now.ToShortDateString()</label>
+            </div>
+            <div class="form-group">
+                <label>Supervisor</label>
+                <select style="max-width:100%" class="form-control">
+                    <option value="">Seleccione...</option>
+                    <option value="1">Juan Albarado</option>
+                    <option value="2">Pedro Maldonado</option>
+                    <option value="3">Maria Araujo</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <label>Empleado</label>
+                    <div class="ui-widget">
                         <select id="combobox">
                             <option value="">Select one...</option>
                             <option value="Anchundia Anchundia Aura Maria">Anchundia Anchundia Aura Maria</option>
@@ -60,61 +61,63 @@
                             <option value="Valencia Ochoa Gema Jhael">Valencia Ochoa Gema Jhael</option>
                             <option value="Vera Intriago Diana Gabriela">Vera Intriago Diana Gabriela</option>
                             <option value="Zambrano Solorzano Nury Juana">Zambrano Solorzano Nury Juana</option>
-
                         </select>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align:right">Área:</td>
-                <td>
-                    <select style="width:251px" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left">
+
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <label>Area</label>
+                    <select style="" class="form-control">
                         <option value="">Seleccione...</option>
                         <option value="1">Procesos</option>
                         <option value="2">Pouch</option>
                         <option value="3">Lata</option>
                         <option value="3">Etiquetado</option>
                     </select>
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align:right">Motivo:</td>
-                <td>
-                    <select style="width:251px" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left">
-                        <option value="">Seleccione...</option>
-                        <option value="1">Enfermedad</option>
-                        <option value="2">Calamidad Doméstica</option>
-                        <option value="3">Comisión de seervicios</option>
-                        <option value="4">Asuntos Particulares</option>
-                        <option value="5">Vacaciones</option>
-                        <option value="6">Fijo</option>
-                        <option value="7">Eventual</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align:right">Fecha desde:</td>
-                <td>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Linea</label>
+                <select style="" class="form-control">
+                    <option value="">Seleccione...</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="3">4</option>
+                    <option value="3">5</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Motivo</label>
+                <select style="" class="form-control">
+                    <option value="">Seleccione...</option>
+                    <option value="1">Enfermedad</option>
+                    <option value="2">Calamidad Doméstica</option>
+                    <option value="3">Comisión de seervicios</option>
+                    <option value="4">Asuntos Particulares</option>
+                    <option value="5">Vacaciones</option>
+                    <option value="6">Fijo</option>
+                    <option value="7">Eventual</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <label>Fecha desde:</label>
+                    <input id="fechadesde" width="250px" />
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <label>Fecha hasta:</label>
+                    <input id="fechahasta" width="250px" />
+                </div>
+            </div>
+            <br />
+            <center><input type="button" class="btn btn-info" name="name" value="Guardar" /></center>
 
-                    <input id="fechadesde" width="250" />
-
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align:right">Fecha hasta:</td>
-                <td>
-                    <input id="fechahasta" width="250" />
-                </td>
-            </tr>
-
-            <tr>
-                <td colspan="2">
-                    <br />
-                    <center><input type="button" value="Guardar" onclick="Mensaje('Registrado Exitosamente..');" class="btn btn-info" /></center>
-                </td>
-            </tr>
-        </table>
-    </center>
-</div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    
+  
+ </div>
 <div id="ModalMensaje"> </div>
 <script src="~/Scripts/SolicitudPermisoJS/SolicitudPermiso.js"></script>
