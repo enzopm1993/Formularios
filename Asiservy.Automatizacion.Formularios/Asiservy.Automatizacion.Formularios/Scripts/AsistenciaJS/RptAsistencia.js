@@ -92,16 +92,22 @@ function ConsultarEmpleados() {
         $('#tbldia').show();
         $('#tblmes').hide();
         $('#tblsemana').hide();
+        $('#showorhide').hide(1000);
+        $("#img-arrow").attr("src", "../Content/images/arrow-hidden.jpg");
     }
     if (($('#combodia').val() == "0") && ($('#combomes').val() != "0") && ($('#combosemana').val() != "0")) {
         $('#tblsemana').show();
         $('#tbldia').hide();
         $('#tblmes').hide();
+        $('#showorhide').hide(1000);
+        $("#img-arrow").attr("src", "../Content/images/arrow-hidden.jpg");
     }
     if (($('#combodia').val() == "0") && ($('#combomes').val() != "0") && ($('#combosemana').val() == "0")) {
         $('#tblmes').show();
         $('#tblsemana').hide();
         $('#tbldia').hide();
+        $('#showorhide').hide(1000);
+        $("#img-arrow").attr("src", "../Content/images/arrow-hidden.jpg");
     }
     if (($('#combodia').val() == "0") && ($('#combomes').val() == "0") && ($('#combosemana').val() == "0")) {
         $('#tbldia').hide();
@@ -109,4 +115,26 @@ function ConsultarEmpleados() {
         $('#tblsemana').hide();
     }
 
+}
+
+$('.botonconsultaemp').click(function () {
+    
+    ConsultarEmpleados();
+    
+})
+
+function showOrHide() {
+    var div = document.getElementById("showorhide");
+
+    if ($('#showorhide').is(':visible')) {
+        document.getElementById("img-arrow").src = "../Content/images/arrow-hidden.jpg";
+        $('#showorhide').hide(1000);
+
+    }
+    else {
+        $('#showorhide').show(1000);
+
+        $("#img-arrow").attr("src", "../Content/images/arrow-hidden1.jpg");
+
+    }
 }
