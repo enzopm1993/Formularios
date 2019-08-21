@@ -13,7 +13,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         [Authorize]
         // GET: SolicitudPermiso
-        public ActionResult BandejaProduccion()
+        public ActionResult BandejaAprobacion()
         {
             List<Solicitud> solicitud = new List<Solicitud>();
 
