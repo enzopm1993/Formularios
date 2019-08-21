@@ -8,6 +8,11 @@
 @{
     WebGrid webGrid = new WebGrid(source: Model, canSort: false, rowsPerPage: 5);
 }
+<style>
+    input, select, textarea {
+        max-width: 100%
+    }
+</style>
 
 <h3>Bandeja de RRHH</h3>
 
@@ -18,9 +23,9 @@
             <tr>
                 <th>
                     <div style="float:left">
-                    <label>Todos</label>
-                    <input type="checkbox" name="name" value="" id="checkTodos" onchange="checkTodos()" />
-                     </div>
+                        <label>Todos</label>
+                        <input type="checkbox" name="name" value="" id="checkTodos" onchange="checkTodos()" />
+                    </div>
                 </th>
                 <th>Solicitud</th>
                 <th>Fecha</th>
@@ -64,11 +69,14 @@
     </table>
 </div>
 <br />
-<div class="container-fluid text-center"> <input type="button" class="btn btn-info" name="name" value="Aprobar" /></div>
+<div class="container-fluid text-center">
+    <input type="button" class="btn btn-info" name="name" value="Aprobar" />
+    <input type="button" class="btn btn-danger" name="name" value="Anular" />
+</div>
 
 <br />
 <div class="modal fade" id="ModalAprobacion">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -77,13 +85,13 @@
             <div class="modal-body">
 
                 <div class="table-responsive">
-                    <table class="table table-borderless">
+                    <table style="width:100%" class="table-borderless">
                         <tr>
                             <td>
                                 <label class="">Solicitud</label>
                             </td>
                             <td>
-                                <input type="text" class="form-control" id="txtSolicitud" />
+                                <input type="text" class="form-control" id="txtSolicitud" value="1" readonly />
                             </td>
                         </tr>
                         <tr>
@@ -91,7 +99,7 @@
                                 <label class="">Fecha Ingreso</label>
                             </td>
                             <td>
-                                <input type="text" class="form-control" id="txtFecha" />
+                                <input type="text" class="form-control" id="txtFecha" value="21/08/2019" readonly />
                             </td>
                         </tr>
                         <tr>
@@ -99,7 +107,17 @@
                                 <label class="">Motivo</label>
                             </td>
                             <td>
-                                <input type="text" class="form-control" id="txtMotivo" />
+                                <select style="" class="form-control">
+                                    <option value="">Seleccione...</option>
+                                    <option value="1">Enfermedad</option>
+                                    <option value="2">Calamidad Doméstica</option>
+                                    <option value="3">Comisión de seervicios</option>
+                                    <option value="4">Asuntos Particulares</option>
+                                    <option value="5">Vacaciones</option>
+                                    <option value="6">Fijo</option>
+                                    <option value="7">Eventual</option>
+                                </select>
+
                             </td>
                         </tr>
                         <tr>
@@ -107,7 +125,13 @@
                                 <label class="">Area</label>
                             </td>
                             <td>
-                                <input type="text" class="form-control" id="txtArea" />
+                                <select style="" class="form-control">
+                                    <option value="">Seleccione...</option>
+                                    <option value="1">Procesos</option>
+                                    <option value="2">Pouch</option>
+                                    <option value="3">Lata</option>
+                                    <option value="3">Etiquetado</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -115,7 +139,7 @@
                                 <label class="">Empleado</label>
                             </td>
                             <td>
-                                <input type="text" class="form-control" id="txtEmpleado" />
+                                <input type="text" class="form-control" id="txtEmpleado" value="Valencia Pedro" readonly />
                             </td>
                         </tr>
                         <tr>
@@ -123,7 +147,7 @@
                                 <label class="">Fecha Inicio</label>
                             </td>
                             <td>
-                                <input type="text" class="form-control" id="txtFechaInicioPermiso" />
+                                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
                             </td>
                         </tr>
                         <tr>
@@ -131,7 +155,7 @@
                                 <label class="">Fecha Fin</label>
                             </td>
                             <td>
-                                <input type="text" class="form-control" id="txtFechaFinPermiso" />
+                                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
                             </td>
                         </tr>
                         <tr>
@@ -139,16 +163,102 @@
                                 <label class="">Observacion</label>
                             </td>
                             <td>
-                                <input type="text" class="form-control" id="txtObservacion" />
+                                <textarea type="text" class="form-control" id="txtObservacion" rows="3"></textarea>
                             </td>
                         </tr>
                     </table>
                 </div>
 
+
+                <br />
+                <center>
+                    <p>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseJustificar" aria-expanded="false" aria-controls="collapseExample">
+                            justificar
+                        </button>
+                    </p>
+                </center>
+                
+                    <div class="collapse" id="collapseJustificar">
+                        <div class="card card-body">
+                            <div style="overflow-x:auto;">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Motivo</th>
+                                            <th>Fecha inicio</th>
+                                            <th>Fecha fin</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <select style="" class="form-control">
+                                                    <option value="">Seleccione...</option>
+                                                    <option value="1">Enfermedad</option>
+                                                    <option value="2">Calamidad Doméstica</option>
+                                                    <option value="3">Comisión de seervicios</option>
+                                                    <option value="4">Asuntos Particulares</option>
+                                                    <option value="5">Vacaciones</option>
+                                                    <option value="6">Fijo</option>
+                                                    <option value="7">Eventual</option>
+                                                </select>
+                                            </td>
+                                            <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
+                                            <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <select style="" class="form-control">
+                                                    <option value="">Seleccione...</option>
+                                                    <option value="1">Enfermedad</option>
+                                                    <option value="2">Calamidad Doméstica</option>
+                                                    <option value="3">Comisión de seervicios</option>
+                                                    <option value="4">Asuntos Particulares</option>
+                                                    <option value="5">Vacaciones</option>
+                                                    <option value="6">Fijo</option>
+                                                    <option value="7">Eventual</option>
+                                                </select>
+                                            </td>
+                                            <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
+                                            <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <select style="" class="form-control">
+                                                    <option value="">Seleccione...</option>
+                                                    <option value="1">Enfermedad</option>
+                                                    <option value="2">Calamidad Doméstica</option>
+                                                    <option value="3">Comisión de seervicios</option>
+                                                    <option value="4">Asuntos Particulares</option>
+                                                    <option value="5">Vacaciones</option>
+                                                    <option value="6">Fijo</option>
+                                                    <option value="7">Eventual</option>
+                                                </select>
+                                            </td>
+                                            <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
+                                            <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
+                                        </tr>
+                                    </tbody>
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+
+
+                                </table>
+
+                            </div>
+                    </div>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Aprobar</button>
+                <button type="button" class="btn btn-primary">Grabar</button>
+
             </div>
 
         </div><!-- /.modal-content -->
