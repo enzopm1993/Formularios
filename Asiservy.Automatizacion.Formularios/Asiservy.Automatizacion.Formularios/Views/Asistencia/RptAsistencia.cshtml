@@ -10,115 +10,98 @@
 <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 <link href="~/Content/AsistenciaCss/RptAsistencia.css" rel="stylesheet" />
 
+
 @*<h4>RptAsistencia</h4>*@
-<div class="container " style="padding-bottom:100px">
-    <fieldset class="form-group ">
-        <legend>Parámetros</legend>
+<div class="container" style="padding-bottom:100px">
 
-        <table class="table table-borderless">
-            <tr>
-                <td class="text-right">
-                    Año:
-                </td>
-                <td>
-                    <select class="browser-default custom-select" id="comboanio">
-                        <option selected>Seleccione..</option>
-                        <option value="2019">2019</option>
-                        
+    <br />
+    <img src="~/Content/images/arrow-hidden1.jpg" id="img-arrow" alt="" onclick="showOrHide();" />
+    <div id="showorhide" >
+        <form action="#" class="col-12" style="border:groove">
+            <div class="row">
+                <div class="col-6">
 
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-right">
-                    Área:
-                </td>
-                <td>
-                    <select class="browser-default custom-select" id="comboarea">
-                        <option selected>Seleccione..</option>
-                        <option value="Procesos">Procesos</option>
-                        <option value="Febrero">Pouch</option>
-                        <option value="Marzo">Lomo</option>
-                        <option value="Marzo">Lata</option>
+                    <div class="form-group">
+                        <label for="Anio">Año:</label>
+                        <select class="form-control" id="comboanio">
+                            <option selected>Seleccione..</option>
+                            <option value="2019">2019</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Area">Área:</label>
+                        <select class="form-control" id="comboarea">
+                            <option selected>Seleccione..</option>
+                            <option value="Procesos">Procesos</option>
+                            <option value="Febrero">Pouch</option>
+                            <option value="Marzo">Lomo</option>
+                            <option value="Marzo">Lata</option>
 
-                    </select>
-                </td>
-            </tr>
-            <tr id="trlineas">
-                <td class="text-right">
-                    Líneas:
-                </td>
-                <td>
-                    <select class="browser-default custom-select" id="combolineas">
-                        <option selected value="0">Seleccione..</option>
-                        <option value="Enero">1</option>
-                        <option value="Febrero">2</option>
-                        <option value="Marzo">3</option>
-                        <option value="Marzo">4</option>
-                        <option value="Marzo">5</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-right">
-                    Mes:
-                </td>
-                <td>
-                    <select class="browser-default custom-select" id="combomes">
-                        <option selected value="0">Seleccione..</option>
-                        <option value="Enero">Enero</option>
-                        <option value="Febrero">Febrero</option>
-                        <option value="Marzo">Marzo</option>
-                        <option value="Abril">Abril</option>
-                        <option value="Mayo">Mayo</option>
-                        <option value="Junio">Junio</option>
-                        <option value="Julio">Julio</option>
-                        <option value="Agosto">Agosto</option>
-                        <option value="Septiembre">Septiembre</option>
-                        <option value="Octubre">Octubre</option>
-                        <option value="Noviembre">Noviembre</option>
-                        <option value="Diciembre">Diciembre</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-right">
-                    Semana:
-                </td>
-                <td>
-                    <select class="browser-default custom-select" id="combosemana">
-                        <option selected value="0">Seleccione..</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="trlineas">
+                        <label for="Area">Líneas:</label>
+                        <select class="form-control" id="combolineas">
+                            <option selected value="0">Seleccione..</option>
+                            <option value="Enero">1</option>
+                            <option value="Febrero">2</option>
+                            <option value="Marzo">3</option>
+                            <option value="Marzo">4</option>
+                            <option value="Marzo">5</option>
+                        </select>
+                    </div>
 
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-right">
-                    Día:
-                </td>
-                <td>
-                    <select class="browser-default custom-select" id="combodia">
-                        <option selected value="0">Seleccione..</option>
-                        <option value="1">Lunes</option>
-                        <option value="2">Martes</option>
-                        <option value="3">Miércoles</option>
-                        <option value="4">Jueves</option>
-                        <option value="5">Viernes</option>
-                        <option value="6">Sábado</option>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="Mes">Mes:</label>
+                        <select class="form-control" id="combomes">
+                            <option selected value="0">Seleccione..</option>
+                            <option value="Enero">Enero</option>
+                            <option value="Febrero">Febrero</option>
+                            <option value="Marzo">Marzo</option>
+                            <option value="Abril">Abril</option>
+                            <option value="Mayo">Mayo</option>
+                            <option value="Junio">Junio</option>
+                            <option value="Julio">Julio</option>
+                            <option value="Agosto">Agosto</option>
+                            <option value="Septiembre">Septiembre</option>
+                            <option value="Octubre">Octubre</option>
+                            <option value="Noviembre">Noviembre</option>
+                            <option value="Diciembre">Diciembre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Area">Semana:</label>
+                        <select class="form-control" id="combosemana">
+                            <option selected value="0">Seleccione..</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
 
-                    </select>
-                </td>
-            </tr>
-        </table>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Area">Días:</label>
+                        <select class="form-control" id="combodia">
+                            <option selected value="0">Seleccione..</option>
+                            <option value="1">Lunes</option>
+                            <option value="2">Martes</option>
+                            <option value="3">Miércoles</option>
+                            <option value="4">Jueves</option>
+                            <option value="5">Viernes</option>
+                            <option value="6">Sábado</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <center><button type="button" class="botonconsultaemp btn btn-primary" name="consultaremp">Consultar</button></center>
+        </form>
         <br />
-        <center> <input type="button" id="ConsultarEmpleados" value="Consultar" class="btn-primary" onclick="ConsultarEmpleados();" /></center>
-    </fieldset>
-
-
+    </div>
+  
     <div class="table-responsive" id="tbldia">
 
         <table class="table table-bordered" id="tblrptdia">
@@ -132,13 +115,13 @@
                 </tr>
             </thead>
             <tbody>
-                
-               
+
+
                 <tr>
                     <td>
                         José Delgado
                     </td>
-                    
+
                     <td>
                         <center>A</center>
                     </td>
@@ -187,4 +170,3 @@
 </div>
 
 <script src="~/Scripts/AsistenciaJS/RptAsistencia.js"></script>
-
