@@ -12,32 +12,43 @@
 <script src="~/Scripts/Mensajes/Mensajes.js"></script>
 <style>
     input, select, textarea {
-        max-width:100%
+        max-width: 100%
     }
 </style>
-@*<h4>SolicitudPermiso</h4>*@
+<h4>Solicitud de Permiso General</h4>
 
+<label>Fecha: @DateTime.Now.ToShortDateString()</label>
 
-<br />
 <div style="padding:0 5% 0 0" class="container-fluid">
     <div class="row">
 
         <div class="col-md-2"></div>
-        <div class="col-md-8 col-sm-12">
-            <div class="form-group">
-                <label>Fecha: @DateTime.Now.ToShortDateString()</label>
-            </div>
-            <div class="form-group">
-                <label>Supervisor</label>
-                <select style="max-width:100%" class="form-control">
-                    <option value="">Seleccione...</option>
-                    <option value="1">Juan Albarado</option>
-                    <option value="2">Pedro Maldonado</option>
-                    <option value="3">Maria Araujo</option>
-                </select>
-            </div>
+        <div class="col-md-8 col-sm-12 border border-secondary">
+
             <div class="row">
-                <div class="col-md-6 col-sm-12">
+
+                <div class="col-md-4 col-sm-12">
+                    <label>Departamento</label>
+                    <select id="selectDepartamento" onchange="CambioDepartamento(this.value)" style="" class="form-control">
+                        <option value="0" selected>Seleccione...</option>
+                        <option value="1">Produccion</option>
+                        <option value="2">Dispensario Médico</option>
+                        <option value="3">RRHH</option>
+                    </select>
+
+                </div>
+
+                <div class="col-md-4 col-sm-12">
+                    <label>Area</label>
+                    <select onchange="CambioArea()" id="selectArea" class="form-control" disabled>
+                        <option value="" selected>Seleccione...</option>
+                        <option value="1">Procesos</option>
+                        <option value="2">Pouch</option>
+                        <option value="3">Lata</option>
+                        <option value="3">Etiquetado</option>
+                    </select>
+                </div>
+                <div class="col-md-4 col-sm-12">
                     <label>Empleado</label>
                     <div class="ui-widget">
                         <select id="combobox">
@@ -65,22 +76,12 @@
                     </div>
 
                 </div>
-                <div class="col-md-6 col-sm-12">
-                    <label>Area</label>
-                    <select style="" class="form-control">
-                        <option value="">Seleccione...</option>
-                        <option value="1">Procesos</option>
-                        <option value="2">Pouch</option>
-                        <option value="3">Lata</option>
-                        <option value="3">Etiquetado</option>
-                    </select>
-                </div>
             </div>
             <div class="form-group">
-                <label>Linea</label>
-                <select style="" class="form-control">
+                <label id="labelLinea" hidden>Linea</label>
+                <select id="selectLinea" hidden style="" class="form-control">
                     <option value="">Seleccione...</option>
-                    <option value="1">1</option>
+                    <option value="1" selected>1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="3">4</option>
@@ -89,35 +90,47 @@
             </div>
             <div class="form-group">
                 <label>Motivo</label>
-                <select style="" class="form-control">
-                    <option value="">Seleccione...</option>
-                    <option value="1">Enfermedad</option>
-                    <option value="2">Calamidad Doméstica</option>
-                    <option value="3">Comisión de seervicios</option>
-                    <option value="4">Asuntos Particulares</option>
-                    <option value="5">Vacaciones</option>
-                    <option value="6">Fijo</option>
-                    <option value="7">Eventual</option>
-                </select>
+                <select id="selectMotivo" style="" class="form-control" disabled></select>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Observacion</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+
+            </div>            <div class="row">
+                <div class="col-md-1 col-sm-1">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
+                        <label class="custom-control-label" for="switchHoraFecha"></label>
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-5">
+                    <label>Hora desde:</label>
+                    <input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />
+                </div>
+                <div class="col-md-5  col-sm-5">
+                    <label>Hora hasta:</label>
+                    <input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6 col-sm-12">
                     <label>Fecha desde:</label>
-                    <input id="fechadesde" width="250px" />
+                    <input class="form-control" type="datetime-local" name="name" value="" id="datetimeDesde" />
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <label>Fecha hasta:</label>
-                    <input id="fechahasta" width="250px" />
+                    <input class="form-control" type="datetime-local" name="name" value="" id="datetimeHasta" />
                 </div>
             </div>
             <br />
-            <center><input type="button" class="btn btn-info" name="name" value="Guardar" /></center>
-
+            <center><input type="button" class="btn btn-info" name="name" value="Guardar" onclick="Guardar()" /></center>
+            <br />
         </div>
         <div class="col-md-2"></div>
     </div>
-    
-  
- </div>
+
+
+</div>
 <div id="ModalMensaje"> </div>
+<br /><br />
 <script src="~/Scripts/SolicitudPermisoJS/SolicitudPermiso.js"></script>

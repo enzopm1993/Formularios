@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "SolicitudPermiso";
+    ViewBag.Title = "SolicitudPermisoDispensario";
 }
 
 
@@ -10,33 +10,48 @@
 <link href="~/Content/gijgo/combined/gijgo.min.css" rel="stylesheet" />
 <link href="~/Content/SolicitudPermisoCss/SolicitudPermiso.css" rel="stylesheet" />
 <script src="~/Scripts/Mensajes/Mensajes.js"></script>
-@*<h4>SolicitudPermiso</h4>*@
+<style>
+    input, select, textarea {
+        max-width: 100%
+    }
+</style>
+<h4>Permiso Medico</h4>
+<label><b>Fecha:</b> @DateTime.Now.ToShortDateString()</label>
+&nbsp;
+<label><b>Doctora:</b> Isabel Gutirrez </label>
 <br />
-<div style="padding-bottom: 50px" class="container-fluid">
-    <center>
-        <table class="table-borderless">
-            <tr>
-                <td>Fecha:</td>
-                <td>@DateTime.Now.ToShortDateString()</td>
-            </tr>
-            <tr>
-                <td>
-                    Supervisor:
-                </td>
-                <td>
-                    <select style="width:251px" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left">
-                        <option value="">Seleccione...</option>
-                        <option value="1">Juan Albarado</option>
-                        <option value="2">Pedro Maldonado</option>
-                        <option value="3">Maria Araujo</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Empleado: </td>
-                <td>
-                    <div class="ui-widget">
+<div style="padding:0 5% 0 0" class="container-fluid">
+    <div class="row">
 
+        <div class="col-md-2"></div>
+        <div class="col-md-8 col-sm-12 border border-secondary  ">
+
+            <div class="row">
+
+                <div class="col-md-4 col-sm-12">
+                    <label>Departamento</label>
+                    <select id="selectDepartamento" onchange="CambioDepartamento(this.value)" style="" class="form-control">
+                        <option value="0" selected>Seleccione...</option>
+                        <option value="1">Produccion</option>
+                        <option value="2">Dispensario Médico</option>
+                        <option value="3">RRHH</option>
+                    </select>
+
+                </div>
+
+                <div class="col-md-4 col-sm-12">
+                    <label>Area</label>
+                    <select onchange="CambioArea()" id="selectArea" class="form-control" disabled>
+                        <option value="" selected>Seleccione...</option>
+                        <option value="1">Procesos</option>
+                        <option value="2">Pouch</option>
+                        <option value="3">Lata</option>
+                        <option value="3">Etiquetado</option>
+                    </select>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <label>Empleado</label>
+                    <div class="ui-widget">
                         <select id="combobox">
                             <option value="">Select one...</option>
                             <option value="Anchundia Anchundia Aura Maria">Anchundia Anchundia Aura Maria</option>
@@ -58,52 +73,66 @@
                             <option value="Valencia Ochoa Gema Jhael">Valencia Ochoa Gema Jhael</option>
                             <option value="Vera Intriago Diana Gabriela">Vera Intriago Diana Gabriela</option>
                             <option value="Zambrano Solorzano Nury Juana">Zambrano Solorzano Nury Juana</option>
-
                         </select>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td>Área:</td>
-                <td>
-                    <select style="width:251px" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left">
-                        <option value="">Seleccione...</option>
-                        <option value="1">Procesos</option>
-                        <option value="2">Pouch</option>
-                        <option value="3">Lata</option>
-                        <option value="3">Etiquetado</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Diagnóstico:</td>
-                <td>
-                    <textarea rows="5" cols="32"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>Fecha desde:</td>
-                <td>
 
-                    <input id="fechadesde" width="250" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="labelLinea" hidden>Linea</label>
+                <select id="selectLinea" hidden style="" class="form-control">
+                    <option value="">Seleccione...</option>
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="3">4</option>
+                    <option value="3">5</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Motivo</label>
+                <select id="selectMotivo" style="" class="form-control" disabled></select>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Diagnostico</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 
-                </td>
-            </tr>
-            <tr>
-                <td>Fecha hasta:</td>
-                <td>
-                    <input id="fechahasta" width="250" />
-                </td>
-            </tr>
+            </div>
+            <div class="row">
+                <div class="col-md-1 col-sm-1">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
+                        <label class="custom-control-label" for="switchHoraFecha"></label>
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-5">
+                    <label>Hora desde:</label>
+                    <input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />
+                </div>
+                <div class="col-md-5  col-sm-5">
+                    <label>Hora hasta:</label>
+                    <input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <label>Fecha desde:</label>
+                    <input class="form-control" type="datetime-local" name="name" value="" id="datetimeDesde" />
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <label>Fecha hasta:</label>
+                    <input class="form-control" type="datetime-local" name="name" value="" id="datetimeHasta" />
+                </div>
+            </div>
+            <br />
+            <center><input type="button" class="btn btn-info" name="name" value="Guardar"  onclick="Guardar();"/></center>
+            <br />
+        </div>
+        <div class="col-md-2"></div>
+    </div>
 
-            <tr>
-                <td colspan="2">
-                    <br />
-                    <center><input type="button" value="Guardar" onclick="Mensaje('Registro Exitoso')" class="btn btn-info" /></center>
-                </td>
-            </tr>
-        </table>
-    </center>
+
 </div>
 <div id="ModalMensaje"> </div>
-<script src="~/Scripts/SolicitudPermisoJS/SolicitudPermiso.js"></script>
+<br /><br />
+<script src="~/Scripts/SolicitudPermisoJS/SolicitudPermisoMedico.js"></script>

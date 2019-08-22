@@ -1,4 +1,8 @@
-﻿function Mensaje(mensaje) {
+﻿function MensajeClose() {
+    location.reload();
+}
+
+function Mensaje(mensaje) {
     $.ajax({
         url: "../Mensaje/Error",
         type: "Get",
