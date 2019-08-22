@@ -12,6 +12,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult Home()
         {
+
+
+            //ViewBag.NombreUsuario = User.Identity.Name.ToString()+ " |";
             return View();
         }
 

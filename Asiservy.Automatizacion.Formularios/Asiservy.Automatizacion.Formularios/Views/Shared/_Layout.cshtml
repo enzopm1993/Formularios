@@ -11,15 +11,20 @@
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 </head>
 <body>
-    
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="menu">
-            <a class="navbar-brand" href="../Home/Home">
-                <img src="~/Content/images/asilogo.jpg" class="img-responsive" />
-            </a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="menup">
+        <a class="navbar-brand" href="../Home/Home">
+            <img src="~/Content/images/asilogo.jpg" class="img-responsive" />
+        </a>
+    </nav>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="menu">
+        <a class="navbar-brand" href="../Home/Home">
+            <img src="~/Content/images/asilogo.jpg" class="img-responsive" />
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
 
 
@@ -60,24 +65,31 @@
                         <a class="nav-link" style="float:right" href="/Login/Logout?Length=11" id="logout">Logout</a>
                     </li>
 
-                </ul>
-            </div>
-
-
-        </nav>
-
-
-        <div style="padding-bottom: 50px" class="container-fluid">
-            @RenderBody()
-
+            </ul>
         </div>
 
-        <footer>
-            <hr />
-            <p>&copy; @DateTime.Now.Year - Asiservy S.A</p>
-        </footer>
+
+    </nav>
+
+
+    <div style="padding-bottom: 50px" class="container-fluid">
+        @RenderBody()
+
+    </div>
+
+    <footer>
+        <hr />
+        <p>&copy; @DateTime.Now.Year - Asiservy S.A</p>
+    </footer>
 </body>
 </html>
-<script>
-   
-</script>
+
+   @{ 
+       if (User.Identity.IsAuthenticated)
+       {<script>
+           $('#menup').hide();
+           $('#userl').text("@User.Identity.Name" +" |");
+       </script>
+       }
+   }
+

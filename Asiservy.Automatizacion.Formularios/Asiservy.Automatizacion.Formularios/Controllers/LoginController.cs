@@ -39,6 +39,7 @@ namespace ProyectoWeb.Controllers
             if (usuario == "admin" && password == "admin")
             {
                 FormsAuthentication.SetAuthCookie(usuario, false);
+               
                 return Json(1);
                 
             }
