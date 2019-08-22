@@ -11,64 +11,61 @@
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="menup">
-        <a class="navbar-brand" href="../Home/Home">
-            <img src="~/Content/images/asilogo.jpg" class="img-responsive" />
-        </a>
-    </nav>
+    
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="menu">
         <a class="navbar-brand" href="../Home/Home">
             <img src="~/Content/images/asilogo.jpg" class="img-responsive" />
         </a>
-
+        @if (User.Identity.IsAuthenticated)
+        {
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
 
 
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav" style="width:100%">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Produccion <span class="sr-only">(current)</span></a>
-                        <div class="dropdown-menu" aria-labelledby="themes">
-                            @Html.ActionLink("Control  de Asistencia", "Asistencia", "Asistencia", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Editar Asistencia", "EditarAsistencia", "Asistencia", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Control  de Cuchillos", "Cuchillo", "Asistencia", null, new { @class = "dropdown-item" })
-                            <div class="dropdown-divider"></div>
-                            @Html.ActionLink("Cambio de Personal", "CambiarPersonalDeArea", "Asistencia", null, new { @class = "dropdown-item" })
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav" style="width:100%">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Produccion <span class="sr-only">(current)</span></a>
+                    <div class="dropdown-menu" aria-labelledby="themes">
+                        @Html.ActionLink("Control  de Asistencia", "Asistencia", "Asistencia", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Editar Asistencia", "EditarAsistencia", "Asistencia", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Control  de Cuchillos", "Cuchillo", "Asistencia", null, new { @class = "dropdown-item" })
+                        <div class="dropdown-divider"></div>
+                        @Html.ActionLink("Cambio de Personal", "CambiarPersonalDeArea", "Asistencia", null, new { @class = "dropdown-item" })
 
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Reportes</a>
-                        <div class="dropdown-menu" aria-labelledby="themes">
-                            @Html.ActionLink("Distribucion de personal por lineas", "ReporteDistribucion", "Asistencia", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Personal en nomina por linea", "PersonalNomina", "Asistencia", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Control de cuchillos", "RptCuchillo", "Asistencia", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Reporte de Asistencia", "RptAsistencia", "Asistencia", null, new { @class = "dropdown-item" })
-                            <div class="dropdown-divider"></div>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Solicitud Permiso</a>
-                        <div class="dropdown-menu" aria-labelledby="themes">
-                            @Html.ActionLink("Permiso Medico", "SolicitudPermisodispensario", "SolicitudPermiso", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Permiso General", "SolicitudPermiso", "SolicitudPermiso", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Bandeja de Solicitudes", "BandejaAprobacion", "SolicitudPermiso", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Bandeja de Solicitudes RRHH", "BandejaRRHH", "SolicitudPermiso", null, new { @class = "dropdown-item" })
-                            <div class="dropdown-divider"></div>
-                        </div>
-                    </li>
-                    <li style="width:100%" id="logoutli">
-                        <a class="nav-link" style="float:right" href="/Login/Logout?Length=11" id="logout">Cerrar Sesión</a>  <label id="userl" class="nav-link" style="float:right; color:#1CBC8B"> </label>
-                    </li>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Reportes</a>
+                    <div class="dropdown-menu" aria-labelledby="themes">
+                        @Html.ActionLink("Distribucion de personal por lineas", "ReporteDistribucion", "Asistencia", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Personal en nomina por linea", "PersonalNomina", "Asistencia", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Control de cuchillos", "RptCuchillo", "Asistencia", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Reporte de Asistencia", "RptAsistencia", "Asistencia", null, new { @class = "dropdown-item" })
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Solicitud Permiso</a>
+                    <div class="dropdown-menu" aria-labelledby="themes">
+                        @Html.ActionLink("Permiso Medico", "SolicitudPermisodispensario", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Permiso General", "SolicitudPermiso", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Bandeja de Solicitudes", "BandejaAprobacion", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Bandeja de Solicitudes RRHH", "BandejaRRHH", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li style="width:100%" id="logoutli">
+                    <a class="nav-link" style="float:right" href="/Login/Logout?Length=11" id="logout">Cerrar Sesión</a>  <label id="userl" class="nav-link" style="float:right; color:#1CBC8B"> </label>
+                </li>
 
             </ul>
         </div>
 
-
+        }
     </nav>
 
 
@@ -87,7 +84,7 @@
    @{ 
        if (User.Identity.IsAuthenticated)
        {<script>
-           $('#menup').hide();
+           
            $('#userl').text("@User.Identity.Name" +" |");
        </script>
        }
