@@ -571,6 +571,7 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\SolicitudPermisoJS\Bandeja.js" />
+    <Content Include="Scripts\SolicitudPermisoJS\BandejaRRHH.js" />
     <Content Include="Scripts\SolicitudPermisoJS\SolicitudPermiso.js" />
     <Content Include="Scripts\SolicitudPermisoJS\SolicitudPermisoMedico.js" />
     <Content Include="Scripts\umd\popper-utils.js" />

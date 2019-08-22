@@ -30,6 +30,7 @@
                 <th>Solicitud</th>
                 <th>Fecha</th>
                 <th>Motivo</th>
+                <th>Departamento</th>
                 <th>Area</th>
                 <th>Empleado</th>
                 <th></th>
@@ -41,29 +42,42 @@
                 <td>1</td>
                 <td>20/08/2019</td>
                 <td>Vacaciones</td>
+                <td>Produccion</td>
                 <td>Proceso</td>
                 <td>Anchundia Delagado Jose</td>
-                <td><input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" /></td>
+                <td>
+                    <input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" />
+                    <input name="chkbox" type="button" value="Aprobar" onclick="Aprobar();" class=" btn btn-link" />
+                    <input name="chkbox" type="button" value="Anular" onclick="Observacion();" class=" btn btn-link" />
+                </td>
             </tr>
             <tr>
                 <td><input class="case" name="case" type="checkbox" id="solicitud2" /></td>
                 <td>2</td>
                 <td>21/08/2019</td>
                 <td>Medico</td>
+                <td>Produccion</td>
                 <td>Lata</td>
                 <td>Morales Molina Manuel</td>
-                <td><input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" /></td>
-
+                <td>
+                    <input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" />
+                    <input name="chkbox" type="button" value="Aprobar" onclick="Aprobar();" class=" btn btn-link" />
+                    <input name="chkbox" type="button" value="Anular" onclick="Observacion();" class=" btn btn-link" />
+                </td>
             </tr>
             <tr>
                 <td><input class="case" name="case" type="checkbox" id="solicitud3" /></td>
                 <td>3</td>
                 <td>21/08/2019</td>
                 <td>Medico</td>
+                <td>Produccion</td>
                 <td>Pouch</td>
                 <td>Corrales Molina Maria</td>
-                <td><input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" /></td>
-
+                <td>
+                    <input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" />
+                    <input name="chkbox" type="button" value="Aprobar" onclick="Aprobar();" class=" btn btn-link" />
+                    <input name="chkbox" type="button" value="Anular" onclick="Observacion();" class=" btn btn-link" />
+                </td>
             </tr>
         </tbody>
     </table>
@@ -109,15 +123,26 @@
                             <td>
                                 <select style="" class="form-control">
                                     <option value="">Seleccione...</option>
-                                    <option value="1">Enfermedad</option>
+                                    <option value="1">Descanso Medico</option>
                                     <option value="2">Calamidad Doméstica</option>
-                                    <option value="3">Comisión de seervicios</option>
+                                    <option value="3" selected>Comisión de servicios</option>
                                     <option value="4">Asuntos Particulares</option>
                                     <option value="5">Vacaciones</option>
-                                    <option value="6">Fijo</option>
-                                    <option value="7">Eventual</option>
                                 </select>
 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="">Departamento</label>
+                            </td>
+                            <td>
+                                <select disabled style="" class="form-control">
+                                    <option value="">Seleccione...</option>
+                                    <option value="1" selected>Produccion</option>
+                                    <option value="2">Dispensario medico</option>
+                                    <option value="3">RRHH</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -125,9 +150,9 @@
                                 <label class="">Area</label>
                             </td>
                             <td>
-                                <select style="" class="form-control">
+                                <select disabled style="" class="form-control">
                                     <option value="">Seleccione...</option>
-                                    <option value="1">Procesos</option>
+                                    <option value="1" selected>Procesos</option>
                                     <option value="2">Pouch</option>
                                     <option value="3">Lata</option>
                                     <option value="3">Etiquetado</option>
@@ -160,6 +185,15 @@
                         </tr>
                         <tr>
                             <td>
+                                <label class="">Tipo</label>
+                            </td>
+                            <td>
+                                <input disabled class="form-control" type="text" name="name" value="Fijo" />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <label class="">Observacion</label>
                             </td>
                             <td>
@@ -178,98 +212,119 @@
                         </button>
                     </p>
                 </center>
-                
-                    <div class="collapse" id="collapseJustificar">
-                        <div class="card card-body">
-                            <div style="overflow-x:auto;">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Motivo</th>
-                                            <th>Fecha inicio</th>
-                                            <th>Fecha fin</th>
-                                        </tr>
 
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <select style="" class="form-control">
-                                                    <option value="">Seleccione...</option>
-                                                    <option value="1">Enfermedad</option>
-                                                    <option value="2">Calamidad Doméstica</option>
-                                                    <option value="3">Comisión de seervicios</option>
-                                                    <option value="4">Asuntos Particulares</option>
-                                                    <option value="5">Vacaciones</option>
-                                                    <option value="6">Fijo</option>
-                                                    <option value="7">Eventual</option>
-                                                </select>
-                                            </td>
-                                            <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
-                                            <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <select style="" class="form-control">
-                                                    <option value="">Seleccione...</option>
-                                                    <option value="1">Enfermedad</option>
-                                                    <option value="2">Calamidad Doméstica</option>
-                                                    <option value="3">Comisión de seervicios</option>
-                                                    <option value="4">Asuntos Particulares</option>
-                                                    <option value="5">Vacaciones</option>
-                                                    <option value="6">Fijo</option>
-                                                    <option value="7">Eventual</option>
-                                                </select>
-                                            </td>
-                                            <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
-                                            <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <select style="" class="form-control">
-                                                    <option value="">Seleccione...</option>
-                                                    <option value="1">Enfermedad</option>
-                                                    <option value="2">Calamidad Doméstica</option>
-                                                    <option value="3">Comisión de seervicios</option>
-                                                    <option value="4">Asuntos Particulares</option>
-                                                    <option value="5">Vacaciones</option>
-                                                    <option value="6">Fijo</option>
-                                                    <option value="7">Eventual</option>
-                                                </select>
-                                            </td>
-                                            <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
-                                            <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
-                                        </tr>
-                                    </tbody>
+                <div class="collapse" id="collapseJustificar">
+                    <div class="card card-body">
+                        <div style="overflow-x:auto;">
+                            <table class="table table-bordered">
+                                <thead>
                                     <tr>
-                                        <td></td>
+                                        <th>Motivo</th>
+                                        <th>Fecha inicio</th>
+                                        <th>Fecha fin</th>
                                     </tr>
 
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <select style="" class="form-control">
+                                                <option value="">Seleccione...</option>
+                                                <option value="1">Descanso Medico</option>
+                                                <option value="2">Calamidad Doméstica</option>
+                                                <option value="3">Comisión de seervicios</option>
+                                                <option value="4">Asuntos Particulares</option>
+                                                <option value="5">Vacaciones</option>
+                                            </select>
+                                        </td>
+                                        <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
+                                        <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
+                                    </tr>
 
-                                </table>
+                                    <tr>
+                                        <td>
+                                            <select style="" class="form-control">
+                                                <option value="">Seleccione...</option>
+                                                <option value="1">Reposo Medico</option>
+                                                <option value="2">Calamidad Doméstica</option>
+                                                <option value="3">Comisión de seervicios</option>
+                                                <option value="4">Asuntos Particulares</option>
+                                                <option value="5">Vacaciones</option>
+                                            </select>
+                                        </td>
+                                        <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
+                                        <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
+                                    </tr>
 
-                            </div>
+                                    <tr>
+                                        <td>
+                                            <select style="" class="form-control">
+                                                <option value="">Seleccione...</option>
+                                                <option value="1">Reposo Medico</option>
+                                                <option value="2">Calamidad Doméstica</option>
+                                                <option value="3">Comisión de seervicios</option>
+                                                <option value="4">Asuntos Particulares</option>
+                                                <option value="5">Vacaciones</option>
+                                            </select>
+                                        </td>
+                                        <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
+                                        <td><input class="form-control" type="datetime-local" name="name" value="" /></td>
+                                    </tr>
+                                </tbody>
+                                <tr>
+                                    <td></td>
+                                </tr>
+
+
+                            </table>
+
+                        </div>
                     </div>
                 </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Grabar</button>
+                <button onclick="Guardar();" type="button" class="btn btn-primary">Grabar</button>
 
             </div>
 
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<!-- The Modal -->
+<div class="modal fade" id="ModalObservacion">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Ingrese motivo</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <textarea class="form-control" rows="5" id="comment"></textarea>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="Anular()">Aceptar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="ModalMensaje"></div>
 
 
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <script src="~/Scripts/DataTables/media/js/jquery.dataTables.js"></script>
 <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
-<script src="~/Scripts/SolicitudPermisoJS/Bandeja.js"></script>
-
+<script src="~/Scripts/SolicitudPermisoJS/BandejaRRHH.js"></script>
+<script src="~/Scripts/Mensajes/Mensajes.js"></script>
 
