@@ -630,6 +630,7 @@
     <Content Include="Views\Asistencia\RptCuchillo.cshtml" />
     <Content Include="Views\SolicitudPermiso\ReporteSolicitud.cshtml" />
     <Content Include="Views\SolicitudPermiso\BitacoraSolicitud.cshtml" />
+    <Content Include="Views\Asistencia\BitacoraCambioPersonal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -27,11 +27,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
+
+        [Authorize]
         public ActionResult CambiarPersonalDeArea()
         {
             return View();
         }
-        
+
+        [Authorize]
+        public ActionResult BitacoraCambioPersonal()
+        {
+            return View();
+        }
+
 
         [Authorize]
         // GET: Asistencia/Cuchillo
