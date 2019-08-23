@@ -3,9 +3,13 @@
     ViewBag.Title = "CambiarPersonalDeArea";
 }
 
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 
-<script src="~/Scripts/jquery.dataTables.min.js"></script>
 <link href="~/Content/AsistenciaCss/CambiarPersonal.css" rel="stylesheet" />
+
 @{WebGrid webGrid = new WebGrid(source: Model, canSort: false, rowsPerPage: 5);
 
 }
@@ -13,6 +17,143 @@
 <br />
 <div class="container" style="padding-bottom:100px">
     <div class="row">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select class="browser-default custom-select" id="optcambiaremp">
+            <option selected>Seleccione..</option>
+            <option value="prestar">Prestar</option>
+            <option value="regresar">Regresar</option>
+        </select>
+    </div>
+    <br />
+    <div id="divregresar">
+        <div id="" style="border:groove">
+            <div class="row">
+
+
+                <div class="form-group col-sm-12 col-md-6">
+                    <label>Departamento:</label>
+
+                    <select class="form-control" id="">
+                        <option selected>Seleccione..</option>
+                        <option value="Producción">Producción</option>
+                        <option value="Dispensario">Dispensario Medico</option>
+                        <option value="RRHH">RRHH</option>
+                        <option value="Otros">Otros</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-12 col-md-6">
+                    <label>Área:</label>
+
+                    <select class="form-control" id="comboareao">
+                        <option selected>Seleccione..</option>
+                        <option value="procesos">Procesos</option>
+                        <option value="pouch">Pouch</option>
+                        <option value="lata">Lata</option>
+                        <option value="lomo">Lomo</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-12 col-md-6" id="trlineao">
+                    <label for="">Línea:</label>
+
+                    <select class=" form-control">
+                        <option selected>Seleccione..</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                @*<div class="form-group col-sm-12 col-md-6">
+                    <label>Cargo:</label>
+
+                    <select class="form-control ">
+                        <option selected>Seleccione..</option>
+                        <option>Limpiador</option>
+                        <option>despellejador</option>
+                        <option>Miga</option>
+                        <option>Cacho</option>
+                    </select>
+                </div>*@
+
+            </div>
+            <div class="row">
+                <div class="col">
+                    <center> <input type="button" id="ConsultarEmpleadosRegresar" value="Consultar" class="btn btn-primary" onclick="RegresarEmpleados();" /></center>
+                </div>
+            </div>
+
+        </div>
+        <br />
+        <div class="row" id="EmpleadosRegresar">
+            <div class="col">
+                <table id="TablaEmpleadosRegresar" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="checkall">
+                            </th>
+                            <th>
+                                Cédula
+                            </th>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Área/Cargo
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" id="checked0" class="checks"></td>
+                            <td>0940203406</td>
+                            <td>Juan Maldonado</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="checked1" class="checks"></td>
+                            <td>1188888456</td>
+                            <td>Pedro Suarez</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="checked2" class="checks"></td>
+                            <td>2723626161</td>
+                            <td>Alejandro Sánchez</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="checked3" class="checks"></td>
+                            <td>3635261617</td>
+                            <td>María Perez</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="checked4" class="checks"></td>
+                            <td>1188888456</td>
+                            <td>Andrea Bejarano</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <br />
+            <div class="col-12">
+                
+                <br />
+                <div id="btnRegresarEmp"><center><input type="button" value="Regresar" class="btn btn-primary" /></center></div>
+            </div>
+        </div>
+
+        
+    </div>
+    <br />
+
+
+    <div class="row" id="divprestar">
+
+
         <div class="col-6">
             <fieldset class="form-group">
                 <legend>Origen</legend>
@@ -20,7 +161,7 @@
                     <tr>
                         <td>Departamento:</td>
                         <td>
-                            <select class="browser-default custom-select" id="comboareao">
+                            <select class="browser-default custom-select" id="">
                                 <option selected>Seleccione..</option>
                                 <option value="Producción">Producción</option>
                                 <option value="Dispensario">Dispensario Medico</option>
@@ -33,7 +174,7 @@
                     <tr>
                         <td>Área:</td>
                         <td>
-                            <select class="browser-default custom-select" id="comboareao">
+                            <select class="browser-default custom-select" id="comboareaop">
                                 <option selected>Seleccione..</option>
                                 <option value="procesos">Procesos</option>
                                 <option value="pouch">Pouch</option>
@@ -42,7 +183,7 @@
                             </select>
                         </td>
                     </tr>
-                    <tr id="trlineao">
+                    <tr id="trlineaop">
                         <td>Línea:</td>
                         <td>
                             <select class="browser-default custom-select">
@@ -69,7 +210,7 @@
                     </tr>
                 </table>
                 <br />
-                <center> <input type="button" id="ConsultarEmpleados" value="Consultar" class="btn-primary" onclick="ConsultarEmpleados();" /></center>
+                <center> <input type="button" id="ConsultarEmpleados" value="Consultar" class="btn btn-primary" onclick="ConsultarEmpleados();" /></center>
             </fieldset>
         </div>
 
@@ -139,15 +280,17 @@
                 <br /><br />
             </fieldset>
         </div>
-    </div>
- 
-        <div class="col-12">
-            <div class="container"  id="DivEmpleados">
+        <div class="col-12" id="contempleados">
+            <div class="container" id="DivEmpleados">
 
             </div>
             <br />
             <div id="btnGuardarCambioEmp"><center><input type="button" value="Guardar" class="btn btn-primary" /></center></div>
         </div>
- 
+
+    </div>
+
+
+
 </div>
 <script src="~/Scripts/AsistenciaJS/CambiarPersonal.js"></script>
