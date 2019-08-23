@@ -18,7 +18,7 @@
                        webGrid.Column("Nombre", "Nombre")
 
            ))*@
-
+<br />
 <table id="TablaEmpleados" class="table table-striped table-bordered">
     <thead>
         <tr>
@@ -31,6 +31,12 @@
             <th>
                 Nombre
             </th>
+            <th>
+                Área
+            </th>
+            <th>
+                Cargo
+            </th>
         </tr>
     </thead>
     @{int i = 0;
@@ -42,6 +48,8 @@
                 <td><input type="checkbox" id="@nombre" class="checks" /></td>
                 <td>@item.Cedula</td>
                 <td>@item.Nombre</td>
+                <td>@item.Area</td>
+                <td>@item.Cargo</td>
             </tr>
             i++;
         }

@@ -70,12 +70,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             List<Empleado> Empleados = new List<Empleado>
             {
-                new Empleado { Cedula = "0940203406", Nombre = "Juan Maldonado" },
-                new Empleado { Cedula = "1188888456", Nombre = "Pedro Suarez" },
-                new Empleado { Cedula = "2723626161", Nombre = "Alejandro Sánchez" },
-                new Empleado { Cedula = "3635261617", Nombre = "María Perez" },
-                new Empleado { Cedula = "1188888456", Nombre = "Andrea Bejarano" },
-                new Empleado { Cedula = "2345789123", Nombre = "Juan Peña" },
+                new Empleado { Cedula = "0940203406", Nombre = "Juan Maldonado", Area="Procesos", Cargo="Limpiador" },
+                new Empleado { Cedula = "1188888456", Nombre = "Pedro Suarez", Area="Procesos", Cargo="Despellejador" },
+                new Empleado { Cedula = "2723626161", Nombre = "Alejandro Sánchez", Area="Procesos", Cargo="Limpiador" },
+                new Empleado { Cedula = "3635261617", Nombre = "María Perez", Area="Procesos", Cargo="Limpiador" },
+                new Empleado { Cedula = "1188888456", Nombre = "Andrea Bejarano", Area="Procesos", Cargo="Despellejador" },
+                new Empleado { Cedula = "2345789123", Nombre = "Juan Peña", Area="Procesos", Cargo="Despellejador" },
             };
             return PartialView("Empleados",Empleados);
 

@@ -9,5 +9,7 @@ namespace Asiservy.Automatizacion.Formularios.Models
     {
         public string Cedula { get; set; }
         public string Nombre { get; set; }
+        public string Area { get; set; }
+        public string Cargo { get; set; }
     }
 }
