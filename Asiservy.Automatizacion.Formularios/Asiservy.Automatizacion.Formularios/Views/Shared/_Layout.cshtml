@@ -35,8 +35,9 @@
                             @Html.ActionLink("Control  de Cuchillos", "Cuchillo", "Asistencia", null, new { @class = "dropdown-item" })
                             <div class="dropdown-divider"></div>
                             @Html.ActionLink("Cambio de Personal", "CambiarPersonalDeArea", "Asistencia", null, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Bitacora Cambio de Personal", "BitacoraCambioPersonal", "Asistencia", null, new { @class = "dropdown-item" })
 
-                         </div>
+                        </div>
                      </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Reportes</a>
@@ -58,6 +59,7 @@
                             @Html.ActionLink("Bandeja de Solicitudes RRHH", "BandejaRRHH", "SolicitudPermiso", null, new { @class = "dropdown-item" })
                             <div class="dropdown-divider"></div>
                             @Html.ActionLink("Reporte de Solicitudes", "ReporteSolicitud", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Bitacora", "BitacoraSolicitud", "SolicitudPermiso", null, new { @class = "dropdown-item" })
                         </div>
                     </li>
                     <li style="width:100%" id="logoutli">

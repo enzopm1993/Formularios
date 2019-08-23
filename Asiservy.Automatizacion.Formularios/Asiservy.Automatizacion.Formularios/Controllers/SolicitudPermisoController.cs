@@ -45,6 +45,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return View();
         }
 
+        [Authorize]
+        public ActionResult BitacoraSolicitud()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult BandejaProduccion(string buscar, string SelectPermiso)
         {
