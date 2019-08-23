@@ -52,7 +52,8 @@ function CambioArea() {
 function CambioHoraFecha() {
     var HoraDesde = document.getElementById("timeHoraDesde");
     var HoraHasta = document.getElementById("timeHoraHasta");
-    var FechaDesde = document.getElementById("datetimeDesde");
+    var FechaDesde1 = document.getElementById("datetimeDesde1");
+    var FechaDesde2 = document.getElementById("datetimeDesde2");
     var FechaHasta = document.getElementById("datetimeHasta");
     var check = document.getElementById("switchHoraFecha").checked
     console.log(check);
@@ -60,7 +61,8 @@ function CambioHoraFecha() {
     if (check) {
         HoraDesde.removeAttribute("readonly");
         HoraHasta.removeAttribute("readonly");
-        FechaDesde.setAttribute("readonly",true);
+        FechaDesde1.removeAttribute("readonly");
+        FechaDesde2.setAttribute("readonly", true);
         FechaHasta.setAttribute("readonly", true);
         console.log(FechaDesde);
         FechaDesde.value = "";
@@ -69,7 +71,8 @@ function CambioHoraFecha() {
 
         HoraDesde.setAttribute("readonly", true);
         HoraHasta.setAttribute("readonly", true);
-        FechaDesde.removeAttribute("readonly");
+        FechaDesde1.setAttribute("readonly", true);
+        FechaDesde2.removeAttribute("readonly");
         FechaHasta.removeAttribute("readonly");
         HoraDesde.value = "00:00";
         HoraHasta.value = "00:00";
