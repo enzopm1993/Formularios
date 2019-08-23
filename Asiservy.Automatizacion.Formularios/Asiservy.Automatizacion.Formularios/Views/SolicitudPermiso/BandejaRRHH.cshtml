@@ -47,7 +47,7 @@
                 <td>Anchundia Delagado Jose</td>
                 <td>
                     <input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" />
-                    <input name="chkbox" type="button" value="Aprobar" onclick="Aprobar();" class=" btn btn-link" />
+                    <input name="chkbox" type="button" value="Finalizar" onclick="Aprobar();" class=" btn btn-link" />
                     <input name="chkbox" type="button" value="Anular" onclick="Observacion();" class=" btn btn-link" />
                 </td>
             </tr>
@@ -61,7 +61,7 @@
                 <td>Morales Molina Manuel</td>
                 <td>
                     <input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" />
-                    <input name="chkbox" type="button" value="Aprobar" onclick="Aprobar();" class=" btn btn-link" />
+                    <input name="chkbox" type="button" value="Finalizar" onclick="Aprobar();" class=" btn btn-link" />
                     <input name="chkbox" type="button" value="Anular" onclick="Observacion();" class=" btn btn-link" />
                 </td>
             </tr>
@@ -75,7 +75,7 @@
                 <td>Corrales Molina Maria</td>
                 <td>
                     <input name="chkbox" type="button" value="Ver" onclick="Mostrar();" class=" btn btn-link" />
-                    <input name="chkbox" type="button" value="Aprobar" onclick="Aprobar();" class=" btn btn-link" />
+                    <input name="chkbox" type="button" value="Finalizar" onclick="Aprobar();" class=" btn btn-link" />
                     <input name="chkbox" type="button" value="Anular" onclick="Observacion();" class=" btn btn-link" />
                 </td>
             </tr>
@@ -84,7 +84,7 @@
 </div>
 <br />
 <div class="container-fluid text-center">
-    <input type="button" class="btn btn-info" name="name" value="Aprobar" />
+    <input type="button" class="btn btn-info" name="name" value="Finalizar" />
     <input type="button" class="btn btn-danger" name="name" value="Anular" />
 </div>
 
@@ -110,7 +110,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <label class="">Fecha Ingreso</label>
+                                <label class="">Fecha Creacion</label>
                             </td>
                             <td>
                                 <input type="text" class="form-control" id="txtFecha" value="21/08/2019" readonly />
@@ -169,27 +169,27 @@
                         </tr>
                         <tr>
                             <td>
-                                <label class="">Fecha Inicio</label>
-                            </td>
-                            <td>
-                                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label class="">Fecha Fin</label>
-                            </td>
-                            <td>
-                                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
                                 <label class="">Tipo</label>
                             </td>
                             <td>
                                 <input disabled class="form-control" type="text" name="name" value="Fijo" />
 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="">Fecha Salida</label>
+                            </td>
+                            <td>
+                                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="">Fecha Regreso</label>
+                            </td>
+                            <td>
+                                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
                             </td>
                         </tr>
                         <tr>
@@ -220,8 +220,8 @@
                                 <thead>
                                     <tr>
                                         <th>Motivo</th>
-                                        <th>Fecha inicio</th>
-                                        <th>Fecha fin</th>
+                                        <th>Fecha Salida</th>
+                                        <th>Fecha Regreso</th>
                                     </tr>
 
                                 </thead>

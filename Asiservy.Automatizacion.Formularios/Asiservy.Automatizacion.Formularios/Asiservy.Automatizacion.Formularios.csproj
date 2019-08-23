@@ -626,6 +626,7 @@
     <Content Include="Views\Asistencia\Empleados.cshtml" />
     <Content Include="Views\Asistencia\RptAsistencia.cshtml" />
     <Content Include="Views\Asistencia\RptCuchillo.cshtml" />
+    <Content Include="Views\SolicitudPermiso\ReporteSolicitud.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
