@@ -1,12 +1,21 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Asistencia";
 }
 
 <div style="padding-top: 10px; padding-bottom: 100px">
 
-    <h4 class="custom-control-inline">Fecha: &nbsp; <p id="date"></p> </h4>
-
+    <h4 class="custom-control-inline">Fecha: &nbsp; @DateTime.Now.ToString("dd-MM-yyyy") </h4>
+    <br />
+    <label>Linea</label>
+    <select class="browser-default custom-select" id="SelectLinea">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+    </select>
+    <br />
+    <br />
     <div class="table-responsive">
 
         <table class="table table-bordered" id="TableCuchillos">
@@ -14,6 +23,7 @@
                 <td class="align-bottom" rowspan="2"><b> Personal</b></td>
                 <td class="align-bottom" rowspan="2"><b>Check</b> </td>
                 <td class="align-bottom" rowspan="2"><b>Estado</b> </td>
+                <td class="align-bottom" rowspan="2"><b>Hora</b> </td>
                 <td class="align-middle" colspan="3"><b>Cuchillos</b> </td>
                 <td class="align-bottom" rowspan="2"><b>Observación</b> </td>
             </tr>
@@ -52,6 +62,9 @@
                         <option value="2">Atraso</option>
                         <option value="3">Falta</option>
                     </select>
+                </td>
+                <td>
+                    <input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />
                 </td>
                 <td class="text-center align-content-center">
                     <div class="col-xs-2 text-xs-center">
@@ -99,6 +112,9 @@
                         <option value="3">Falta</option>
                     </select>
                 </td>
+                <td>
+                    <input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />
+                </td>
                 <td class="text-center align-content-center">
                     <div class="col-xs-2 text-xs-center" data-toggle="">
                         <label class="btn btn-light text-xs-center" id="labelCuchilloRojo2">
@@ -142,4 +158,3 @@
 <link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
 <script src="~/Scripts/Mensajes/Mensajes.js"></script>
 <script src="~/Scripts/AsistenciaJS/Asistencia.js"></script>
-<script src="~/Scripts/AsistenciaJS/Cuchillo.js"></script>
