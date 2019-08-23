@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "BitacoraSolicitud";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%
+    }
+</style>
+
+
+<div class="container-fluid">
+    <h4>BitacoraSolicitud</h4>
+
+    <div class="row">
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Solicitud</label>
+            <input id="textSolicitud" class="form-control" type="text" name="name" value="" />
+        </div>
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Cedula</label>
+            <input id="textCedula" class="form-control" type="text" name="name" value="" />
+        </div>
+        <div style="display: flex;justify-content: center;align-items: center;" class="form-group col-md-1 col-sm-2">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="SwitchFechas" onchange="ActivarFechas();">
+                <label class="custom-control-label" for="SwitchFechas"></label>
+            </div>
+        </div>
+        <div class="form-group col-md-2 col-sm-5">
+            <label>Fecha Desde</label>
+            <input id="dateDesde" class="form-control" type="date" name="name" value="" disabled />
+        </div>
+        <div class="form-group col-md-2 col-sm-5">
+            <label>Fecha Hasta</label>
+            <input id="dateHasta" class="form-control" type="date" name="name" value="" disabled />
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseBitacora" aria-expanded="false" aria-controls="collapseBitacora">
+                Consultar
+            </button>
+        </div>
+    </div>
+    <br />
+
+    <div class="collapse" id="collapseBitacora">
+        <div class="card card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Solicitud</th>
+                            <th>Cedula</th>
+                            <th>Empleado</th>
+                            <th>Departamento</th>
+                            <th>Area</th>
+                            <th>Estado</th>
+                            <th>Fecha de ingreso</th>
+                            <th>Usuario de ingreso</th>
+                            <th>Terminal de ingreso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>0999999999</td>
+                            <td>Martinez Morales José</td>
+                            <td>Produccion</td>
+                            <td>Procesos</td>
+                            <td>Pendiente</td>
+                            <td><input type="datetime" name="name" value="@DateTime.Now.AddDays(-1)" class="form-control" /></td>
+                            <td>vcrespo</td>
+                            <td>192.168.1.1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>0999999999</td>
+                            <td>Martinez Morales José</td>
+                            <td>Produccion</td>
+                            <td>Procesos</td>
+                            <td>Aprobada</td>
+                            <td><input type="datetime" name="name" value="@DateTime.Now" class="form-control" /></td>
+                            <td>vcrespo</td>
+                            <td>192.168.2.1</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+<script src="~/Scripts/SolicitudPermisoJS/BitacoraSolicitud.js"></script>
