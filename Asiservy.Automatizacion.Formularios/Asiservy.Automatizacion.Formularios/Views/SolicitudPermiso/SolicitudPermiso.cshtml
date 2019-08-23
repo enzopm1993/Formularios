@@ -15,11 +15,16 @@
         max-width: 100%
     }
 </style>
-<h4>Solicitud de Permiso General</h4>
-
-<label>Fecha: @DateTime.Now.ToShortDateString()</label>
-
+<br />
 <div style="padding:0 5% 0 0" class="container-fluid">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-">
+            <h4>Solicitud de Permiso General</h4>
+            <label>Fecha: @DateTime.Now.ToShortDateString()</label>
+        </div>
+    </div>
+    
     <div class="row">
 
         <div class="col-md-2"></div>
@@ -67,7 +72,7 @@
                 <div class="col-md-4 col-sm-12">
                     <label>Empleado</label>
                     <div class="ui-widget" id="comp1">
-                        <select id="combobox" >
+                        <select id="combobox">
                             <option value="">Select one...</option>
                             <option value="Anchundia Anchundia Aura Maria">Anchundia Anchundia Aura Maria</option>
                             <option value="Anchundia Parrales Viviana">Anchundia Parrales Viviana</option>
@@ -94,53 +99,53 @@
                 </div>
 
                 <div class="col-md-4 col-sm-12">
-                        <label>Motivo</label>
-                        <select id="selectMotivo" style="" class="form-control" disabled></select>
+                    <label>Motivo</label>
+                    <select id="selectMotivo" style="" class="form-control" disabled></select>
                 </div>
             </div>
-            
 
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Observacion</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 
-                </div>            <div class="row">
-                    <div class="col-md-1 col-sm-1">
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
-                            <label class="custom-control-label" for="switchHoraFecha"></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                        <label>Fecha de salida:</label>
-                        <input class="form-control" type="datetime-local" name="name" value="" id="datetimeDesde" />
-                    </div>
-                    
-                    <div class="col-md-4 col-sm-4">
-                        <label>Hora de salida:</label>
-                        <input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />
-                    </div>
-                    <div class="col-md-3  col-sm-3">
-                        <label>Hora de regreso:</label>
-                        <input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Observacion</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+
+            </div>            <div class="row">
+                <div class="col-md-1 col-sm-1">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
+                        <label class="custom-control-label" for="switchHoraFecha"></label>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <label>Fecha de salida::</label>
-                        <input class="form-control" type="datetime-local" name="name" value="" id="datetimeDesde" />
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <label>Fecha de regreso:</label>
-                        <input class="form-control" type="datetime-local" name="name" value="" id="datetimeHasta" />
-                    </div>
+                <div class="col-md-4 col-sm-4">
+                    <label>Fecha de salida:</label>
+                    <input class="form-control" type="datetime-local" name="name" value="" id="datetimeDesde" />
                 </div>
-                <br />
-                <center><input type="button" class="btn btn-info" name="name" value="Generar" onclick="Guardar()" /></center>
-                <br />
+
+                <div class="col-md-4 col-sm-4">
+                    <label>Hora de salida:</label>
+                    <input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />
+                </div>
+                <div class="col-md-3  col-sm-3">
+                    <label>Hora de regreso:</label>
+                    <input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />
+                </div>
             </div>
-            <div class="col-md-2"></div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <label>Fecha de salida::</label>
+                    <input class="form-control" type="datetime-local" name="name" value="" id="datetimeDesde" />
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <label>Fecha de regreso:</label>
+                    <input class="form-control" type="datetime-local" name="name" value="" id="datetimeHasta" />
+                </div>
+            </div>
+            <br />
+            <center><input type="button" class="btn btn-info" name="name" value="Generar" onclick="Guardar()" /></center>
+            <br />
         </div>
+        <div class="col-md-2"></div>
+    </div>
 
 
 </div>
