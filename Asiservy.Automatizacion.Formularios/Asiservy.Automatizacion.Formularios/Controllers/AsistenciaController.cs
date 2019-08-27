@@ -66,7 +66,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
-        public ActionResult ConsultarEmpleado()
+        public ActionResult Empleados()
         {
             List<Empleado> Empleados = new List<Empleado>
             {

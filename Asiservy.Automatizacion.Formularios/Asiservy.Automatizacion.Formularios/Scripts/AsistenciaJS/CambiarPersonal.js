@@ -1,8 +1,8 @@
 ﻿function ConsultarEmpleados() {
-    
+    ConsultarEmpleado = "ConsultarEmpleado";
     $.ajax({
         type: "GET",
-        url: "/Asistencia/ConsultarEmpleado",
+        url: '../Asistencia/Empleados',
         success: function (data) {
             $('#DivEmpleados').html(data);
         }
