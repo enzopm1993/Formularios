@@ -1,4 +1,4 @@
-﻿
+﻿@model Asiservy.Automatizacion.Formularios.Models.SolictudPermisoViewModel
 @{
     ViewBag.Title = "SolicitudPermisoDispensario";
 }
@@ -121,55 +121,58 @@
             </div>
             <br />
             <div class="form-group">
+                @foreach (var item in ViewBag.ClasificaroMedico)
+                {
+                    string Descripcion = item.Descripcion;
+                    int codigo = item.IdClasificador;
+                    @*<div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" id="customRadio" name="example1" value="@item.IdClasificador">
+                <label class="custom-control-label" for="@item.IdClasificador">@item.Descripcion</label>
+            </div>*@
                 <div class="custom-control custom-radio">
-                    <input type="radio" class="custom-control-input" id="customRadio" name="example1" value="customEx">
-                    <label class="custom-control-label" for="customRadio">Accidente</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input type="radio" class="custom-control-input" id="customRadio2" name="example1" value="customEx">
-                    <label class="custom-control-label" for="customRadio2">Incidente</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input type="radio" class="custom-control-input" id="customRadio3" name="example1" value="customEx">
-                    <label class="custom-control-label" for="customRadio3">Enfermedad General</label>
+                    @Html.RadioButtonFor(model => model.CodigoClasificador, codigo, new { @class = "custom-control-input" })
+                    @Html.Label(codigo.ToString(), Descripcion, new { @class = "custom-control-label" })
+
                 </div>
 
-            </div>
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Diagnóstico</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div>
-            
-                <div class="row">
-                    <div class="col-md-1 col-sm-1">
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
-                            <label class="custom-control-label" for="switchHoraFecha"></label>
+                    }
+
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Diagnóstico</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
+                                <label class="custom-control-label" for="switchHoraFecha"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-5">
+                            <label>Hora desde:</label>
+                            <input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />
+                        </div>
+                        <div class="col-md-5  col-sm-5">
+                            <label>Hora hasta:</label>
+                            <input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />
                         </div>
                     </div>
-                    <div class="col-md-5 col-sm-5">
-                        <label>Hora desde:</label>
-                        <input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <label>Fecha desde:</label>
+                            <input class="form-control" type="date" name="name" value="" id="datetimeDesde" />
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label>Fecha hasta:</label>
+                            <input class="form-control" type="date" name="name" value="" id="datetimeHasta" />
+                        </div>
                     </div>
-                    <div class="col-md-5  col-sm-5">
-                        <label>Hora hasta:</label>
-                        <input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />
-                    </div>
+                    <br />
+                    <center><input type="button" class="btn btn-info" name="name" value="Generar" onclick="Guardar();" /></center>
+                    <br />
                 </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <label>Fecha desde:</label>
-                        <input class="form-control" type="date" name="name" value="" id="datetimeDesde" />
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <label>Fecha hasta:</label>
-                        <input class="form-control" type="date" name="name" value="" id="datetimeHasta" />
-                    </div>
-                </div>
-                <br />
-                <center><input type="button" class="btn btn-info" name="name" value="Generar" onclick="Guardar();" /></center>
-                <br />
-            </div>
             <div class="col-md-2"></div>
         </div>
 

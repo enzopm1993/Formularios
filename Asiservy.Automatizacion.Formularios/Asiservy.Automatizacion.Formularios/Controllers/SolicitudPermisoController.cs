@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Asiservy.Automatizacion.Formularios.AccesoDatos;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
 
     public class SolicitudPermisoController : Controller
-    {       
+    {
+        clsDClasificador clsDClasificador = null; 
 
         [Authorize]
         // GET: SolicitudPermiso
@@ -29,13 +31,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         [Authorize]
         public ActionResult SolicitudPermiso()
-        {
+        { 
             return View();
         }
 
         [Authorize]
         public ActionResult SolicitudPermisoDispensario()
         {
+            clsDClasificador = new clsDClasificador();
+            ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001",0);
+
+
             return View();
         }
 
