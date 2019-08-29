@@ -7,15 +7,49 @@ using System.Web;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
-    public class clsSolicitudPermiso
+    public class clsDSolicitudPermiso
     {
         ASIS_PRODEntities entities = null;
-    
 
-        public List<SolictudPermisoViewModel> ConsultaSolicitudesPermiso()
+        public string GuargarModificarSolicitud(SOLICITUD_PERMISO doSolicitud)
+        {
+            try
+            {
+                string psMensaje = string.Empty;
+                entities = new ASIS_PRODEntities();
+                var poSolicitud = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == doSolicitud.IdSolicitudPermiso);
+                if (poSolicitud != null)
+                {
+
+                    psMensaje = "Registro Actualizado Correctamente";
+                }
+                else
+                {
+                    entities.SOLICITUD_PERMISO.Add(doSolicitud);
+                    psMensaje = "Registro Guardado Correctamente";
+                }
+                entities.SaveChanges();
+                return psMensaje;
+            }
+            catch (Exception ex)
+            {
+                return "Error";
+            }
+        }
+
+        public List<spConsutaMotivosPermiso> ConsultarMotivos(string tipo)
         {
             entities = new ASIS_PRODEntities();
-            List<SolictudPermisoViewModel> ListaSolicitudesPermiso = new List<SolictudPermisoViewModel>();
+
+           var lista= entities.spConsutaMotivosPermiso(tipo).ToList();
+
+
+            return lista;
+        }
+        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso()
+        {
+            entities = new ASIS_PRODEntities();
+            List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
             var lista = entities.SOLICITUD_PERMISO.ToList();
             foreach(var x in lista)
             {
@@ -38,7 +72,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         FechaModificacionLog=d.FechaModificacionLog
                     });
                 }
-                ListaSolicitudesPermiso.Add(new SolictudPermisoViewModel
+                ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
                 {
                     IdSolicitudPermiso = x.IdSolicitudPermiso,
                     CodigoLinea = x.CodigoLinea,
@@ -49,7 +83,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     Observacion = x.Observacion,
                     FechaSalida = x.FechaSalida,
                     FechaRegreso = x.FechaRegreso,
-                    IdEstadoSolicitud=x.IdEstadoSolicitud??0,
+                    EstadoSolicitud=x.EstadoSolicitud,
                     FechaBiometrico=x.FechaBiometrico,
                     Origen=char.Parse(x.Origen),
                     CodigoDiagnostico=x.CodigoDiagnostico,
@@ -59,22 +93,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     UsuarioModificacionLog=x.UsuarioModificacionLog,
                     FechaModificacionLog=x.FechaModificacionLog,
                     TerminalModificacionLog=x.TerminalModificacionLog
-
-
-
-
-
                 });
-
             }
-
-
-
-
-
             return ListaSolicitudesPermiso;
         }
-
-
     }
 } 

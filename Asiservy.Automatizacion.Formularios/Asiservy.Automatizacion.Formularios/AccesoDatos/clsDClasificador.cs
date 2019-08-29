@@ -16,7 +16,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             if(diCodigo!=0)
                 return entities.CLASIFICADOR.Where(x => x.Grupo == dsGrupo && x.Codigo==diCodigo && x.EstadoRegistro=="A").ToList();
             else
-                return entities.CLASIFICADOR.Where(x => x.Grupo == dsGrupo && x.EstadoRegistro == "A").ToList();
+                return entities.CLASIFICADOR.Where(x => x.Grupo == dsGrupo && x.Codigo != diCodigo && x.EstadoRegistro == "A").ToList();
 
         }
 
