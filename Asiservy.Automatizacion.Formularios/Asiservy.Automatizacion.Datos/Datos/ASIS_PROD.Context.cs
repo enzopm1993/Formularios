@@ -12,6 +12,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class ASIS_PRODEntities : DbContext
     {
@@ -26,7 +28,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         }
     
         public virtual DbSet<CLASIFICADOR> CLASIFICADOR { get; set; }
-        public virtual DbSet<ESTADO_SOLICITUD> ESTADO_SOLICITUD { get; set; }
         public virtual DbSet<JUSTICA_SOLICITUD> JUSTICA_SOLICITUD { get; set; }
         public virtual DbSet<NIVEL_APROBACION> NIVEL_APROBACION { get; set; }
         public virtual DbSet<NIVEL_USUARIO> NIVEL_USUARIO { get; set; }
@@ -36,5 +37,63 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<SOLICITUD_PERMISO> SOLICITUD_PERMISO { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<USUARIO_ROL> USUARIO_ROL { get; set; }
+    
+        public virtual ObjectResult<spConsutaMotivosPermiso> spConsutaMotivosPermiso(string tipo)
+        {
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("tipo", tipo) :
+                new ObjectParameter("tipo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaMotivosPermiso>("spConsutaMotivosPermiso", tipoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaArea> spConsultaArea(string codigo)
+        {
+            var codigoParameter = codigo != null ?
+                new ObjectParameter("codigo", codigo) :
+                new ObjectParameter("codigo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaArea>("spConsultaArea", codigoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaLinea> spConsultaLinea(string codigo)
+        {
+            var codigoParameter = codigo != null ?
+                new ObjectParameter("codigo", codigo) :
+                new ObjectParameter("codigo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaLinea>("spConsultaLinea", codigoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
+        {
+            var codigoParameter = codigo != null ?
+                new ObjectParameter("codigo", codigo) :
+                new ObjectParameter("codigo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCodigosEnfermedad>("spConsultaCodigosEnfermedad", codigoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCargos> spConsultaCargos(string codigo)
+        {
+            var codigoParameter = codigo != null ?
+                new ObjectParameter("codigo", codigo) :
+                new ObjectParameter("codigo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCargos>("spConsultaCargos", codigoParameter);
+        }
+    
+        public virtual ObjectResult<string> spConsultarUsuario(string usuario, string clave)
+        {
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            var claveParameter = clave != null ?
+                new ObjectParameter("Clave", clave) :
+                new ObjectParameter("Clave", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spConsultarUsuario", usuarioParameter, claveParameter);
+        }
     }
 }

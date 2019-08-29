@@ -27,5 +27,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
         public virtual OPCION OPCION { get; set; }
         public virtual ROL ROL { get; set; }
+        public virtual OPCION OPCION1 { get; set; }
+        public virtual ROL ROL1 { get; set; }
     }
 }

@@ -29,7 +29,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Observacion { get; set; }
         public System.DateTime FechaSalida { get; set; }
         public System.DateTime FechaRegreso { get; set; }
-        public Nullable<int> IdEstadoSolicitud { get; set; }
         public Nullable<System.DateTime> FechaBiometrico { get; set; }
         public string Origen { get; set; }
         public string CodigoDiagnostico { get; set; }
@@ -41,8 +40,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public string EstadoRegistro { get; set; }
+        public string EstadoSolicitud { get; set; }
     
-        public virtual ESTADO_SOLICITUD ESTADO_SOLICITUD { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JUSTICA_SOLICITUD> JUSTICA_SOLICITUD { get; set; }
     }
