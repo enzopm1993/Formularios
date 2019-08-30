@@ -590,6 +590,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccesoDatos\clsDClasificador.cs" />
+    <Compile Include="AccesoDatos\clsDLogin.cs" />
     <Compile Include="AccesoDatos\clsSolicitudPermiso.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />

@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-
+using Asiservy.Automatizacion.Formularios.AccesoDatos;
 namespace ProyectoWeb.Controllers
 {
     public class LoginController : Controller
@@ -35,17 +35,27 @@ namespace ProyectoWeb.Controllers
         [HttpPost]
         public JsonResult LogIn(string usuario, string password)
         {
-
-            if (usuario == "admin" && password == "admin")
+            try
             {
-                FormsAuthentication.SetAuthCookie(usuario, false);
-               
-                return Json(1);
-                
+                clsDLogin clsDLogin = new clsDLogin();
+                string psCodigoUsuario = clsDLogin.ConsultarUsuarioExiste(usuario, password);
+                if (!string.IsNullOrEmpty(psCodigoUsuario))
+                {
+                    FormsAuthentication.SetAuthCookie(usuario+"_"+psCodigoUsuario, false);
+
+                    
+                    return Json(1);
+
+                }
+
+                else
+                    return Json(0);
             }
-                
-            else
-                return Json(0);
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
 
         }
         

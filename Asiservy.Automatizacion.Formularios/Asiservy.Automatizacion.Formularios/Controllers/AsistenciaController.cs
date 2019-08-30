@@ -31,6 +31,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult CambiarPersonalDeArea()
         {
+            string ip = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (string.IsNullOrEmpty(ip))
+            {
+                ip = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+            }
+            ViewBag.Ip = ip.ToString();
             return View();
         }
 
@@ -68,6 +74,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         public ActionResult Empleados()
         {
+            
             List<Empleado> Empleados = new List<Empleado>
             {
                 new Empleado { Cedula = "0940203406", Nombre = "Juan Maldonado", Area="Procesos", Cargo="Limpiador" },
