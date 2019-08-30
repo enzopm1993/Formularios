@@ -41,6 +41,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
         public string EstadoRegistro { get; set; }
         public string EstadoSolicitud { get; set; }
+        public Nullable<int> Nivel { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JUSTICA_SOLICITUD> JUSTICA_SOLICITUD { get; set; }

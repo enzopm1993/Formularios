@@ -8,13 +8,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="mensajeError">
-                @if (TempData["MensajeConfirmacion"] != null)
-                {
-
-                    <p>@TempData["MensajeConfirmacion"]</p>
-
-                }
+            <div class="modal-body text-primary" id="mensajeError">
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="MensajeClose()">Close</button>

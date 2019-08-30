@@ -13,5 +13,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string SolicitudOrigenMedico = "M";
         public static string SolicitudOrigenGeneral = "G";
         public static string EstadoSolicitudPendiente = "001";
+        public static string EstadoSolicitudAprobado = "002";
+        public static string EstadoSolicitudAnulado = "004";
+        public static string EstadoSolicitudRevisado = "003";
     }
 }

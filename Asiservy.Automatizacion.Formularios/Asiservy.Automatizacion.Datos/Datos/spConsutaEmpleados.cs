@@ -11,9 +11,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsutaMotivosPermiso
+    public partial class spConsutaEmpleados
     {
-        public string CodigoMotivo { get; set; }
-        public string Descripcion { get; set; }
+        public string CEDULA { get; set; }
+        public string NOMBRES { get; set; }
+        public string EMPRESA { get; set; }
+        public string AREA { get; set; }
+        public string LINEA { get; set; }
+        public string CARGO { get; set; }
     }
 }

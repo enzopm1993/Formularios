@@ -92,7 +92,7 @@
 
                         <div class="custom-control custom-radio">
                             @Html.LabelFor(m => m.CodigoMotivo, new { @class = "" })
-                            @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "Codigo", "Descripcion"), new { @class = "form-control", @id = "selectMotivo" })
+                            @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "Descripcion"), new { @class = "form-control", @id = "selectMotivo" })
                             @Html.ValidationMessageFor(m => m.CodigoMotivo, "", new { @class = "input-validation-error text-danger has-error" })
 
                         </div>
@@ -131,10 +131,10 @@
                 </div>
                 @Html.ValidationMessage("CustomError", "", new { @class = "input-validation-error text-danger has-error" })
                 <div class="row">
-                    <div class="col-md-1 col-sm-1">
+                    <div class="col-md-2 col-sm-1">
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
-                            <label class="custom-control-label" for="switchHoraFecha"></label>
+                            <label class="custom-control-label" for="switchHoraFecha">Fecha/Hora</label>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-12">
@@ -175,12 +175,6 @@
 
 
 </div>
-@if (TempData["MensajeConfirmacion"] != null)
-{
-<script>
-    MensajeCorrecto("@TempData["MensajeConfirmacion"]");
-</script>
-}
 <div id="ModalMensaje"> </div>
 <br /><br />
 <script src="~/Scripts/SolicitudPermisoJS/SolicitudPermisoMedico.js"></script>

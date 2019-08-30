@@ -78,6 +78,19 @@
     <div style="padding-bottom: 50px" class="container-fluid">
         @RenderBody()
 
+        @if (TempData["MensajeConfirmacion"] != null)
+        {
+            <script>
+              MensajeCorrecto("@TempData["MensajeConfirmacion"]");
+            </script>
+
+        }
+        else if (TempData["MensajeError"] != null)
+        {
+            <script>
+              MensajeError("@TempData["MensajeError"]");
+            </script>
+        }
     </div>
 
     <footer>

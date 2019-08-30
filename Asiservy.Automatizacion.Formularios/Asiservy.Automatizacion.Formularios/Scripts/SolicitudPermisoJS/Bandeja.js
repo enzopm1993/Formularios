@@ -1,19 +1,54 @@
-﻿
-function Observacion() {
-    console.log("ok");
-    $('#ModalObservacion').modal("show");
-    
-}
+﻿//import { parse } from "path";
+
 function Grabar() {
     Mensaje("Registro Guardado..");
 }
 
-function Aprobar() {
-    Mensaje("Solicitud aprobada..");
+function AprobarSolicitud(valor) {
+   // console.log(valor);
+    $.ajax({
+            url: '../SolicitudPermiso/AprobarSolicitud',
+            type: 'GET',
+            data: {
+                diIdSolicitud:valor
+            },
+            success: function (resultado) {
+                MensajeCorrecto(resultado + "\n Solicitud Aprobada");
+            }
+            ,
+            error: function () {
+                MensajeError("No se ha podido obtener la información");
+            }
+        });
 }
 
-function Anular() {
-    Mensaje("Solicitud anulada..");
+function Anular(valor) {
+    $.ajax({
+        url: '../SolicitudPermiso/AnularSolicitud',
+        type: 'GET',
+        data: {
+            diIdSolicitud: valor,
+            dsObservacion: $('txtObservacion').val()
+        },
+        success: function (resultado) {
+            MensajeCorrecto(resultado+"\n Solicitud Anulada");
+        }
+        ,
+        error: function () {
+            MensajeError("No se ha podido obtener la información");
+        }
+    });
+}
+
+function Observacion(valor) {
+    console.log(valor);
+    $('#ModalObservacion').modal("show");
+    var prueba = document.getElementById("txtObservacion");
+    prueba = "Hola";
+    console.log(prueba);
+   
+//    $('#txtObservacion').value() =valor ;
+
 }
 
 $(document).ready(function () {

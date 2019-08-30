@@ -38,15 +38,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<USUARIO_ROL> USUARIO_ROL { get; set; }
     
-        public virtual ObjectResult<spConsutaMotivosPermiso> spConsutaMotivosPermiso(string tipo)
-        {
-            var tipoParameter = tipo != null ?
-                new ObjectParameter("tipo", tipo) :
-                new ObjectParameter("tipo", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaMotivosPermiso>("spConsutaMotivosPermiso", tipoParameter);
-        }
-    
         public virtual ObjectResult<spConsultaArea> spConsultaArea(string codigo)
         {
             var codigoParameter = codigo != null ?
@@ -94,6 +85,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Clave", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spConsultarUsuario", usuarioParameter, claveParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaMotivosPermiso> spConsutaMotivosPermiso(string dsCodigoMotivo)
+        {
+            var dsCodigoMotivoParameter = dsCodigoMotivo != null ?
+                new ObjectParameter("dsCodigoMotivo", dsCodigoMotivo) :
+                new ObjectParameter("dsCodigoMotivo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaMotivosPermiso>("spConsutaMotivosPermiso", dsCodigoMotivoParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaEmpleados> spConsutaEmpleados(string cedula)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleados>("spConsutaEmpleados", cedulaParameter);
         }
     }
 }

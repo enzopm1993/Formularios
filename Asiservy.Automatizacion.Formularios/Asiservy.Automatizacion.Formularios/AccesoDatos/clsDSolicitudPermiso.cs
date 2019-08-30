@@ -13,28 +13,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         public string GuargarModificarSolicitud(SOLICITUD_PERMISO doSolicitud)
         {
-            try
+          
+            string psMensaje = string.Empty;
+            entities = new ASIS_PRODEntities();
+            var poSolicitud = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == doSolicitud.IdSolicitudPermiso);
+            if (poSolicitud != null)
             {
-                string psMensaje = string.Empty;
-                entities = new ASIS_PRODEntities();
-                var poSolicitud = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == doSolicitud.IdSolicitudPermiso);
-                if (poSolicitud != null)
-                {
-
-                    psMensaje = "Registro Actualizado Correctamente";
-                }
-                else
-                {
-                    entities.SOLICITUD_PERMISO.Add(doSolicitud);
-                    psMensaje = "Registro Guardado Correctamente";
-                }
-                entities.SaveChanges();
-                return psMensaje;
+                poSolicitud.EstadoSolicitud = doSolicitud.EstadoSolicitud;
+                poSolicitud.FechaModificacionLog = doSolicitud.FechaModificacionLog;
+                poSolicitud.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
+                poSolicitud.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
+                psMensaje = "Registro Actualizado Correctamente";
             }
-            catch (Exception ex)
+            else
             {
-                return "Error";
+                entities.SOLICITUD_PERMISO.Add(doSolicitud);
+                psMensaje = "Registro Guardado Correctamente";
             }
+            entities.SaveChanges();
+            return psMensaje;
+           
         }
 
         public List<spConsutaMotivosPermiso> ConsultarMotivos(string tipo)
@@ -46,11 +44,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
             return lista;
         }
-        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso()
+        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso(string dsEstadoSolcitud)
         {
             entities = new ASIS_PRODEntities();
             List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
-            var lista = entities.SOLICITUD_PERMISO.ToList();
+            var lista = entities.SOLICITUD_PERMISO.Where(x=> x.EstadoSolicitud== dsEstadoSolcitud && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
             foreach(var x in lista)
             {
                 List<JUSTICA_SOLICITUD> ListadoJustificaciones = new List<JUSTICA_SOLICITUD>();
@@ -72,14 +70,22 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         FechaModificacionLog=d.FechaModificacionLog
                     });
                 }
+                
+                var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == x.CodigoMotivo);
+                var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
                 ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
                 {
                     IdSolicitudPermiso = x.IdSolicitudPermiso,
                     CodigoLinea = x.CodigoLinea,
+                    DescripcionLinea= poEmpleado!=null? poEmpleado.LINEA:"",
                     CodigoArea = x.CodigoArea,
+                    DescripcionArea= poEmpleado != null ? poEmpleado.AREA : "",
                     CodigoCargo = x.CodigoCargo,
+                    DescripcionCargo= poEmpleado != null ? poEmpleado.CARGO : "",
                     Identificacion = x.Identificacion,
+                    NombreEmpleado= poEmpleado!=null? poEmpleado.NOMBRES:"",
                     CodigoMotivo = x.CodigoMotivo,
+                    DescripcionMotivo= poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
                     Observacion = x.Observacion,
                     FechaSalida = x.FechaSalida,
                     FechaRegreso = x.FechaRegreso,
@@ -97,5 +103,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
             return ListaSolicitudesPermiso;
         }
+
+        public int ConsultarNivelUsuario(string dsUsuario)
+        {
+            int piNivel = 0;
+            entities = new ASIS_PRODEntities();
+            var poNivelUsuario= entities.NIVEL_USUARIO.FirstOrDefault(x => x.IdUsuario == dsUsuario);
+            if(poNivelUsuario!=null)
+            {
+                piNivel = poNivelUsuario.Nivel??0;
+            }
+            return piNivel;
+        }
+
+
+
     }
 } 

@@ -12,7 +12,7 @@ function MensajeCorrecto(mensaje) {
             //var modal = document.getElementById("ModalError");
             $("#ModalError").modal("show");
             document.getElementById('mensajeError').innerHTML = mensaje;
-              console.log(mensaje);
+            //   console.log(mensaje);
         }
     });
 }
