@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Asiservy.Automatizacion.Formularios.Models
 {
-    public class SolictudPermisoViewModel
+    public class SolicitudPermisoViewModel
     { 
         public int IdSolicitudPermiso { get; set; }
         [Required(ErrorMessage ="Campo Requerido")]
@@ -32,43 +32,46 @@ namespace Asiservy.Automatizacion.Formularios.Models
         [Required(ErrorMessage ="Campo Requerido")]
         public string Identificacion { get; set; }
 
-        [Required(ErrorMessage ="Campo Requerido")]
+        /// [Required(ErrorMessage ="Campo Requerido")]
+        [DisplayName("Motivo")]
         public string CodigoMotivo { get; set; }
 
         [DisplayName("Descripcion Motivo")]
         public string DescripcionMotivo { get; set; }
 
-
         public string Observacion { get; set; }
 
-        [Required(ErrorMessage ="Campo Requerido")]
+       // [Required(ErrorMessage ="Campo Requerido")]
         [DisplayName("Fecha Salida")]
-        public DateTime FechaSalida { get; set; }
+        public DateTime? FechaSalida { get; set; }
+        public DateTime? FechaSalidaEntrada { get; set; }
+        public DateTime? HoraSalida { get; set; }
 
-        [Required(ErrorMessage ="Campo Requerido")]
+        // [Required(ErrorMessage ="Campo Requerido")]
         [DisplayName("Fecha Regreso")]
-        public DateTime FechaRegreso { get; set; }
+        public DateTime? HoraRegreso { get; set; }
+        public DateTime? FechaRegreso { get; set; }
 
-        [Required(ErrorMessage ="Campo Requerido")]
-        public int IdEstadoSolicitud { get; set; }
+        // [Required(ErrorMessage ="Campo Requerido")]
+        public string EstadoSolicitud { get; set; }
 
         [DisplayName("Fecha Biometrico")]
         public DateTime? FechaBiometrico { get; set; }
 
-        [Required(ErrorMessage ="Campo Requerido")]
+      //  [Required(ErrorMessage ="Campo Requerido")]
         public char Origen { get; set; }
 
-        [Required(ErrorMessage ="Campo Requerido")]
+       // [Required(ErrorMessage ="Campo Requerido")]
         public string CodigoDiagnostico { get; set; }
 
-
+        [Required(ErrorMessage = "Campo Requerido")]
         public string CodigoClasificador { get; set; }
 
-        [Required(ErrorMessage ="Campo Requerido")]
-        public DateTime FechaIngresoLog { get; set; }
-        [Required(ErrorMessage ="Campo Requerido")]
+      
+        public DateTime? FechaIngresoLog { get; set; }
+       
         public string UsuarioIngresoLog { get; set; }
-        [Required(ErrorMessage ="Campo Requerido")]
+      
         public string TerminalIngresoLog { get; set; }
 
         public DateTime? FechaModificacionLog { get; set; }

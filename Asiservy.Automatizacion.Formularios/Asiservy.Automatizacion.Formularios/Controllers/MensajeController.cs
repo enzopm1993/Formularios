@@ -9,6 +9,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     public class MensajeController : Controller
     {
         // GET: Mensaje
+        public ActionResult Correcto()
+        {
+            return PartialView();
+        }
+
         public ActionResult Error()
         {
             return PartialView();

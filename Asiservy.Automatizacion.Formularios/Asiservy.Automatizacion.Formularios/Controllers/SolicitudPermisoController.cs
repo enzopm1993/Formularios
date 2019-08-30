@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Datos.Datos;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -12,6 +13,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     public class SolicitudPermisoController : Controller
     {
         clsDClasificador clsDClasificador = null; 
+        clsDSolicitudPermiso clsDSolicitudPermiso = null;
+        clsDGeneral clsDGeneral = null;
 
         [Authorize]
         // GET: SolicitudPermiso
@@ -35,16 +38,116 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return View();
         }
 
-        [Authorize]
-        public ActionResult SolicitudPermisoDispensario()
+        public void ConsultaCombos()
         {
             clsDClasificador = new clsDClasificador();
-            ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001",0);
+            clsDSolicitudPermiso = new clsDSolicitudPermiso();
+            clsDGeneral = new clsDGeneral();
+            ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
+            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("1");
+            ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+            ViewBag.Areas = clsDGeneral.ConsultaAreas();
+            ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosEnfermedad();
+            ViewBag.Cargos = clsDGeneral.ConsultaCargos();
+        }
 
 
+        [Authorize]
+        public ActionResult SolicitudPermisoDispensario()
+        {           
+            ConsultaCombos();
             return View();
         }
 
+        [Authorize]
+        [HttpPost]
+        public ActionResult SolicitudPermisoDispensario(SolicitudPermisoViewModel model)
+        {
+            try
+            {
+                var errors = ModelState
+                .Where(x => x.Value.Errors.Count > 0)
+                .Select(x => new { x.Key, x.Value.Errors })
+                .ToArray();
+                if ((model.FechaSalida == null || model.FechaRegreso == null) && model.FechaSalidaEntrada == null)
+                {
+                    ConsultaCombos();
+                    ModelState.AddModelError("CustomError", "Debe Ingresar un rango de horas o fechas");
+                    return View(model);
+                }
+                else if (model.FechaSalidaEntrada != null && (model.HoraRegreso == null || model.HoraSalida == null))
+                {
+                    ConsultaCombos();
+                    ModelState.AddModelError("CustomError", "Debe Ingresar un rango de horas");
+                    return View(model);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    SOLICITUD_PERMISO solicitudPermiso = new SOLICITUD_PERMISO();
+                    clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                    solicitudPermiso.CodigoLinea = model.CodigoLinea;
+                    solicitudPermiso.CodigoArea = model.CodigoArea;
+                    solicitudPermiso.CodigoCargo = model.CodigoCargo;
+                    solicitudPermiso.Identificacion = model.Identificacion;
+                    solicitudPermiso.CodigoMotivo = model.CodigoMotivo;
+                    solicitudPermiso.Observacion = model.Observacion;
+
+                    if (model.FechaSalidaEntrada == null)
+                    {
+                        solicitudPermiso.FechaSalida = model.FechaSalida ?? DateTime.MinValue;
+                        solicitudPermiso.FechaRegreso = model.FechaRegreso ?? DateTime.MinValue;
+                    }
+                    else
+                    {
+                        solicitudPermiso.FechaSalida = new DateTime(
+                            model.FechaSalidaEntrada.Value.Year
+                            , model.FechaSalidaEntrada.Value.Month
+                            , model.FechaSalidaEntrada.Value.Day
+                            , model.HoraSalida.Value.Hour
+                            , model.HoraSalida.Value.Minute
+                            , model.HoraSalida.Value.Second
+                            );
+
+                        solicitudPermiso.FechaRegreso = new DateTime(
+                            model.FechaSalidaEntrada.Value.Year
+                            , model.FechaSalidaEntrada.Value.Month
+                            , model.FechaSalidaEntrada.Value.Day
+                            , model.HoraRegreso.Value.Hour
+                            , model.HoraRegreso.Value.Minute
+                            , model.HoraRegreso.Value.Second
+                            );
+                    }
+                    solicitudPermiso.EstadoSolicitud = clsAtributos.EstadoSolicitudPendiente;
+                    solicitudPermiso.FechaBiometrico = DateTime.Now;
+                    solicitudPermiso.Origen = clsAtributos.SolicitudOrigenMedico;
+                    solicitudPermiso.CodigoDiagnostico = model.CodigoDiagnostico;
+                    solicitudPermiso.CodigoClasificador = int.Parse(model.CodigoClasificador);
+                    solicitudPermiso.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+
+                    solicitudPermiso.FechaIngresoLog = DateTime.Now;
+                    solicitudPermiso.UsuarioIngresoLog = "Prueba VC";
+                    solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
+                    string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);
+                    SetSuccessMessage(string.Format(psRespuesta));
+                }
+                else
+                {
+                    ConsultaCombos();
+                    return View(model);
+                }
+
+                return RedirectToAction("SolicitudPermisoDispensario");
+            }catch(Exception ex)
+            {
+                SetSuccessMessage(ex.Message);
+                return RedirectToAction("SolicitudPermisoDispensario");
+            }
+        }
+        protected void SetSuccessMessage(string message)
+        {
+            TempData["MensajeConfirmacion"] = message;
+        }
         [Authorize]
         public ActionResult ReporteSolicitud()
         {

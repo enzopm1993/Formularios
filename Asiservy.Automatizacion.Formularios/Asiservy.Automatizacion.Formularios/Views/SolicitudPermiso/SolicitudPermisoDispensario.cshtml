@@ -1,4 +1,4 @@
-﻿@model Asiservy.Automatizacion.Formularios.Models.SolictudPermisoViewModel
+﻿@model Asiservy.Automatizacion.Formularios.Models.SolicitudPermisoViewModel
 @{
     ViewBag.Title = "SolicitudPermisoDispensario";
 }
@@ -30,154 +30,157 @@
     <div class="row">
 
         <div class="col-md-2"></div>
-        <div  class="col-md-8 col-sm-12 border border-secondary  ">
 
-            <div class="row">
+        <div class="col-md-8 col-sm-12 border border-secondary  ">
+            @using (Html.BeginForm("SolicitudPermisoDispensario", "SolicitudPermiso"))
+            {
+                <div class="row">
 
-                <div class="col-md-4 col-sm-12">
-                    <label>Departamento</label>
-                    <select id="selectDepartamento" onchange="CambioDepartamento(this.value)" style="" class="form-control">
-                        <option value="0" selected>Seleccione...</option>
-                        <option value="1">Produccion</option>
-                        <option value="2">Dispensario Médico</option>
-                        <option value="3">RRHH</option>
-                    </select>
-
-                </div>
-
-                <div class="col-md-4 col-sm-12">
-                    <label>Area</label>
-                    <select onchange="CambioArea()" id="selectArea" class="form-control" disabled>
-                        <option value="" selected>Seleccione...</option>
-                        <option value="1">Procesos</option>
-                        <option value="2">Pouch</option>
-                        <option value="3">Lata</option>
-                        <option value="3">Etiquetado</option>
-                    </select>
-                </div>
-
-                <div class="col-md-4 col-sm-12">
-
-                    <label id="labelLinea" hidden>Linea</label>
-                    <select id="selectLinea" hidden style="" class="form-control">
-                        <option value="">Seleccione...</option>
-                        <option value="1" selected>1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="3">4</option>
-                        <option value="3">5</option>
-                    </select>
-
-                </div>
-            </div>
-            <div class="row">
-
-                <div class="col-md-4 col-sm-12">
-                    <label>Empleado</label>
-                    <div class="ui-widget">
-                        <select id="combobox">
-                            <option value="">Select one...</option>
-                            <option value="Anchundia Anchundia Aura Maria">Anchundia Anchundia Aura Maria</option>
-                            <option value="Anchundia Parrales Viviana">Anchundia Parrales Viviana</option>
-                            <option value="Bailon Mero María Ines">Bailon Mero María Ines</option>
-                            <option value="Bravo Mnzaba Betsy Janet">Bravo Mnzaba Betsy Janet</option>
-                            <option value="Cardenas Espinoza Patricia">Cardenas Espinoza Patricia</option>
-                            <option value="Espinal Delgado Joyce Maryeli">Espinal Delgado Joyce Maryeli</option>
-                            <option value="García Cedeño Mariuxi Katherine">García Cedeño Mariuxi Katherine</option>
-                            <option value="Intriago Sornoza Mayra Johana">Intriago Sornoza Mayra Johana</option>
-                            <option value="Jaramillo Gómez María Elizabeth">Jaramillo Gómez María Elizabeth</option>
-                            <option value="Macias Chancay Sandy Ismenia">Macias Chancay Sandy Ismenia</option>
-                            <option value="Moreira Zambrano Mercedes">Moreira Zambrano Mercedes</option>
-                            <option value="Posligua Santana Francisca">Posligua Santana Francisca</option>
-                            <option value="Quijano Moreira Emily Juliana">Quijano Moreira Emily Juliana</option>
-                            <option value="Reyes Raamirez Jessenia Katehrine">Reyes Raamirez Jessenia Katehrine</option>
-                            <option value="Rezabala Suarez Jova Alexandra">Rezabala Suarez Jova Alexandra</option>
-                            <option value="Silvia Indio Mariana Gabriela">Silvia Indio Mariana Gabriela</option>
-                            <option value="Valencia Ochoa Gema Jhael">Valencia Ochoa Gema Jhael</option>
-                            <option value="Vera Intriago Diana Gabriela">Vera Intriago Diana Gabriela</option>
-                            <option value="Zambrano Solorzano Nury Juana">Zambrano Solorzano Nury Juana</option>
-                        </select>
-                    </div>
-
-                </div>
-
-                <div class="col-md-4 col-sm-12">
-                    <label>Motivo</label>
-                    <select id="selectMotivo" style="" class="form-control" disabled></select>
-                </div>
-            </div>
-            <div class="row">
                     <div class="col-md-4 col-sm-12">
-                        <label>Codigo Enfermedad</label>
-                        <select id="selectMotivo" style="" class="form-control">
-                            <option>Seleccione..</option>
-                        </select>
+                        @Html.LabelFor(m => m.DescripcionLinea)
+                        @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), new { @onchange = "CambioDepartamento(this.value)", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
+
                     </div>
 
                     <div class="col-md-4 col-sm-12">
-                        <label>Descripcion</label>
-                        <input id="selectMotivo" style="" class="form-control" disabled/>
+                        @Html.LabelFor(m => m.DescripcionArea)
+                        @Html.DropDownListFor(m => m.CodigoArea, new SelectList(ViewBag.Areas, "Codigo", "Descripcion"), new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
+                        @Html.ValidationMessageFor(m => m.CodigoArea, "", new { @class = "input-validation-error text-danger has-error" })
                     </div>
-            </div>
-            <br />
-            <div class="form-group">
-                @foreach (var item in ViewBag.ClasificaroMedico)
-                {
-                    string Descripcion = item.Descripcion;
-                    int codigo = item.IdClasificador;
-                    @*<div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" id="customRadio" name="example1" value="@item.IdClasificador">
-                <label class="custom-control-label" for="@item.IdClasificador">@item.Descripcion</label>
-            </div>*@
-                <div class="custom-control custom-radio">
-                    @Html.RadioButtonFor(model => model.CodigoClasificador, codigo, new { @class = "custom-control-input" })
-                    @Html.Label(codigo.ToString(), Descripcion, new { @class = "custom-control-label" })
+
+                    <div class="col-md-4 col-sm-12">
+                        @Html.LabelFor(m => m.DescripcionCargo)
+                        @Html.DropDownListFor(m => m.CodigoCargo, new SelectList(ViewBag.Cargos, "Codigo", "Descripcion"), new { @class = "form-control", @id = "selectArea" })
+                        @Html.ValidationMessageFor(m => m.CodigoCargo, "", new { @class = "input-validation-error text-danger has-error" })
+                    </div>
 
                 </div>
+                <div class="row">
 
+                    <div class="col-md-4 col-sm-12">
+                        @Html.TextBox("Identificacion", "0987654321", new { @hidden = "hidden" })
+                        <label>Empleado</label>
+                        <div class="ui-widget">
+                            <select id="combobox">
+                                <option value="">Select one...</option>
+                                <option value="Anchundia Anchundia Aura Maria">Anchundia Anchundia Aura Maria</option>
+                                <option value="Anchundia Parrales Viviana">Anchundia Parrales Viviana</option>
+                                <option value="Bailon Mero María Ines">Bailon Mero María Ines</option>
+                                <option value="Bravo Mnzaba Betsy Janet">Bravo Mnzaba Betsy Janet</option>
+                                <option value="Cardenas Espinoza Patricia">Cardenas Espinoza Patricia</option>
+                                <option value="Espinal Delgado Joyce Maryeli">Espinal Delgado Joyce Maryeli</option>
+                                <option value="García Cedeño Mariuxi Katherine">García Cedeño Mariuxi Katherine</option>
+                                <option value="Intriago Sornoza Mayra Johana">Intriago Sornoza Mayra Johana</option>
+                                <option value="Jaramillo Gómez María Elizabeth">Jaramillo Gómez María Elizabeth</option>
+                                <option value="Macias Chancay Sandy Ismenia">Macias Chancay Sandy Ismenia</option>
+                                <option value="Moreira Zambrano Mercedes">Moreira Zambrano Mercedes</option>
+                                <option value="Posligua Santana Francisca">Posligua Santana Francisca</option>
+                                <option value="Quijano Moreira Emily Juliana">Quijano Moreira Emily Juliana</option>
+                                <option value="Reyes Raamirez Jessenia Katehrine">Reyes Raamirez Jessenia Katehrine</option>
+                                <option value="Rezabala Suarez Jova Alexandra">Rezabala Suarez Jova Alexandra</option>
+                                <option value="Silvia Indio Mariana Gabriela">Silvia Indio Mariana Gabriela</option>
+                                <option value="Valencia Ochoa Gema Jhael">Valencia Ochoa Gema Jhael</option>
+                                <option value="Vera Intriago Diana Gabriela">Vera Intriago Diana Gabriela</option>
+                                <option value="Zambrano Solorzano Nury Juana">Zambrano Solorzano Nury Juana</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+
+                        <div class="custom-control custom-radio">
+                            @Html.LabelFor(m => m.CodigoMotivo, new { @class = "" })
+                            @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "Codigo", "Descripcion"), new { @class = "form-control", @id = "selectMotivo" })
+                            @Html.ValidationMessageFor(m => m.CodigoMotivo, "", new { @class = "input-validation-error text-danger has-error" })
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12">
+
+                        @Html.LabelFor(m => m.CodigoDiagnostico, new { @class = "" })
+                        @Html.DropDownListFor(m => m.CodigoDiagnostico, new SelectList(ViewBag.CodigosEnfermedad, "Codigo", "Descripcion"), new { @class = "form-control", })
+                        @Html.ValidationMessageFor(m => m.CodigoDiagnostico, "", new { @class = "input-validation-error text-danger has-error" })
+
+                    </div>
+
+
+                </div>
+                <br />
+                <div class="form-group">
+                    @foreach (var item in ViewBag.ClasificaroMedico)
+                    {
+                        string Descripcion = item.Descripcion;
+                        int codigo = item.Codigo;
+                        string id = "CodigoClasificador";
+                        <div class="custom-control custom-radio">
+                            @Html.RadioButtonFor(model => model.CodigoClasificador, codigo, new { @class = "custom-control-input", @id = id + item.Codigo })
+                            @Html.Label(id + codigo, Descripcion, new { @class = "custom-control-label" })
+
+                        </div>
                     }
-
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Diagnóstico</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-1 col-sm-1">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
-                                <label class="custom-control-label" for="switchHoraFecha"></label>
-                            </div>
-                        </div>
-                        <div class="col-md-5 col-sm-5">
-                            <label>Hora desde:</label>
-                            <input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />
-                        </div>
-                        <div class="col-md-5  col-sm-5">
-                            <label>Hora hasta:</label>
-                            <input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <label>Fecha desde:</label>
-                            <input class="form-control" type="date" name="name" value="" id="datetimeDesde" />
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <label>Fecha hasta:</label>
-                            <input class="form-control" type="date" name="name" value="" id="datetimeHasta" />
-                        </div>
-                    </div>
-                    <br />
-                    <center><input type="button" class="btn btn-info" name="name" value="Generar" onclick="Guardar();" /></center>
-                    <br />
+                    @Html.ValidationMessageFor(m => m.CodigoClasificador, "", new { @class = "input-validation-error text-danger has-error" })
                 </div>
-            <div class="col-md-2"></div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Observacion)
+                    @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessage("CustomError", "", new { @class = "input-validation-error text-danger has-error" })
+                <div class="row">
+                    <div class="col-md-1 col-sm-1">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
+                            <label class="custom-control-label" for="switchHoraFecha"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <label>Fecha</label>
+                        @Html.TextBoxFor(m => m.FechaSalidaEntrada, new { @type = "date", @id = "dateSalidaRegreso", @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-3 col-sm-5">
+                        <label>Hora Salida</label>
+                        @Html.TextBoxFor(m => m.HoraSalida, new { @type = "time", @id = "timeHoraSalida", @class = "form-control", @readonly = "readonly" })
+                        @*<input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />*@
+                    </div>
+                    <div class="col-md-3  col-sm-5">
+                        <label>Hora Regreso</label>
+                        @Html.TextBoxFor(m => m.HoraRegreso, new { @type = "time", @id = "timeHoraRegreso", @class = "form-control", @readonly = "readonly" })
+                        @*<input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />*@
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <label>Fecha Salida</label>
+                        @Html.TextBoxFor(m => m.FechaSalida, new { @type = "date", @id = "dateSalida", @class = "form-control" })
+                        @*<input class="form-control" type="date" name="name" value="" id="datetimeDesde" />*@
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Fecha Regreso</label>
+                        @Html.TextBoxFor(m => m.FechaRegreso, new { @type = "date", @id = "dateRegreso", @class = "form-control" })
+
+                    </div>
+                </div>
+                <br />
+                <center><input type="submit" class="btn btn-info" name="name" value="Generar" onclick="Guardar();" /></center>
+                <br />
+            }
         </div>
+
+        <div class="col-md-2"></div>
+    </div>
 
 
 </div>
+@if (TempData["MensajeConfirmacion"] != null)
+{
+<script>
+    MensajeCorrecto("@TempData["MensajeConfirmacion"]");
+</script>
+}
 <div id="ModalMensaje"> </div>
 <br /><br />
 <script src="~/Scripts/SolicitudPermisoJS/SolicitudPermisoMedico.js"></script>

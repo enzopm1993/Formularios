@@ -590,6 +590,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccesoDatos\clsDClasificador.cs" />
+    <Compile Include="AccesoDatos\clsDGeneral.cs" />
+    <Compile Include="AccesoDatos\clsDSolicitudPermiso.cs" />
     <Compile Include="AccesoDatos\clsDLogin.cs" />
     <Compile Include="AccesoDatos\clsSolicitudPermiso.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -602,8 +604,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Empleado.cs" />
+    <Compile Include="AccesoDatos\clsAtributos.cs" />
     <Compile Include="Models\Solicitud.cs" />
-    <Compile Include="Models\SolictudPermisoViewModel.cs" />
+    <Compile Include="Models\SolicitudPermisoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -641,6 +644,7 @@
     <Content Include="Views\SolicitudPermiso\ReporteSolicitud.cshtml" />
     <Content Include="Views\SolicitudPermiso\BitacoraSolicitud.cshtml" />
     <Content Include="Views\Asistencia\BitacoraCambioPersonal.cshtml" />
+    <Content Include="Views\Mensaje\Correcto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
