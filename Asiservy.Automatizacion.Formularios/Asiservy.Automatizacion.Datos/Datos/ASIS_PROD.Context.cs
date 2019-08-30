@@ -87,15 +87,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spConsultarUsuario", usuarioParameter, claveParameter);
         }
     
-        public virtual ObjectResult<spConsutaMotivosPermiso> spConsutaMotivosPermiso(string dsCodigoMotivo)
-        {
-            var dsCodigoMotivoParameter = dsCodigoMotivo != null ?
-                new ObjectParameter("dsCodigoMotivo", dsCodigoMotivo) :
-                new ObjectParameter("dsCodigoMotivo", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaMotivosPermiso>("spConsutaMotivosPermiso", dsCodigoMotivoParameter);
-        }
-    
         public virtual ObjectResult<spConsutaEmpleados> spConsutaEmpleados(string cedula)
         {
             var cedulaParameter = cedula != null ?
@@ -103,6 +94,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("cedula", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleados>("spConsutaEmpleados", cedulaParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaMotivosPermiso> spConsutaMotivosPermiso(string dsCodigoMotivo)
+        {
+            var dsCodigoMotivoParameter = dsCodigoMotivo != null ?
+                new ObjectParameter("dsCodigoMotivo", dsCodigoMotivo) :
+                new ObjectParameter("dsCodigoMotivo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaMotivosPermiso>("spConsutaMotivosPermiso", dsCodigoMotivoParameter);
         }
     }
 }

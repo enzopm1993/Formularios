@@ -526,11 +526,11 @@
             <Parameter Name="usuario" Mode="In" Type="String" />
             <Parameter Name="Clave" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsutaMotivosPermiso" ReturnType="Collection(ASIS_PRODModel.spConsutaMotivosPermiso)">
-          <Parameter Name="dsCodigoMotivo" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsutaEmpleados" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleados)">
-            <Parameter Name="cedula" Mode="In" Type="String" />
+          <Parameter Name="cedula" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsutaMotivosPermiso" ReturnType="Collection(ASIS_PRODModel.spConsutaMotivosPermiso)">
+            <Parameter Name="dsCodigoMotivo" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaArea">
@@ -573,10 +573,6 @@
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="spConsutaMotivosPermiso">
-          <Property Type="String" Name="CodigoMotivo" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <ComplexType Name="spConsutaEmpleados">
           <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
@@ -584,6 +580,10 @@
           <Property Type="String" Name="AREA" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="LINEA" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="CARGO" Nullable="true" MaxLength="60" />
+        </ComplexType>
+        <ComplexType Name="spConsutaMotivosPermiso">
+          <Property Type="String" Name="CodigoMotivo" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -788,7 +788,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultarUsuario" FunctionName="ASIS_PRODModel.Store.spConsultarUsuario" />
-          <FunctionImportMapping FunctionImportName="spConsutaMotivosPermiso" FunctionName="ASIS_PRODModel.Store.spConsutaMotivosPermiso" />
           <FunctionImportMapping FunctionImportName="spConsutaEmpleados" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleados">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleados">
@@ -798,6 +797,14 @@
                 <ScalarProperty Name="AREA" ColumnName="AREA" />
                 <ScalarProperty Name="LINEA" ColumnName="LINEA" />
                 <ScalarProperty Name="CARGO" ColumnName="CARGO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsutaMotivosPermiso" FunctionName="ASIS_PRODModel.Store.spConsutaMotivosPermiso">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaMotivosPermiso">
+                <ScalarProperty Name="CodigoMotivo" ColumnName="CodigoMotivo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
