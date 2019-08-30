@@ -19,6 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             var poSolicitud = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == doSolicitud.IdSolicitudPermiso);
             if (poSolicitud != null)
             {
+                poSolicitud.Observacion += doSolicitud.Observacion;
                 poSolicitud.EstadoSolicitud = doSolicitud.EstadoSolicitud;
                 poSolicitud.FechaModificacionLog = doSolicitud.FechaModificacionLog;
                 poSolicitud.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
@@ -103,7 +104,66 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
             return ListaSolicitudesPermiso;
         }
+        public SolicitudPermisoViewModel ConsultaSolicitudPermiso(string dsSolicitud)
+        {
+            entities = new ASIS_PRODEntities();
+            SolicitudPermisoViewModel ListaSolicitudesPermiso ;
+            int id = int.Parse(dsSolicitud);
+            var lista = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == id && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+            
 
+                List<JUSTICA_SOLICITUD> ListadoJustificaciones = new List<JUSTICA_SOLICITUD>();
+                var detalle = entities.JUSTICA_SOLICITUD.Where(y => y.IdSolicitudPermiso == lista.IdSolicitudPermiso).ToList();
+                foreach (var d in detalle)
+                {
+                    ListadoJustificaciones.Add(new JUSTICA_SOLICITUD
+                    {
+                        IdJustificaSolicitud = d.IdJustificaSolicitud,
+                        IdSolicitudPermiso = lista.IdSolicitudPermiso,
+                        CodigoMotivo = d.CodigoMotivo,
+                        FechaSalida = d.FechaSalida,
+                        FechaRegreso = d.FechaRegreso,
+                        UsuarioIngresoLog = d.UsuarioIngresoLog,
+                        FechaIngresoLog = d.FechaIngresoLog,
+                        TerminalIngresoLog = d.TerminalIngresoLog,
+                        UsuarioModificacionLog = d.UsuarioModificacionLog,
+                        TerminalModificacionLog = d.TerminalModificacionLog,
+                        FechaModificacionLog = d.FechaModificacionLog
+                    });
+                }
+
+                var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == lista.CodigoMotivo);
+                var poEmpleado = entities.spConsutaEmpleados(lista.Identificacion).FirstOrDefault();
+            ListaSolicitudesPermiso = new SolicitudPermisoViewModel
+            {
+                IdSolicitudPermiso = lista.IdSolicitudPermiso,
+                CodigoLinea = lista.CodigoLinea,
+                DescripcionLinea = poEmpleado != null ? poEmpleado.LINEA : "",
+                CodigoArea = lista.CodigoArea,
+                DescripcionArea = poEmpleado != null ? poEmpleado.AREA : "",
+                CodigoCargo = lista.CodigoCargo,
+                DescripcionCargo = poEmpleado != null ? poEmpleado.CARGO : "",
+                Identificacion = lista.Identificacion,
+                NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : "",
+                CodigoMotivo = lista.CodigoMotivo,
+                DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
+                Observacion = lista.Observacion,
+                FechaSalida = lista.FechaSalida,
+                FechaRegreso = lista.FechaRegreso,
+                EstadoSolicitud = lista.EstadoSolicitud,
+                FechaBiometrico = lista.FechaBiometrico,
+                Origen = char.Parse(lista.Origen),
+                CodigoDiagnostico = lista.CodigoDiagnostico,
+                FechaIngresoLog = lista.FechaIngresoLog,
+                UsuarioIngresoLog = lista.UsuarioIngresoLog,
+                TerminalIngresoLog = lista.TerminalIngresoLog,
+                UsuarioModificacionLog = lista.UsuarioModificacionLog,
+                FechaModificacionLog = lista.FechaModificacionLog,
+                TerminalModificacionLog = lista.TerminalModificacionLog
+            };
+           
+            return ListaSolicitudesPermiso;
+        }
         public int ConsultarNivelUsuario(string dsUsuario)
         {
             int piNivel = 0;

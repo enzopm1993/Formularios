@@ -4,34 +4,40 @@ function Grabar() {
     Mensaje("Registro Guardado..");
 }
 
+function AprobarSolitudes() {
+    var result = new Array();    
+    i = 0;
+    $("input[type=checkbox]:checked").each(function (resultado) {
+        id = $(this).attr("id");
+        this.id = id.replace('solicitud-', '');
+        result.push(this.id);
+        i++;
+    });
+    console.log(result);
+    Aprobar(result);    
+}
 function AprobarSolicitud(valor) {
    // console.log(valor);
-    $.ajax({
-            url: '../SolicitudPermiso/AprobarSolicitud',
-            type: 'GET',
-            data: {
-                diIdSolicitud:valor
-            },
-            success: function (resultado) {
-                MensajeCorrecto(resultado + "\n Solicitud Aprobada");
-            }
-            ,
-            error: function () {
-                MensajeError("No se ha podido obtener la información");
-            }
-        });
+    var solicitud=[];
+    solicitud[0] = valor;
+    Aprobar(solicitud);  
 }
 
-function Anular(valor) {
+function Aprobar(result) {
+    console.log(result);
+
+    var resultado = JSON.stringify(result)
+    var resultado2 = JSON.parse(resultado)
+    console.log(resultado2);
     $.ajax({
-        url: '../SolicitudPermiso/AnularSolicitud',
-        type: 'GET',
+        url: '../SolicitudPermiso/AprobarSolicitud',
+        type: 'POST',
+        dataType: "json",
         data: {
-            diIdSolicitud: valor,
-            dsObservacion: $('txtObservacion').val()
+            diIdSolicitud: resultado2
         },
         success: function (resultado) {
-            MensajeCorrecto(resultado+"\n Solicitud Anulada");
+            MensajeCorrecto(resultado + "\n Solicitud Aprobada");
         }
         ,
         error: function () {
@@ -40,15 +46,56 @@ function Anular(valor) {
     });
 }
 
+function Anular() {
+    valor = document.getElementById("txtIdSolicitud").value;
+    Observacion = document.getElementById("txtObservaccionAnulacion").value;
+    console.log(Observacion);
+    if (!Observacion || Observacion == undefined || Observacion == "" || Observacion.length == 0)
+    {
+        MensajeCorrecto("Debe ingresar un motivo");
+    } else {
+        $.ajax({
+            url: '../SolicitudPermiso/AnularSolicitud',
+            type: 'GET',
+            data: {
+                diIdSolicitud: valor,
+                dsObservacion: Observacion
+            },
+            success: function (resultado) {
+                MensajeCorrecto(resultado + "\n Solicitud Anulada");
+            }
+            ,
+            error: function () {
+                MensajeError("No se ha podido obtener la información");
+            }
+        });
+    }
+}
+
 function Observacion(valor) {
     console.log(valor);
+    document.getElementById("txtObservaccionAnulacion").value = "";
+    document.getElementById("txtIdSolicitud").value = valor;
     $('#ModalObservacion').modal("show");
-    var prueba = document.getElementById("txtObservacion");
-    prueba = "Hola";
-    console.log(prueba);
-   
-//    $('#txtObservacion').value() =valor ;
+}
 
+function Mostrar(valor) {
+    console.log(valor);
+    $.ajax({
+        url: '../SolicitudPermiso/SolicitudPermisoEdit',
+        type: 'GET',
+        data: {
+            dsSolicitud: valor
+        },
+        success: function (resultado) {
+            document.getElementById("modal_body").innerHTML = resultado;
+            $('#ModalAprobacion').modal('toggle');
+        }
+        ,
+        error: function () {
+            MensajeError("No se ha podido obtener la información");
+        }
+    });
 }
 
 $(document).ready(function () {
@@ -84,25 +131,23 @@ $(document).ready(function () {
 });
 
 
-function checkTodos() {
-    var i = 1;
-    var bool = document.getElementById("checkTodos").checked;
-        console.log('prueba');
+//function checkTodos() {
+//    var i = 1;
+//    var bool = document.getElementById("checkTodos").checked;
+//        console.log('prueba');
 
-    $('#TableBandeja tr').each(function () {       
-        var desSol="solicitud"
-        var x = $(this).find("td").eq(1).html();
-        console.log(x);
-        if (x != null) {
-            desSol += i;
-            document.getElementById(desSol).checked = bool;
-            i++;
-        }
-    });
-}
-function Mostrar() {
-    $('#ModalAprobacion').modal('toggle')
-}
+//    $('#TableBandeja tr').each(function () {       
+//        var desSol="solicitud"
+//        var x = $(this).find("td").eq(1).html();
+//        console.log(x);
+//        if (x != null) {
+//            desSol += i;
+//            document.getElementById(desSol).checked = bool;
+//            i++;
+//        }
+//    });
+//}
+
 
 
 //$(document).ready(function () {
