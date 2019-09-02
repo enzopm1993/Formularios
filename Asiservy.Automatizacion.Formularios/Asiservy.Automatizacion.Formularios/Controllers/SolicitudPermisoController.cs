@@ -25,7 +25,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 List<SolicitudPermisoViewModel> ListaSolicitud;
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
-                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente);
+                string[] psIdUsuario = User.Identity.Name.Split('_');
+                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente,psIdUsuario[1]);
                 return View(ListaSolicitud);
             }
             catch (Exception ex)
@@ -314,7 +315,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 else
                 {
-                    ConsultaCombosMedicos();
+                    ConsultaCombosGeneral();
                     return View(model);
                 }
 
@@ -508,7 +509,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 List<SolicitudPermisoViewModel> ListaSolicitud;
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
-                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudAprobado);
+                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudAprobado,null);
                 return View(ListaSolicitud);
             }
             catch (Exception ex)
