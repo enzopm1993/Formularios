@@ -74,9 +74,10 @@ namespace Asiservy.Automatizacion.Formularios.Models
         [DisplayName("Origen")]
         public string DescripcionOrigen { get; set; }
 
-        // [Required(ErrorMessage ="Campo Requerido")]
-        [DisplayName("Diagnostico")]
+        [Required(ErrorMessage ="Campo Requerido")]
         public string CodigoDiagnostico { get; set; }
+        [DisplayName("Diagnostico")]
+        public string DescripcionDiagnostico { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]
         [DisplayName("Clasificacion")]
