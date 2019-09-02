@@ -104,5 +104,22 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaMotivosPermiso>("spConsutaMotivosPermiso", dsCodigoMotivoParameter);
         }
+    
+        public virtual ObjectResult<spConsutaEmpleadosFiltro_Result> spConsutaEmpleadosFiltro(Nullable<int> area, Nullable<int> linea, Nullable<int> cargo)
+        {
+            var areaParameter = area.HasValue ?
+                new ObjectParameter("Area", area) :
+                new ObjectParameter("Area", typeof(int));
+    
+            var lineaParameter = linea.HasValue ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(int));
+    
+            var cargoParameter = cargo.HasValue ?
+                new ObjectParameter("Cargo", cargo) :
+                new ObjectParameter("Cargo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltro_Result>("spConsutaEmpleadosFiltro", areaParameter, lineaParameter, cargoParameter);
+        }
     }
 }

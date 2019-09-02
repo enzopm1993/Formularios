@@ -105,6 +105,9 @@
     <Compile Include="Datos\spConsutaEmpleados.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsutaEmpleadosFiltro_Result.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsutaMotivosPermiso.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

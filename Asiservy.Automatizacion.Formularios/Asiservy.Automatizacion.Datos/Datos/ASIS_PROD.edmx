@@ -226,6 +226,11 @@
         <Function Name="spConsutaEmpleados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="cedula" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsutaEmpleadosFiltro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Area" Type="int" Mode="In" />
+          <Parameter Name="Linea" Type="int" Mode="In" />
+          <Parameter Name="Cargo" Type="int" Mode="In" />
+        </Function>
         <Function Name="spConsutaMotivosPermiso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="dsCodigoMotivo" Type="varchar" Mode="In" />
         </Function>
@@ -530,7 +535,12 @@
           <Parameter Name="cedula" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spConsutaMotivosPermiso" ReturnType="Collection(ASIS_PRODModel.spConsutaMotivosPermiso)">
-            <Parameter Name="dsCodigoMotivo" Mode="In" Type="String" />
+          <Parameter Name="dsCodigoMotivo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsutaEmpleadosFiltro" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosFiltro_Result)">
+            <Parameter Name="Area" Mode="In" Type="Int32" />
+            <Parameter Name="Linea" Mode="In" Type="Int32" />
+            <Parameter Name="Cargo" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaArea">
@@ -584,6 +594,10 @@
         <ComplexType Name="spConsutaMotivosPermiso">
           <Property Type="String" Name="CodigoMotivo" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spConsutaEmpleadosFiltro_Result">
+          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -805,6 +819,14 @@
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaMotivosPermiso">
                 <ScalarProperty Name="CodigoMotivo" ColumnName="CodigoMotivo" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsutaEmpleadosFiltro" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleadosFiltro">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosFiltro_Result">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

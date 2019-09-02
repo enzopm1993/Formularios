@@ -14,30 +14,31 @@ namespace Asiservy.Automatizacion.Formularios.Models
         [Required(ErrorMessage ="Campo Requerido")]
         public string CodigoLinea { get; set; }
 
-        [DisplayName("Descripcion Linea")]
+        [DisplayName("Descripción Línea")]
         public string DescripcionLinea { get; set; }
 
         [Required(ErrorMessage ="Campo Requerido")]
         public string CodigoArea { get; set; }
 
-        [DisplayName("Descripcion Area")]
+        [DisplayName("Descripción Área")]
         public string DescripcionArea { get; set; }
 
         [Required(ErrorMessage ="Campo Requerido")]
         public string CodigoCargo { get; set; }
 
-        [DisplayName("Descripcion Cargo")]
+        [DisplayName("Descripción Cargo")]
         public string DescripcionCargo { get; set; }
 
-        [Required(ErrorMessage ="Campo Requerido")]
+        
         public string Identificacion { get; set; }
+        [Required(ErrorMessage = "Campo Requerido")]
         public string NombreEmpleado { get; set; }
 
         /// [Required(ErrorMessage ="Campo Requerido")]
-        [DisplayName("Motivo")]
+        [Required(ErrorMessage = "Campo Requerido")]
         public string CodigoMotivo { get; set; }
 
-        [DisplayName("Descripcion Motivo")]
+        [DisplayName("Descripción Motivo")]
         public string DescripcionMotivo { get; set; }
 
         public string Observacion { get; set; }
@@ -62,7 +63,10 @@ namespace Asiservy.Automatizacion.Formularios.Models
       //  [Required(ErrorMessage ="Campo Requerido")]
         public char Origen { get; set; }
 
-       // [Required(ErrorMessage ="Campo Requerido")]
+        // [Required(ErrorMessage ="Campo Requerido")]
+        [DisplayName("Descripción Diagnóstico")]
+        public string DescripcionDiagnostico { get; set; }
+        [Required(ErrorMessage = "Campo Requerido")]
         public string CodigoDiagnostico { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]

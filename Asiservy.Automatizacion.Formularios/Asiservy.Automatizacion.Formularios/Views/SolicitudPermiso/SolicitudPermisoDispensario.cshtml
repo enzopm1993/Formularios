@@ -38,20 +38,20 @@
 
                     <div class="col-md-4 col-sm-12">
                         @Html.LabelFor(m => m.DescripcionLinea)
-                        @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), new { @onchange = "CambioDepartamento(this.value)", @class = "form-control" })
+                        @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"),"Seleccione la Línea", new { @onchange = "CambioDepartamento(this.value)", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
 
                     </div>
 
                     <div class="col-md-4 col-sm-12">
                         @Html.LabelFor(m => m.DescripcionArea)
-                        @Html.DropDownListFor(m => m.CodigoArea, new SelectList(ViewBag.Areas, "Codigo", "Descripcion"), new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
+                        @Html.DropDownListFor(m => m.CodigoArea, new SelectList(ViewBag.Areas, "Codigo", "Descripcion"),"Seleccione el Área", new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
                         @Html.ValidationMessageFor(m => m.CodigoArea, "", new { @class = "input-validation-error text-danger has-error" })
                     </div>
 
                     <div class="col-md-4 col-sm-12">
                         @Html.LabelFor(m => m.DescripcionCargo)
-                        @Html.DropDownListFor(m => m.CodigoCargo, new SelectList(ViewBag.Cargos, "Codigo", "Descripcion"), new { @class = "form-control", @id = "selectArea" })
+                        @Html.DropDownListFor(m => m.CodigoCargo, new SelectList(ViewBag.Cargos, "Codigo", "Descripcion"),"Seleccione el Cargo", new { @class = "form-control", @id = "selectCargo" })
                         @Html.ValidationMessageFor(m => m.CodigoCargo, "", new { @class = "input-validation-error text-danger has-error" })
                     </div>
 
@@ -59,31 +59,16 @@
                 <div class="row">
 
                     <div class="col-md-4 col-sm-12">
-                        @Html.TextBox("Identificacion", "0987654321", new { @hidden = "hidden" })
+                        
                         <label>Empleado</label>
-                        <div class="ui-widget">
-                            <select id="combobox">
-                                <option value="">Select one...</option>
-                                <option value="Anchundia Anchundia Aura Maria">Anchundia Anchundia Aura Maria</option>
-                                <option value="Anchundia Parrales Viviana">Anchundia Parrales Viviana</option>
-                                <option value="Bailon Mero María Ines">Bailon Mero María Ines</option>
-                                <option value="Bravo Mnzaba Betsy Janet">Bravo Mnzaba Betsy Janet</option>
-                                <option value="Cardenas Espinoza Patricia">Cardenas Espinoza Patricia</option>
-                                <option value="Espinal Delgado Joyce Maryeli">Espinal Delgado Joyce Maryeli</option>
-                                <option value="García Cedeño Mariuxi Katherine">García Cedeño Mariuxi Katherine</option>
-                                <option value="Intriago Sornoza Mayra Johana">Intriago Sornoza Mayra Johana</option>
-                                <option value="Jaramillo Gómez María Elizabeth">Jaramillo Gómez María Elizabeth</option>
-                                <option value="Macias Chancay Sandy Ismenia">Macias Chancay Sandy Ismenia</option>
-                                <option value="Moreira Zambrano Mercedes">Moreira Zambrano Mercedes</option>
-                                <option value="Posligua Santana Francisca">Posligua Santana Francisca</option>
-                                <option value="Quijano Moreira Emily Juliana">Quijano Moreira Emily Juliana</option>
-                                <option value="Reyes Raamirez Jessenia Katehrine">Reyes Raamirez Jessenia Katehrine</option>
-                                <option value="Rezabala Suarez Jova Alexandra">Rezabala Suarez Jova Alexandra</option>
-                                <option value="Silvia Indio Mariana Gabriela">Silvia Indio Mariana Gabriela</option>
-                                <option value="Valencia Ochoa Gema Jhael">Valencia Ochoa Gema Jhael</option>
-                                <option value="Vera Intriago Diana Gabriela">Vera Intriago Diana Gabriela</option>
-                                <option value="Zambrano Solorzano Nury Juana">Zambrano Solorzano Nury Juana</option>
-                            </select>
+                        <div>
+                            @Html.TextBoxFor(m => m.NombreEmpleado, null, new { style = "width: 65%;", @readonly = "readonly" })
+                            @Html.HiddenFor(m => m.Identificacion)
+                            <button type="button" onclick="CargarEmpleados();">
+                                <img src="~/Content/images/buscar.png" />
+                            </button><br />
+                            @Html.ValidationMessageFor(m => m.NombreEmpleado, "", new { @class = "input-validation-error text-danger has-error" })
+
                         </div>
 
                     </div>
@@ -91,8 +76,8 @@
                     <div class="col-md-4 col-sm-12">
 
                         <div class="custom-control custom-radio">
-                            @Html.LabelFor(m => m.CodigoMotivo, new { @class = "" })
-                            @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "Descripcion"), new { @class = "form-control", @id = "selectMotivo" })
+                            @Html.LabelFor(m => m.DescripcionMotivo, new { @class = "" })
+                            @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "Descripcion"),"Seleccione el Motivo", new { @class = "form-control", @id = "selectMotivo" })
                             @Html.ValidationMessageFor(m => m.CodigoMotivo, "", new { @class = "input-validation-error text-danger has-error" })
 
                         </div>
@@ -102,8 +87,8 @@
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
 
-                        @Html.LabelFor(m => m.CodigoDiagnostico, new { @class = "" })
-                        @Html.DropDownListFor(m => m.CodigoDiagnostico, new SelectList(ViewBag.CodigosEnfermedad, "Codigo", "Descripcion"), new { @class = "form-control", })
+                        @Html.LabelFor(m => m.DescripcionDiagnostico, new { @class = "" })
+                        @Html.DropDownListFor(m => m.CodigoDiagnostico, new SelectList(ViewBag.CodigosEnfermedad, "Codigo", "Descripcion"),"Seleccione el Dianóstico", new { @class = "form-control", })
                         @Html.ValidationMessageFor(m => m.CodigoDiagnostico, "", new { @class = "input-validation-error text-danger has-error" })
 
                     </div>
@@ -176,5 +161,6 @@
 
 </div>
 <div id="ModalMensaje"> </div>
+<div id="ModelCargarEmpleados"></div>
 <br /><br />
 <script src="~/Scripts/SolicitudPermisoJS/SolicitudPermisoMedico.js"></script>
