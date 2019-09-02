@@ -5,6 +5,25 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ASIS_PRODModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'ASIS_PROD.dbo.BITACORA_SOLICITUD' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="BITACORA_SOLICITUD">
+          <Key>
+            <PropertyRef Name="IdBitacoraSolicitud" />
+            <PropertyRef Name="IdSolicitud" />
+            <PropertyRef Name="FechaIngreso" />
+            <PropertyRef Name="UsuarioIngreso" />
+            <PropertyRef Name="TerminalIngreso" />
+          </Key>
+          <Property Name="IdBitacoraSolicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdSolicitud" Type="int" Nullable="false" />
+          <Property Name="Cedula" Type="varchar" MaxLength="13" />
+          <Property Name="EstadoSolicitud" Type="varchar" MaxLength="10" />
+          <Property Name="Observacion" Type="varchar" MaxLength="500" />
+          <Property Name="FechaIngreso" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngreso" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="TerminalIngreso" Type="varbinary" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="CLASIFICADOR">
           <Key>
             <PropertyRef Name="IdClasificador" />
@@ -12,6 +31,15 @@
           <Property Name="IdClasificador" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Grupo" Type="varchar" MaxLength="3" />
           <Property Name="Codigo" Type="int" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="ESTADO_SOLICITUD">
+          <Key>
+            <PropertyRef Name="IdEstadoSolicitud" />
+          </Key>
+          <Property Name="IdEstadoSolicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Estado" Type="varchar" MaxLength="10" />
           <Property Name="Descripcion" Type="varchar" MaxLength="100" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
         </EntityType>
@@ -236,6 +264,7 @@
         </Function>
         <EntityContainer Name="ASIS_PRODModelStoreContainer">
           <EntitySet Name="CLASIFICADOR" EntityType="Self.CLASIFICADOR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ESTADO_SOLICITUD" EntityType="Self.ESTADO_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JUSTICA_SOLICITUD" EntityType="Self.JUSTICA_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NIVEL_APROBACION" EntityType="Self.NIVEL_APROBACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NIVEL_USUARIO" EntityType="Self.NIVEL_USUARIO" Schema="dbo" store:Type="Tables" />
@@ -245,6 +274,18 @@
           <EntitySet Name="SOLICITUD_PERMISO" EntityType="Self.SOLICITUD_PERMISO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USUARIO_ROL" EntityType="Self.USUARIO_ROL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BITACORA_SOLICITUD" EntityType="Self.BITACORA_SOLICITUD" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [BITACORA_SOLICITUD].[IdBitacoraSolicitud] AS [IdBitacoraSolicitud], 
+    [BITACORA_SOLICITUD].[IdSolicitud] AS [IdSolicitud], 
+    [BITACORA_SOLICITUD].[Cedula] AS [Cedula], 
+    [BITACORA_SOLICITUD].[EstadoSolicitud] AS [EstadoSolicitud], 
+    [BITACORA_SOLICITUD].[Observacion] AS [Observacion], 
+    [BITACORA_SOLICITUD].[FechaIngreso] AS [FechaIngreso], 
+    [BITACORA_SOLICITUD].[UsuarioIngreso] AS [UsuarioIngreso], 
+    [BITACORA_SOLICITUD].[TerminalIngreso] AS [TerminalIngreso]
+    FROM [dbo].[BITACORA_SOLICITUD] AS [BITACORA_SOLICITUD]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__JUSTICA_S__IdSol__6A30C649" Association="Self.FK__JUSTICA_S__IdSol__6A30C649">
             <End Role="SOLICITUD_PERMISO" EntitySet="SOLICITUD_PERMISO" />
             <End Role="JUSTICA_SOLICITUD" EntitySet="JUSTICA_SOLICITUD" />
@@ -542,6 +583,8 @@
             <Parameter Name="Linea" Mode="In" Type="Int32" />
             <Parameter Name="Cargo" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="ESTADO_SOLICITUD" EntityType="ASIS_PRODModel.ESTADO_SOLICITUD" />
+          <EntitySet Name="BITACORA_SOLICITUD" EntityType="ASIS_PRODModel.BITACORA_SOLICITUD" />
         </EntityContainer>
         <ComplexType Name="spConsultaArea">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="1" />
@@ -599,6 +642,32 @@
           <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
         </ComplexType>
+        <EntityType Name="ESTADO_SOLICITUD">
+          <Key>
+            <PropertyRef Name="IdEstadoSolicitud" />
+          </Key>
+          <Property Name="IdEstadoSolicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Estado" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="BITACORA_SOLICITUD">
+          <Key>
+            <PropertyRef Name="IdBitacoraSolicitud" />
+            <PropertyRef Name="IdSolicitud" />
+            <PropertyRef Name="FechaIngreso" />
+            <PropertyRef Name="UsuarioIngreso" />
+            <PropertyRef Name="TerminalIngreso" />
+          </Key>
+          <Property Name="IdBitacoraSolicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdSolicitud" Type="Int32" Nullable="false" />
+          <Property Name="Cedula" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoSolicitud" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FechaIngreso" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngreso" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngreso" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -830,6 +899,30 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="ESTADO_SOLICITUD">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.ESTADO_SOLICITUD">
+              <MappingFragment StoreEntitySet="ESTADO_SOLICITUD">
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdEstadoSolicitud" ColumnName="IdEstadoSolicitud" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BITACORA_SOLICITUD">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.BITACORA_SOLICITUD">
+              <MappingFragment StoreEntitySet="BITACORA_SOLICITUD">
+                <ScalarProperty Name="TerminalIngreso" ColumnName="TerminalIngreso" />
+                <ScalarProperty Name="UsuarioIngreso" ColumnName="UsuarioIngreso" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="EstadoSolicitud" ColumnName="EstadoSolicitud" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdSolicitud" ColumnName="IdSolicitud" />
+                <ScalarProperty Name="IdBitacoraSolicitud" ColumnName="IdBitacoraSolicitud" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

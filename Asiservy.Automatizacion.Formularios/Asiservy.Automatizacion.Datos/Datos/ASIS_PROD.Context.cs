@@ -37,6 +37,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<SOLICITUD_PERMISO> SOLICITUD_PERMISO { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<USUARIO_ROL> USUARIO_ROL { get; set; }
+        public virtual DbSet<ESTADO_SOLICITUD> ESTADO_SOLICITUD { get; set; }
+        public virtual DbSet<BITACORA_SOLICITUD> BITACORA_SOLICITUD { get; set; }
     
         public virtual ObjectResult<spConsultaArea> spConsultaArea(string codigo)
         {
