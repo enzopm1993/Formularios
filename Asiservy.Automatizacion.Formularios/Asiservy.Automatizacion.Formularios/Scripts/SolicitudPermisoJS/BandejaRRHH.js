@@ -1,19 +1,103 @@
 ﻿
-function Observacion() {
-    console.log("ok");
-    $('#ModalObservacion').modal("show");
+function Justificar() {
 
 }
-function Guardar() {
-    Mensaje("Registro Guardado..");
+
+function FinalizarSolitudes() {
+    var result = new Array();
+    i = 0;
+    $("input[type=checkbox]:checked").each(function (resultado) {
+        id = $(this).attr("id");
+        this.id = id.replace('solicitud-', '');
+        result.push(this.id);
+        i++;
+    });
+    console.log(result);
+    Finalizar(result);
+}
+function FinalizarSolicitud(valor) {
+    // console.log(valor);
+    var solicitud = [];
+    solicitud[0] = valor;
+    Finalizar(solicitud);
 }
 
-function Aprobar() {
-    Mensaje("Solicitud aprobada..");
-}
+function Finalizar(result) {
+    console.log(result);
 
+    var resultado = JSON.stringify(result)
+    var resultado2 = JSON.parse(resultado)
+    console.log(resultado2);
+    $.ajax({
+        url: '../SolicitudPermiso/FinalizarSolicitud',
+        type: 'POST',
+        dataType: "json",
+        data: {
+            diIdSolicitud: resultado2
+        },
+        success: function (resultado) {
+            MensajeCorrecto(resultado + "\n Solicitud Finalizada");
+        }
+        ,
+        error: function () {
+            MensajeError("No se ha podido obtener la información");
+        }
+    });
+}
 function Anular() {
-    Mensaje("Solicitud anulada..");
+    valor = document.getElementById("txtIdSolicitud").value;
+    Observacion = document.getElementById("txtObservaccionAnulacion").value;
+    console.log(Observacion);
+    if (!Observacion || Observacion == undefined || Observacion == "" || Observacion.length == 0) {
+        MensajeCorrecto("Debe ingresar un motivo");
+    } else {
+        $.ajax({
+            url: '../SolicitudPermiso/AnularSolicitud',
+            type: 'GET',
+            data: {
+                diIdSolicitud: valor,
+                dsObservacion: " -Anulación: " +Observacion
+            },
+            success: function (resultado) {
+                MensajeCorrecto(resultado + "\n Solicitud Anulada");
+            }
+            ,
+            error: function () {
+                MensajeError("No se ha podido obtener la información");
+            }
+        });
+    }
+}
+
+
+function Mostrar(valor) {
+    //console.log(valor);
+    $.ajax({
+        url: '../SolicitudPermiso/SolicitudPermisoEdit',
+        type: 'GET',
+        data: {
+            dsSolicitud: valor
+        },
+        success: function (resultado) {
+            document.getElementById("modal_body").innerHTML = resultado;
+            var sPath = window.location.pathname;
+            var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+            document.getElementById("frmName").value = sPage;
+            //console.log(sPage);
+            $('#ModalEditarSolicitud').modal('toggle');
+        }
+        ,
+        error: function () {
+            MensajeError("No se ha podido obtener la información");
+        }
+    });
+}
+
+function Observacion(valor) {
+    console.log(valor);
+    document.getElementById("txtObservaccionAnulacion").value = "";
+    document.getElementById("txtIdSolicitud").value = valor;
+    $('#ModalObservacion').modal("show");
 }
 
 $(document).ready(function () {
@@ -65,7 +149,3 @@ function checkTodos() {
         }
     });
 }
-function Mostrar() {
-    $('#ModalAprobacion').modal('toggle')
-}
-

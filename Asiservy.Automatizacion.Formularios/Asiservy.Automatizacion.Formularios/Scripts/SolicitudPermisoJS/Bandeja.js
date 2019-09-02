@@ -1,9 +1,4 @@
-﻿//import { parse } from "path";
-
-function Grabar() {
-    Mensaje("Registro Guardado..");
-}
-
+﻿
 function AprobarSolitudes() {
     var result = new Array();    
     i = 0;
@@ -59,7 +54,7 @@ function Anular() {
             type: 'GET',
             data: {
                 diIdSolicitud: valor,
-                dsObservacion: Observacion
+                dsObservacion: " -Anulación: "+Observacion
             },
             success: function (resultado) {
                 MensajeCorrecto(resultado + "\n Solicitud Anulada");

@@ -10,47 +10,55 @@ namespace Asiservy.Automatizacion.Formularios.Models
 {
     public class SolicitudPermisoViewModel
     { 
+        [DisplayName("Solicitud")]
         public int IdSolicitudPermiso { get; set; }
         [Required(ErrorMessage ="Campo Requerido")]
         public string CodigoLinea { get; set; }
 
-        [DisplayName("Descripcion Linea")]
+        [DisplayName("Linea")]
         public string DescripcionLinea { get; set; }
 
         [Required(ErrorMessage ="Campo Requerido")]
         public string CodigoArea { get; set; }
 
-        [DisplayName("Descripcion Area")]
+        [DisplayName("Area")]
         public string DescripcionArea { get; set; }
 
         [Required(ErrorMessage ="Campo Requerido")]
         public string CodigoCargo { get; set; }
 
-        [DisplayName("Descripcion Cargo")]
+        [DisplayName("Cargo")]
         public string DescripcionCargo { get; set; }
 
+        [DisplayName("Identificación")]
         [Required(ErrorMessage ="Campo Requerido")]
         public string Identificacion { get; set; }
         public string NombreEmpleado { get; set; }
 
         /// [Required(ErrorMessage ="Campo Requerido")]
-        [DisplayName("Motivo")]
+        [DisplayName("Codigo Motivo")]
         public string CodigoMotivo { get; set; }
 
-        [DisplayName("Descripcion Motivo")]
+        [DisplayName("Motivo")]
         public string DescripcionMotivo { get; set; }
 
         public string Observacion { get; set; }
 
        // [Required(ErrorMessage ="Campo Requerido")]
         [DisplayName("Fecha Salida")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm}")]
         public DateTime? FechaSalida { get; set; }
+        [DataType(DataType.Date)]
         public DateTime? FechaSalidaEntrada { get; set; }
         public DateTime? HoraSalida { get; set; }
 
         // [Required(ErrorMessage ="Campo Requerido")]
-        [DisplayName("Fecha Regreso")]
+       
         public DateTime? HoraRegreso { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm}")]
+        [DataType(DataType.DateTime)]
+        [DisplayName("Fecha Regreso")]
         public DateTime? FechaRegreso { get; set; }
 
         // [Required(ErrorMessage ="Campo Requerido")]
@@ -60,12 +68,16 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public DateTime? FechaBiometrico { get; set; }
 
       //  [Required(ErrorMessage ="Campo Requerido")]
-        public char Origen { get; set; }
+        public string Origen { get; set; }
+        [DisplayName("Origen")]
+        public string DescripcionOrigen { get; set; }
 
-       // [Required(ErrorMessage ="Campo Requerido")]
+        // [Required(ErrorMessage ="Campo Requerido")]
+        [DisplayName("Diagnostico")]
         public string CodigoDiagnostico { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]
+        [DisplayName("Clasificacion")]
         public string CodigoClasificador { get; set; }
 
       
@@ -81,7 +93,7 @@ namespace Asiservy.Automatizacion.Formularios.Models
 
         public string TerminalModificacionLog { get; set; }
 
-        List<JUSTICA_SOLICITUD> JustificaSolicitudes { get; set; } 
+        public List<JUSTICA_SOLICITUD> JustificaSolicitudes { get; set; } 
 
 
     }

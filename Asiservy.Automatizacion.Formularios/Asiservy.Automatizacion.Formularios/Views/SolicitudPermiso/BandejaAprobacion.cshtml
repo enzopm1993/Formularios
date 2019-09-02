@@ -45,7 +45,7 @@
                     </div>*@
                 </th>
                 <th>Solicitud</th>
-                <th>Fecha</th>
+                <th>Fecha Creación</th>
                 <th>Motivo</th>
                 <th>Linea</th>
                 <th>Area</th>
@@ -89,30 +89,23 @@
 </div>
 
 
-@* +++++++++++MODAL++++++++++++++++++++++ *@
-<br /><div class="modal fade" id="ModalAprobacion">
-    <div class="modal-dialog modal-xl">
+@* +++++++++++MODAL EDITAR SOLICITUD++++++++++++++++++++++ *@
+<br />
+<div class="modal fade" id="ModalAprobacion">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Solicitud Permiso</h4>
             </div>
-            <div class="modal-body" id="modal_body">            
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="Grabar()">Grabar</button>
-
-            </div>
-
+            <div class="modal-body" id="modal_body">       
+            </div>      
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 
-<!-- The Modal -->
+<!-- MODAL PARA INGRESO DE OBSERVACION -->
 <div class="modal fade" id="ModalObservacion">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">

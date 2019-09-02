@@ -50,35 +50,34 @@
 //}
 
 function CambioHoraFecha() {
-    var HoraDesde = document.getElementById("timeHoraDesde");
-    var HoraHasta = document.getElementById("timeHoraHasta");
-    var FechaDesde1 = document.getElementById("datetimeDesde1");
-    var FechaDesde2 = document.getElementById("datetimeDesde2");
-    var FechaHasta = document.getElementById("datetimeHasta");
+    var HoraDesde = document.getElementById("timeHoraSalida");
+    var HoraHasta = document.getElementById("timeHoraRegreso");
+    var FechaSalidaRegreso = document.getElementById("dateSalidaRegreso");
+    var FechaDesde = document.getElementById("dateSalida");
+    var FechaHasta = document.getElementById("dateRegreso");
     var check = document.getElementById("switchHoraFecha").checked
     console.log(check);
 
     if (check) {
         HoraDesde.removeAttribute("readonly");
         HoraHasta.removeAttribute("readonly");
-        FechaDesde1.removeAttribute("readonly");
-        FechaDesde2.setAttribute("readonly", true);
+        FechaSalidaRegreso.removeAttribute("readonly");
+        FechaDesde.setAttribute("readonly", true);
         FechaHasta.setAttribute("readonly", true);
         console.log(FechaDesde);
-        FechaDesde.value = "";
-        FechaHasta.value = "";
+        FechaDesde.value = null;
+        FechaHasta.value = null;
     } else {
 
         HoraDesde.setAttribute("readonly", true);
         HoraHasta.setAttribute("readonly", true);
-        FechaDesde1.setAttribute("readonly", true);
-        FechaDesde2.removeAttribute("readonly");
+        FechaSalidaRegreso.setAttribute("readonly", true);
+        FechaDesde.removeAttribute("readonly");
         FechaHasta.removeAttribute("readonly");
-        HoraDesde.value = "00:00";
-        HoraHasta.value = "00:00";
+        FechaSalidaRegreso.value = null;
+        HoraDesde.value = null;
+        HoraHasta.value = null;
     }
-
-    
 }
 
 //comboFind

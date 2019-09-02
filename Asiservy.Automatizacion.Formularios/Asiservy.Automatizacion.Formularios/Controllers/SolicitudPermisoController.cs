@@ -42,20 +42,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 string psRespuesta = string.Empty;
                 if (diIdSolicitud!=null && diIdSolicitud.Length > 0)
                 {
-                    foreach (var sol in diIdSolicitud)
+                    foreach (var psIdSolicitud in diIdSolicitud)
                     {
-                        if (!string.IsNullOrEmpty(sol))
-                        {
-                            string psIdSolicitud = sol.Replace("[","");
-                            psIdSolicitud = psIdSolicitud.Replace("]", "");
+                        if (!string.IsNullOrEmpty(psIdSolicitud))
+                        {                           
                             clsDSolicitudPermiso = new clsDSolicitudPermiso();
                             SOLICITUD_PERMISO model = new SOLICITUD_PERMISO();
                             model.IdSolicitudPermiso = int.Parse(psIdSolicitud);
                             model.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;
                             model.FechaModificacionLog = DateTime.Now;
-                            model.UsuarioModificacionLog = "Prueba VC";
+                            string[] psIdUsuario = User.Identity.Name.Split('_');
+                            model.UsuarioModificacionLog = psIdUsuario[0];
                             model.TerminalModificacionLog = Request.UserHostAddress;
-                            psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(model);
+                            psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
                         }
                     }
                     return Json(psRespuesta, JsonRequestBehavior.AllowGet);
@@ -81,9 +80,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     model.Observacion = dsObservacion;
                     model.EstadoSolicitud = clsAtributos.EstadoSolicitudAnulado;
                     model.FechaModificacionLog = DateTime.Now;
-                    model.UsuarioModificacionLog = "Prueba VC";
+                    string[] psIdUsuario = User.Identity.Name.Split('_');
+                    model.UsuarioModificacionLog = psIdUsuario[0]+"";
                     model.TerminalModificacionLog = Request.UserHostAddress;
-                    string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(model);
+                    string psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
                     return Json(psRespuesta, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -96,16 +96,56 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+        [Authorize]
+        public JsonResult FinalizarSolicitud(string[] diIdSolicitud)
+        {
+            try
+            {
+                string psRespuesta = string.Empty;
+                if (diIdSolicitud != null && diIdSolicitud.Length > 0)
+                {
+                    foreach (var psIdSolicitud in diIdSolicitud)
+                    {
+                        if (!string.IsNullOrEmpty(psIdSolicitud))
+                        {                            
+                            clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                            SOLICITUD_PERMISO model = new SOLICITUD_PERMISO();
+                            model.IdSolicitudPermiso = int.Parse(psIdSolicitud);
+                            model.EstadoSolicitud = clsAtributos.EstadoSolicitudRevisado;
+                            model.FechaModificacionLog = DateTime.Now;
+                            string[] psIdUsuario = User.Identity.Name.Split('_');
+                            model.UsuarioModificacionLog = psIdUsuario[0];
+                            model.TerminalModificacionLog = Request.UserHostAddress;
+                            psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
+                        }
+                    }
+                    return Json(psRespuesta, JsonRequestBehavior.AllowGet);
+                }
+                return Json("Error, no se ha enviado ninguna solicitud", JsonRequestBehavior.AllowGet);
 
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
         [Authorize]
         public ActionResult SolicitudPermisoEdit(string dsSolicitud)
         {
             try
-            {
+            {                
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 SolicitudPermisoViewModel model = clsDSolicitudPermiso.ConsultaSolicitudPermiso(dsSolicitud);
+                if(model.Origen==clsAtributos.SolicitudOrigenGeneral)
+                {
+                    ConsultaCombosGeneral();
+                }
+                else
+                {
+                    ConsultaCombosMedicos();
 
-                //ConsultaCombosGeneral();
+                }
+
                 return PartialView(model);
             }
             catch (Exception ex)
@@ -114,6 +154,54 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return PartialView();
             }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult SolicitudPermisoEdit(SolicitudPermisoViewModel doSolicitud, string frm)
+        {
+            try {
+                if (doSolicitud != null && doSolicitud.IdSolicitudPermiso > 0)
+                {
+                    clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                    SOLICITUD_PERMISO poSolicitudPermiso = new SOLICITUD_PERMISO();
+                    poSolicitudPermiso.IdSolicitudPermiso = doSolicitud.IdSolicitudPermiso;
+                    poSolicitudPermiso.Observacion = doSolicitud.Observacion;
+                    poSolicitudPermiso.CodigoMotivo = doSolicitud.CodigoMotivo;
+                    poSolicitudPermiso.FechaSalida = doSolicitud.FechaSalida ?? poSolicitudPermiso.FechaSalida;
+                    poSolicitudPermiso.FechaRegreso = doSolicitud.FechaRegreso ?? poSolicitudPermiso.FechaRegreso;
+                    poSolicitudPermiso.FechaModificacionLog = DateTime.Now;
+                    string[] psIdUsuario = User.Identity.Name.Split('_');
+                    poSolicitudPermiso.UsuarioModificacionLog = psIdUsuario[0] + "";
+                    poSolicitudPermiso.TerminalModificacionLog = Request.UserHostAddress;
+                    foreach(var detalle in doSolicitud.JustificaSolicitudes)
+                    {
+                        if(detalle.CodigoMotivo!=null)
+                        {
+                            poSolicitudPermiso.JUSTICA_SOLICITUD.Add(detalle);
+                        }
+                    }
+                    string Respuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(poSolicitudPermiso);
+                    SetSuccessMessage(Respuesta);
+                }
+                else
+                {
+                    SetErrorMessage("Solicitud Invalida");
+                }
+                if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
+                    return RedirectToAction("BandejaRRHH");
+                else
+                    return RedirectToAction("BandejaAprobacion");
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
+                    return RedirectToAction("BandejaRRHH");
+                else
+                    return RedirectToAction("BandejaAprobacion");
+            }
+
         }
 
 
@@ -211,10 +299,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.CodigoClasificador = 0;
                     solicitudPermiso.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                     string[] psIdUsuario = User.Identity.Name.Split('_');
-                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(psIdUsuario[0] + "");
-
+                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(psIdUsuario[1] + "");
+                    solicitudPermiso.UsuarioIngresoLog = psIdUsuario[0];
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
-                    solicitudPermiso.UsuarioIngresoLog = "Prueba VC";
                     solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
                     string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);
                     SetSuccessMessage(string.Format(psRespuesta));
@@ -330,10 +417,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.CodigoClasificador = int.Parse(model.CodigoClasificador);
                     solicitudPermiso.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                     string[] psIdUsuario = User.Identity.Name.Split('_');
-                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(psIdUsuario[0]+"");
+                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(psIdUsuario[1]+"");
 
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
-                    solicitudPermiso.UsuarioIngresoLog = "Prueba VC";
+                    solicitudPermiso.UsuarioIngresoLog = psIdUsuario[0]+"";
                     solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
                     string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);
                     SetSuccessMessage(string.Format(psRespuesta));
@@ -393,44 +480,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult BandejaProduccion(string buscar, string SelectPermiso)
-        {
-            List<Solicitud> solicitud = new List<Solicitud>();
-
-            solicitud.Add(new Solicitud { codigo = "1", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Jose" });
-            solicitud.Add(new Solicitud { codigo = "2", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Morales Victor" });
-            solicitud.Add(new Solicitud { codigo = "3", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Cazares Julio" });
-            solicitud.Add(new Solicitud { codigo = "4", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Vera Jose" });
-            solicitud.Add(new Solicitud { codigo = "5", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Chavez Jorge" });
-            solicitud.Add(new Solicitud { codigo = "6", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Emilio" });
-            if(SelectPermiso=="1")
-                return View(solicitud.Where(x=>x.codigo.Contains(buscar)).ToList());
-            if(SelectPermiso=="2")
-                return View(solicitud.Where(x => x.Area.Contains(buscar)).ToList());
-            if (SelectPermiso == "3")
-                return View(solicitud.Where(x => x.Empleado.Contains(buscar)).ToList());
-
-            return View(solicitud.ToList());
-
-
-        }
+      
 
 
         [Authorize]
         public ActionResult BandejaRRHH()
         {
-            List<Solicitud> solicitud = new List<Solicitud>();
-
-            solicitud.Add(new Solicitud { codigo = "1", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Jose" });
-            solicitud.Add(new Solicitud { codigo = "2", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Morales Victor" });
-            solicitud.Add(new Solicitud { codigo = "3", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Cazares Julio" });
-            solicitud.Add(new Solicitud { codigo = "4", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Vera Jose" });
-            solicitud.Add(new Solicitud { codigo = "5", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Chavez Jorge" });
-            solicitud.Add(new Solicitud { codigo = "6", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Emilio" });
-
-
-            return View(solicitud);
+            try
+            {
+                List<SolicitudPermisoViewModel> ListaSolicitud;
+                clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudAprobado);
+                return View(ListaSolicitud);
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                return View();
+            }
         }
 
         [Authorize]
