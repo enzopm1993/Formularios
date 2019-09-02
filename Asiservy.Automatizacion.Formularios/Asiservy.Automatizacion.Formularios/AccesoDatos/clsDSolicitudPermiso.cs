@@ -245,7 +245,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             return piNivel;
         }
 
-
+    
 
     }
 } 

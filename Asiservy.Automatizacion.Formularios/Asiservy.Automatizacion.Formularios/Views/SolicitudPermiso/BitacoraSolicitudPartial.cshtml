@@ -1,0 +1,194 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.SolicitudPermisoViewModel>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdSolicitudPermiso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoLinea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DescripcionLinea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoArea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DescripcionArea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoCargo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DescripcionCargo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Identificacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreEmpleado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoMotivo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DescripcionMotivo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaSalida)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaSalidaEntrada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoraSalida)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoraRegreso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaRegreso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstadoSolicitud)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaBiometrico)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Origen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DescripcionOrigen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoDiagnostico)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DescripcionDiagnostico)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoClasificador)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaIngresoLog)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TerminalIngresoLog)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaModificacionLog)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsuarioModificacionLog)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TerminalModificacionLog)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdSolicitudPermiso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoLinea)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescripcionLinea)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoArea)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescripcionArea)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoCargo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescripcionCargo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Identificacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreEmpleado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoMotivo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescripcionMotivo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaSalida)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaSalidaEntrada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoraSalida)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoraRegreso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaRegreso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstadoSolicitud)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaBiometrico)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Origen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescripcionOrigen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoDiagnostico)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescripcionDiagnostico)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoClasificador)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+        </td>
+        
+    </tr>
+}
+
+</table>

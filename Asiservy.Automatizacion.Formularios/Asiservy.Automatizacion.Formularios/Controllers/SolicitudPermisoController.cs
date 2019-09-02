@@ -487,13 +487,31 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return View();
         }
 
+        #region BITACORA SOLICITUD
         [Authorize]
         public ActionResult BitacoraSolicitud()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                return View();
+
+            }
         }
 
-      
+        [Authorize]
+        public ActionResult BitacoraSolicitudPartial(string dsIdSolicitud, string dsCedula, DateTime? ddFechaDesde, DateTime? ddFechaHasta)
+        {
+            
+
+
+            return PartialView();
+        }
+        #endregion
 
 
         [Authorize]
