@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Datos.Datos;
+using System.Net;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -34,26 +35,33 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public JsonResult AprobarSolicitud(string diIdSolicitud)
+        public JsonResult AprobarSolicitud(string[] diIdSolicitud)
         {
             try
             {
-                if (!string.IsNullOrEmpty(diIdSolicitud))
+                string psRespuesta = string.Empty;
+                if (diIdSolicitud!=null && diIdSolicitud.Length > 0)
                 {
-                    clsDSolicitudPermiso = new clsDSolicitudPermiso();
-                    SOLICITUD_PERMISO model = new SOLICITUD_PERMISO();
-                    model.IdSolicitudPermiso = int.Parse(diIdSolicitud);
-                    model.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;
-                    model.FechaModificacionLog = DateTime.Now;
-                    model.UsuarioModificacionLog = "Prueba VC";
-                    model.TerminalModificacionLog = Request.UserHostAddress;
-                    string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(model);
-                    return Json(psRespuesta,JsonRequestBehavior.AllowGet );
+                    foreach (var sol in diIdSolicitud)
+                    {
+                        if (!string.IsNullOrEmpty(sol))
+                        {
+                            string psIdSolicitud = sol.Replace("[","");
+                            psIdSolicitud = psIdSolicitud.Replace("]", "");
+                            clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                            SOLICITUD_PERMISO model = new SOLICITUD_PERMISO();
+                            model.IdSolicitudPermiso = int.Parse(psIdSolicitud);
+                            model.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;
+                            model.FechaModificacionLog = DateTime.Now;
+                            model.UsuarioModificacionLog = "Prueba VC";
+                            model.TerminalModificacionLog = Request.UserHostAddress;
+                            psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(model);
+                        }
+                    }
+                    return Json(psRespuesta, JsonRequestBehavior.AllowGet);
                 }
-                else
-                {
-                    return Json("Error, Numero de solicitud invalida", JsonRequestBehavior.AllowGet);
-                }
+                return Json("Error, no se ha enviado ninguna solicitud", JsonRequestBehavior.AllowGet);
+                
             }
             catch (Exception ex)
             {
@@ -70,8 +78,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     clsDSolicitudPermiso = new clsDSolicitudPermiso();
                     SOLICITUD_PERMISO model = new SOLICITUD_PERMISO();
                     model.IdSolicitudPermiso = int.Parse(diIdSolicitud);
-                    model.Observacion += dsObservacion;
-                    model.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;
+                    model.Observacion = dsObservacion;
+                    model.EstadoSolicitud = clsAtributos.EstadoSolicitudAnulado;
                     model.FechaModificacionLog = DateTime.Now;
                     model.UsuarioModificacionLog = "Prueba VC";
                     model.TerminalModificacionLog = Request.UserHostAddress;
@@ -86,6 +94,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize]
+        public ActionResult SolicitudPermisoEdit(string dsSolicitud)
+        {
+            try
+            {
+                clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                SolicitudPermisoViewModel model = clsDSolicitudPermiso.ConsultaSolicitudPermiso(dsSolicitud);
+
+                //ConsultaCombosGeneral();
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return PartialView();
             }
         }
 
@@ -198,12 +225,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return View(model);
                 }
 
-                return RedirectToAction("SolicitudPermisoDispensario");
+                return RedirectToAction("SolicitudPermiso");
             }
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
-                return RedirectToAction("SolicitudPermisoDispensario");
+                return RedirectToAction("SolicitudPermiso");
             }
         }
       
