@@ -156,7 +156,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return PartialView();
             }
         }
-
+        [Authorize]
+        public ActionResult ConsultaSolicitudes()
+        {
+            clsDSolicitudPermiso poSolicitudPermiso = new clsDSolicitudPermiso();
+            var pListSolicitudPermiso =poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(clsAtributos.EstadoSolicitudTodos);
+            return PartialView(pListSolicitudPermiso);
+        }
         [Authorize]
         [HttpPost]
         public ActionResult SolicitudPermisoEdit(SolicitudPermisoViewModel doSolicitud, string frm)
