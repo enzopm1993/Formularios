@@ -33,9 +33,11 @@ namespace Asiservy.Automatizacion.Formularios.Models
         [DisplayName("Identificación")]
         [Required(ErrorMessage ="Campo Requerido")]
         public string Identificacion { get; set; }
+        [Required(ErrorMessage = "Campo Requerido")]
         public string NombreEmpleado { get; set; }
 
         /// [Required(ErrorMessage ="Campo Requerido")]
+        [Required(ErrorMessage = "Campo Requerido")]
         [DisplayName("Codigo Motivo")]
         public string CodigoMotivo { get; set; }
 

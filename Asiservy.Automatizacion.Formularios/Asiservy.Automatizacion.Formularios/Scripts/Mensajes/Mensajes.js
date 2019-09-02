@@ -1,5 +1,6 @@
 ﻿function MensajeClose() {
-    location.reload();
+    //location.reload();
+    $(this).modal('hide');
 }
 
 function MensajeCorrecto(mensaje) {
@@ -26,9 +27,23 @@ function MensajeError(mensaje) {
             var m = document.getElementById("ModalMensaje");
             m.innerHTML = resultado;
             //var modal = document.getElementById("ModalError");
-            $("#ModalError").modal("show");
+            $("#ModalEmpleado").modal("show");
             document.getElementById('mensajeError').innerHTML = mensaje;
             //   console.log(mensaje);
         }
     });
 }
+
+function CargarEmpleados() {
+    $.ajax({
+        url: "../Mensaje/EmpleadoBuscar",
+        type: "Get",
+        success: function (resultado) {
+            $('#ModelCargarEmpleados').html(resultado);
+            $("#ModalEmpleado").modal("show");
+            
+        }
+    });
+
+}
+
