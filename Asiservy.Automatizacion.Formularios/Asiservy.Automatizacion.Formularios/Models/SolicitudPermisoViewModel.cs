@@ -65,7 +65,7 @@ namespace Asiservy.Automatizacion.Formularios.Models
 
         // [Required(ErrorMessage ="Campo Requerido")]
         public string EstadoSolicitud { get; set; }
-
+        public string DescripcionEstadoSolicitud { get; set; }
         [DisplayName("Fecha Biometrico")]
         public DateTime? FechaBiometrico { get; set; }
 

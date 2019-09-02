@@ -29,4 +29,18 @@ $(document).ready(function () {
         "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
         "pagingType": "full_numbers"
     });
+
+    
 });
+
+
+function ConsultarSolicitudes() {
+    $.ajax({
+        type: "GET",
+        url: '../SolicitudPermiso/ConsultaSolicitudes',
+        success: function (data) {
+            $('#RptSolicitudes').html(data);
+        }
+    });
+
+}
