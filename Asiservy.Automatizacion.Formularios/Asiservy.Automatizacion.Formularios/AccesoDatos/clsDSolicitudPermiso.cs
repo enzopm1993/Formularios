@@ -162,7 +162,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
             return ListaSolicitudesPermiso;
         }
-        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso(string dsEstadoSolcitud)
+        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso(string dsEstadoSolcitud, string dsIdUsuario)
         {
             entities = new ASIS_PRODEntities();
 
