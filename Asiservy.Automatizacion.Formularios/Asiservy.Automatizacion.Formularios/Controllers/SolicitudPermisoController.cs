@@ -261,29 +261,41 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 .Where(x => x.Value.Errors.Count > 0)
                 .Select(x => new { x.Key, x.Value.Errors })
                 .ToArray();
+                if (model.CodigoClasificador == null)
+                {
+                    //ConsultaCombosMedicos();
+                    ModelState.AddModelError("CustomError2", "Debe Ingresar un Clasificador");
+                    //return View(model);
+                }
+                if (model.CodigoDiagnostico == null)
+                {
+                    //ConsultaCombosMedicos();
+                    ModelState.AddModelError("CustomError3", "Debe Ingresar un Diagnóstico");
+                    //return View(model);
+                }
                 if ((model.FechaSalida == null || model.FechaRegreso == null) && model.FechaSalidaEntrada == null)
                 {
-                    ConsultaCombosMedicos();
+                    //ConsultaCombosMedicos();
                     ModelState.AddModelError("CustomError", "Debe Ingresar un rango de horas o fechas");
-                    return View(model);
+                   // return View(model);
                 }
                 else if (model.FechaSalidaEntrada != null && (model.HoraRegreso == null || model.HoraSalida == null))
                 {           
                     ModelState.AddModelError("CustomError", "Debe Ingresar un rango de horas correcto");                 
                     
-                    ConsultaCombosMedicos();
-                    return View(model);
+                    //ConsultaCombosMedicos();
+                    //return View(model);
                 }
                 else if(model.FechaSalida != null && model.FechaRegreso!= null && model.FechaSalida > model.FechaRegreso)
                 {
-                    ConsultaCombosMedicos();
+                    //ConsultaCombosMedicos();
                     ModelState.AddModelError("CustomError", "Fecha de salida no puede ser mayor a la de regreso");
-                    return View(model);
+                    //return View(model);
                 }  else if (model.HoraRegreso!=null && model.HoraSalida != null && model.HoraSalida.Value.Hour>model.HoraRegreso.Value.Hour)
                 {
-                    ConsultaCombosMedicos();
+                    //ConsultaCombosMedicos();
                     ModelState.AddModelError("CustomError", "Hora de salida no puede ser mayor a la de regreso");
-                    return View(model);
+                    //return View(model);
                 }
                 
 

@@ -6,8 +6,7 @@
 
 <script src="~/Scripts/jquery-ui.js"></script>
 <link href="~/Content/jquery-ui.css" rel="stylesheet" />
-<script src="~/Scripts/gijgo/combined/gijgo.min.js"></script>
-<link href="~/Content/gijgo/combined/gijgo.min.css" rel="stylesheet" />
+
 <link href="~/Content/SolicitudPermisoCss/SolicitudPermiso.css" rel="stylesheet" />
 <script src="~/Scripts/Mensajes/Mensajes.js"></script>
 <style>
@@ -88,8 +87,9 @@
                     <div class="col-md-4 col-sm-12">
 
                         @Html.LabelFor(m => m.DescripcionDiagnostico, new { @class = "" })
-                        @Html.DropDownListFor(m => m.CodigoDiagnostico, new SelectList(ViewBag.CodigosEnfermedad, "Codigo", "Descripcion"),"Seleccione el Dianóstico", new { @class = "form-control", })
-                        @Html.ValidationMessageFor(m => m.CodigoDiagnostico, "", new { @class = "input-validation-error text-danger has-error" })
+                        @Html.DropDownListFor(m => m.CodigoDiagnostico, new SelectList(ViewBag.CodigosEnfermedad, "Codigo", "Descripcion"), "Seleccione el Dianóstico", new { @class = "form-control", })
+                        @*@Html.ValidationMessageFor(m => m.CodigoDiagnostico, "", new { @class = "input-validation-error text-danger has-error" })*@
+                        @Html.ValidationMessage("CustomError3", "", new { @class = "input-validation-error text-danger has-error" })
 
                     </div>
 
@@ -108,7 +108,8 @@
 
                         </div>
                     }
-                    @Html.ValidationMessageFor(m => m.CodigoClasificador, "", new { @class = "input-validation-error text-danger has-error" })
+                    @*@Html.ValidationMessageFor(m => m.CodigoClasificador, "", new { @class = "input-validation-error text-danger has-error" })*@
+                    @Html.ValidationMessage("CustomError2", "", new { @class = "input-validation-error text-danger has-error" })
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Observacion)
