@@ -58,11 +58,11 @@
                         <div>
                             @Html.TextBoxFor(m => m.NombreEmpleado, null, new { style = "width: 65%;", @readonly = "readonly" })
                             @Html.HiddenFor(m => m.Identificacion)
-                            <button type="button" onclick="CargarEmpleados();">
+                            <button type="button" onclick="CargarEmpleados('CargarEmpleadoPG');" id="CargarEmpleadoPG">
                                 <img src="~/Content/images/buscar.png" />
                             </button><br />
                             @Html.ValidationMessageFor(m => m.NombreEmpleado, "", new { @class = "input-validation-error text-danger has-error" })
-
+                            
                         </div>
 
                     </div>
@@ -116,7 +116,7 @@
                     </div>
                 </div>
                 <br />
-                <center><input type="submit" class="btn btn-info" name="name" value="Generar" onclick="Guardar()" /></center>
+                <center><input type="submit" class="btn btn-info" name="name" value="Generar" id="GuardarSolicitudGeneral"/></center>
                 <br />
             }
         </div>
