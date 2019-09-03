@@ -46,7 +46,7 @@ function Aprobar(result) {
 function Anular() {
     valor = document.getElementById("txtIdSolicitud").value;
     Observacion = document.getElementById("txtObservaccionAnulacion").value;
-    console.log(Observacion);
+    //console.log(Observacion);
     if (!Observacion || Observacion == undefined || Observacion == "" || Observacion.length == 0)
     {
         MensajeCorrecto("Debe ingresar un motivo");
@@ -77,7 +77,7 @@ function Observacion(valor) {
 }
 
 function Mostrar(valor) {
-    console.log(valor);
+    //console.log(valor);
     $.ajax({
         url: '../SolicitudPermiso/SolicitudPermisoEdit',
         type: 'GET',

@@ -2,6 +2,7 @@
 using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -23,64 +24,105 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 poSolicitud.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
                 poSolicitud.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
                 psMensaje = "Registro Actualizado Correctamente";
+
+                BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
+                poBitacora.IdSolicitud = poSolicitud.IdSolicitudPermiso;
+                poBitacora.Cedula = poSolicitud.Identificacion;
+                poBitacora.Observacion = poSolicitud.Observacion;
+                poBitacora.EstadoSolicitud = poSolicitud.EstadoSolicitud;
+                poBitacora.FechaIngresoLog = DateTime.Now;
+                poBitacora.UsuarioIngresoLog = doSolicitud.UsuarioModificacionLog;
+                poBitacora.TerminalIngresoLog = doSolicitud.TerminalModificacionLog;
+                entities.BITACORA_SOLICITUD.Add(poBitacora);
             }
+            
+
             entities.SaveChanges();
             return psMensaje;
         }
 
         public string GuargarModificarSolicitud(SOLICITUD_PERMISO doSolicitud)
         {
-          
             string psMensaje = string.Empty;
-            entities = new ASIS_PRODEntities();
-            var poSolicitud = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == doSolicitud.IdSolicitudPermiso);
-            if (poSolicitud != null)
-            {
-                poSolicitud.CodigoMotivo = doSolicitud.CodigoMotivo?? poSolicitud.CodigoMotivo;
-                poSolicitud.Observacion = doSolicitud.Observacion??"";
-                poSolicitud.FechaSalida = doSolicitud.FechaSalida;
-                poSolicitud.FechaRegreso = doSolicitud.FechaRegreso;
-                poSolicitud.FechaModificacionLog = doSolicitud.FechaModificacionLog;
-                poSolicitud.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
-                poSolicitud.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
-                psMensaje = "Registro Actualizado Correctamente";
-            }
-            else
-            {
-                entities.SOLICITUD_PERMISO.Add(doSolicitud);
-                psMensaje = "Registro Guardado Correctamente";
-            }
+            BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
 
-            foreach(var detalle in doSolicitud.JUSTICA_SOLICITUD)
-            {
-                var poDetalle = entities.JUSTICA_SOLICITUD.Where(x => 
-                x.IdSolicitudPermiso == detalle.IdSolicitudPermiso
-                && x.IdJustificaSolicitud==detalle.IdJustificaSolicitud).FirstOrDefault();
-
-                if(poDetalle != null)
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities()) {
+                using (var transaction = entities.Database.BeginTransaction())
                 {
-                    poDetalle.CodigoMotivo = detalle.CodigoMotivo;
-                    poDetalle.FechaSalida = detalle.FechaSalida??poDetalle.FechaSalida;
-                    poDetalle.FechaRegreso = detalle.FechaRegreso ?? poDetalle.FechaRegreso;
-                    poDetalle.FechaModificacionLog = DateTime.Now;
-                    poDetalle.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
-                    poDetalle.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
-                }
-                else
-                {
-                    detalle.IdSolicitudPermiso = doSolicitud.IdSolicitudPermiso;
-                    detalle.FechaIngresoLog = DateTime.Now;
-                    detalle.UsuarioIngresoLog = doSolicitud.UsuarioModificacionLog;
-                    detalle.TerminalIngresoLog = doSolicitud.TerminalModificacionLog;
-                    entities.JUSTICA_SOLICITUD.Add(detalle);
-                }
+                    var poSolicitud = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == doSolicitud.IdSolicitudPermiso);
+                    if (poSolicitud != null)
+                    {
+                        poSolicitud.CodigoMotivo = doSolicitud.CodigoMotivo ?? poSolicitud.CodigoMotivo;
+                        poSolicitud.Observacion = doSolicitud.Observacion ?? "";
+                        poSolicitud.FechaSalida = doSolicitud.FechaSalida;
+                        poSolicitud.FechaRegreso = doSolicitud.FechaRegreso;
+                        poSolicitud.FechaModificacionLog = doSolicitud.FechaModificacionLog;
+                        poSolicitud.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
+                        poSolicitud.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
+                        psMensaje = "Registro Actualizado Correctamente";
 
+                        poBitacora.IdSolicitud = poSolicitud.IdSolicitudPermiso;
+                        poBitacora.Cedula = poSolicitud.Identificacion;
+                        poBitacora.Observacion = poSolicitud.Observacion;
+                        poBitacora.EstadoSolicitud = poSolicitud.EstadoSolicitud;
+                        poBitacora.FechaSalida = poSolicitud.FechaSalida;
+                        poBitacora.FechaRegreso = poSolicitud.FechaRegreso;
+                    }
+                    else
+                    {
+                        entities.SOLICITUD_PERMISO.Add(doSolicitud);
+                        psMensaje = "Registro Guardado Correctamente";
+
+
+                        poBitacora.IdSolicitud = doSolicitud.IdSolicitudPermiso;
+                        poBitacora.Cedula = doSolicitud.Identificacion;
+                        poBitacora.Observacion = doSolicitud.Observacion;
+                        poBitacora.EstadoSolicitud = doSolicitud.EstadoSolicitud;
+                        poBitacora.FechaSalida = doSolicitud.FechaSalida;
+                        poBitacora.FechaRegreso = doSolicitud.FechaRegreso;
+
+                    }
+
+                    foreach (var detalle in doSolicitud.JUSTICA_SOLICITUD)
+                    {
+                        var poDetalle = entities.JUSTICA_SOLICITUD.Where(x =>
+                        x.IdSolicitudPermiso == detalle.IdSolicitudPermiso
+                        && x.IdJustificaSolicitud == detalle.IdJustificaSolicitud).FirstOrDefault();
+
+                        if (poDetalle != null)
+                        {
+                            poDetalle.CodigoMotivo = detalle.CodigoMotivo;
+                            poDetalle.FechaSalida = detalle.FechaSalida ?? poDetalle.FechaSalida;
+                            poDetalle.FechaRegreso = detalle.FechaRegreso ?? poDetalle.FechaRegreso;
+                            poDetalle.FechaModificacionLog = DateTime.Now;
+                            poDetalle.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
+                            poDetalle.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
+                        }
+                        else
+                        {
+                            detalle.IdSolicitudPermiso = doSolicitud.IdSolicitudPermiso;
+                            detalle.FechaIngresoLog = DateTime.Now;
+                            detalle.UsuarioIngresoLog = doSolicitud.UsuarioModificacionLog;
+                            detalle.TerminalIngresoLog = doSolicitud.TerminalModificacionLog;
+                            entities.JUSTICA_SOLICITUD.Add(detalle);
+                        }
+
+                    }
+
+
+                    poBitacora.FechaIngresoLog = DateTime.Now;
+                    poBitacora.UsuarioIngresoLog = doSolicitud.UsuarioIngresoLog ?? doSolicitud.UsuarioModificacionLog;
+                    poBitacora.TerminalIngresoLog = doSolicitud.TerminalIngresoLog ?? doSolicitud.TerminalModificacionLog;
+                    entities.SaveChanges();
+
+                    var psIdentificacion = doSolicitud.Identificacion ?? poSolicitud.Identificacion;
+                    var sol = entities.SOLICITUD_PERMISO.Where(x => x.Identificacion == psIdentificacion).OrderByDescending(x => x.FechaIngresoLog).FirstOrDefault();
+                    poBitacora.IdSolicitud = sol.IdSolicitudPermiso;
+                    entities.BITACORA_SOLICITUD.Add(poBitacora);
+                    entities.SaveChanges();
+                    transaction.Commit();
+                }
             }
-
-
-
-
-            entities.SaveChanges();
             return psMensaje;
 
         }
@@ -317,33 +359,47 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             return piNivel;
         }
 
-        public List<BITACORA_SOLICITUD> ConsultaBitacoraSolicitud(string dsIdSolicitud, string dsCedula, DateTime? ddFechaDesde, DateTime? ddFechaHasta)
+        public List<BitacoraSolicitud> ConsultaBitacoraSolicitud(string dsIdSolicitud, string dsCedula, DateTime? ddFechaDesde, DateTime? ddFechaHasta)
         {
-            entities = new ASIS_PRODEntities();
-            IEnumerable<BITACORA_SOLICITUD> ListaBitacora=null;
-            if (!string.IsNullOrEmpty(dsIdSolicitud))
+            IQueryable<BitacoraSolicitud> ListaBitacora = null;
+            using(var context = new ASIS_PRODEntities())
             {
-                ListaBitacora = entities.BITACORA_SOLICITUD.Where(x => x.IdSolicitud == int.Parse(dsIdSolicitud));
-            }else if (!string.IsNullOrEmpty(dsCedula))
-            {
-                ListaBitacora = entities.BITACORA_SOLICITUD.Where(x => x.Cedula == dsCedula);
-            }
-            if(ddFechaDesde!=null && ddFechaHasta != null)
-            {
-                ListaBitacora = ListaBitacora.Where(x=> x.FechaIngresoLog>= ddFechaDesde && x.FechaIngresoLog<=ddFechaHasta);
-            }
 
-            entities.Dispose();
-            return ListaBitacora.ToList();
+                var query = (from bitacora in context.BITACORA_SOLICITUD
+                             join estado in context.ESTADO_SOLICITUD on bitacora.EstadoSolicitud equals estado.Estado
+                             select new BitacoraSolicitud() {
+                                 idBitacoraSolicitud=bitacora.IdBitacoraSolicitud,
+                                 idSolicitud=bitacora.IdSolicitud,
+                                 Cedula=bitacora.Cedula,
+                                 CodEstadoSolicitud=bitacora.EstadoSolicitud,
+                                 EstadoSolicitud=estado.Descripcion,
+                                 FechaRegreso=bitacora.FechaSalida,
+                                 FechaSalida=bitacora.FechaSalida,
+                                 Observacion=bitacora.Observacion,
+                                 FechaIngresoLog=bitacora.FechaIngresoLog,
+                                 TerminalIngresoLog=bitacora.TerminalIngresoLog,
+                                 UsuarioIngresoLog=bitacora.UsuarioIngresoLog
+                             });
+                if (!string.IsNullOrEmpty(dsIdSolicitud))
+                {
+                    int id = int.Parse(dsIdSolicitud);
+                    ListaBitacora = query.Where(x => x.idSolicitud == id).OrderByDescending(x=>x.FechaIngresoLog);
+                }
+                else if (!string.IsNullOrEmpty(dsCedula))
+                {
+                    ListaBitacora = query.Where(x => x.Cedula == dsCedula).OrderByDescending(x => x.FechaIngresoLog);
+                }
+                if (ddFechaDesde != null && ddFechaHasta != null)
+                {
+                    ddFechaHasta = ddFechaHasta.Value.AddDays(1);
+                    ddFechaHasta = ddFechaHasta.Value.Date;
+                    ddFechaDesde = ddFechaDesde.Value.Date;
+                    ListaBitacora = ListaBitacora.Where(x => x.FechaIngresoLog >= ddFechaDesde && x.FechaIngresoLog <= ddFechaHasta);
+                }
+                return ListaBitacora.ToList();
+            }
         }
-        public void GuardarBitacoraSolicitud(BITACORA_SOLICITUD doBitacora)
-        {
-            entities = new ASIS_PRODEntities();
-            entities.BITACORA_SOLICITUD.Add(doBitacora);
-            entities.SaveChanges();
-            entities.Dispose();
-
-        }
+       
 
     }
 } 

@@ -15,11 +15,11 @@
     <div class="row">
         <div class="form-group col-md-3 col-sm-12">
             <label>Solicitud</label>
-            <input id="textSolicitud" class="form-control" type="text" name="name" value="" />
+            <input id="textSolicitud" class="form-control" type="number" name="name" value="" />
         </div>
         <div class="form-group col-md-3 col-sm-12">
             <label>Cedula</label>
-            <input id="textCedula" class="form-control" type="text" name="name" value="" />
+            <input id="textCedula" class="form-control" type="number" name="name" value="" />
         </div>
         <div style="display: flex;justify-content: center;align-items: center;" class="form-group col-md-1 col-sm-2">
             <div class="custom-control custom-switch">
@@ -39,64 +39,20 @@
     </div>
     <div class="row">
         <div class="col text-center">
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseBitacora" aria-expanded="false" aria-controls="collapseBitacora">
+            <button onclick="ConsultarBitacora()" class="btn btn-primary" type="button">
                 Consultar
             </button>
         </div>
     </div>
     <br />
 
-    <div class="collapse" id="collapseBitacora">
-        <div class="card card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Solicitud</th>
-                            <th>Cedula</th>
-                            <th>Empleado</th>
-                            <th>Departamento</th>
-                            <th>Area</th>
-                            <th>Estado</th>
-                            <th>Fecha de ingreso</th>
-                            <th>Usuario de ingreso</th>
-                            <th>Terminal de ingreso</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>0999999999</td>
-                            <td>Martinez Morales José</td>
-                            <td>Produccion</td>
-                            <td>Procesos</td>
-                            <td>Pendiente</td>
-                            <td><input type="datetime" name="name" value="@DateTime.Now.AddDays(-1)" class="form-control" /></td>
-                            <td>vcrespo</td>
-                            <td>192.168.1.1</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>0999999999</td>
-                            <td>Martinez Morales José</td>
-                            <td>Produccion</td>
-                            <td>Procesos</td>
-                            <td>Aprobada</td>
-                            <td><input type="datetime" name="name" value="@DateTime.Now" class="form-control" /></td>
-                            <td>vcrespo</td>
-                            <td>192.168.2.1</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div id="Bitacora">
 
-            </div>
-        </div>
     </div>
-
-
 
 
 </div>
 
-
+<div id="ModalMensaje"> </div>
 <script src="~/Scripts/SolicitudPermisoJS/BitacoraSolicitud.js"></script>
+<script src="~/Scripts/Mensajes/Mensajes.js"></script>
