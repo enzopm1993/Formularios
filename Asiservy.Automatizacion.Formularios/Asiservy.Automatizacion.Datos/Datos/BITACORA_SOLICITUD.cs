@@ -21,6 +21,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Observacion { get; set; }
         public System.DateTime FechaIngreso { get; set; }
         public string UsuarioIngreso { get; set; }
-        public byte[] TerminalIngreso { get; set; }
+        public string TerminalIngreso { get; set; }
     }
 }
