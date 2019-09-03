@@ -2,7 +2,7 @@
 var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
 function MensajeClose() {
     //location.reload();
-    $(this).modal('hide');
+   //$(this).modal('hide');
     if (sPage = 'SolicitudPermiso') {
         $('#GuardarSolicitudGeneral').prop('readonly', false);
     }
