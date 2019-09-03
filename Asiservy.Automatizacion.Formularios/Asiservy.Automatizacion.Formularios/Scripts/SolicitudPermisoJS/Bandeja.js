@@ -124,6 +124,8 @@ $(document).ready(function () {
         "pageLength": 5,
         "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
         "pagingType": "full_numbers"
+        
+        
     });
 });
 

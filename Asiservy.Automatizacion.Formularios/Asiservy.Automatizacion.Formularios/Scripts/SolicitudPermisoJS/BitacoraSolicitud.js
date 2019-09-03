@@ -10,7 +10,7 @@ function ConsultarBitacora() {
             ddFechaHasta: $('#dateHasta').val()
         },
         success: function (resultado) {
-            console.log(JSON.stringify(resultado));
+            //console.log(JSON.stringify(resultado));
       
             var bitacora = $('#Bitacora');
             if (resultado.Failed) {
@@ -20,7 +20,7 @@ function ConsultarBitacora() {
             }
         },
         error: function (result) {
-            console.log(JSON.stringify(result.responseText));
+           /* console.log(JSON.stringify(result.responseText))*/;
             MensajeError(resultado.Mensaje, false);
         }
     });
@@ -44,6 +44,5 @@ function ActivarFechas() {
         dateHasta.value = "";
 
     }
-
-
 }
+

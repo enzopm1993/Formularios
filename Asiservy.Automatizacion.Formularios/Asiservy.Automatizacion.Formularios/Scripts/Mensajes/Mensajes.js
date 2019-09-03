@@ -1,6 +1,6 @@
 ﻿function MensajeClose() {
     //location.reload();
-    $(this).modal('hide');
+    //$(this).modal('hide');
 }
 
 function MensajeCloseReload() {
