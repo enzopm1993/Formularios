@@ -15,12 +15,13 @@
                 <tbody>
                    @foreach (var item in Model)
                    {
+                       var estado = (item.EstadoSolicitud == "002" ? "text-success" : item.EstadoSolicitud=="001"?"text-warning":item.EstadoSolicitud=="003"? "text-danger" : "text-secondary");
                        <tr>
                            <td>@item.IdSolicitudPermiso</td>
                            <td>@item.DescripcionLinea</td>
                            <td>@item.DescripcionArea</td>
-                           <td>@item.NombreEmpleado</td>
-                           <td>@item.EstadoSolicitud</td>
+                           <td >@item.NombreEmpleado</td>
+                           <td class="@estado" >@item.DescripcionEstadoSolicitud</td>
                            <td>@item.FechaBiometrico</td>
                        </tr>
                    }
