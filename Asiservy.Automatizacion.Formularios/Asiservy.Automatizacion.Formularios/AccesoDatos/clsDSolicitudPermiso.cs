@@ -313,7 +313,33 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             return piNivel;
         }
 
-    
+        public List<BITACORA_SOLICITUD> ConsultaBitacoraSolicitud(string dsIdSolicitud, string dsCedula, DateTime? ddFechaDesde, DateTime? ddFechaHasta)
+        {
+            entities = new ASIS_PRODEntities();
+            IEnumerable<BITACORA_SOLICITUD> ListaBitacora=null;
+            if (!string.IsNullOrEmpty(dsIdSolicitud))
+            {
+                ListaBitacora = entities.BITACORA_SOLICITUD.Where(x => x.IdSolicitud == int.Parse(dsIdSolicitud));
+            }else if (!string.IsNullOrEmpty(dsCedula))
+            {
+                ListaBitacora = entities.BITACORA_SOLICITUD.Where(x => x.Cedula == dsCedula);
+            }
+            if(ddFechaDesde!=null && ddFechaHasta != null)
+            {
+                ListaBitacora = ListaBitacora.Where(x=> x.FechaIngreso>= ddFechaDesde && x.FechaIngreso<=ddFechaHasta);
+            }
+
+            entities.Dispose();
+            return ListaBitacora.ToList();
+        }
+        public void GuardarBitacoraSolicitud(BITACORA_SOLICITUD doBitacora)
+        {
+            entities = new ASIS_PRODEntities();
+            entities.BITACORA_SOLICITUD.Add(doBitacora);
+            entities.SaveChanges();
+            entities.Dispose();
+
+        }
 
     }
 } 

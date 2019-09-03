@@ -55,6 +55,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             string[] psIdUsuario = User.Identity.Name.Split('_');
                             model.UsuarioModificacionLog = psIdUsuario[0];
                             model.TerminalModificacionLog = Request.UserHostAddress;
+
+                            BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
+                            poBitacora.IdSolicitud = model.IdSolicitudPermiso;
+                            poBitacora.Cedula = model.Identificacion;
+                            poBitacora.Observacion = model.Observacion;
+                            poBitacora.FechaIngreso = DateTime.Now;
+                            poBitacora.UsuarioIngreso = psIdUsuario[0];
+                            poBitacora.TerminalIngreso = Request.UserHostAddress;
+                            clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
+
                             psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
                         }
                     }
@@ -84,6 +94,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     string[] psIdUsuario = User.Identity.Name.Split('_');
                     model.UsuarioModificacionLog = psIdUsuario[0]+"";
                     model.TerminalModificacionLog = Request.UserHostAddress;
+
+                    BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
+                    poBitacora.IdSolicitud = model.IdSolicitudPermiso;
+                    poBitacora.Cedula = model.Identificacion;
+                    poBitacora.Observacion = model.Observacion;
+                    poBitacora.FechaIngreso = DateTime.Now;
+                    poBitacora.UsuarioIngreso = psIdUsuario[0];
+                    poBitacora.TerminalIngreso = Request.UserHostAddress;
+                    clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
+
                     string psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
                     return Json(psRespuesta, JsonRequestBehavior.AllowGet);
                 }
@@ -117,6 +137,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             string[] psIdUsuario = User.Identity.Name.Split('_');
                             model.UsuarioModificacionLog = psIdUsuario[0];
                             model.TerminalModificacionLog = Request.UserHostAddress;
+
+                            BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
+                            poBitacora.IdSolicitud = model.IdSolicitudPermiso;
+                            poBitacora.Cedula = model.Identificacion;
+                            poBitacora.Observacion = model.Observacion;
+                            poBitacora.FechaIngreso = DateTime.Now;
+                            poBitacora.UsuarioIngreso = psIdUsuario[0];
+                            poBitacora.TerminalIngreso = Request.UserHostAddress;
+                            clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
+
                             psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
                         }
                     }
@@ -131,7 +161,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult SolicitudPermisoEdit(string dsSolicitud)
+        public ActionResult SolicitudPermisoEdit(string dsSolicitud, string frm)
         {
             try
             {                
@@ -146,6 +176,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     ConsultaCombosMedicos();
 
                 }
+
+                if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
+                    ViewBag.Justifica = "Justifica";
 
                 return PartialView(model);
             }
@@ -181,7 +214,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     string[] psIdUsuario = User.Identity.Name.Split('_');
                     poSolicitudPermiso.UsuarioModificacionLog = psIdUsuario[0] + "";
                     poSolicitudPermiso.TerminalModificacionLog = Request.UserHostAddress;
-                    foreach(var detalle in doSolicitud.JustificaSolicitudes)
+
+                    BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
+                    poBitacora.IdSolicitud = poSolicitudPermiso.IdSolicitudPermiso;
+                    poBitacora.Cedula = poSolicitudPermiso.Identificacion;
+                    poBitacora.Observacion = poSolicitudPermiso.Observacion;
+                    poBitacora.FechaIngreso = DateTime.Now;
+                    poBitacora.UsuarioIngreso = psIdUsuario[0];
+                    poBitacora.TerminalIngreso = Request.UserHostAddress;
+                    clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
+
+                    foreach (var detalle in doSolicitud.JustificaSolicitudes)
                     {
                         if(detalle.CodigoMotivo!=null)
                         {
@@ -310,6 +353,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.UsuarioIngresoLog = psIdUsuario[0];
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
                     solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
+
+                    BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
+                    poBitacora.IdSolicitud = solicitudPermiso.IdSolicitudPermiso;
+                    poBitacora.Cedula = solicitudPermiso.Identificacion;
+                    poBitacora.Observacion = solicitudPermiso.Observacion;
+                    poBitacora.FechaIngreso = DateTime.Now;
+                    poBitacora.UsuarioIngreso = psIdUsuario[0];
+                    poBitacora.TerminalIngreso = Request.UserHostAddress;
+                    clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
+
                     string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);
                     SetSuccessMessage(string.Format(psRespuesta));
                 }
@@ -512,10 +565,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult BitacoraSolicitudPartial(string dsIdSolicitud, string dsCedula, DateTime? ddFechaDesde, DateTime? ddFechaHasta)
         {
-            
+            try
+            {
+                var model = clsDSolicitudPermiso.ConsultaBitacoraSolicitud(dsIdSolicitud, dsCedula, ddFechaDesde, ddFechaHasta);
+                return PartialView(model);
 
-
-            return PartialView();
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                return PartialView();
+            }
         }
         #endregion
 
