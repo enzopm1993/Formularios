@@ -330,7 +330,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
             if(ddFechaDesde!=null && ddFechaHasta != null)
             {
-                ListaBitacora = ListaBitacora.Where(x=> x.FechaIngreso>= ddFechaDesde && x.FechaIngreso<=ddFechaHasta);
+                ListaBitacora = ListaBitacora.Where(x=> x.FechaIngresoLog>= ddFechaDesde && x.FechaIngresoLog<=ddFechaHasta);
             }
 
             entities.Dispose();
