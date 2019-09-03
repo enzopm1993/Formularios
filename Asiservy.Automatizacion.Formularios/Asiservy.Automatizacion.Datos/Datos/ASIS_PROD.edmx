@@ -536,9 +536,6 @@
           <FunctionImport Name="spConsultaArea" ReturnType="Collection(ASIS_PRODModel.spConsultaArea)">
           <Parameter Name="codigo" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaLinea)">
-          <Parameter Name="codigo" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaCodigosEnfermedad" ReturnType="Collection(ASIS_PRODModel.spConsultaCodigosEnfermedad)">
           <Parameter Name="codigo" Mode="In" Type="String" />
           </FunctionImport>
@@ -570,12 +567,11 @@
           </FunctionImport>
           <EntitySet Name="ESTADO_SOLICITUD" EntityType="ASIS_PRODModel.ESTADO_SOLICITUD" />
           <EntitySet Name="BITACORA_SOLICITUD" EntityType="ASIS_PRODModel.BITACORA_SOLICITUD" />
+          <FunctionImport Name="spConsultaLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaLinea)">
+            <Parameter Name="codigo" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaArea">
-          <Property Type="String" Name="Codigo" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="spConsultaLinea">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="1" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
         </ComplexType>
@@ -651,6 +647,10 @@
           <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="spConsultaLinea">
+          <Property Type="String" Name="Codigo" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -829,14 +829,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaLinea" FunctionName="ASIS_PRODModel.Store.spConsultaLinea">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaLinea">
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaCodigosEnfermedad" FunctionName="ASIS_PRODModel.Store.spConsultaCodigosEnfermedad">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCodigosEnfermedad">
@@ -908,6 +900,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaLinea" FunctionName="ASIS_PRODModel.Store.spConsultaLinea">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaLinea">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
