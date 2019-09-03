@@ -10,13 +10,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     public class MensajeController : Controller
     {
         // GET: Mensaje
-        public ActionResult Correcto()
+        public ActionResult Correcto(bool reload=false)
         {
+            ViewBag.reload = reload;
             return PartialView();
         }
 
-        public ActionResult Error()
+        public ActionResult Error(bool reload = false)
         {
+
+            ViewBag.reload = reload;
             return PartialView();
         }
         public ActionResult EmpleadoBuscar()

@@ -1,8 +1,4 @@
 ﻿
-function Justificar() {
-
-}
-
 function FinalizarSolitudes() {
     var result = new Array();
     i = 0;
@@ -36,11 +32,11 @@ function Finalizar(result) {
             diIdSolicitud: resultado2
         },
         success: function (resultado) {
-            MensajeCorrecto(resultado + "\n Solicitud Finalizada");
+            MensajeCorrecto(resultado + "\n Solicitud Finalizada",true);
         }
         ,
         error: function () {
-            MensajeError("No se ha podido obtener la información");
+            MensajeError("No se ha podido obtener la información",false);
         }
     });
 }
@@ -59,11 +55,11 @@ function Anular() {
                 dsObservacion: " -Anulación: " +Observacion
             },
             success: function (resultado) {
-                MensajeCorrecto(resultado + "\n Solicitud Anulada");
+                MensajeCorrecto(resultado + "\n Solicitud Anulada", true);
             }
             ,
             error: function () {
-                MensajeError("No se ha podido obtener la información");
+                MensajeError("No se ha podido obtener la información", false);
             }
         });
     }
@@ -72,23 +68,25 @@ function Anular() {
 
 function Mostrar(valor) {
     //console.log(valor);
+    var sPath = window.location.pathname;
+    var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
     $.ajax({
         url: '../SolicitudPermiso/SolicitudPermisoEdit',
         type: 'GET',
         data: {
-            dsSolicitud: valor
+            dsSolicitud: valor,
+            frm:sPage
         },
         success: function (resultado) {
             document.getElementById("modal_body").innerHTML = resultado;
-            var sPath = window.location.pathname;
-            var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+           
             document.getElementById("frmName").value = sPage;
             //console.log(sPage);
             $('#ModalEditarSolicitud').modal('toggle');
         }
         ,
         error: function () {
-            MensajeError("No se ha podido obtener la información");
+            MensajeError("No se ha podido obtener la información",false);
         }
     });
 }

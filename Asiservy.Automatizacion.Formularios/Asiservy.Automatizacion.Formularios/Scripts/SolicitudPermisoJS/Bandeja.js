@@ -30,13 +30,15 @@ function Aprobar(result) {
         dataType: "json",
         data: {
             diIdSolicitud: resultado2
+           
         },
         success: function (resultado) {
-            MensajeCorrecto(resultado + "\n Solicitud Aprobada");
+            MensajeCorrecto(resultado + "\n Solicitud Aprobada",true);
+            
         }
         ,
         error: function () {
-            MensajeError("No se ha podido obtener la información");
+            MensajeError("No se ha podido obtener la información", false);
         }
     });
 }
@@ -57,11 +59,11 @@ function Anular() {
                 dsObservacion: " -Anulación: "+Observacion
             },
             success: function (resultado) {
-                MensajeCorrecto(resultado + "\n Solicitud Anulada");
+                MensajeCorrecto(resultado + "\n Solicitud Anulada",true);
             }
             ,
             error: function () {
-                MensajeError("No se ha podido obtener la información");
+                MensajeError("No se ha podido obtener la información",false);
             }
         });
     }
@@ -88,7 +90,7 @@ function Mostrar(valor) {
         }
         ,
         error: function () {
-            MensajeError("No se ha podido obtener la información");
+            MensajeError("No se ha podido obtener la información",false);
         }
     });
 }

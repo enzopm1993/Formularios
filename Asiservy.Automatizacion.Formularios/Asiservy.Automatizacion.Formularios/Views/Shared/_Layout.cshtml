@@ -151,14 +151,14 @@
         @if (TempData["MensajeConfirmacion"] != null)
         {
             <script>
-              MensajeCorrecto("@TempData["MensajeConfirmacion"]");
+              MensajeCorrecto("@TempData["MensajeConfirmacion"]",false);
             </script>
 
         }
         else if (TempData["MensajeError"] != null)
         {
             <script>
-              MensajeError("@TempData["MensajeError"]");
+              MensajeError("@TempData["MensajeError"]",false);
             </script>
         }
     </div>

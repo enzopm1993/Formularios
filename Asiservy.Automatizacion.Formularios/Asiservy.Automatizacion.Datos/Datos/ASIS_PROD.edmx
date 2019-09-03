@@ -5,15 +5,9 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ASIS_PRODModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'ASIS_PROD.dbo.BITACORA_SOLICITUD' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="BITACORA_SOLICITUD">
           <Key>
             <PropertyRef Name="IdBitacoraSolicitud" />
-            <PropertyRef Name="IdSolicitud" />
-            <PropertyRef Name="FechaIngreso" />
-            <PropertyRef Name="UsuarioIngreso" />
-            <PropertyRef Name="TerminalIngreso" />
           </Key>
           <Property Name="IdBitacoraSolicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdSolicitud" Type="int" Nullable="false" />
@@ -22,7 +16,7 @@ advertencia 6002: La tabla o vista 'ASIS_PROD.dbo.BITACORA_SOLICITUD' no tiene d
           <Property Name="Observacion" Type="varchar" MaxLength="500" />
           <Property Name="FechaIngreso" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngreso" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="TerminalIngreso" Type="varbinary" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngreso" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="CLASIFICADOR">
           <Key>
@@ -263,6 +257,7 @@ advertencia 6002: La tabla o vista 'ASIS_PROD.dbo.BITACORA_SOLICITUD' no tiene d
           <Parameter Name="dsCodigoMotivo" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="ASIS_PRODModelStoreContainer">
+          <EntitySet Name="BITACORA_SOLICITUD" EntityType="Self.BITACORA_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLASIFICADOR" EntityType="Self.CLASIFICADOR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTADO_SOLICITUD" EntityType="Self.ESTADO_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JUSTICA_SOLICITUD" EntityType="Self.JUSTICA_SOLICITUD" Schema="dbo" store:Type="Tables" />
@@ -274,18 +269,6 @@ advertencia 6002: La tabla o vista 'ASIS_PROD.dbo.BITACORA_SOLICITUD' no tiene d
           <EntitySet Name="SOLICITUD_PERMISO" EntityType="Self.SOLICITUD_PERMISO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USUARIO_ROL" EntityType="Self.USUARIO_ROL" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BITACORA_SOLICITUD" EntityType="Self.BITACORA_SOLICITUD" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [BITACORA_SOLICITUD].[IdBitacoraSolicitud] AS [IdBitacoraSolicitud], 
-    [BITACORA_SOLICITUD].[IdSolicitud] AS [IdSolicitud], 
-    [BITACORA_SOLICITUD].[Cedula] AS [Cedula], 
-    [BITACORA_SOLICITUD].[EstadoSolicitud] AS [EstadoSolicitud], 
-    [BITACORA_SOLICITUD].[Observacion] AS [Observacion], 
-    [BITACORA_SOLICITUD].[FechaIngreso] AS [FechaIngreso], 
-    [BITACORA_SOLICITUD].[UsuarioIngreso] AS [UsuarioIngreso], 
-    [BITACORA_SOLICITUD].[TerminalIngreso] AS [TerminalIngreso]
-    FROM [dbo].[BITACORA_SOLICITUD] AS [BITACORA_SOLICITUD]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK__JUSTICA_S__IdSol__6A30C649" Association="Self.FK__JUSTICA_S__IdSol__6A30C649">
             <End Role="SOLICITUD_PERMISO" EntitySet="SOLICITUD_PERMISO" />
             <End Role="JUSTICA_SOLICITUD" EntitySet="JUSTICA_SOLICITUD" />
@@ -654,10 +637,6 @@ advertencia 6002: La tabla o vista 'ASIS_PROD.dbo.BITACORA_SOLICITUD' no tiene d
         <EntityType Name="BITACORA_SOLICITUD">
           <Key>
             <PropertyRef Name="IdBitacoraSolicitud" />
-            <PropertyRef Name="IdSolicitud" />
-            <PropertyRef Name="FechaIngreso" />
-            <PropertyRef Name="UsuarioIngreso" />
-            <PropertyRef Name="TerminalIngreso" />
           </Key>
           <Property Name="IdBitacoraSolicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdSolicitud" Type="Int32" Nullable="false" />
@@ -666,7 +645,7 @@ advertencia 6002: La tabla o vista 'ASIS_PROD.dbo.BITACORA_SOLICITUD' no tiene d
           <Property Name="Observacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="FechaIngreso" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UsuarioIngreso" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngreso" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
+          <Property Name="TerminalIngreso" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>

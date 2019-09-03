@@ -1,5 +1,5 @@
 ﻿<!-- Modal -->
-<div class="modal fade" id="ModalError" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="ModalCorrecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,8 +12,14 @@
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="MensajeClose()">Close</button>
-                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+                @if (ViewBag.reload == true)
+                {
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="MensajeCloseReload()">Close</button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="MensajeClose()">Close</button>
+                }
             </div>
         </div>
     </div>

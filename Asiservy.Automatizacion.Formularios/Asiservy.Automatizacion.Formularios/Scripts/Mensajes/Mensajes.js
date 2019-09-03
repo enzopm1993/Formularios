@@ -3,33 +3,39 @@
     $(this).modal('hide');
 }
 
-function MensajeCorrecto(mensaje) {
+function MensajeCloseReload() {
+    location.reload();
+}
+
+function MensajeCorrecto(mensaje,r) {
     $.ajax({
         url: "../Mensaje/Correcto",
         type: "Get",
+        data: { reload: r },
+        success: function (resultado) {
+            var m = document.getElementById("ModalMensaje");
+            m.innerHTML = resultado;
+            //var modal = document.getElementById("ModalError");
+            $("#ModalCorrecto").modal("show");
+            document.getElementById('mensajeError').innerHTML = mensaje;
+               console.log(r);
+        }
+    });
+}
+
+
+function MensajeError(mensaje, r) {
+    $.ajax({
+        url: "../Mensaje/Error",
+        type: "Get",
+        data: { reload: r },
         success: function (resultado) {
             var m = document.getElementById("ModalMensaje");
             m.innerHTML = resultado;
             //var modal = document.getElementById("ModalError");
             $("#ModalError").modal("show");
             document.getElementById('mensajeError').innerHTML = mensaje;
-            //   console.log(mensaje);
-        }
-    });
-}
-
-
-function MensajeError(mensaje) {
-    $.ajax({
-        url: "../Mensaje/Error",
-        type: "Get",
-        success: function (resultado) {
-            var m = document.getElementById("ModalMensaje");
-            m.innerHTML = resultado;
-            //var modal = document.getElementById("ModalError");
-            $("#ModalEmpleado").modal("show");
-            document.getElementById('mensajeError').innerHTML = mensaje;
-            //   console.log(mensaje);
+               console.log(mensaje);
         }
     });
 }
