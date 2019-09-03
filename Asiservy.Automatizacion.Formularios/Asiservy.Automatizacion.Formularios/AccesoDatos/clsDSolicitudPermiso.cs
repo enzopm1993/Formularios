@@ -99,7 +99,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             entities = new ASIS_PRODEntities();
             List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
             List<SOLICITUD_PERMISO> Lista = new List<SOLICITUD_PERMISO>();
-            //var pListEstadosSolicitud=entities
+            
             if (dsEstadoSolcitud == clsAtributos.EstadoSolicitudTodos)
             {
                 Lista = entities.SOLICITUD_PERMISO.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
@@ -132,6 +132,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
                 var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == x.CodigoMotivo);
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
+                string DescripcionEstadosSolicitud = (from e in entities.ESTADO_SOLICITUD
+                                             where e.Estado == x.EstadoSolicitud
+                                             select e.Descripcion).FirstOrDefault();
                 ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
                 {
                     IdSolicitudPermiso = x.IdSolicitudPermiso,
@@ -149,6 +152,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     FechaSalida = x.FechaSalida,
                     FechaRegreso = x.FechaRegreso,
                     EstadoSolicitud = x.EstadoSolicitud,
+                    DescripcionEstadoSolicitud= DescripcionEstadosSolicitud,
                     FechaBiometrico = x.FechaBiometrico,
                     Origen = x.Origen,
                     CodigoDiagnostico = x.CodigoDiagnostico,
