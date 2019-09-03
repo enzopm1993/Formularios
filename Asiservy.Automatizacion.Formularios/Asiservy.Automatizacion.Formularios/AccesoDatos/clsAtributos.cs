@@ -8,8 +8,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
     public static class clsAtributos
     {
         //Estados de registros
-        public static string EstadoRegistroActivo = "1";
-        public static string EstadoRegistroInactivo = "0";
+        public static string EstadoRegistroActivo = "A";
+        public static string EstadoRegistroInactivo = "I";
 
         //Origen de solicitudes
         public static string SolicitudOrigenMedico = "M";

@@ -49,15 +49,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaArea>("spConsultaArea", codigoParameter);
         }
     
-        public virtual ObjectResult<spConsultaLinea> spConsultaLinea(string codigo)
-        {
-            var codigoParameter = codigo != null ?
-                new ObjectParameter("codigo", codigo) :
-                new ObjectParameter("codigo", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaLinea>("spConsultaLinea", codigoParameter);
-        }
-    
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
             var codigoParameter = codigo != null ?
@@ -122,6 +113,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Cargo", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltro_Result>("spConsutaEmpleadosFiltro", areaParameter, lineaParameter, cargoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaLinea> spConsultaLinea(string codigo)
+        {
+            var codigoParameter = codigo != null ?
+                new ObjectParameter("codigo", codigo) :
+                new ObjectParameter("codigo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaLinea>("spConsultaLinea", codigoParameter);
         }
     }
 }

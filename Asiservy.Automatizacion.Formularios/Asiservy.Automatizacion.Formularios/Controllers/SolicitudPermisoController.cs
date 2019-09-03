@@ -54,16 +54,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             model.FechaModificacionLog = DateTime.Now;
                             string[] psIdUsuario = User.Identity.Name.Split('_');
                             model.UsuarioModificacionLog = psIdUsuario[0];
-                            model.TerminalModificacionLog = Request.UserHostAddress;
-
-                            BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
-                            poBitacora.IdSolicitud = model.IdSolicitudPermiso;
-                            poBitacora.Cedula = model.Identificacion;
-                            poBitacora.Observacion = model.Observacion;
-                            poBitacora.FechaIngresoLog = DateTime.Now;
-                            poBitacora.UsuarioIngresoLog = psIdUsuario[0];
-                            poBitacora.TerminalIngresoLog = Request.UserHostAddress;
-                            clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
+                            model.TerminalModificacionLog = Request.UserHostAddress;                          
 
                             psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
                         }
@@ -95,14 +86,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     model.UsuarioModificacionLog = psIdUsuario[0]+"";
                     model.TerminalModificacionLog = Request.UserHostAddress;
 
-                    BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
-                    poBitacora.IdSolicitud = model.IdSolicitudPermiso;
-                    poBitacora.Cedula = model.Identificacion;
-                    poBitacora.Observacion = model.Observacion;
-                    poBitacora.FechaIngresoLog = DateTime.Now;
-                    poBitacora.UsuarioIngresoLog = psIdUsuario[0];
-                    poBitacora.TerminalIngresoLog = Request.UserHostAddress;
-                    clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
+                   
 
                     string psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
                     return Json(psRespuesta, JsonRequestBehavior.AllowGet);
@@ -138,14 +122,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             model.UsuarioModificacionLog = psIdUsuario[0];
                             model.TerminalModificacionLog = Request.UserHostAddress;
 
-                            BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
-                            poBitacora.IdSolicitud = model.IdSolicitudPermiso;
-                            poBitacora.Cedula = model.Identificacion;
-                            poBitacora.Observacion = model.Observacion;
-                            poBitacora.FechaIngresoLog = DateTime.Now;
-                            poBitacora.UsuarioIngresoLog = psIdUsuario[0];
-                            poBitacora.TerminalIngresoLog = Request.UserHostAddress;
-                            clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
+                           
 
                             psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
                         }
@@ -213,16 +190,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     poSolicitudPermiso.FechaModificacionLog = DateTime.Now;
                     string[] psIdUsuario = User.Identity.Name.Split('_');
                     poSolicitudPermiso.UsuarioModificacionLog = psIdUsuario[0] + "";
-                    poSolicitudPermiso.TerminalModificacionLog = Request.UserHostAddress;
-
-                    BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
-                    poBitacora.IdSolicitud = poSolicitudPermiso.IdSolicitudPermiso;
-                    poBitacora.Cedula = poSolicitudPermiso.Identificacion;
-                    poBitacora.Observacion = poSolicitudPermiso.Observacion;
-                    poBitacora.FechaIngresoLog = DateTime.Now;
-                    poBitacora.UsuarioIngresoLog = psIdUsuario[0];
-                    poBitacora.TerminalIngresoLog = Request.UserHostAddress;
-                    clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
+                    poSolicitudPermiso.TerminalModificacionLog = Request.UserHostAddress;                   
 
                     foreach (var detalle in doSolicitud.JustificaSolicitudes)
                     {
@@ -354,14 +322,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
                     solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
 
-                    BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
-                    poBitacora.IdSolicitud = solicitudPermiso.IdSolicitudPermiso;
-                    poBitacora.Cedula = solicitudPermiso.Identificacion;
-                    poBitacora.Observacion = solicitudPermiso.Observacion;
-                    poBitacora.FechaIngresoLog = DateTime.Now;
-                    poBitacora.UsuarioIngresoLog = psIdUsuario[0];
-                    poBitacora.TerminalIngresoLog = Request.UserHostAddress;
-                    clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
+                   
 
                     string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);
                     SetSuccessMessage(string.Format(psRespuesta));
@@ -567,14 +528,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                var model = clsDSolicitudPermiso.ConsultaBitacoraSolicitud(dsIdSolicitud, dsCedula, ddFechaDesde, ddFechaHasta);
+                clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                if (string.IsNullOrEmpty(dsIdSolicitud)&& string.IsNullOrEmpty(dsCedula))
+                {
+                    return Json( new {Failed = true, Mensaje="Ingrese parametros de consulta"},JsonRequestBehavior.AllowGet);
+                }                
+                List<BitacoraSolicitud> model = clsDSolicitudPermiso.ConsultaBitacoraSolicitud(dsIdSolicitud, dsCedula, ddFechaDesde, ddFechaHasta);
                 return PartialView(model);
 
             }
             catch (Exception ex)
-            {
-                SetErrorMessage(ex.Message);
-                return PartialView();
+            {                
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new { Failed = true, Mensaje = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
