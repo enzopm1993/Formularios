@@ -19,8 +19,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Cedula { get; set; }
         public string EstadoSolicitud { get; set; }
         public string Observacion { get; set; }
-        public System.DateTime FechaIngreso { get; set; }
-        public string UsuarioIngreso { get; set; }
-        public string TerminalIngreso { get; set; }
+        public Nullable<System.DateTime> FechaSalida { get; set; }
+        public Nullable<System.DateTime> FechaRegreso { get; set; }
+        public System.DateTime FechaIngresoLog { get; set; }
+        public string UsuarioIngresoLog { get; set; }
+        public string TerminalIngresoLog { get; set; }
     }
 }

@@ -14,9 +14,11 @@
           <Property Name="Cedula" Type="varchar" MaxLength="13" />
           <Property Name="EstadoSolicitud" Type="varchar" MaxLength="10" />
           <Property Name="Observacion" Type="varchar" MaxLength="500" />
-          <Property Name="FechaIngreso" Type="datetime" Nullable="false" />
-          <Property Name="UsuarioIngreso" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="TerminalIngreso" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaSalida" Type="datetime" />
+          <Property Name="FechaRegreso" Type="datetime" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="CLASIFICADOR">
           <Key>
@@ -643,9 +645,11 @@
           <Property Name="Cedula" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
           <Property Name="EstadoSolicitud" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Observacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="FechaIngreso" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngreso" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngreso" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaSalida" Type="DateTime" Precision="3" />
+          <Property Name="FechaRegreso" Type="DateTime" Precision="3" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -891,9 +895,11 @@
           <EntitySetMapping Name="BITACORA_SOLICITUD">
             <EntityTypeMapping TypeName="ASIS_PRODModel.BITACORA_SOLICITUD">
               <MappingFragment StoreEntitySet="BITACORA_SOLICITUD">
-                <ScalarProperty Name="TerminalIngreso" ColumnName="TerminalIngreso" />
-                <ScalarProperty Name="UsuarioIngreso" ColumnName="UsuarioIngreso" />
-                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="FechaRegreso" ColumnName="FechaRegreso" />
+                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
                 <ScalarProperty Name="EstadoSolicitud" ColumnName="EstadoSolicitud" />
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />

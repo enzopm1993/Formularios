@@ -60,9 +60,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             poBitacora.IdSolicitud = model.IdSolicitudPermiso;
                             poBitacora.Cedula = model.Identificacion;
                             poBitacora.Observacion = model.Observacion;
-                            poBitacora.FechaIngreso = DateTime.Now;
-                            poBitacora.UsuarioIngreso = psIdUsuario[0];
-                            poBitacora.TerminalIngreso = Request.UserHostAddress;
+                            poBitacora.FechaIngresoLog = DateTime.Now;
+                            poBitacora.UsuarioIngresoLog = psIdUsuario[0];
+                            poBitacora.TerminalIngresoLog = Request.UserHostAddress;
                             clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
 
                             psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
@@ -99,9 +99,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     poBitacora.IdSolicitud = model.IdSolicitudPermiso;
                     poBitacora.Cedula = model.Identificacion;
                     poBitacora.Observacion = model.Observacion;
-                    poBitacora.FechaIngreso = DateTime.Now;
-                    poBitacora.UsuarioIngreso = psIdUsuario[0];
-                    poBitacora.TerminalIngreso = Request.UserHostAddress;
+                    poBitacora.FechaIngresoLog = DateTime.Now;
+                    poBitacora.UsuarioIngresoLog = psIdUsuario[0];
+                    poBitacora.TerminalIngresoLog = Request.UserHostAddress;
                     clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
 
                     string psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
@@ -142,9 +142,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             poBitacora.IdSolicitud = model.IdSolicitudPermiso;
                             poBitacora.Cedula = model.Identificacion;
                             poBitacora.Observacion = model.Observacion;
-                            poBitacora.FechaIngreso = DateTime.Now;
-                            poBitacora.UsuarioIngreso = psIdUsuario[0];
-                            poBitacora.TerminalIngreso = Request.UserHostAddress;
+                            poBitacora.FechaIngresoLog = DateTime.Now;
+                            poBitacora.UsuarioIngresoLog = psIdUsuario[0];
+                            poBitacora.TerminalIngresoLog = Request.UserHostAddress;
                             clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
 
                             psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
@@ -219,9 +219,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     poBitacora.IdSolicitud = poSolicitudPermiso.IdSolicitudPermiso;
                     poBitacora.Cedula = poSolicitudPermiso.Identificacion;
                     poBitacora.Observacion = poSolicitudPermiso.Observacion;
-                    poBitacora.FechaIngreso = DateTime.Now;
-                    poBitacora.UsuarioIngreso = psIdUsuario[0];
-                    poBitacora.TerminalIngreso = Request.UserHostAddress;
+                    poBitacora.FechaIngresoLog = DateTime.Now;
+                    poBitacora.UsuarioIngresoLog = psIdUsuario[0];
+                    poBitacora.TerminalIngresoLog = Request.UserHostAddress;
                     clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
 
                     foreach (var detalle in doSolicitud.JustificaSolicitudes)
@@ -358,9 +358,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     poBitacora.IdSolicitud = solicitudPermiso.IdSolicitudPermiso;
                     poBitacora.Cedula = solicitudPermiso.Identificacion;
                     poBitacora.Observacion = solicitudPermiso.Observacion;
-                    poBitacora.FechaIngreso = DateTime.Now;
-                    poBitacora.UsuarioIngreso = psIdUsuario[0];
-                    poBitacora.TerminalIngreso = Request.UserHostAddress;
+                    poBitacora.FechaIngresoLog = DateTime.Now;
+                    poBitacora.UsuarioIngresoLog = psIdUsuario[0];
+                    poBitacora.TerminalIngresoLog = Request.UserHostAddress;
                     clsDSolicitudPermiso.GuardarBitacoraSolicitud(poBitacora);
 
                     string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);
