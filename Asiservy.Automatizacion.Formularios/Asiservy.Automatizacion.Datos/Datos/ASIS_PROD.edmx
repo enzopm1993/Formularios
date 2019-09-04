@@ -231,6 +231,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_GrupoEnfermedades" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tipo" Type="char" Mode="In" />
+          <Parameter Name="CodigoGrupoEnfermedad" Type="varchar" Mode="In" />
+          <Parameter Name="CodigoSubGrupoEnfermedad" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ReporteSolicitudes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spConsultaArea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="varchar" Mode="In" />
         </Function>
@@ -533,9 +539,6 @@
             <End Role="ROL" EntitySet="ROL" />
             <End Role="USUARIO_ROL" EntitySet="USUARIO_ROL" />
           </AssociationSet>
-          <FunctionImport Name="spConsultaArea" ReturnType="Collection(ASIS_PRODModel.spConsultaArea)">
-          <Parameter Name="codigo" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaCodigosEnfermedad" ReturnType="Collection(ASIS_PRODModel.spConsultaCodigosEnfermedad)">
           <Parameter Name="codigo" Mode="In" Type="String" />
           </FunctionImport>
@@ -554,13 +557,10 @@
             <Parameter Name="usuario" Mode="In" Type="String" />
             <Parameter Name="Clave" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsutaEmpleados" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleados)">
-          <Parameter Name="cedula" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsutaMotivosPermiso" ReturnType="Collection(ASIS_PRODModel.spConsutaMotivosPermiso)">
           <Parameter Name="dsCodigoMotivo" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsutaEmpleadosFiltro" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosFiltro_Result)">
+          <FunctionImport Name="spConsutaEmpleadosFiltro" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosFiltro)">
             <Parameter Name="Area" Mode="In" Type="Int32" />
             <Parameter Name="Linea" Mode="In" Type="Int32" />
             <Parameter Name="Cargo" Mode="In" Type="Int32" />
@@ -568,13 +568,21 @@
           <EntitySet Name="ESTADO_SOLICITUD" EntityType="ASIS_PRODModel.ESTADO_SOLICITUD" />
           <EntitySet Name="BITACORA_SOLICITUD" EntityType="ASIS_PRODModel.BITACORA_SOLICITUD" />
           <FunctionImport Name="spConsultaLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaLinea)">
-            <Parameter Name="codigo" Mode="In" Type="String" />
+          <Parameter Name="codigo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ReporteSolicitudes" />
+          <FunctionImport Name="spConsutaEmpleados" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleados)">
+          <Parameter Name="cedula" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaArea" ReturnType="Collection(ASIS_PRODModel.spConsultaArea)">
+          <Parameter Name="codigo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GrupoEnfermedades" ReturnType="Collection(ASIS_PRODModel.sp_GrupoEnfermedades)">
+            <Parameter Name="tipo" Mode="In" Type="String" />
+            <Parameter Name="CodigoGrupoEnfermedad" Mode="In" Type="String" />
+            <Parameter Name="CodigoSubGrupoEnfermedad" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="spConsultaArea">
-          <Property Type="String" Name="Codigo" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
@@ -607,19 +615,11 @@
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="spConsutaEmpleados">
-          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="EMPRESA" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="AREA" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="LINEA" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CARGO" Nullable="true" MaxLength="60" />
-        </ComplexType>
         <ComplexType Name="spConsutaMotivosPermiso">
           <Property Type="String" Name="CodigoMotivo" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="spConsutaEmpleadosFiltro_Result">
+        <ComplexType Name="spConsutaEmpleadosFiltro">
           <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
         </ComplexType>
@@ -650,6 +650,26 @@
         <ComplexType Name="spConsultaLinea">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spConsutaEmpleados">
+          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="EMPRESA" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="CODIGOLINEA" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="LINEA" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CODIGOAREA" Nullable="true" MaxLength="7" />
+          <Property Type="String" Name="AREA" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CODIGOCARGO" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="CARGO" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="TIPCONTRATO" Nullable="true" MaxLength="15" />
+        </ComplexType>
+        <ComplexType Name="spConsultaArea">
+          <Property Type="String" Name="Codigo" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_GrupoEnfermedades">
+          <Property Type="String" Name="Codigo" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="270" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -821,14 +841,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaArea" FunctionName="ASIS_PRODModel.Store.spConsultaArea">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaArea">
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaCodigosEnfermedad" FunctionName="ASIS_PRODModel.Store.spConsultaCodigosEnfermedad">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCodigosEnfermedad">
@@ -846,18 +858,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultarUsuario" FunctionName="ASIS_PRODModel.Store.spConsultarUsuario" />
-          <FunctionImportMapping FunctionImportName="spConsutaEmpleados" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleados">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleados">
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
-                <ScalarProperty Name="AREA" ColumnName="AREA" />
-                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
-                <ScalarProperty Name="CARGO" ColumnName="CARGO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsutaMotivosPermiso" FunctionName="ASIS_PRODModel.Store.spConsutaMotivosPermiso">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaMotivosPermiso">
@@ -868,7 +868,7 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsutaEmpleadosFiltro" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleadosFiltro">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosFiltro_Result">
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosFiltro">
                 <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
                 <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
               </ComplexTypeMapping>
@@ -903,6 +903,39 @@
           <FunctionImportMapping FunctionImportName="spConsultaLinea" FunctionName="ASIS_PRODModel.Store.spConsultaLinea">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaLinea">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ReporteSolicitudes" FunctionName="ASIS_PRODModel.Store.sp_ReporteSolicitudes" />
+          <FunctionImportMapping FunctionImportName="spConsutaEmpleados" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleados">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleados">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="CODIGOLINEA" ColumnName="CODIGOLINEA" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="CODIGOAREA" ColumnName="CODIGOAREA" />
+                <ScalarProperty Name="AREA" ColumnName="AREA" />
+                <ScalarProperty Name="CODIGOCARGO" ColumnName="CODIGOCARGO" />
+                <ScalarProperty Name="CARGO" ColumnName="CARGO" />
+                <ScalarProperty Name="TIPCONTRATO" ColumnName="TIPCONTRATO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaArea" FunctionName="ASIS_PRODModel.Store.spConsultaArea">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaArea">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GrupoEnfermedades" FunctionName="ASIS_PRODModel.Store.sp_GrupoEnfermedades">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_GrupoEnfermedades">
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
               </ComplexTypeMapping>

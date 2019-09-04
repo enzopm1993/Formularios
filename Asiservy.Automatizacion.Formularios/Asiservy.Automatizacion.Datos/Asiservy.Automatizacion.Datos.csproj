@@ -111,10 +111,13 @@
     <Compile Include="Datos\spConsutaEmpleados.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\spConsutaEmpleadosFiltro_Result.cs">
+    <Compile Include="Datos\spConsutaEmpleadosFiltro.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsutaMotivosPermiso.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\sp_GrupoEnfermedades.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sysdiagrams.cs">
