@@ -1,33 +1,51 @@
 ﻿
 
 
-function CargarEmpleados() {
 
+function CargarEmpleados(formulario){
+    //console.log($('#selectLinea').val());   
+    //console.log($('#selectArea').val());   
+    //console.log($('#selectCargo').val());  
+    if ($('#selectLinea').val() != '') {
+        $('#' + formulario).attr("disabled", true);
+        $.ajax({
+            url: "../SolicitudPermiso/EmpleadoBuscar",
+            type: "Get",
+            data:
+            {
+                dsLinea: $('#selectLinea').val(),
+                dsArea: $('#selectArea').val(),
+                dsCargo: $('#selectCargo').val()
+            },
+            success: function (resultado) {
+                $('#ModelCargarEmpleados').html(resultado);
+                $("#ModalEmpleado").modal("show");
 
-    $.ajax({
-        url: "../Mensaje/EmpleadoBuscar",
-        type: "Get",
-        success: function (resultado) {
-            $('#ModelCargarEmpleados').html(resultado);
-            $("#ModalEmpleado").modal("show");
-
-        }
-    });
-
+            },
+            error: function (resultado) {
+                MensajeError(JSON.stringify(resultado), false);
+                $('#' + formulario).remove("disabled");
+            }
+        });
+    } else {
+        MensajeAdvertencia("Seleccione una LINEA", false)
+    }
+   
 }
 
 function CambioLinea(valor) {
    // console.log(valor);
     $.get("../SolicitudPermiso/ConsultaListadoAreas", { CodLinea: valor }, function (data) {
+
+        $("#selectArea").empty();
+        $("#selectArea").append("<option value='' >-- Seleccionar Opción--</option>");
+        $("#selectCargo").empty();
+        $("#selectCargo").append("<option value='' >-- Seleccionar Opción--</option>");
         if (!$.isEmptyObject(data)) {
-            $("#selectArea").empty();
-            $("#selectArea").append("<option value='' >-- Seleccionar Opción--</option>");
             $.each(data, function (create, row) {
                 $("#selectArea").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
             });
         } else {
-            $("#selectArea").empty();
-            $("#selectArea").append("<option value='' >-- Seleccionar Opción--</option>");
             MensajeCorrecto("La linea seleccionado no tiene areas asignadas", false);
         }
     });
@@ -37,9 +55,10 @@ function CambioLinea(valor) {
 function CambioArea(valor) {
     //console.log(valor);
     $.get("../SolicitudPermiso/ConsultaListadoCargos", { CodArea: valor }, function (data) {
+        console.log(data);
         if (!$.isEmptyObject(data)) {
             $("#selectCargo").empty();
-            $("#selectArea").append("<option value='' >-- Seleccionar Opción--</option>");
+            $("#selectCargo").append("<option value='' >-- Seleccionar Opción--</option>");
             $.each(data, function (create, row) {
                 $("#selectCargo").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
             });
@@ -59,7 +78,7 @@ function CambioHoraFecha() {
     var FechaDesde = document.getElementById("dateSalida");
     var FechaHasta = document.getElementById("dateRegreso");
     var check = document.getElementById("switchHoraFecha").checked
-    console.log(check);
+    //console.log(check);
 
     if (check) {
         HoraDesde.removeAttribute("readonly");

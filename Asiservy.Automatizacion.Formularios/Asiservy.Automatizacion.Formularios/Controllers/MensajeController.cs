@@ -22,21 +22,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             ViewBag.reload = reload;
             return PartialView();
         }
-        public ActionResult EmpleadoBuscar()
+
+        public ActionResult Advertencia(bool reload = false)
         {
-            using(Asiservy.Automatizacion.Datos.Datos.ASIS_PRODEntities db=new Datos.Datos.ASIS_PRODEntities())
-            {
-                List<Empleado> Empleados = new List<Empleado>();
-                var pListEmpleados= db.spConsutaEmpleadosFiltro(0, 0, 0).ToList();
-                foreach (var item in pListEmpleados)
-                {
-                    Empleados.Add(new Empleado { Cedula = item.CEDULA, Nombre = item.NOMBRES });
-                }
-               
-          
-                return PartialView("EmpleadoBuscar", Empleados);
-            }
-            
+
+            ViewBag.reload = reload;
+            return PartialView();
         }
+
     }
 }

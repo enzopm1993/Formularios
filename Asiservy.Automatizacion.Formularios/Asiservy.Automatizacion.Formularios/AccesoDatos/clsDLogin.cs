@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Asiservy.Automatizacion.Datos.Datos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return psCodigoUsuario;
             }
             
+        }
+
+        public List<int?> ConsultaRolesUsuario(string dsIdUsuario)
+        {
+           
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var poRoles = entities.USUARIO_ROL.Where(x => x.IdUsuario == dsIdUsuario).Select(x => x.IdRol).ToList();
+                return poRoles;
+
+            }
         }
 
         public Object[] ConsultarRolesDeUsuario(string psrolid)

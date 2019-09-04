@@ -18,13 +18,13 @@ namespace Asiservy.Automatizacion.Formularios.Models
         [DisplayName("Linea")]
         public string DescripcionLinea { get; set; }
 
-        [Required(ErrorMessage ="Campo Requerido")]
+       
         public string CodigoArea { get; set; }
 
         [DisplayName("Area")]
         public string DescripcionArea { get; set; }
 
-        [Required(ErrorMessage ="Campo Requerido")]
+       
         public string CodigoCargo { get; set; }
 
         [DisplayName("Cargo")]

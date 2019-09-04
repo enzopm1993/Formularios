@@ -45,7 +45,7 @@ function MensajeCorrecto(mensaje, r) {
             //var modal = document.getElementById("ModalError");
             $("#ModalCorrecto").modal("show");
             document.getElementById('mensajeError').innerHTML = mensaje;
-               console.log(r);
+               //console.log(r);
         }
     });
 }
@@ -62,7 +62,25 @@ function MensajeError(mensaje, r) {
             //var modal = document.getElementById("ModalError");
             $("#ModalError").modal("show");
             document.getElementById('mensajeError').innerHTML = mensaje;
-               console.log(mensaje);
+               //console.log(mensaje);
+        }
+    });
+}
+
+
+
+function MensajeAdvertencia(mensaje, r) {
+    $.ajax({
+        url: "../Mensaje/Advertencia",
+        type: "Get",
+        data: { reload: r },
+        success: function (resultado) {
+            var m = document.getElementById("ModalMensaje");
+            m.innerHTML = resultado;
+            //var modal = document.getElementById("ModalError");
+            $("#ModalAdvertencia").modal("show");
+            document.getElementById('mensajeAdvertencia').innerHTML = mensaje;
+            //console.log(mensaje);
         }
     });
 }

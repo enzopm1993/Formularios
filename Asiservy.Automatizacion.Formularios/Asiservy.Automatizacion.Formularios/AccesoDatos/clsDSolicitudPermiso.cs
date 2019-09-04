@@ -399,7 +399,5 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return ListaBitacora.ToList();
             }
         }
-       
-
     }
 } 

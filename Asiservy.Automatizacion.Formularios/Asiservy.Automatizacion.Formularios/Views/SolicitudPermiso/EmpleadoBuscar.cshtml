@@ -1,4 +1,4 @@
-﻿@model  List<Asiservy.Automatizacion.Formularios.Models.Empleado>
+﻿@model  List<Asiservy.Automatizacion.Datos.Datos.spConsutaEmpleadosFiltro>
 
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
@@ -25,9 +25,9 @@
                     </thead>
                     @foreach (var item in Model)
                     {
-                        <tr id="@item.Cedula" onclick="EmpleadoCons('@item.Cedula','@item.Nombre');">
-                            <td>@item.Cedula</td>
-                            <td>@item.Nombre</td>
+                        <tr id="@item.CEDULA" onclick="EmpleadoCons('@item.CEDULA','@item.NOMBRES');">
+                            <td>@item.CEDULA</td>
+                            <td>@item.NOMBRES</td>
                         </tr>
                     }
 
@@ -75,6 +75,7 @@
         
         $('#NombreEmpleado').val(nombre);
         $('#Identificacion').val(cedula);
+        //Select(cedula);
         cerrarmodalempleado();
        
     }
