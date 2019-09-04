@@ -15,7 +15,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
         clsDClasificador clsDClasificador = null;
         clsDSolicitudPermiso clsDSolicitudPermiso = null;
+        clsDEmpleado clsDEmpleado = null;
         clsDGeneral clsDGeneral = null;
+        clsDLogin clsDLogin = null;
+        clsDError clsDError = null;
 
         [Authorize]
         // GET: SolicitudPermiso
@@ -229,6 +232,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                clsDLogin = new clsDLogin();
+                string[] psIdUsuario = User.Identity.Name.Split('_');
+                List<int?> roles= clsDLogin.ConsultaRolesUsuario(psIdUsuario[1]);
+                int piSupervisor = 0;
+                if (roles.Any())
+                {
+                    piSupervisor = roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisro) ?? 0;
+                }
+                if(piSupervisor>0)
+                    ViewBag.Supervisor = piSupervisor;
                 ConsultaCombosGeneral();
                 return View();
             }
@@ -279,9 +292,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     SOLICITUD_PERMISO solicitudPermiso = new SOLICITUD_PERMISO();
                     clsDSolicitudPermiso = new clsDSolicitudPermiso();
-                    solicitudPermiso.CodigoLinea = model.CodigoLinea;
-                    solicitudPermiso.CodigoArea = model.CodigoArea;
-                    solicitudPermiso.CodigoCargo = model.CodigoCargo;
+                    clsDEmpleado = new clsDEmpleado();
+                    var poEmpleado = clsDEmpleado.ConsultaEmpleado(model.Identificacion).FirstOrDefault();
+                    solicitudPermiso.CodigoLinea = poEmpleado.CODIGOLINEA;
+                    solicitudPermiso.CodigoArea = poEmpleado.CODIGOAREA;
+                    solicitudPermiso.CodigoCargo = poEmpleado.CODIGOCARGO;
                     solicitudPermiso.Identificacion = model.Identificacion;
                     solicitudPermiso.CodigoMotivo = model.CodigoMotivo;
                     solicitudPermiso.Observacion = model.Observacion;
@@ -606,20 +621,62 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return View(solicitud.ToList());
         }
 
+        public ActionResult EmpleadoBuscar(string dsLinea, string dsArea, string dsCargo)
+        {
+            try
+            {
+                clsDEmpleado = new clsDEmpleado();
+                List<spConsutaEmpleadosFiltro> lista = clsDEmpleado.ConsultaEmpleadosFiltro(dsLinea,dsArea,dsCargo);
+                return PartialView(lista);
+
+            }catch(Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
 
         public JsonResult ConsultaListadoAreas (string CodLinea)
         {
-            clsDGeneral = new clsDGeneral();
+            try
+            {
+                clsDGeneral = new clsDGeneral();
             var areas = clsDGeneral.ConsultaAreas(CodLinea);
             return Json(areas, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public JsonResult ConsultaListadoCargos(string CodArea)
         {
-            clsDGeneral = new clsDGeneral();
-            var areas = clsDGeneral.ConsultaCargos(CodArea);
-            return Json(areas, JsonRequestBehavior.AllowGet);
-        }
+            try
+            {
+                //clsDGeneral = new clsDGeneral();
+                var areas = clsDGeneral.ConsultaCargos(CodArea);
+                return Json(areas, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR {
+                    Controlador =this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje=ex.Message,
+                    Observacion= "Metodo: "+ this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso= DateTime.Now,
+                    TerminalIngreso=Request.UserHostAddress,
+                    UsuarioIngreso="sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+         }
+
+
 
     }
 }

@@ -11,10 +11,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         ASIS_PRODEntities entities = null;
         public List<spConsultaCargos> ConsultaCargos(string dsCodigo)
         {
-            
-                entities = new ASIS_PRODEntities();
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
                 return entities.spConsultaCargos(dsCodigo).ToList();
-           
+            }
         }
 
         public List<sp_GrupoEnfermedades> ConsultaCodigosGrupoSubEnfermedad(string tipo, string Grupo, string SubGrupo)
@@ -31,15 +31,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         }
         public List<spConsultaArea> ConsultaAreas(string dsCodigo)
         {
-            
-                entities = new ASIS_PRODEntities();
+
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
                 return entities.spConsultaArea(dsCodigo).ToList();
+
+            }
             
         }
         public List<spConsultaLinea> ConsultaLineas()
         {
-            entities = new ASIS_PRODEntities();
-            return entities.spConsultaLinea("0").ToList();
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.spConsultaLinea("0").ToList();
+            }
         }
 
     }

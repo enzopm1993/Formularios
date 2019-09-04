@@ -30,6 +30,18 @@
           <Property Name="Descripcion" Type="varchar" MaxLength="100" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
         </EntityType>
+        <EntityType Name="ERROR">
+          <Key>
+            <PropertyRef Name="IdError" />
+          </Key>
+          <Property Name="IdError" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mensaje" Type="varchar" MaxLength="500" />
+          <Property Name="Controlador" Type="varchar" MaxLength="50" />
+          <Property Name="Observacion" Type="varchar" MaxLength="500" />
+          <Property Name="UsuarioIngreso" Type="varchar" MaxLength="50" />
+          <Property Name="FechaIngreso" Type="datetime" />
+          <Property Name="TerminalIngreso" Type="varchar" MaxLength="30" />
+        </EntityType>
         <EntityType Name="ESTADO_SOLICITUD">
           <Key>
             <PropertyRef Name="IdEstadoSolicitud" />
@@ -257,9 +269,9 @@
           <Parameter Name="cedula" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsutaEmpleadosFiltro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Area" Type="int" Mode="In" />
-          <Parameter Name="Linea" Type="int" Mode="In" />
-          <Parameter Name="Cargo" Type="int" Mode="In" />
+          <Parameter Name="Area" Type="varchar" Mode="In" />
+          <Parameter Name="Linea" Type="varchar" Mode="In" />
+          <Parameter Name="Cargo" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsutaMotivosPermiso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="dsCodigoMotivo" Type="varchar" Mode="In" />
@@ -267,6 +279,7 @@
         <EntityContainer Name="ASIS_PRODModelStoreContainer">
           <EntitySet Name="BITACORA_SOLICITUD" EntityType="Self.BITACORA_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLASIFICADOR" EntityType="Self.CLASIFICADOR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ERROR" EntityType="Self.ERROR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTADO_SOLICITUD" EntityType="Self.ESTADO_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JUSTICA_SOLICITUD" EntityType="Self.JUSTICA_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NIVEL_APROBACION" EntityType="Self.NIVEL_APROBACION" Schema="dbo" store:Type="Tables" />
@@ -560,11 +573,6 @@
           <FunctionImport Name="spConsutaMotivosPermiso" ReturnType="Collection(ASIS_PRODModel.spConsutaMotivosPermiso)">
           <Parameter Name="dsCodigoMotivo" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsutaEmpleadosFiltro" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosFiltro)">
-            <Parameter Name="Area" Mode="In" Type="Int32" />
-            <Parameter Name="Linea" Mode="In" Type="Int32" />
-            <Parameter Name="Cargo" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="ESTADO_SOLICITUD" EntityType="ASIS_PRODModel.ESTADO_SOLICITUD" />
           <EntitySet Name="BITACORA_SOLICITUD" EntityType="ASIS_PRODModel.BITACORA_SOLICITUD" />
           <FunctionImport Name="spConsultaLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaLinea)">
@@ -582,6 +590,12 @@
             <Parameter Name="CodigoGrupoEnfermedad" Mode="In" Type="String" />
             <Parameter Name="CodigoSubGrupoEnfermedad" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="spConsutaEmpleadosFiltro" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosFiltro)">
+            <Parameter Name="Area" Mode="In" Type="String" />
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Cargo" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="ERROR" EntityType="ASIS_PRODModel.ERROR" />
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -618,10 +632,6 @@
         <ComplexType Name="spConsutaMotivosPermiso">
           <Property Type="String" Name="CodigoMotivo" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="spConsutaEmpleadosFiltro">
-          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
         </ComplexType>
         <EntityType Name="ESTADO_SOLICITUD">
           <Key>
@@ -671,6 +681,22 @@
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="270" />
         </ComplexType>
+        <ComplexType Name="spConsutaEmpleadosFiltro">
+          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+        </ComplexType>
+        <EntityType Name="ERROR">
+          <Key>
+            <PropertyRef Name="IdError" />
+          </Key>
+          <Property Name="IdError" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mensaje" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Controlador" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UsuarioIngreso" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
+          <Property Name="TerminalIngreso" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -866,14 +892,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsutaEmpleadosFiltro" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleadosFiltro">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosFiltro">
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="ESTADO_SOLICITUD">
             <EntityTypeMapping TypeName="ASIS_PRODModel.ESTADO_SOLICITUD">
               <MappingFragment StoreEntitySet="ESTADO_SOLICITUD">
@@ -941,6 +959,27 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsutaEmpleadosFiltro" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleadosFiltro">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosFiltro">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="ERROR">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.ERROR">
+              <MappingFragment StoreEntitySet="ERROR">
+                <ScalarProperty Name="TerminalIngreso" ColumnName="TerminalIngreso" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="UsuarioIngreso" ColumnName="UsuarioIngreso" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Controlador" ColumnName="Controlador" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+                <ScalarProperty Name="IdError" ColumnName="IdError" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

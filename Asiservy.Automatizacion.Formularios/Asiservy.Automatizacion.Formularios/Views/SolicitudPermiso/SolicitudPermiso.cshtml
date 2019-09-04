@@ -30,11 +30,12 @@
         <div class="col-md-8 col-sm-12 border border-secondary">
             @using (Html.BeginForm("SolicitudPermiso", "SolicitudPermiso"))
             {
-                <div class="row">
-
+            <div class="row">
+                @if (ViewBag.Supervisor != null)
+                {
                     <div class="col-md-4 col-sm-12">
                         @Html.LabelFor(m => m.DescripcionLinea)
-                        @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLinea(this.value)", @class = "form-control" , @id="selectLinea" })
+                        @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLinea(this.value)", @class = "form-control", @id = "selectLinea" })
                         @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
 
                     </div>
@@ -50,7 +51,29 @@
                         @Html.DropDownListFor(m => m.CodigoCargo, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "selectCargo" })
                         @Html.ValidationMessageFor(m => m.CodigoCargo, "", new { @class = "input-validation-error text-danger has-error" })
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="col-md-4 col-sm-12">
+                        @Html.LabelFor(m => m.DescripcionLinea)
+                        @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @class = "form-control", @id = "selectLinea" , @disabled="disabled" })
+                        @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
+
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+                        @Html.LabelFor(m => m.DescripcionArea)
+                        @Html.DropDownListFor(m => m.CodigoArea, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new {  @class = "form-control", @id = "selectArea", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.CodigoArea, "", new { @class = "input-validation-error text-danger has-error" })
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+                        @Html.LabelFor(m => m.DescripcionCargo)
+                        @Html.DropDownListFor(m => m.CodigoCargo, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "selectCargo", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.CodigoCargo, "", new { @class = "input-validation-error text-danger has-error" })
+                    </div>
+                }
+            </div>
                 <div class="row">
 
                     <div class="col-md-4 col-sm-12">

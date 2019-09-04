@@ -28,5 +28,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int NivelJefatura =1;
         public static int NivelGerencia =0;
 
+        //Roles de usuario
+        public static int RolSupervisro = 5;
+
     }
 }

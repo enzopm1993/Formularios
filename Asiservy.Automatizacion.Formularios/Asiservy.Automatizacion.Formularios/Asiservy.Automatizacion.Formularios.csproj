@@ -603,6 +603,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccesoDatos\clsDClasificador.cs" />
+    <Compile Include="AccesoDatos\clsDEmpleado.cs" />
+    <Compile Include="AccesoDatos\clsDError.cs" />
     <Compile Include="AccesoDatos\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\clsDSolicitudPermiso.cs" />
     <Compile Include="AccesoDatos\clsDLogin.cs" />
@@ -660,9 +662,10 @@
     <Content Include="Views\Asistencia\BitacoraCambioPersonal.cshtml" />
     <Content Include="Views\Mensaje\Correcto.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudPermisoEdit.cshtml" />
-    <Content Include="Views\Mensaje\EmpleadoBuscar.cshtml" />
+    <Content Include="Views\SolicitudPermiso\EmpleadoBuscar.cshtml" />
     <Content Include="Views\SolicitudPermiso\ConsultaSolicitudes.cshtml" />
     <Content Include="Views\SolicitudPermiso\BitacoraSolicitudPartial.cshtml" />
+    <Content Include="Views\Mensaje\Advertencia.cshtml" />
     <Content Include="Views\SolicitudPermiso\ConsultarGrupoEnfermedades.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

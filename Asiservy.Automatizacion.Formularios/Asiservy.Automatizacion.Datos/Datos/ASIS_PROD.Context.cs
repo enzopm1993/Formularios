@@ -39,6 +39,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<USUARIO_ROL> USUARIO_ROL { get; set; }
         public virtual DbSet<ESTADO_SOLICITUD> ESTADO_SOLICITUD { get; set; }
         public virtual DbSet<BITACORA_SOLICITUD> BITACORA_SOLICITUD { get; set; }
+        public virtual DbSet<ERROR> ERROR { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -78,23 +79,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("dsCodigoMotivo", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaMotivosPermiso>("spConsutaMotivosPermiso", dsCodigoMotivoParameter);
-        }
-    
-        public virtual ObjectResult<spConsutaEmpleadosFiltro> spConsutaEmpleadosFiltro(Nullable<int> area, Nullable<int> linea, Nullable<int> cargo)
-        {
-            var areaParameter = area.HasValue ?
-                new ObjectParameter("Area", area) :
-                new ObjectParameter("Area", typeof(int));
-    
-            var lineaParameter = linea.HasValue ?
-                new ObjectParameter("Linea", linea) :
-                new ObjectParameter("Linea", typeof(int));
-    
-            var cargoParameter = cargo.HasValue ?
-                new ObjectParameter("Cargo", cargo) :
-                new ObjectParameter("Cargo", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltro>("spConsutaEmpleadosFiltro", areaParameter, lineaParameter, cargoParameter);
         }
     
         public virtual ObjectResult<spConsultaLinea> spConsultaLinea(string codigo)
@@ -144,6 +128,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("CodigoSubGrupoEnfermedad", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GrupoEnfermedades>("sp_GrupoEnfermedades", tipoParameter, codigoGrupoEnfermedadParameter, codigoSubGrupoEnfermedadParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaEmpleadosFiltro> spConsutaEmpleadosFiltro(string area, string linea, string cargo)
+        {
+            var areaParameter = area != null ?
+                new ObjectParameter("Area", area) :
+                new ObjectParameter("Area", typeof(string));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            var cargoParameter = cargo != null ?
+                new ObjectParameter("Cargo", cargo) :
+                new ObjectParameter("Cargo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltro>("spConsutaEmpleadosFiltro", areaParameter, lineaParameter, cargoParameter);
         }
     }
 }
