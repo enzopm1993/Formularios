@@ -669,6 +669,7 @@
     <Content Include="Views\SolicitudPermiso\BitacoraSolicitudPartial.cshtml" />
     <Content Include="Views\Mensaje\Advertencia.cshtml" />
     <Content Include="Views\SolicitudPermiso\ConsultarGrupoEnfermedades.cshtml" />
+    <Content Include="Views\Seguridad\Rol.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -678,7 +679,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Seguridad\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
