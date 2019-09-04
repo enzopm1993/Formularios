@@ -40,16 +40,4 @@ function MensajeError(mensaje, r) {
     });
 }
 
-function CargarEmpleados() {
-    $.ajax({
-        url: "../Mensaje/EmpleadoBuscar",
-        type: "Get",
-        success: function (resultado) {
-            $('#ModelCargarEmpleados').html(resultado);
-            $("#ModalEmpleado").modal("show");
-            
-        }
-    });
-
-}
 

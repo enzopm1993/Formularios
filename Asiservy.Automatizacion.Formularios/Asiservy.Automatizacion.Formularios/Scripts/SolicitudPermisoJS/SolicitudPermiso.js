@@ -1,53 +1,56 @@
-﻿//function Guardar() {
-//    Mensaje("Registro Guardado Exitosamente");
-//}
+﻿
 
-//function CambioDepartamento(valor) {
-//    var arrayValores = new Array(
-//        new Array(1, 1, "-	Calamidad domestica"),
-//        new Array(1, 2, "-	Comisión de servicios "),
-//        new Array(1, 3, "-	Asuntos particulares"),
-//        new Array(1, 4, "-	Vacaciones")
-//    );
 
-//    console.log(valor);
-//    if (valor == 0) {
-//        document.getElementById("selectMotivo").disabled = true;
-//    } else {
-//            document.getElementById("selectMotivo").options.length = 0;
-//            document.getElementById("selectMotivo").options[0] = new Option("Selecciona una opcion", "0");
-//            for (i = 0; i < arrayValores.length; i++) {
-//                    document.getElementById("selectMotivo").options[document.getElementById("selectMotivo").options.length] = new Option(arrayValores[i][2], arrayValores[i][1]);
-//            }
-//            document.getElementById("selectMotivo").disabled = false;
-//    }
-//    var selectArea = document.getElementById("selectArea");
-//    if (valor == 1) {
-//        selectArea.selectedIndex = 0;
-//        selectArea.disabled = false;
-//    } else {
+function CargarEmpleados() {
 
-//        selectArea.selectedIndex = 0;
-//        selectArea.disabled = true;
-//    }
-//    CambioArea();
-//}
 
-//function CambioArea() {
-//    var e = document.getElementById("selectArea");
-//    var selectValor = e.options[e.selectedIndex].value;
-//    var labelLinea = document.getElementById("labelLinea");
-//    var SelectLinea = document.getElementById("selectLinea");
-//    if (selectValor == "1") {
-//        labelLinea.removeAttribute("hidden");
-//        SelectLinea.removeAttribute("hidden");
-//    }
-//    else {
+    $.ajax({
+        url: "../Mensaje/EmpleadoBuscar",
+        type: "Get",
+        success: function (resultado) {
+            $('#ModelCargarEmpleados').html(resultado);
+            $("#ModalEmpleado").modal("show");
 
-//        labelLinea.setAttribute("hidden", true);
-//        SelectLinea.setAttribute("hidden", true);
-//    }
-//}
+        }
+    });
+
+}
+
+function CambioLinea(valor) {
+   // console.log(valor);
+    $.get("../SolicitudPermiso/ConsultaListadoAreas", { CodLinea: valor }, function (data) {
+        if (!$.isEmptyObject(data)) {
+            $("#selectArea").empty();
+            $("#selectArea").append("<option value='' >-- Seleccionar Opción--</option>");
+            $.each(data, function (create, row) {
+                $("#selectArea").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
+            });
+        } else {
+            $("#selectArea").empty();
+            $("#selectArea").append("<option value='' >-- Seleccionar Opción--</option>");
+            MensajeCorrecto("La linea seleccionado no tiene areas asignadas", false);
+        }
+    });
+}
+
+
+function CambioArea(valor) {
+    //console.log(valor);
+    $.get("../SolicitudPermiso/ConsultaListadoCargos", { CodArea: valor }, function (data) {
+        if (!$.isEmptyObject(data)) {
+            $("#selectCargo").empty();
+            $("#selectArea").append("<option value='' >-- Seleccionar Opción--</option>");
+            $.each(data, function (create, row) {
+                $("#selectCargo").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
+            });
+        } else {
+            $("#selectCargo").empty();
+            $("#selectCargo").append("<option value='' >-- Seleccionar Opción--</option>");
+            MensajeCorrecto("La linea seleccionado no tiene cargos asignadas", false);
+        }
+    });
+}
+
 
 function CambioHoraFecha() {
     var HoraDesde = document.getElementById("timeHoraSalida");
@@ -79,11 +82,6 @@ function CambioHoraFecha() {
         HoraHasta.value = null;
     }
 }
-
-document.getElementById("selectArea").options[0].disabled = true;
-document.getElementById("CodigoLinea").options[0].disabled = true;
-document.getElementById("selectCargo").options[0].disabled = true;
-document.getElementById("selectMotivo").options[0].disabled = true;
 
 
 

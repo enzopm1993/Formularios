@@ -9,11 +9,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
     public class clsDGeneral
     {
         ASIS_PRODEntities entities = null;
-        public List<spConsultaCargos> ConsultaCargos()
+        public List<spConsultaCargos> ConsultaCargos(string dsCodigo)
         {
             
                 entities = new ASIS_PRODEntities();
-                return entities.spConsultaCargos("0").ToList();
+                return entities.spConsultaCargos(dsCodigo).ToList();
            
         }
 
@@ -24,11 +24,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return entities.spConsultaCodigosEnfermedad("0").ToList();
             
         }
-        public List<spConsultaArea> ConsultaAreas()
+        public List<spConsultaArea> ConsultaAreas(string dsCodigo)
         {
             
                 entities = new ASIS_PRODEntities();
-                return entities.spConsultaArea("0").ToList();
+                return entities.spConsultaArea(dsCodigo).ToList();
             
         }
         public List<spConsultaLinea> ConsultaLineas()
