@@ -513,45 +513,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #endregion 
 
         #region REPORTE DE SOLICITUD PERMISO
-        public ActionResult ConsultaSolicitudes()
-        {
-            clsDSolicitudPermiso poSolicitudPermiso = new clsDSolicitudPermiso();
-            var pListSolicitudPermiso = poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(clsAtributos.EstadoSolicitudTodos);
-            return PartialView(pListSolicitudPermiso);
-        }
-        public JsonResult ObtenerSubGrupoEnfermedades(string GrupoEnfermedad)
-        {
-            clsDGeneral = new clsDGeneral();
-            List<sp_GrupoEnfermedades> pListSubGrupoEnfermedades=clsDGeneral.ConsultaCodigosGrupoSubEnfermedad("S", GrupoEnfermedad,"").ToList();
-            return Json(pListSubGrupoEnfermedades, JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult ObtenerEnfermedades(string SubGrupoEnfermedad)
-        {
-            clsDGeneral = new clsDGeneral();
-            List<sp_GrupoEnfermedades> pListEnfermedades = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad("E", "", SubGrupoEnfermedad).ToList();
-            return Json(pListEnfermedades, JsonRequestBehavior.AllowGet);
-        }
-        public void ConsultaCombosMedicos()
-        {
-            clsDClasificador = new clsDClasificador();
-            clsDSolicitudPermiso = new clsDSolicitudPermiso();
-            clsDGeneral = new clsDGeneral();
-            ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
-            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("M");
-            ViewBag.Lineas = clsDGeneral.ConsultaLineas();
-            ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
-            // ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosEnfermedad();
-            ViewBag.CodigoGrupoEnfermedad= clsDGeneral.ConsultaCodigosGrupoSubEnfermedad("G","","");
-            ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
-        }
-        protected void SetSuccessMessage(string message)
-        {
-            TempData["MensajeConfirmacion"] = message;
-        }
-        protected void SetErrorMessage(string message)
-        {
-            TempData["MensajeError"] = message;
-        }
+            
+      
         [Authorize]
         public ActionResult ReporteSolicitud()
         {
@@ -619,6 +582,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #region CONSULTAS
 
+        public ActionResult ConsultaSolicitudes()
+        {
+            clsDSolicitudPermiso poSolicitudPermiso = new clsDSolicitudPermiso();
+            var pListSolicitudPermiso = poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(clsAtributos.EstadoSolicitudTodos);
+            return PartialView(pListSolicitudPermiso);
+        }
+        public JsonResult ObtenerSubGrupoEnfermedades(string GrupoEnfermedad)
+        {
+            clsDGeneral = new clsDGeneral();
+            List<sp_GrupoEnfermedades> pListSubGrupoEnfermedades = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad("S", GrupoEnfermedad, "").ToList();
+            return Json(pListSubGrupoEnfermedades, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ObtenerEnfermedades(string SubGrupoEnfermedad)
+        {
+            clsDGeneral = new clsDGeneral();
+            List<sp_GrupoEnfermedades> pListEnfermedades = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad("E", "", SubGrupoEnfermedad).ToList();
+            return Json(pListEnfermedades, JsonRequestBehavior.AllowGet);
+        }
+
         public string ValidarFechas(SolicitudPermisoViewModel model)
         {
             string psMensaje = string.Empty;
@@ -679,7 +661,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("M");
             ViewBag.Lineas = clsDGeneral.ConsultaLineas();
             ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
-            ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosEnfermedad();
+           
             ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
         }
         protected void SetSuccessMessage(string message)
