@@ -603,18 +603,19 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccesoDatos\clsDClasificador.cs" />
+    <Compile Include="AccesoDatos\General\clsDClasificador.cs" />
     <Compile Include="AccesoDatos\clsDEmpleado.cs" />
-    <Compile Include="AccesoDatos\clsDError.cs" />
-    <Compile Include="AccesoDatos\clsDGeneral.cs" />
-    <Compile Include="AccesoDatos\clsDSolicitudPermiso.cs" />
-    <Compile Include="AccesoDatos\clsDLogin.cs" />
-    <Compile Include="AccesoDatos\clsDSolicitudPermisoMedico.cs" />
+    <Compile Include="AccesoDatos\General\clsDError.cs" />
+    <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
+    <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermiso.cs" />
+    <Compile Include="AccesoDatos\General\clsDLogin.cs" />
+    <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MensajeController.cs" />
+    <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -677,6 +678,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Seguridad\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
