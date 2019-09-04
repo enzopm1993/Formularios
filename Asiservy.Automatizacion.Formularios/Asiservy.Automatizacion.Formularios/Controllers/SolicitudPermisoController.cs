@@ -390,6 +390,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             var ListGrupoEnfermedades = pSPermisoMedico.ConsultaGrupoEnfermedades("G","","");
             return PartialView(ListGrupoEnfermedades);
         }
+
         [Authorize]
         public ActionResult SolicitudPermisoDispensario()
         {
@@ -439,9 +440,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     SOLICITUD_PERMISO solicitudPermiso = new SOLICITUD_PERMISO();
                     clsDSolicitudPermiso = new clsDSolicitudPermiso();
-                    solicitudPermiso.CodigoLinea = model.CodigoLinea;
-                    solicitudPermiso.CodigoArea = model.CodigoArea;
-                    solicitudPermiso.CodigoCargo = model.CodigoCargo;
+                    var poEmpleado = clsDEmpleado.ConsultaEmpleado(model.Identificacion).FirstOrDefault();
+                    solicitudPermiso.CodigoLinea = poEmpleado.CODIGOLINEA;
+                    solicitudPermiso.CodigoArea = poEmpleado.CODIGOAREA;
+                    solicitudPermiso.CodigoCargo = poEmpleado.CODIGOCARGO;
                     solicitudPermiso.Identificacion = model.Identificacion;
                     solicitudPermiso.CodigoMotivo = model.CodigoMotivo;
                     solicitudPermiso.Observacion = model.Observacion;
