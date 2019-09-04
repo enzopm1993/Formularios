@@ -20,6 +20,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDLogin clsDLogin = null;
         clsDError clsDError = null;
 
+
+        #region BANDEJAS
         [Authorize]
         // GET: SolicitudPermiso
         public ActionResult BandejaAprobacion()
@@ -38,6 +40,34 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return View();
             }
         }
+
+        [Authorize]
+        public ActionResult BandejaRRHH()
+        {
+            try
+            {
+                List<SolicitudPermisoViewModel> ListaSolicitud;
+                clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudAprobado, null);
+                return View(ListaSolicitud);
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return View();
+            }
+        }
+
         [Authorize]
         public JsonResult AprobarSolicitud(string[] diIdSolicitud)
         {
@@ -169,13 +199,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return PartialView();
             }
         }
-        [Authorize]
-        public ActionResult ConsultaSolicitudes()
-        {
-            clsDSolicitudPermiso poSolicitudPermiso = new clsDSolicitudPermiso();
-            var pListSolicitudPermiso = poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(clsAtributos.EstadoSolicitudTodos);
-            return PartialView(pListSolicitudPermiso);
-        }
+
+
         [Authorize]
         [HttpPost]
         public ActionResult SolicitudPermisoEdit(SolicitudPermisoViewModel doSolicitud, string frm)
@@ -225,21 +250,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
+        #endregion
 
-
+        #region SOLICITUD PERMISO
         [Authorize]
         public ActionResult SolicitudPermiso()
         {
             try
-            {
-                clsDLogin = new clsDLogin();
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-                List<int?> roles= clsDLogin.ConsultaRolesUsuario(psIdUsuario[1]);
-                int piSupervisor = 0;
-                if (roles.Any())
-                {
-                    piSupervisor = roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisro) ?? 0;
-                }
+            {   
+                int piSupervisor = ValidarRolSupervisor();                 
                 if(piSupervisor>0)
                     ViewBag.Supervisor = piSupervisor;
                 ConsultaCombosGeneral();
@@ -248,6 +267,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return View();
             }
         }
@@ -261,32 +290,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 .Where(x => x.Value.Errors.Count > 0)
                 .Select(x => new { x.Key, x.Value.Errors })
                 .ToArray();
-                if ((model.FechaSalida == null || model.FechaRegreso == null) && model.FechaSalidaEntrada == null)
-                {
-                    ConsultaCombosMedicos();
-                    ModelState.AddModelError("CustomError", "Debe Ingresar un rango de horas o fechas");
-                    return View(model);
-                }
-                else if (model.FechaSalidaEntrada != null && (model.HoraRegreso == null || model.HoraSalida == null))
-                {
-                    ModelState.AddModelError("CustomError", "Debe Ingresar un rango de horas correcto");
 
-                    ConsultaCombosMedicos();
-                    return View(model);
-                }
-                else if (model.FechaSalida != null && model.FechaRegreso != null && model.FechaSalida > model.FechaRegreso)
+                string psMensajeValidarFecha = string.Empty;
+                psMensajeValidarFecha = ValidarFechas(model);
+                if(!string.IsNullOrEmpty(psMensajeValidarFecha))
                 {
-                    ConsultaCombosMedicos();
-                    ModelState.AddModelError("CustomError", "Fecha de salida no puede ser mayor a la de regreso");
+                    int piSupervisor = ValidarRolSupervisor();
+                    if (piSupervisor > 0)
+                        ViewBag.Supervisor = piSupervisor;
+                    ConsultaCombosGeneral();
+                    ModelState.AddModelError("CustomError", psMensajeValidarFecha);
                     return View(model);
-                }
-                else if (model.HoraRegreso != null && model.HoraSalida != null && model.HoraSalida.Value.Hour > model.HoraRegreso.Value.Hour)
-                {
-                    ConsultaCombosMedicos();
-                    ModelState.AddModelError("CustomError", "Hora de salida no puede ser mayor a la de regreso");
-                    return View(model);
-                }
-
+                }         
 
                 if (ModelState.IsValid)
                 {
@@ -354,6 +369,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return RedirectToAction("SolicitudPermiso");
             }
         }
@@ -376,6 +401,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return View();
             }
         }
@@ -390,44 +425,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 .Where(x => x.Value.Errors.Count > 0)
                 .Select(x => new { x.Key, x.Value.Errors })
                 .ToArray();
-                if (model.CodigoClasificador == null)
-                {
-                    //ConsultaCombosMedicos();
-                    ModelState.AddModelError("CustomError2", "Debe Ingresar un Clasificador");
-                    //return View(model);
-                }
-                if (model.CodigoDiagnostico == null)
-                {
-                    //ConsultaCombosMedicos();
-                    ModelState.AddModelError("CustomError3", "Debe Ingresar un Diagnóstico");
-                    //return View(model);
-                }
-                if ((model.FechaSalida == null || model.FechaRegreso == null) && model.FechaSalidaEntrada == null)
-                {
-                    //ConsultaCombosMedicos();
-                    ModelState.AddModelError("CustomError", "Debe Ingresar un rango de horas o fechas");
-                    // return View(model);
-                }
-                else if (model.FechaSalidaEntrada != null && (model.HoraRegreso == null || model.HoraSalida == null))
-                {
-                    ModelState.AddModelError("CustomError", "Debe Ingresar un rango de horas correcto");
 
-                    //ConsultaCombosMedicos();
-                    //return View(model);
-                }
-                else if (model.FechaSalida != null && model.FechaRegreso != null && model.FechaSalida > model.FechaRegreso)
+                string psMensajeValidarFecha = string.Empty;
+                psMensajeValidarFecha = ValidarFechas(model);
+                if (!string.IsNullOrEmpty(psMensajeValidarFecha))
                 {
-                    //ConsultaCombosMedicos();
-                    ModelState.AddModelError("CustomError", "Fecha de salida no puede ser mayor a la de regreso");
-                    //return View(model);
+                    ConsultaCombosMedicos();
+                    ModelState.AddModelError("CustomError", psMensajeValidarFecha);
+                    return View(model);
                 }
-                else if (model.HoraRegreso != null && model.HoraSalida != null && model.HoraSalida.Value.Hour > model.HoraRegreso.Value.Hour)
-                {
-                    //ConsultaCombosMedicos();
-                    ModelState.AddModelError("CustomError", "Hora de salida no puede ser mayor a la de regreso");
-                    //return View(model);
-                }
-
 
                 if (ModelState.IsValid)
                 {
@@ -491,18 +497,27 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return RedirectToAction("SolicitudPermisoDispensario");
             }
         }
-        public void ConsultaCombosGeneral()
+        #endregion 
+
+        #region REPORTE DE SOLICITUD PERMISO
+        public ActionResult ConsultaSolicitudes()
         {
-            clsDClasificador = new clsDClasificador();
-            clsDSolicitudPermiso = new clsDSolicitudPermiso();
-            clsDGeneral = new clsDGeneral();
-            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("G");
-            ViewBag.Lineas = clsDGeneral.ConsultaLineas();
-            ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
-            ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
+            clsDSolicitudPermiso poSolicitudPermiso = new clsDSolicitudPermiso();
+            var pListSolicitudPermiso = poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(clsAtributos.EstadoSolicitudTodos);
+            return PartialView(pListSolicitudPermiso);
         }
         public JsonResult ObtenerSubGrupoEnfermedades(string GrupoEnfermedad)
         {
@@ -542,6 +557,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
+        #endregion
 
         #region BITACORA SOLICITUD
         [Authorize]
@@ -554,6 +570,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return View();
 
             }
@@ -576,50 +602,95 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return Json(new { Failed = true, Mensaje = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
 
+        #region CONSULTAS
 
-        [Authorize]
-        public ActionResult BandejaRRHH()
+        public string ValidarFechas(SolicitudPermisoViewModel model)
         {
-            try
+            string psMensaje = string.Empty;
+            if ((model.FechaSalida == null || model.FechaRegreso == null) && model.FechaSalidaEntrada == null)
             {
-                List<SolicitudPermisoViewModel> ListaSolicitud;
-                clsDSolicitudPermiso = new clsDSolicitudPermiso();
-                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudAprobado, null);
-                return View(ListaSolicitud);
+                psMensaje="Debe Ingresar un rango de horas o fechas";
+                return psMensaje;
             }
-            catch (Exception ex)
+            else if (model.FechaSalidaEntrada != null && (model.HoraRegreso == null || model.HoraSalida == null))
             {
-                SetErrorMessage(ex.Message);
-                return View();
+                psMensaje="Debe Ingresar un rango de horas correcto";
+                return psMensaje;
             }
+            else if (model.FechaSalida != null && model.FechaRegreso != null && model.FechaSalida > model.FechaRegreso)
+            {
+                psMensaje="Fecha de salida no puede ser mayor a la de regreso";
+                return psMensaje;
+            }
+            else if (model.HoraRegreso != null && model.HoraSalida != null && model.HoraSalida.Value.Hour > model.HoraRegreso.Value.Hour)
+            {
+                psMensaje="Hora de salida no puede ser mayor a la de regreso";
+                return psMensaje;
+            }
+
+            return psMensaje;
         }
 
-        [Authorize]
-        [HttpPost]
-        public ActionResult BandejaRRHH(string buscar, string SelectPermiso)
+
+        public int ValidarRolSupervisor()
         {
-            List<Solicitud> solicitud = new List<Solicitud>();
-
-            solicitud.Add(new Solicitud { codigo = "1", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Jose" });
-            solicitud.Add(new Solicitud { codigo = "2", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Morales Victor" });
-            solicitud.Add(new Solicitud { codigo = "3", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Cazares Julio" });
-            solicitud.Add(new Solicitud { codigo = "4", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Vera Jose" });
-            solicitud.Add(new Solicitud { codigo = "5", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Chavez Jorge" });
-            solicitud.Add(new Solicitud { codigo = "6", fecha = "16/08/2019", Motivo = "Vacaciones", Area = "Proceso", Empleado = "Santiago Emilio" });
-            if (SelectPermiso == "1")
-                return View(solicitud.Where(x => x.codigo.Contains(buscar)).ToList());
-            if (SelectPermiso == "2")
-                return View(solicitud.Where(x => x.Area.Contains(buscar)).ToList());
-            if (SelectPermiso == "3")
-                return View(solicitud.Where(x => x.Empleado.Contains(buscar)).ToList());
-
-            return View(solicitud.ToList());
+            clsDLogin = new clsDLogin();
+            string[] psIdUsuario = User.Identity.Name.Split('_');
+            List<int?> roles = clsDLogin.ConsultaRolesUsuario(psIdUsuario[1]);
+            int piSupervisor=0;
+            if (roles.Any())
+            {
+                piSupervisor = roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisro) ?? 0;
+            }
+            return piSupervisor;
         }
+
+        public void ConsultaCombosGeneral()
+        {
+            clsDClasificador = new clsDClasificador();
+            clsDSolicitudPermiso = new clsDSolicitudPermiso();
+            clsDGeneral = new clsDGeneral();
+            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("G");
+            ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+            ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
+            ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
+        }
+        public void ConsultaCombosMedicos()
+        {
+            clsDClasificador = new clsDClasificador();
+            clsDSolicitudPermiso = new clsDSolicitudPermiso();
+            clsDGeneral = new clsDGeneral();
+            ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
+            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("M");
+            ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+            ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
+            ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosEnfermedad();
+            ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
+        }
+        protected void SetSuccessMessage(string message)
+        {
+            TempData["MensajeConfirmacion"] = message;
+        }
+        protected void SetErrorMessage(string message)
+        {
+            TempData["MensajeError"] = message;
+        }
+   
 
         public ActionResult EmpleadoBuscar(string dsLinea, string dsArea, string dsCargo)
         {
@@ -632,6 +703,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }catch(Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
 
@@ -648,6 +729,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
@@ -656,7 +747,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                //clsDGeneral = new clsDGeneral();
+                clsDGeneral = new clsDGeneral();
                 var areas = clsDGeneral.ConsultaCargos(CodArea);
                 return Json(areas, JsonRequestBehavior.AllowGet);
             }
@@ -676,7 +767,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
          }
 
-
+        #endregion
 
     }
 }
