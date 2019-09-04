@@ -23,6 +23,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_OPCION_ROL_ROL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ESTADO_SOLICITUD" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_SOLICITUD" Width="1.5" PointX="10.375" PointY="3.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.ERROR" Width="1.5" PointX="10.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
