@@ -152,58 +152,58 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
             foreach (var x in Lista)
             {
-                List<JUSTICA_SOLICITUD> ListadoJustificaciones = new List<JUSTICA_SOLICITUD>();
-                var detalle = entities.JUSTICA_SOLICITUD.Where(y => y.IdSolicitudPermiso == x.IdSolicitudPermiso).ToList();
-                foreach (var d in detalle)
-                {
-                    ListadoJustificaciones.Add(new JUSTICA_SOLICITUD
-                    {
-                        IdJustificaSolicitud = d.IdJustificaSolicitud,
-                        IdSolicitudPermiso = x.IdSolicitudPermiso,
-                        CodigoMotivo = d.CodigoMotivo,
-                        FechaSalida = d.FechaSalida,
-                        FechaRegreso = d.FechaRegreso,
-                        UsuarioIngresoLog = d.UsuarioIngresoLog,
-                        FechaIngresoLog = d.FechaIngresoLog,
-                        TerminalIngresoLog = d.TerminalIngresoLog,
-                        UsuarioModificacionLog = d.UsuarioModificacionLog,
-                        TerminalModificacionLog = d.TerminalModificacionLog,
-                        FechaModificacionLog = d.FechaModificacionLog
-                    });
-                }
+                //List<JUSTICA_SOLICITUD> ListadoJustificaciones = new List<JUSTICA_SOLICITUD>();
+                //var detalle = entities.JUSTICA_SOLICITUD.Where(y => y.IdSolicitudPermiso == x.IdSolicitudPermiso).ToList();
+                //foreach (var d in detalle)
+                //{
+                //    ListadoJustificaciones.Add(new JUSTICA_SOLICITUD
+                //    {
+                //        IdJustificaSolicitud = d.IdJustificaSolicitud,
+                //        IdSolicitudPermiso = x.IdSolicitudPermiso,
+                //        CodigoMotivo = d.CodigoMotivo,
+                //        FechaSalida = d.FechaSalida,
+                //        FechaRegreso = d.FechaRegreso,
+                //        UsuarioIngresoLog = d.UsuarioIngresoLog,
+                //        FechaIngresoLog = d.FechaIngresoLog,
+                //        TerminalIngresoLog = d.TerminalIngresoLog,
+                //        UsuarioModificacionLog = d.UsuarioModificacionLog,
+                //        TerminalModificacionLog = d.TerminalModificacionLog,
+                //        FechaModificacionLog = d.FechaModificacionLog
+                //    });
+                //}
 
-                var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == x.CodigoMotivo);
+                //var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == x.CodigoMotivo);
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
                 string DescripcionEstadosSolicitud = (from e in entities.ESTADO_SOLICITUD
-                                             where e.Estado == x.EstadoSolicitud
-                                             select e.Descripcion).FirstOrDefault();
+                                                      where e.Estado == x.EstadoSolicitud
+                                                      select e.Descripcion).FirstOrDefault();
                 ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
                 {
                     IdSolicitudPermiso = x.IdSolicitudPermiso,
-                    CodigoLinea = x.CodigoLinea,
+                    //CodigoLinea = x.CodigoLinea,
                     DescripcionLinea = poEmpleado != null ? poEmpleado.LINEA : "",
-                    CodigoArea = x.CodigoArea,
+                    //CodigoArea = x.CodigoArea,
                     DescripcionArea = poEmpleado != null ? poEmpleado.AREA : "",
-                    CodigoCargo = x.CodigoCargo,
-                    DescripcionCargo = poEmpleado != null ? poEmpleado.CARGO : "",
-                    Identificacion = x.Identificacion,
+                    //CodigoCargo = x.CodigoCargo,
+                    //DescripcionCargo = poEmpleado != null ? poEmpleado.CARGO : "",
+                    //Identificacion = x.Identificacion,
                     NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : "",
-                    CodigoMotivo = x.CodigoMotivo,
-                    DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
-                    Observacion = x.Observacion,
-                    FechaSalida = x.FechaSalida,
-                    FechaRegreso = x.FechaRegreso,
+                    //CodigoMotivo = x.CodigoMotivo,
+                    //DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
+                    //Observacion = x.Observacion,
+                    //FechaSalida = x.FechaSalida,
+                    //FechaRegreso = x.FechaRegreso,
                     EstadoSolicitud = x.EstadoSolicitud,
-                    DescripcionEstadoSolicitud= DescripcionEstadosSolicitud,
+                    DescripcionEstadoSolicitud = DescripcionEstadosSolicitud,
                     FechaBiometrico = x.FechaBiometrico,
-                    Origen = x.Origen,
-                    CodigoDiagnostico = x.CodigoDiagnostico,
-                    FechaIngresoLog = x.FechaIngresoLog,
-                    UsuarioIngresoLog = x.UsuarioIngresoLog,
-                    TerminalIngresoLog = x.TerminalIngresoLog,
-                    UsuarioModificacionLog = x.UsuarioModificacionLog,
-                    FechaModificacionLog = x.FechaModificacionLog,
-                    TerminalModificacionLog = x.TerminalModificacionLog
+                    //Origen = x.Origen,
+                    //CodigoDiagnostico = x.CodigoDiagnostico,
+                    //FechaIngresoLog = x.FechaIngresoLog,
+                    //UsuarioIngresoLog = x.UsuarioIngresoLog,
+                    //TerminalIngresoLog = x.TerminalIngresoLog,
+                    //UsuarioModificacionLog = x.UsuarioModificacionLog,
+                    //FechaModificacionLog = x.FechaModificacionLog,
+                    //TerminalModificacionLog = x.TerminalModificacionLog
                 });
             }
             return ListaSolicitudesPermiso;

@@ -1,13 +1,40 @@
-﻿function MensajeClose() {
+﻿var sPath = window.location.pathname;
+var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+function MensajeClose() {
     //location.reload();
-    //$(this).modal('hide');
+   //$(this).modal('hide');
+    if (sPage = 'SolicitudPermiso') {
+        $('#GuardarSolicitudGeneral').prop('readonly', false);
+    }
+    if (sPage = 'SolicitudPermisoDispensario') {
+        $('#GuardarSolicitudDispensario').prop('readonly', false);
+    }
+    //var sPath = window.location.pathname;
+    //var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+    //alert(sPage);
+    //if (sPage = "SolicitudPermiso - My ASP.NET Application") {
+    //    $('#' + formulario).attr("disabled", false);
+    //}
 }
 
 function MensajeCloseReload() {
+    if (sPage = 'SolicitudPermiso') {
+        $('#GuardarSolicitudGeneral').prop('readonly', false);
+    }
+    if (sPage = 'SolicitudPermisoDispensario') {
+        $('#GuardarSolicitudDispensario').prop('readonly', false);
+    }
+    
     location.reload();
 }
 
-function MensajeCorrecto(mensaje,r) {
+function MensajeCorrecto(mensaje, r) {
+    if (sPage = 'SolicitudPermiso') {
+        $('#GuardarSolicitudGeneral').prop('readonly', true);
+    }
+    if (sPage = 'SolicitudPermisoDispensario') {
+        $('#GuardarSolicitudDispensario').prop('readonly', true);
+    }
     $.ajax({
         url: "../Mensaje/Correcto",
         type: "Get",
