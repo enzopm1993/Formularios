@@ -592,6 +592,7 @@
     <Content Include="Scripts\SolicitudPermisoJS\Bandeja.js" />
     <Content Include="Scripts\SolicitudPermisoJS\BandejaRRHH.js" />
     <Content Include="Scripts\SolicitudPermisoJS\BitacoraSolicitud.js" />
+    <Content Include="Scripts\SolicitudPermisoJS\Empleado.js" />
     <Content Include="Scripts\SolicitudPermisoJS\ReporteSolicitud.js" />
     <Content Include="Scripts\SolicitudPermisoJS\SolicitudPermiso.js" />
     <Content Include="Scripts\SolicitudPermisoJS\SolicitudPermisoMedico.js" />
