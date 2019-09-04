@@ -40,7 +40,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             entities.SaveChanges();
             return psMensaje;
         }
-
+        
         public string GuargarModificarSolicitud(SOLICITUD_PERMISO doSolicitud)
         {
             string psMensaje = string.Empty;

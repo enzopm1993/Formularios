@@ -17,11 +17,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
            
         }
 
-        public List<spConsultaCodigosEnfermedad> ConsultaCodigosEnfermedad()
+        public List<sp_GrupoEnfermedades> ConsultaCodigosGrupoSubEnfermedad(string tipo, string Grupo, string SubGrupo)
         {
             
-                entities = new ASIS_PRODEntities();
-                return entities.spConsultaCodigosEnfermedad("0").ToList();
+                //entities = new ASIS_PRODEntities();
+                //return entities.spConsultaCodigosEnfermedad("0").ToList();
+            using(ASIS_PRODEntities db=new ASIS_PRODEntities())
+            {
+                
+                return db.sp_GrupoEnfermedades(tipo, Grupo, SubGrupo).ToList();
+            }
             
         }
         public List<spConsultaArea> ConsultaAreas(string dsCodigo)

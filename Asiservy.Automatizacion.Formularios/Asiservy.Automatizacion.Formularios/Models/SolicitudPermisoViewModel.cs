@@ -73,7 +73,10 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public string Origen { get; set; }
         [DisplayName("Origen")]
         public string DescripcionOrigen { get; set; }
-        
+        public string NombreGrupoEnfermedad { get; set; }
+        public string CodigoGrupoEnfermedad { get; set; }
+        public string CodigoSubGrupoEnfermedad { get; set; }
+
         public string CodigoDiagnostico { get; set; }
         [DisplayName("Diagnostico")]
         public string DescripcionDiagnostico { get; set; }

@@ -307,6 +307,7 @@
     <Content Include="Content\PruebaStyle\prueba.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\SolicitudPermisoCss\SolicitudPermiso.css" />
+    <Content Include="Content\SolicitudPermisoCss\SolicitudPermisoMedico.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\AsistenciaJS\Asistencia.js" />
     <Content Include="Scripts\AsistenciaJS\CambiarPersonal.js" />
@@ -605,6 +606,7 @@
     <Compile Include="AccesoDatos\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\clsDSolicitudPermiso.cs" />
     <Compile Include="AccesoDatos\clsDLogin.cs" />
+    <Compile Include="AccesoDatos\clsDSolicitudPermisoMedico.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -661,6 +663,7 @@
     <Content Include="Views\Mensaje\EmpleadoBuscar.cshtml" />
     <Content Include="Views\SolicitudPermiso\ConsultaSolicitudes.cshtml" />
     <Content Include="Views\SolicitudPermiso\BitacoraSolicitudPartial.cshtml" />
+    <Content Include="Views\SolicitudPermiso\ConsultarGrupoEnfermedades.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -51,7 +51,145 @@ function CambioArea() {
     //    SelectLinea.setAttribute("hidden", true);
     //}
 }
+//combo autocomplete
+//$(function () {
+//    $.widget("custom.combobox", {
+//        _create: function () {
+//            this.wrapper = $("<span>")
+//                .addClass("custom-combobox")
+//                .insertAfter(this.element);
 
+//            this.element.hide();
+//            this._createAutocomplete();
+//            this._createShowAllButton();
+//        },
+
+//        _createAutocomplete: function () {
+//            var selected = this.element.children(":selected"),
+//                value = selected.val() ? selected.text() : "";
+
+//            this.input = $("<input>")
+//                .appendTo(this.wrapper)
+//                .val(value)
+//                .attr("title", "")
+//                .addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
+//                .autocomplete({
+//                    delay: 0,
+//                    minLength: 0,
+//                    source: $.proxy(this, "_source")
+//                })
+//                .tooltip({
+//                    classes: {
+//                        "ui-tooltip": "ui-state-highlight"
+//                    }
+//                });
+
+//            this._on(this.input, {
+//                autocompleteselect: function (event, ui) {
+//                    ui.item.option.selected = true;
+//                    this._trigger("select", event, {
+//                        item: ui.item.option
+//                    });
+//                },
+
+//                autocompletechange: "_removeIfInvalid"
+//            });
+//        },
+
+//        _createShowAllButton: function () {
+//            var input = this.input,
+//                wasOpen = false;
+
+//            $("<a>")
+//                .attr("tabIndex", -1)
+//                .attr("title", "Show All Items")
+//                .tooltip()
+//                .appendTo(this.wrapper)
+//                .button({
+//                    icons: {
+//                        primary: "ui-icon-triangle-1-s"
+//                    },
+//                    text: false
+//                })
+//                .removeClass("ui-corner-all")
+//                .addClass("custom-combobox-toggle ui-corner-right")
+//                .on("mousedown", function () {
+//                    wasOpen = input.autocomplete("widget").is(":visible");
+//                })
+//                .on("click", function () {
+//                    input.trigger("focus");
+
+//                    // Close if already visible
+//                    if (wasOpen) {
+//                        return;
+//                    }
+
+//                    // Pass empty string as value to search for, displaying all results
+//                    input.autocomplete("search", "");
+//                });
+//        },
+
+//        _source: function (request, response) {
+//            var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+//            response(this.element.children("option").map(function () {
+//                var text = $(this).text();
+//                if (this.value && (!request.term || matcher.test(text)))
+//                    return {
+//                        label: text,
+//                        value: text,
+//                        option: this
+//                    };
+//            }));
+//        },
+
+//        _removeIfInvalid: function (event, ui) {
+
+//            // Selected an item, nothing to do
+//            if (ui.item) {
+//                return;
+//            }
+
+//            // Search for a match (case-insensitive)
+//            var value = this.input.val(),
+//                valueLowerCase = value.toLowerCase(),
+//                valid = false;
+//            this.element.children("option").each(function () {
+//                if ($(this).text().toLowerCase() === valueLowerCase) {
+//                    this.selected = valid = true;
+//                    return false;
+//                }
+//            });
+
+//            // Found a match, nothing to do
+//            if (valid) {
+//                return;
+//            }
+
+//            // Remove invalid value
+//            this.input
+//                .val("")
+//                .attr("title", value + " didn't match any item")
+//                .tooltip("open");
+//            this.element.val("");
+//            this._delay(function () {
+//                this.input.tooltip("close").attr("title", "");
+//            }, 2500);
+//            this.input.autocomplete("instance").term = "";
+//        },
+
+//        _destroy: function () {
+//            this.wrapper.remove();
+//            this.element.show();
+//        }
+//    });
+
+//    $("#selectGrupoEnfermedad").combobox();
+//    $("#toggle").on("click", function () {
+//        $("#selectGrupoEnfermedad").toggle();
+//    });
+//});
+
+//fin combo autocomplete
 function CambioHoraFecha() {
     var HoraDesde = document.getElementById("timeHoraSalida");
     var HoraHasta = document.getElementById("timeHoraRegreso");
@@ -84,7 +222,107 @@ function CambioHoraFecha() {
 }
 
 
+$("#selectSubGrupoEnfermedad").change(function () {
+    $.ajax({
+        url: "../SolicitudPermiso/ObtenerEnfermedades",
+        type: "Get",
+        data:
+        {
+            SubGrupoEnfermedad: $("#selectSubGrupoEnfermedad").val()
+        },
+        success: function (resultado) {
+            if (!$.isEmptyObject(resultado)) {
+            $("#selectDiagnostico").empty();
+                $.each(resultado, function (create, row) {
+                $("#selectDiagnostico").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
+            });
+        } else {
+            $("#selectDiagnostico").empty();
+            $("#selectDiagnostico").append("<option value='' >Seleccione Diagnóstico</option>");
+            //alert("El vendedor seleccionado no tiene zonas asignadas");
+        }
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+            $('#' + formulario).remove("disabled");
+        }
+    });
+   
+});
+//fin combo anidados enfermedades
 document.getElementById("selectArea").options[0].disabled = true;
 document.getElementById("CodigoLinea").options[0].disabled = true;
 document.getElementById("selectCargo").options[0].disabled = true;
 document.getElementById("selectMotivo").options[0].disabled = true;
+//consultar grupo enfermedades modal
+function ConsultarGrupoEnfermedad(Codigo, Descripcion) {
+
+    $('#NombreGrupoEnfermedad').val(Descripcion)
+    $('#CodigoGrupoEnfermedad').val(Codigo)
+   
+
+    $.ajax({
+        url: "../SolicitudPermiso/ObtenerSubGrupoEnfermedades",
+        type: "Get",
+        data:
+        {
+            GrupoEnfermedad: Codigo
+        },
+        success: function (resultado) {
+            if (!$.isEmptyObject(resultado)) {
+            $("#selectSubGrupoEnfermedad").empty();
+                $.each(resultado, function (create, row) {
+                $("#selectSubGrupoEnfermedad").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
+            });
+            } else {
+            $("#selectSubGrupoEnfermedad").empty();
+            $("#selectSubGrupoEnfermedad").append("<option value='' >Seleccione Sub Grupo</option>");
+            //alert("El vendedor seleccionado no tiene zonas asignadas");
+            }
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+            $('#' + formulario).remove("disabled");
+        }
+    });
+
+    $("#selectDiagnostico").empty();
+    $("#selectDiagnostico").append("<option value='' >Seleccione Diagnóstico</option>");
+    cerrarmodalgrupoenfermedad();
+    
+}
+function cerrarmodalgrupoenfermedad() {
+    $('#ModalGrupoEnfermedad').modal('hide');
+
+    //if (sPage = "SolicitudPermiso") {
+    //    $('#CargarEmpleadoPG').attr("disabled", false);
+    //}
+
+    if (sPage = "SolicitudPermisoDispensario") {
+        $('#CargarGrupoEnfermedadesp').attr("disabled", false);
+    }
+}
+
+// boton consulta enfermedades grupo
+function CargarGrupoEnfermedades(formulario) {
+
+    
+        $('#' + formulario).attr("disabled", true);
+        $.ajax({
+            url: "../SolicitudPermiso/ConsultarGrupoEnfermedades",
+            type: "Get",
+           
+            success: function (resultado) {
+                $('#DivCargarGrupoEnfermedades').html(resultado);
+                $("#ModalGrupoEnfermedad").modal("show");
+
+            },
+            error: function (resultado) {
+                MensajeError(JSON.stringify(resultado), false);
+                $('#' + formulario).remove("disabled");
+            }
+        });
+   
+
+}
+//fin boton grupo enfermedades

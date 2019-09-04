@@ -343,8 +343,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-
-
+        [Authorize]
+        public ActionResult ConsultarGrupoEnfermedades()
+        {
+            clsDSolicitudPermisoMedico pSPermisoMedico = new clsDSolicitudPermisoMedico();
+            var ListGrupoEnfermedades = pSPermisoMedico.ConsultaGrupoEnfermedades("G","","");
+            return PartialView(ListGrupoEnfermedades);
+        }
         [Authorize]
         public ActionResult SolicitudPermisoDispensario()
         {
@@ -484,6 +489,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
             ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
         }
+        public JsonResult ObtenerSubGrupoEnfermedades(string GrupoEnfermedad)
+        {
+            clsDGeneral = new clsDGeneral();
+            List<sp_GrupoEnfermedades> pListSubGrupoEnfermedades=clsDGeneral.ConsultaCodigosGrupoSubEnfermedad("S", GrupoEnfermedad,"").ToList();
+            return Json(pListSubGrupoEnfermedades, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ObtenerEnfermedades(string SubGrupoEnfermedad)
+        {
+            clsDGeneral = new clsDGeneral();
+            List<sp_GrupoEnfermedades> pListEnfermedades = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad("E", "", SubGrupoEnfermedad).ToList();
+            return Json(pListEnfermedades, JsonRequestBehavior.AllowGet);
+        }
         public void ConsultaCombosMedicos()
         {
             clsDClasificador = new clsDClasificador();
@@ -493,7 +510,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("M");
             ViewBag.Lineas = clsDGeneral.ConsultaLineas();
             ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
-            ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosEnfermedad();
+            // ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosEnfermedad();
+            ViewBag.CodigoGrupoEnfermedad= clsDGeneral.ConsultaCodigosGrupoSubEnfermedad("G","","");
             ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
         }
         protected void SetSuccessMessage(string message)
