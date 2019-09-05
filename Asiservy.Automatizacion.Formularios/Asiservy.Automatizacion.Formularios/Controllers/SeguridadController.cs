@@ -7,7 +7,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.Models;
-
+using RestSharp;
+using Asiservy.Automatizacion.Formularios.Models.Seguridad;
+using Newtonsoft.Json;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -17,7 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDRol clsDRol = null;
         clsDError clsDError = null;
         clsDUsuarioRol clsDUsuarioRol = null;
-        clsDRol clsDRol = null;
+       
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
@@ -300,8 +302,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public void ConsultaCombos()
         {
             clsDRol =new clsDRol();
-            var roles = clsDRol.ConsultarRoles();
+            var roles = clsDRol.ConsultarRoles(clsAtributos.EstadoRegistroActivo);
             ViewBag.Roles = roles.Select(x=> new {x.IdRol, x.Descripcion});
+
+            var client = new RestClient("http://192.168.0.31:8870");
+            // client.Authenticator = new HttpBasicAuthenticator(username, password);
+
+            var request = new RestRequest("/api/Usuarios", Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content; // raw content as string
+            //List<Usuario> ListaUsuarios = new List<Usuario>();
+            var ListaUsuarios = JsonConvert.DeserializeObject(content);
+            ViewBag.Usuarios = ListaUsuarios;
 
         }
 

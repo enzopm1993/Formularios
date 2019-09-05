@@ -1,8 +1,7 @@
-﻿
-
-
-
-
+﻿$(document).ready(function () {
+    CargarUsuarioRol();
+    //Nuevo();
+});
 
 
 function CargarUsuarioRol() {
