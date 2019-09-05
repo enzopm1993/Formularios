@@ -13,7 +13,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return null;
+                return entities.OPCION.ToList();
             }
         }
 

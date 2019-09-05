@@ -9,6 +9,7 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link href="~/Content/Login/Login.css" rel="shortcut icon" />
 </head>
 <body>
 
@@ -33,102 +34,102 @@
                 <ul class="navbar-nav" style="width:100%">
                     @if (Padre != null)
                     {
-                    if (Padre.Contains("Produccion"))
-                    {
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Produccion <span class="sr-only">(current)</span></a>
-                        <div class="dropdown-menu" aria-labelledby="themes">
-                            @if (Hijo != null)
-                            {
-                            if (Hijo.Contains("Asistencia"))
-                            {
-                                @Html.ActionLink("Control  de Asistencia", "Asistencia", "Asistencia", null, new { @class = "dropdown-item" })
-                            }
-                            if (Hijo.Contains("EditarAsistencia"))
-                            {
-                                @Html.ActionLink("Editar Asistencia", "EditarAsistencia", "Asistencia", null, new { @class = "dropdown-item" })
-                            }
-                            if (Hijo.Contains("Cuchillo"))
-                            {
-                                @Html.ActionLink("Control  de Cuchillos", "Cuchillo", "Asistencia", null, new { @class = "dropdown-item" })
-                            }
-                            <div class="dropdown-divider"></div>
-                            if (Hijo.Contains("CambiarPersonalDeArea"))
-                            {
-                                @Html.ActionLink("Cambio de Personal", "CambiarPersonalDeArea", "Asistencia", null, new { @class = "dropdown-item" })
+                        if (Padre.Contains("Produccion"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Produccion <span class="sr-only">(current)</span></a>
+                                <div class="dropdown-menu" aria-labelledby="themes">
+                                    @if (Hijo != null)
+                                    {
+                                        if (Hijo.Contains("Asistencia"))
+                                        {
+                                            @Html.ActionLink("Control  de Asistencia", "Asistencia", "Asistencia", null, new { @class = "dropdown-item" })
+                                        }
+                                        if (Hijo.Contains("EditarAsistencia"))
+                                        {
+                                            @Html.ActionLink("Editar Asistencia", "EditarAsistencia", "Asistencia", null, new { @class = "dropdown-item" })
+                                        }
+                                        if (Hijo.Contains("Cuchillo"))
+                                        {
+                                            @Html.ActionLink("Control  de Cuchillos", "Cuchillo", "Asistencia", null, new { @class = "dropdown-item" })
+                                        }
+                                        <div class="dropdown-divider"></div>
+                                        if (Hijo.Contains("CambiarPersonalDeArea"))
+                                        {
+                                            @Html.ActionLink("Cambio de Personal", "CambiarPersonalDeArea", "Asistencia", null, new { @class = "dropdown-item" })
 
-                            }
-                            if (Hijo.Contains("BitacoraCambioPersonal"))
-                            {
-                                @Html.ActionLink("Bitacora Cambio de Personal", "BitacoraCambioPersonal", "Asistencia", null, new { @class = "dropdown-item"})
-                            }
-                            }
-                        </div>
-                    </li>
+                                        }
+                                        if (Hijo.Contains("BitacoraCambioPersonal"))
+                                        {
+                                            @Html.ActionLink("Bitacora Cambio de Personal", "BitacoraCambioPersonal", "Asistencia", null, new { @class = "dropdown-item" })
+                                        }
+                                    }
+                                </div>
+                            </li>
                         }
                         if (Padre.Contains("Reportes"))
                         {
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Reportes</a>
-                        <div class="dropdown-menu" aria-labelledby="themes">
-                            @if (Hijo!=null)
-                            { 
-                            if (Hijo.Contains("ReporteDistribucion"))
-                            {
-                                @Html.ActionLink("Distribucion de personal por lineas", "ReporteDistribucion", "Asistencia", null, new { @class = "dropdown-item" })
-                            }
-                            if (Hijo.Contains("PersonalNomina"))
-                            {
-                                @Html.ActionLink("Personal en nomina por linea", "PersonalNomina", "Asistencia", null, new { @class = "dropdown-item" })
-                            }
-                            if (Hijo.Contains("RptCuchillo"))
-                            {
-                                @Html.ActionLink("Control de cuchillos", "RptCuchillo", "Asistencia", null, new { @class = "dropdown-item" })
-                            }
-                            if (Hijo.Contains("RptAsistencia"))
-                            {
-                                @Html.ActionLink("Reporte de Asistencia", "RptAsistencia", "Asistencia", null, new { @class = "dropdown-item"})
-                            }
-                            }
-                            <div class="dropdown-divider"></div>
-                        </div>
-                    </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Reportes</a>
+                                <div class="dropdown-menu" aria-labelledby="themes">
+                                    @if (Hijo != null)
+                                    {
+                                        if (Hijo.Contains("ReporteDistribucion"))
+                                        {
+                                            @Html.ActionLink("Distribucion de personal por lineas", "ReporteDistribucion", "Asistencia", null, new { @class = "dropdown-item" })
+                                        }
+                                        if (Hijo.Contains("PersonalNomina"))
+                                        {
+                                            @Html.ActionLink("Personal en nomina por linea", "PersonalNomina", "Asistencia", null, new { @class = "dropdown-item" })
+                                        }
+                                        if (Hijo.Contains("RptCuchillo"))
+                                        {
+                                            @Html.ActionLink("Control de cuchillos", "RptCuchillo", "Asistencia", null, new { @class = "dropdown-item" })
+                                        }
+                                        if (Hijo.Contains("RptAsistencia"))
+                                        {
+                                            @Html.ActionLink("Reporte de Asistencia", "RptAsistencia", "Asistencia", null, new { @class = "dropdown-item" })
+                                        }
+                                    }
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                            </li>
                         }
                         if (Padre.Contains("Solicitud_Permiso"))
                         {
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Solicitud Permiso</a>
-                        <div class="dropdown-menu" aria-labelledby="themes">
-                            @if (Hijo != null)
-                            {
-                            if (Hijo.Contains("SolicitudPermisodispensario"))
-                            {
-                                @Html.ActionLink("Permiso Médico", "SolicitudPermisodispensario", "SolicitudPermiso", null, new { @class = "dropdown-item" })
-                            }
-                            if (Hijo.Contains("SolicitudPermiso"))
-                            {
-                                @Html.ActionLink("Permiso General", "SolicitudPermiso", "SolicitudPermiso", null, new { @class = "dropdown-item" })
-                            }
-                            if (Hijo.Contains("BandejaAprobacion"))
-                            {
-                                @Html.ActionLink("Bandeja de Solicitudes", "BandejaAprobacion", "SolicitudPermiso", null, new { @class = "dropdown-item" })
-                            }
-                            if (Hijo.Contains("BandejaRRHH"))
-                            {
-                                @Html.ActionLink("Bandeja de Solicitudes RRHH", "BandejaRRHH", "SolicitudPermiso", null, new { @class = "dropdown-item" })
-                            }
-                            <div class="dropdown-divider"></div>
-                            if (Hijo.Contains("ReporteSolicitud"))
-                            {
-                                @Html.ActionLink("Reporte de Solicitudes", "ReporteSolicitud", "SolicitudPermiso", null, new { @class = "dropdown-item" })
-                            }
-                            if (Hijo.Contains("BitacoraSolicitud"))
-                            {
-                                @Html.ActionLink("Bitacora", "BitacoraSolicitud", "SolicitudPermiso", null, new { @class = "dropdown-item"})
-                            }
-                            }
-                        </div>
-                    </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Solicitud Permiso</a>
+                                <div class="dropdown-menu" aria-labelledby="themes">
+                                    @if (Hijo != null)
+                                    {
+                                        if (Hijo.Contains("SolicitudPermisodispensario"))
+                                        {
+                                            @Html.ActionLink("Permiso Médico", "SolicitudPermisodispensario", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+                                        }
+                                        if (Hijo.Contains("SolicitudPermiso"))
+                                        {
+                                            @Html.ActionLink("Permiso General", "SolicitudPermiso", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+                                        }
+                                        if (Hijo.Contains("BandejaAprobacion"))
+                                        {
+                                            @Html.ActionLink("Bandeja de Solicitudes", "BandejaAprobacion", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+                                        }
+                                        if (Hijo.Contains("BandejaRRHH"))
+                                        {
+                                            @Html.ActionLink("Bandeja de Solicitudes RRHH", "BandejaRRHH", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+                                        }
+                                        <div class="dropdown-divider"></div>
+                                        if (Hijo.Contains("ReporteSolicitud"))
+                                        {
+                                            @Html.ActionLink("Reporte de Solicitudes", "ReporteSolicitud", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+                                        }
+                                        if (Hijo.Contains("BitacoraSolicitud"))
+                                        {
+                                            @Html.ActionLink("Bitacora", "BitacoraSolicitud", "SolicitudPermiso", null, new { @class = "dropdown-item" })
+                                        }
+                                    }
+                                </div>
+                            </li>
                         }
 
                     }
@@ -145,8 +146,11 @@
     </nav>
 
 
+    <div id="ModalMensaje"></div>
+
     <div style="padding-bottom: 50px" class="container-fluid">
         @RenderBody()
+        <script src="~/Scripts/Mensajes/Mensajes.js"></script>
 
         @if (TempData["MensajeConfirmacion"] != null)
         {
@@ -171,12 +175,7 @@
 </html>
 
 @{
-
-    //
-
-
     string[] liststring = User.Identity.Name.Split('_');
-    //
     if (User.Identity.IsAuthenticated)
     {
         <script>
