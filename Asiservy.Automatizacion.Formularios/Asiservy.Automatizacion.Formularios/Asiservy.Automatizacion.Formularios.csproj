@@ -607,6 +607,7 @@
     <Compile Include="AccesoDatos\clsDEmpleado.cs" />
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
+    <Compile Include="AccesoDatos\Seguridad\clsDOpcion.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermiso.cs" />
     <Compile Include="AccesoDatos\General\clsDLogin.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />
@@ -669,6 +670,7 @@
     <Content Include="Views\SolicitudPermiso\BitacoraSolicitudPartial.cshtml" />
     <Content Include="Views\Mensaje\Advertencia.cshtml" />
     <Content Include="Views\SolicitudPermiso\ConsultarGrupoEnfermedades.cshtml" />
+    <Content Include="Views\Seguridad\Opcion.cshtml" />
     <Content Include="Views\Seguridad\Rol.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -679,6 +681,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Seguridad\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
