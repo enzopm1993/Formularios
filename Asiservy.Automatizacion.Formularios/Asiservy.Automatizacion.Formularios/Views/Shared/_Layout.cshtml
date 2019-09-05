@@ -67,6 +67,26 @@
                                 </div>
                             </li>
                         }
+                        if (Padre.Contains("Administracion"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Administración</a>
+                                <div class="dropdown-menu" aria-labelledby="themes">
+                                    @if (Hijo != null)
+                                    {
+                                        if (Hijo.Contains("Rol"))
+                                        {
+                                            @Html.ActionLink("Rol", "Rol", "Seguridad", null, new { @class = "dropdown-item" })
+                                        }
+                                        if (Hijo.Contains("Opcion"))
+                                        {
+                                            @Html.ActionLink("Opción", "Opcion", "Seguridad", null, new { @class = "dropdown-item" })
+                                        }
+                                    }
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                            </li>
+                        }
                         if (Padre.Contains("Reportes"))
                         {
                             <li class="nav-item dropdown">
