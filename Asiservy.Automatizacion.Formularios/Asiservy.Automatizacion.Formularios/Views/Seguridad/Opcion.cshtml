@@ -10,70 +10,67 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <hr />
-        <div class="row">
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.TextBoxFor(model => model.IdOpcion,new { @class = "form-control", @hidden = "hidden", @value="0" })
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.IdOpcion, new { htmlAttributes = new { @class = "form-control", @hidden = "hidden" } })
-            @Html.ValidationMessageFor(model => model.IdOpcion, "", new { @class = "text-danger" })
+    <div class="row">
 
-            <div class="col-md-3">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Formulario, htmlAttributes: new { @class = "control-label " })
-                    @Html.EditorFor(model => model.Formulario, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Formulario, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Clase, htmlAttributes: new { @class = "control-label" })
-                    @{
-                        List<string> clase = new List<string> { "Hijo", "Padre" };
 
-                    }
-                    @Html.DropDownListFor(model => model.Clase, new SelectList(clase), new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Clase, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Padre, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownListFor(model => model.Padre, new SelectList(ViewBag.opciones, "IdOpcion", "Nombre"), "Seleccione", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Padre, "", new { @class = "text-danger" })
-                </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <div class="form-group">
-                    <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">
-                        <label class="custom-control-label" for="CheckEstadoRegistro"  id="LabelEstado">Inactivo</label>
-                    </div>
-                </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Formulario, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.Formulario, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Formulario, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Clase, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.Clase, (IEnumerable<SelectListItem>)ViewBag.Clase,"Selecione", new { @class = "form-control",@onchange="CambioClase(this.value)" })
+                @Html.ValidationMessageFor(model => model.Clase, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Padre, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownListFor(model => model.Padre, new SelectList(ViewBag.opciones, "IdOpcion", "Nombre"), "Seleccione", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Padre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
 
+    <div class="row">
         <div class="col-md-12 text-center">
             <div class="form-group">
-                <input type="submit" value="Grabar" class="btn btn-primary" onclick="Grabar()" />
-                <input type="button" value="Nuevo" class="btn btn-info" onclick="Nuevo()" />
+                <div class="custom-control custom-checkbox mb-3">
+                    @Html.CheckBox("EstadoRegistro",true,new {@id= "CheckEstadoRegistro", @class= "custom-control-input",@onchange="CambioEstado(this.checked)" })
+                 @*   <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">*@
+                    <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
+                </div>
             </div>
         </div>
-
-        
     </div>
+
+    <div class="col-md-12 text-center">
+        <div class="form-group">
+            <input type="submit" value="Grabar" class="btn btn-primary" onclick="Grabar()" />
+            <input type="button" value="Nuevo" class="btn btn-info" onclick="Nuevo()" />
+        </div>
+    </div>
+
+
+</div>
 }
-    <div id="DivTableOpciones">
+    <div id="DivTableOpciones" style="padding-bottom:5%">
         
     </div>
 

@@ -623,6 +623,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BitacoraSolicitud.cs" />
+    <Compile Include="Models\Clasificador.cs" />
     <Compile Include="Models\Empleado.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
     <Compile Include="Models\Seguridad\RolViewModel.cs" />

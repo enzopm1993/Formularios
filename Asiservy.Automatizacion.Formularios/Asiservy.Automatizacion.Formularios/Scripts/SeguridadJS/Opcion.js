@@ -2,6 +2,25 @@
     CargarOpciones();
 });
 
+function CambioClase(valor) {
+    if (valor == "1") {
+        $('#Padre').prop('selectedIndex', 0);
+        $('#Padre').prop('disabled', true);
+    } else {
+        $('#Padre').prop('disabled', false);
+    }
+
+}
+
+function CambioEstado(valor) {
+    console.log(valor);
+    if(valor)
+        $('#LabelEstado').text('Activo');
+    else
+        $('#LabelEstado').text('Inactivo');
+
+}
+
 function Nuevo() {
     $('#IdOpcion').val('0');
     $('#Nombre').val('');
@@ -18,10 +37,14 @@ function CargarOpcion(id, nombre, formulario, clase, padre, estado) {
     $('#Nombre').val(nombre);
     $('#Formulario').val(formulario);
 
-    if(clase=='P')
+    if (clase == 'P') {
+        $('#Clase').prop('selectedIndex', 2);
+        $('#Padre').prop('disabled', true);
+    }
+    else {
         $('#Clase').prop('selectedIndex', 1);
-    else
-        $('#Clase').prop('selectedIndex', 0);
+        $('#Padre').prop('disabled', false);
+    }
 
     if(padre!='')
         $('#Padre').val(padre);
