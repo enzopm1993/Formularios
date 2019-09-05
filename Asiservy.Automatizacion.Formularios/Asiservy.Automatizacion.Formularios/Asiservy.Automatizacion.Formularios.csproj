@@ -609,6 +609,7 @@
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDOpcion.cs" />
+    <Compile Include="AccesoDatos\Seguridad\clsDRol.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermiso.cs" />
     <Compile Include="AccesoDatos\General\clsDLogin.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />

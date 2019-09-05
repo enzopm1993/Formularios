@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 
@@ -58,9 +57,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult ConsultaRoles()
         {
-            clsDOpcion Opciones = new clsDOpcion();
-            var ListaRoles = Opciones.ConsultarRoles();
-            return PartialView(ListaRoles);
+            try
+            {
+                clsDRol Opciones = new clsDRol();
+                var ListaRoles = Opciones.ConsultarRoles();
+                return PartialView(ListaRoles);
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
         }
         [HttpPost]
         public ActionResult Rol(ROL poRol)
@@ -80,9 +88,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    clsDOpcion poOpcion = new clsDOpcion();
+                    clsDRol poOpcion = new clsDRol();
                     string psMensaje = poOpcion.GuardarRol(poRol, liststring[0], Request.UserHostAddress);
                     SetSuccessMessage(psMensaje);
+                    return RedirectToAction("Rol");
                 }
                 
             }
