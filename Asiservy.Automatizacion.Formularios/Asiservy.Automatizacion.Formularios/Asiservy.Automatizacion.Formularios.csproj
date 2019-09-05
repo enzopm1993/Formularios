@@ -624,6 +624,7 @@
     <Compile Include="Models\BitacoraSolicitud.cs" />
     <Compile Include="Models\Empleado.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
+    <Compile Include="Models\Seguridad\RolViewModel.cs" />
     <Compile Include="Models\Solicitud.cs" />
     <Compile Include="Models\SolicitudPermisoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -672,6 +673,7 @@
     <Content Include="Views\SolicitudPermiso\ConsultarGrupoEnfermedades.cshtml" />
     <Content Include="Views\Seguridad\Opcion.cshtml" />
     <Content Include="Views\Seguridad\Rol.cshtml" />
+    <Content Include="Views\Seguridad\ConsultaRoles.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -681,7 +683,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Seguridad\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
