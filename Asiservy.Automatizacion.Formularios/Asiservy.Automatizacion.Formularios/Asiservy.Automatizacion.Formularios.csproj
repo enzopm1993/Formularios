@@ -677,6 +677,7 @@
     <Content Include="Views\Seguridad\OpcionPartial.cshtml" />
     <Content Include="Views\Seguridad\Rol.cshtml" />
     <Content Include="Views\Seguridad\ConsultaRoles.cshtml" />
+    <Content Include="Views\Seguridad\OpcionRol.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

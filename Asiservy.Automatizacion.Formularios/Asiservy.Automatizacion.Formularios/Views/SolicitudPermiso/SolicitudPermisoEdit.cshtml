@@ -52,10 +52,10 @@
     <div class="form-group">
         @Html.LabelFor(model => model.DescripcionMotivo, htmlAttributes: new { @class = "control-label col-md-12" })
         <div class="col-md-12">
-            @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "Descripcion"),"Seleccione", new { @class = "form-control", @id = "selectMotivo" })
+            @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectMotivo" })
             @Html.ValidationMessageFor(model => model.DescripcionMotivo, "", new { @class = "text-danger" })
         </div>
-    </div>       
+    </div>
     @if (Model.Origen == "M")
     {
         <div class="row">
@@ -131,55 +131,61 @@
         </div>
     </div>
 
-        <div class="collapse" id="collapseJustificar">
-            <div class="card card-body">
-                <div style="overflow-x:auto;">
-                    <table class="table table-bordered">
-                        <thead>
+    <div class="collapse" id="collapseJustificar">
+        <div class="card card-body">
+            <div style="overflow-x:auto;">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Motivo</th>
+                            <th>Fecha Salida</th>
+                            <th>Fecha Regreso</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < 5; i++)
+                        {
+                            @Html.TextBoxFor(m => Model.JustificaSolicitudes[i].IdJustificaSolicitud, new { @hidden = "hidden" })
+                            @Html.TextBoxFor(m => Model.JustificaSolicitudes[i].IdSolicitudPermiso, new { @hidden = "hidden", @value = Model.IdSolicitudPermiso })
                             <tr>
-                                <th>Motivo</th>
-                                <th>Fecha Salida</th>
-                                <th>Fecha Regreso</th>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-                            @for (var i = 0; i < 5; i++)
-                            {
-                                @Html.TextBoxFor(m => Model.JustificaSolicitudes[i].IdJustificaSolicitud, new { @hidden = "hidden"})
-                                @Html.TextBoxFor(m => Model.JustificaSolicitudes[i].IdSolicitudPermiso, new { @hidden = "hidden", @value = Model.IdSolicitudPermiso })
-                                <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                @Html.DropDownListFor(m => m.JustificaSolicitudes[i].CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "Descripcion",Model.JustificaSolicitudes[i].CodigoMotivo), "Seleccione", new { @class = "form-control"})
-                                            </div>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            @Html.DropDownListFor(m => m.JustificaSolicitudes[i].CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "Descripcion", Model.JustificaSolicitudes[i].CodigoMotivo), "Seleccione", new { @class = "form-control" })
                                         </div>
-                                    </td>
-                                    <td>@Html.TextBoxFor(m => m.JustificaSolicitudes[i].FechaSalida, "{0:s}", new { @class = "form-control", @type = "datetime-local" })</td>
-                                    <td>@Html.TextBoxFor(m => m.JustificaSolicitudes[i].FechaRegreso, "{0:s}", new { @class = "form-control", @type = "datetime-local" })</td>
-                                </tr>
-                            }                      
+                                    </div>
+                                </td>
+                                <td>@Html.TextBoxFor(m => m.JustificaSolicitudes[i].FechaSalida, "{0:s}", new { @class = "form-control", @type = "datetime-local" })</td>
+                                <td>@Html.TextBoxFor(m => m.JustificaSolicitudes[i].FechaRegreso, "{0:s}", new { @class = "form-control", @type = "datetime-local" })</td>
+                            </tr>
+                        }
 
 
-                    </table>
+                </table>
 
-                </div>
             </div>
         </div>
-    
+    </div>
    
+
     <div class="form-group">
         <div class="col-md-12 text-center">
             <input type="submit" value="Grabar" class="btn btn-primary" />
+
             @if (ViewBag.Justifica != null)
             {
                 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseJustificar" aria-expanded="false" aria-controls="collapseExample">
                     justificar
                 </button>
             }
-            </div>
+            <input type="button" value="Cancelar" class="btn btn-primary" data-dismiss="modal" />
+        </div>
     </div>
-    
+
 </div>
 }
+<script>
+   
+    
+</script>
