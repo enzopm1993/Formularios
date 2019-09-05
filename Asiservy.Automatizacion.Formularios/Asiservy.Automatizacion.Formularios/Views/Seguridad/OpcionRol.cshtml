@@ -1,107 +1,98 @@
 ﻿@model Asiservy.Automatizacion.Datos.Datos.OPCION_ROL
 
-@{
-    ViewBag.Title = "OpcionRol";
-}
-
-<h2>OpcionRol</h2>
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>OPCION_ROL</h4>
+<div style="padding-bottom:100px">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <h4>ROL</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdOpcionRol, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdOpcionRol, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdOpcionRol, "", new { @class = "text-danger" })
+        <div class="row">
+
+
+            @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    @* @Html.LabelFor(model => model.IdRol, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    @Html.Label("Id Rol")
+                    @Html.TextBoxFor(model => model.IdOpcionRol, new { @Value = "0", @class = "form-control", @readonly = "readonly" })
+                    @*@Html.ValidationMessageFor(model => model.IdRol, "", new { @class = "text-danger" })*@
+
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    @Html.Label("Descripción")
+                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessage("ErrorDescripcion", "", new { @class = "input-validation-error text-danger has-error" })
+                    @*@Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })*@
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    @Html.Label("Estado")<br />
+                    @Html.RadioButtonFor(model => model.EstadoRegistro, "A")  @Html.Label("Activo")
+                    @Html.RadioButtonFor(model => model.EstadoRegistro, "I")  @Html.Label("Inactivo")
+                    <br />
+                    @Html.ValidationMessage("ErrorEstado", "", new { @class = "input-validation-error text-danger has-error" })
+                </div>
+            </div>
+            <div class="col-md-offset-2 col-md-12">
+                <center>
+                    <div class="form-group">
+
+                        <input type="button" value="Nuevo" id="Nuevo" class="btn btn-primary" />
+                        <input type="submit" value="Grabar" class="btn btn-primary" />
+                    </div>
+                </center>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdOpcion, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdOpcion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdOpcion, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdRol, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdRol, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdRol, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaCreacionlog, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaCreacionlog, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FechaCreacionlog, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div id="DetalleRoles">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.UsuarioCreacionlog, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UsuarioCreacionlog, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UsuarioCreacionlog, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TerminalCreacionlog, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TerminalCreacionlog, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TerminalCreacionlog, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaModificacionlog, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaModificacionlog, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FechaModificacionlog, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UsuarioModificacionlog, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UsuarioModificacionlog, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UsuarioModificacionlog, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TerminalModificacionlog, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TerminalModificacionlog, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TerminalModificacionlog, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EstadoRegistro, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EstadoRegistro, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EstadoRegistro, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script>
+
+    $.ajax({
+        url: "../Seguridad/ConsultaRoles",
+        type: "Get",
+        success: function (resultado) {
+            $('#DetalleRoles').html(resultado);
+            //$("#ModalEmpleado").modal("show");
+
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+            $('#' + formulario).remove("disabled");
+        }
+    });
+
+    function EditarFilaRol(id, nombre, estado) {
+
+        $('#Descripcion').val(nombre);
+        $('#IdRol').val(id);
+
+        if (estado == 'A') {
+            $("input[name=EstadoRegistro][value='A']").prop("checked", true);
+        }
+        if (estado == 'I') {
+            $("input[name=EstadoRegistro][value='I']").prop("checked", true);
+        }
+
+    }
+    $('#Nuevo').click(function () {
+        $('#Descripcion').val("");
+        $('#IdRol').val(0);
+        $("input[name=EstadoRegistro][value='A']").prop("checked", false);
+        $("input[name=EstadoRegistro][value='I']").prop("checked", false);
+    });
+</script>

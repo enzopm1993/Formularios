@@ -14,6 +14,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
         clsDOpcion clsDopcion = null;
         clsDError clsDError = null;
+        protected void SetSuccessMessage(string message)
+        {
+            TempData["MensajeConfirmacion"] = message;
+        }
+        protected void SetErrorMessage(string message)
+        {
+            TempData["MensajeError"] = message;
+        }
         // GET: Seguridad
         #region OPCION
         [Authorize]
@@ -31,6 +39,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home","Home");
             }
         }
+        
         [HttpPost]
         [Authorize]
         public ActionResult Opcion(OPCION model)
@@ -118,6 +127,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #endregion
 
+        #region ROL
         [Authorize]
         public ActionResult Rol()
         {
@@ -182,13 +192,26 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             return View(poRol);
         }
-        protected void SetSuccessMessage(string message)
+
+        #endregion
+
+        #region OPCIONROL
+        [Authorize]
+        public ActionResult OpcionRol()
         {
-            TempData["MensajeConfirmacion"] = message;
+            try
+            {
+               
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                return RedirectToAction("Home", "Home");
+            }
         }
-        protected void SetErrorMessage(string message)
-        {
-            TempData["MensajeError"] = message;
-        }
+        #endregion
+
     }
 }
