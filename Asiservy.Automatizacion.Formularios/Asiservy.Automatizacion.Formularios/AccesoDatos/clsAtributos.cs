@@ -7,6 +7,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public static class clsAtributos
     {
+        //Mensajes de sistemas
+        public static string MsjRegistroGuardado = "Registro Guardado Correctamente";
+        public static string MsjRegistroError = "Registro no pudo ser Grabado";
+
         //Estados de registros
         public static string EstadoRegistroActivo = "A";
         public static string EstadoRegistroInactivo = "I";

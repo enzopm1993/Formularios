@@ -1,23 +1,40 @@
-﻿
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     CargarOpciones();
 });
 
+function Nuevo() {
+    $('#IdOpcion').val('0');
+    $('#Nombre').val('');
+    $('#Formulario').val('');
+    $('#Clase').prop('selectedIndex', 0);
+    $('#Padre').prop('selectedIndex', 0);
+    $('#CheckEstadoRegistro').prop('checked', true);   
+    $('#LabelEstado').text('Activo');
+}
+
 function CargarOpcion(id, nombre, formulario, clase, padre, estado) {
-    console.log(id, nombre, formulario, clase, padre, estado);
+    //console.log(id, nombre, formulario, clase, padre, estado);
     $('#IdOpcion').val(id);
     $('#Nombre').val(nombre);
     $('#Formulario').val(formulario);
-    $('#Clase').val(clase);
-    $('#Padre').val(padre);
+
+    if(clase=='P')
+        $('#Clase').prop('selectedIndex', 1);
+    else
+        $('#Clase').prop('selectedIndex', 0);
+
+    if(padre!='')
+        $('#Padre').val(padre);
+
     if (estado == 'A') {
-        $('#defaultUnchecked').checked=true;
-        $('#EstadoRegistro').val('Activo');
+        $('#CheckEstadoRegistro').prop('checked', true);
+       // console.log($('#LabelEstado').val());
+        $('#LabelEstado').text('Activo');
+        
     }
     else {
-        $('#defaultUnchecked').checked=false;
-        $('#EstadoRegistro').val('Inactivo');
+        $('#CheckEstadoRegistro').prop('checked', false);
+        $('#LabelEstado').text('Inactivo');
     }
 }
 
