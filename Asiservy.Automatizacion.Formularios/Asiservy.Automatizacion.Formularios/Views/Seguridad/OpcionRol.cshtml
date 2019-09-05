@@ -4,7 +4,7 @@
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        <h4>ROL</h4>
+        <h4>Administración Opción Rol</h4>
         <hr />
         <div class="row">
 
@@ -14,7 +14,7 @@
 
                 <div class="form-group">
                     @* @Html.LabelFor(model => model.IdRol, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                    @Html.Label("Id Rol")
+                    @Html.Label("Id IpciónRol")
                     @Html.TextBoxFor(model => model.IdOpcionRol, new { @Value = "0", @class = "form-control", @readonly = "readonly" })
                     @*@Html.ValidationMessageFor(model => model.IdRol, "", new { @class = "text-danger" })*@
 
@@ -23,13 +23,21 @@
             <div class="col-md-4">
 
                 <div class="form-group">
-                    @Html.Label("Descripción")
-                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessage("ErrorDescripcion", "", new { @class = "input-validation-error text-danger has-error" })
+                    @Html.Label("Rol")
+                    @Html.DropDownListFor(model => model.IdRol, new SelectList(ViewBag.RolesOr, "IdRol", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                    @*@Html.ValidationMessage("ErrorDescripcion", "", new { @class = "input-validation-error text-danger has-error" })*@
                     @*@Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })*@
                 </div>
             </div>
+            <div class="col-md-4">
 
+                <div class="form-group">
+                    @Html.Label("Opción")
+                    @Html.DropDownListFor(model => model.IdOpcion, new SelectList(ViewBag.OpcionesOr, "IdOpcion", "Nombre"), "Seleccione", new { @class = "form-control" })
+                    @*@Html.ValidationMessage("ErrorDescripcion", "", new { @class = "input-validation-error text-danger has-error" })*@
+                    @*@Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })*@
+                </div>
+            </div>
 
             <div class="col-md-4">
 

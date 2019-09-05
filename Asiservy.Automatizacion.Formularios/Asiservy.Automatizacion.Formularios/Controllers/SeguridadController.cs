@@ -14,6 +14,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     public class SeguridadController : Controller
     {
         clsDOpcion clsDopcion = null;
+        clsDRol clsDRol = null;
         clsDError clsDError = null;
         clsDUsuarioRol clsDUsuarioRol = null;
         clsDRol clsDRol = null;
@@ -166,7 +167,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDRol Opciones = new clsDRol();
-                var ListaRoles = Opciones.ConsultarRoles();
+                var ListaRoles = Opciones.ConsultarRoles(string.Empty);
                 return PartialView(ListaRoles);
             }
             catch (Exception ex)
@@ -228,7 +229,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-               
+                clsDopcion = new clsDOpcion();
+                var plistOpciones= clsDopcion.ConsultarOpciones(new OPCION { EstadoRegistro=clsAtributos.EstadoRegistroActivo}).Select(x => new { x.IdOpcion, x.Nombre });
+                ViewBag.OpcionesOr = plistOpciones;
+                clsDRol = new clsDRol();
+                var plistRoles = clsDRol.ConsultarRoles(clsAtributos.EstadoRegistroActivo).Select(x=>new { x.IdRol, x.Descripcion });
+                ViewBag.RolesOr = plistRoles;
                 return View();
             }
             catch (Exception ex)

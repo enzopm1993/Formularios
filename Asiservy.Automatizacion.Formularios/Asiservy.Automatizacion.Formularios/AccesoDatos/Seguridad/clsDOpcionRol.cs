@@ -7,6 +7,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
 {
     public class clsDOpcionRol
     {
+        //public  b()
+        //{
+        //    return null;
+        //}
         public List<ROL> ConsultarRol()
         {
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
