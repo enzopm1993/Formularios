@@ -609,6 +609,8 @@
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDOpcion.cs" />
+    <Compile Include="AccesoDatos\Seguridad\clsDOpcionRol.cs" />
+    <Compile Include="AccesoDatos\Seguridad\clsDRol.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermiso.cs" />
     <Compile Include="AccesoDatos\General\clsDLogin.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />
@@ -677,6 +679,7 @@
     <Content Include="Views\Seguridad\OpcionPartial.cshtml" />
     <Content Include="Views\Seguridad\Rol.cshtml" />
     <Content Include="Views\Seguridad\ConsultaRoles.cshtml" />
+    <Content Include="Views\Seguridad\OpcionRol.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

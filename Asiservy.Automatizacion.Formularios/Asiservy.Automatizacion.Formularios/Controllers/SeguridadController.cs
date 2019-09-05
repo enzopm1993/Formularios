@@ -11,12 +11,21 @@ using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.Models;
 
+
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class SeguridadController : Controller
     {
         clsDOpcion clsDopcion = null;
         clsDError clsDError = null;
+        protected void SetSuccessMessage(string message)
+        {
+            TempData["MensajeConfirmacion"] = message;
+        }
+        protected void SetErrorMessage(string message)
+        {
+            TempData["MensajeError"] = message;
+        }
         // GET: Seguridad
         #region OPCION
         [Authorize]
@@ -34,6 +43,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home","Home");
             }
         }
+        
         [HttpPost]
         [Authorize]
         public ActionResult Opcion(OPCION model)
@@ -136,6 +146,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #endregion
 
+        #region ROL
         [Authorize]
         public ActionResult Rol()
         {
@@ -144,9 +155,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult ConsultaRoles()
         {
-            clsDOpcion Opciones = new clsDOpcion();
-            var ListaRoles = Opciones.ConsultarRoles();
-            return PartialView(ListaRoles);
+            try
+            {
+                clsDRol Opciones = new clsDRol();
+                var ListaRoles = Opciones.ConsultarRoles();
+                return PartialView(ListaRoles);
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
         }
         [HttpPost]
         public ActionResult Rol(ROL poRol)
@@ -166,9 +186,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    clsDOpcion poOpcion = new clsDOpcion();
+                    clsDRol poOpcion = new clsDRol();
                     string psMensaje = poOpcion.GuardarRol(poRol, liststring[0], Request.UserHostAddress);
                     SetSuccessMessage(psMensaje);
+                    return RedirectToAction("Rol");
                 }
                 
             }
@@ -190,13 +211,26 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             return View(poRol);
         }
-        protected void SetSuccessMessage(string message)
+
+        #endregion
+
+        #region OPCIONROL
+        [Authorize]
+        public ActionResult OpcionRol()
         {
-            TempData["MensajeConfirmacion"] = message;
+            try
+            {
+               
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                return RedirectToAction("Home", "Home");
+            }
         }
-        protected void SetErrorMessage(string message)
-        {
-            TempData["MensajeError"] = message;
-        }
+        #endregion
+
     }
 }
