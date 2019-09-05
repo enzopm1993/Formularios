@@ -6,7 +6,7 @@
 
 <h3>Mantenimiento de Opciones</h3>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Opcion"))
 {
     @Html.AntiForgeryToken()
 
@@ -46,7 +46,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Padre, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownListFor(model => model.Padre, new SelectList(ViewBag.opciones), "Seleccione", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Padre, new SelectList(ViewBag.opciones, "IdOpcion", "Nombre"), "Seleccione", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Padre, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -55,9 +55,9 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <div class="form-group">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                        <label class="custom-control-label" for="defaultUnchecked" id="EstadoRegistro">Inactivo</label>
+                    <div class="custom-control custom-checkbox mb-3">
+                        <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">
+                        <label class="custom-control-label" for="CheckEstadoRegistro"  id="LabelEstado">Inactivo</label>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,8 @@
 
         <div class="col-md-12 text-center">
             <div class="form-group">
-                <input type="button" value="Grabar" class="btn btn-primary" onclick="prueba()" />
+                <input type="submit" value="Grabar" class="btn btn-primary" onclick="Grabar()" />
+                <input type="button" value="Nuevo" class="btn btn-info" onclick="Nuevo()" />
             </div>
         </div>
 
