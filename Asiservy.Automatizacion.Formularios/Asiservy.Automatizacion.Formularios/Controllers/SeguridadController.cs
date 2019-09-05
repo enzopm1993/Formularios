@@ -6,9 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad;
-using Asiservy.Automatizacion.Datos.Datos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.Models;
 
 
@@ -17,6 +14,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     public class SeguridadController : Controller
     {
         clsDOpcion clsDopcion = null;
+        clsDRol clsDRol = null;
         clsDError clsDError = null;
         protected void SetSuccessMessage(string message)
         {
@@ -220,7 +218,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-               
+                clsDopcion = new clsDOpcion();
+                var plistOpciones= clsDopcion.ConsultarOpciones(new OPCION { EstadoRegistro=clsAtributos.EstadoRegistroActivo}).Select(x => new { x.IdOpcion, x.Nombre });
+                ViewBag.OpcionesOr = plistOpciones;
+                clsDRol = new clsDRol();
+                var plistRoles = clsDRol.ConsultarRoles(clsAtributos.EstadoRegistroActivo).Select(x=>new { x.IdRol, x.Descripcion });
+                ViewBag.RolesOr = plistRoles;
                 return View();
             }
             catch (Exception ex)

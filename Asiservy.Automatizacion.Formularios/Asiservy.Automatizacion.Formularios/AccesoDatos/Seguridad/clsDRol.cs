@@ -7,11 +7,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
 {
     public class clsDRol
     {
-        public List<ROL> ConsultarRoles()
+        public List<ROL> ConsultarRoles(string estado)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.ROL.ToList();
+                if (string.IsNullOrEmpty(estado))
+                    return db.ROL.ToList();
+                else
+                    return db.ROL.Where(x => x.EstadoRegistro == estado).ToList();
             }
         }
         public string GuardarRol(ROL poRol, string usuario, string terminal)
