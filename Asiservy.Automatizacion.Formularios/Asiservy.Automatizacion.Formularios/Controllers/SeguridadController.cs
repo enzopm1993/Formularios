@@ -6,9 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad;
-using Asiservy.Automatizacion.Datos.Datos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.Models;
 
 
@@ -18,6 +15,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
         clsDOpcion clsDopcion = null;
         clsDError clsDError = null;
+        clsDUsuarioRol clsDUsuarioRol = null;
+        clsDRol clsDRol = null;
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
@@ -40,6 +39,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return RedirectToAction("Home","Home");
             }
         }
@@ -230,6 +238,67 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home", "Home");
             }
         }
+        #endregion
+
+
+        #region USUARIO_ROL
+        [Authorize]
+        public ActionResult UsuarioRol()
+        {
+            try
+            {
+                ConsultaCombos();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        [Authorize]
+        public ActionResult UsuarioRolPartial()
+        {
+            try
+            {
+                clsDUsuarioRol = new clsDUsuarioRol();
+                var model = clsDUsuarioRol.ConsultaUsuarioRol(null);
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public void ConsultaCombos()
+        {
+            clsDRol =new clsDRol();
+            var roles = clsDRol.ConsultarRoles();
+            ViewBag.Roles = roles.Select(x=> new {x.IdRol, x.Descripcion});
+
+        }
+
         #endregion
 
     }

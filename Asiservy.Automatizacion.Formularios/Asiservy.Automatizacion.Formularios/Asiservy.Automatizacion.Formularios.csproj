@@ -583,6 +583,11 @@
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Mensajes\Mensajes.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\popper-utils.js" />
@@ -590,6 +595,7 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\SeguridadJS\Opcion.js" />
+    <Content Include="Scripts\SeguridadJS\UsuarioRol.js" />
     <Content Include="Scripts\SolicitudPermisoJS\Bandeja.js" />
     <Content Include="Scripts\SolicitudPermisoJS\BandejaRRHH.js" />
     <Content Include="Scripts\SolicitudPermisoJS\BitacoraSolicitud.js" />
@@ -611,6 +617,7 @@
     <Compile Include="AccesoDatos\Seguridad\clsDOpcion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDOpcionRol.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDRol.cs" />
+    <Compile Include="AccesoDatos\Seguridad\clsDUsuarioRol.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermiso.cs" />
     <Compile Include="AccesoDatos\General\clsDLogin.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />
@@ -680,6 +687,8 @@
     <Content Include="Views\Seguridad\Rol.cshtml" />
     <Content Include="Views\Seguridad\ConsultaRoles.cshtml" />
     <Content Include="Views\Seguridad\OpcionRol.cshtml" />
+    <Content Include="Views\Seguridad\UsuarioRol.cshtml" />
+    <Content Include="Views\Seguridad\UsuarioRolPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
