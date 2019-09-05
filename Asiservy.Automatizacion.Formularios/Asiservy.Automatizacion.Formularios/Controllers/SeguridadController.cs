@@ -156,7 +156,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDRol Opciones = new clsDRol();
-                var ListaRoles = Opciones.ConsultarRoles();
+                var ListaRoles = Opciones.ConsultarRoles(string.Empty);
                 return PartialView(ListaRoles);
             }
             catch (Exception ex)

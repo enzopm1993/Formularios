@@ -82,6 +82,10 @@
                                         {
                                             @Html.ActionLink("Opción", "Opcion", "Seguridad", null, new { @class = "dropdown-item" })
                                         }
+                                        if (Hijo.Contains("UsuarioRol"))
+                                        {
+                                            @Html.ActionLink("Usuario_Rol", "UsuarioRol", "Seguridad", null, new { @class = "dropdown-item" })
+                                        }
                                     }
                                     <div class="dropdown-divider"></div>
                                 </div>
