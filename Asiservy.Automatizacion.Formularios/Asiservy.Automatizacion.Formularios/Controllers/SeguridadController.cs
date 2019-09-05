@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,11 +13,41 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     public class SeguridadController : Controller
     {
         clsDError clsDError = null;
+        clsDOpcion clsDopcion = null; 
         // GET: Seguridad
         [Authorize]
         public ActionResult Opcion()
         {
-            return View();
+            try
+            {
+                clsDopcion = new clsDOpcion();
+                var opciones = clsDopcion.ConsultarOpciones().Select(x=>x.Nombre);
+                ViewBag.opciones=opciones;
+
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                return RedirectToAction("Home","Home");
+            }
+        }
+        
+        public ActionResult OpcionPartial()
+        {
+            try
+            {
+                clsDopcion = new clsDOpcion();
+                var opciones = clsDopcion.ConsultarOpciones();
+                return PartialView(opciones);
+
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+            }
         }
 
         [Authorize]

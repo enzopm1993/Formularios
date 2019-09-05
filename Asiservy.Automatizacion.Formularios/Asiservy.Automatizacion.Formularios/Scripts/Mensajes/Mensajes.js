@@ -44,7 +44,7 @@ function MensajeCorrecto(mensaje, r) {
             m.innerHTML = resultado;
             //var modal = document.getElementById("ModalError");
             $("#ModalCorrecto").modal("show");
-            document.getElementById('mensajeError').innerHTML = mensaje;
+            document.getElementById('mensajeCorrecto').innerHTML = mensaje;
                //console.log(r);
         }
     });
@@ -59,7 +59,6 @@ function MensajeError(mensaje, r) {
         success: function (resultado) {
             var m = document.getElementById("ModalMensaje");
             m.innerHTML = resultado;
-            //var modal = document.getElementById("ModalError");
             $("#ModalError").modal("show");
             document.getElementById('mensajeError').innerHTML = mensaje;
                //console.log(mensaje);

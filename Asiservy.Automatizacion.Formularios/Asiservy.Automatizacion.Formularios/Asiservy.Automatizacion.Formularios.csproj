@@ -589,6 +589,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\SeguridadJS\Opcion.js" />
     <Content Include="Scripts\SolicitudPermisoJS\Bandeja.js" />
     <Content Include="Scripts\SolicitudPermisoJS\BandejaRRHH.js" />
     <Content Include="Scripts\SolicitudPermisoJS\BitacoraSolicitud.js" />
@@ -672,6 +673,7 @@
     <Content Include="Views\Mensaje\Advertencia.cshtml" />
     <Content Include="Views\SolicitudPermiso\ConsultarGrupoEnfermedades.cshtml" />
     <Content Include="Views\Seguridad\Opcion.cshtml" />
+    <Content Include="Views\Seguridad\OpcionPartial.cshtml" />
     <Content Include="Views\Seguridad\Rol.cshtml" />
     <Content Include="Views\Seguridad\ConsultaRoles.cshtml" />
     <None Include="Web.Debug.config">
