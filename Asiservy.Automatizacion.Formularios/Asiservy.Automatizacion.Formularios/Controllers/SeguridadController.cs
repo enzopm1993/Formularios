@@ -101,7 +101,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDopcion = new clsDOpcion();
-                var opciones = clsDopcion.ConsultarOpciones();
+                var opciones = clsDopcion.ConsultarOpciones(null);
                 return PartialView(opciones);
 
             }
@@ -126,7 +126,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public void ConsultaOpciones()
         {
             clsDopcion = new clsDOpcion();
-            var opciones = clsDopcion.ConsultarOpciones().Where(x=> x.Clase=="P" && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).Select(x => new { x.IdOpcion, x.Nombre });
+            var opciones = clsDopcion.ConsultarOpciones(new OPCION {EstadoRegistro=clsAtributos.EstadoRegistroActivo, Clase="P"}).Select(x => new { x.IdOpcion, x.Nombre });
             ViewBag.opciones = opciones;
             List<Clasificador> ClasificadorClase = new List<Clasificador>();
             ClasificadorClase.Add(new Clasificador { codigo = 0, descripcion = "Hijo" });

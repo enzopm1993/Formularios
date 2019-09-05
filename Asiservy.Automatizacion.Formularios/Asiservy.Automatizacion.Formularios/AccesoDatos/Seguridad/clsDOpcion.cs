@@ -9,11 +9,24 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
     public class clsDOpcion
     {
 
-        public List<OPCION> ConsultarOpciones()
+        public List<OPCION> ConsultarOpciones(OPCION filtros)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.OPCION.ToList();
+                var query = from o in entities.OPCION select o;
+                if (filtros != null)
+                {
+                    if (!string.IsNullOrEmpty(filtros.EstadoRegistro))
+                    {
+                        query = query.Where(x => x.EstadoRegistro == filtros.EstadoRegistro);
+                    }
+
+                    if (!string.IsNullOrEmpty(filtros.Clase))
+                    {
+                        query = query.Where(x => x.Clase == filtros.Clase);
+                    }
+                }
+                return query.ToList();
             }
         }
 
