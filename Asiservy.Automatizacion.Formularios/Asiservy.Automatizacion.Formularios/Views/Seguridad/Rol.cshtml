@@ -37,7 +37,7 @@
                     @Html.Label("Estado")<br />
                     @Html.RadioButtonFor(model => model.EstadoRegistro, "A")  @Html.Label("Activo")
                     @Html.RadioButtonFor(model => model.EstadoRegistro, "I")  @Html.Label("Inactivo")
-              
+                    <br />
                     @Html.ValidationMessage("ErrorEstado", "", new { @class = "input-validation-error text-danger has-error" })
                 </div>
             </div>

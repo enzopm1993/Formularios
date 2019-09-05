@@ -6,8 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Asiservy.Automatizacion.Datos.Datos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos;
+
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
