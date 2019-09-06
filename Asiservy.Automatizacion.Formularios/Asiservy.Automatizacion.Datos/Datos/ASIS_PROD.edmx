@@ -106,6 +106,7 @@
           <Property Name="Formulario" Type="varchar" MaxLength="100" />
           <Property Name="Clase" Type="char" MaxLength="1" />
           <Property Name="Padre" Type="int" />
+          <Property Name="Url" Type="varchar" MaxLength="100" />
           <Property Name="FechaCreacionLog" Type="date" />
           <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
@@ -368,25 +369,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
-        <EntityType Name="OPCION">
-          <Key>
-            <PropertyRef Name="IdOpcion" />
-          </Key>
-          <Property Name="IdOpcion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Formulario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Clase" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Padre" Type="Int32" />
-          <Property Name="FechaCreacionLog" Type="DateTime" Precision="0" />
-          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="0" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="OPCION_ROL" Relationship="Self.FK__OPCION_RO__IdRol__5070F446" FromRole="OPCION" ToRole="OPCION_ROL" />
-          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="OPCION_ROL1" Relationship="ASIS_PRODModel.FK_OPCION_ROL_OPCION" FromRole="OPCION" ToRole="OPCION_ROL" />
-        </EntityType>
         <EntityType Name="OPCION_ROL">
           <Key>
             <PropertyRef Name="IdOpcionRol" />
@@ -400,11 +382,10 @@
           <Property Name="FechaModificacionlog" Type="DateTime" Precision="0" />
           <Property Name="UsuarioModificacionlog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionlog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="OPCION" Relationship="Self.FK__OPCION_RO__IdRol__5070F446" FromRole="OPCION_ROL" ToRole="OPCION" />
           <NavigationProperty Name="ROL" Relationship="Self.FK__OPCION_RO__IdOpc__4F7CD00D" FromRole="OPCION_ROL" ToRole="ROL" />
           <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="OPCION1" Relationship="ASIS_PRODModel.FK_OPCION_ROL_OPCION" FromRole="OPCION_ROL" ToRole="OPCION" />
           <NavigationProperty Name="ROL1" Relationship="ASIS_PRODModel.FK_OPCION_ROL_ROL" FromRole="OPCION_ROL" ToRole="ROL" />
+          <NavigationProperty Name="OPCION" Relationship="ASIS_PRODModel.FK_OPCION_ROL_OPCION" FromRole="OPCION_ROL" ToRole="OPCION" />
         </EntityType>
         <EntityType Name="ROL">
           <Key>
@@ -489,18 +470,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OPCION_RO__IdRol__5070F446">
-          <End Role="OPCION" Type="Self.OPCION" Multiplicity="0..1" />
-          <End Role="OPCION_ROL" Type="Self.OPCION_ROL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OPCION">
-              <PropertyRef Name="IdOpcion" />
-            </Principal>
-            <Dependent Role="OPCION_ROL">
-              <PropertyRef Name="IdRol" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__OPCION_RO__IdOpc__4F7CD00D">
           <End Role="ROL" Type="Self.ROL" Multiplicity="0..1" />
           <End Role="OPCION_ROL" Type="Self.OPCION_ROL" Multiplicity="*" />
@@ -530,7 +499,6 @@
           <EntitySet Name="JUSTICA_SOLICITUD" EntityType="Self.JUSTICA_SOLICITUD" />
           <EntitySet Name="NIVEL_APROBACION" EntityType="Self.NIVEL_APROBACION" />
           <EntitySet Name="NIVEL_USUARIO" EntityType="Self.NIVEL_USUARIO" />
-          <EntitySet Name="OPCION" EntityType="Self.OPCION" />
           <EntitySet Name="OPCION_ROL" EntityType="Self.OPCION_ROL" />
           <EntitySet Name="ROL" EntityType="Self.ROL" />
           <EntitySet Name="SOLICITUD_PERMISO" EntityType="Self.SOLICITUD_PERMISO" />
@@ -539,10 +507,6 @@
           <AssociationSet Name="FK__JUSTICA_S__IdSol__6A30C649" Association="Self.FK__JUSTICA_S__IdSol__6A30C649">
             <End Role="SOLICITUD_PERMISO" EntitySet="SOLICITUD_PERMISO" />
             <End Role="JUSTICA_SOLICITUD" EntitySet="JUSTICA_SOLICITUD" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OPCION_RO__IdRol__5070F446" Association="Self.FK__OPCION_RO__IdRol__5070F446">
-            <End Role="OPCION" EntitySet="OPCION" />
-            <End Role="OPCION_ROL" EntitySet="OPCION_ROL" />
           </AssociationSet>
           <AssociationSet Name="FK__OPCION_RO__IdOpc__4F7CD00D" Association="Self.FK__OPCION_RO__IdOpc__4F7CD00D">
             <End Role="ROL" EntitySet="ROL" />
@@ -555,10 +519,6 @@
           <FunctionImport Name="spConsultaCodigosEnfermedad" ReturnType="Collection(ASIS_PRODModel.spConsultaCodigosEnfermedad)">
           <Parameter Name="codigo" Mode="In" Type="String" />
           </FunctionImport>
-          <AssociationSet Name="FK_OPCION_ROL_OPCION" Association="ASIS_PRODModel.FK_OPCION_ROL_OPCION">
-            <End Role="OPCION" EntitySet="OPCION" />
-            <End Role="OPCION_ROL" EntitySet="OPCION_ROL" />
-          </AssociationSet>
           <AssociationSet Name="FK_OPCION_ROL_ROL" Association="ASIS_PRODModel.FK_OPCION_ROL_ROL">
             <End Role="ROL" EntitySet="ROL" />
             <End Role="OPCION_ROL" EntitySet="OPCION_ROL" />
@@ -596,23 +556,16 @@
             <Parameter Name="Cargo" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="ERROR" EntityType="ASIS_PRODModel.ERROR" />
+          <EntitySet Name="OPCION" EntityType="ASIS_PRODModel.OPCION" />
+          <AssociationSet Name="FK_OPCION_ROL_OPCION" Association="ASIS_PRODModel.FK_OPCION_ROL_OPCION">
+            <End Role="OPCION" EntitySet="OPCION" />
+            <End Role="OPCION_ROL" EntitySet="OPCION_ROL" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <Association Name="FK_OPCION_ROL_OPCION">
-          <End Type="ASIS_PRODModel.OPCION" Role="OPCION" Multiplicity="0..1" />
-          <End Type="ASIS_PRODModel.OPCION_ROL" Role="OPCION_ROL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OPCION">
-              <PropertyRef Name="IdOpcion" />
-            </Principal>
-            <Dependent Role="OPCION_ROL">
-              <PropertyRef Name="IdOpcion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OPCION_ROL_ROL">
           <End Type="ASIS_PRODModel.ROL" Role="ROL" Multiplicity="0..1" />
           <End Type="ASIS_PRODModel.OPCION_ROL" Role="OPCION_ROL" Multiplicity="*" />
@@ -697,6 +650,37 @@
           <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
           <Property Name="TerminalIngreso" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="OPCION">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+          </Key>
+          <Property Name="IdOpcion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Formulario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Clase" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Padre" Type="Int32" />
+          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="0" />
+          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="0" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="OPCION_ROL" Relationship="ASIS_PRODModel.FK_OPCION_ROL_OPCION" FromRole="OPCION" ToRole="OPCION_ROL" />
+        </EntityType>
+        <Association Name="FK_OPCION_ROL_OPCION">
+          <End Type="ASIS_PRODModel.OPCION" Role="OPCION" Multiplicity="0..1" />
+          <End Type="ASIS_PRODModel.OPCION_ROL" Role="OPCION_ROL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OPCION">
+              <PropertyRef Name="IdOpcion" />
+            </Principal>
+            <Dependent Role="OPCION_ROL">
+              <PropertyRef Name="IdOpcion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -757,24 +741,6 @@
                 <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
                 <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
                 <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OPCION">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.OPCION">
-              <MappingFragment StoreEntitySet="OPCION">
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Formulario" ColumnName="Formulario" />
-                <ScalarProperty Name="Clase" ColumnName="Clase" />
-                <ScalarProperty Name="Padre" ColumnName="Padre" />
-                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
-                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
-                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
@@ -977,6 +943,25 @@
                 <ScalarProperty Name="Controlador" ColumnName="Controlador" />
                 <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
                 <ScalarProperty Name="IdError" ColumnName="IdError" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OPCION">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.OPCION">
+              <MappingFragment StoreEntitySet="OPCION">
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Padre" ColumnName="Padre" />
+                <ScalarProperty Name="Clase" ColumnName="Clase" />
+                <ScalarProperty Name="Formulario" ColumnName="Formulario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

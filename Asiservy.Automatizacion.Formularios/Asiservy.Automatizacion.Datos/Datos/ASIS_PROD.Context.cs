@@ -31,7 +31,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<JUSTICA_SOLICITUD> JUSTICA_SOLICITUD { get; set; }
         public virtual DbSet<NIVEL_APROBACION> NIVEL_APROBACION { get; set; }
         public virtual DbSet<NIVEL_USUARIO> NIVEL_USUARIO { get; set; }
-        public virtual DbSet<OPCION> OPCION { get; set; }
         public virtual DbSet<OPCION_ROL> OPCION_ROL { get; set; }
         public virtual DbSet<ROL> ROL { get; set; }
         public virtual DbSet<SOLICITUD_PERMISO> SOLICITUD_PERMISO { get; set; }
@@ -40,6 +39,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<ESTADO_SOLICITUD> ESTADO_SOLICITUD { get; set; }
         public virtual DbSet<BITACORA_SOLICITUD> BITACORA_SOLICITUD { get; set; }
         public virtual DbSet<ERROR> ERROR { get; set; }
+        public virtual DbSet<OPCION> OPCION { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

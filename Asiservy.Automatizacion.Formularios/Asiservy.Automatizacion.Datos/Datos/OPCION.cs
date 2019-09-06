@@ -18,7 +18,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public OPCION()
         {
             this.OPCION_ROL = new HashSet<OPCION_ROL>();
-            this.OPCION_ROL1 = new HashSet<OPCION_ROL>();
         }
     
         public int IdOpcion { get; set; }
@@ -26,6 +25,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Formulario { get; set; }
         public string Clase { get; set; }
         public Nullable<int> Padre { get; set; }
+        public string Url { get; set; }
         public Nullable<System.DateTime> FechaCreacionLog { get; set; }
         public string UsuarioCreacionLog { get; set; }
         public string TerminalCreacionLog { get; set; }
@@ -36,7 +36,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OPCION_ROL> OPCION_ROL { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OPCION_ROL> OPCION_ROL1 { get; set; }
     }
 }
