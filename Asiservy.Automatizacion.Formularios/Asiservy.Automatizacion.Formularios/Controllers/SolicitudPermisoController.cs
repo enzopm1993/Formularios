@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Datos.Datos;
 using System.Net;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -19,7 +20,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDGeneral clsDGeneral = null;
         clsDLogin clsDLogin = null;
         clsDError clsDError = null;
-
+        clsApiUsuario clsApiUsuario = null;
 
         #region BANDEJAS
         [Authorize]
@@ -412,7 +413,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = "sistemas"
                 });
-                return View();
+                return RedirectToAction("Home","Home");
             }
         }
 
@@ -659,11 +660,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             clsDClasificador = new clsDClasificador();
             clsDSolicitudPermiso = new clsDSolicitudPermiso();
             clsDGeneral = new clsDGeneral();
+            clsApiUsuario = new clsApiUsuario();
             ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
             ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("M");
             ViewBag.Lineas = clsDGeneral.ConsultaLineas();
             ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
-           
+            ViewBag.NombreMedico = clsApiUsuario.ConsultaListaUsuariosSap().FirstOrDefault(x => x.CEDULA == "1311401135").NOMBRES??"";
+
             ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
         }
         protected void SetSuccessMessage(string message)

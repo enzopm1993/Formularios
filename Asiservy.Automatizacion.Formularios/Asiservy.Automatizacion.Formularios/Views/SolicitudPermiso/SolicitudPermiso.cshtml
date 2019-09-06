@@ -51,42 +51,29 @@
                         @Html.ValidationMessageFor(m => m.CodigoCargo, "", new { @class = "input-validation-error text-danger has-error" })
                     </div>
                 }
-                else
-                {
-                    <div class="col-md-4 col-sm-12">
-                        @Html.LabelFor(m => m.DescripcionLinea)
-                        @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @class = "form-control", @id = "selectLinea" , @disabled="disabled" })
-                        @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
-
-                    </div>
-
-                    <div class="col-md-4 col-sm-12">
-                        @Html.LabelFor(m => m.DescripcionArea)
-                        @Html.DropDownListFor(m => m.CodigoArea, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new {  @class = "form-control", @id = "selectArea", @disabled = "disabled" })
-                        @Html.ValidationMessageFor(m => m.CodigoArea, "", new { @class = "input-validation-error text-danger has-error" })
-                    </div>
-
-                    <div class="col-md-4 col-sm-12">
-                        @Html.LabelFor(m => m.DescripcionCargo)
-                        @Html.DropDownListFor(m => m.CodigoCargo, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "selectCargo", @disabled = "disabled" })
-                        @Html.ValidationMessageFor(m => m.CodigoCargo, "", new { @class = "input-validation-error text-danger has-error" })
-                    </div>
-                }
+                
             </div>
                 <div class="row">
 
                     <div class="col-md-4 col-sm-12">
                         <label>Empleado</label>
                         <div>
-                            @Html.TextBoxFor(m => m.NombreEmpleado, null, new { style = "width: 65%;", @readonly = "readonly" })
-                            @Html.HiddenFor(m => m.Identificacion)
-                            <button type="button" onclick="CargarEmpleados('CargarEmpleadoPG');" id="CargarEmpleadoPG">
-                                <img src="~/Content/images/buscar.png" />
-                            </button><br />
-                            @Html.ValidationMessageFor(m => m.NombreEmpleado, "", new { @class = "input-validation-error text-danger has-error" })
-                            
+                            @if (ViewBag.Supervisor != null)
+                            {
+                                @Html.TextBoxFor(m => m.NombreEmpleado, null, new { style = "width: 65%;", @readonly = "readonly" })
+                                @Html.HiddenFor(m => m.Identificacion)
+                                <button type="button" onclick="CargarEmpleados('CargarEmpleadoPG');" id="CargarEmpleadoPG">
+                                    <img src="~/Content/images/buscar.png" />
+                                </button><br />
+                                @Html.ValidationMessageFor(m => m.NombreEmpleado, "", new { @class = "input-validation-error text-danger has-error" })
+                            }
+                            else
+                            {
+                                @Html.HiddenFor(m => m.Identificacion)
+                                <input type="text" readonly value="" class="form-control"/>   
+                            }
                         </div>
-
+                       
                     </div>
 
                     <div class="custom-control custom-radio">
