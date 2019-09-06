@@ -63,6 +63,7 @@
                                         {
                                             @Html.ActionLink("Bitacora Cambio de Personal", "BitacoraCambioPersonal", "Asistencia", null, new { @class = "dropdown-item" })
                                         }
+
                                     }
                                 </div>
                             </li>
@@ -85,6 +86,10 @@
                                         if (Hijo.Contains("UsuarioRol"))
                                         {
                                             @Html.ActionLink("Usuario_Rol", "UsuarioRol", "Seguridad", null, new { @class = "dropdown-item" })
+                                        }
+                                        if (Hijo.Contains("OpcionRol"))
+                                        {
+                                            @Html.ActionLink("Opción_Rol", "OpcionRol", "Seguridad", null, new { @class = "dropdown-item" })
                                         }
                                     }
                                     <div class="dropdown-divider"></div>

@@ -590,6 +590,8 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\SeguridadJS\Opcion.js" />
+    <Content Include="Scripts\SeguridadJS\OpcionRol.js" />
+    <Content Include="Scripts\SeguridadJS\Rol.js" />
     <Content Include="Scripts\SolicitudPermisoJS\Bandeja.js" />
     <Content Include="Scripts\SolicitudPermisoJS\BandejaRRHH.js" />
     <Content Include="Scripts\SolicitudPermisoJS\BitacoraSolicitud.js" />
@@ -628,7 +630,7 @@
     <Compile Include="Models\Clasificador.cs" />
     <Compile Include="Models\Empleado.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
-    <Compile Include="Models\Seguridad\RolViewModel.cs" />
+    <Compile Include="Models\Seguridad\OpcionRolViewModel.cs" />
     <Compile Include="Models\Solicitud.cs" />
     <Compile Include="Models\SolicitudPermisoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -680,6 +682,7 @@
     <Content Include="Views\Seguridad\Rol.cshtml" />
     <Content Include="Views\Seguridad\ConsultaRoles.cshtml" />
     <Content Include="Views\Seguridad\OpcionRol.cshtml" />
+    <Content Include="Views\Seguridad\ConsultaOpcionRol.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
