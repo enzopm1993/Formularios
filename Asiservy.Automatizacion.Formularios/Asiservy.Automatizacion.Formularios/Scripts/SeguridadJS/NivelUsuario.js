@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    CargarOpciones();
+    CargarNivelUsuario();
     Nuevo();
 });
 
@@ -41,7 +41,7 @@ function CargarNivelUsuario(id, usuario, nivel, estado) {
 
 function CargarNivelUsuario() {
     $.ajax({
-        url: "../Seguridad/NivelUsarioPartial",
+        url: "../Seguridad/NivelUsuarioPartial",
         type: "GET",
         success: function (resultado) {
             var bitacora = $('#DivTableNivelUsuario');

@@ -451,7 +451,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #region NIVEL_USUARIO
         [Authorize]
-        public ActionResult NivelUsario()
+        public ActionResult NivelUsuario()
         {
             try
             {
@@ -475,7 +475,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult NivelUsario(NivelUsuarioViewModel model)
+        public ActionResult NivelUsuario(NivelUsuarioViewModel model)
         {
             try
             {
@@ -524,13 +524,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [Authorize]
-        public ActionResult NivelUsarioPartial()
+        public ActionResult NivelUsuarioPartial()
         {
             try
             {
                 clsDNivelUsuario = new clsDNivelUsuario();
                 var Lista = clsDNivelUsuario.ConsultarNivelUsuario(null);
-                return PartialView(Lista);
+                return PartialView();
             }
             catch (Exception ex)
             {
