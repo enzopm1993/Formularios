@@ -699,8 +699,8 @@
     <Content Include="Views\Seguridad\UsuarioRol.cshtml" />
     <Content Include="Views\Seguridad\UsuarioRolPartial.cshtml" />
     <Content Include="Views\Seguridad\ConsultaOpcionRol.cshtml" />
-    <Content Include="Views\Seguridad\NivelUsario.cshtml" />
-    <Content Include="Views\Seguridad\NivelUsarioPartial.cshtml" />
+    <Content Include="Views\Seguridad\NivelUsuario.cshtml" />
+    <Content Include="Views\Seguridad\NivelUsuarioPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
