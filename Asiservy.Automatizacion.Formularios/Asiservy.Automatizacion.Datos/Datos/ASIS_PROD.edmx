@@ -693,6 +693,7 @@
           <Property Type="String" Name="Formulario" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Clase" Nullable="true" MaxLength="1" />
           <Property Type="Int32" Name="Padre" Nullable="true" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -986,6 +987,7 @@
                 <ScalarProperty Name="Formulario" ColumnName="Formulario" />
                 <ScalarProperty Name="Clase" ColumnName="Clase" />
                 <ScalarProperty Name="Padre" ColumnName="Padre" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

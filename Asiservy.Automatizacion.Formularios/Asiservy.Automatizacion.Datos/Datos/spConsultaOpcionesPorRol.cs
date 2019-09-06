@@ -18,5 +18,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Formulario { get; set; }
         public string Clase { get; set; }
         public Nullable<int> Padre { get; set; }
+        public string Url { get; set; }
     }
 }
