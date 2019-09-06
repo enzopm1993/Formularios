@@ -23,6 +23,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDUsuarioRol clsDUsuarioRol = null;
         clsApiUsuario clsApiUsuario = null;
 
+        clsDOpcionRol OpcionesRol = null;
+        string[] liststring;
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
@@ -190,7 +192,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [HttpPost]
         public ActionResult Rol(ROL poRol)
         {
-            string[] liststring = User.Identity.Name.Split('_');
+            liststring = User.Identity.Name.Split('_');
             try
             {
                 if (string.IsNullOrEmpty(poRol.Descripcion))
@@ -234,17 +236,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #endregion
 
         #region OPCIONROL
+        public void CargarCombosOpcionRol()
+        {
+            clsDopcion = new clsDOpcion();
+            var plistOpciones = clsDopcion.ConsultarOpciones(new OPCION { EstadoRegistro = clsAtributos.EstadoRegistroActivo }).Select(x => new { x.IdOpcion, x.Nombre });
+            ViewBag.OpcionesOr = plistOpciones;
+            clsDRol = new clsDRol();
+            var plistRoles = clsDRol.ConsultarRoles(clsAtributos.EstadoRegistroActivo).Select(x => new { x.IdRol, x.Descripcion });
+            ViewBag.RolesOr = plistRoles;
+        }
         [Authorize]
         public ActionResult OpcionRol()
         {
+            liststring = User.Identity.Name.Split('_');
             try
             {
-                clsDopcion = new clsDOpcion();
-                var plistOpciones= clsDopcion.ConsultarOpciones(new OPCION { EstadoRegistro=clsAtributos.EstadoRegistroActivo}).Select(x => new { x.IdOpcion, x.Nombre });
-                ViewBag.OpcionesOr = plistOpciones;
-                clsDRol = new clsDRol();
-                var plistRoles = clsDRol.ConsultarRoles(clsAtributos.EstadoRegistroActivo).Select(x=>new { x.IdRol, x.Descripcion });
-                ViewBag.RolesOr = plistRoles;
+
+                CargarCombosOpcionRol();
                 return View();
             }
             catch (Exception ex)
@@ -359,7 +367,75 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             ViewBag.Usuarios = clsApiUsuario.ConsultaUsuariosSap();
 
         }
+        [HttpPost]
+        public ActionResult OpcionRol(OPCION_ROL OpcionRol,string IdRolh, string IdOpcionh)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');
+                CargarCombosOpcionRol();
+                if(string.IsNullOrEmpty(IdRolh))
+                {
+                    ModelState.AddModelError("ErrorIdRol", "El Campo Rol es obligatorio");
+                }
+                else
+                {
+                    OpcionRol.IdRol =Convert.ToInt32(IdRolh);
+                }
+                if (string.IsNullOrEmpty(IdOpcionh))
+                {
+                    ModelState.AddModelError("ErrorIdOpcion", "El Campo Opción es obligatorio");
+                }
+                else
+                {
+                    OpcionRol.IdOpcion= Convert.ToInt32(IdOpcionh);
+                }
+                if (string.IsNullOrEmpty(OpcionRol.EstadoRegistro))
+                {
+                    ModelState.AddModelError("ErrorEstado", "El Campo Estado es obligatorio");
+                }
+                if (ModelState.IsValid)
+                {
+                    OpcionesRol = new clsDOpcionRol();
+                    string psRespuesta = OpcionesRol.GuardarOpcionRol(OpcionRol, liststring[0], Request.UserHostAddress);
+                    SetSuccessMessage(psRespuesta);
+                    return RedirectToAction("OpcionRol");
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
 
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return RedirectToAction("OpcionRol");
+            }
+        }
+        [Authorize]
+        public ActionResult ConsultaOpcionRol()
+        {
+            try
+            {
+                OpcionesRol = new clsDOpcionRol();
+                var ListaOpcionesRoles = OpcionesRol.ConsultarOpcionRol();
+                return PartialView(ListaOpcionesRoles);
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
     }
