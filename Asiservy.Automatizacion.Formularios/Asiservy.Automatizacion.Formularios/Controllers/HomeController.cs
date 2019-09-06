@@ -47,12 +47,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
 
             //}
-            string[] liststring = User.Identity.Name.Split('_');
-            string psrolid = liststring[1];
-            clsDLogin PsLogin = new clsDLogin();
-            var resultado = PsLogin.ConsultarRolesDeUsuario(psrolid);
-            Session["Padre"] = resultado[0];
-            Session["Hijo"] = resultado[1];
+            try
+            {
+                string[] liststring = User.Identity.Name.Split('_');
+                string psrolid = liststring[1];
+                clsDLogin PsLogin = new clsDLogin();
+                var resultado = PsLogin.ConsultarRolesDeUsuario(psrolid);
+                Session["Padre"] = resultado[0];
+                Session["Hijo"] = resultado[1];
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
 
             return View();
         }
