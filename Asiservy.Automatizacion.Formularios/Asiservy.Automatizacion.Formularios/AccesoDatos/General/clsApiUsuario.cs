@@ -33,6 +33,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return (List<Usuario>)ListaUsuarios;
         }
 
+        public string ConsultaUsuarioEspecificoSap(string usuario, string clave)
+        {
+            var client = new RestClient("http://192.168.0.31:8870");
+            // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
+            var request = new RestRequest("/api/Login", Method.POST);
+            request.AddParameter("usuario", usuario);
+            request.AddParameter("clave", clave);
+            IRestResponse response = client.Execute(request);
+            dynamic content = response.Content;
+            var ListaUsuarios = JsonConvert.DeserializeObject<Usuario>(content);
+            var Nombre = content.Objeto.Nombre;
+            return "";
+
+        }
     }
 }

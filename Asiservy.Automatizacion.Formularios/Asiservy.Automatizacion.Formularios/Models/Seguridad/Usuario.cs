@@ -9,6 +9,8 @@ namespace Asiservy.Automatizacion.Formularios.Models.Seguridad
     {
         public string CEDULA { get; set; }
         public string NOMBRES { get; set; }
+        public string Nombre { get; set; }
         public string USERNAME { get; set; }
+        public string Mensaje { get; set; }
     }
 }
