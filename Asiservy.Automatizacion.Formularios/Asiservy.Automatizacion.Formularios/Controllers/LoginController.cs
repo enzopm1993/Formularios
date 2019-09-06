@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+
 namespace ProyectoWeb.Controllers
 {
     public class LoginController : Controller
@@ -37,6 +39,8 @@ namespace ProyectoWeb.Controllers
         {
             try
             {
+                //clsApiUsuario a = new clsApiUsuario();
+                //var b = a.ConsultaUsuarioEspecificoSap(usuario, password);
                 clsDLogin clsDLogin = new clsDLogin();
                 string psCodigoUsuario = clsDLogin.ConsultarUsuarioExiste(usuario, password);
                 if (!string.IsNullOrEmpty(psCodigoUsuario))
