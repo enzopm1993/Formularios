@@ -17,7 +17,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poUsuarioRol = entities.USUARIO_ROL.FirstOrDefault(x=>x.IdUsuarioRol == model.IdUsuarioRol);
+                var poUsuarioRol = entities.USUARIO_ROL.FirstOrDefault(x=>
+                (x.IdUsuarioRol == model.IdUsuarioRol)||
+                (x.IdUsuario==model.IdUsuario && x.IdRol == model.IdRol));               
+
                 if (poUsuarioRol != null)
                 {
                     poUsuarioRol.EstadoRegistro = model.EstadoRegistro;
@@ -25,9 +28,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                     poUsuarioRol.UsuarioModificacionlog = model.UsuarioCreacionlog;
                     poUsuarioRol.TerminalModificacionlog = model.TerminalCreacionlog;
 
-                }
-                else
-                {
+                }else{
+
                     USUARIO_ROL UsuarioRol = new USUARIO_ROL
                     {
                         IdUsuarioRol = model.IdUsuarioRol,

@@ -1,27 +1,34 @@
-﻿<!-- Modal -->
-<div class="modal fade" id="ModalError" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Mensaje del Sistema</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+﻿<!--Modal: modalConfirmDelete-->
+<div class="modal fade" id="ModalError" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+        <!--Content-->
+        <div class="modal-content text-center">
+            <!--Header-->
+            <div class="modal-header d-flex justify-content-center bg-danger">
+                <p class="heading">SISTEMAS</p>
             </div>
-            <div class="modal-body text-danger" id="mensajeError">
-              
+
+            <!--Body-->
+            <div class="modal-body">
+                <div class="modal-body font-weight-bold" id="mensajeError">
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer flex-center">
+                    @if (ViewBag.reload == true)
+                    {
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal" onclick="MensajeCloseReload()">Close</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal" onclick="MensajeClose()">Close</button>
+                    }
+
+                </div>
             </div>
-            <div class="modal-footer">
-                @if (ViewBag.reload == true)
-                {
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="MensajeCloseReload()">Close</button>
-                }
-                else
-                {
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="MensajeClose()">Close</button>
-                }
-            </div>
+            <!--/.Content-->
         </div>
     </div>
-</div>
-<!-- Modal -->
+    <!--Modal: modalConfirmDelete-->
+    </div>

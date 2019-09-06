@@ -297,7 +297,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     model.UsuarioCreacionlog = Usuario[0];
                     model.TerminalCreacionlog = Request.UserHostAddress;
                     ConsultaCombos();
-                    clsDUsuarioRol.GuardarModificarUsuarioRol(model);
+                    string respuesta= clsDUsuarioRol.GuardarModificarUsuarioRol(model);
+                    SetSuccessMessage(respuesta);
                     return View();
                 }
                 else
@@ -319,7 +320,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = "sistemas"
                 });
-                return RedirectToAction("Home", "Home");
+                return RedirectToAction("UsuarioRol");
             }
         }
 
