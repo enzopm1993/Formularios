@@ -595,6 +595,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\SeguridadJS\NivelUsuario.js" />
     <Content Include="Scripts\SeguridadJS\Opcion.js" />
     <Content Include="Scripts\SeguridadJS\OpcionRol.js" />
     <Content Include="Scripts\SeguridadJS\Rol.js" />
@@ -618,6 +619,7 @@
     <Compile Include="AccesoDatos\clsDEmpleado.cs" />
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
+    <Compile Include="AccesoDatos\Seguridad\clsDNivelUsuario.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDOpcion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDOpcionRol.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDRol.cs" />
@@ -639,6 +641,7 @@
     <Compile Include="Models\Clasificador.cs" />
     <Compile Include="Models\Empleado.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
+    <Compile Include="Models\Seguridad\NivelUsuarioViewModel.cs" />
     <Compile Include="Models\Seguridad\Usuario.cs" />
     <Compile Include="Models\Seguridad\UsuarioRolViewModel.cs" />
     <Compile Include="Models\Seguridad\OpcionRolViewModel.cs" />
@@ -696,6 +699,8 @@
     <Content Include="Views\Seguridad\UsuarioRol.cshtml" />
     <Content Include="Views\Seguridad\UsuarioRolPartial.cshtml" />
     <Content Include="Views\Seguridad\ConsultaOpcionRol.cshtml" />
+    <Content Include="Views\Seguridad\NivelUsario.cshtml" />
+    <Content Include="Views\Seguridad\NivelUsarioPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

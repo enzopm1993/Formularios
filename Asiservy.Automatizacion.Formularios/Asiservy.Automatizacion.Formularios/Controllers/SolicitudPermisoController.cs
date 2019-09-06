@@ -262,6 +262,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 int piSupervisor = ValidarRolSupervisor();                 
                 if(piSupervisor>0)
                     ViewBag.Supervisor = piSupervisor;
+                else
+                {
+                    string[] psIdUsuario = User.Identity.Name.Split('_');
+                    clsDEmpleado = new clsDEmpleado();
+                    var Nombre = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]).FirstOrDefault().NOMBRES??"";
+                    ViewBag.NombreEmpleado = Nombre;
+                }
                 ConsultaCombosGeneral();
                 return View();
             }
@@ -287,10 +294,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                var errors = ModelState
-                .Where(x => x.Value.Errors.Count > 0)
-                .Select(x => new { x.Key, x.Value.Errors })
-                .ToArray();
+                //var errors = ModelState
+                //.Where(x => x.Value.Errors.Count > 0)
+                //.Select(x => new { x.Key, x.Value.Errors })
+                //.ToArray();
 
                 string psMensajeValidarFecha = string.Empty;
                 psMensajeValidarFecha = ValidarFechas(model);
@@ -309,7 +316,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     SOLICITUD_PERMISO solicitudPermiso = new SOLICITUD_PERMISO();
                     clsDSolicitudPermiso = new clsDSolicitudPermiso();
                     clsDEmpleado = new clsDEmpleado();
-                    var poEmpleado = clsDEmpleado.ConsultaEmpleado(model.Identificacion).FirstOrDefault();
+                    string[] psIdUsuario = User.Identity.Name.Split('_');
+                    var poEmpleado = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]).FirstOrDefault();
                     solicitudPermiso.CodigoLinea = poEmpleado.CODIGOLINEA;
                     solicitudPermiso.CodigoArea = poEmpleado.CODIGOAREA;
                     solicitudPermiso.CodigoCargo = poEmpleado.CODIGOCARGO;
@@ -347,8 +355,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.Origen = clsAtributos.SolicitudOrigenGeneral;
                     solicitudPermiso.CodigoDiagnostico = "";
                     solicitudPermiso.CodigoClasificador = 0;
-                    solicitudPermiso.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                    string[] psIdUsuario = User.Identity.Name.Split('_');
+                    solicitudPermiso.EstadoRegistro = clsAtributos.EstadoRegistroActivo;                    
                     solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(psIdUsuario[1] + "");
                     solicitudPermiso.UsuarioIngresoLog = psIdUsuario[0];
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;

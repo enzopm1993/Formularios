@@ -22,7 +22,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDError clsDError = null;
         clsDUsuarioRol clsDUsuarioRol = null;
         clsApiUsuario clsApiUsuario = null;
-
+        clsDNivelUsuario clsDNivelUsuario = null;
         clsDOpcionRol OpcionesRol = null;
         string[] liststring;
         protected void SetSuccessMessage(string message)
@@ -433,6 +433,118 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
 
                 SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
+
+        #region NIVEL_USUARIO
+        [Authorize]
+        public ActionResult NivelUsario()
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception ex) {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return RedirectToAction("Home","Home");
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult NivelUsario(NivelUsuarioViewModel model)
+        {
+            try
+            {
+                clsDNivelUsuario = new clsDNivelUsuario();
+                if (ModelState.IsValid)
+                {
+                   
+                    string[] Usuario = User.Identity.Name.Split('_');
+                    model.EstadoRegistro = model.EstadoRegistro == "true" ? "A" : "I";
+                    NIVEL_USUARIO NivelUsuario = new NIVEL_USUARIO
+                    {
+                        IdNivelUsuario= model.IdNivelUsuario,
+                        IdUsuario = model.IdUsuario,
+                        Nivel = model.Nivel,
+                        FechaIngresoLog = DateTime.Now,
+                        UsuarioIngresoLog = Usuario[0],
+                        TerminalIngresoLog = Request.UserHostAddress
+                    };
+                    
+                   
+                    string respuesta = clsDNivelUsuario.GuardarModificarNivelUsuario(NivelUsuario);
+                    SetSuccessMessage(respuesta);
+                    return View();
+                }
+                else
+                {
+                    ConsultaCombos();
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        [Authorize]
+        public ActionResult NivelUsarioPartial()
+        {
+            try
+            {
+                clsDNivelUsuario = new clsDNivelUsuario();
+                var Lista = clsDNivelUsuario.ConsultarNivelUsuario(null);
+                return PartialView(Lista);
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }

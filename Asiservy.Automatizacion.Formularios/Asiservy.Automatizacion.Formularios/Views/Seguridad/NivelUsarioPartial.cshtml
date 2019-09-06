@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Seguridad.NivelUsuarioViewModel>
+
+<table class="table" id="TableNivelUsuarioPartial">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdNivelUsuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Usuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nivel)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoRegistro)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr onclick="CargarNivelUsuario('@item.IdNivelUsuario', '@item.IdUsuario', '@item.Nivel', '@item.EstadoRegistro')">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdNivelUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nivel)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EstadoRegistro)
+                    </td>
+
+                </tr>
+            }
+        }
+    </tbody>
+    </table>
+
+
+
+<script>
+
+    $('#TableNivelUsuarioPartial').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        "pageLength": 5,
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+        "pagingType": "full_numbers"
+
+    });
+</script>
