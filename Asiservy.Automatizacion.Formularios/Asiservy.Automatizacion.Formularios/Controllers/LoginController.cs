@@ -39,10 +39,10 @@ namespace ProyectoWeb.Controllers
         {
             try
             {
-                //clsApiUsuario a = new clsApiUsuario();
-                //var b = a.ConsultaUsuarioEspecificoSap(usuario, password);
-                clsDLogin clsDLogin = new clsDLogin();
-                string psCodigoUsuario = clsDLogin.ConsultarUsuarioExiste(usuario, password);
+                clsApiUsuario a = new clsApiUsuario();
+                string psCodigoUsuario = a.ConsultaUsuarioEspecificoSap(usuario, password);
+                //clsDLogin clsDLogin = new clsDLogin();
+                //string psCodigoUsuario = clsDLogin.ConsultarUsuarioExiste(usuario, password);
                 if (!string.IsNullOrEmpty(psCodigoUsuario))
                 {
                     FormsAuthentication.SetAuthCookie(usuario+"_"+psCodigoUsuario, false);

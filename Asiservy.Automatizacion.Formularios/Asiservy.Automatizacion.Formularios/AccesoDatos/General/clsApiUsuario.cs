@@ -43,9 +43,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             request.AddParameter("clave", clave);
             IRestResponse response = client.Execute(request);
             dynamic content = response.Content;
-            var ListaUsuarios = JsonConvert.DeserializeObject<Usuario>(content);
-            var Nombre = content.Objeto.Nombre;
-            return "";
+            Usuario ListaUsuarios = JsonConvert.DeserializeObject<Usuario>(content);
+            //var Nombre = content.Objeto.Nombre;
+
+            return ListaUsuarios.Cedula;
 
         }
     }

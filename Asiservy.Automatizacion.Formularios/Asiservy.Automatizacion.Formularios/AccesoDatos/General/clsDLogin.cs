@@ -40,7 +40,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 List<spConsultaOpcionesPorRol> pListHijostotal = new List<spConsultaOpcionesPorRol>();
 
                 var piRol = (from r in db.USUARIO_ROL
-                             where r.IdUsuario == psrolid
+                             where r.IdUsuario == psrolid && r.EstadoRegistro=="A"
                              select r.IdRol).ToList();
                 foreach (var item in piRol)
                 {

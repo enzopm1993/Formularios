@@ -74,14 +74,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                                        }).ToList();
 
                 var Lista = (from l in ListaUsuarioRol
-                                  join u in usuarios on l.IdUsuario equals u.CEDULA
+                                  join u in usuarios on l.IdUsuario equals u.Cedula
                                   select new UsuarioRolViewModel {
                                       IdUsuarioRol = l.IdUsuarioRol,
                                       IdUsuario = l.IdUsuario,
                                       EstadoRegistro = l.EstadoRegistro,
                                       IdRol = l.IdRol,
                                       Rol = l.Rol,
-                                      Usuario = u.NOMBRES
+                                      Usuario = u.Nombre
 
                                   }).ToList();
                                  

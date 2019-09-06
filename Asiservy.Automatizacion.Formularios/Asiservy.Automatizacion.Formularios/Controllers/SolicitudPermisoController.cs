@@ -672,7 +672,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("M");
             ViewBag.Lineas = clsDGeneral.ConsultaLineas();
             ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
-            ViewBag.NombreMedico = clsApiUsuario.ConsultaListaUsuariosSap().FirstOrDefault(x => x.CEDULA == "1311401135").NOMBRES??"";
+            ViewBag.NombreMedico = clsApiUsuario.ConsultaListaUsuariosSap().FirstOrDefault(x => x.Cedula == "1311401135").Nombre??"";
 
             ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
         }

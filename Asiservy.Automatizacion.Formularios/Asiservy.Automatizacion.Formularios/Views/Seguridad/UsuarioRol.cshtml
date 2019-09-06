@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label>Usuario</label>
                     @Html.TextBoxFor(model => model.IdUsuario, new { @class = "form-control", @hidden = "hidden" })
-                    @Html.DropDownListFor(model => model.IdUsuario2, new SelectList(ViewBag.Usuarios, "CEDULA", "NOMBRES"), "Selecione", new { @class = "form-control", @onchange = "SelectUsuario()" })
+                    @Html.DropDownListFor(model => model.IdUsuario2, new SelectList(ViewBag.Usuarios, "Cedula", "Nombre"), "Selecione", new { @class = "form-control", @onchange = "SelectUsuario()" })
                     @Html.ValidationMessageFor(model => model.IdUsuario, "", new { @class = "text-danger" })
                 </div>
             </div>

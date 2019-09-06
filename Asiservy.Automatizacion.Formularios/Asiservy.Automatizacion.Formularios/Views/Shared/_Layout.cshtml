@@ -35,6 +35,7 @@
                 <ul class="navbar-nav" style="width:100%">
                     @if (Padre != null)
                     {
+                        string[] ArrayUrl;
                         foreach (var MenusPadres in Padre)
                         {
                             <li class="nav-item dropdown">
@@ -42,9 +43,10 @@
                                 <div class="dropdown-menu" aria-labelledby="themes">
                                     @if (Hijo != null)
                                     {
-                                        foreach (var MenuHijo in Hijo)
+                                        foreach (var MenuHijo in Hijo.Where(x=>x.Padre==MenusPadres.IdOpcion))
                                         {
-                                            @Html.ActionLink(MenuHijo.Nombre, "Asistencia", "Asistencia", null, new { @class = "dropdown-item" })
+                                            ArrayUrl = MenuHijo.Url.Split('/');
+                                            @Html.ActionLink(MenuHijo.Nombre, ArrayUrl[1], ArrayUrl[0], null, new { @class = "dropdown-item" })
                                         }
                                     }
                                 </div>
