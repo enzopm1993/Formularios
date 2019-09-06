@@ -107,10 +107,10 @@
           <Property Name="Clase" Type="char" MaxLength="1" />
           <Property Name="Padre" Type="int" />
           <Property Name="Url" Type="varchar" MaxLength="100" />
-          <Property Name="FechaCreacionLog" Type="date" />
+          <Property Name="FechaCreacionLog" Type="datetime" />
           <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
-          <Property Name="FechaModificacionLog" Type="date" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
@@ -122,10 +122,10 @@
           <Property Name="IdOpcionRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdOpcion" Type="int" />
           <Property Name="IdRol" Type="int" />
-          <Property Name="FechaCreacionlog" Type="date" />
+          <Property Name="FechaCreacionlog" Type="datetime" />
           <Property Name="UsuarioCreacionlog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalCreacionlog" Type="varchar" MaxLength="50" />
-          <Property Name="FechaModificacionlog" Type="date" />
+          <Property Name="FechaModificacionlog" Type="datetime" />
           <Property Name="UsuarioModificacionlog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionlog" Type="varchar" MaxLength="50" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
@@ -136,10 +136,10 @@
           </Key>
           <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="100" />
-          <Property Name="FechaCreacionLog" Type="date" />
+          <Property Name="FechaCreacionLog" Type="datetime" />
           <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
-          <Property Name="FechaModificacionLog" Type="date" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
@@ -188,10 +188,10 @@
           <Property Name="IdUsuarioRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdRol" Type="int" />
           <Property Name="IdUsuario" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="FechaCreacionlog" Type="date" />
+          <Property Name="FechaCreacionlog" Type="datetime" />
           <Property Name="UsuarioCreacionlog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalCreacionlog" Type="varchar" MaxLength="50" />
-          <Property Name="FechaModificacionlog" Type="date" />
+          <Property Name="FechaModificacionlog" Type="datetime" />
           <Property Name="UsuarioModificacionlog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionlog" Type="varchar" MaxLength="50" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
@@ -261,6 +261,9 @@
         </Function>
         <Function Name="spConsultaLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spConsultaOpcionesPorRol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDROL" Type="int" Mode="In" />
         </Function>
         <Function Name="spConsultarUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
@@ -376,10 +379,10 @@
           <Property Name="IdOpcionRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdOpcion" Type="Int32" />
           <Property Name="IdRol" Type="Int32" />
-          <Property Name="FechaCreacionlog" Type="DateTime" Precision="0" />
+          <Property Name="FechaCreacionlog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioCreacionlog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalCreacionlog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionlog" Type="DateTime" Precision="0" />
+          <Property Name="FechaModificacionlog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionlog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionlog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ROL" Relationship="Self.FK__OPCION_RO__IdOpc__4F7CD00D" FromRole="OPCION_ROL" ToRole="ROL" />
@@ -393,10 +396,10 @@
           </Key>
           <Property Name="IdRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="FechaCreacionLog" Type="DateTime" Precision="0" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="0" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="OPCION_ROL" Relationship="Self.FK__OPCION_RO__IdOpc__4F7CD00D" FromRole="ROL" ToRole="OPCION_ROL" />
@@ -449,10 +452,10 @@
           <Property Name="IdUsuarioRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdRol" Type="Int32" />
           <Property Name="IdUsuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FechaCreacionlog" Type="DateTime" Precision="0" />
+          <Property Name="FechaCreacionlog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioCreacionlog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalCreacionlog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionlog" Type="DateTime" Precision="0" />
+          <Property Name="FechaModificacionlog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionlog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionlog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ROL" Relationship="Self.FK__USUARIO_R__IdRol__534D60F1" FromRole="USUARIO_ROL" ToRole="ROL" />
@@ -561,6 +564,9 @@
             <End Role="OPCION" EntitySet="OPCION" />
             <End Role="OPCION_ROL" EntitySet="OPCION_ROL" />
           </AssociationSet>
+          <FunctionImport Name="spConsultaOpcionesPorRol" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionesPorRol)">
+            <Parameter Name="IDROL" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -660,10 +666,10 @@
           <Property Name="Clase" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="Padre" Type="Int32" />
           <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="FechaCreacionLog" Type="DateTime" Precision="0" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="0" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
@@ -681,6 +687,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spConsultaOpcionesPorRol">
+          <Property Type="Int32" Name="IdOpcion" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Formulario" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Clase" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="Padre" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -965,6 +978,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaOpcionesPorRol" FunctionName="ASIS_PRODModel.Store.spConsultaOpcionesPorRol">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaOpcionesPorRol">
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Formulario" ColumnName="Formulario" />
+                <ScalarProperty Name="Clase" ColumnName="Clase" />
+                <ScalarProperty Name="Padre" ColumnName="Padre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

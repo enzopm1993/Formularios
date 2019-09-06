@@ -146,5 +146,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltro>("spConsutaEmpleadosFiltro", areaParameter, lineaParameter, cargoParameter);
         }
+    
+        public virtual ObjectResult<spConsultaOpcionesPorRol> spConsultaOpcionesPorRol(Nullable<int> iDROL)
+        {
+            var iDROLParameter = iDROL.HasValue ?
+                new ObjectParameter("IDROL", iDROL) :
+                new ObjectParameter("IDROL", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaOpcionesPorRol>("spConsultaOpcionesPorRol", iDROLParameter);
+        }
     }
 }
