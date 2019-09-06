@@ -8,7 +8,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public class clsDGeneral
     {
-        //ASIS_PRODEntities entities = null;
+       
         public List<spConsultaCargos> ConsultaCargos(string dsCodigo)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())

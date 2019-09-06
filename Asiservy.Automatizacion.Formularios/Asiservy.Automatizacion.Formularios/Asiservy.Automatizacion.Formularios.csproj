@@ -55,6 +55,12 @@
       <HintPath>..\packages\ReSharper.Annotations.7.1.3.130415\lib\net\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -592,6 +598,7 @@
     <Content Include="Scripts\SeguridadJS\Opcion.js" />
     <Content Include="Scripts\SeguridadJS\OpcionRol.js" />
     <Content Include="Scripts\SeguridadJS\Rol.js" />
+    <Content Include="Scripts\SeguridadJS\UsuarioRol.js" />
     <Content Include="Scripts\SolicitudPermisoJS\Bandeja.js" />
     <Content Include="Scripts\SolicitudPermisoJS\BandejaRRHH.js" />
     <Content Include="Scripts\SolicitudPermisoJS\BitacoraSolicitud.js" />
@@ -606,6 +613,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccesoDatos\General\clsApiUsuario.cs" />
     <Compile Include="AccesoDatos\General\clsDClasificador.cs" />
     <Compile Include="AccesoDatos\clsDEmpleado.cs" />
     <Compile Include="AccesoDatos\General\clsDError.cs" />
@@ -613,6 +621,7 @@
     <Compile Include="AccesoDatos\Seguridad\clsDOpcion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDOpcionRol.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDRol.cs" />
+    <Compile Include="AccesoDatos\Seguridad\clsDUsuarioRol.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermiso.cs" />
     <Compile Include="AccesoDatos\General\clsDLogin.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />
@@ -630,6 +639,9 @@
     <Compile Include="Models\Clasificador.cs" />
     <Compile Include="Models\Empleado.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
+    <Compile Include="Models\Seguridad\RolViewModel.cs" />
+    <Compile Include="Models\Seguridad\Usuario.cs" />
+    <Compile Include="Models\Seguridad\UsuarioRolViewModel.cs" />
     <Compile Include="Models\Seguridad\OpcionRolViewModel.cs" />
     <Compile Include="Models\Solicitud.cs" />
     <Compile Include="Models\SolicitudPermisoViewModel.cs" />
@@ -682,6 +694,8 @@
     <Content Include="Views\Seguridad\Rol.cshtml" />
     <Content Include="Views\Seguridad\ConsultaRoles.cshtml" />
     <Content Include="Views\Seguridad\OpcionRol.cshtml" />
+    <Content Include="Views\Seguridad\UsuarioRol.cshtml" />
+    <Content Include="Views\Seguridad\UsuarioRolPartial.cshtml" />
     <Content Include="Views\Seguridad\ConsultaOpcionRol.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

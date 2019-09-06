@@ -1,0 +1,75 @@
+﻿@model Asiservy.Automatizacion.Formularios.Models.Seguridad.UsuarioRolViewModel
+
+@{
+    ViewBag.Title = "UsuarioRol";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h3>Mantenimiento de Usuario - Rol</h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.EditorFor(model => model.IdUsuarioRol, new { htmlAttributes = new { @class = "form-control", @hidden = "hidden" } })
+        @Html.ValidationMessageFor(model => model.IdUsuarioRol, "", new { @class = "text-danger" })
+
+
+        <div class="row">
+            <div class="offset-md-2 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label>Usuario</label>
+                    @Html.TextBoxFor(model => model.IdUsuario, new { @class = "form-control", @hidden = "hidden" })
+                    @Html.DropDownListFor(model => model.IdUsuario2, new SelectList(ViewBag.Usuarios, "CEDULA", "NOMBRES"), "Selecione", new { @class = "form-control", @onchange = "SelectUsuario()" })
+                    @Html.ValidationMessageFor(model => model.IdUsuario, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label>Rol</label>
+                    @Html.TextBoxFor(model => model.IdRol, new { @class = "form-control", @hidden = "hidden" })
+                    @Html.DropDownListFor(model => model.IdRol2, new SelectList(ViewBag.Roles, "IdRol", "Descripcion"), "Seleccione", new { @class = "form-control", @onchange = "SelectRol()" })
+                    @Html.ValidationMessageFor(model => model.IdRol, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label></label>
+                    <div class="custom-control custom-checkbox mb-3">
+                        @Html.CheckBox("EstadoRegistro", true, new { @id = "CheckEstadoRegistro", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
+                        <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 text-center">
+                <input type="submit" value="Grabar" class="btn btn-primary" />
+                <input type="button" onclick="Nuevo()" value="Nuevo" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}
+
+<div id="DivTableUsuarioRol" style="padding-bottom:5%">
+
+</div>
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+
+@*<script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.jszip.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>*@
+
+<script src="~/Scripts/SeguridadJS/UsuarioRol.js"></script>

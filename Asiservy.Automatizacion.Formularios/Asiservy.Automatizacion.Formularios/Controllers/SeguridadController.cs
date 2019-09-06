@@ -7,7 +7,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.Models;
-
+using RestSharp;
+using Asiservy.Automatizacion.Formularios.Models.Seguridad;
+using Newtonsoft.Json;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using System.Net;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -16,6 +20,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDOpcion clsDopcion = null;
         clsDRol clsDRol = null;
         clsDError clsDError = null;
+        clsDUsuarioRol clsDUsuarioRol = null;
+        clsApiUsuario clsApiUsuario = null;
+
         clsDOpcionRol OpcionesRol = null;
         string[] liststring;
         protected void SetSuccessMessage(string message)
@@ -40,6 +47,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return RedirectToAction("Home","Home");
             }
         }
@@ -67,6 +84,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (model.Clase == "0" && model.Padre == null || model.Padre == 0)
                 {
                     ModelState.AddModelError("Padre", "Campo Requerido");
+                }
+                if (model.Clase == "0" && string.IsNullOrEmpty(model.Url))
+                {
+                    ModelState.AddModelError("Url", "Campo Requerido");
                 }
                 if (string.IsNullOrEmpty(model.Formulario) && model.Clase=="0")
                 {
@@ -240,6 +261,110 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 SetErrorMessage(ex.Message);
                 return RedirectToAction("Home", "Home");
             }
+        }
+        #endregion
+
+
+        #region USUARIO_ROL
+        [Authorize]
+        public ActionResult UsuarioRol()
+        {
+            try
+            {
+                ConsultaCombos();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        [Authorize]
+        [HttpPost]
+        public ActionResult UsuarioRol(UsuarioRolViewModel model)
+        {
+            try
+            {                
+                clsDUsuarioRol = new clsDUsuarioRol();
+                if (ModelState.IsValid)
+                {
+                    string[] Usuario = User.Identity.Name.Split('_');
+                    model.EstadoRegistro = model.EstadoRegistro == "true" ? "A" : "I";
+                    model.FechaCreacionlog = DateTime.Now;
+                    model.UsuarioCreacionlog = Usuario[0];
+                    model.TerminalCreacionlog = Request.UserHostAddress;
+                    ConsultaCombos();
+                    clsDUsuarioRol.GuardarModificarUsuarioRol(model);
+                    return View();
+                }
+                else
+                {
+                    ConsultaCombos();
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        [Authorize]
+        public ActionResult UsuarioRolPartial()
+        {
+            try
+            {
+                clsDUsuarioRol = new clsDUsuarioRol();
+                var model = clsDUsuarioRol.ConsultaUsuarioRol(null);
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public void ConsultaCombos()
+        {
+            clsDRol =new clsDRol();
+            var roles = clsDRol.ConsultarRoles(clsAtributos.EstadoRegistroActivo);
+            ViewBag.Roles = roles.Select(x=> new {x.IdRol, x.Descripcion});
+            clsApiUsuario = new clsApiUsuario();
+            ViewBag.Usuarios = clsApiUsuario.ConsultaUsuariosSap();
+
         }
         [HttpPost]
         public ActionResult OpcionRol(OPCION_ROL OpcionRol,string IdRolh, string IdOpcionh)

@@ -18,32 +18,39 @@
     <div class="row">
 
 
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-12">
             <div class="form-group">
                 @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2 col-sm-12">
             <div class="form-group">
                 @Html.LabelFor(model => model.Formulario, htmlAttributes: new { @class = "control-label " })
                 @Html.EditorFor(model => model.Formulario, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Formulario, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2 col-sm-12">
             <div class="form-group">
                 @Html.LabelFor(model => model.Clase, htmlAttributes: new { @class = "control-label" })
-                @Html.DropDownListFor(model => model.Clase, (IEnumerable<SelectListItem>)ViewBag.Clase,"Selecione", new { @class = "form-control",@onchange="CambioClase(this.value)" })
+                @Html.DropDownListFor(model => model.Clase, (IEnumerable<SelectListItem>)ViewBag.Clase, "Selecione", new { @class = "form-control", @onchange = "CambioClase(this.value)" })
                 @Html.ValidationMessageFor(model => model.Clase, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2 col-sm-12" id="divPadre" >
             <div class="form-group">
                 @Html.LabelFor(model => model.Padre, htmlAttributes: new { @class = "control-label col-md-2" })
                 @Html.DropDownListFor(model => model.Padre, new SelectList(ViewBag.opciones, "IdOpcion", "Nombre"), "Seleccione", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Padre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12" id="divUrl" >
+            <div class="form-group">
+                @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(model => model.Url,  new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
@@ -78,14 +85,14 @@
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
-
 <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
-<script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+
+@*<script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
 <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
 <script src="~/Scripts/DataTables/media/js/dataTables.jszip.min.js"></script>
 <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
-<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>*@
 
 
 <script src="~/Scripts/SeguridadJS/Opcion.js"></script>
