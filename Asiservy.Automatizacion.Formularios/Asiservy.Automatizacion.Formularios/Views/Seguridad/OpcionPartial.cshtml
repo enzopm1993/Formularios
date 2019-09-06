@@ -19,6 +19,9 @@
                 @Html.DisplayNameFor(model => model.Padre)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Url)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.EstadoRegistro)
             </th>
 
@@ -30,7 +33,7 @@
 
             foreach (var item in Model)
             {
-                <tr onclick="CargarOpcion('@item.IdOpcion', '@item.Nombre', '@item.Formulario', '@item.Clase', '@item.Padre', '@item.EstadoRegistro')">
+                <tr onclick="CargarOpcion('@item.IdOpcion', '@item.Nombre', '@item.Formulario', '@item.Clase', '@item.Padre','@item.Url', '@item.EstadoRegistro')">
             <td>
                 @Html.DisplayFor(modelItem => item.IdOpcion)
             </td>
@@ -45,6 +48,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Padre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EstadoRegistro)

@@ -589,11 +589,6 @@
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Mensajes\Mensajes.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\popper-utils.js" />
@@ -616,6 +611,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccesoDatos\General\clsApiUsuario.cs" />
     <Compile Include="AccesoDatos\General\clsDClasificador.cs" />
     <Compile Include="AccesoDatos\clsDEmpleado.cs" />
     <Compile Include="AccesoDatos\General\clsDError.cs" />
@@ -643,6 +639,7 @@
     <Compile Include="AccesoDatos\clsAtributos.cs" />
     <Compile Include="Models\Seguridad\RolViewModel.cs" />
     <Compile Include="Models\Seguridad\Usuario.cs" />
+    <Compile Include="Models\Seguridad\UsuarioRolViewModel.cs" />
     <Compile Include="Models\Solicitud.cs" />
     <Compile Include="Models\SolicitudPermisoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

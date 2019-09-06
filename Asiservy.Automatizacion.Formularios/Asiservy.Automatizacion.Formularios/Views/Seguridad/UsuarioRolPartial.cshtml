@@ -1,8 +1,5 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.USUARIO_ROL>
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Seguridad.UsuarioRolViewModel>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table" id="TableUsuarioRolPartial">
     <thead>
         <tr>
@@ -10,10 +7,10 @@
                 @Html.DisplayNameFor(model => model.IdUsuarioRol)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdRol)
+                @Html.DisplayNameFor(model => model.Rol)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdUsuario)
+                @Html.DisplayNameFor(model => model.Usuario)
             </th>
 
             <th>
@@ -25,15 +22,15 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr onclick="SeleccionUsuarioRol('@item.IdUsuarioRol','@item.IdUsuario','@item.IdRol','@item.EstadoRegistro')">
                 <td>
                     @Html.DisplayFor(modelItem => item.IdUsuarioRol)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdRol)
+                    @Html.DisplayFor(modelItem => item.Rol)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdUsuario)
+                    @Html.DisplayFor(modelItem => item.Usuario)
                 </td>
 
                 <td>
@@ -48,7 +45,6 @@
 
 
 <script>
-
     $('#TableUsuarioRolPartial').DataTable({
         "language": {
             "sProcessing": "Procesando...",

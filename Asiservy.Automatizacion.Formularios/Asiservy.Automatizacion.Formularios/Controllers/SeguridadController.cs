@@ -10,6 +10,8 @@ using Asiservy.Automatizacion.Formularios.Models;
 using RestSharp;
 using Asiservy.Automatizacion.Formularios.Models.Seguridad;
 using Newtonsoft.Json;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using System.Net;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -19,7 +21,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDRol clsDRol = null;
         clsDError clsDError = null;
         clsDUsuarioRol clsDUsuarioRol = null;
-       
+        clsApiUsuario clsApiUsuario = null;
+
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
@@ -42,6 +45,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
                     Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
@@ -78,6 +82,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (model.Clase == "0" && model.Padre == null || model.Padre == 0)
                 {
                     ModelState.AddModelError("Padre", "Campo Requerido");
+                }
+                if (model.Clase == "0" && string.IsNullOrEmpty(model.Url))
+                {
+                    ModelState.AddModelError("Url", "Campo Requerido");
                 }
                 if (string.IsNullOrEmpty(model.Formulario) && model.Clase=="0")
                 {
@@ -261,6 +269,47 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        [Authorize]
+        [HttpPost]
+        public ActionResult UsuarioRol(UsuarioRolViewModel model)
+        {
+            try
+            {                
+                clsDUsuarioRol = new clsDUsuarioRol();
+                if (ModelState.IsValid)
+                {
+                    string[] Usuario = User.Identity.Name.Split('_');
+                    model.EstadoRegistro = model.EstadoRegistro == "true" ? "A" : "I";
+                    model.FechaCreacionlog = DateTime.Now;
+                    model.UsuarioCreacionlog = Usuario[0];
+                    model.TerminalCreacionlog = Request.UserHostAddress;
+                    ConsultaCombos();
+                    clsDUsuarioRol.GuardarModificarUsuarioRol(model);
+                    return View();
+                }
+                else
+                {
+                    ConsultaCombos();
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
                     Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
@@ -285,7 +334,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
-                
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
                     Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
@@ -304,16 +354,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             clsDRol =new clsDRol();
             var roles = clsDRol.ConsultarRoles(clsAtributos.EstadoRegistroActivo);
             ViewBag.Roles = roles.Select(x=> new {x.IdRol, x.Descripcion});
-
-            var client = new RestClient("http://192.168.0.31:8870");
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
-
-            var request = new RestRequest("/api/Usuarios", Method.GET);
-            IRestResponse response = client.Execute(request);
-            var content = response.Content; // raw content as string
-            //List<Usuario> ListaUsuarios = new List<Usuario>();
-            var ListaUsuarios = JsonConvert.DeserializeObject(content);
-            ViewBag.Usuarios = ListaUsuarios;
+            clsApiUsuario = new clsApiUsuario();
+            ViewBag.Usuarios = clsApiUsuario.ConsultaUsuariosSap();
 
         }
 
