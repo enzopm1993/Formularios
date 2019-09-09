@@ -542,7 +542,30 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult ReporteSolicitud()
         {
-            return View();
+            try
+            {
+                clsDGeneral = new clsDGeneral();
+                ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+                ViewBag.Estados = clsDGeneral.ConsultarEstadosSolicitudSelect();
+
+                return View();
+            }
+            catch(Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Home", "Home");
+            }
+           
         }
         #endregion
 
@@ -606,10 +629,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #region CONSULTAS
 
-        public ActionResult ConsultaSolicitudes()
+        public ActionResult ConsultaSolicitudes(string dsLinea, string dsArea ,string dsEstado)
         {
             clsDSolicitudPermiso poSolicitudPermiso = new clsDSolicitudPermiso();
-            var pListSolicitudPermiso = poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(clsAtributos.EstadoSolicitudTodos);
+            var pListSolicitudPermiso = poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(dsLinea,dsArea,dsEstado);
             return PartialView(pListSolicitudPermiso);
         }
         public JsonResult ObtenerSubGrupoEnfermedades(string GrupoEnfermedad)

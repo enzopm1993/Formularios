@@ -139,43 +139,31 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
             return lista;
         }
-        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermisoReporte(string dsEstadoSolcitud)
+        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermisoReporte(string dsLinea, string dsArea, string dsEstado)
         {
             entities = new ASIS_PRODEntities();
             List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
-            List<SOLICITUD_PERMISO> Lista = new List<SOLICITUD_PERMISO>();
+            IEnumerable<SOLICITUD_PERMISO> Lista;
             
-            if (dsEstadoSolcitud == clsAtributos.EstadoSolicitudTodos)
+            if (dsEstado == clsAtributos.EstadoSolicitudTodos)
             {
-                Lista = entities.SOLICITUD_PERMISO.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                Lista = entities.SOLICITUD_PERMISO.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
             }
             else
             {
-                Lista = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstadoSolcitud && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                Lista = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstado && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
             }
-            foreach (var x in Lista)
+            if (!string.IsNullOrEmpty(dsLinea))
             {
-                //List<JUSTICA_SOLICITUD> ListadoJustificaciones = new List<JUSTICA_SOLICITUD>();
-                //var detalle = entities.JUSTICA_SOLICITUD.Where(y => y.IdSolicitudPermiso == x.IdSolicitudPermiso).ToList();
-                //foreach (var d in detalle)
-                //{
-                //    ListadoJustificaciones.Add(new JUSTICA_SOLICITUD
-                //    {
-                //        IdJustificaSolicitud = d.IdJustificaSolicitud,
-                //        IdSolicitudPermiso = x.IdSolicitudPermiso,
-                //        CodigoMotivo = d.CodigoMotivo,
-                //        FechaSalida = d.FechaSalida,
-                //        FechaRegreso = d.FechaRegreso,
-                //        UsuarioIngresoLog = d.UsuarioIngresoLog,
-                //        FechaIngresoLog = d.FechaIngresoLog,
-                //        TerminalIngresoLog = d.TerminalIngresoLog,
-                //        UsuarioModificacionLog = d.UsuarioModificacionLog,
-                //        TerminalModificacionLog = d.TerminalModificacionLog,
-                //        FechaModificacionLog = d.FechaModificacionLog
-                //    });
-                //}
+                Lista = Lista.Where(x => x.CodigoLinea == dsLinea);
+            }
+            if (!string.IsNullOrEmpty(dsArea))
+            {
+                Lista = Lista.Where(x => x.CodigoArea == dsArea);
+            }
 
-                //var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == x.CodigoMotivo);
+            foreach (var x in Lista.ToList())
+            {
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
                 string DescripcionEstadosSolicitud = (from e in entities.ESTADO_SOLICITUD
                                                       where e.Estado == x.EstadoSolicitud

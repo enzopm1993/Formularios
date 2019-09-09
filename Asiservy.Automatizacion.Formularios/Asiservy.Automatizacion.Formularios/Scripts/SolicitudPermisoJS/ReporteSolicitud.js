@@ -1,4 +1,51 @@
 ﻿
+function CambioLinea(valor) {
+    $("#selectArea").empty();
+    $("#selectArea").append("<option value='' >-- Seleccionar Opción--</option>");
+
+    $.ajax({
+        url: "../SolicitudPermiso/ConsultaListadoAreas",
+        type: "Get",
+        data:
+        {
+            CodLinea: valor
+        },
+        success: function (resultado) {
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#selectArea").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
+                });
+            } else {
+                MensajeAdvertencia("La linea seleccionado no tiene areas asignadas", false);
+            }
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+        }
+    });
+}
+
+
+function ConsultarSolicitudes() {
+    console.log($('#selectLinea').val());
+    console.log($('#selectArea').val());
+    console.log($('#selectEstado').val());
+    $.ajax({
+        type: "GET",
+        url: '../SolicitudPermiso/ConsultaSolicitudes',
+        data: {
+            dsLinea: $('#selectLinea').val(),
+            dsArea: $('#selectArea').val(),
+            dsEstado: $('#selectEstado').val(),
+        },
+        success: function (data) {
+            $('#RptSolicitudes').html(data);
+        }
+    });
+
+}
+
+
 $(document).ready(function () {
     $('#TableReporteSolicitud').DataTable({
         "language": {
@@ -32,15 +79,3 @@ $(document).ready(function () {
 
     
 });
-
-
-function ConsultarSolicitudes() {
-    $.ajax({
-        type: "GET",
-        url: '../SolicitudPermiso/ConsultaSolicitudes',
-        success: function (data) {
-            $('#RptSolicitudes').html(data);
-        }
-    });
-
-}
