@@ -66,5 +66,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
 
+        public List<CLASIFICADOR> ConsultarEstadosSolicitudSelect()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var Estados = entities.ESTADO_SOLICITUD.Where(x=> x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
+                Estados.Add(new ESTADO_SOLICITUD { Estado = "000", Descripcion = "Todos" });
+                var Lista = Estados.OrderBy(x => x.Estado).Select(x => new CLASIFICADOR {Codigo= x.Estado, Descripcion=x.Descripcion });
+                
+                return Lista.ToList();
+            }
+        }
+
     }
 }

@@ -14,30 +14,21 @@
 
     <div class="row">
         <div class="form-group col-md-3 col-sm-12">
-            <label>Departamento</label>
-            <select class="form-control">
-                <option value="value">Produccion</option>
-                <option value="value">Dispensario Médico</option>
-                <option value="value">RRHH</option>
-            </select>
+            <label>Linea</label>
+            @Html.DropDownList("IdLinea",new SelectList (ViewBag.Lineas, "Codigo","Descripcion"),"Seleccione",new { @class="form-control",@onchange= "CambioLinea(this.value)",@id= "selectLinea" })
         </div>
         <div class="form-group col-md-3 col-sm-12">
             <label>Area</label>
-            <select class="form-control">
-                <option value="value">Proceso</option>
-                <option value="value">Lata</option>
-                <option value="value">Pouch</option>
+            <select class="form-control" id = "selectArea">
+                <option value="">-- Seleccionar Opción--</option>
+               
             </select>
             <br />
         </div>
         <div class="form-group col-md-3 col-sm-12">
             <label>Estado</label>
-            <select class="form-control">
-                <option value="value">Todos</option>
-                <option value="value">Pendiente</option>
-                <option value="value">Aprobado</option>
-                <option value="value">Anulado</option>
-            </select>
+            @Html.DropDownList("IdEstado", new SelectList(ViewBag.Estados, "Codigo", "Descripcion"),  new { @class = "form-control", @id = "selectEstado" })
+
         </div>
         <div style="display: flex;justify-content: center;align-items: center;" class="form-group col-md-3 col-sm-12">
 
@@ -47,50 +38,7 @@
 
     <div id="RptSolicitudes">
 
-    </div>
-    @*<div class="table-responsive">
-            <table class="table table-hover" id="TableReporteSolicitud">
-                <thead>
-                    <tr>
-                        <th>Solicitud</th>
-                        <th>Departamento</th>
-                        <th>Area</th>
-                        <th>Empleado</th>
-                        <th>Estado</th>
-                        <th>Biometrico</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Produccion</td>
-                        <td>Proceso L1</td>
-                        <td>Anchundia Lopez José</td>
-                        <td class="text-success"> Aprobado</td>
-                        <td><input class="form-control" type="datetime" name="name" value="@DateTime.Now" disabled /></td>
-                    </tr>
-                    <tr>
-                        <td>10</td>
-                        <td>Produccion</td>
-                        <td>Proceso L2</td>
-                        <td>Morales Lopez Alberto</td>
-                        <td class="text-warning"> Pendiente</td>
-                        <td><input class="form-control" type="datetime" name="name" value="@DateTime.Now" disabled /></td>
-                    </tr>
-                    <tr>
-                        <td>18</td>
-                        <td>RRHH</td>
-                        <td>N/A</td>
-                        <td>Mora Morales Maria</td>
-                        <td class="text-danger"> Anulada</td>
-                        <td><input class="form-control" type="datetime" name="name" value="@DateTime.Now" disabled /></td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>*@
-
-
+    </div>  
 
 </div>
 
