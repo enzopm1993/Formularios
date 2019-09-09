@@ -7,11 +7,13 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
-
+using Asiservy.Automatizacion.Datos.Datos;
 namespace ProyectoWeb.Controllers
 {
     public class LoginController : Controller
     {
+        clsDError clsDError = null;
+     
         // GET: Login
         public ActionResult Login()
         {
@@ -26,10 +28,21 @@ namespace ProyectoWeb.Controllers
                 return RedirectToAction("Login", "Login");
                 //return Json(0);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                //SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Login", "Login");
             }
 
 
@@ -39,8 +52,8 @@ namespace ProyectoWeb.Controllers
         {
             try
             {
-                clsApiUsuario a = new clsApiUsuario();
-                string psCodigoUsuario = a.ConsultaUsuarioEspecificoSap(usuario, password);
+                clsApiUsuario poUsuario = new clsApiUsuario();
+                string psCodigoUsuario = poUsuario.ConsultaUsuarioEspecificoSap(usuario, password);
                 //clsDLogin clsDLogin = new clsDLogin();
                 //string psCodigoUsuario = clsDLogin.ConsultarUsuarioExiste(usuario, password);
                 if (!string.IsNullOrEmpty(psCodigoUsuario))
@@ -58,7 +71,18 @@ namespace ProyectoWeb.Controllers
             catch (Exception ex)
             {
 
-                throw ex;
+                //SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message);
             }
 
         }

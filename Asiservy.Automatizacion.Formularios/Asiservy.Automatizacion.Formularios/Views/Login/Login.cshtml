@@ -101,11 +101,10 @@
             url: "@Url.Action("LogIn", "Login")",
             data: JSON.stringify( { usuario: $("#txtUsuario").val(), password: $("#txtPassword").val()}),
         success: function (data) {
-            if(data == 1)
-            {
- 
+            if (data == 1) {
+
                 $('#menu').show();
-                
+
                 $('#logoutli').show();
 
                 var returnUrl = "@Request.QueryString["ReturnUrl"]";
@@ -113,17 +112,21 @@
                 if (returnUrl == "") {
 
                     window.location.href = "@Url.Action("Home", "Home")";
-                    
+
                 }
                 else {
                     window.location.href = returnUrl;
                 }
-                
+
             }
-            else {
+            else if (data == 0) {
                 $("#ModalErrorLogin").modal("show");
+            } else {
+                 MensajeError(data,false);
             }
         }
     });
     });
+
+   
 </script>
