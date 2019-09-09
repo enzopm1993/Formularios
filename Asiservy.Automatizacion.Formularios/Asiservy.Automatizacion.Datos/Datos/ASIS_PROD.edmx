@@ -26,7 +26,7 @@
           </Key>
           <Property Name="IdClasificador" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Grupo" Type="varchar" MaxLength="3" />
-          <Property Name="Codigo" Type="int" />
+          <Property Name="Codigo" Type="varchar" MaxLength="10" />
           <Property Name="Descripcion" Type="varchar" MaxLength="100" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
         </EntityType>
@@ -315,16 +315,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ASIS_PRODModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="CLASIFICADOR">
-          <Key>
-            <PropertyRef Name="IdClasificador" />
-          </Key>
-          <Property Name="IdClasificador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Grupo" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="Codigo" Type="Int32" />
-          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-        </EntityType>
         <EntityType Name="JUSTICA_SOLICITUD">
           <Key>
             <PropertyRef Name="IdJustificaSolicitud" />
@@ -498,7 +488,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ASIS_PRODEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CLASIFICADOR" EntityType="Self.CLASIFICADOR" />
           <EntitySet Name="JUSTICA_SOLICITUD" EntityType="Self.JUSTICA_SOLICITUD" />
           <EntitySet Name="NIVEL_APROBACION" EntityType="Self.NIVEL_APROBACION" />
           <EntitySet Name="NIVEL_USUARIO" EntityType="Self.NIVEL_USUARIO" />
@@ -565,8 +554,9 @@
             <End Role="OPCION_ROL" EntitySet="OPCION_ROL" />
           </AssociationSet>
           <FunctionImport Name="spConsultaOpcionesPorRol" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionesPorRol)">
-            <Parameter Name="IDROL" Mode="In" Type="Int32" />
+          <Parameter Name="IDROL" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="CLASIFICADOR" EntityType="ASIS_PRODModel.CLASIFICADOR" />
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -695,23 +685,22 @@
           <Property Type="Int32" Name="Padre" Nullable="true" />
           <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <EntityType Name="CLASIFICADOR">
+          <Key>
+            <PropertyRef Name="IdClasificador" />
+          </Key>
+          <Property Name="IdClasificador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Grupo" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ASIS_PRODModelStoreContainer" CdmEntityContainer="ASIS_PRODEntities">
-          <EntitySetMapping Name="CLASIFICADOR">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CLASIFICADOR">
-              <MappingFragment StoreEntitySet="CLASIFICADOR">
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="IdClasificador" ColumnName="IdClasificador" />
-                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="JUSTICA_SOLICITUD">
             <EntityTypeMapping TypeName="ASIS_PRODModel.JUSTICA_SOLICITUD">
               <MappingFragment StoreEntitySet="JUSTICA_SOLICITUD">
@@ -991,6 +980,17 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CLASIFICADOR">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CLASIFICADOR">
+              <MappingFragment StoreEntitySet="CLASIFICADOR">
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="IdClasificador" ColumnName="IdClasificador" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

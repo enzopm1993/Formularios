@@ -16,7 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdClasificador { get; set; }
         public string Grupo { get; set; }
-        public Nullable<int> Codigo { get; set; }
+        public string Codigo { get; set; }
         public string Descripcion { get; set; }
         public string EstadoRegistro { get; set; }
     }
