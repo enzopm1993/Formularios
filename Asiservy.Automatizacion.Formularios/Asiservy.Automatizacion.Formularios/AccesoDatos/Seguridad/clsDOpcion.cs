@@ -42,6 +42,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                     poOpcion.Clase = doOpcion.Clase;
                     poOpcion.Padre = doOpcion.Padre;
                     poOpcion.Url = doOpcion.Url;
+                    poOpcion.Orden = doOpcion.Orden;
                     poOpcion.EstadoRegistro = doOpcion.EstadoRegistro;
                     poOpcion.FechaModificacionLog = doOpcion.FechaCreacionLog;
                     poOpcion.UsuarioModificacionLog = doOpcion.UsuarioCreacionLog;

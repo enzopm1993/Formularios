@@ -1,4 +1,5 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
     {
         ASIS_PRODEntities entities = null;
         clsDEmpleado clsDEmpleado = null;
+        clsApiUsuario clsApiUsuario = null;
         public string CambioEstadoSolicitud(SOLICITUD_PERMISO doSolicitud)
         {
             string psMensaje = "No se pudo cambiar de estado a la solicitud";
@@ -212,7 +214,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso(string dsEstadoSolcitud, string dsIdUsuario)
         {
             entities = new ASIS_PRODEntities();
-
+            clsApiUsuario = new clsApiUsuario();
             List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
                                                                                                
             List<SOLICITUD_PERMISO> ListaPreliminar = new List<SOLICITUD_PERMISO>();
@@ -319,6 +321,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             {           
                 var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == x.CodigoMotivo);
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
+                var fechaBiometrico = clsApiUsuario.ConsultarFechaBiometrico(x.Identificacion);
                 ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
                 {
                     IdSolicitudPermiso = x.IdSolicitudPermiso,
@@ -336,7 +339,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     FechaSalida = x.FechaSalida,
                     FechaRegreso = x.FechaRegreso,
                     EstadoSolicitud = x.EstadoSolicitud,
-                    FechaBiometrico = x.FechaBiometrico,
+                    FechaBiometrico = fechaBiometrico,
                     Origen = x.Origen,
                     CodigoDiagnostico = x.CodigoDiagnostico,
                     FechaIngresoLog = x.FechaIngresoLog,

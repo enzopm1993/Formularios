@@ -347,7 +347,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             );
                     }
                     solicitudPermiso.EstadoSolicitud = clsAtributos.EstadoSolicitudPendiente;
-                    solicitudPermiso.FechaBiometrico = DateTime.Now;
+                    //solicitudPermiso.FechaBiometrico = DateTime.Now;
                     solicitudPermiso.Origen = clsAtributos.SolicitudOrigenGeneral;
                     solicitudPermiso.CodigoDiagnostico = "";
                     solicitudPermiso.CodigoClasificador = 0;

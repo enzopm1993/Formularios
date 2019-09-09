@@ -13,5 +13,6 @@ namespace Asiservy.Automatizacion.Formularios.Models.Seguridad
         public string UserName { get; set; }
         public string Mensaje { get; set; }
         public bool Estado { get; set; }
+        public DateTime? UltimaMarcacion { get; set; }
     }
 }

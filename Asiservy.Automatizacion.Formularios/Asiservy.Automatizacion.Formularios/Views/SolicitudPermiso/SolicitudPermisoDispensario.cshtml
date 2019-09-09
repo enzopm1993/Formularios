@@ -121,7 +121,7 @@
                     @foreach (var item in ViewBag.ClasificaroMedico)
                     {
                         string Descripcion = item.Descripcion;
-                        int codigo = item.Codigo;
+                        string codigo = item.Codigo;
                         string id = "CodigoClasificador";
                         <div class="custom-control custom-radio">
                             @Html.RadioButtonFor(model => model.CodigoClasificador, codigo, new { @class = "custom-control-input", @id = id + item.Codigo })
