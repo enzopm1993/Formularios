@@ -289,10 +289,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                var errors = ModelState
-                .Where(x => x.Value.Errors.Count > 0)
-                .Select(x => new { x.Key, x.Value.Errors })
-                .ToArray();
+                //var errors = ModelState
+                //.Where(x => x.Value.Errors.Count > 0)
+                //.Select(x => new { x.Key, x.Value.Errors })
+                //.ToArray();
 
                 string psMensajeValidarFecha = string.Empty;
                 psMensajeValidarFecha = ValidarFechas(model);

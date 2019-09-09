@@ -1,4 +1,5 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.Models.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,11 +62,31 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     var pListHijos = db.spConsultaOpcionesPorRol(item).Where(x => x.Clase == "H").ToList();
                     pListHijostotal.AddRange(pListHijos);
                 }
-            
-
+                List<ConsultaOpcionesxRolViewModel> pListPadresfilter = new List<ConsultaOpcionesxRolViewModel>();
+                List<ConsultaOpcionesxRolViewModel> pListHijosfilter = new List<ConsultaOpcionesxRolViewModel>();
+                pListHijosfilter = pListHijostotal.ConvertAll(x=> new ConsultaOpcionesxRolViewModel
+                {
+                    IdOpcion = x.IdOpcion,
+                    Clase = x.Clase,
+                    Formulario = x.Formulario,
+                    Nombre = x.Nombre,
+                    Padre = x.Padre,
+                    Url = x.Url
+                });
+                pListPadresfilter = pListPadrestotal.ConvertAll(x => new ConsultaOpcionesxRolViewModel
+                {
+                    Clase = x.Clase,
+                    Formulario = x.Formulario,
+                    IdOpcion = x.IdOpcion,
+                    Nombre = x.Nombre,
+                    Padre = x.Padre,
+                    Url = x.Url
+                });
                 object[] oresultado = new object[2];
-                oresultado[0] = pListPadrestotal;
-                oresultado[1] = pListHijostotal;
+                //oresultado[0] = pListPadrestotal;
+                //oresultado[1] = pListHijostotal;
+                oresultado[0] = pListPadresfilter.Distinct().ToList();
+                oresultado[1] = pListHijosfilter.Distinct().ToList();
 
                 return oresultado;
 

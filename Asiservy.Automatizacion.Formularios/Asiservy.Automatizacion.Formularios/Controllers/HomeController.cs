@@ -4,49 +4,26 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Datos.Datos;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class HomeController : Controller
     {
+        clsDError clsDError = null;
+        protected void SetSuccessMessage(string message)
+        {
+            TempData["MensajeConfirmacion"] = message;
+        }
+        protected void SetErrorMessage(string message)
+        {
+            TempData["MensajeError"] = message;
+        }
         // GET: Home
         [Authorize]
         public ActionResult Home()
         {
-            //using (Asiservy.Automatizacion.Datos.Datos.ASIS_PRODEntities db = new Asiservy.Automatizacion.Datos.Datos.ASIS_PRODEntities())
-            //{
-            //    List<string> pListPadrestotal=new List<string>();
-            //    List<string> pListHijostotal = new List<string>();
-            //    string[] liststring = User.Identity.Name.Split('_');
-            //    string psrolid = liststring[1];
-            //    var piRol = (from r in db.USUARIO_ROL
-            //                 where r.IdUsuario==psrolid
-            //                 select r.IdRol).ToList();
-            //    foreach (var item in piRol)
-            //    {
-            //        var pListPadres = (from r in db.OPCION_ROL
-            //                           join rn in db.OPCION on r.IdOpcion equals rn.IdOpcion
-            //                           where r.IdRol == item && rn.Clase == "P"
-            //                           select rn.Nombre).ToList();
-            //        pListPadrestotal.AddRange(pListPadres);
-            //    }
-
-
-            //    foreach (var item in piRol)
-            //    {
-            //        var pListHijos = (from r in db.OPCION_ROL
-            //                          join rn in db.OPCION on r.IdOpcion equals rn.IdOpcion
-            //                          where r.IdRol == item && rn.Clase == "H"
-            //                          select rn.Formulario).ToList();
-            //        pListHijostotal.AddRange(pListHijos);
-            //    }
-
-
-            //    Session["Padre"] = pListPadrestotal;
-            //    Session["Hijo"] = pListHijostotal;
-
-
-            //}
+            
             try
             {
                 string[] liststring = User.Identity.Name.Split('_');
@@ -59,7 +36,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
-                throw ex;
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Login", "Login");
             }
 
             return View();
