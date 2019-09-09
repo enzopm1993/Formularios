@@ -100,7 +100,8 @@ $("#selectSubGrupoEnfermedad").change(function () {
         },
         success: function (resultado) {
             if (!$.isEmptyObject(resultado)) {
-            $("#selectDiagnostico").empty();
+                $("#selectDiagnostico").empty();
+                $("#selectDiagnostico").append("<option value='' >Seleccione Diagnóstico</option>");
                 $.each(resultado, function (create, row) {
                 $("#selectDiagnostico").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
             });
@@ -136,7 +137,8 @@ function ConsultarGrupoEnfermedad(Codigo, Descripcion) {
         },
         success: function (resultado) {
             if (!$.isEmptyObject(resultado)) {
-            $("#selectSubGrupoEnfermedad").empty();
+                $("#selectSubGrupoEnfermedad").empty();
+                $("#selectSubGrupoEnfermedad").append("<option value='' >Seleccione Sub Grupo</option>");
                 $.each(resultado, function (create, row) {
                 $("#selectSubGrupoEnfermedad").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
             });
