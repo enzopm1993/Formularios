@@ -266,7 +266,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     string[] psIdUsuario = User.Identity.Name.Split('_');
                     clsDEmpleado = new clsDEmpleado();
-                    var Nombre = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]).FirstOrDefault().NOMBRES??"";
+                    var Nombre = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]).FirstOrDefault().NOMBRES ?? "";
+                    //var Nombre = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]);
+                    //string nombres = Nombre.Count > 0 ? Nombre.FirstOrDefault().NOMBRES : "";
                     ViewBag.NombreEmpleado = Nombre;
                 }
                 ConsultaCombosGeneral();
@@ -285,7 +287,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = "sistemas"
                 });
-                return View();
+                return RedirectToAction("Home","Home");
+                //return View();
             }
         }
         [Authorize]
