@@ -23,7 +23,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                                           IdRol = or.IdRol,
                                           NombreOpcion = o.Nombre,
                                           NombreRol = rol.Descripcion,
-                                          Estado = or.EstadoRegistro
+                                          Estado = or.EstadoRegistro,
+                                          Clase=o.Clase
                                       }
                       );
                 return ListaOpcionRol.ToList();

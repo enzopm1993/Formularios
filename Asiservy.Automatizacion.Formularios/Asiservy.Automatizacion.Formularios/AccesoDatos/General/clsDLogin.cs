@@ -71,7 +71,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     Formulario = x.Formulario,
                     Nombre = x.Nombre,
                     Padre = x.Padre,
-                    Url = x.Url
+                    Url = x.Url,
+                    Orden=x.Orden
                 });
                 pListPadresfilter = pListPadrestotal.ConvertAll(x => new ConsultaOpcionesxRolViewModel
                 {
@@ -80,13 +81,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     IdOpcion = x.IdOpcion,
                     Nombre = x.Nombre,
                     Padre = x.Padre,
-                    Url = x.Url
+                    Url = x.Url,
+                    Orden=x.Orden
                 });
                 object[] oresultado = new object[2];
                 //oresultado[0] = pListPadrestotal;
                 //oresultado[1] = pListHijostotal;
-                oresultado[0] = pListPadresfilter.Distinct().ToList();
-                oresultado[1] = pListHijosfilter.Distinct().ToList();
+                oresultado[0] = pListPadresfilter.Distinct().OrderBy(Z => Z.Orden).ToList();
+                oresultado[1] = pListHijosfilter.Distinct().OrderBy(Z => Z.Orden).ToList();
 
                 return oresultado;
 

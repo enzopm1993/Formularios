@@ -13,6 +13,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.Seguridad
         public string Clase { get; set; }
         public Nullable<int> Padre { get; set; }
         public string Url { get; set; }
+        public int? Orden { get; set; }
         #region IEquatable<Articulo> Members
 
         public bool Equals(ConsultaOpcionesxRolViewModel other)

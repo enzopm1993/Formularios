@@ -13,6 +13,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.Seguridad
         public int? IdOpcion { get; set; }
         public string NombreOpcion { get; set; }
         public string Estado { get; set; }
+        public string Clase { get; set; }
 
     }
 }
