@@ -19,5 +19,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Clase { get; set; }
         public Nullable<int> Padre { get; set; }
         public string Url { get; set; }
+        public Nullable<int> Orden { get; set; }
     }
 }
