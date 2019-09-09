@@ -32,6 +32,7 @@ function CambioEstado(valor) {
 function Nuevo() {
     $('#IdOpcion').val('0');
     $('#Nombre').val('');
+    $('#Orden').val('');
     $('#Formulario').val('');
     $('#Clase').prop('selectedIndex', 0);
     $('#Padre').prop('selectedIndex', 0);
@@ -43,10 +44,11 @@ function Nuevo() {
 
 }
 
-function CargarOpcion(id, nombre, formulario, clase, padre,url, estado) {
+function CargarOpcion(id, nombre, formulario, clase, padre,url,orden, estado) {
     //console.log(id, nombre, formulario, clase, padre, estado);
     $('#IdOpcion').val(id);
     $('#Nombre').val(nombre);
+    $('#Orden').val(orden);
     $('#Formulario').val(formulario);
     
     if (clase == 'P') {

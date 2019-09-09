@@ -49,5 +49,24 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return ListaUsuarios.Cedula;
 
         }
+
+
+        public DateTime? ConsultarFechaBiometrico(string Identificacion)
+        {
+            DateTime? pdfecha = null;
+            var client = new RestClient("http://192.168.0.31:8870");
+            var request = new RestRequest("/api/Marcaciones/"+ Identificacion, Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            dynamic Result = JsonConvert.DeserializeObject(content);
+            if (Result != null)
+            {
+                var Resultado = Result[0];
+                 pdfecha = (DateTime)Resultado.UltimaMarcacion;
+            }
+            return pdfecha;
+
+        }
+
     }
 }

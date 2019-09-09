@@ -39,18 +39,25 @@
                 @Html.ValidationMessageFor(model => model.Clase, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-2 col-sm-12" id="divPadre" >
+        <div class="col-md-2 col-sm-12" id="divPadre">
             <div class="form-group">
                 @Html.LabelFor(model => model.Padre, htmlAttributes: new { @class = "control-label col-md-2" })
                 @Html.DropDownListFor(model => model.Padre, new SelectList(ViewBag.opciones, "IdOpcion", "Nombre"), "Seleccione", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Padre, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-3 col-sm-12" id="divUrl" >
+        <div class="col-md-2 col-sm-12" id="divUrl">
             <div class="form-group">
                 @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.TextBoxFor(model => model.Url,  new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Url, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+            </div>
+        </div> 
+        <div class="col-md-1 col-sm-12" id="divUrl">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Orden, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(model => model.Orden, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Orden, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
