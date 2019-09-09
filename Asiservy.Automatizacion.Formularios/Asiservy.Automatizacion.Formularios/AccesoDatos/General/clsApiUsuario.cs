@@ -43,6 +43,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             request.AddParameter("clave", clave);
             IRestResponse response = client.Execute(request);
             dynamic content = response.Content;
+            if (string.IsNullOrEmpty(content))
+                throw new Exception("no se pudo establecer conexión con el servicio");
             Usuario ListaUsuarios = JsonConvert.DeserializeObject<Usuario>(content);
             //var Nombre = content.Objeto.Nombre;
 
