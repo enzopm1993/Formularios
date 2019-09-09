@@ -107,6 +107,7 @@
           <Property Name="Clase" Type="char" MaxLength="1" />
           <Property Name="Padre" Type="int" />
           <Property Name="Url" Type="varchar" MaxLength="100" />
+          <Property Name="Orden" Type="int" />
           <Property Name="FechaCreacionLog" Type="datetime" />
           <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
@@ -548,15 +549,15 @@
             <Parameter Name="Cargo" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="ERROR" EntityType="ASIS_PRODModel.ERROR" />
+          <FunctionImport Name="spConsultaOpcionesPorRol" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionesPorRol)">
+          <Parameter Name="IDROL" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="CLASIFICADOR" EntityType="ASIS_PRODModel.CLASIFICADOR" />
           <EntitySet Name="OPCION" EntityType="ASIS_PRODModel.OPCION" />
           <AssociationSet Name="FK_OPCION_ROL_OPCION" Association="ASIS_PRODModel.FK_OPCION_ROL_OPCION">
             <End Role="OPCION" EntitySet="OPCION" />
             <End Role="OPCION_ROL" EntitySet="OPCION_ROL" />
           </AssociationSet>
-          <FunctionImport Name="spConsultaOpcionesPorRol" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionesPorRol)">
-          <Parameter Name="IDROL" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <EntitySet Name="CLASIFICADOR" EntityType="ASIS_PRODModel.CLASIFICADOR" />
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -646,6 +647,24 @@
           <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
           <Property Name="TerminalIngreso" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="spConsultaOpcionesPorRol">
+          <Property Type="Int32" Name="IdOpcion" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Formulario" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Clase" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="Padre" Nullable="true" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <EntityType Name="CLASIFICADOR">
+          <Key>
+            <PropertyRef Name="IdClasificador" />
+          </Key>
+          <Property Name="IdClasificador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Grupo" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
         <EntityType Name="OPCION">
           <Key>
             <PropertyRef Name="IdOpcion" />
@@ -656,6 +675,7 @@
           <Property Name="Clase" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="Padre" Type="Int32" />
           <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Orden" Type="Int32" />
           <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -677,24 +697,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="spConsultaOpcionesPorRol">
-          <Property Type="Int32" Name="IdOpcion" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Formulario" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Clase" Nullable="true" MaxLength="1" />
-          <Property Type="Int32" Name="Padre" Nullable="true" />
-          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
-        </ComplexType>
-        <EntityType Name="CLASIFICADOR">
-          <Key>
-            <PropertyRef Name="IdClasificador" />
-          </Key>
-          <Property Name="IdClasificador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Grupo" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="Codigo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -949,25 +951,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OPCION">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.OPCION">
-              <MappingFragment StoreEntitySet="OPCION">
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
-                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
-                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Padre" ColumnName="Padre" />
-                <ScalarProperty Name="Clase" ColumnName="Clase" />
-                <ScalarProperty Name="Formulario" ColumnName="Formulario" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spConsultaOpcionesPorRol" FunctionName="ASIS_PRODModel.Store.spConsultaOpcionesPorRol">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaOpcionesPorRol">
@@ -988,6 +971,26 @@
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
                 <ScalarProperty Name="Grupo" ColumnName="Grupo" />
                 <ScalarProperty Name="IdClasificador" ColumnName="IdClasificador" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OPCION">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.OPCION">
+              <MappingFragment StoreEntitySet="OPCION">
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Padre" ColumnName="Padre" />
+                <ScalarProperty Name="Clase" ColumnName="Clase" />
+                <ScalarProperty Name="Formulario" ColumnName="Formulario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

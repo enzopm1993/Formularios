@@ -26,6 +26,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Clase { get; set; }
         public Nullable<int> Padre { get; set; }
         public string Url { get; set; }
+        public Nullable<int> Orden { get; set; }
         public Nullable<System.DateTime> FechaCreacionLog { get; set; }
         public string UsuarioCreacionLog { get; set; }
         public string TerminalCreacionLog { get; set; }
