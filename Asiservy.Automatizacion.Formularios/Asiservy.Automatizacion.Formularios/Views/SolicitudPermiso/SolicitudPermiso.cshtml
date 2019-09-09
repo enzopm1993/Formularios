@@ -65,12 +65,14 @@
                                 <button type="button" onclick="CargarEmpleados('CargarEmpleadoPG');" id="CargarEmpleadoPG">
                                     <img src="~/Content/images/buscar.png" />
                                 </button><br />
-                                @Html.ValidationMessageFor(m => m.NombreEmpleado, "", new { @class = "input-validation-error text-danger has-error" })
+                                @Html.ValidationMessageFor(m => m.Identificacion, "", new { @class = "input-validation-error text-danger has-error" })
                             }
                             else
                             {
-                                @Html.HiddenFor(m => m.Identificacion)
-                                <input type="text" readonly value="" class="form-control"/>   
+                                @Html.TextBox("Identificacion", ViewData["Identificacion"], new { @hidden = "hidden" })
+                                <input type="text" readonly value="@ViewBag.NombreEmpleado" class="form-control" />
+                                @Html.ValidationMessageFor(m => m.Identificacion, "", new { @class = "input-validation-error text-danger has-error" })
+
                             }
                         </div>
                        

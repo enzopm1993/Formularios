@@ -31,7 +31,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 List<SolicitudPermisoViewModel> ListaSolicitud;
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                clsDGeneral = new clsDGeneral();
+
                 string[] psIdUsuario = User.Identity.Name.Split('_');
+                ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(psIdUsuario[1]);
                 ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente, psIdUsuario[1]);
                 return View(ListaSolicitud);
             }
@@ -259,16 +262,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {   
-                int piSupervisor = ValidarRolSupervisor();                 
-                if(piSupervisor>0)
-                    ViewBag.Supervisor = piSupervisor;
-                else
-                {
-                    string[] psIdUsuario = User.Identity.Name.Split('_');
-                    clsDEmpleado = new clsDEmpleado();
-                    var Nombre = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]).FirstOrDefault().NOMBRES??"";
-                    ViewBag.NombreEmpleado = Nombre;
-                }
+                
+                ValidacionSupervisor();
                 ConsultaCombosGeneral();
                 return View();
             }
@@ -285,7 +280,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = "sistemas"
                 });
-                return View();
+                return RedirectToAction("Home","Home");
             }
         }
         [Authorize]
@@ -294,10 +289,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                //var errors = ModelState
-                //.Where(x => x.Value.Errors.Count > 0)
-                //.Select(x => new { x.Key, x.Value.Errors })
-                //.ToArray();
+                var errors = ModelState
+                .Where(x => x.Value.Errors.Count > 0)
+                .Select(x => new { x.Key, x.Value.Errors })
+                .ToArray();
 
                 string psMensajeValidarFecha = string.Empty;
                 psMensajeValidarFecha = ValidarFechas(model);
@@ -307,6 +302,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     if (piSupervisor > 0)
                         ViewBag.Supervisor = piSupervisor;
                     ConsultaCombosGeneral();
+                    ValidacionSupervisor();
                     ModelState.AddModelError("CustomError", psMensajeValidarFecha);
                     return View(model);
                 }         
@@ -368,6 +364,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 else
                 {
+                    ValidacionSupervisor();
                     ConsultaCombosGeneral();
                     return View(model);
                 }
@@ -388,6 +385,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     UsuarioIngreso = "sistemas"
                 });
                 return RedirectToAction("SolicitudPermiso");
+            }
+        }
+
+
+        public void ValidacionSupervisor()
+        {
+            int piSupervisor = ValidarRolSupervisor();
+            string[] psIdUsuario = User.Identity.Name.Split('_');
+            clsDEmpleado = new clsDEmpleado();
+            var Nombre = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]).FirstOrDefault();
+            string Cedula = psIdUsuario[1] + "";
+            if (piSupervisor > 0)
+                ViewBag.Supervisor = piSupervisor;
+            else
+            {
+                ViewBag.NombreEmpleado = Nombre != null ? Nombre.NOMBRES : psIdUsuario[1];
+                ViewData["Identificacion"] = Cedula;
             }
         }
 

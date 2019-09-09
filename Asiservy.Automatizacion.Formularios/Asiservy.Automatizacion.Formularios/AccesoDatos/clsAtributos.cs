@@ -35,5 +35,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //Roles de usuario
         public static int RolSupervisro = 5;
 
+        //Codigos de Lineas
+        public static string CodLineaProduccion = "07";
+
+        //Clasificador de Lineas
+        public static string CodGrupoLineaProduccion = "002";
     }
 }

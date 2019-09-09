@@ -18,17 +18,15 @@
 
             <div class="col-md-4 col-sm-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.IdNivelUsuario, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.IdNivelUsuario, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.IdNivelUsuario, "", new { @class = "text-danger" })
+                    @Html.Label("Id", htmlAttributes: new { @class = "control-label col-md-2"})
+                    @Html.TextBox("IdNivelUsuario","0", new { @class = "form-control", @readonly = "readonly",@value="0"  })
                 </div>
             </div>
 
             <div class="col-md-4 col-sm-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.IdUsuario, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.HiddenFor(model => model.IdUsuario, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.IdUsuario, new SelectList(ViewBag.Usuarios,"Cedula","Nombre"),"Seleccione", new {  @class = "form-control"  })
                     @Html.ValidationMessageFor(model => model.IdUsuario, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -36,7 +34,7 @@
             <div class="col-md-4 col-sm-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Nivel, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Nivel, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DropDownListFor(model => model.Nivel, new SelectList(ViewBag.Nivel,"codigo","descripcion"), "Seleccione", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Nivel, "", new { @class = "text-danger" })
                 </div>
             </div>

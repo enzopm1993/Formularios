@@ -171,7 +171,26 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult Rol()
         {
-            return View();
+            try {
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Home", "Home");
+            }
+            
         }
         [Authorize]
         public ActionResult ConsultaRoles()
@@ -455,6 +474,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ConsultarComboNivelUsuario();
                 return View();
             }
             catch (Exception ex) {
@@ -487,9 +507,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     model.EstadoRegistro = model.EstadoRegistro == "true" ? "A" : "I";
                     NIVEL_USUARIO NivelUsuario = new NIVEL_USUARIO
                     {
-                        IdNivelUsuario= model.IdNivelUsuario,
+                        IdNivelUsuario= model.IdNivelUsuario??0,
                         IdUsuario = model.IdUsuario,
                         Nivel = model.Nivel,
+                        EstadoRegistro=model.EstadoRegistro,
                         FechaIngresoLog = DateTime.Now,
                         UsuarioIngresoLog = Usuario[0],
                         TerminalIngresoLog = Request.UserHostAddress
@@ -498,11 +519,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                    
                     string respuesta = clsDNivelUsuario.GuardarModificarNivelUsuario(NivelUsuario);
                     SetSuccessMessage(respuesta);
+                    ConsultarComboNivelUsuario();
                     return View();
                 }
                 else
                 {
-                    ConsultaCombos();
+                    ConsultarComboNivelUsuario();
                     return View(model);
                 }
             }
@@ -530,7 +552,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 clsDNivelUsuario = new clsDNivelUsuario();
                 var Lista = clsDNivelUsuario.ConsultarNivelUsuario(null);
-                return PartialView();
+                return PartialView(Lista);
             }
             catch (Exception ex)
             {
@@ -548,6 +570,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public void ConsultarComboNivelUsuario()
+        {
+            clsApiUsuario = new clsApiUsuario();
+            ViewBag.Usuarios = clsApiUsuario.ConsultaUsuariosSap();
+            List<Clasificador> ClasificadorNivel = new List<Clasificador>();
+            ClasificadorNivel.Add(new Clasificador { codigo = 0, descripcion = "Gerencia" });
+            ClasificadorNivel.Add(new Clasificador { codigo = 1, descripcion = "Sub-Gerencia" });
+            ClasificadorNivel.Add(new Clasificador { codigo = 2, descripcion = "Jefe Departamento" });
+            ClasificadorNivel.Add(new Clasificador { codigo = 3, descripcion = "Empleado" });
+            ViewBag.Nivel = ClasificadorNivel;
+        }
+
         #endregion
 
     }

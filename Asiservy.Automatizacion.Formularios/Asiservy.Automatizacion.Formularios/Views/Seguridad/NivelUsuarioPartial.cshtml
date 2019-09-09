@@ -1,6 +1,7 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Seguridad.NivelUsuarioViewModel>
+﻿
+@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Seguridad.NivelUsuarioViewModel>
 
-<table class="table" id="TableNivelUsuarioPartial">
+<table class="table" style="cursor: pointer" id="TableNivelUsuarioPartial">
     <thead>
         <tr>
             <th>
@@ -16,15 +17,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.EstadoRegistro)
             </th>
-            <th></th>
+          
         </tr>
     </thead>
     <tbody>
-        @if (Model != null)
+        @if (Model != null && Model.Any())
         {
-            @foreach (var item in Model)
+            foreach (var item in Model)
             {
-                <tr onclick="CargarNivelUsuario('@item.IdNivelUsuario', '@item.IdUsuario', '@item.Nivel', '@item.EstadoRegistro')">
+                <tr onclick="SeleccionNivelUsuario('@item.IdNivelUsuario', '@item.IdUsuario', '@item.Nivel', '@item.EstadoRegistro')">
+
                     <td>
                         @Html.DisplayFor(modelItem => item.IdNivelUsuario)
                     </td>
@@ -43,7 +45,7 @@
             }
         }
     </tbody>
-    </table>
+</table>
 
 
 

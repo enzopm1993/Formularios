@@ -47,5 +47,24 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
 
+        public String ConsultarLineaUsuario(string Identificacion)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                string Linea = string.Empty;
+                var Empleado =  entities.spConsutaEmpleados(Identificacion).FirstOrDefault();
+                if (Empleado != null)
+                {
+                    var poLinea= entities.spConsultaLinea(Empleado.CODIGOLINEA).FirstOrDefault();
+                    if (poLinea != null)
+                    {
+                        Linea = poLinea.Descripcion ?? "";
+                    }
+                }
+
+                return Linea;
+            }
+        }
+
     }
 }

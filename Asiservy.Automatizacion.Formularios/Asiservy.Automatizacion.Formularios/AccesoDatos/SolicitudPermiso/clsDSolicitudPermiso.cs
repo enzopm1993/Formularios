@@ -11,6 +11,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
     public class clsDSolicitudPermiso
     {
         ASIS_PRODEntities entities = null;
+        clsDEmpleado clsDEmpleado = null;
         public string CambioEstadoSolicitud(SOLICITUD_PERMISO doSolicitud)
         {
             string psMensaje = "No se pudo cambiar de estado a la solicitud";
@@ -214,37 +215,107 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
             List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
                                                                                                
-            List<SOLICITUD_PERMISO> Lista = new List<SOLICITUD_PERMISO>();
+            List<SOLICITUD_PERMISO> ListaPreliminar = new List<SOLICITUD_PERMISO>();
+            //Validacion de estados
             if (dsEstadoSolcitud == clsAtributos.EstadoSolicitudTodos)
             {
-                Lista = entities.SOLICITUD_PERMISO.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
             else if(dsEstadoSolcitud==clsAtributos.EstadoSolicitudPendiente)
             {
+                //SI NO VIENE LA CEDULA ENVIAMOS TODOS
                 if (string.IsNullOrEmpty(dsIdUsuario))
                 {
-                    Lista = entities.SOLICITUD_PERMISO.Where(x =>
+                    ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x =>
                     x.EstadoSolicitud == dsEstadoSolcitud &&
                     x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 }
-                else { 
-                    var nivelesUser = entities.NIVEL_USUARIO.FirstOrDefault(x => x.IdUsuario == dsIdUsuario);
-                    if (nivelesUser != null)
+                else {
+                    //CONSULTAMOS LOS NIVELES DE USUARIOS ASIGNADOS PARA ESE USUARIO
+                    var NivelUsuario = entities.NIVEL_USUARIO.FirstOrDefault(x => x.IdUsuario == dsIdUsuario);
+                    clsDEmpleado = new clsDEmpleado();
+                    //CONSULTAMOS LA LINEA A LA QUE PERTENECE EL USUARIO
+                    var Linea = clsDEmpleado.ConsultaEmpleado(dsIdUsuario).FirstOrDefault();
+                    if (Linea != null)
                     {
-                        var nivelesAprobacion = entities.NIVEL_APROBACION.Where(x => x.NivelBase == nivelesUser.Nivel).Select(x => x.NivelAprobar).ToList();
-                        Lista = entities.SOLICITUD_PERMISO.Where(x => 
-                        x.EstadoSolicitud == dsEstadoSolcitud && 
-                        x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
-                        nivelesAprobacion.Contains(x.Nivel)).ToList();
+                        List<string> ListaLineas = new List<string>();
+                        ListaLineas.Add(Linea.CODIGOLINEA);
+                        //SI LA LINEA ES DE PRODUCCION VAMOS A CONSULTAR EL CLASIFICADOR DE TODAS LAS LINEAS QUE LE PERTENECEN A ESTE.
+                        if (Linea.CODIGOLINEA == clsAtributos.CodLineaProduccion)
+                        {
+                            var LineasPertenece = (entities.CLASIFICADOR.Where(x=> 
+                            x.Grupo == clsAtributos.CodGrupoLineaProduccion
+                            && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                            )).ToList();
+                            if(LineasPertenece != null)
+                            {
+                                foreach (var x in LineasPertenece)
+                                    ListaLineas.Add(x.Codigo+"");
+                            }
+                        }
+                        if(NivelUsuario != null) {
+                            var nivelesAprobacion = entities.NIVEL_APROBACION.Where(x =>
+                              x.NivelBase == NivelUsuario.Nivel).Select(x => x.NivelAprobar).ToList();
+
+                            //VALIDAMOS QUE SEAN JEFES O EMPLEADOS
+                            if (NivelUsuario.Nivel != clsAtributos.NivelGerencia && NivelUsuario.Nivel != clsAtributos.NivelJefatura)
+                            {
+                               
+                                ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x =>
+                                x.EstadoSolicitud == dsEstadoSolcitud &&
+                                x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
+                                nivelesAprobacion.Contains(x.Nivel)
+                                && ListaLineas.Contains(x.CodigoLinea)).ToList();
+                            }
+                            //VALIDAMOS QUE SEA GERENCIA
+                            else if (NivelUsuario.Nivel != clsAtributos.NivelJefatura)
+                            {
+
+                                ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x =>
+                                x.EstadoSolicitud == dsEstadoSolcitud &&
+                                x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
+                                nivelesAprobacion.Contains(x.Nivel)).ToList();
+                            }
+                            //VALIDAMOS QUE SEA SUBGERENCIA
+                            else
+                            {        
+                                //NIVEL DE JEFATURA- VALIDAMOS LOS QUE SON SOLO SUS EMPLEADOS 
+                                foreach(var n in nivelesAprobacion)
+                                {
+                                    List<SOLICITUD_PERMISO> Sol = null;
+                                    if (n.Value == clsAtributos.NivelEmpleado)
+                                    {
+                                        Sol = entities.SOLICITUD_PERMISO.Where(x =>
+                                         x.EstadoSolicitud == dsEstadoSolcitud &&
+                                         x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
+                                         //nivelesAprobacion.Contains(x.Nivel) &&
+                                         ListaLineas.Contains(x.CodigoLinea) && x.Nivel == clsAtributos.NivelEmpleado
+                                         ).ToList();
+                                    }
+                                    else
+                                    {
+                                        Sol = entities.SOLICITUD_PERMISO.Where(x =>
+                                         x.EstadoSolicitud == dsEstadoSolcitud &&
+                                         x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
+                                         //nivelesAprobacion.Contains(x.Nivel) &&
+                                         x.Nivel == n.Value
+                                         ).ToList();
+                                    }
+                                    if(Sol!=null)
+                                        ListaPreliminar.AddRange(Sol);
+                                }
+                                
+                            }
+                        }
                     }
                 }
             }
             else
             {
-                Lista = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstadoSolcitud && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstadoSolcitud && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
 
-            foreach (var x in Lista)
+            foreach (var x in ListaPreliminar)
             {           
                 var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == x.CodigoMotivo);
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
@@ -349,7 +420,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         }
         public int ConsultarNivelUsuario(string dsUsuario)
         {
-            int piNivel = 0;
+            int piNivel = clsAtributos.NivelEmpleado;
             entities = new ASIS_PRODEntities();
             var poNivelUsuario= entities.NIVEL_USUARIO.FirstOrDefault(x => x.IdUsuario == dsUsuario);
             if(poNivelUsuario!=null)

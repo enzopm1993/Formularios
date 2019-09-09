@@ -20,8 +20,8 @@ function Nuevo() {
 
 }
 
-function CargarNivelUsuario(id, usuario, nivel, estado) {
-    //console.log(id, nombre, formulario, clase, padre, estado);
+function SeleccionNivelUsuario(id, usuario, nivel, estado) {
+    console.log(id, usuario, nivel, estado);
     $('#IdNivelUsuario').val(id);
     $('#IdUsuario').val(usuario);
     $('#Nivel').val(nivel);
@@ -44,9 +44,9 @@ function CargarNivelUsuario() {
         url: "../Seguridad/NivelUsuarioPartial",
         type: "GET",
         success: function (resultado) {
+           
             var bitacora = $('#DivTableNivelUsuario');
             bitacora.html(resultado);
-
         },
         error: function (resultado) {
             MensajeError(resultado, false);

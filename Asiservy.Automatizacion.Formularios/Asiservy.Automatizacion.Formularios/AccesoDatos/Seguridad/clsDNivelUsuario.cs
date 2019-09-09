@@ -39,10 +39,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poNivelUsuario = entities.NIVEL_USUARIO.FirstOrDefault(x => x.IdNivelUsuario == doNivelUsuario.IdNivelUsuario);
+                var poNivelUsuario = entities.NIVEL_USUARIO.FirstOrDefault(x => 
+                x.IdNivelUsuario == doNivelUsuario.IdNivelUsuario
+                || x.IdUsuario ==doNivelUsuario.IdUsuario);
+                
                 if (poNivelUsuario != null)
                 {
                     poNivelUsuario.Nivel = doNivelUsuario.Nivel;
+                    poNivelUsuario.EstadoRegistro = doNivelUsuario.EstadoRegistro;
                     poNivelUsuario.FechaModificacionLog = doNivelUsuario.FechaModificacionLog;
                     poNivelUsuario.TerminalModificacionLog = doNivelUsuario.TerminalModificacionLog;
                     poNivelUsuario.UsuarioModificacionLog = doNivelUsuario.UsuarioModificacionLog;

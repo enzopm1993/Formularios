@@ -12,7 +12,7 @@ namespace Asiservy.Automatizacion.Formularios.Models
     { 
         [DisplayName("Solicitud")]
         public int IdSolicitudPermiso { get; set; }
-        [Required(ErrorMessage ="Campo Requerido")]
+     
         public string CodigoLinea { get; set; }
 
         [DisplayName("Linea")]
@@ -33,7 +33,7 @@ namespace Asiservy.Automatizacion.Formularios.Models
         [DisplayName("Identificación")]
         [Required(ErrorMessage ="Campo Requerido")]
         public string Identificacion { get; set; }
-        [Required(ErrorMessage = "Campo Requerido")]
+      
         public string NombreEmpleado { get; set; }
 
         /// [Required(ErrorMessage ="Campo Requerido")]
