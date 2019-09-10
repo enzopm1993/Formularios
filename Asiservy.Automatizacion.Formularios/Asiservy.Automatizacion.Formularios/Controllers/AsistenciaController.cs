@@ -3,12 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class AsistenciaController : Controller
     {
+
+        clsDGeneral clsDGeneral = null;
+
+        #region Métodos
+        public void ConsultaCombosGeneral()
+        {
+            clsDGeneral = new clsDGeneral();
+            ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+            //ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
+            //ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
+        }
+        #endregion
+
         // GET: Asistencia
         [Authorize]
         public ActionResult Asistencia()
@@ -28,15 +43,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return View();
         }
 
+        #region Cambio_PersonaldeÁrea
         [Authorize]
         public ActionResult CambiarPersonalDeArea()
         {
-            string ip = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            if (string.IsNullOrEmpty(ip))
+            try
             {
-                ip = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                ConsultaCombosGeneral();
             }
-            ViewBag.Ip = ip.ToString();
+            catch (Exception)
+            {
+
+                throw;
+            }
             return View();
         }
 
@@ -45,6 +64,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
+        #endregion
 
 
         [Authorize]
