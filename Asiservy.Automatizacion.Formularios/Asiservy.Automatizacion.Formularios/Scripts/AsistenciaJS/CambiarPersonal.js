@@ -1,4 +1,5 @@
-﻿function ConsultarEmpleados() {
+﻿
+function ConsultarEmpleados() {
     ConsultarEmpleado = "ConsultarEmpleado";
     $.ajax({
         type: "GET",
@@ -92,3 +93,4 @@ $('#optcambiaremp').change(function () {
         $('#divregresar').hide();
     }
 });
+

@@ -1,4 +1,4 @@
-﻿@model  List<Asiservy.Automatizacion.Formularios.Models.Empleado>
+﻿@model  Asiservy.Automatizacion.Formularios.Models.Asistencia.CambioDePersonalViewModel
 @{
     ViewBag.Title = "CambiarPersonalDeArea";
 }
@@ -10,10 +10,8 @@
 
 <link href="~/Content/AsistenciaCss/CambiarPersonal.css" rel="stylesheet" />
 
-@{WebGrid webGrid = new WebGrid(source: Model, canSort: false, rowsPerPage: 5);
 
-}
-@ViewBag.Ip
+
 <br />
 <div class="container" style="padding-bottom:100px">
     <div class="row">
@@ -30,15 +28,9 @@
 
 
                 <div class="form-group col-sm-12 col-md-6">
-                    <label>Departamento nómina:</label>
-
-                    <select class="form-control" id="">
-                        <option selected>Seleccione..</option>
-                        <option value="Producción">Producción</option>
-                        <option value="Dispensario">Dispensario Medico</option>
-                        <option value="RRHH">RRHH</option>
-                        <option value="Otros">Otros</option>
-                    </select>
+                    @*@Html.Label("Línea Nómina:")
+                    @Html.DropDownListFor(m => m.CodLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLinea(this.value)", @class = "form-control", @id = "selectLinea" })*@
+                  
                 </div>
                 <div class="form-group col-sm-12 col-md-6">
                     <label>Área nómina:</label>
@@ -156,58 +148,48 @@
         <div class="col-md-6 col-sm-12">
             <fieldset class="form-group" style="height:100%">
                 <legend>Origen</legend>
-                <table>
-                    <tr>
-                        <td>Departamento:</td>
-                        <td>
-                            <select class="browser-default custom-select" id="">
-                                <option selected>Seleccione..</option>
-                                <option value="Producción">Producción</option>
-                                <option value="Dispensario">Dispensario Medico</option>
-                                <option value="RRHH">RRHH</option>
-                                <option value="Otros">Otros</option>
-                            </select>
-                        </td>
-                    </tr>
+                <center>
+                    <table>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Línea:")
+                                @Html.DropDownList("SelectLineaOrigen", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLineaOrigen(this.value)", @class = "form-control"})
 
-                    <tr>
-                        <td>Área:</td>
-                        <td>
-                            <select class="browser-default custom-select" id="comboareaop">
-                                <option selected>Seleccione..</option>
-                                <option value="procesos">Procesos</option>
-                                <option value="pouch">Pouch</option>
-                                <option value="lata">Lata</option>
-                                <option value="lomo">Lomo</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr id="trlineaop">
-                        <td>Línea:</td>
-                        <td>
-                            <select class="browser-default custom-select">
-                                <option selected>Seleccione..</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Cargo:</td>
-                        <td>
-                            <select class="browser-default custom-select">
-                                <option selected>Seleccione..</option>
-                                <option>Limpiador</option>
-                                <option>despellejador</option>
-                                <option>Miga</option>
-                                <option>Cacho</option>
-                            </select>
-                        </td>
-                    </tr>
-                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Área:")
+                                @Html.DropDownList("SelectAreaOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioAreaOrigen(this.value)", @class = "form-control"})
+
+                            </td>
+                        </tr>
+                        @*<tr id="trlineaop">
+                <td>Línea:</td>
+                <td>
+                    <select class="browser-default custom-select">
+                        <option selected>Seleccione..</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </td>
+            </tr>*@
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Cargo")
+                                @Html.DropDownList("SelectCargoOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control"})
+
+                            </td>
+                        </tr>
+                    </table>
+                </center>
                 <br />
                 <center> <input type="button" id="ConsultarEmpleados" value="Consultar" class="btn btn-primary" onclick="ConsultarEmpleados();" /></center>
             </fieldset>
@@ -216,66 +198,60 @@
         <div class="col-md-6 col-sm-12">
             <fieldset class="form-group" style="height:100%">
                 <legend>Mover a</legend>
-                <table>
-                    <tr>
-                        <td>Departamento:</td>
-                        <td>
-                            <select class="browser-default custom-select" id="comboareao">
-                                <option selected>Seleccione..</option>
-                                <option value="Producción">Producción</option>
-                                <option value="Dispensario">Dispensario Medico</option>
-                                <option value="RRHH">RRHH</option>
-                                <option value="Otros">Otros</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Área:</td>
-                        <td>
-                            <select class="browser-default custom-select" id="comboarea">
-                                <option selected>Seleccione..</option>
-                                <option value="procesos">Procesos</option>
-                                <option value="pouch">Pouch</option>
-                                <option value="lata">Lata</option>
-                                <option value="lomo">Lomo</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr id="trlinea">
-                        <td>Línea:</td>
-                        <td>
-                            <select class="browser-default custom-select">
-                                <option selected>Seleccione..</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                        </td>
-                    </tr>
-                    @*<tr>
-                        <td>Cargo:</td>
-                        <td>
-                            <select class="browser-default custom-select">
-                                <option selected>Seleccione..</option>
-                                <option>Limpiador</option>
-                                <option>despellejador</option>
-                                <option>Miga</option>
-                                <option>Cacho</option>
-                            </select>
-                        </td>
-                    </tr>*@
-                    <tr>
-                        <td colspan="2"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"></td>
-                    </tr>
-                </table>
+                <center>
+                    <table>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Línea:")
+                                @Html.DropDownListFor(m => m.Linea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLinea(this.value)", @class = "form-control", @id = "selectLinea" })
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Área:")
+                                @Html.DropDownListFor(m => m.Area, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
+
+                            </td>
+                        </tr>
+                        @*<tr id="trlinea">
+                <td>Línea:</td>
+                <td>
+                    <select class="browser-default custom-select">
+                        <option selected>Seleccione..</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </td>
+            </tr>*@
+                        @*<tr>
+                <td>Cargo:</td>
+                <td>
+                    <select class="browser-default custom-select">
+                        <option selected>Seleccione..</option>
+                        <option>Limpiador</option>
+                        <option>despellejador</option>
+                        <option>Miga</option>
+                        <option>Cacho</option>
+                    </select>
+                </td>
+            </tr>*@
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                    </table>
+                </center>
                 <br /><br />
             </fieldset>
         </div>
@@ -293,3 +269,4 @@
 
 </div>
 <script src="~/Scripts/AsistenciaJS/CambiarPersonal.js"></script>
+<script src="~/Scripts/General/CargarCombosLineas.js"></script>
