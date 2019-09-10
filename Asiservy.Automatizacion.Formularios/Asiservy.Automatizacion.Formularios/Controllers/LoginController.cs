@@ -52,6 +52,7 @@ namespace ProyectoWeb.Controllers
         {
             try
             {
+                
                 clsApiUsuario poUsuario = new clsApiUsuario();
                 string psCodigoUsuario = poUsuario.ConsultaUsuarioEspecificoSap(usuario, password);
                 //clsDLogin clsDLogin = new clsDLogin();
