@@ -547,7 +547,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDGeneral = new clsDGeneral();
                 ViewBag.Lineas = clsDGeneral.ConsultaLineas();
                 ViewBag.Estados = clsDGeneral.ConsultarEstadosSolicitudSelect();
-
+                int RolGarita = ValidarRolGarita();
+                if (RolGarita > 0)
+                    ViewBag.Garita = RolGarita;
                 return View();
             }
             catch(Exception ex)
@@ -684,9 +686,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             int piSupervisor=0;
             if (roles.Any())
             {
-                piSupervisor = roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisro) ?? 0;
+                piSupervisor = roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisor) ?? 0;
             }
             return piSupervisor;
+        }
+        public int ValidarRolGarita()
+        {
+            clsDLogin = new clsDLogin();
+            string[] psIdUsuario = User.Identity.Name.Split('_');
+            List<int?> roles = clsDLogin.ConsultaRolesUsuario(psIdUsuario[1]);
+            int piGarita = 0;
+            if (roles.Any())
+            {
+                piGarita = roles.FirstOrDefault(x => x.Value == clsAtributos.RolGarita) ?? 0;
+            }
+            return piGarita;
         }
 
         public void ConsultaCombosGeneral()
