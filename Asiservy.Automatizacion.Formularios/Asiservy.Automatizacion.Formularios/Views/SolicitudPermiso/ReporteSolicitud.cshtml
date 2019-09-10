@@ -10,18 +10,25 @@
 
 
 <div class="container-fluid" style="padding-bottom:100px">
-    <h4>Reporte de Solicitudes</h4>
-
+    <br /> @if (ViewBag.Garita != null)
+    {
+        <h4>Garita Control de Salida</h4>
+    }
+    else
+    {
+        <h4>Reporte de Solicitudes</h4>
+    }
+        <hr />
     <div class="row">
         <div class="form-group col-md-3 col-sm-12">
             <label>Linea</label>
-            @Html.DropDownList("IdLinea",new SelectList (ViewBag.Lineas, "Codigo","Descripcion"),"Seleccione",new { @class="form-control",@onchange= "CambioLinea(this.value)",@id= "selectLinea" })
+            @Html.DropDownList("IdLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @onchange = "CambioLinea(this.value)", @id = "selectLinea" })
         </div>
         <div class="form-group col-md-3 col-sm-12">
             <label>Area</label>
-            <select class="form-control" id = "selectArea">
+            <select class="form-control" id="selectArea">
                 <option value="">-- Seleccionar Opción--</option>
-               
+
             </select>
             <br />
         </div>
@@ -29,8 +36,9 @@
             <label>Estado</label>
             @if (ViewBag.Garita != null)
             {
-                @Html.DropDownList("IdEstado", new SelectList(ViewBag.Estados, "Codigo", "Descripcion","002"), new { @class = "form-control", @id = "selectEstado",hidden="hidden" })
-            <input type="text" name="name" class="form-control" value="Aprobado" disabled/>
+                <input type="hidden" name="name" value="true" id="Garita" />
+                @Html.DropDownList("IdEstado", new SelectList(ViewBag.Estados, "Codigo", "Descripcion", "002"), new { @class = "form-control", @id = "selectEstado", hidden = "hidden" })
+                <input type="text" name="name" class="form-control" value="Aprobado" disabled />
             }
             else
             {
@@ -46,7 +54,7 @@
 
     <div id="RptSolicitudes">
 
-    </div>  
+    </div>
 
 </div>
 

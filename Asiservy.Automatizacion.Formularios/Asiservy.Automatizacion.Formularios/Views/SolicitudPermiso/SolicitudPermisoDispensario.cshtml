@@ -73,49 +73,42 @@
                     </div>
 
                     <div class="col-md-4 col-sm-12">
-
                         <div>
                             @Html.LabelFor(m => m.DescripcionMotivo, new { @class = "" })
                             @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "Descripcion"), "Seleccione el Motivo", new { @class = "form-control", @id = "selectMotivo" })
                             @Html.ValidationMessageFor(m => m.CodigoMotivo, "", new { @class = "input-validation-error text-danger has-error" })
 
                         </div>
-
                     </div>
-                </div>
-                <div class="row">
+
+
                     <div class="col-md-4 col-sm-12">
-                        <div>
-                            @Html.Label("Grupo Enfermedad")
-                            @Html.TextBoxFor(m => m.NombreGrupoEnfermedad, null, new { style = "width: 65%;", @readonly = "readonly" })
-                            @Html.HiddenFor(m => m.CodigoGrupoEnfermedad)
+                        <label>Diagnostico</label>
+                        <div class="">
+                            @Html.TextBoxFor(m => m.DescripcionDiagnostico, null, new { style = "width: 65%;", @readonly = "readonly" })
+                            @Html.HiddenFor(m => m.CodigoDiagnostico)
                             <button type="button" onclick="CargarGrupoEnfermedades('CargarGrupoEnfermedadesp');" id="CargarGrupoEnfermedadesp">
                                 <img src="~/Content/images/buscar.png" />
                             </button><br />
-                            @*@Html.DropDownListFor(m => m.CodigoGrupoEnfermedad, new SelectList(ViewBag.CodigoGrupoEnfermedad, "Codigo", "Descripcion"), "Seleccione el Dianóstico", new { @class = "form-control", @id = "selectGrupoEnfermedad" })*@
-                            @*@Html.ValidationMessageFor(m => m.CodigoDiagnostico, "", new { @class = "input-validation-error text-danger has-error" })*@
                             @Html.ValidationMessage("CustomError3", "", new { @class = "input-validation-error text-danger has-error" })
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-12">
+                </div>
+                   @*<div class="col-md-4 col-sm-12">
 
                         @Html.Label("Sub Grupo Enfermedad")
                         @Html.DropDownListFor(m => m.CodigoSubGrupoEnfermedad, new SelectList("", "Codigo", "Descripcion"), "Seleccione Sub Grupo", new { @class = "form-control", @id = "selectSubGrupoEnfermedad" })
-                        @*@Html.ValidationMessageFor(m => m.CodigoDiagnostico, "", new { @class = "input-validation-error text-danger has-error" })*@
-                        @Html.ValidationMessage("CustomError3", "", new { @class = "input-validation-error text-danger has-error" })
+                         @Html.ValidationMessage("CustomError3", "", new { @class = "input-validation-error text-danger has-error" })
 
                     </div>
                     <div class="col-md-4 col-sm-12">
 
                         @Html.LabelFor(m => m.DescripcionDiagnostico, new { @class = "" })
                         @Html.DropDownListFor(m => m.CodigoDiagnostico, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Dianóstico", new { @class = "form-control", @id = "selectDiagnostico" })
-                        @*@Html.ValidationMessageFor(m => m.CodigoDiagnostico, "", new { @class = "input-validation-error text-danger has-error" })*@
                         @Html.ValidationMessage("CustomError3", "", new { @class = "input-validation-error text-danger has-error" })
 
-                    </div>
-
-
-                </div>
+                    </div>*@
+              
                 <br />
                 <div class="form-group">
                     @foreach (var item in ViewBag.ClasificaroMedico)

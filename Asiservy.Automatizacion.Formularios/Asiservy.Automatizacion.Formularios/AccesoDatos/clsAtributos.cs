@@ -41,5 +41,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //Clasificador de Lineas
         public static string CodGrupoLineaProduccion = "002";
+
+        //Clasificador de Grupo de Enfermedades
+        public static string CodGrupoEnfermedadDiagnostico = "E";
+        public static string CodGrupoEnfermedadGrupo = "G";
+        public static string CodGrupoEnfermedadSubgrupo = "S";
     }
 }

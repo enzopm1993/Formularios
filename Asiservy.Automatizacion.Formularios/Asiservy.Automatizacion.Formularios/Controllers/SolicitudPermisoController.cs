@@ -188,6 +188,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 else
                 {
                     ConsultaCombosMedicos();
+                    ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", model.CodigoDiagnostico);
 
                 }
 
@@ -409,7 +410,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public ActionResult ConsultarGrupoEnfermedades()
         {
             clsDSolicitudPermisoMedico pSPermisoMedico = new clsDSolicitudPermisoMedico();
-            var ListGrupoEnfermedades = pSPermisoMedico.ConsultaGrupoEnfermedades("G","","");
+            var ListGrupoEnfermedades = pSPermisoMedico.ConsultaGrupoEnfermedades(clsAtributos.CodGrupoEnfermedadDiagnostico, "",null);
             return PartialView(ListGrupoEnfermedades);
         }
 
@@ -444,10 +445,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                var errors = ModelState
-                .Where(x => x.Value.Errors.Count > 0)
-                .Select(x => new { x.Key, x.Value.Errors })
-                .ToArray();
+                //var errors = ModelState
+                //.Where(x => x.Value.Errors.Count > 0)
+                //.Select(x => new { x.Key, x.Value.Errors })
+                //.ToArray();
 
                 string psMensajeValidarFecha = string.Empty;
                 psMensajeValidarFecha = ValidarFechas(model);
@@ -461,6 +462,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (ModelState.IsValid)
                 {
                     SOLICITUD_PERMISO solicitudPermiso = new SOLICITUD_PERMISO();
+                    clsDEmpleado = new clsDEmpleado();
                     clsDSolicitudPermiso = new clsDSolicitudPermiso();
                     var poEmpleado = clsDEmpleado.ConsultaEmpleado(model.Identificacion).FirstOrDefault();
                     solicitudPermiso.CodigoLinea = poEmpleado.CODIGOLINEA;
@@ -496,7 +498,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             );
                     }
                     solicitudPermiso.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;
-                    solicitudPermiso.FechaBiometrico = DateTime.Now;
+                    //solicitudPermiso.FechaBiometrico = DateTime.Now;
                     solicitudPermiso.Origen = clsAtributos.SolicitudOrigenMedico;
                     solicitudPermiso.CodigoDiagnostico = model.CodigoDiagnostico;
                     solicitudPermiso.CodigoClasificador = int.Parse(model.CodigoClasificador);
@@ -569,6 +571,43 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
            
         }
+
+        [Authorize]
+        [HttpPost]
+        public JsonResult MarcarSalidaSolicitudPermiso(int IdSolicitudPermiso, DateTime? FechaBiometrico)
+        {
+            try
+            {
+                clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                string Mensaje= clsDSolicitudPermiso.MarcarHoraSalidaSolicitudPermiso(IdSolicitudPermiso, FechaBiometrico);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult ConsultaSolicitudes(string dsLinea, string dsArea, string dsEstado, bool dsGarita=false)
+        {
+            clsDSolicitudPermiso poSolicitudPermiso = new clsDSolicitudPermiso();
+            int RolGarita = ValidarRolGarita();
+            if (RolGarita > 0)
+                ViewBag.Garita = RolGarita;
+            var pListSolicitudPermiso = poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(dsLinea, dsArea, dsEstado, dsGarita);
+            return PartialView(pListSolicitudPermiso);
+        }
+
         #endregion
 
         #region BITACORA SOLICITUD
@@ -631,12 +670,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #region CONSULTAS
 
-        public ActionResult ConsultaSolicitudes(string dsLinea, string dsArea ,string dsEstado)
-        {
-            clsDSolicitudPermiso poSolicitudPermiso = new clsDSolicitudPermiso();
-            var pListSolicitudPermiso = poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(dsLinea,dsArea,dsEstado);
-            return PartialView(pListSolicitudPermiso);
-        }
+      
         public JsonResult ObtenerSubGrupoEnfermedades(string GrupoEnfermedad)
         {
             clsDGeneral = new clsDGeneral();
@@ -724,7 +758,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             ViewBag.Lineas = clsDGeneral.ConsultaLineas();
             ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
             ViewBag.NombreMedico = clsApiUsuario.ConsultaListaUsuariosSap().FirstOrDefault(x => x.Cedula == "1311401135").Nombre??"";
-
+            
             ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
         }
         protected void SetSuccessMessage(string message)

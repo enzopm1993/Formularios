@@ -139,9 +139,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
             return lista;
         }
-        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermisoReporte(string dsLinea, string dsArea, string dsEstado)
+        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermisoReporte(string dsLinea, string dsArea, string dsEstado, bool dbGarita=false)
         {
             entities = new ASIS_PRODEntities();
+            clsApiUsuario = new clsApiUsuario();
             List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
             IEnumerable<SOLICITUD_PERMISO> Lista;
             
@@ -161,9 +162,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             {
                 Lista = Lista.Where(x => x.CodigoArea == dsArea);
             }
-
+            if (dbGarita)
+            {
+                Lista = Lista.Where(x => x.FechaSalida.Date == DateTime.Now.Date);
+                Lista = Lista.Where(x => x.FechaBiometrico==null);
+            }
             foreach (var x in Lista.ToList())
             {
+                var fechaBiometrico = clsApiUsuario.ConsultarFechaBiometrico(x.Identificacion);
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
                 string DescripcionEstadosSolicitud = (from e in entities.ESTADO_SOLICITUD
                                                       where e.Estado == x.EstadoSolicitud
@@ -186,7 +192,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     //FechaRegreso = x.FechaRegreso,
                     EstadoSolicitud = x.EstadoSolicitud,
                     DescripcionEstadoSolicitud = DescripcionEstadosSolicitud,
-                    FechaBiometrico = x.FechaBiometrico,
+                    FechaBiometrico = fechaBiometrico,
                     //Origen = x.Origen,
                     //CodigoDiagnostico = x.CodigoDiagnostico,
                     //FechaIngresoLog = x.FechaIngresoLog,
@@ -199,6 +205,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
             return ListaSolicitudesPermiso;
         }
+
+        public string MarcarHoraSalidaSolicitudPermiso(int IdSolicitudPermiso, DateTime? FechaBiometrico)
+        {
+            using(ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var Solicitud= entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == IdSolicitudPermiso);
+                if (Solicitud != null)
+                {
+                    Solicitud.FechaBiometrico = FechaBiometrico??DateTime.Now;
+                }
+                entities.SaveChanges();
+                return clsAtributos.MsjRegistroGuardado;
+            }
+        }
+     
         public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso(string dsEstadoSolcitud, string dsIdUsuario)
         {
             entities = new ASIS_PRODEntities();

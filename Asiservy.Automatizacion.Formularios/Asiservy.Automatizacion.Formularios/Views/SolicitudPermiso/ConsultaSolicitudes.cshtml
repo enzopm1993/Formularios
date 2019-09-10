@@ -1,7 +1,7 @@
 ﻿@model List<Asiservy.Automatizacion.Formularios.Models.SolicitudPermisoViewModel>
 
 
-            <table class="table table-hover" id="tablasolicitudrpt">
+            <table class="table table-bordered" id="tablasolicitudrpt">
                 <thead>
                     <tr>
                         <th>Solicitud</th>
@@ -10,20 +10,28 @@
                         <th>Empleado</th>
                         <th>Estado</th>
                         <th>Biometrico</th>
+                        @if (ViewBag.Garita != null)
+                        {
+                            <td> Acción </td>
+                        }
                     </tr>
                 </thead>
                 <tbody>
                    @foreach (var item in Model)
                    {
                        var estado = (item.EstadoSolicitud == "002" ? "text-success" : item.EstadoSolicitud=="001"?"text-warning":item.EstadoSolicitud=="003"? "text-danger" : "text-secondary");
-                       <tr>
-                           <td>@item.IdSolicitudPermiso</td>
-                           <td>@item.DescripcionLinea</td>
-                           <td>@item.DescripcionArea</td>
-                           <td >@item.NombreEmpleado</td>
-                           <td class="@estado" >@item.DescripcionEstadoSolicitud</td>
-                           <td>@item.FechaBiometrico</td>
-                       </tr>
+                    <tr>
+                        <td>@item.IdSolicitudPermiso</td>
+                        <td>@item.DescripcionLinea</td>
+                        <td>@item.DescripcionArea</td>
+                        <td>@item.NombreEmpleado</td>
+                        <td class="@estado">@item.DescripcionEstadoSolicitud</td>
+                        <td>@item.FechaBiometrico</td>
+                        @if (ViewBag.Garita != null)
+                        {
+                            <td> <input type="button" name="name" value="Marcar Salida" class="btn btn-primary" onclick="MarcarSalida(@item.IdSolicitudPermiso,'@item.FechaBiometrico')" /> </td>
+                        }
+                        </tr>
                    }
                 </tbody>
             </table>

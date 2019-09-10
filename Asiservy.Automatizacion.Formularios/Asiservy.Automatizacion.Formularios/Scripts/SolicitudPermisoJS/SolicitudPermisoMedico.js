@@ -124,38 +124,38 @@ $("#selectSubGrupoEnfermedad").change(function () {
 //consultar grupo enfermedades modal
 function ConsultarGrupoEnfermedad(Codigo, Descripcion) {
 
-    $('#NombreGrupoEnfermedad').val(Descripcion)
-    $('#CodigoGrupoEnfermedad').val(Codigo)
+    $('#CodigoDiagnostico').val(Codigo);
+    $('#DescripcionDiagnostico').val(Descripcion);
    
 
-    $.ajax({
-        url: "../SolicitudPermiso/ObtenerSubGrupoEnfermedades",
-        type: "Get",
-        data:
-        {
-            GrupoEnfermedad: Codigo
-        },
-        success: function (resultado) {
-            if (!$.isEmptyObject(resultado)) {
-                $("#selectSubGrupoEnfermedad").empty();
-                $("#selectSubGrupoEnfermedad").append("<option value='' >Seleccione Sub Grupo</option>");
-                $.each(resultado, function (create, row) {
-                $("#selectSubGrupoEnfermedad").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
-            });
-            } else {
-            $("#selectSubGrupoEnfermedad").empty();
-            $("#selectSubGrupoEnfermedad").append("<option value='' >Seleccione Sub Grupo</option>");
-            //alert("El vendedor seleccionado no tiene zonas asignadas");
-            }
-        },
-        error: function (resultado) {
-            MensajeError(JSON.stringify(resultado), false);
-            $('#' + formulario).remove("disabled");
-        }
-    });
+    //$.ajax({
+    //    url: "../SolicitudPermiso/ObtenerSubGrupoEnfermedades",
+    //    type: "Get",
+    //    data:
+    //    {
+    //        GrupoEnfermedad: Codigo
+    //    },
+    //    success: function (resultado) {
+    //        if (!$.isEmptyObject(resultado)) {
+    //            $("#selectSubGrupoEnfermedad").empty();
+    //            $("#selectSubGrupoEnfermedad").append("<option value='' >Seleccione Sub Grupo</option>");
+    //            $.each(resultado, function (create, row) {
+    //            $("#selectSubGrupoEnfermedad").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
+    //        });
+    //        } else {
+    //        $("#selectSubGrupoEnfermedad").empty();
+    //        $("#selectSubGrupoEnfermedad").append("<option value='' >Seleccione Sub Grupo</option>");
+    //        //alert("El vendedor seleccionado no tiene zonas asignadas");
+    //        }
+    //    },
+    //    error: function (resultado) {
+    //        MensajeError(JSON.stringify(resultado), false);
+    //        $('#' + formulario).remove("disabled");
+    //    }
+    //});
 
-    $("#selectDiagnostico").empty();
-    $("#selectDiagnostico").append("<option value='' >Seleccione Diagnóstico</option>");
+    //$("#selectDiagnostico").empty();
+    //$("#selectDiagnostico").append("<option value='' >Seleccione Diagnóstico</option>");
     cerrarmodalgrupoenfermedad();
     
 }

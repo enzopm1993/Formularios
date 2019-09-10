@@ -61,7 +61,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             IRestResponse response = client.Execute(request);
             var content = response.Content;
             dynamic Result = JsonConvert.DeserializeObject(content);
-            if (Result != null)
+            if (Result != null && Result.Count>0)
             {
                 var Resultado = Result[0];
                  pdfecha = (DateTime)Resultado.UltimaMarcacion;

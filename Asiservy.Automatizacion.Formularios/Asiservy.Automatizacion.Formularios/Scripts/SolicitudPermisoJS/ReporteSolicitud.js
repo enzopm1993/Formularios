@@ -26,17 +26,37 @@ function CambioLinea(valor) {
 }
 
 
-function ConsultarSolicitudes() {
-    console.log($('#selectLinea').val());
-    console.log($('#selectArea').val());
-    console.log($('#selectEstado').val());
+function MarcarSalida(IdSolicitudPermiso,fecha) {
+    console.log(IdSolicitudPermiso);
+    console.log(fecha);
     $.ajax({
+        type: "POST",
+        url: '../SolicitudPermiso/MarcarSalidaSolicitudPermiso',
+        data: {
+            IdSolicitudPermiso: IdSolicitudPermiso,
+            FechaBiometrico: fecha
+        },
+        success: function (Resultado) {
+            MensajeCorrecto(Resultado,false);
+            ConsultarSolicitudes();
+        },
+        error: function (Resultado) {
+            MensajeError(Resultado);
+        }
+    });
+   
+
+}
+
+function ConsultarSolicitudes() {
+     $.ajax({
         type: "GET",
         url: '../SolicitudPermiso/ConsultaSolicitudes',
         data: {
             dsLinea: $('#selectLinea').val(),
             dsArea: $('#selectArea').val(),
             dsEstado: $('#selectEstado').val(),
+            dsGarita: $('#Garita').val()
         },
         success: function (data) {
             $('#RptSolicitudes').html(data);
