@@ -15,5 +15,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public string CEDULA { get; set; }
         public string NOMBRES { get; set; }
+        public string CODIGOLINEA { get; set; }
+        public string LINEA { get; set; }
+        public string CODIGOAREA { get; set; }
+        public string AREA { get; set; }
+        public string CODIGOCARGO { get; set; }
+        public string CARGO { get; set; }
     }
 }
