@@ -744,8 +744,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             clsDGeneral = new clsDGeneral();
             ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("G");
             ViewBag.Lineas = clsDGeneral.ConsultaLineas();
-            ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
-            ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
+            //ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
+            //ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
         }
         public void ConsultaCombosMedicos()
         {
@@ -756,12 +756,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
             ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("M");
             ViewBag.Lineas = clsDGeneral.ConsultaLineas();
-            ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
             ViewBag.NombreMedico = clsApiUsuario.ConsultaListaUsuariosSap().FirstOrDefault(x => x.Cedula == "1311401135").Nombre??"";
-            
-            ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
+            //ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
+            //ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
         }
-        protected void SetSuccessMessage(string message)
+            protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
         }
