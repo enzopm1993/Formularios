@@ -40,6 +40,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<ERROR> ERROR { get; set; }
         public virtual DbSet<CLASIFICADOR> CLASIFICADOR { get; set; }
         public virtual DbSet<OPCION> OPCION { get; set; }
+        public virtual DbSet<CAMBIO_PERSONAL> CAMBIO_PERSONAL { get; set; }
+        public virtual DbSet<BITACORA_CAMBIO_PERSONAL> BITACORA_CAMBIO_PERSONAL { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

@@ -23,6 +23,8 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CLASIFICADOR" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.OPCION" Width="1.5" PointX="0.75" PointY="12" />
         <AssociationConnector Association="ASIS_PRODModel.FK_OPCION_ROL_OPCION" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_CAMBIO_PERSONAL" Width="1.5" PointX="10.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
