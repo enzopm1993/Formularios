@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
 
@@ -13,6 +16,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
 
         clsDGeneral clsDGeneral = null;
+        clsDError clsDError = null;
+        clsDCambioPersonal clsDCambioPersonal = null;
 
         #region Métodos
         public void ConsultaCombosGeneral()
@@ -62,8 +67,64 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult BitacoraCambioPersonal()
         {
-            return View();
+            try
+            {
+                clsDGeneral = new clsDGeneral();
+                ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+               return RedirectToAction("Home", "Home");
+            }
         }
+
+        [Authorize]
+        public ActionResult BitacoraCambioPersonalPartial(string dsLinea, string dsArea, string dsCargo, string dsCedula, DateTime ddFechaDesde, DateTime ddFechaHasta)
+        {
+            try
+            {
+                clsDCambioPersonal = new clsDCambioPersonal();
+               var model= clsDCambioPersonal.ConsultarBitacoraCambioPersonal(new Models.Asistencia.BitacoraCambioPersonalModelView {
+                    CodLinea=dsLinea,
+                    CodArea=dsArea,
+                    CodCargo=dsCargo,
+                    Cedula=dsCedula,
+                    FechaDesde=ddFechaDesde,
+                    FechaHasta = ddFechaHasta
+                });
+                return PartialView(model);
+
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         #endregion
 
 
@@ -107,7 +168,59 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return PartialView("Empleados",Empleados);
 
         }
-       
+
+
+        #region METODOS GENERICOS
+        public JsonResult ConsultaListadoAreas(string CodLinea)
+        {
+            try
+            {
+                clsDGeneral = new clsDGeneral();
+                var areas = clsDGeneral.ConsultaAreas(CodLinea);
+                return Json(areas, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult ConsultaListadoCargos(string CodArea)
+        {
+            try
+            {
+                clsDGeneral = new clsDGeneral();
+                var areas = clsDGeneral.ConsultaCargos(CodArea);
+                return Json(areas, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
 
     }
 }

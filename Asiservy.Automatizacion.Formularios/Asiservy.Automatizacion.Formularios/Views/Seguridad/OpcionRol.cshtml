@@ -10,7 +10,7 @@
 
 
             @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
-            <div class="col-md-4">
+            <div class="col-md-2 col-sm-12">
 
                 <div class="form-group">
                     @* @Html.LabelFor(model => model.IdRol, htmlAttributes: new { @class = "control-label col-md-2" })*@
@@ -20,7 +20,7 @@
 
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3 col-sm-12">
 
                 <div class="form-group">
                     @Html.Label("Rol")
@@ -32,7 +32,7 @@
                     @*@Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })*@
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class=" col-md-3 col-sm-12">
 
                 <div class="form-group">
                     @Html.Label("Opción")
@@ -45,17 +45,17 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-2 col-sm-12">
 
                 <div class="form-group">
                     @Html.Label("Estado")<br />
-                    @Html.RadioButtonFor(model => model.EstadoRegistro, "A")  @Html.Label("Activo")
+                    @Html.RadioButtonFor(model => model.EstadoRegistro, "A", new { Checked = "checked" })  @Html.Label("Activo")
                     @Html.RadioButtonFor(model => model.EstadoRegistro, "I")  @Html.Label("Inactivo")
                     <br />
                     @Html.ValidationMessage("ErrorEstado", "", new { @class = "input-validation-error text-danger has-error" })
                 </div>
             </div>
-            <div class="col-md-offset-2 col-md-12">
+            <div class="col-md-12">
                 <center>
                     <div class="form-group">
 
@@ -69,7 +69,7 @@
     }
 
 
-    <div id="DetalleOpcionesRoles">
+    <div class="table-responsive" style="padding-bottom:5%" id="DetalleOpcionesRoles">
 
     </div>
 </div>
