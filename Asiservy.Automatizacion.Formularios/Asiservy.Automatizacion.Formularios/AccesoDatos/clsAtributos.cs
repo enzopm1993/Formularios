@@ -46,5 +46,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string CodGrupoEnfermedadDiagnostico = "E";
         public static string CodGrupoEnfermedadGrupo = "G";
         public static string CodGrupoEnfermedadSubgrupo = "S";
+
+        //Tipos Cambio de personal de Área
+        public static string TipoPrestar = "P";
+        public static string TipoRegresar = "R";
     }
 }

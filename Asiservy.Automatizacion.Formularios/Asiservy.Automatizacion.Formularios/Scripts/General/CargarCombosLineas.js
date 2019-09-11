@@ -26,7 +26,33 @@
     });
 }
 
+function CambioLineaRegresar(valor) {
+    $("#SelectAreaRegresar").empty();
+    $("#SelectAreaRegresar").append("<option value='' >-- Seleccionar Opción--</option>");
+    $("#SelectAreaRegresar").empty();
+    $("#SelectAreaRegresar").append("<option value='' >-- Seleccionar Opción--</option>");
 
+    $.ajax({
+        url: "../SolicitudPermiso/ConsultaListadoAreas",
+        type: "Get",
+        data:
+        {
+            CodLinea: valor
+        },
+        success: function (resultado) {
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#SelectAreaRegresar").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
+                });
+            } else {
+                MensajeAdvertencia("La linea seleccionado no tiene areas asignadas", false);
+            }
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+        }
+    });
+}
 function CambioArea(valor) {
 
     $("#selectCargo").empty();

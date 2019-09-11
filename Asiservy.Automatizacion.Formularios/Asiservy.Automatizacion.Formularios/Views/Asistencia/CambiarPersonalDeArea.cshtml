@@ -28,119 +28,113 @@
 
 
                 <div class="form-group col-sm-12 col-md-6">
-                    @*@Html.Label("Línea Nómina:")
-                    @Html.DropDownListFor(m => m.CodLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLinea(this.value)", @class = "form-control", @id = "selectLinea" })*@
-                  
+                    @Html.Label("Línea:")
+                    @Html.DropDownList("SelectLineaRegresar", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLineaRegresar(this.value)", @class = "form-control" })
+
                 </div>
                 <div class="form-group col-sm-12 col-md-6">
-                    <label>Área nómina:</label>
+                    @Html.Label("Área:")
+                    @Html.DropDownList("SelectAreaRegresar", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioAreaRegresar(this.value)", @class = "form-control" })
 
-                    <select class="form-control" id="comboareao">
-                        <option selected>Seleccione..</option>
-                        <option value="procesos">Procesos</option>
-                        <option value="pouch">Pouch</option>
-                        <option value="lata">Lata</option>
-                        <option value="lomo">Lomo</option>
-                    </select>
                 </div>
-                <div class="form-group col-sm-12 col-md-6" id="trlineao">
-                    <label for="">Línea:</label>
+                @*<div class="form-group col-sm-12 col-md-6" id="trlineao">
+                        <label for="">Línea:</label>
 
-                    <select class=" form-control">
-                        <option selected>Seleccione..</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
+                        <select class=" form-control">
+                            <option selected>Seleccione..</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>*@
                 @*<div class="form-group col-sm-12 col-md-6">
-                    <label>Cargo:</label>
+                        <label>Cargo:</label>
 
-                    <select class="form-control ">
-                        <option selected>Seleccione..</option>
-                        <option>Limpiador</option>
-                        <option>despellejador</option>
-                        <option>Miga</option>
-                        <option>Cacho</option>
-                    </select>
-                </div>*@
+                        <select class="form-control ">
+                            <option selected>Seleccione..</option>
+                            <option>Limpiador</option>
+                            <option>despellejador</option>
+                            <option>Miga</option>
+                            <option>Cacho</option>
+                        </select>
+                    </div>*@
 
             </div>
             <div class="row">
                 <div class="col">
-                    <center> <input type="button" id="ConsultarEmpleadosRegresar" value="Consultar" class="btn btn-primary" onclick="RegresarEmpleados();" /></center>
+                    <center> <input type="button" id="ConsultarEmpleadosRegresar" value="Consultar" class="btn btn-primary" onclick="ConsultarEmpleadosRegresar();" /></center>
                 </div>
             </div>
 
         </div>
         <br />
-        <div class="row" id="EmpleadosRegresar">
-            <div class="col">
-                <table id="TablaEmpleadosRegresar" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>
-                                <input type="checkbox" id="checkall">
-                            </th>
-                            <th>
-                                Cédula
-                            </th>
-                            <th>
-                                Nombre
-                            </th>
-                            <th>
-                                Departamento Préstamo
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="checkbox" id="checked0" class="checks"></td>
-                            <td>0940203406</td>
-                            <td>Juan Maldonado</td>
-                            <td>RRHH</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" id="checked1" class="checks"></td>
-                            <td>1188888456</td>
-                            <td>Pedro Suarez</td>
-                            <td>RRHH</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" id="checked2" class="checks"></td>
-                            <td>2723626161</td>
-                            <td>Alejandro Sánchez</td>
-                            <td>Bodega</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" id="checked3" class="checks"></td>
-                            <td>3635261617</td>
-                            <td>María Perez</td>
-                            <td>Dispensario Médico</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" id="checked4" class="checks"></td>
-                            <td>1188888456</td>
-                            <td>Andrea Bejarano</td>
-                            <td> Bodega</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        @*<div class="row" id="EmpleadosRegresar">
+                <div class="col">
+                    <table id="TablaEmpleadosRegresar" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="checkall">
+                                </th>
+                                <th>
+                                    Cédula
+                                </th>
+                                <th>
+                                    Nombre
+                                </th>
+                                <th>
+                                    Departamento Préstamo
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" id="checked0" class="checks"></td>
+                                <td>0940203406</td>
+                                <td>Juan Maldonado</td>
+                                <td>RRHH</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" id="checked1" class="checks"></td>
+                                <td>1188888456</td>
+                                <td>Pedro Suarez</td>
+                                <td>RRHH</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" id="checked2" class="checks"></td>
+                                <td>2723626161</td>
+                                <td>Alejandro Sánchez</td>
+                                <td>Bodega</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" id="checked3" class="checks"></td>
+                                <td>3635261617</td>
+                                <td>María Perez</td>
+                                <td>Dispensario Médico</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" id="checked4" class="checks"></td>
+                                <td>1188888456</td>
+                                <td>Andrea Bejarano</td>
+                                <td> Bodega</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-            <br />
-            <div class="col-12">
-                
                 <br />
-                <div id="btnRegresarEmp"><center><input type="button" value="Regresar" class="btn btn-primary" /></center></div>
-            </div>
-        </div>
+                <div class="col-12">
 
-        
+                    <br />
+                    <div id="btnRegresarEmp"><center><input type="button" value="Regresar" class="btn btn-primary" /></center></div>
+                </div>
+            </div>*@
+
+
     </div>
-    
+
 
     <div class="row" id="divprestar">
 
@@ -154,7 +148,7 @@
                             <td></td>
                             <td>
                                 @Html.Label("Línea:")
-                                @Html.DropDownList("SelectLineaOrigen", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLineaOrigen(this.value)", @class = "form-control"})
+                                @Html.DropDownList("SelectLineaOrigen", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLineaOrigen(this.value)", @class = "form-control" })
 
                             </td>
                         </tr>
@@ -163,28 +157,28 @@
                             <td></td>
                             <td>
                                 @Html.Label("Área:")
-                                @Html.DropDownList("SelectAreaOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioAreaOrigen(this.value)", @class = "form-control"})
+                                @Html.DropDownList("SelectAreaOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioAreaOrigen(this.value)", @class = "form-control" })
 
                             </td>
                         </tr>
                         @*<tr id="trlineaop">
-                <td>Línea:</td>
-                <td>
-                    <select class="browser-default custom-select">
-                        <option selected>Seleccione..</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </td>
-            </tr>*@
+                                <td>Línea:</td>
+                                <td>
+                                    <select class="browser-default custom-select">
+                                        <option selected>Seleccione..</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </td>
+                            </tr>*@
                         <tr>
                             <td></td>
                             <td>
                                 @Html.Label("Cargo")
-                                @Html.DropDownList("SelectCargoOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control"})
+                                @Html.DropDownList("SelectCargoOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control" })
 
                             </td>
                         </tr>
@@ -217,30 +211,30 @@
                             </td>
                         </tr>
                         @*<tr id="trlinea">
-                <td>Línea:</td>
-                <td>
-                    <select class="browser-default custom-select">
-                        <option selected>Seleccione..</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </td>
-            </tr>*@
+                                <td>Línea:</td>
+                                <td>
+                                    <select class="browser-default custom-select">
+                                        <option selected>Seleccione..</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </td>
+                            </tr>*@
                         @*<tr>
-                <td>Cargo:</td>
-                <td>
-                    <select class="browser-default custom-select">
-                        <option selected>Seleccione..</option>
-                        <option>Limpiador</option>
-                        <option>despellejador</option>
-                        <option>Miga</option>
-                        <option>Cacho</option>
-                    </select>
-                </td>
-            </tr>*@
+                                <td>Cargo:</td>
+                                <td>
+                                    <select class="browser-default custom-select">
+                                        <option selected>Seleccione..</option>
+                                        <option>Limpiador</option>
+                                        <option>despellejador</option>
+                                        <option>Miga</option>
+                                        <option>Cacho</option>
+                                    </select>
+                                </td>
+                            </tr>*@
                         <tr>
                             <td colspan="2"></td>
                         </tr>
@@ -255,16 +249,17 @@
                 <br /><br />
             </fieldset>
         </div>
-        <div class="col-12" id="contempleados">
-            <div class="container" id="DivEmpleados">
 
-            </div>
-            <br />
-            <div id="btnGuardarCambioEmp"><center><input type="button" value="Guardar" class="btn btn-primary" /></center></div>
-        </div>
 
     </div>
+    <div class="col-12" id="contempleados">
+        <br />
+        <div class="container" id="DivEmpleados">
 
+        </div>
+        <br />
+        <div id="btnGuardarCambioEmp"><center><input type="button" value="Guardar" class="btn btn-primary" onclick="MoverEmpleados();" /></center></div>
+    </div>
 
 
 </div>

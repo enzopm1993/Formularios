@@ -1,15 +1,81 @@
-﻿
+﻿//mover empleados
+function MoverEmpleados() {
+    var result = new Array();
+    i = 0;
+    $("input[type=checkbox]:checked").each(function (resultado) {
+        id = $(this).attr("id");
+        this.id = id.replace('Empleado-', '');
+        result.push(this.id);
+        i++;
+    });
+    console.log(result);
+    Mover(result);
+}
+
+function Mover(result) {
+    console.log(result);
+
+    var resultado = JSON.stringify(result)
+    var resultado2 = JSON.parse(resultado)
+    console.log(resultado2);
+    $.ajax({
+        url: '../Asistencia/MoverEmpleados',
+        type: 'POST',
+        dataType: "json",
+        data: {
+            dCedulas: resultado2,
+            dlinea: $('#selectLinea').val(),
+            darea: $('#selectArea').val(),
+            tipo: $('#optcambiaremp').val()
+        },
+        success: function (resultado) {
+            MensajeCorrecto(resultado, true);
+
+        }
+        ,
+        error: function () {
+            MensajeError("No se pudieron mover", false);
+        }
+    });
+}
+// fin mover empleados
+//consultar_empleados
 function ConsultarEmpleados() {
-    ConsultarEmpleado = "ConsultarEmpleado";
+    //ConsultarEmpleado = "ConsultarEmpleado";
     $.ajax({
         type: "GET",
-        url: '../Asistencia/Empleados',
+        data:
+        {
+            pslinea: $('#SelectLineaOrigen').val(),
+            psarea: $('#SelectAreaOrigen').val(),
+            pscargo: $('#SelectCargoOrigen').val(),
+            tipo: $('#optcambiaremp').val()
+        },
+        url: '../Asistencia/EmpleadosCambioPersonalPartial',
         success: function (data) {
             $('#DivEmpleados').html(data);
         }
     });
     $('#contempleados').show();
 }
+function ConsultarEmpleadosRegresar() {
+    //ConsultarEmpleado = "ConsultarEmpleado";
+    $.ajax({
+        type: "GET",
+        data:
+        {
+            pslinea: $('#SelectLineaRegresar').val(),
+            psarea: $('#SelectAreaRegresar').val(),
+            tipo: $('#optcambiaremp').val()
+        },
+        url: '../Asistencia/EmpleadosCambioPersonalPartial',
+        success: function (data) {
+            $('#DivEmpleados').html(data);
+        }
+    });
+    $('#contempleados').show();
+}
+//fin consultar empleados
 //$('#DivEmpleados').hide();
 $('#EmpleadosRegresar').hide();
 function RegresarEmpleados() {
@@ -83,6 +149,8 @@ $('#optcambiaremp').change(function () {
     }else
         if ($(this).val() == 'regresar') {
             $('#contempleados').hide();
+            
+            //$('#DivEmpleados').empty();
         $('#divprestar').hide();
         $('#divregresar').show();
     }else
@@ -92,5 +160,8 @@ $('#optcambiaremp').change(function () {
         $('#divprestar').hide();
         $('#divregresar').hide();
     }
+});
+$('#ConsultarEmpleadosRegresar').click(function () {
+    $('#contempleados').show();
 });
 
