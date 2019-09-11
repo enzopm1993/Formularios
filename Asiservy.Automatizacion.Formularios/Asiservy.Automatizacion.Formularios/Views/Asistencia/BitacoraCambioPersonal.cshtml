@@ -1,4 +1,5 @@
-﻿
+﻿@model Asiservy.Automatizacion.Datos.Datos.BITACORA_CAMBIO_PERSONAL
+
 @{
     ViewBag.Title = "BitacoraCambioPersonal";
 }
@@ -16,92 +17,65 @@
 
 
     <div class="row">
-        <div class="form-group col-md-3 col-sm-12">
-            <label>Departamento</label>
-            <select id="selectDepartamento" onchange="" style="" class="form-control">
-                <option value="0" selected>Seleccione...</option>
-                <option value="1">Produccion</option>
-                <option value="2">Dispensario Médico</option>
-                <option value="3">RRHH</option>
-            </select>
+        <div class="col-md-3 col-sm-12">
+            <label>Linea</label>
+            @Html.DropDownListFor(m => m.CodLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLinea(this.value)", @class = "form-control", @id = "selectLinea" })
+            @Html.ValidationMessageFor(m => m.CodLinea, "", new { @class = "input-validation-error text-danger has-error" })
+
         </div>
-        <div class="form-group col-md-3 col-sm-12">
+
+        <div class="col-md-3 col-sm-12">
             <label>Area</label>
-            <select onchange="" id="selectArea" class="form-control">
-                <option value="" selected>Seleccione...</option>
-                <option value="1">Procesos</option>
-                <option value="2">Pouch</option>
-                <option value="3">Lata</option>
-                <option value="3">Etiquetado</option>
-                <option value="3">N/A</option>
-            </select>
+            @Html.DropDownListFor(m => m.CodArea, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
+            @Html.ValidationMessageFor(m => m.CodArea, "", new { @class = "input-validation-error text-danger has-error" })
+        </div>
+
+        <div class="col-md-3 col-sm-12">
+            <label>Cargo</label>
+            @Html.DropDownListFor(m => m.CodCargo, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "selectCargo" })
+            @Html.ValidationMessageFor(m => m.CodCargo, "", new { @class = "input-validation-error text-danger has-error" })
         </div>
         <div class="form-group col-md-2 col-sm-12">
             <label>Cedula</label>
             <input id="textCedula" class="form-control" type="text" name="name" value="" />
         </div>
-        <div class="form-group col-md-2 col-sm-5">
-            <label>Fecha Desde</label>
-            <input id="dateDesde" class="form-control" type="date" name="name" value="@DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd")"  />
-        </div>
-        <div class="form-group col-md-2 col-sm-5">
-            <label>Fecha Hasta</label>
-            <input id="dateHasta" class="form-control" type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")"  />
-        </div>
+        
 
     </div>
     <div class="row">
+        <div class="form-group offset-md-4 col-md-2 col-sm-5">
+            <label>Fecha Desde</label>
+            <input id="dateDesde" class="form-control" type="date" name="name" value="@DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="form-group col-md-2 col-sm-5">
+            <label>Fecha Hasta</label>
+            <input id="dateHasta" class="form-control" type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        </div>
+    </div>
+    <div class="row">
         <div class="col text-center">
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseBitacora" aria-expanded="false" aria-controls="collapseBitacora">
+            <button class="btn btn-primary" type="button" onclick="ConsultarBitacora()">
                 Consultar
             </button>
         </div>
     </div>
     <br />
 
-    <div class="collapse" id="collapseBitacora">
-        <div class="card card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Cedula</th>
-                            <th>Empleado</th>
-                            <th>Departamento prestado</th>
-                            <th>Area prestado</th>
-                            <th>Fecha de prestado</th>
-                            <th>Fecha de regreso</th>
-                            <th>Usuario de ingreso</th>
-                            <th>Terminal de ingreso</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0999999999</td>
-                            <td>Martinez Morales José</td>
-                            <td>Produccion</td>
-                            <td>Procesos</td>
-                            <td><input type="datetime" name="name" value="@DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy hh:ss tt")" class="form-control" /></td>
-                            <td><input type="datetime" name="name" value="@DateTime.Now.ToString("dd/MM/yyyy hh:ss tt")" class="form-control" /></td>
-                            <td>vcrespo</td>
-                            <td>192.168.1.1</td>
-                        </tr>
-                        <tr>
-                            <td>0999999999</td>
-                            <td>Moran Morales Julio</td>
-                            <td>RRHH</td>
-                            <td>N/A</td>
-                            <td><input type="datetime" name="name" value="@DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy hh:ss tt")" class="form-control" /></td>
-                            <td><input type="datetime" name="name" value="@DateTime.Now.ToString("dd/MM/yyyy hh:ss tt")" class="form-control" /></td>
-                            <td>vcrespo</td>
-                            <td>192.168.1.1</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="" id="TableBitacoraCambioPersonal">
 
-            </div>
-        </div>
 
     </div>
 
 </div>
+
+
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+
+<script src="~/Scripts/General/CargarCombosLineas.js"></script>
+<script src="~/Scripts/AsistenciaJS/BitacoraCambioPersonal.js"></script>
