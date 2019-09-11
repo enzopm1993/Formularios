@@ -19,5 +19,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Codigo { get; set; }
         public string Descripcion { get; set; }
         public string EstadoRegistro { get; set; }
+        public Nullable<System.DateTime> FechaIngresoLog { get; set; }
+        public string UsuarioIngresoLog { get; set; }
+        public string TerminalIngresoLog { get; set; }
+        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
+        public string UsuarioModificacionLog { get; set; }
+        public string TerminalModificacionLog { get; set; }
     }
 }
