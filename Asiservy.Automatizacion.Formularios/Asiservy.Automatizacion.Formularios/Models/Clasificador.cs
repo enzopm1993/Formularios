@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Asiservy.Automatizacion.Formularios.Models
 {
-    public class Clasificador
+    public class ClasificadorGenerico
     {
         public int codigo { get; set; }
         public string descripcion { get; set; }

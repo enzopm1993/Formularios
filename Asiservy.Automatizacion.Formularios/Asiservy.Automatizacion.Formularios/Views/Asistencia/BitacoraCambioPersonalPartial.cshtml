@@ -18,9 +18,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Area)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cargo)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.FechaIngresoLog)
             </th>
@@ -37,6 +35,7 @@
         {
             foreach (var item in Model)
             {
+                string Tipo = item.Tipo == "P" ? "Prestado" : "Regreso";
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.IdBitacoraCambioPersonal)
@@ -45,17 +44,17 @@
                         @Html.DisplayFor(modelItem => item.Cedula)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Tipo)
+                       
+                        <input type="text" name="name" value="@Tipo" readonly  class="form-control"/>
+
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CodLinea)
+                        @Html.DisplayFor(modelItem => item.Linea)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CodArea)
+                        @Html.DisplayFor(modelItem => item.Area)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CodCargo)
-                    </td>
+                  
                     <td>
                         @Html.DisplayFor(modelItem => item.FechaIngresoLog)
                     </td>

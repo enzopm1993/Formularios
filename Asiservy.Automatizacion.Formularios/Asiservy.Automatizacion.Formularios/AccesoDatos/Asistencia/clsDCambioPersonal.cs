@@ -36,19 +36,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
                 foreach(var x in Listado.ToList())
                 {
-                    var Linea = entities.spConsultaLinea(x.Cedula).FirstOrDefault();
-                    var Area = entities.spConsultaArea(x.Cedula).FirstOrDefault();
-                    var Cargo = entities.spConsultaCargos(x.Cedula).FirstOrDefault();
+                    var Linea = entities.spConsultaLinea(x.CodLinea).FirstOrDefault();
+                    var Area = entities.spConsultaArea(x.CodArea).FirstOrDefault();
+                    //var Cargo = entities.spConsultaCargos(x.Cedula).FirstOrDefault();
 
                     ListadoCambioPersonal.Add(new BitacoraCambioPersonalModelView
                     {
                         Cedula = x.Cedula,
-                        CodCargo = x.CodCargo,
-                        Cargo = Cargo.Descripcion,
-                        Area= Area.Descripcion,
+                        //CodCargo = x.CodCargo,
+                        //Cargo = Cargo.Descripcion,
+                        Area = Area!=null? Area.Descripcion:"",
                         CodArea = x.CodArea,
                         CodLinea = x.CodLinea,
-                        Linea= Linea.Descripcion,
+                        Linea = Linea != null ? Linea.Descripcion:"",
                         FechaIngresoLog = x.FechaIngresoLog,
                         Tipo = x.Tipo,
                         IdBitacoraCambioPersonal = x.IdBitacoraCambioPersonal,

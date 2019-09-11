@@ -598,6 +598,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\SeguridadJS\Clasificador.js" />
     <Content Include="Scripts\SeguridadJS\NivelUsuario.js" />
     <Content Include="Scripts\SeguridadJS\Opcion.js" />
     <Content Include="Scripts\SeguridadJS\OpcionRol.js" />
@@ -647,6 +648,7 @@
     <Compile Include="Models\Clasificador.cs" />
     <Compile Include="Models\Empleado.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
+    <Compile Include="Models\Seguridad\Clasificador.cs" />
     <Compile Include="Models\Seguridad\ConsultaOpcionesxRolViewModel.cs" />
     <Compile Include="Models\Seguridad\NivelUsuarioViewModel.cs" />
     <Compile Include="Models\Seguridad\Usuario.cs" />
@@ -709,6 +711,8 @@
     <Content Include="Views\Seguridad\NivelUsuario.cshtml" />
     <Content Include="Views\Seguridad\NivelUsuarioPartial.cshtml" />
     <Content Include="Views\Asistencia\BitacoraCambioPersonalPartial.cshtml" />
+    <Content Include="Views\Seguridad\Clasificador.cshtml" />
+    <Content Include="Views\Seguridad\ClasificadorPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

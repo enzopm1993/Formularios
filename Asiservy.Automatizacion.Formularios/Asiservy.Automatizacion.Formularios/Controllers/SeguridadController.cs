@@ -12,6 +12,7 @@ using Asiservy.Automatizacion.Formularios.Models.Seguridad;
 using Newtonsoft.Json;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using System.Net;
+using System.ComponentModel.DataAnnotations;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -24,6 +25,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsApiUsuario clsApiUsuario = null;
         clsDNivelUsuario clsDNivelUsuario = null;
         clsDOpcionRol OpcionesRol = null;
+        clsDClasificador clsDClasificador = null;
         string[] liststring;
         protected void SetSuccessMessage(string message)
         {
@@ -159,9 +161,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             clsDopcion = new clsDOpcion();
             var opciones = clsDopcion.ConsultarOpciones(new OPCION {EstadoRegistro=clsAtributos.EstadoRegistroActivo, Clase="P"}).Select(x => new { x.IdOpcion, x.Nombre });
             ViewBag.opciones = opciones;
-            List<Clasificador> ClasificadorClase = new List<Clasificador>();
-            ClasificadorClase.Add(new Clasificador { codigo = 0, descripcion = "Hijo" });
-            ClasificadorClase.Add(new Clasificador { codigo = 1, descripcion = "Padre" });
+            List<ClasificadorGenerico> ClasificadorClase = new List<ClasificadorGenerico>();
+            ClasificadorClase.Add(new ClasificadorGenerico { codigo = 0, descripcion = "Hijo" });
+            ClasificadorClase.Add(new ClasificadorGenerico { codigo = 1, descripcion = "Padre" });
             ViewBag.Clase = new SelectList(ClasificadorClase, "codigo", "descripcion");
         }
 
@@ -556,7 +558,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
-                SetErrorMessage(ex.Message);
+               // SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
@@ -575,15 +577,80 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             clsApiUsuario = new clsApiUsuario();
             ViewBag.Usuarios = clsApiUsuario.ConsultaUsuariosSap();
-            List<Clasificador> ClasificadorNivel = new List<Clasificador>();
-            ClasificadorNivel.Add(new Clasificador { codigo = 0, descripcion = "Gerencia" });
-            ClasificadorNivel.Add(new Clasificador { codigo = 1, descripcion = "Sub-Gerencia" });
-            ClasificadorNivel.Add(new Clasificador { codigo = 2, descripcion = "Jefe Departamento" });
-            ClasificadorNivel.Add(new Clasificador { codigo = 3, descripcion = "Empleado" });
+            List<ClasificadorGenerico> ClasificadorNivel = new List<ClasificadorGenerico>();
+            ClasificadorNivel.Add(new ClasificadorGenerico { codigo = 0, descripcion = "Gerencia" });
+            ClasificadorNivel.Add(new ClasificadorGenerico { codigo = 1, descripcion = "Sub-Gerencia" });
+            ClasificadorNivel.Add(new ClasificadorGenerico { codigo = 2, descripcion = "Jefe Departamento" });
+            ClasificadorNivel.Add(new ClasificadorGenerico { codigo = 3, descripcion = "Empleado" });
             ViewBag.Nivel = ClasificadorNivel;
         }
 
         #endregion
 
+
+
+        #region CLASIFICADOR
+        [Authorize]
+        public ActionResult Clasificador()
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                List<Clasificador> Grupos = new List<Clasificador>();
+                List<Clasificador> Clasificador = new List<Clasificador>();
+
+                Grupos = clsDClasificador.ConsultaClasificadorGrupos();
+                Clasificador = clsDClasificador.ConsultaClasificador(new Clasificador());
+                ViewBag.Grupos = Grupos;
+                ViewBag.Clasificador = Clasificador;
+                
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return View();
+            }
+        }
+
+        [Authorize]
+        public ActionResult ClasificadorPartial()
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                 List<Clasificador> Clasificador = new List<Clasificador>();
+                Clasificador = clsDClasificador.ConsultaClasificador(new Clasificador());               
+                return PartialView(Clasificador);
+
+            }
+            catch (Exception ex)
+            {
+                //SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion  
     }
 }
