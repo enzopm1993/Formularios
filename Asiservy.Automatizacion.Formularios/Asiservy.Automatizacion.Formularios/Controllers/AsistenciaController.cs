@@ -23,6 +23,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         string[] liststring;
         clsDError clsDError = null;
         #region Métodos
+        protected void SetSuccessMessage(string message)
+        {
+            TempData["MensajeConfirmacion"] = message;
+        }
+        protected void SetErrorMessage(string message)
+        {
+            TempData["MensajeError"] = message;
+        }
         public void ConsultaCombosGeneral()
         {
             clsDGeneral = new clsDGeneral();
@@ -173,10 +181,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 return PartialView(ListaEmpleados);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -224,6 +242,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
