@@ -229,12 +229,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     ConsultaCombosMedicos();
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
-                } else
+                }
+                else if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
+                {
+                    ConsultaCombosGeneral();
+                    ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
+
+                }
+                else
                 {
                     ConsultaCombosMedicos();
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", model.CodigoDiagnostico);
+
                 }
-               
+
                 if (!string.IsNullOrEmpty(frm) &&   frm == "BandejaRRHH")
                     ViewBag.Justifica = "Justifica";
 

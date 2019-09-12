@@ -94,21 +94,7 @@
                         </div>
                     </div>
                 </div>
-                @*<div class="col-md-4 col-sm-12">
-
-                @Html.Label("Sub Grupo Enfermedad")
-                @Html.DropDownListFor(m => m.CodigoSubGrupoEnfermedad, new SelectList("", "Codigo", "Descripcion"), "Seleccione Sub Grupo", new { @class = "form-control", @id = "selectSubGrupoEnfermedad" })
-                 @Html.ValidationMessage("CustomError3", "", new { @class = "input-validation-error text-danger has-error" })
-
-            </div>
-            <div class="col-md-4 col-sm-12">
-
-                @Html.LabelFor(m => m.DescripcionDiagnostico, new { @class = "" })
-                @Html.DropDownListFor(m => m.CodigoDiagnostico, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Dianóstico", new { @class = "form-control", @id = "selectDiagnostico" })
-                @Html.ValidationMessage("CustomError3", "", new { @class = "input-validation-error text-danger has-error" })
-
-            </div>*@
-
+             
                 <br />
                 <div class="form-group">
                     @foreach (var item in ViewBag.ClasificaroMedico)

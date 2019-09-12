@@ -347,7 +347,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
             foreach (var x in ListaPreliminar)
             {           
-                var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == x.CodigoMotivo);
+                var poMotivoPermiso = this.ConsultarMotivos(x.CodigoMotivo).FirstOrDefault();
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
                 var fechaBiometrico = clsApiUsuario.ConsultarFechaBiometrico(x.Identificacion);
                 ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
@@ -362,7 +362,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     Identificacion = x.Identificacion,
                     NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : "",
                     CodigoMotivo = x.CodigoMotivo,
-                    DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
+                    DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.DescripcionMotivo : "",
                     Observacion = x.Observacion,
                     FechaSalida = x.FechaSalida,
                     FechaRegreso = x.FechaRegreso,
@@ -412,7 +412,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
 
             for (int i = detalle.Count; i < 5; i++)
-                ListadoJustificaciones.Add(new JUSTICA_SOLICITUD());
+                ListadoJustificaciones.Add(new JUSTICA_SOLICITUD { CodigoMotivo="0"});
 
 
             var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == lista.CodigoMotivo);
