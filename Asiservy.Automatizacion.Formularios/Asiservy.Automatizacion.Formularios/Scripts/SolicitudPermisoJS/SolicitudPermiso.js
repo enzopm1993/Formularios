@@ -2,6 +2,10 @@
 
 
 
+$(document).ready(function () {
+   
+    $("#DivHora").hide();
+});
 
 
 
@@ -12,24 +16,18 @@ function CambioHoraFecha() {
     var FechaDesde = document.getElementById("dateSalida");
     var FechaHasta = document.getElementById("dateRegreso");
     var check = document.getElementById("switchHoraFecha").checked
-    //console.log(check);
+   
 
     if (check) {
-        HoraDesde.removeAttribute("readonly");
-        HoraHasta.removeAttribute("readonly");
-        FechaSalidaRegreso.removeAttribute("readonly");
-        FechaDesde.setAttribute("readonly", true);
-        FechaHasta.setAttribute("readonly", true);
-        console.log(FechaDesde);
+        $("#LabelFecha").text("Hora");
+        $("#DivHora").show();
+        $("#DivFecha").hide();
         FechaDesde.value = null;
         FechaHasta.value = null;
     } else {
-
-        HoraDesde.setAttribute("readonly", true);
-        HoraHasta.setAttribute("readonly", true);
-        FechaSalidaRegreso.setAttribute("readonly", true);
-        FechaDesde.removeAttribute("readonly");
-        FechaHasta.removeAttribute("readonly");
+        $('#LabelFecha').text("Fecha");
+        $("#DivHora").hide();
+        $("#DivFecha").show();       
         FechaSalidaRegreso.value = null;
         HoraDesde.value = null;
         HoraHasta.value = null;

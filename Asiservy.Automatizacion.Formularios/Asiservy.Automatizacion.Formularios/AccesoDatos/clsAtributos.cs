@@ -52,6 +52,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
 
         //Motivos de permiso medico
-        public static string CodigoMotivoPermisoCitaMedica = "SRG";
+        public static string CodigoMotivoPermisoCitaMedica = "LE";
     }
 }

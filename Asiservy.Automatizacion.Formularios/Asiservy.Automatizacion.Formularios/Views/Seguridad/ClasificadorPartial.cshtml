@@ -47,7 +47,7 @@
         {
             foreach (var item in Model)
             {
-                <tr onclick="SeleccionClasificador(@item.IdClasificador,'@item.Grupo','@item.Codigo','@item.Descripcion','@item.EstadoRegistro')">
+                <tr onclick="SeleccionClasificador('@item.IdClasificador','@item.Grupo','@item.Codigo','@item.Descripcion','@item.EstadoRegistro')">
                     <td>
                         @Html.DisplayFor(modelItem => item.IdClasificador)
                     </td>
