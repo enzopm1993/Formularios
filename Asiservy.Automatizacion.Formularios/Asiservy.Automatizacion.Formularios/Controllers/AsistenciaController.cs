@@ -7,10 +7,6 @@ using System.Web.Mvc;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
-using Asiservy.Automatizacion.Datos.Datos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
-using Asiservy.Automatizacion.Formularios.Models;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -138,13 +134,36 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #endregion
 
-
+        #region CUCHILLO
         [Authorize]
         // GET: Asistencia/Cuchillo
         public ActionResult Cuchillo()
         {
-            return View();
+            try
+            {
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Home", "Home");
+            }
         }
+
+
+        #endregion
+
         [Authorize]
         // GET: Asistencia/Cuchillo
         public ActionResult RptCuchillo()
