@@ -260,7 +260,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public void CargarCombosOpcionRol()
         {
             clsDopcion = new clsDOpcion();
-            var plistOpciones = clsDopcion.ConsultarOpciones(new OPCION { EstadoRegistro = clsAtributos.EstadoRegistroActivo }).Select(x => new { x.IdOpcion, x.Nombre });
+            //var plistOpciones = clsDopcion.ConsultarOpciones(new OPCION { EstadoRegistro = clsAtributos.EstadoRegistroActivo }).Select(x => new { x.IdOpcion, x.Nombre});
+            var plistOpciones = clsDopcion.ConsultarOpciones(new OPCION { EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+
+            foreach (var item in plistOpciones)
+            {
+                item.Nombre = item.Nombre + "(" + item.Clase + ")";
+            }
             ViewBag.OpcionesOr = plistOpciones;
             clsDRol = new clsDRol();
             var plistRoles = clsDRol.ConsultarRoles(clsAtributos.EstadoRegistroActivo).Select(x => new { x.IdRol, x.Descripcion });

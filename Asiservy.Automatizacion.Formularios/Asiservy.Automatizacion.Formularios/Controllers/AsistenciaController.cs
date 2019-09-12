@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
+using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
 
@@ -16,10 +18,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
 
         clsDGeneral clsDGeneral = null;
-        clsDError clsDError = null;
+        clsDEmpleado clsDEmpleado = null;
         clsDCambioPersonal clsDCambioPersonal = null;
-
+        string[] liststring;
+        clsDError clsDError = null;
         #region Métodos
+        protected void SetSuccessMessage(string message)
+        {
+            TempData["MensajeConfirmacion"] = message;
+        }
+        protected void SetErrorMessage(string message)
+        {
+            TempData["MensajeError"] = message;
+        }
         public void ConsultaCombosGeneral()
         {
             clsDGeneral = new clsDGeneral();
@@ -153,23 +164,98 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
-        public ActionResult Empleados()
+        public ActionResult EmpleadosCambioPersonalPartial(string pslinea, string psarea, string pscargo,string tipo)
         {
-            
-            List<Empleado> Empleados = new List<Empleado>
+            try
             {
-                new Empleado { Cedula = "0940203406", Nombre = "Juan Maldonado", Area="Procesos", Cargo="Limpiador" },
-                new Empleado { Cedula = "1188888456", Nombre = "Pedro Suarez", Area="Procesos", Cargo="Despellejador" },
-                new Empleado { Cedula = "2723626161", Nombre = "Alejandro Sánchez", Area="Procesos", Cargo="Limpiador" },
-                new Empleado { Cedula = "3635261617", Nombre = "María Perez", Area="Procesos", Cargo="Limpiador" },
-                new Empleado { Cedula = "1188888456", Nombre = "Andrea Bejarano", Area="Procesos", Cargo="Despellejador" },
-                new Empleado { Cedula = "2345789123", Nombre = "Juan Peña", Area="Procesos", Cargo="Despellejador" },
-            };
-            return PartialView("Empleados",Empleados);
+                List<spConsutaEmpleadosFiltro> ListaEmpleados=new List<spConsutaEmpleadosFiltro>();
+                clsDEmpleado = new clsDEmpleado();
+                if (tipo == "prestar")
+                {
+                    ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(pslinea, psarea, pscargo, clsAtributos.TipoPrestar);
 
+                }
+                else
+                {
+                    ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(pslinea, psarea, pscargo, clsAtributos.TipoRegresar);
+                }
+                return PartialView(ListaEmpleados);
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
         }
 
+        [Authorize]
+        public JsonResult MoverEmpleados(string[] dCedulas, string dlinea, string darea, string tipo)
+        {
+            try
+            {
+                List<CAMBIO_PERSONAL> pListCambioPersonal = new List<CAMBIO_PERSONAL>();
+                List<BITACORA_CAMBIO_PERSONAL> pListBitacoraCambioPersonal = new List<BITACORA_CAMBIO_PERSONAL>();
+                liststring = User.Identity.Name.Split('_');
+                string psRespuesta = string.Empty;
+                if (dCedulas != null && dCedulas.Length > 0)
+                {
+                    foreach (var pscedulas in dCedulas)
+                    {
+                        if (!string.IsNullOrEmpty(pscedulas))
+                        {
+                            pListCambioPersonal.Add(new CAMBIO_PERSONAL {
+                                Cedula = pscedulas,
+                                CodLinea = dlinea,
+                                CodArea = darea,
+                                FechaIngresoLog = DateTime.Now,
+                                UsuarioIngresoLog = liststring[0],
+                                TerminalIngresoLog = Request.UserHostAddress,
+                                EstadoRegistro = "A"
+                            });
+                            pListBitacoraCambioPersonal.Add(new BITACORA_CAMBIO_PERSONAL {
+                            Cedula= pscedulas,
+                            Tipo=tipo=="prestar"?"P":"R",
+                            CodLinea= dlinea,
+                            CodArea= darea,
+                            FechaIngresoLog = DateTime.Now,
+                            UsuarioIngresoLog = liststring[0],
+                            TerminalIngresoLog = Request.UserHostAddress,
+                            });
+                        }
+                    }
+                    clsDCambioPersonal = new clsDCambioPersonal();
+                    psRespuesta = clsDCambioPersonal.GuardarCambioDePersonal(pListCambioPersonal, pListBitacoraCambioPersonal, tipo);
+                    return Json(psRespuesta, JsonRequestBehavior.AllowGet);
+                }
+                return Json("Error, no se ha seleccionado ningún empleado", JsonRequestBehavior.AllowGet);
 
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
         #region METODOS GENERICOS
         public JsonResult ConsultaListadoAreas(string CodLinea)
         {
@@ -221,6 +307,5 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         #endregion
-
     }
 }
