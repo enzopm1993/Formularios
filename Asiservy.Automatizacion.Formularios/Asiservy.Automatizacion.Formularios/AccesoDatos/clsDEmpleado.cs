@@ -45,7 +45,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 {
                     foreach (var item in pListEmpleados.ToArray())
                     {
-                        if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.CEDULA))
+                        if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.CEDULA&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo))
                         {
                             pListEmpleados.Remove(item);
                         }
@@ -56,7 +56,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 {
                     foreach (var item in pListEmpleados)
                     {
-                        if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.CEDULA))
+                        if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.CEDULA&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo))
                         {
                             pListEmpleadoR.Add(item);
                         }
