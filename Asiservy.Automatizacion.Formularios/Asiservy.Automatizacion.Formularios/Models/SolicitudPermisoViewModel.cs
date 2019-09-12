@@ -84,7 +84,11 @@ namespace Asiservy.Automatizacion.Formularios.Models
         [DisplayName("Clasificación")]
         public string CodigoClasificador { get; set; }
 
-      
+        [DisplayName("Nombre Medico")]
+        public string NombreMedico { get; set; }
+
+     
+
         public DateTime? FechaIngresoLog { get; set; }
        
         public string UsuarioIngresoLog { get; set; }

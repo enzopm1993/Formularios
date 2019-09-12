@@ -1,0 +1,139 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.SolicitudPermisoViewModel>
+
+@{
+    ViewBag.Title = "BandejaMedico";
+}
+
+<h2>Bandeja Medico</h2>
+<div class="table-responsive">
+    <table class="table" id="TableBandejaMedico">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdSolicitudPermiso)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.DescripcionLinea)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.DescripcionArea)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.DescripcionCargo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Identificacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NombreEmpleado)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.DescripcionMotivo)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaSalida)
+                </th>
+
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaRegreso)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.DescripcionOrigen)
+                </th>
+
+
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdSolicitudPermiso)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DescripcionLinea)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DescripcionArea)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DescripcionCargo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Identificacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreEmpleado)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DescripcionMotivo)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaSalida)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaRegreso)
+                        </td>
+
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DescripcionOrigen)
+                        </td>
+
+                        <td>
+                            <input type="button" onclick="Mostrar(@item.IdSolicitudPermiso)" name="name" value="Ver" class="btn btn-link" />
+                            <input type="button" onclick="ValidarMedico(@item.IdSolicitudPermiso)" name="name" value="Aprobar" class="btn btn-link" />
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<div ></div>
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalAprobacion" data-backdrop="static" style="padding-bottom:5%">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Solicitud Permiso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"id="modal_body">
+               
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/SolicitudPermisoJS/Bandeja.js"></script>
+<script src="~/Scripts/Mensajes/Mensajes.js"></script>
+<script src="~/Scripts/SolicitudPermisoJS/BandejaMedico.js"></script>

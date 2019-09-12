@@ -50,5 +50,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //Clasificador
         public static string CodigoClasificadorGrupo = "0";
 
+
+        //Motivos de permiso medico
+        public static string CodigoMotivoPermisoCitaMedica = "SRG";
     }
 }

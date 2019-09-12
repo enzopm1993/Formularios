@@ -47,48 +47,67 @@
                 </div>
             </div>
         </div>
-
     </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.DescripcionMotivo, htmlAttributes: new { @class = "control-label col-md-12" })
-        <div class="col-md-12">
-            @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectMotivo" })
-            @Html.ValidationMessageFor(model => model.DescripcionMotivo, "", new { @class = "text-danger" })
+
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.DescripcionMotivo, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-12">
+                    @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "DescripcionMotivo"), "Seleccione", new { @class = "form-control", @id = "selectMotivo" })
+                    @Html.ValidationMessageFor(model => model.DescripcionMotivo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1" class="control-label col-md-6">Observacion</label>
+                <div class="col-md-12">
+                    @Html.TextAreaFor(model => model.Observacion,new { @class = "form-control", @rows = 4, @id = "exampleFormControlTextarea1"  })
+                    @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger"  })
+                </div>
+            </div>
         </div>
     </div>
+
+    
     @if (Model.Origen == "M")
     {
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CodigoDiagnostico, htmlAttributes: new { @class = "control-label col-md-12" })
-                    <div class="col-md-12">
-                        @Html.DropDownListFor(m => m.CodigoDiagnostico, new SelectList(ViewBag.CodigosEnfermedad, "codigo", "Descripcion"), new { @class = "form-control", @id = "selectMotivo" })
-                        @Html.ValidationMessageFor(model => model.CodigoDiagnostico, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CodigoClasificador, htmlAttributes: new { @class = "control-label col-md-12" })
-                    <div class="col-md-12">
-                        @Html.DropDownListFor(m => m.CodigoClasificador, new SelectList(ViewBag.ClasificaroMedico, "codigo", "Descripcion"), new { @class = "form-control", @id = "selectMotivo" })
-                        @Html.ValidationMessageFor(model => model.CodigoClasificador, "", new { @class = "text-danger" })
-                    </div>
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.CodigoDiagnostico, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-12">
+                    @Html.DropDownListFor(m => m.CodigoDiagnostico, new SelectList(ViewBag.CodigosEnfermedad, "codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectMotivo" })
+                    @Html.ValidationMessageFor(model => model.CodigoDiagnostico, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.CodigoClasificador, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-12">
+                    @Html.DropDownListFor(m => m.CodigoClasificador, new SelectList(ViewBag.ClasificaroMedico, "codigo", "Descripcion",Model.CodigoClasificador), "Seleccione", new { @class = "form-control", @id = "selectMotivo" })
+                    @Html.ValidationMessageFor(model => model.CodigoClasificador, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.NombreMedico, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-12">
+                    @Html.TextBoxFor(m => m.NombreMedico, new { @class = "form-control", @id = "selectMotivo" })
+                    @Html.ValidationMessageFor(model => model.NombreMedico, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Observacion, htmlAttributes: new { @class = "control-label col-md-12" })
-        <div class="col-md-12">
-            @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control", @rows = 3 } })
-            @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
-        </div>
-    </div>
+
     <div class="row">
         <div class="col-md-6 col-sm-12">
             <div class="form-group">
@@ -131,6 +150,7 @@
         </div>
     </div>
 
+
     <div class="collapse" id="collapseJustificar">
         <div class="card card-body">
             <div style="overflow-x:auto;">
@@ -167,7 +187,7 @@
             </div>
         </div>
     </div>
-   
+
 
     <div class="form-group">
         <div class="col-md-12 text-center">

@@ -19,7 +19,7 @@ function FinalizarSolicitud(valor) {
 }
 
 function Finalizar(result) {
-    console.log(result);
+   // console.log(result);
 
     var resultado = JSON.stringify(result)
     var resultado2 = JSON.parse(resultado)

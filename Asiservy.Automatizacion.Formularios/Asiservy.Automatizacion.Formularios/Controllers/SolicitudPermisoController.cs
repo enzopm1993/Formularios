@@ -41,6 +41,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return View();
             }
         }
@@ -103,6 +113,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
@@ -135,6 +155,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
@@ -171,6 +201,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
@@ -181,18 +221,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 SolicitudPermisoViewModel model = clsDSolicitudPermiso.ConsultaSolicitudPermiso(dsSolicitud);
-                if (model.Origen == clsAtributos.SolicitudOrigenGeneral)
-                {
+                if (model.Origen == clsAtributos.SolicitudOrigenGeneral && string.IsNullOrEmpty(frm))
+                { 
                     ConsultaCombosGeneral();
                 }
-                else
+                else if (!string.IsNullOrEmpty(frm) && frm == "BandejaMedico")
+                {
+                    ConsultaCombosMedicos();
+                    ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
+                } else
                 {
                     ConsultaCombosMedicos();
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", model.CodigoDiagnostico);
-
                 }
-
-                if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
+               
+                if (!string.IsNullOrEmpty(frm) &&   frm == "BandejaRRHH")
                     ViewBag.Justifica = "Justifica";
 
                 return PartialView(model);
@@ -201,6 +244,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 SetErrorMessage(ex.Message);
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 return PartialView();
             }
         }
@@ -218,7 +271,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     SOLICITUD_PERMISO poSolicitudPermiso = new SOLICITUD_PERMISO();
                     poSolicitudPermiso.IdSolicitudPermiso = doSolicitud.IdSolicitudPermiso;
                     poSolicitudPermiso.Observacion = doSolicitud.Observacion;
+                    if(!string.IsNullOrEmpty(doSolicitud.CodigoClasificador))
+                        poSolicitudPermiso.CodigoClasificador = int.Parse(doSolicitud.CodigoClasificador);
+                    if(!string.IsNullOrEmpty(doSolicitud.CodigoDiagnostico))
+                        poSolicitudPermiso.CodigoDiagnostico = doSolicitud.CodigoDiagnostico;
                     poSolicitudPermiso.CodigoMotivo = doSolicitud.CodigoMotivo;
+                    poSolicitudPermiso.NombreMedico = doSolicitud.NombreMedico;
                     poSolicitudPermiso.FechaSalida = doSolicitud.FechaSalida ?? poSolicitudPermiso.FechaSalida;
                     poSolicitudPermiso.FechaRegreso = doSolicitud.FechaRegreso ?? poSolicitudPermiso.FechaRegreso;
                     poSolicitudPermiso.FechaModificacionLog = DateTime.Now;
@@ -242,12 +300,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
                     return RedirectToAction("BandejaRRHH");
+                else if(!string.IsNullOrEmpty(frm) && frm == "BandejaMedico")
+                    return RedirectToAction("BandejaMedico");
                 else
                     return RedirectToAction("BandejaAprobacion");
             }
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
                 if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
                     return RedirectToAction("BandejaRRHH");
                 else
@@ -256,6 +326,38 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
         #endregion
+
+        #region BANDEJAMEDICO
+        public ActionResult BandejaMedico()
+        {
+            try{
+                clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                var model = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(new SOLICITUD_PERMISO {
+                    //FechaSalida = DateTime.Now.AddMonths(-1),
+                    //FechaRegreso = DateTime.Now,
+                    Origen = clsAtributos.SolicitudOrigenMedico,
+                    ValidaMedico = true
+                });
+
+                return View(model);
+            } catch(Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Home","Home");
+            }
+        }
+        #endregion
+
 
         #region SOLICITUD PERMISO
         [Authorize]
@@ -284,6 +386,43 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home","Home");
             }
         }
+        public JsonResult ValidarMedicoSolicitud(string diIdSolicitud)
+        {
+            try
+            {
+                string psRespuesta = string.Empty;
+                if (diIdSolicitud != null && diIdSolicitud.Length > 0)
+                {                   
+                    clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                    SOLICITUD_PERMISO model = new SOLICITUD_PERMISO();
+                    model.IdSolicitudPermiso = int.Parse(diIdSolicitud);                           
+                    model.FechaModificacionLog = DateTime.Now;
+                    string[] psIdUsuario = User.Identity.Name.Split('_');
+                    model.UsuarioModificacionLog = psIdUsuario[0];
+                    model.TerminalModificacionLog = Request.UserHostAddress;
+                    model.ValidaMedico = false;
+                    psRespuesta=clsDSolicitudPermiso.CambioEstadoSolicitud(model);
+                    return Json(psRespuesta, JsonRequestBehavior.AllowGet);
+                }
+                return Json("Error, no se ha enviado ninguna solicitud", JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [Authorize]
         [HttpPost]
         public ActionResult SolicitudPermiso(SolicitudPermisoViewModel model)
@@ -357,7 +496,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.UsuarioIngresoLog = psIdUsuario[0];
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
                     solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
-
+                    if(model.CodigoMotivo ==clsAtributos.CodigoMotivoPermisoCitaMedica)
+                    {
+                        solicitudPermiso.ValidaMedico = true;
+                        solicitudPermiso.Origen = clsAtributos.SolicitudOrigenMedico;
+                    }
 
 
                     string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);
@@ -742,7 +885,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             clsDClasificador = new clsDClasificador();
             clsDSolicitudPermiso = new clsDSolicitudPermiso();
             clsDGeneral = new clsDGeneral();
-            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("G");
+            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null);
             ViewBag.Lineas = clsDGeneral.ConsultaLineas();
             //ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
             //ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
@@ -754,7 +897,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             clsDGeneral = new clsDGeneral();
             clsApiUsuario = new clsApiUsuario();
             ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
-            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos("M");
+            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(clsAtributos.CodigoMotivoPermisoCitaMedica);
             ViewBag.Lineas = clsDGeneral.ConsultaLineas();
             ViewBag.NombreMedico = clsApiUsuario.ConsultaListaUsuariosSap().FirstOrDefault(x => x.Cedula == "1311401135").Nombre??"";
             //ViewBag.Areas = clsDGeneral.ConsultaAreas("0");

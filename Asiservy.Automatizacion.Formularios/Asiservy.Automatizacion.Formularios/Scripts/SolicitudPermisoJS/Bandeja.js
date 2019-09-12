@@ -82,7 +82,8 @@ function Mostrar(valor) {
         url: '../SolicitudPermiso/SolicitudPermisoEdit',
         type: 'GET',
         data: {
-            dsSolicitud: valor
+            dsSolicitud: valor,
+            frm: sPage
         },
         success: function (resultado) {
             document.getElementById("modal_body").innerHTML = resultado;

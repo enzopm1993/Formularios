@@ -1,11 +1,14 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
@@ -26,6 +29,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 poSolicitud.FechaModificacionLog = doSolicitud.FechaModificacionLog;
                 poSolicitud.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
                 poSolicitud.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
+                poSolicitud.ValidaMedico = doSolicitud.ValidaMedico;
                 psMensaje = "Registro Actualizado Correctamente";
 
                 BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
@@ -59,6 +63,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         poSolicitud.Observacion = doSolicitud.Observacion ?? "";
                         poSolicitud.FechaSalida = doSolicitud.FechaSalida;
                         poSolicitud.FechaRegreso = doSolicitud.FechaRegreso;
+                        poSolicitud.CodigoClasificador = doSolicitud.CodigoClasificador;
+                        poSolicitud.CodigoDiagnostico = doSolicitud.CodigoDiagnostico;
+                        poSolicitud.NombreMedico = doSolicitud.NombreMedico;
                         poSolicitud.FechaModificacionLog = doSolicitud.FechaModificacionLog;
                         poSolicitud.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
                         poSolicitud.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
@@ -130,14 +137,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         }
 
-        public List<spConsutaMotivosPermiso> ConsultarMotivos(string tipo)
+        public List<Motivo> ConsultarMotivos(string Codmotivo)
         {
             entities = new ASIS_PRODEntities();
 
-           var lista= entities.spConsutaMotivosPermiso(tipo).ToList();
+            //var lista= entities.spConsutaMotivosPermiso(tipo).ToList();
+            var client = new RestClient("http://192.168.0.31:8870");
+            // client.Authenticator = new HttpBasicAuthenticator(username, password);
+
+            RestRequest request = null;
+            if (!string.IsNullOrEmpty(Codmotivo))
+                 request = new RestRequest("/api/Motivos/"+ Codmotivo, Method.GET);
+            else
+                 request = new RestRequest("/api/Motivos", Method.GET);
+
+            IRestResponse response = client.Execute(request);
+            var content = response.Content; // raw content as string
+            List<Motivo> ListaMotivo = JsonConvert.DeserializeObject<List<Motivo>>(content);
 
 
-            return lista;
+            return ListaMotivo;
         }
         public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermisoReporte(string dsLinea, string dsArea, string dsEstado, bool dbGarita=false)
         {
@@ -323,7 +342,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
             else
             {
-                ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstadoSolcitud && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstadoSolcitud && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.ValidaMedico!=true).ToList();
             }
 
             foreach (var x in ListaPreliminar)
@@ -412,6 +431,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 CodigoMotivo = lista.CodigoMotivo,
                 DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
                 Observacion = lista.Observacion,
+                CodigoClasificador =lista.CodigoClasificador+"",
+                 NombreMedico=lista.NombreMedico,
                 FechaSalida = lista.FechaSalida,
                 FechaRegreso = lista.FechaRegreso,
                 EstadoSolicitud = lista.EstadoSolicitud,
@@ -429,6 +450,73 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             };
            
             return ListaSolicitudesPermiso;
+        }
+
+        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso(SOLICITUD_PERMISO filtros)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                List<SolicitudPermisoViewModel> ListaSolicitudesPermiso= new List<SolicitudPermisoViewModel>();
+                IEnumerable<SOLICITUD_PERMISO> ListaSolicitudes = entities.SOLICITUD_PERMISO;                
+
+                if(filtros !=null)
+                {
+                    if (!string.IsNullOrEmpty(filtros.Identificacion))
+                    {
+                        ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.Identificacion == filtros.Identificacion);
+                    }
+                    if (!string.IsNullOrEmpty(filtros.EstadoRegistro))
+                    {
+                        ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.EstadoRegistro == filtros.EstadoRegistro);
+                    }
+                    if (!string.IsNullOrEmpty(filtros.Origen))
+                    {
+                        ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.Origen == filtros.Origen);
+                    }
+                    if (filtros.ValidaMedico!=null && filtros.ValidaMedico==true)
+                    {
+                        ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.ValidaMedico == filtros.ValidaMedico);
+                    }
+                    //ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.FechaSalida >=  filtros.FechaSalida);                  
+                    //ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.FechaSalida <= filtros.FechaRegreso);                   
+                }
+
+                foreach (var lista in ListaSolicitudes.ToList())
+                {
+                    var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == lista.CodigoMotivo);
+                    var poEmpleado = entities.spConsutaEmpleados(lista.Identificacion).FirstOrDefault();
+                    ListaSolicitudesPermiso.Add( new SolicitudPermisoViewModel
+                    {
+                        IdSolicitudPermiso = lista.IdSolicitudPermiso,
+                        CodigoLinea = lista.CodigoLinea,
+                        DescripcionLinea = poEmpleado != null ? poEmpleado.LINEA : "",
+                        CodigoArea = lista.CodigoArea,
+                        DescripcionArea = poEmpleado != null ? poEmpleado.AREA : "",
+                        CodigoCargo = lista.CodigoCargo,
+                        DescripcionCargo = poEmpleado != null ? poEmpleado.CARGO : "",
+                        Identificacion = lista.Identificacion,
+                        NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : "",
+                        CodigoMotivo = lista.CodigoMotivo,
+                        DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
+                        Observacion = lista.Observacion,
+                        FechaSalida = lista.FechaSalida,
+                        FechaRegreso = lista.FechaRegreso,
+                        EstadoSolicitud = lista.EstadoSolicitud,
+                        FechaBiometrico = lista.FechaBiometrico,
+                        Origen = lista.Origen,
+                        DescripcionOrigen = lista.Origen == clsAtributos.SolicitudOrigenGeneral ? "General" : "Médico",
+                        CodigoDiagnostico = lista.CodigoDiagnostico,
+                        FechaIngresoLog = lista.FechaIngresoLog,
+                        UsuarioIngresoLog = lista.UsuarioIngresoLog,
+                        TerminalIngresoLog = lista.TerminalIngresoLog,
+                        UsuarioModificacionLog = lista.UsuarioModificacionLog,
+                        FechaModificacionLog = lista.FechaModificacionLog,
+                        TerminalModificacionLog = lista.TerminalModificacionLog
+                       
+                    });
+                }
+                return ListaSolicitudesPermiso;
+            }
         }
         public int ConsultarNivelUsuario(string dsUsuario)
         {
