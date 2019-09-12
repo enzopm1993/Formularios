@@ -78,6 +78,15 @@
     <Compile Include="Datos\CLASIFICADOR.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CONTROL_CUCHILLO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CUCHILLO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\EMPLEADO_CUCHILLO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\ERROR.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
