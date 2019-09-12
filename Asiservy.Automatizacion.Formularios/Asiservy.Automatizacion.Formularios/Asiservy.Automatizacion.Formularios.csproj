@@ -605,6 +605,7 @@
     <Content Include="Scripts\SeguridadJS\Rol.js" />
     <Content Include="Scripts\SeguridadJS\UsuarioRol.js" />
     <Content Include="Scripts\SolicitudPermisoJS\Bandeja.js" />
+    <Content Include="Scripts\SolicitudPermisoJS\BandejaMedico.js" />
     <Content Include="Scripts\SolicitudPermisoJS\BandejaRRHH.js" />
     <Content Include="Scripts\SolicitudPermisoJS\BitacoraSolicitud.js" />
     <Content Include="Scripts\SolicitudPermisoJS\Empleado.js" />
@@ -645,9 +646,10 @@
     <Compile Include="Models\Asistencia\BitacoraCambioPersonalModelView.cs" />
     <Compile Include="Models\Asistencia\CambioDePersonalViewModel.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
-    <Compile Include="Models\Clasificador.cs" />
+    <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\Empleado.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
+    <Compile Include="Models\Motivo.cs" />
     <Compile Include="Models\Seguridad\Clasificador.cs" />
     <Compile Include="Models\Seguridad\ConsultaOpcionesxRolViewModel.cs" />
     <Compile Include="Models\Seguridad\NivelUsuarioViewModel.cs" />
@@ -713,6 +715,7 @@
     <Content Include="Views\Asistencia\BitacoraCambioPersonalPartial.cshtml" />
     <Content Include="Views\Seguridad\Clasificador.cshtml" />
     <Content Include="Views\Seguridad\ClasificadorPartial.cshtml" />
+    <Content Include="Views\SolicitudPermiso\BandejaMedico.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

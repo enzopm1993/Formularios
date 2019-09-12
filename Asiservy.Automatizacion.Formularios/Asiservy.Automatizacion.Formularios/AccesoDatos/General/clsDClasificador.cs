@@ -10,6 +10,43 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
     public class clsDClasificador
     {
         ASIS_PRODEntities entities = null;
+
+
+        public string GuardarModificarClasificador(Clasificador model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                string Respuesta = string.Empty;
+                var poClasificador = entities.CLASIFICADOR.FirstOrDefault(x => x.IdClasificador == model.IdClasificador);
+                if (poClasificador != null)
+                {
+                    poClasificador.Descripcion = model.Descripcion;
+                    poClasificador.Grupo = model.Grupo;
+                    poClasificador.Codigo = model.Codigo;
+                    poClasificador.EstadoRegistro = model.EstadoRegistro;
+                    poClasificador.FechaModificacionLog = DateTime.Now;
+                    poClasificador.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    poClasificador.TerminalModificacionLog = model.TerminalIngresoLog;
+                }else
+                {
+
+                    entities.CLASIFICADOR.Add(new CLASIFICADOR {
+                        Codigo = model.Codigo,
+                        TerminalIngresoLog = model.TerminalIngresoLog,
+                        UsuarioIngresoLog = model.UsuarioIngresoLog,
+                        Grupo = model.Grupo,
+                        Descripcion = model.Descripcion,
+                        EstadoRegistro = model.EstadoRegistro,
+                        FechaIngresoLog= DateTime.Now
+                    });
+                }
+                entities.SaveChanges();
+                Respuesta = clsAtributos.MsjRegistroGuardado;
+                return Respuesta;
+            }
+        }
+
+
         public List<Clasificador> ConsultaClasificadorGrupos()
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -27,7 +64,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         Descripcion = x.Descripcion,
                         FechaIngresoLog = x.FechaIngresoLog,
                         FechaModificacionLog = x.FechaModificacionLog,
-                        GrupoMombre = x.Descripcion,
+                        GrupoNombre = x.Descripcion,
                         IdClasificador = x.IdClasificador,
                         TerminalIngresoLog = x.TerminalIngresoLog,
                         TerminalModificacionLog = x.TerminalModificacionLog,
@@ -61,16 +98,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     poClasificador = poClasificador.Where(x => x.EstadoRegistro == Filtros.EstadoRegistro);
                 }
 
-
+                
                 foreach (var x in poClasificador.OrderBy(x => x.IdClasificador).ToList())
                 {
-                    string Grupo = string.Empty;
-                    if (x.Codigo == "0")
+                    if (x.Codigo != "0")
                     {
-                        Grupo = x.Descripcion;
-                    }
-                    else
-                    {
+                        var DescripcionGrupo = entities.CLASIFICADOR.FirstOrDefault(y => y.Grupo == x.Grupo && y.Codigo == "0");
                         ListadoClasificador.Add(new Clasificador
                         {
                             Codigo = x.Codigo,
@@ -79,7 +112,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                             Descripcion = x.Descripcion,
                             FechaIngresoLog = x.FechaIngresoLog,
                             FechaModificacionLog = x.FechaModificacionLog,
-                            GrupoMombre = Grupo,
+                            GrupoNombre = DescripcionGrupo != null ? DescripcionGrupo.Descripcion : "",
                             IdClasificador = x.IdClasificador,
                             TerminalIngresoLog = x.TerminalIngresoLog,
                             TerminalModificacionLog = x.TerminalModificacionLog,

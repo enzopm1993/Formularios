@@ -71,7 +71,9 @@
     <div id="ModalMensaje"></div>
 
     <div style="padding-bottom: 50px" class="container-fluid">
-        @RenderBody()
+        <div style="padding-bottom:5%">
+            @RenderBody()
+        </div>
         <script src="~/Scripts/Mensajes/Mensajes.js"></script>
 
         @if (TempData["MensajeConfirmacion"] != null)

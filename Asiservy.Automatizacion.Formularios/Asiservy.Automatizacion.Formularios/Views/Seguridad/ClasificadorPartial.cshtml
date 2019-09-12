@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Seguridad.Clasificador>
 
-<table class="table table-bordered">
+<table class="table table-bordered" id="TableClasificadorPartial">
     <thead>
         <tr>
             <th>
@@ -10,7 +10,7 @@
                 @Html.DisplayNameFor(model => model.Grupo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GrupoMombre)
+                @Html.DisplayNameFor(model => model.GrupoNombre)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Codigo)
@@ -39,7 +39,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.TerminalModificacionLog)
             </th>
-           
+
         </tr>
     </thead>
     <tbody>
@@ -47,46 +47,83 @@
         {
             foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdClasificador)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Grupo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GrupoMombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Codigo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EstadoRegistro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
-                </td>
-                
-            </tr>
+                <tr onclick="SeleccionClasificador(@item.IdClasificador,'@item.Grupo','@item.Codigo','@item.Descripcion','@item.EstadoRegistro')">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdClasificador)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Grupo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GrupoNombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Codigo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EstadoRegistro)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+                    </td>
+
+                </tr>
             }
         }
     </tbody>
 </table>
+
+
+
+
+<script>
+
+    $('#TableClasificadorPartial').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        "pageLength": 5,
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+        "pagingType": "full_numbers"
+
+    });
+</script>

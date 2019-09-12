@@ -595,14 +595,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                liststring = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
                 List<Clasificador> Grupos = new List<Clasificador>();
-                List<Clasificador> Clasificador = new List<Clasificador>();
+                //List<Clasificador> Clasificador = new List<Clasificador>();
 
                 Grupos = clsDClasificador.ConsultaClasificadorGrupos();
-                Clasificador = clsDClasificador.ConsultaClasificador(new Clasificador());
+                //Clasificador = clsDClasificador.ConsultaClasificador(new Clasificador());
                 ViewBag.Grupos = Grupos;
-                ViewBag.Clasificador = Clasificador;
+                //ViewBag.Clasificador = Clasificador;
                 
                 return View();
 
@@ -623,6 +624,56 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return View();
             }
         }
+        [Authorize]
+        [HttpPost]
+        public ActionResult Clasificador(Clasificador model,bool ValidaGrupo)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');             
+                clsDClasificador = new clsDClasificador();
+                List<Clasificador> Grupos = new List<Clasificador>();
+             
+                if (!ModelState.IsValid || (!ValidaGrupo &&  string.IsNullOrEmpty(model.Grupo)))
+                {
+                    if (!ValidaGrupo && string.IsNullOrEmpty(model.Grupo))
+                        ModelState.AddModelError("Grupo","Campo Requerido");
+                    Grupos = clsDClasificador.ConsultaClasificadorGrupos();
+                    ViewBag.Grupos = Grupos;
+                    return View(model);
+                }
+                if (ValidaGrupo)
+                {
+                    model.Grupo = model.Codigo;
+                    model.Codigo = "0";
+                }
+                model.EstadoRegistro = model.EstadoRegistro == "true" ? "A" : "I";
+                model.UsuarioIngresoLog = liststring[0];
+                model.TerminalIngresoLog = Request.UserHostAddress+"";
+                Grupos = clsDClasificador.ConsultaClasificadorGrupos();
+                var mensaje = clsDClasificador.GuardarModificarClasificador(model);
+                SetSuccessMessage(mensaje);
+                ViewBag.Grupos = Grupos;               
+
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return RedirectToAction("Clasificador");
+            }
+        }
 
         [Authorize]
         public ActionResult ClasificadorPartial()
@@ -631,7 +682,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 clsDClasificador = new clsDClasificador();
                  List<Clasificador> Clasificador = new List<Clasificador>();
-                Clasificador = clsDClasificador.ConsultaClasificador(new Clasificador());               
+                Clasificador = clsDClasificador.ConsultaClasificador(new Clasificador()).OrderBy(x=> x.Grupo).ToList();               
                 return PartialView(Clasificador);
 
             }
