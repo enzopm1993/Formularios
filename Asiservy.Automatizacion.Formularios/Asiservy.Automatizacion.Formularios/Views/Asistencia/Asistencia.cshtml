@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaViewModel
+@{
     ViewBag.Title = "Asistencia";
 }
 
@@ -6,26 +7,30 @@
 
     <h4 class="custom-control-inline">Fecha: &nbsp; @DateTime.Now.ToString("dd-MM-yyyy") </h4>
     <br />
-    <label>Linea</label>
-    <select class="browser-default custom-select" id="SelectLinea">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select>
+    <label>@ViewBag.Linea</label>
+    
+    @*<select class="browser-default custom-select" id="SelectLinea">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>*@
     <br />
     <br />
     <div class="table-responsive">
 
         <table class="table table-bordered" id="TableCuchillos">
             <tr class="text-center">
+                <td class="align-bottom" rowspan="2" hidden></td>
+                <td class="align-bottom" rowspan="2"></td>
                 <td class="align-bottom" rowspan="2"><b> Personal</b></td>
-                <td class="align-bottom" rowspan="2"><b>Check</b> </td>
-                <td class="align-bottom" rowspan="2"><b>Estado</b> </td>
                 <td class="align-bottom" rowspan="2"><b>Hora</b> </td>
                 <td class="align-middle" colspan="3"><b>Cuchillos</b> </td>
                 <td class="align-bottom" rowspan="2"><b>Observación</b> </td>
+                <td class="align-bottom" rowspan="2"><b>Check</b> </td>
+                <td class="align-bottom" rowspan="2"><b>Estado</b> </td>
+                <td class="align-bottom" rowspan="2"></td>
             </tr>
             <tr>
                 <td>
@@ -46,108 +51,80 @@
                     </div>
                 </td>
             </tr>
+            @{
+                int cont = 0;
+            }
+            @foreach (var item in Model.ControlAsistencia)
+            {
+                cont++;
+                <tr>
+                    <td hidden>
+                        @Html.TextBoxFor(x=>x.ControlAsistencia[cont-1].Cedula)
+                    </td>
+                    <td>
+                        @cont
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(z=>z.ControlAsistencia[cont-1].Nombres, new { style = "width:100%; border: 0;", @readonly = true })
+                        
+                    </td>
+                    <td>
+                        @*<input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />*@
+                        @Html.TextBoxFor(x => x.ControlAsistencia[cont-1].Hora, new { type = "time",@class = "form-control" })
+                    </td>
+                    <td class="text-center align-content-center">
+                        <div class="col-xs-2 text-xs-center">
+                            <label class="btn btn-light text-xs-center" id="labelCuchilloRojo">
+                                <input type="checkbox" onchange="Cuchillo(1,1)" id="CheckCuchilloRojo">21
+                            </label>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="col-xs-2 text-xs-center">
+                            <label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
+                                <input type="checkbox" onchange="Cuchillo(2,1)" id="CheckCuchilloNegro">01
+                            </label>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="col-xs-2 text-xs-center">
+                            <label class="btn btn-light text-xs-center" id="labelCuchilloBlanco">
+                                <input type="checkbox" onchange="Cuchillo(3,1)" id="CheckCuchilloBlanco">31
+                            </label>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div>
+                            @*<input type="text" class="form-control-plaintext" id="Observacion" placeholder="Observacion">*@
+                            @Html.TextBoxFor(x => x.ControlAsistencia[cont-1].Observacion)
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <label class="btn btn-light text-xs-center" id="LabelAsistencia">
+                            
+                            @*<input type="checkbox" autocomplete="on" onchange="fillBook(0)" id="CheckAsistencia">*@
+                            <input type="checkbox" autocomplete="on" onchange="GuardarPersona(@cont);" id="CheckAsistencia-@cont">
+                        </label>
+                    </td>
+                    <td>
+                        <select class="custom-select" id="SelectEstado" onchange="CambioEstado(1)">
+                            <option selected>Seleccione</option>
+                            <option value="1">Presente</option>
+                            <option value="2">Atraso</option>
+                            <option value="3">Falta</option>
+                        </select>
+                    </td>
+                    <td>
+                        <center> <img src="~/Content/images/actualizar.png" width="30" height="30" style="cursor: pointer" /> </center>
+                    </td>
+                </tr>
+            }
             <tr>
-                <td>
-                    José Delgado
-                </td>
-                <td class="text-center">
-                    <label class="btn btn-light text-xs-center" id="LabelAsistencia">
-                        <input type="checkbox" autocomplete="on" onchange="fillBook(0)" id="CheckAsistencia">
-                    </label>
-                </td>
-                <td>
-                    <select class="custom-select" id="SelectEstado" onchange="CambioEstado(1)">
-                        <option selected>Seleccione</option>
-                        <option value="1">Presente</option>
-                        <option value="2">Atraso</option>
-                        <option value="3">Falta</option>
-                    </select>
-                </td>
-                <td>
-                    <input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />
-                </td>
-                <td class="text-center align-content-center">
-                    <div class="col-xs-2 text-xs-center">
-                        <label class="btn btn-light text-xs-center" id="labelCuchilloRojo">
-                            <input type="checkbox" onchange="Cuchillo(1,1)" id="CheckCuchilloRojo">21
-                        </label>
-                    </div>
-                </td>
-                <td class="text-center">
-                    <div class="col-xs-2 text-xs-center">
-                        <label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
-                            <input type="checkbox" onchange="Cuchillo(2,1)" id="CheckCuchilloNegro">01
-                        </label>
-                    </div>
-                </td>
-                <td class="text-center">
-                    <div class="col-xs-2 text-xs-center">
-                        <label class="btn btn-light text-xs-center" id="labelCuchilloBlanco">
-                            <input type="checkbox" onchange="Cuchillo(3,1)" id="CheckCuchilloBlanco">31
-                        </label>
-                    </div>
-                </td>
-                <td class="text-center">
-                    <div>
-                        <input type="text" class="form-control-plaintext" id="Observacion" placeholder="Observacion">
-                    </div>
-                </td>
-
-            </tr>
-            <tr>
-                <td>
-                    Jorge Mazza
-                </td>
-                <td class="text-center">
-                    <label class="btn btn-light text-xs-center" id="LabelAsistencia2">
-                        <input type="checkbox" autocomplete="on" onchange="fillBook(2)" id="CheckAsistencia2">
-                    </label>
-                </td>
-
-                <td>
-                    <select class="custom-select" id="SelectEstado2" onchange="CambioEstado(2)">
-                        <option selected>Seleccione</option>
-                        <option value="1">Presente</option>
-                        <option value="2">Atraso</option>
-                        <option value="3">Falta</option>
-                    </select>
-                </td>
-                <td>
-                    <input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />
-                </td>
-                <td class="text-center align-content-center">
-                    <div class="col-xs-2 text-xs-center" data-toggle="">
-                        <label class="btn btn-light text-xs-center" id="labelCuchilloRojo2">
-                            <input type="checkbox" autocomplete="on" onchange="Cuchillo(1,2)" id="CheckCuchilloRojo2">22
-                        </label>
-                    </div>
-                </td>
-                <td class="text-center">
-                    <div class="col-xs-2 text-xs-center">
-                        <label class="btn btn-light text-xs-center" id="labelCuchilloNegro2">
-                            <input type="checkbox" autocomplete="on" onchange="Cuchillo(2,2)" id="CheckCuchilloNegro2">02
-                        </label>
-                    </div>
-                </td>
-                <td class="text-center">
-                    <div class="col-xs-2 text-xs-center">
-                        <label class="btn btn-light text-xs-center" id="labelCuchilloBlanco2">
-                            <input type="checkbox" autocomplete="on" onchange="Cuchillo(3,2)" id="CheckCuchilloBlanco2">32
-                        </label>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group">
-                        <input type="text" class="form-control-plaintext" id="Observacion2" placeholder="Observacion">
-                    </div>
-                </td>
-
-            </tr>
         </table>
 
-        <div class="text-center" style="width:100%">
-            <button type="button" class="btn btn-info" onclick="Mensaje('Registro Exitoso')">GUARDAR</button>
-        </div>
+        @*<div class="text-center" style="width:100%">
+                <button type="button" class="btn btn-info" onclick="Mensaje('Registro Exitoso')">GUARDAR</button>
+            </div>*@
 
 
     </div>

@@ -51,6 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Datos\ASISTENCIA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\ASIS_PROD.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.OPCION_ROL" Width="1.5" PointX="8" PointY="9" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ROL" Width="1.5" PointX="5.75" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.SOLICITUD_PERMISO" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.USUARIO_ROL" Width="1.5" PointX="8" PointY="13" IsExpanded="true" />
         <AssociationConnector Association="ASIS_PRODModel.FK__JUSTICA_S__IdSol__6A30C649" ManuallyRouted="false" />
         <AssociationConnector Association="ASIS_PRODModel.FK__OPCION_RO__IdOpc__4F7CD00D" ManuallyRouted="false" />
@@ -29,6 +29,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CUCHILLO" Width="1.5" PointX="12.375" PointY="6.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO" Width="1.5" PointX="14.625" PointY="6" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CUCHILLO_EMPLEADO_CUCHILLO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.ASISTENCIA" Width="1.5" PointX="3.375" PointY="13.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

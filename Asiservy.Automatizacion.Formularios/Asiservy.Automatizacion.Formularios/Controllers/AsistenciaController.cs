@@ -8,6 +8,7 @@ using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
 
+
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class AsistenciaController : Controller
@@ -15,9 +16,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         clsDGeneral clsDGeneral = null;
         clsDEmpleado clsDEmpleado = null;
+        clsDAsistencia clsDAsistencia = null;
         clsDCambioPersonal clsDCambioPersonal = null;
         string[] liststring;
         clsDError clsDError = null;
+       
         #region Métodos
         protected void SetSuccessMessage(string message)
         {
@@ -40,9 +43,51 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult Asistencia()
         {
-            return View();
-        }
+            try
+            {
+                TimeSpan hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm"));
+               
+                clsDGeneral = new clsDGeneral();
+                liststring = User.Identity.Name.Split('_');
+                clsDAsistencia = new clsDAsistencia();
+                var Asistencia = clsDAsistencia.ObtenerAsistenciaDiaria(liststring[1]);
+                ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(liststring[1]);
+                Asistencia.ControlAsistencia.ForEach(a=>a.Hora= hora);
 
+                return View(Asistencia);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Home", "Home");
+            }
+            
+        }
+        [HttpPost]
+        public JsonResult GrabarAsistenciaEmpleado(string cedula, string nombre,TimeSpan  Hora,string observacion)
+        {
+            try
+            {
+                clsDAsistencia = new clsDAsistencia();
+                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula=cedula, Nombres=nombre, Hora=Hora, Observacion=observacion, EstadoAsistencia=clsAtributos.EstadoPresente});
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return Json("",JsonRequestBehavior.AllowGet);
+        }
         [Authorize]
         public ActionResult RptAsistencia()
         {

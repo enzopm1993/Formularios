@@ -1,4 +1,34 @@
-﻿//Bloqueo de el chceck de cuchillos negros
+﻿//guardar con check
+function GuardarPersona(fila) {
+    
+    
+    if ($('#CheckAsistencia-' + fila).prop('checked'))
+    {
+        fila -= 1;
+        $.ajax({
+            url: '../Asistencia/GrabarAsistenciaEmpleado',
+            type: 'POST',
+            dataType: "json",
+            data: {
+                cedula: $('#ControlAsistencia_' + fila + '__Cedula').val(),
+                nombre: $('#ControlAsistencia_' + fila + '__Nombres').val(),
+                Hora: $('#ControlAsistencia_' + fila + '__Hora').val(),
+                observacion: $('#ControlAsistencia_' + fila + '__Observacion').val()
+            },
+            success: function (resultado) {
+                //MensajeCorrecto(resultado, true);
+
+            }
+            ,
+            error: function () {
+                MensajeError("No se pudieron mover", false);
+            }
+        });
+    }
+    
+}
+
+//Bloqueo de el chceck de cuchillos negros
 var i = 0;
 $("tr").each(function () {
     var desCheck = "CheckCuchilloNegro";

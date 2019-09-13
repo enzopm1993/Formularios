@@ -57,5 +57,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //Tipos Cambio de personal de Área
         public static string TipoPrestar = "P";
         public static string TipoRegresar = "R";
+
+        //Estados Asistencia
+        public static string EstadoPresente = "P";
+        public static string EstadoFalta = "F";
+        public static string EstadoAtraso = "A";
     }
 }

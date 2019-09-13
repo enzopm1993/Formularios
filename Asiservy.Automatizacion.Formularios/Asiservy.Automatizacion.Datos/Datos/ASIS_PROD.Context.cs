@@ -45,6 +45,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_CUCHILLO> CONTROL_CUCHILLO { get; set; }
         public virtual DbSet<CUCHILLO> CUCHILLO { get; set; }
         public virtual DbSet<EMPLEADO_CUCHILLO> EMPLEADO_CUCHILLO { get; set; }
+        public virtual DbSet<ASISTENCIA> ASISTENCIA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
