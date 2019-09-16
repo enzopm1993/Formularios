@@ -48,15 +48,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 TimeSpan hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm"));
-               
+                clsDEmpleado = new clsDEmpleado();
                 clsDGeneral = new clsDGeneral();
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
-                var Asistencia = clsDAsistencia.ObtenerAsistenciaDiaria(liststring[1]);
+                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1]);
+                ViewBag.AsistenciaExiste = AsitenciaExiste;
+                //var Asistencia = clsDAsistencia.ObtenerAsistenciaDiaria(liststring[1]);
                 ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(liststring[1]);
-                Asistencia.ControlAsistencia.ForEach(a=>a.Hora= hora);
+                ViewBag.CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
+                //Asistencia.ControlAsistencia.ForEach(a=>a.Hora= hora);
 
-                return View(Asistencia);
+                return View(/*Asistencia*/);
             }
             catch (Exception ex)
             {
@@ -74,6 +77,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home", "Home");
             }
             
+        }
+        [Authorize]
+        public ActionResult AsistenciaPartial(string CodLinea, int BanderaExiste)
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                var EstadoAsistencia = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                ViewBag.EstadoAsistencia = EstadoAsistencia;
+
+                clsDAsistencia = new clsDAsistencia();
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste);
+                return PartialView(AsistenciaViewModel);
+            }
+            catch (Exception ex)
+            {
+
+               return  Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
         }
         [HttpPost]
         public JsonResult GrabarAsistenciaEmpleado(string cedula, string nombre,TimeSpan  Hora,string observacion)
