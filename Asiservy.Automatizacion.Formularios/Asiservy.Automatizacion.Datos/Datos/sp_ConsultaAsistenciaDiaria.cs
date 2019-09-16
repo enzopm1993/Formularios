@@ -15,7 +15,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public string NOMBRES { get; set; }
         public int IdAsistencia { get; set; }
-        public Nullable<int> Turno { get; set; }
         public string Bloquear { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
         public string Cedula { get; set; }
@@ -24,7 +23,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.TimeSpan> Hora { get; set; }
         public string EstadoRegistro { get; set; }
         public string Linea { get; set; }
-        public string Turno1 { get; set; }
+        public string Turno { get; set; }
         public Nullable<System.DateTime> FechaCreacionLog { get; set; }
         public string UsuarioCreacionLog { get; set; }
         public string TerminalCreacionLog { get; set; }

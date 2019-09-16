@@ -983,7 +983,6 @@
         <ComplexType Name="sp_ConsultaAsistenciaDiaria">
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
           <Property Type="Int32" Name="IdAsistencia" Nullable="false" />
-          <Property Type="Int32" Name="Turno" Nullable="true" />
           <Property Type="String" Name="Bloquear" Nullable="false" MaxLength="1" />
           <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
           <Property Type="String" Name="Cedula" Nullable="false" MaxLength="20" />
@@ -992,7 +991,7 @@
           <Property Type="Time" Name="Hora" Nullable="true" />
           <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
           <Property Type="String" Name="Linea" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="Turno1" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
           <Property Type="DateTime" Name="FechaCreacionLog" Nullable="true" Precision="23" />
           <Property Type="String" Name="UsuarioCreacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalCreacionLog" Nullable="true" MaxLength="50" />
@@ -1423,7 +1422,6 @@
               <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_ConsultaAsistenciaDiaria">
                 <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
                 <ScalarProperty Name="IdAsistencia" ColumnName="IdAsistencia" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
                 <ScalarProperty Name="Bloquear" ColumnName="Bloquear" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
@@ -1432,7 +1430,7 @@
                 <ScalarProperty Name="Hora" ColumnName="Hora" />
                 <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
                 <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="Turno1" ColumnName="Turno1" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
                 <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
                 <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
                 <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
