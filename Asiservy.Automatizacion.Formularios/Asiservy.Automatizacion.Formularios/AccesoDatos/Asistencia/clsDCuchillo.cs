@@ -11,6 +11,32 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
     {
         clsDEmpleado clsDEmpleado = null;
 
+        public List<EmpleadoCuchilloViewModel> ConsultarEmpleadosCuchilloPorLinea(string Linea)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                List<EmpleadoCuchilloViewModel> ListadoEmpleadoCuchillo = new List<EmpleadoCuchilloViewModel>();
+                var consulta = entities.spConsutaEmpleadosCuchillos(Linea).ToList();
+                if(consulta != null)
+                {
+                    foreach(var x in consulta)
+                    {
+                        ListadoEmpleadoCuchillo.Add(new EmpleadoCuchilloViewModel
+                        {
+                           // Cedula = 
+                        });
+                    }
+                }
+
+
+
+
+
+                return ListadoEmpleadoCuchillo;
+            }
+        }
+            
+
         public string GuardarModificarEmpleadoCuchillo(EmpleadoCuchilloViewModel model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())

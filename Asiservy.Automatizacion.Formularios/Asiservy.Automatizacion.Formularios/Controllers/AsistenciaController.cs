@@ -204,6 +204,41 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #endregion
 
         #region CUCHILLO
+
+        [Authorize]
+        // GET: Asistencia/ControlCuchillo
+        public ActionResult ControlCuchillo()
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                var EstadosControlCuchillo = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {
+                    Grupo =clsAtributos.CodigoGrupoEstadoControlCuchillo,
+                    EstadoRegistro =clsAtributos.EstadoRegistroActivo
+                } );
+
+                ViewBag.EstadosControlCuchillo = EstadosControlCuchillo;
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+
+
+        }
         [Authorize]
         // GET: Asistencia/Cuchillo
         public ActionResult Cuchillo()
