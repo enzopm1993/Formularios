@@ -20,7 +20,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDCambioPersonal clsDCambioPersonal = null;
         string[] liststring;
         clsDError clsDError = null;
-       
+        clsDClasificador clsDClasificador = null;
+        clsDCuchillo clsDCuchillo = null;
+
         #region Métodos
         protected void SetSuccessMessage(string message)
         {
@@ -67,7 +69,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
+                    UsuarioIngreso = liststring[1]
                 });
                 return RedirectToAction("Home", "Home");
             }
@@ -79,7 +81,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDAsistencia = new clsDAsistencia();
-                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula=cedula, Nombres=nombre, Hora=Hora, Observacion=observacion, EstadoAsistencia=clsAtributos.EstadoPresente});
+      //          string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula=cedula, Nombres=nombre, Hora=Hora, Observacion=observacion, EstadoAsistencia=clsAtributos.EstadoPresente});
             }
             catch (Exception ex)
             {
@@ -137,7 +139,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
+                    UsuarioIngreso = liststring[1]
                 });
                return RedirectToAction("Home", "Home");
             }
@@ -171,7 +173,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
+                    UsuarioIngreso = liststring[1]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -186,6 +188,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                clsDClasificador = new clsDClasificador();
+                var ColorCuchillos = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {Grupo=clsAtributos.CodigoGrupoColorCuchillo, EstadoRegistro=clsAtributos.EstadoRegistroActivo });
+                ViewBag.ColorCuchillos = ColorCuchillos;
                 return View();
 
             }
@@ -200,30 +205,132 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
+                    UsuarioIngreso = liststring[1]
                 });
                 return RedirectToAction("Home", "Home");
             }
         }
 
+        [HttpPost]
+        [Authorize]
+        // GET: Asistencia/Cuchillo
+        public ActionResult Cuchillo(CUCHILLO model)
+        {
+            try
+            {
+                if (model.NumeroCuchillo == 0)
+                {
+                    ModelState.AddModelError("NumeroCuchillo", "CampoRequerido");
+                    clsDClasificador = new clsDClasificador();
+                    var ColorCuchillos = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoColorCuchillo, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                    ViewBag.ColorCuchillos = ColorCuchillos;
+                    return View(model);
+                }
+                clsDCuchillo = new clsDCuchillo();
+                liststring = User.Identity.Name.Split('_');
+                model.EstadoRegistro = model.EstadoRegistro == "true" ? clsAtributos.EstadoRegistroActivo : clsAtributos.EstadoRegistroInactivo;
+                model.FechaIngresoLog = DateTime.Now;
+                model.UsuarioIngresoLog = liststring[0];
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                var Respuesta = clsDCuchillo.GuardarModificarCuchillo(model);
+                SetSuccessMessage(Respuesta);
+                return RedirectToAction("Cuchillo");
+
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return RedirectToAction("Cuchillo");
+
+            }
+        }
+
+        [Authorize]
+        // GET: Asistencia/Cuchillo
+        public ActionResult CuchilloPartial()
+        {
+            try
+            {
+                clsDCuchillo = new clsDCuchillo();
+
+                var model = clsDCuchillo.ConsultarCuchillos(new CUCHILLO());
+                return PartialView(model);
+
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize]
+        // GET: Asistencia/Cuchillo
+        public ActionResult CuchilloEmpleado()
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                var ColorCuchillos = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoColorCuchillo, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                ViewBag.ColorCuchillos = ColorCuchillos;
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
 
         #endregion
 
         [Authorize]
-        // GET: Asistencia/Cuchillo
+        // GET: Asistencia/RptCuchillo
         public ActionResult RptCuchillo()
         {
             return View();
         }
 
         [Authorize]
-        // GET: Asistencia/Cuchillo
+        // GET: Asistencia/ReporteDistribucion
         public ActionResult ReporteDistribucion()
         {
             return View();
         }
         [Authorize]
-        // GET: Asistencia/Cuchillo
+        // GET: Asistencia/PersonalNomina
         public ActionResult PersonalNomina()
         {
             return View();
@@ -256,7 +363,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
+                    UsuarioIngreso = liststring[1]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -315,7 +422,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
+                    UsuarioIngreso = liststring[1]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -340,7 +447,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
+                    UsuarioIngreso = liststring[1]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -365,7 +472,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
+                    UsuarioIngreso = liststring[1]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
