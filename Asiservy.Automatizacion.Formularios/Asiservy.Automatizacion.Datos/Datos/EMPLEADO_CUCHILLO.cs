@@ -16,7 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdEmpleadoCuchillo { get; set; }
         public string Cedula { get; set; }
-        public int IdCuchillo { get; set; }
+        public int NumeroCuchillo { get; set; }
         public Nullable<int> EstadoCuchillo { get; set; }
         public Nullable<System.DateTime> FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

@@ -14,20 +14,16 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class CUCHILLO
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CUCHILLO()
-        {
-            this.EMPLEADO_CUCHILLO = new HashSet<EMPLEADO_CUCHILLO>();
-        }
-    
-        public int IdCuchillo { get; set; }
-        public Nullable<int> Numero { get; set; }
+        public int NumeroCuchillo { get; set; }
         public string Color { get; set; }
         public Nullable<System.DateTime> FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public string TerminalIngresoLog { get; set; }
+        public string EstadoRegistro { get; set; }
+        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
+        public string UsuarioModificacionLog { get; set; }
+        public string TerminalModificacionLog { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EMPLEADO_CUCHILLO> EMPLEADO_CUCHILLO { get; set; }
+        public virtual EMPLEADO_CUCHILLO EMPLEADO_CUCHILLO { get; set; }
     }
 }

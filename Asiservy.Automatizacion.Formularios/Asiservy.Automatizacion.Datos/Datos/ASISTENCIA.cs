@@ -17,7 +17,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdAsistencia { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
         public string Cedula { get; set; }
-        public string Nombres { get; set; }
         public string EstadoAsistencia { get; set; }
         public string Observacion { get; set; }
         public Nullable<System.TimeSpan> Hora { get; set; }
