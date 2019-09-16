@@ -69,5 +69,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string CodigoColorCuchilloBlanco = "B";
         public static string CodigoColorCuchilloRojo = "R";
         public static string CodigoColorCuchilloNegro = "N";
+        //Clasificador de Estados de Asistencia
+        public static string CodigoGrupoEstadoAsistencia = "004";
     }
 }

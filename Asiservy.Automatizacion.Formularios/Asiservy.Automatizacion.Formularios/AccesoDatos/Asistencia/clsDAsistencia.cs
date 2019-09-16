@@ -10,48 +10,56 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 {
     public class clsDAsistencia
     {
-        
-        public ControlDeAsistenciaViewModel ObtenerAsistenciaDiaria(string cedula)
+        List<sp_ConsultaAsistenciaDiaria> pListAsistencia = null;
+        spConsutaEmpleados BuscarControlador = null;
+        public int ConsultarExistenciaAsistencia(string cedula)
         {
-
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
+                pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA).ToList();
+            }
+            if (pListAsistencia.ToList().Count == 0)
+                return 0;
+            else
+                return 1;
+        }
+        public ControlDeAsistenciaViewModel ObtenerAsistenciaDiaria(string CodLinea, int BanderaExiste)
+        {
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
-                spConsutaEmpleados BuscarControlador = null;
+                
                 List<ASISTENCIA> ControlAsistencia = null;
-                List<sp_ConsultaAsistenciaDiaria> pListAsistencia = null;
-                // var a = db.sp_ConsultaAsistenciaDiaria("01");
+                
                 ControlDeAsistenciaViewModel ControlAsistenciaViewModel = null;
-                BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
-
-                //IEnumerable<ASISTENCIA> pListAsistencia= db.ASISTENCIA.AsEnumerable().Where(x => x.Fecha.Value.ToString("yyyy-MM-dd") == DateTime.Now.ToString("yyyy-MM-dd"));
-                //pListAsistencia = pListAsistencia.Where(x => x.Linea == BuscarControlador.CODIGOLINEA);
-                pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA).ToList();
-                if (pListAsistencia.ToList().Count == 0)
+                if (BanderaExiste == 0)
                 {
-                    List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", BuscarControlador.CODIGOLINEA, "0").Where(x=>x.CEDULA!=cedula).ToList();
+                    List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", CodLinea, "0").Where(x => x.CODIGOCARGO != "221").ToList();
                     ControlAsistencia = new List<ASISTENCIA>();
                     foreach (var item in ListaEmpleados)
                     {
-                        ControlAsistencia.Add(new ASISTENCIA { Cedula=item.CEDULA,Fecha=DateTime.Now,EstadoAsistencia=clsAtributos.EstadoFalta,Linea=item.CODIGOLINEA});
-
+                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CODIGOLINEA });
                     }
                     db.ASISTENCIA.AddRange(ControlAsistencia);
                     db.SaveChanges();
-                    pListAsistencia= db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA).ToList();
+                    pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea).ToList();
+                    pListAsistencia.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     ControlAsistenciaViewModel = new ControlDeAsistenciaViewModel
                     {
-                        //ControlAsistencia = ControlAsistencia.OrderBy(z=>z.Nombres).ToList()
                         ControlAsistencia = pListAsistencia.OrderBy(z => z.NOMBRES).ToList()
                     };
-                    
                 }
                 else
                 {
+                    pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea).ToList();
+                    pListAsistencia.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     ControlAsistenciaViewModel = new ControlDeAsistenciaViewModel
                     {
-                        ControlAsistencia = pListAsistencia.OrderBy(x => x.NOMBRES).ToList()
+                        ControlAsistencia = pListAsistencia.OrderBy(z => z.NOMBRES).ToList()
                     };
                 }
+                    
+               
                 return ControlAsistenciaViewModel;
             }
         }

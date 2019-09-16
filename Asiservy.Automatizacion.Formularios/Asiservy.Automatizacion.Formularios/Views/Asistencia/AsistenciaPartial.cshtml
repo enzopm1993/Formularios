@@ -1,0 +1,124 @@
+﻿@model Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaViewModel
+
+
+<div style="padding-top: 10px; padding-bottom: 100px">
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered" id="TableCuchillos">
+            <tr class="text-center">
+                <td class="align-bottom" rowspan="2" hidden></td>
+                <td class="align-bottom" rowspan="2"></td>
+                <td class="align-bottom" rowspan="2"><b> Personal</b></td>
+                <td class="align-bottom" rowspan="2"><b>Hora</b> </td>
+                <td class="align-middle" colspan="3"><b>Cuchillos</b> </td>
+                <td class="align-bottom" rowspan="2"><b>Observación</b> </td>
+                <td class="align-bottom" rowspan="2"><b>Check</b> </td>
+                <td class="align-bottom" rowspan="2"><b>Estado</b> </td>
+                <td class="align-bottom" rowspan="2"></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="text-center">
+                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+
+                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+
+                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
+                    </div>
+                </td>
+            </tr>
+            @{
+                int cont = 0;
+            }
+            @foreach (var item in Model.ControlAsistencia)
+            {
+                cont++;
+                <tr>
+                    <td hidden>
+                        @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Cedula)
+                    </td>
+                    <td>
+                        @cont
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(z => z.ControlAsistencia[cont - 1].NOMBRES, new { style = "width:100%; border: 0;", @readonly = true })
+
+                    </td>
+                    <td>
+                        @*<input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />*@
+                        @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Hora, new { type = "time", @class = "form-control" })
+                    </td>
+                    <td class="text-center align-content-center">
+                        <div class="col-xs-2 text-xs-center">
+                            <label class="btn btn-light text-xs-center" id="labelCuchilloRojo">
+                                <input type="checkbox" onchange="Cuchillo(1,1)" id="CheckCuchilloRojo">21
+                            </label>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="col-xs-2 text-xs-center">
+                            <label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
+                                <input type="checkbox" onchange="Cuchillo(2,1)" id="CheckCuchilloNegro">01
+                            </label>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="col-xs-2 text-xs-center">
+                            <label class="btn btn-light text-xs-center" id="labelCuchilloBlanco">
+                                <input type="checkbox" onchange="Cuchillo(3,1)" id="CheckCuchilloBlanco">31
+                            </label>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div>
+                            @*<input type="text" class="form-control-plaintext" id="Observacion" placeholder="Observacion">*@
+                            @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Observacion)
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <label class="btn btn-light text-xs-center" id="LabelAsistencia">
+
+                            @*<input type="checkbox" autocomplete="on" onchange="fillBook(0)" id="CheckAsistencia">*@
+                            <input type="checkbox" autocomplete="on" onchange="GuardarPersona(@cont);" id="CheckAsistencia-@cont">
+                        </label>
+                    </td>
+                    <td>
+                        @*<select class="custom-select" id="SelectEstado" onchange="CambioEstado(1)">
+                            <option selected>Seleccione</option>
+                            <option value="1">Presente</option>
+                            <option value="2">Atraso</option>
+                            <option value="3">Falta</option>
+                        </select>*@
+                        @Html.DropDownListFor(model => model.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion",Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "form-control" })
+                    </td>
+                    <td>
+                        <center> <img src="~/Content/images/actualizar.png" width="30" height="30" style="cursor: pointer" /> </center>
+                    </td>
+                </tr>
+            }
+            <tr>
+        </table>
+
+        @*<div class="text-center" style="width:100%">
+                <button type="button" class="btn btn-info" onclick="Mensaje('Registro Exitoso')">GUARDAR</button>
+            </div>*@
+
+
+    </div>
+
+</div>
+@*<div id="ModalMensaje"> </div>
+
+<link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
+<script src="~/Scripts/Mensajes/Mensajes.js"></script>
+<script src="~/Scripts/AsistenciaJS/Asistencia.js"></script>*@
+

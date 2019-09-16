@@ -1,7 +1,27 @@
-﻿//guardar con check
+﻿function GenerarAsistenciaDiaria(IdLinea, bandera) {
+    //console.log("hola");
+    $.ajax({
+        url: '../Asistencia/AsistenciaPartial',
+        type: 'POST',
+        data: {
+            CodLinea: IdLinea,
+            BanderaExiste: bandera
+        },
+        success: function (resultado) {
+            //MensajeCorrecto(resultado, true);
+            $('#PartialAsistencia').html(resultado);
+            $('#GenerarAsistencia').hide();
+            
+        }
+        ,
+        error: function (result) {
+            Console.log(result);
+            //MensajeError(result, false);
+        }
+    });
+}
+//guardar con check
 function GuardarPersona(fila) {
-    
-    
     if ($('#CheckAsistencia-' + fila).prop('checked'))
     {
         fila -= 1;
@@ -11,7 +31,7 @@ function GuardarPersona(fila) {
             dataType: "json",
             data: {
                 cedula: $('#ControlAsistencia_' + fila + '__Cedula').val(),
-                nombre: $('#ControlAsistencia_' + fila + '__Nombres').val(),
+                nombre: $('#ControlAsistencia_' + fila + '__NOMBRES').val(),
                 Hora: $('#ControlAsistencia_' + fila + '__Hora').val(),
                 observacion: $('#ControlAsistencia_' + fila + '__Observacion').val()
             },
