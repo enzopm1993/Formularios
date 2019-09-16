@@ -18,13 +18,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Cedula { get; set; }
         public int NumeroCuchillo { get; set; }
         public string ColorCuchillo { get; set; }
-        public string EstadoCuchillo { get; set; }
         public Nullable<System.DateTime> FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public string TerminalIngresoLog { get; set; }
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public string EstadoRegistro { get; set; }
     
         public virtual CUCHILLO CUCHILLO { get; set; }
     }
