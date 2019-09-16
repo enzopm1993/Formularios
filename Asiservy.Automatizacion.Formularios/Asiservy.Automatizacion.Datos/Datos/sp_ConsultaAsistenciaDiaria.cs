@@ -10,22 +10,24 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class EMPLEADO_CUCHILLO
+    public partial class sp_ConsultaAsistenciaDiaria
     {
-        public int IdEmpleadoCuchillo { get; set; }
+        public string NOMBRES { get; set; }
+        public int IdAsistencia { get; set; }
+        public Nullable<System.DateTime> Fecha { get; set; }
         public string Cedula { get; set; }
-        public int NumeroCuchillo { get; set; }
-        public string ColorCuchillo { get; set; }
-        public string EstadoCuchillo { get; set; }
-        public Nullable<System.DateTime> FechaIngresoLog { get; set; }
-        public string UsuarioIngresoLog { get; set; }
-        public string TerminalIngresoLog { get; set; }
+        public string EstadoAsistencia { get; set; }
+        public string Observacion { get; set; }
+        public Nullable<System.TimeSpan> Hora { get; set; }
+        public string EstadoRegistro { get; set; }
+        public string Linea { get; set; }
+        public string Turno { get; set; }
+        public Nullable<System.DateTime> FechaCreacionLog { get; set; }
+        public string UsuarioCreacionLog { get; set; }
+        public string TerminalCreacionLog { get; set; }
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        public virtual CUCHILLO CUCHILLO { get; set; }
     }
 }

@@ -141,6 +141,9 @@
     <Compile Include="Datos\spConsutaMotivosPermiso.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\sp_ConsultaAsistenciaDiaria.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\sp_GrupoEnfermedades.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
