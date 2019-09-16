@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
-
+using Asiservy.Automatizacion.Formularios.Models.Asistencia;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -263,7 +263,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDCuchillo = new clsDCuchillo();
-
+               
                 var model = clsDCuchillo.ConsultarCuchillos(new CUCHILLO());
                 return PartialView(model);
 
@@ -291,9 +291,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                clsDClasificador = new clsDClasificador();
-                var ColorCuchillos = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoColorCuchillo, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-                ViewBag.ColorCuchillos = ColorCuchillos;
+                ConsultarCombosEmpleadoCuchillo();
                 return View();
 
             }
@@ -301,6 +299,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
                 clsDError.GrabarError(new ERROR
                 {
                     Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
@@ -311,6 +310,123 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     UsuarioIngreso = liststring[1]
                 });
                 return RedirectToAction("Home", "Home");
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult CuchilloEmpleado(EmpleadoCuchilloViewModel model)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');
+
+                if (!ModelState.IsValid)
+                {
+
+                    ConsultarCombosEmpleadoCuchillo();
+                    return View(model);
+                }
+                else
+                {
+                    clsDCuchillo = new clsDCuchillo();
+                    model.EstadoRegistro = model.EstadoRegistro == "true" ? clsAtributos.EstadoRegistroActivo : clsAtributos.EstadoRegistroInactivo;
+                    model.FechaIngresoLog = DateTime.Now;
+                    model.UsuarioIngresoLog = liststring[0];
+                    model.TerminalIngresoLog = Request.UserHostAddress;
+                    
+                    var respuesta = clsDCuchillo.GuardarModificarEmpleadoCuchillo(model);
+                    SetSuccessMessage(respuesta);
+                    return RedirectToAction("CuchilloEmpleado");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return RedirectToAction("CuchilloEmpleado");
+            }
+        }
+
+        public void ConsultarCombosEmpleadoCuchillo()
+        {
+            clsDClasificador = new clsDClasificador();
+            clsDEmpleado = new clsDEmpleado();
+
+            liststring = User.Identity.Name.Split('_');
+            var linea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault();
+            if (linea != null)
+            {
+                var Empleados = clsDEmpleado.ConsultaEmpleadosFiltro(linea.CODIGOLINEA, null, null);
+                ViewBag.Empleados = Empleados;
+            }
+            var ColorCuchillos = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoColorCuchillo, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+            ViewBag.ColorCuchillos = ColorCuchillos;
+        }
+
+        [Authorize]
+        public ActionResult CuchilloEmpleadoPartial()
+        {
+            try
+            {
+                clsDCuchillo = new clsDCuchillo();
+                var model = clsDCuchillo.ConsultarEmpleadoCuchillo(new Models.Asistencia.EmpleadoCuchilloViewModel());
+                return PartialView(model);
+
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult ConsultaNumeroCuchillo(string dsColor)
+        {
+            try
+            {
+                clsDCuchillo = new clsDCuchillo();
+                var poCuchillos = clsDCuchillo.ConsultarCuchillos(new CUCHILLO { ColorCuchillo = dsColor });
+                return Json(poCuchillos, JsonRequestBehavior.AllowGet);
+                
+            }
+            catch(Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                liststring = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
 

@@ -1,62 +1,86 @@
-﻿@model Asiservy.Automatizacion.Datos.Datos.EMPLEADO_CUCHILLO
+﻿@model Asiservy.Automatizacion.Formularios.Models.Asistencia.EmpleadoCuchilloViewModel
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>EMPLEADO_CUCHILLO</h4>
+        <br />
+        <h4>Asignar Cuchillo - Empleado</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdEmpleadoCuchillo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdEmpleadoCuchillo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdEmpleadoCuchillo, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="col-md-1 col-sm-12">
+                <div class="form-group">
+                    <label>Id</label>
+                    @Html.EditorFor(model => model.IdEmpleadoCuchillo, new { htmlAttributes = new { @class = "form-control", @Value = "0", @readonly = "readonly",@id= "IdEmpleadoCuchillo" } })
+                    @Html.ValidationMessageFor(model => model.IdEmpleadoCuchillo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cedula, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @if (ViewBag.Empleados != null)
+                    {
+                        @Html.DropDownListFor(model => model.Cedula, new SelectList(ViewBag.Empleados, "CEDULA", "NOMBRES"), "Seleccione", new { @class = "form-control" ,@id="SelectEmpleado"})
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.Cedula, new SelectList("", "CEDULA", "NOMBRES"), new { @class = "form-control" })
+                    }
+                    @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label>Color Cuchillo</label>
+                    @Html.DropDownListFor(model => model.ColorCuchillo, new SelectList(ViewBag.ColorCuchillos, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @onchange = "CambioColorCuchillo(this.value)",@id="SelectColor" })
+                    @Html.ValidationMessageFor(model => model.ColorCuchillo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label># Cuchillo</label>
+                    @Html.DropDownListFor(model => model.NumeroCuchillo, new SelectList(""), "-- Seleccionar Opción--", new { @class = "form-control", @id = "SelectNumeroCuchillo" })
+                    @Html.ValidationMessageFor(model => model.NumeroCuchillo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="col-md-2 col-sm-12">
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox mb-3">
+                        <br />
+                        @Html.CheckBox("EstadoRegistro", true, new { @id = "CheckEstadoRegistro", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
+                        @*   <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">*@
+                        <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
+                    </div>
+                </div>
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.Cedula, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumeroCuchillo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NumeroCuchillo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NumeroCuchillo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ColorCuchillo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ColorCuchillo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ColorCuchillo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EstadoRegistro, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EstadoRegistro, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EstadoRegistro, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="text-center">
+                <input type="submit" value="Grabar" class="btn btn-primary" />
+                <input type="button" value="Nuevo" class="btn btn-info" onclick="Nuevo()" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<div class="table-responsive" id="DivTableEmpleadoCuchillo"></div>
+
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+
+<script src="~/Scripts/AsistenciaJS/EmpleadoCuchillo.js"></script>
