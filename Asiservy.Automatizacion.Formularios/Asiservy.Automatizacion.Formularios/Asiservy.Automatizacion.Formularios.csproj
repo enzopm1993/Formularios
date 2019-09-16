@@ -720,6 +720,7 @@
     <Content Include="Views\Seguridad\ClasificadorPartial.cshtml" />
     <Content Include="Views\SolicitudPermiso\BandejaMedico.cshtml" />
     <Content Include="Views\Asistencia\Cuchillo.cshtml" />
+    <Content Include="Views\Asistencia\CuchilloPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

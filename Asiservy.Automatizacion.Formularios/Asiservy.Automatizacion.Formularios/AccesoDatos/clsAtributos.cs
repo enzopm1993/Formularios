@@ -62,5 +62,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string EstadoPresente = "P";
         public static string EstadoFalta = "F";
         public static string EstadoAtraso = "A";
+
+
+        //Clasificador de colores de cuchillos
+        public static string CodigoGrupoColorCuchillo = "003";
+        public static string CodigoColorCuchilloBlanco = "B";
+        public static string CodigoColorCuchilloRojo = "R";
+        public static string CodigoColorCuchilloNegro = "N";
     }
 }

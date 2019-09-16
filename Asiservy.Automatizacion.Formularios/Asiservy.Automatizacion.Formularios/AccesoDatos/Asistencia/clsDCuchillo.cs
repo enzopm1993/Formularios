@@ -12,23 +12,38 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                List<CUCHILLO> ListadoCambioPersonal = new List<CUCHILLO>();
+                IEnumerable<CUCHILLO> Cuchillos = entities.CUCHILLO;
 
-                IEnumerable<CUCHILLO> Listado = entities.CUCHILLO;
-                if (filtros.IdCuchillo>0)
+                if (filtros.NumeroCuchillo > 0)
                 {
-                    Listado = Listado.Where(x => x.IdCuchillo == filtros.IdCuchillo);
+                    Cuchillos = Cuchillos.Where(x => x.NumeroCuchillo == filtros.NumeroCuchillo);
                 }
-                if (filtros.Numero!=null && filtros.Numero>0)
+
+                if (!string.IsNullOrEmpty(filtros.ColorCuchillo))
                 {
-                    Listado = Listado.Where(x => x.Numero == filtros.Numero);
+                    Cuchillos = Cuchillos.Where(x => x.ColorCuchillo == filtros.ColorCuchillo);
                 }
-                if (!string.IsNullOrEmpty(filtros.Color))
-                {
-                    Listado = Listado.Where(x => x.Color == filtros.Color);                }
+
+                IEnumerable<CUCHILLO> Listado = (from c in Cuchillos
+                                                 join color in entities.CLASIFICADOR on c.ColorCuchillo equals color.Codigo
+                                                 where color.Grupo==clsAtributos.CodigoGrupoColorCuchillo
+                                                 select new CUCHILLO {
+                                                     ColorCuchillo = color.Descripcion,
+                                                     EstadoRegistro =c.EstadoRegistro,
+                                                     FechaIngresoLog=c.FechaIngresoLog,
+                                                     FechaModificacionLog=c.FechaModificacionLog,
+                                                     NumeroCuchillo=c.NumeroCuchillo,
+                                                     TerminalIngresoLog = c.TerminalIngresoLog,
+                                                     TerminalModificacionLog = c.TerminalModificacionLog,
+                                                     UsuarioIngresoLog=c.UsuarioIngresoLog,
+                                                     UsuarioModificacionLog=c.UsuarioModificacionLog
+                                                 }
+                                                 );
+
+              
 
 
-                return ListadoCambioPersonal;
+                return Listado.ToList();
             }
 
         }
@@ -37,13 +52,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-              
 
-              var Listado = entities.CUCHILLO.FirstOrDefault(x=> x.IdCuchillo == model.IdCuchillo);
+              var Listado = entities.CUCHILLO.FirstOrDefault(x=> x.NumeroCuchillo == model.NumeroCuchillo && x.ColorCuchillo == model.ColorCuchillo);
                 if (Listado != null)
                 {
-                    Listado.Numero = model.Numero;
-                    Listado.Color = model.Color;
+                    Listado.EstadoRegistro = model.EstadoRegistro;
+                    Listado.FechaModificacionLog = model.FechaIngresoLog;
+                    Listado.TerminalModificacionLog = model.TerminalIngresoLog;
+                    Listado.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    
                 }
                 else
                 {
