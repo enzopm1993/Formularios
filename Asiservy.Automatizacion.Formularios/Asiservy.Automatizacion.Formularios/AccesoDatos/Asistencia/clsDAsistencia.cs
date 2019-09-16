@@ -18,25 +18,30 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             {
                 spConsutaEmpleados BuscarControlador = null;
                 List<ASISTENCIA> ControlAsistencia = null;
+                List<sp_ConsultaAsistenciaDiaria> pListAsistencia = null;
+                // var a = db.sp_ConsultaAsistenciaDiaria("01");
                 ControlDeAsistenciaViewModel ControlAsistenciaViewModel = null;
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
-                
-                IEnumerable<ASISTENCIA> pListAsistencia= db.ASISTENCIA.AsEnumerable().Where(x => x.Fecha.Value.ToString("yyyy-MM-dd") == DateTime.Now.ToString("yyyy-MM-dd"));
-                pListAsistencia = pListAsistencia.Where(x => x.Linea == BuscarControlador.CODIGOLINEA);
+
+                //IEnumerable<ASISTENCIA> pListAsistencia= db.ASISTENCIA.AsEnumerable().Where(x => x.Fecha.Value.ToString("yyyy-MM-dd") == DateTime.Now.ToString("yyyy-MM-dd"));
+                //pListAsistencia = pListAsistencia.Where(x => x.Linea == BuscarControlador.CODIGOLINEA);
+                pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA).ToList();
                 if (pListAsistencia.ToList().Count == 0)
                 {
                     List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", BuscarControlador.CODIGOLINEA, "0").Where(x=>x.CEDULA!=cedula).ToList();
                     ControlAsistencia = new List<ASISTENCIA>();
                     foreach (var item in ListaEmpleados)
                     {
-                        ControlAsistencia.Add(new ASISTENCIA { Cedula=item.CEDULA, Nombres=item.NOMBRES,Fecha=DateTime.Now,EstadoAsistencia=clsAtributos.EstadoFalta,Linea=item.CODIGOLINEA});
+                        ControlAsistencia.Add(new ASISTENCIA { Cedula=item.CEDULA,Fecha=DateTime.Now,EstadoAsistencia=clsAtributos.EstadoFalta,Linea=item.CODIGOLINEA});
 
                     }
                     db.ASISTENCIA.AddRange(ControlAsistencia);
                     db.SaveChanges();
+                    pListAsistencia= db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA).ToList();
                     ControlAsistenciaViewModel = new ControlDeAsistenciaViewModel
                     {
-                        ControlAsistencia = ControlAsistencia.OrderBy(z=>z.Nombres).ToList()
+                        //ControlAsistencia = ControlAsistencia.OrderBy(z=>z.Nombres).ToList()
+                        ControlAsistencia = pListAsistencia.OrderBy(z => z.NOMBRES).ToList()
                     };
                     
                 }
@@ -44,9 +49,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 {
                     ControlAsistenciaViewModel = new ControlDeAsistenciaViewModel
                     {
-                        ControlAsistencia = pListAsistencia.OrderBy(x => x.Nombres).ToList()
+                        ControlAsistencia = pListAsistencia.OrderBy(x => x.NOMBRES).ToList()
                     };
-
                 }
                 return ControlAsistenciaViewModel;
             }

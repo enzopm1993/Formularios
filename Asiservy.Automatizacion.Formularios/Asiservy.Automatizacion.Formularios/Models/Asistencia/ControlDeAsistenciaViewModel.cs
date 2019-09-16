@@ -8,7 +8,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.Asistencia
 {
     public class ControlDeAsistenciaViewModel
     {
-        public List<ASISTENCIA> ControlAsistencia { get; set; }
+        public List<sp_ConsultaAsistenciaDiaria> ControlAsistencia { get; set; }
         public List<CONTROL_CUCHILLO> ControlDeCuchillos { get; set; }
     }
 }

@@ -79,7 +79,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDAsistencia = new clsDAsistencia();
-                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula=cedula, Nombres=nombre, Hora=Hora, Observacion=observacion, EstadoAsistencia=clsAtributos.EstadoPresente});
+                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula=cedula, Hora=Hora, Observacion=observacion, EstadoAsistencia=clsAtributos.EstadoPresente});
             }
             catch (Exception ex)
             {
