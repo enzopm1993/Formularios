@@ -25,11 +25,11 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_OPCION_ROL_OPCION" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" Width="1.5" PointX="12.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_CAMBIO_PERSONAL" Width="1.5" PointX="10.375" PointY="11.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CUCHILLO" Width="1.5" PointX="12.375" PointY="10.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ASISTENCIA" Width="1.5" PointX="3.375" PointY="13.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CUCHILLO" Width="1.5" PointX="12.375" PointY="6.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO" Width="1.5" PointX="14.625" PointY="6" />
         <AssociationConnector Association="ASIS_PRODModel.FK_EMPLEADO_CUCHILLO_CUCHILLO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CUCHILLO" Width="1.5" PointX="12.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

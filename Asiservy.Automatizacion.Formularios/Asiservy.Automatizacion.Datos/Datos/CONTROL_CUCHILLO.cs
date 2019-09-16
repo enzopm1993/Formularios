@@ -16,9 +16,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdControlCuchillo { get; set; }
         public string Cedula { get; set; }
-        public Nullable<int> Cuchillo1 { get; set; }
-        public Nullable<int> Cuchillo2 { get; set; }
-        public Nullable<int> Cuchillo3 { get; set; }
+        public Nullable<int> CuchilloBlanco { get; set; }
+        public Nullable<int> CuchilloRojo { get; set; }
+        public Nullable<int> CuchilloNegro { get; set; }
         public System.DateTime Fecha { get; set; }
         public string EstadoCuchillo { get; set; }
         public string EstadoRegistro { get; set; }
