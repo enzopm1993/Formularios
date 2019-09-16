@@ -321,6 +321,7 @@
     <Content Include="Scripts\AsistenciaJS\CambiarPersonal.js" />
     <Content Include="Scripts\AsistenciaJS\Cuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\EditarAsistencia.js" />
+    <Content Include="Scripts\AsistenciaJS\EmpleadoCuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\PersonalNomina.js" />
     <Content Include="Scripts\AsistenciaJS\ReporteDistribucion.js" />
     <Content Include="Scripts\AsistenciaJS\RptAsistencia.js" />
@@ -649,6 +650,7 @@
     <Compile Include="Models\Asistencia\BitacoraCambioPersonalModelView.cs" />
     <Compile Include="Models\Asistencia\CambioDePersonalViewModel.cs" />
     <Compile Include="Models\Asistencia\ControlDeAsistenciaViewModel.cs" />
+    <Compile Include="Models\Asistencia\EmpleadoCuchilloViewModel.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\Empleado.cs" />
@@ -723,6 +725,7 @@
     <Content Include="Views\Asistencia\CuchilloPartial.cshtml" />
     <Content Include="Views\Asistencia\CuchilloEmpleado.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaPartial.cshtml" />
+    <Content Include="Views\Asistencia\CuchilloEmpleadoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

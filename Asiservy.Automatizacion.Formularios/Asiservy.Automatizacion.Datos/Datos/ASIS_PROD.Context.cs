@@ -162,13 +162,17 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltro>("spConsutaEmpleadosFiltro", areaParameter, lineaParameter, cargoParameter);
         }
     
-        public virtual ObjectResult<sp_ConsultaAsistenciaDiaria> sp_ConsultaAsistenciaDiaria(string codLinea)
+        public virtual ObjectResult<sp_ConsultaAsistenciaDiaria> sp_ConsultaAsistenciaDiaria(string codLinea, Nullable<int> turno)
         {
             var codLineaParameter = codLinea != null ?
                 new ObjectParameter("codLinea", codLinea) :
                 new ObjectParameter("codLinea", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiaria>("sp_ConsultaAsistenciaDiaria", codLineaParameter);
+            var turnoParameter = turno.HasValue ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiaria>("sp_ConsultaAsistenciaDiaria", codLineaParameter, turnoParameter);
         }
     }
 }
