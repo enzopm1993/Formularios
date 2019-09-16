@@ -135,6 +135,9 @@
     <Compile Include="Datos\spConsutaEmpleados.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsutaEmpleadosCuchillos.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsutaEmpleadosFiltro.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
