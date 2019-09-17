@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models.Asistencia;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
@@ -22,7 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDError clsDError = null;
         clsDClasificador clsDClasificador = null;
         clsDCuchillo clsDCuchillo = null;
-
+        clsApiUsuario clsApiUsuario=null;
         #region Métodos
         protected void SetSuccessMessage(string message)
         {
@@ -83,12 +84,43 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                clsDCambioPersonal = new clsDCambioPersonal();
                 clsDClasificador = new clsDClasificador();
                 var EstadoAsistencia = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
                 var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste);
+                clsApiUsuario = new clsApiUsuario();
+                DateTime? pdUltimaMarcacion;
+                foreach (var item in AsistenciaViewModel.ControlAsistencia)
+                {
+                    //pdUltimaMarcacion = clsApiUsuario.ConsultarFechaBiometrico(item.Cedula);
+                    pdUltimaMarcacion =Convert.ToDateTime("2019-09-16 17:05:03.367");
+                    
+                    if (item.Turno == "1")
+                    {
+                        if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
+                        {
+                            item.Bloquear = 1;
+                            item.Observacion = "No ha marcado en el biométrico, debe acercarse a marcar";
+                        }
+                    }
+                    if (item.Turno == "2")
+                    {
+                        if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
+                        {
+                            item.Bloquear = 1;
+                            item.Observacion = "No ha marcado en el biométrico, debe acercarse a marcar";
+                        }
+                    }
+                    CAMBIO_PERSONAL CambioPersonal = clsDCambioPersonal.ConsultarCambioPersonal(item.Cedula);
+                    if (CambioPersonal != null)
+                    {
+                        item.Bloquear = 1;
+                        item.Observacion += "";
+                    }
+                }
                 return PartialView(AsistenciaViewModel);
             }
             catch (Exception ex)

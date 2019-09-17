@@ -169,5 +169,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             }
             
         }
+
+        public CAMBIO_PERSONAL ConsultarCambioPersonal(string cedula)
+        {
+            CAMBIO_PERSONAL poCambioPersonal = null;
+            using (ASIS_PRODEntities db=new ASIS_PRODEntities())
+            {
+                poCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == cedula && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList().FirstOrDefault();
+                return poCambioPersonal;
+            }
+        }
     }
 }
