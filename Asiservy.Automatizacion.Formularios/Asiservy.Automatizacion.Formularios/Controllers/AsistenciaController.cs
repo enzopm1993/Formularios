@@ -245,19 +245,30 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDClasificador = new clsDClasificador();
+                clsDCuchillo = new clsDCuchillo();
+                clsDEmpleado = new clsDEmpleado();
+                liststring = User.Identity.Name.Split('_');
+                var Empleado = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault();
+                List<ControlCuchilloViewModel> model = new List<ControlCuchilloViewModel>();
+                if (Empleado != null)
+                {
+                     model = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(Empleado.CODIGOLINEA);
+                }
                 var EstadosControlCuchillo = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {
                     Grupo =clsAtributos.CodigoGrupoEstadoControlCuchillo,
                     EstadoRegistro =clsAtributos.EstadoRegistroActivo
                 } );
 
                 ViewBag.EstadosControlCuchillo = EstadosControlCuchillo;
+                ViewBag.Linea = Empleado!=null?Empleado.LINEA:"";
 
-                return View();
+                return View(model);
             }
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
                 clsDError.GrabarError(new ERROR
                 {
                     Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
@@ -288,6 +299,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
                 clsDError.GrabarError(new ERROR
                 {
                     Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
@@ -451,9 +463,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         public void ConsultarCombosEmpleadoCuchillo()
         {
-            clsDClasificador = new clsDClasificador();
+           
             clsDEmpleado = new clsDEmpleado();
-
+            clsDCuchillo = new clsDCuchillo();
             liststring = User.Identity.Name.Split('_');
             var linea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault();
             if (linea != null)
@@ -461,8 +473,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var Empleados = clsDEmpleado.ConsultaEmpleadosFiltro(linea.CODIGOLINEA, null, null);
                 ViewBag.Empleados = Empleados;
             }
-            var ColorCuchillos = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoColorCuchillo, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-            ViewBag.ColorCuchillos = ColorCuchillos;
+            var poCuchillosBlancos = clsDCuchillo.ConsultarCuchillos(new CUCHILLO { ColorCuchillo = clsAtributos.CodigoColorCuchilloBlanco });
+            var poCuchillosRojos = clsDCuchillo.ConsultarCuchillos(new CUCHILLO { ColorCuchillo = clsAtributos.CodigoColorCuchilloRojo });
+            var poCuchillosNegros = clsDCuchillo.ConsultarCuchillos(new CUCHILLO { ColorCuchillo = clsAtributos.CodigoColorCuchilloNegro });
+            ViewBag.CuchillosBlancos= poCuchillosBlancos;
+            ViewBag.CuchillosRojos= poCuchillosRojos;
+            ViewBag.CuchillosNegros= poCuchillosNegros;
         }
 
         [Authorize]

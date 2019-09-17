@@ -5,8 +5,9 @@
 }
 <br />
 <h3>ControlCuchillo</h3>
+<h4>@ViewBag.Linea</h4>
 <hr />
-<div class=" container-fluid">
+<div class=" container">
     <div class="row">
         <div class="form-group">
             <label>Estado</label>
@@ -22,6 +23,12 @@
                     <th>Empleado</th>
                     <td>
                         <div class="text-center">
+
+                            <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center">
                             <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
                         </div>
                     </td>
@@ -31,22 +38,44 @@
                             <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
                         </div>
                     </td>
-                    <td>
-                        <div class="text-center">
 
-                            <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
-                        </div>
-                    </td>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var x in Model)
+                @if (Model != null)
                 {
-                    <tr>@x.Cedula</tr>
-                    <tr>@x.Nombre</tr>
-                    <tr>@x.CuchilloBlanco</tr>
-                    <tr>@x.CuchilloRojo</tr>
-                    <tr>@x.CuchilloNegro</tr>
+                    foreach (var x in Model)
+                    {
+                        <tr>
+                            <td>@x.Cedula</td>
+                            <td>@x.Nombre</td>
+                            <td class="text-center">
+                                <div class="col-xs-2 text-xs-center">
+                                    <label class="btn btn-dark text-xs-center" id="labelCuchilloBlanco_@x.CuchilloBlanco">
+                                        @x.CuchilloBlanco
+                                        @Html.CheckBox("Blanco" + x.CuchilloBlanco, false, new { @onchange = "check(this.id)" })
+                                    </label>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="col-xs-2 text-xs-center">
+                                    <label class="btn btn-dark text-xs-center" id="labelCuchilloBlanco">
+                                        @x.CuchilloRojo
+                                        @Html.CheckBox("Blanco" + x.CuchilloRojo, false)
+                                    </label>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="col-xs-2 text-xs-center">
+                                    <label class="btn btn-dark text-xs-center" id="labelCuchilloBlanco">
+                                        @x.CuchilloNegro
+                                        @Html.CheckBox("Blanco" + x.CuchilloNegro, false)
+                                    </label>
+                                </div>
+                            </td>
+
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -55,3 +84,4 @@
 
 
 <link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
+<script src="~/Scripts/AsistenciaJS/ControlCuchillo.js"></script>

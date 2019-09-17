@@ -319,6 +319,7 @@
     <Content Include="Scripts\AsistenciaJS\Asistencia.js" />
     <Content Include="Scripts\AsistenciaJS\BitacoraCambioPersonal.js" />
     <Content Include="Scripts\AsistenciaJS\CambiarPersonal.js" />
+    <Content Include="Scripts\AsistenciaJS\ControlCuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\Cuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\EditarAsistencia.js" />
     <Content Include="Scripts\AsistenciaJS\EmpleadoCuchillo.js" />

@@ -11,19 +11,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
     {
         clsDEmpleado clsDEmpleado = null;
 
-        public List<EmpleadoCuchilloViewModel> ConsultarEmpleadosCuchilloPorLinea(string Linea)
+        public List<ControlCuchilloViewModel> ConsultarEmpleadosCuchilloPorLinea(string Linea)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                List<EmpleadoCuchilloViewModel> ListadoEmpleadoCuchillo = new List<EmpleadoCuchilloViewModel>();
+                List<ControlCuchilloViewModel> ListadoEmpleadoCuchillo = new List<ControlCuchilloViewModel>();
                 var consulta = entities.spConsutaEmpleadosCuchillos(Linea).ToList();
                 if(consulta != null)
                 {
                     foreach(var x in consulta)
                     {
-                        ListadoEmpleadoCuchillo.Add(new EmpleadoCuchilloViewModel
+                        ListadoEmpleadoCuchillo.Add(new ControlCuchilloViewModel
                         {
-                           // Cedula = 
+                            Cedula =x.Cedula,
+                            Nombre=x.Nombre,
+                            CuchilloBlanco=x.CuchilloBlanco,
+                            CuchilloRojo=x.CuchilloRojo,
+                            CuchilloNegro=x.CuchilloNegro
                         });
                     }
                 }
@@ -41,22 +45,38 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var CuchilloAsignado = entities.EMPLEADO_CUCHILLO.FirstOrDefault(x=>
-                x.NumeroCuchillo == model.NumeroCuchillo 
-                && x.ColorCuchillo == model.ColorCuchillo
-                &&x.Cedula != model.Cedula);
-                if (CuchilloAsignado != null)
-                    return "Cuchillo ya esta asignado a otro empleado";
-
+                
+                if(model.CuchilloBlanco >0)
+                {
+                    var validacion = entities.EMPLEADO_CUCHILLO.FirstOrDefault(x=> x.CuchilloBlanco == model.CuchilloBlanco
+                    && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo && x.Cedula != model.Cedula);
+                    if (validacion != null)
+                        return "Cuchillo Blanco ya se encuentra asignado a otro empleado("+validacion.Cedula+")";
+                }
+                if (model.CuchilloRojo >0)
+                {
+                    var validacion = entities.EMPLEADO_CUCHILLO.FirstOrDefault(x => x.CuchilloRojo == model.CuchilloRojo
+                    && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.Cedula != model.Cedula);
+                    if (validacion != null)
+                        return "Cuchillo Rojo ya se encuentra asignado a otro empleado(" + validacion.Cedula + ")";
+                }
+                if (model.CuchilloNegro > 0)
+                {
+                    var validacion = entities.EMPLEADO_CUCHILLO.FirstOrDefault(x => x.CuchilloNegro == model.CuchilloNegro
+                    && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.Cedula != model.Cedula);
+                    if (validacion != null)
+                        return "Cuchillo Negro ya se encuentra asignado a otro empleado(" + validacion.Cedula + ")";
+                }
 
                 var EmpleadoCuchillo = entities.EMPLEADO_CUCHILLO.FirstOrDefault(x=> 
                 x.IdEmpleadoCuchillo == model.IdEmpleadoCuchillo
-                || (x.Cedula == model.Cedula && x.NumeroCuchillo == model.NumeroCuchillo && x.ColorCuchillo ==model.ColorCuchillo)
+                || (x.Cedula == model.Cedula)
                 );
                 if (EmpleadoCuchillo != null)
                 {
-                    EmpleadoCuchillo.NumeroCuchillo = model.NumeroCuchillo;
-                    EmpleadoCuchillo.ColorCuchillo = model.ColorCuchillo;
+                    EmpleadoCuchillo.CuchilloBlanco = model.CuchilloBlanco??0;                 
+                    EmpleadoCuchillo.CuchilloRojo = model.CuchilloRojo??0;                    
+                    EmpleadoCuchillo.CuchilloNegro = model.CuchilloNegro??0;
                     EmpleadoCuchillo.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     EmpleadoCuchillo.TerminalModificacionLog = model.TerminalIngresoLog;
                     EmpleadoCuchillo.FechaModificacionLog = model.FechaIngresoLog;
@@ -65,8 +85,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 else
                 {
                     entities.EMPLEADO_CUCHILLO.Add(new EMPLEADO_CUCHILLO {
-                        NumeroCuchillo = model.NumeroCuchillo,
-                        ColorCuchillo = model.ColorCuchillo,
+                        CuchilloBlanco =model.CuchilloBlanco??0,
+                        CuchilloRojo = model.CuchilloRojo??0,
+                        CuchilloNegro = model.CuchilloNegro??0,
                         Cedula = model.Cedula,
                         FechaIngresoLog = model.FechaIngresoLog,
                         TerminalIngresoLog = model.TerminalIngresoLog,
@@ -86,36 +107,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 clsDEmpleado = new clsDEmpleado();
-                IEnumerable<EMPLEADO_CUCHILLO> EmpleadosCuchillos = entities.EMPLEADO_CUCHILLO;
-
-                if (filtros.NumeroCuchillo > 0)
-                {
-                    EmpleadosCuchillos = EmpleadosCuchillos.Where(x => x.NumeroCuchillo == filtros.NumeroCuchillo);
-                }
+                IEnumerable<EMPLEADO_CUCHILLO> EmpleadosCuchillos = entities.EMPLEADO_CUCHILLO;                
 
                 if (!string.IsNullOrEmpty(filtros.Cedula))
                 {
                     EmpleadosCuchillos = EmpleadosCuchillos.Where(x => x.Cedula == filtros.Cedula);
-                }
-
-                if (!string.IsNullOrEmpty(filtros.ColorCuchillo))
-                {
-                    EmpleadosCuchillos = EmpleadosCuchillos.Where(x => x.ColorCuchillo == filtros.ColorCuchillo);
-                }
+                }               
 
 
-                List<EmpleadoCuchilloViewModel> Listado = (from c in EmpleadosCuchillos
-                                                 join color in entities.CLASIFICADOR on c.ColorCuchillo equals color.Codigo
-                                                 where color.Grupo == clsAtributos.CodigoGrupoColorCuchillo
+                List<EmpleadoCuchilloViewModel> Listado = (from c in EmpleadosCuchillos                                                
                                                  select new EmpleadoCuchilloViewModel
                                                  {
                                                      IdEmpleadoCuchillo = c.IdEmpleadoCuchillo,
                                                      Cedula = c.Cedula,
-                                                     ColorCuchillo = color.Descripcion,
+                                                    CuchilloBlanco=c.CuchilloBlanco,
+                                                    CuchilloRojo=c.CuchilloRojo,
+                                                    CuchilloNegro=c.CuchilloNegro,
                                                      EstadoRegistro = c.EstadoRegistro,
                                                      FechaIngresoLog = c.FechaIngresoLog,
-                                                     FechaModificacionLog = c.FechaModificacionLog,
-                                                     NumeroCuchillo = c.NumeroCuchillo,
+                                                     FechaModificacionLog = c.FechaModificacionLog,                                                   
                                                      TerminalIngresoLog = c.TerminalIngresoLog,
                                                      TerminalModificacionLog = c.TerminalModificacionLog,
                                                      UsuarioIngresoLog = c.UsuarioIngresoLog,
