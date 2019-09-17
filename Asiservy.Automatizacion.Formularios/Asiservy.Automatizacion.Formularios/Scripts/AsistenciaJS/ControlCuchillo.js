@@ -46,7 +46,7 @@ function check(id,color,cedula) {
 
     }
     //console.log(label);
-    //console.log(id);
+    console.log(cedula);
     id = "#" + id;
     $(id).prop('disabled', true);
     if($(id).prop('checked')) {

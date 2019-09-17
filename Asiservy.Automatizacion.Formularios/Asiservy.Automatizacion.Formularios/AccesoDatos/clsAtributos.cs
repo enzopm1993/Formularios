@@ -52,7 +52,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
 
         //Motivos de permiso medico
-        public static string CodigoMotivoPermisoCitaMedica = "LE";
+        public static string CodigoMotivoPermisoCitaMedica = "LE"; 
+        public static string CodigoMotivoPermisoEnfermedadNP = "EN"; 
 
         //Tipos Cambio de personal de Área
         public static string TipoPrestar = "P";

@@ -6,23 +6,23 @@
         <tr>
             <th>Id</th>
             <th>Empleado</th>
-            <td>
+            <th>
                 <div class="text-center">
 
                     <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
                 </div>
-            </td>
-            <td>
+            </th>
+            <th>
                 <div class="text-center">
                     <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
                 </div>
-            </td>
-            <td>
+            </th>
+            <th>
                 <div class="text-center">
 
                     <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
                 </div>
-            </td>
+            </th>
 
         </tr>
     </thead>
@@ -40,7 +40,7 @@
                             <div class="col-xs-2 text-xs-center">
                                 <label class="btn btn-dark text-xs-center" id="labelCuchilloBlanco_@x.CuchilloBlanco">
                                     @x.CuchilloBlanco
-                                    @Html.CheckBox("Blanco" + x.CuchilloBlanco, x.ValidaBlanco == "1", new { @onchange = "check(this.id,'B',"+x.Cedula+")" })
+                                    @Html.CheckBox("Blanco" + x.CuchilloBlanco, x.ValidaBlanco == "1", new { @onchange = "check(this.id,'B','"+x.Cedula+"')" })
                                 </label>
                             </div>
                             if (x.ValidaBlanco == "1") {
@@ -69,7 +69,7 @@
                             <div class="col-xs-2 text-xs-center">
                                 <label class="btn btn-dark text-xs-center" id="labelCuchilloRojo_@x.CuchilloRojo">
                                     @x.CuchilloRojo
-                                    @Html.CheckBox("Rojo" + x.CuchilloRojo, x.ValidaRojo == "1", new { @onchange = "check(this.id,'R'," + x.Cedula + ")" })
+                                    @Html.CheckBox("Rojo" + x.CuchilloRojo, x.ValidaRojo == "1", new { @onchange = "check(this.id,'R','" + x.Cedula + "')" })
                                 </label>
                             </div>
                             if (x.ValidaRojo == "1")
@@ -95,7 +95,7 @@
                             <div class="col-xs-2 text-xs-center">
                                 <label class="btn btn-dark text-xs-center" id="labelCuchilloNegro_@x.CuchilloNegro">
                                     @x.CuchilloNegro
-                                    @Html.CheckBox("Negro" + x.CuchilloNegro, x.ValidaNegro == "1", new { @onchange = "check(this.id,'N'," + x.Cedula + ")" })
+                                    @Html.CheckBox("Negro" + x.CuchilloNegro, x.ValidaNegro == "1", new { @onchange = "check(this.id,'N','" + x.Cedula + "')" })
                                 </label>
                             </div>
                             if (x.ValidaNegro == "1")
