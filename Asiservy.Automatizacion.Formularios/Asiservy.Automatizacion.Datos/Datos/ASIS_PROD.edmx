@@ -395,6 +395,7 @@
         </Function>
         <Function Name="spConsutaEmpleadosCuchillos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="linea" Type="varchar" Mode="In" />
+          <Parameter Name="estado" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsutaEmpleadosFiltro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Area" Type="varchar" Mode="In" />
@@ -702,11 +703,12 @@
           <FunctionImport Name="sp_ConsultaEmpleadosMovidos" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaEmpleadosMovidos)">
           <Parameter Name="Cedula" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsutaEmpleadosCuchillos" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosCuchillos)">
-          <Parameter Name="linea" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_ConsultaMotivoSolicitudPermisoAsistencia" ReturnType="Collection(String)">
-            <Parameter Name="cedula" Mode="In" Type="String" />
+          <Parameter Name="cedula" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsutaEmpleadosCuchillos" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosCuchillos)">
+            <Parameter Name="linea" Mode="In" Type="String" />
+            <Parameter Name="estado" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -998,12 +1000,15 @@
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="spConsutaEmpleadosCuchillos">
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="CuchilloBlanco" Nullable="true" />
+          <Property Type="String" Name="ValidaBlanco" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="CuchilloRojo" Nullable="true" />
+          <Property Type="String" Name="ValidaRojo" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="CuchilloNegro" Nullable="true" />
+          <Property Type="String" Name="ValidaNegro" Nullable="false" MaxLength="1" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1467,6 +1472,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ConsultaMotivoSolicitudPermisoAsistencia" FunctionName="ASIS_PRODModel.Store.sp_ConsultaMotivoSolicitudPermisoAsistencia" />
           <FunctionImportMapping FunctionImportName="spConsutaEmpleadosCuchillos" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleadosCuchillos">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosCuchillos">
@@ -1474,12 +1480,14 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
                 <ScalarProperty Name="CuchilloBlanco" ColumnName="CuchilloBlanco" />
+                <ScalarProperty Name="ValidaBlanco" ColumnName="ValidaBlanco" />
                 <ScalarProperty Name="CuchilloRojo" ColumnName="CuchilloRojo" />
+                <ScalarProperty Name="ValidaRojo" ColumnName="ValidaRojo" />
                 <ScalarProperty Name="CuchilloNegro" ColumnName="CuchilloNegro" />
+                <ScalarProperty Name="ValidaNegro" ColumnName="ValidaNegro" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_ConsultaMotivoSolicitudPermisoAsistencia" FunctionName="ASIS_PRODModel.Store.sp_ConsultaMotivoSolicitudPermisoAsistencia" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
