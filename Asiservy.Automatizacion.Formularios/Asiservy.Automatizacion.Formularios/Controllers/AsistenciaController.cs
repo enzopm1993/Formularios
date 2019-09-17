@@ -204,6 +204,53 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #endregion
 
         #region CUCHILLO
+        [Authorize]
+        public ActionResult GuardarControlCuchillo(string dsCedula, string dsColor,string dsNumero,string dsEstado,bool dbCheck)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(dsCedula) || string.IsNullOrEmpty(dsColor) || string.IsNullOrEmpty(dsNumero) || string.IsNullOrEmpty(dsEstado))
+                {
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return Json("Ningun Parametro debe estar vacio", JsonRequestBehavior.AllowGet);
+                }
+                clsDCuchillo = new clsDCuchillo();
+                var poControlCuchillo = new CONTROL_CUCHILLO();
+                liststring = User.Identity.Name.Split('_');
+                poControlCuchillo.Cedula = dsCedula;
+                poControlCuchillo.CuchilloBlanco = dsColor == "B" ? int.Parse(dsNumero) : 0;
+                poControlCuchillo.CuchilloRojo = dsColor == "R" ? int.Parse(dsNumero) : 0;
+                poControlCuchillo.CuchilloNegro = dsColor == "N" ? int.Parse(dsNumero) : 0;
+                poControlCuchillo.Fecha = DateTime.Now;
+                poControlCuchillo.EstadoCuchillo = dsEstado;
+                poControlCuchillo.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                poControlCuchillo.FechaIngresoLog = DateTime.Now;
+                poControlCuchillo.UsuarioIngresoLog = liststring[0];
+                poControlCuchillo.TerminalIngresoLog = Request.UserHostAddress;
+
+                var respuesta = clsDCuchillo.GuardarModificarControlCuchillo(poControlCuchillo, dbCheck);
+                return Json(respuesta, JsonRequestBehavior.AllowGet);
+
+
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         [Authorize]
         // GET: Asistencia/ControlCuchillo
@@ -212,15 +259,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDClasificador = new clsDClasificador();
-                clsDCuchillo = new clsDCuchillo();
+               // clsDCuchillo = new clsDCuchillo();
                 clsDEmpleado = new clsDEmpleado();
                 liststring = User.Identity.Name.Split('_');
                 var Empleado = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault();
-                List<ControlCuchilloViewModel> model = new List<ControlCuchilloViewModel>();
-                if (Empleado != null)
-                {
-                     model = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(Empleado.CODIGOLINEA);
-                }
+               // List<ControlCuchilloViewModel> model = new List<ControlCuchilloViewModel>();
+                
                 var EstadosControlCuchillo = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {
                     Grupo =clsAtributos.CodigoGrupoEstadoControlCuchillo,
                     EstadoRegistro =clsAtributos.EstadoRegistroActivo
@@ -229,7 +273,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadosControlCuchillo = EstadosControlCuchillo;
                 ViewBag.Linea = Empleado!=null?Empleado.LINEA:"";
 
-                return View(model);
+                return View();
             }
             catch (Exception ex)
             {
@@ -250,6 +294,42 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
 
         }
+        [Authorize]
+        // GET: Asistencia/ControlCuchillo
+        public ActionResult ControlCuchilloPartial(string dsEstado)
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                clsDCuchillo = new clsDCuchillo();
+                clsDEmpleado = new clsDEmpleado();
+                liststring = User.Identity.Name.Split('_');
+                var Empleado = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault();
+                List<ControlCuchilloViewModel> model = new List<ControlCuchilloViewModel>();
+                if (Empleado != null && !string.IsNullOrEmpty(dsEstado))
+                {
+                    model = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(Empleado.CODIGOLINEA, dsEstado);
+                }               
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {               
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [Authorize]
         // GET: Asistencia/Cuchillo
         public ActionResult Cuchillo()

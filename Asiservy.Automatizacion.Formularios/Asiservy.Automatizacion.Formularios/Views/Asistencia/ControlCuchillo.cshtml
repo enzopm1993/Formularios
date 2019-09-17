@@ -11,77 +11,24 @@
     <div class="row">
         <div class="form-group">
             <label>Estado</label>
-            @Html.DropDownList("EstadoControlCuchillo", new SelectList(ViewBag.EstadosControlCuchillo, "Codigo", "Descripcion"), new { @class = "form-control" })
+            @Html.DropDownList("EstadoControlCuchillo", new SelectList(ViewBag.EstadosControlCuchillo, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @onchange = "SelectEstado(this.value)",@id= "EstadoControlCuchillo" })
         </div>
 
     </div>
-    <div class="table-responsive">
-        <table class="table" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Empleado</th>
-                    <td>
-                        <div class="text-center">
+    <div class="table-responsive" id="TablaControlCuchillo">
 
-                            <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
-                        </div>
-                    </td>
-                    <td>
-                        <div class="text-center">
-                            <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
-                        </div>
-                    </td>
-                    <td>
-                        <div class="text-center">
-
-                            <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
-                        </div>
-                    </td>
-
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null)
-                {
-                    foreach (var x in Model)
-                    {
-                        <tr>
-                            <td>@x.Cedula</td>
-                            <td>@x.Nombre</td>
-                            <td class="text-center">
-                                <div class="col-xs-2 text-xs-center">
-                                    <label class="btn btn-dark text-xs-center" id="labelCuchilloBlanco_@x.CuchilloBlanco">
-                                        @x.CuchilloBlanco
-                                        @Html.CheckBox("Blanco" + x.CuchilloBlanco, false, new { @onchange = "check(this.id)" })
-                                    </label>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <div class="col-xs-2 text-xs-center">
-                                    <label class="btn btn-dark text-xs-center" id="labelCuchilloBlanco">
-                                        @x.CuchilloRojo
-                                        @Html.CheckBox("Blanco" + x.CuchilloRojo, false)
-                                    </label>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <div class="col-xs-2 text-xs-center">
-                                    <label class="btn btn-dark text-xs-center" id="labelCuchilloBlanco">
-                                        @x.CuchilloNegro
-                                        @Html.CheckBox("Blanco" + x.CuchilloNegro, false)
-                                    </label>
-                                </div>
-                            </td>
-
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
     </div>
 </div>
 
 
 <link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
+
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>.
+
 <script src="~/Scripts/AsistenciaJS/ControlCuchillo.js"></script>

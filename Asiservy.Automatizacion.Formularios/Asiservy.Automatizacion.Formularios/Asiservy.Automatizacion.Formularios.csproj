@@ -729,6 +729,7 @@
     <Content Include="Views\Asistencia\AsistenciaPartial.cshtml" />
     <Content Include="Views\Asistencia\CuchilloEmpleadoPartial.cshtml" />
     <Content Include="Views\Asistencia\ControlCuchillo.cshtml" />
+    <Content Include="Views\Asistencia\ControlCuchilloPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
