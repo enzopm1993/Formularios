@@ -39,6 +39,17 @@
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="30" />
           <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="BITACORA_EMPLEADO_TURNO">
+          <Key>
+            <PropertyRef Name="IdBitacoraEmpleadoTurno" />
+          </Key>
+          <Property Name="IdBitacoraEmpleadoTurno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cedula" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="Turno" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="BITACORA_SOLICITUD">
           <Key>
             <PropertyRef Name="IdBitacoraSolicitud" />
@@ -131,6 +142,19 @@
           <Property Name="CuchilloRojo" Type="int" />
           <Property Name="CuchilloNegro" Type="int" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EMPLEADO_TURNO">
+          <Key>
+            <PropertyRef Name="Cedula" />
+          </Key>
+          <Property Name="Cedula" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="Turno" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" />
@@ -402,18 +426,23 @@
           <Parameter Name="Linea" Type="varchar" Mode="In" />
           <Parameter Name="Cargo" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsutaEmpleadosTurnos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="linea" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spConsutaMotivosPermiso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="dsCodigoMotivo" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="ASIS_PRODModelStoreContainer">
           <EntitySet Name="ASISTENCIA" EntityType="Self.ASISTENCIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_CAMBIO_PERSONAL" EntityType="Self.BITACORA_CAMBIO_PERSONAL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BITACORA_EMPLEADO_TURNO" EntityType="Self.BITACORA_EMPLEADO_TURNO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_SOLICITUD" EntityType="Self.BITACORA_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CAMBIO_PERSONAL" EntityType="Self.CAMBIO_PERSONAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLASIFICADOR" EntityType="Self.CLASIFICADOR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_CUCHILLO" EntityType="Self.CONTROL_CUCHILLO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CUCHILLO" EntityType="Self.CUCHILLO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EMPLEADO_CUCHILLO" EntityType="Self.EMPLEADO_CUCHILLO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EMPLEADO_TURNO" EntityType="Self.EMPLEADO_TURNO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ERROR" EntityType="Self.ERROR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTADO_SOLICITUD" EntityType="Self.ESTADO_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JUSTICA_SOLICITUD" EntityType="Self.JUSTICA_SOLICITUD" Schema="dbo" store:Type="Tables" />
@@ -709,6 +738,11 @@
           <FunctionImport Name="spConsutaEmpleadosCuchillos" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosCuchillos)">
             <Parameter Name="linea" Mode="In" Type="String" />
             <Parameter Name="estado" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="BITACORA_EMPLEADO_TURNO" EntityType="ASIS_PRODModel.BITACORA_EMPLEADO_TURNO" />
+          <EntitySet Name="EMPLEADO_TURNO" EntityType="ASIS_PRODModel.EMPLEADO_TURNO" />
+          <FunctionImport Name="spConsutaEmpleadosTurnos" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosTurnos)">
+            <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -1009,6 +1043,36 @@
           <Property Type="String" Name="ValidaRojo" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="CuchilloNegro" Nullable="true" />
           <Property Type="String" Name="ValidaNegro" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <EntityType Name="BITACORA_EMPLEADO_TURNO">
+          <Key>
+            <PropertyRef Name="IdBitacoraEmpleadoTurno" />
+          </Key>
+          <Property Name="IdBitacoraEmpleadoTurno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EMPLEADO_TURNO">
+          <Key>
+            <PropertyRef Name="Cedula" />
+          </Key>
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="spConsutaEmpleadosTurnos">
+          <Property Type="String" Name="CEDULA" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LINEA" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TURNO" Nullable="true" MaxLength="1" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1485,6 +1549,42 @@
                 <ScalarProperty Name="ValidaRojo" ColumnName="ValidaRojo" />
                 <ScalarProperty Name="CuchilloNegro" ColumnName="CuchilloNegro" />
                 <ScalarProperty Name="ValidaNegro" ColumnName="ValidaNegro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="BITACORA_EMPLEADO_TURNO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.BITACORA_EMPLEADO_TURNO">
+              <MappingFragment StoreEntitySet="BITACORA_EMPLEADO_TURNO">
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdBitacoraEmpleadoTurno" ColumnName="IdBitacoraEmpleadoTurno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMPLEADO_TURNO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.EMPLEADO_TURNO">
+              <MappingFragment StoreEntitySet="EMPLEADO_TURNO">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsutaEmpleadosTurnos" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleadosTurnos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosTurnos">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="TURNO" ColumnName="TURNO" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
