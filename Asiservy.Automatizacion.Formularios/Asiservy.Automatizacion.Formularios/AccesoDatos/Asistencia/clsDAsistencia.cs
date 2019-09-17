@@ -38,11 +38,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     ControlAsistencia = new List<ASISTENCIA>();
                     foreach (var item in ListaEmpleados)
                     {
-                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CODIGOLINEA, Turno="1" });
+                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CODIGOLINEA, Turno="1", Observacion="" });
                     }
                     db.ASISTENCIA.AddRange(ControlAsistencia);
                     db.SaveChanges();
-                    pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea).ToList();
+                    pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea,1).ToList();
                     pListAsistencia.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     ControlAsistenciaViewModel = new ControlDeAsistenciaViewModel
                     {

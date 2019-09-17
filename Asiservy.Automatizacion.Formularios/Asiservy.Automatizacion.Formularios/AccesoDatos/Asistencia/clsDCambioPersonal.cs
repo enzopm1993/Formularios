@@ -170,12 +170,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             
         }
 
-        public CAMBIO_PERSONAL ConsultarCambioPersonal(string cedula)
+        public sp_ConsultaEmpleadosMovidos ConsultarCambioPersonal(string cedula)
         {
-            CAMBIO_PERSONAL poCambioPersonal = null;
+            sp_ConsultaEmpleadosMovidos poCambioPersonal = null;
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
-                poCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == cedula && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList().FirstOrDefault();
+                poCambioPersonal = db.sp_ConsultaEmpleadosMovidos(cedula).FirstOrDefault();
                 return poCambioPersonal;
             }
         }

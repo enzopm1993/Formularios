@@ -103,7 +103,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
                         {
                             item.Bloquear = 1;
-                            item.Observacion = "No ha marcado en el biométrico, debe acercarse a marcar";
+                            item.Observacion += "No ha marcado en el biométrico, debe acercarse a marcar";
                         }
                     }
                     if (item.Turno == "2")
@@ -111,14 +111,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
                         {
                             item.Bloquear = 1;
-                            item.Observacion = "No ha marcado en el biométrico, debe acercarse a marcar";
+                            item.Observacion += "No ha marcado en el biométrico, debe acercarse a marcar";
                         }
                     }
-                    CAMBIO_PERSONAL CambioPersonal = clsDCambioPersonal.ConsultarCambioPersonal(item.Cedula);
+                    sp_ConsultaEmpleadosMovidos CambioPersonal = clsDCambioPersonal.ConsultarCambioPersonal(item.Cedula);
+                     
                     if (CambioPersonal != null)
                     {
                         item.Bloquear = 1;
-                        item.Observacion += "";
+                        item.Observacion += "El empleado fue movido a"+CambioPersonal.Linea;
                     }
                 }
                 return PartialView(AsistenciaViewModel);

@@ -483,7 +483,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
                 foreach (var lista in ListaSolicitudes.ToList())
                 {
-                    var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == lista.CodigoMotivo);
+                    //var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == lista.CodigoMotivo);
+                    var poMotivoPermiso = ConsultarMotivos(lista.CodigoMotivo).FirstOrDefault();
+                    //ConsultarMotivos(codmot)
                     var poEmpleado = entities.spConsutaEmpleados(lista.Identificacion).FirstOrDefault();
                     ListaSolicitudesPermiso.Add( new SolicitudPermisoViewModel
                     {
@@ -497,7 +499,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         Identificacion = lista.Identificacion,
                         NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : "",
                         CodigoMotivo = lista.CodigoMotivo,
-                        DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
+                        DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.DescripcionMotivo : "",
                         Observacion = lista.Observacion,
                         FechaSalida = lista.FechaSalida,
                         FechaRegreso = lista.FechaRegreso,
