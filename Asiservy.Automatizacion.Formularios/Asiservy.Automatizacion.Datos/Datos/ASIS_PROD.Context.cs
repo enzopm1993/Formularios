@@ -175,6 +175,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiaria>("sp_ConsultaAsistenciaDiaria", codLineaParameter, turnoParameter);
         }
     
+        public virtual ObjectResult<sp_ConsultaEmpleadosMovidos> sp_ConsultaEmpleadosMovidos(string cedula)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("Cedula", cedula) :
+                new ObjectParameter("Cedula", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaEmpleadosMovidos>("sp_ConsultaEmpleadosMovidos", cedulaParameter);
+        }
+    
         public virtual ObjectResult<spConsutaEmpleadosCuchillos> spConsutaEmpleadosCuchillos(string linea)
         {
             var lineaParameter = linea != null ?
@@ -184,13 +193,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosCuchillos>("spConsutaEmpleadosCuchillos", lineaParameter);
         }
     
-        public virtual ObjectResult<sp_ConsultaEmpleadosMovidos> sp_ConsultaEmpleadosMovidos(string cedula)
+        public virtual ObjectResult<string> sp_ConsultaMotivoSolicitudPermisoAsistencia(string cedula)
         {
             var cedulaParameter = cedula != null ?
-                new ObjectParameter("Cedula", cedula) :
-                new ObjectParameter("Cedula", typeof(string));
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaEmpleadosMovidos>("sp_ConsultaEmpleadosMovidos", cedulaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_ConsultaMotivoSolicitudPermisoAsistencia", cedulaParameter);
         }
     }
 }
