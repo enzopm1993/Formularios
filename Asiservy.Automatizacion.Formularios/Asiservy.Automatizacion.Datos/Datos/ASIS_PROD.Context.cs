@@ -44,8 +44,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<BITACORA_CAMBIO_PERSONAL> BITACORA_CAMBIO_PERSONAL { get; set; }
         public virtual DbSet<ASISTENCIA> ASISTENCIA { get; set; }
         public virtual DbSet<CUCHILLO> CUCHILLO { get; set; }
-        public virtual DbSet<EMPLEADO_CUCHILLO> EMPLEADO_CUCHILLO { get; set; }
         public virtual DbSet<CONTROL_CUCHILLO> CONTROL_CUCHILLO { get; set; }
+        public virtual DbSet<EMPLEADO_CUCHILLO> EMPLEADO_CUCHILLO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -173,6 +173,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiaria>("sp_ConsultaAsistenciaDiaria", codLineaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaEmpleadosCuchillos> spConsutaEmpleadosCuchillos(string linea)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosCuchillos>("spConsutaEmpleadosCuchillos", lineaParameter);
+        }
+    
+        public virtual ObjectResult<sp_ConsultaEmpleadosMovidos> sp_ConsultaEmpleadosMovidos(string cedula)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("Cedula", cedula) :
+                new ObjectParameter("Cedula", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaEmpleadosMovidos>("sp_ConsultaEmpleadosMovidos", cedulaParameter);
         }
     }
 }

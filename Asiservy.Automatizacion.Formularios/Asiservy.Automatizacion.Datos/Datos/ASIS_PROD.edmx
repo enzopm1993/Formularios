@@ -127,8 +127,9 @@
           </Key>
           <Property Name="IdEmpleadoCuchillo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Cedula" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="NumeroCuchillo" Type="int" Nullable="false" />
-          <Property Name="ColorCuchillo" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CuchilloBlanco" Type="int" />
+          <Property Name="CuchilloRojo" Type="int" />
+          <Property Name="CuchilloNegro" Type="int" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" />
@@ -330,20 +331,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EMPLEADO_CUCHILLO_CUCHILLO">
-          <End Role="CUCHILLO" Type="Self.CUCHILLO" Multiplicity="1" />
-          <End Role="EMPLEADO_CUCHILLO" Type="Self.EMPLEADO_CUCHILLO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CUCHILLO">
-              <PropertyRef Name="NumeroCuchillo" />
-              <PropertyRef Name="ColorCuchillo" />
-            </Principal>
-            <Dependent Role="EMPLEADO_CUCHILLO">
-              <PropertyRef Name="NumeroCuchillo" />
-              <PropertyRef Name="ColorCuchillo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OPCION_ROL_OPCION">
           <End Role="OPCION" Type="Self.OPCION" Multiplicity="0..1" />
           <End Role="OPCION_ROL" Type="Self.OPCION_ROL" Multiplicity="*" />
@@ -372,6 +359,9 @@
           <Parameter Name="codLinea" Type="varchar" Mode="In" />
           <Parameter Name="Turno" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_ConsultaEmpleadosMovidos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Cedula" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_GrupoEnfermedades" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="tipo" Type="char" Mode="In" />
           <Parameter Name="CodigoGrupoEnfermedad" Type="varchar" Mode="In" />
@@ -399,6 +389,9 @@
         </Function>
         <Function Name="spConsutaEmpleados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="cedula" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spConsutaEmpleadosCuchillos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="linea" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsutaEmpleadosFiltro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Area" Type="varchar" Mode="In" />
@@ -435,10 +428,6 @@
           <AssociationSet Name="FK__USUARIO_R__IdRol__534D60F1" Association="Self.FK__USUARIO_R__IdRol__534D60F1">
             <End Role="ROL" EntitySet="ROL" />
             <End Role="USUARIO_ROL" EntitySet="USUARIO_ROL" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EMPLEADO_CUCHILLO_CUCHILLO" Association="Self.FK_EMPLEADO_CUCHILLO_CUCHILLO">
-            <End Role="CUCHILLO" EntitySet="CUCHILLO" />
-            <End Role="EMPLEADO_CUCHILLO" EntitySet="EMPLEADO_CUCHILLO" />
           </AssociationSet>
           <AssociationSet Name="FK_OPCION_ROL_OPCION" Association="Self.FK_OPCION_ROL_OPCION">
             <End Role="OPCION" EntitySet="OPCION" />
@@ -701,15 +690,17 @@
           </FunctionImport>
           <EntitySet Name="ASISTENCIA" EntityType="ASIS_PRODModel.ASISTENCIA" />
           <EntitySet Name="CUCHILLO" EntityType="ASIS_PRODModel.CUCHILLO" />
-          <EntitySet Name="EMPLEADO_CUCHILLO" EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO" />
-          <AssociationSet Name="FK_EMPLEADO_CUCHILLO_CUCHILLO" Association="ASIS_PRODModel.FK_EMPLEADO_CUCHILLO_CUCHILLO">
-            <End Role="CUCHILLO" EntitySet="CUCHILLO" />
-            <End Role="EMPLEADO_CUCHILLO" EntitySet="EMPLEADO_CUCHILLO" />
-          </AssociationSet>
           <EntitySet Name="CONTROL_CUCHILLO" EntityType="ASIS_PRODModel.CONTROL_CUCHILLO" />
           <FunctionImport Name="sp_ConsultaAsistenciaDiaria" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaAsistenciaDiaria)">
             <Parameter Name="codLinea" Mode="In" Type="String" />
             <Parameter Name="Turno" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spConsutaEmpleadosCuchillos" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosCuchillos)">
+          <Parameter Name="linea" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="EMPLEADO_CUCHILLO" EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO" />
+          <FunctionImport Name="sp_ConsultaEmpleadosMovidos" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaEmpleadosMovidos)">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -928,39 +919,7 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="EMPLEADO_CUCHILLO" Relationship="ASIS_PRODModel.FK_EMPLEADO_CUCHILLO_CUCHILLO" FromRole="CUCHILLO" ToRole="EMPLEADO_CUCHILLO" />
         </EntityType>
-        <EntityType Name="EMPLEADO_CUCHILLO">
-          <Key>
-            <PropertyRef Name="IdEmpleadoCuchillo" />
-          </Key>
-          <Property Name="IdEmpleadoCuchillo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NumeroCuchillo" Type="Int32" Nullable="false" />
-          <Property Name="ColorCuchillo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CUCHILLO" Relationship="ASIS_PRODModel.FK_EMPLEADO_CUCHILLO_CUCHILLO" FromRole="EMPLEADO_CUCHILLO" ToRole="CUCHILLO" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-        </EntityType>
-        <Association Name="FK_EMPLEADO_CUCHILLO_CUCHILLO">
-          <End Type="ASIS_PRODModel.CUCHILLO" Role="CUCHILLO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.EMPLEADO_CUCHILLO" Role="EMPLEADO_CUCHILLO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CUCHILLO">
-              <PropertyRef Name="NumeroCuchillo" />
-              <PropertyRef Name="ColorCuchillo" />
-            </Principal>
-            <Dependent Role="EMPLEADO_CUCHILLO">
-              <PropertyRef Name="NumeroCuchillo" />
-              <PropertyRef Name="ColorCuchillo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="CONTROL_CUCHILLO">
           <Key>
             <PropertyRef Name="IdControlCuchillo" />
@@ -997,6 +956,47 @@
           <Property Type="String" Name="TerminalCreacionLog" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spConsutaEmpleadosCuchillos">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="CodColor" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ColorCuchillo" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="NumeroCuchillo" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="EMPLEADO_CUCHILLO">
+          <Key>
+            <PropertyRef Name="IdEmpleadoCuchillo" />
+          </Key>
+          <Property Name="IdEmpleadoCuchillo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CuchilloBlanco" Type="Int32" />
+          <Property Name="CuchilloRojo" Type="Int32" />
+          <Property Name="CuchilloNegro" Type="Int32" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_ConsultaEmpleadosMovidos">
+          <Property Type="Int32" Name="IdCambioPersonal" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CodArea" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Area" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
@@ -1380,23 +1380,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EMPLEADO_CUCHILLO">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.EMPLEADO_CUCHILLO">
-              <MappingFragment StoreEntitySet="EMPLEADO_CUCHILLO">
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="ColorCuchillo" ColumnName="ColorCuchillo" />
-                <ScalarProperty Name="NumeroCuchillo" ColumnName="NumeroCuchillo" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="IdEmpleadoCuchillo" ColumnName="IdEmpleadoCuchillo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CONTROL_CUCHILLO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_CUCHILLO">
               <MappingFragment StoreEntitySet="CONTROL_CUCHILLO">
@@ -1434,6 +1417,56 @@
                 <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
                 <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
                 <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsutaEmpleadosCuchillos" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleadosCuchillos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosCuchillos">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="CodColor" ColumnName="CodColor" />
+                <ScalarProperty Name="ColorCuchillo" ColumnName="ColorCuchillo" />
+                <ScalarProperty Name="NumeroCuchillo" ColumnName="NumeroCuchillo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="EMPLEADO_CUCHILLO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.EMPLEADO_CUCHILLO">
+              <MappingFragment StoreEntitySet="EMPLEADO_CUCHILLO">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="CuchilloNegro" ColumnName="CuchilloNegro" />
+                <ScalarProperty Name="CuchilloRojo" ColumnName="CuchilloRojo" />
+                <ScalarProperty Name="CuchilloBlanco" ColumnName="CuchilloBlanco" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdEmpleadoCuchillo" ColumnName="IdEmpleadoCuchillo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_ConsultaEmpleadosMovidos" FunctionName="ASIS_PRODModel.Store.sp_ConsultaEmpleadosMovidos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_ConsultaEmpleadosMovidos">
+                <ScalarProperty Name="IdCambioPersonal" ColumnName="IdCambioPersonal" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />

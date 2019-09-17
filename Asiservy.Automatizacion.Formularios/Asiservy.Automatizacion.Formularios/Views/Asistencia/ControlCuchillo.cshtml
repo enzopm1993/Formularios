@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlCuchilloViewModel>
+
+@{
+    ViewBag.Title = "ControlCuchillo";
+}
+<br />
+<h3>ControlCuchillo</h3>
+<hr />
+<div class=" container-fluid">
+    <div class="row">
+        <div class="form-group">
+            <label>Estado</label>
+            @Html.DropDownList("EstadoControlCuchillo", new SelectList(ViewBag.EstadosControlCuchillo, "Codigo", "Descripcion"), new { @class = "form-control" })
+        </div>
+
+    </div>
+    <div class="table-responsive">
+        <table class="table" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Empleado</th>
+                    <td>
+                        <div class="text-center">
+                            <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center">
+
+                            <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center">
+
+                            <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
+                        </div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var x in Model)
+                {
+                    <tr>@x.Cedula</tr>
+                    <tr>@x.Nombre</tr>
+                    <tr>@x.CuchilloBlanco</tr>
+                    <tr>@x.CuchilloRojo</tr>
+                    <tr>@x.CuchilloNegro</tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />

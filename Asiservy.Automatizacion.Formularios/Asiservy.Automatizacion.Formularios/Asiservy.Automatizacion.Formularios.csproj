@@ -649,6 +649,7 @@
     </Compile>
     <Compile Include="Models\Asistencia\BitacoraCambioPersonalModelView.cs" />
     <Compile Include="Models\Asistencia\CambioDePersonalViewModel.cs" />
+    <Compile Include="Models\Asistencia\ControlCuchilloViewModel.cs" />
     <Compile Include="Models\Asistencia\ControlDeAsistenciaViewModel.cs" />
     <Compile Include="Models\Asistencia\EmpleadoCuchilloViewModel.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
@@ -726,6 +727,7 @@
     <Content Include="Views\Asistencia\CuchilloEmpleado.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaPartial.cshtml" />
     <Content Include="Views\Asistencia\CuchilloEmpleadoPartial.cshtml" />
+    <Content Include="Views\Asistencia\ControlCuchillo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

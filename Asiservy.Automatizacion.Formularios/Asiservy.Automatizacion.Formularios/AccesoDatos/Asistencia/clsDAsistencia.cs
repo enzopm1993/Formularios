@@ -42,7 +42,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     }
                     db.ASISTENCIA.AddRange(ControlAsistencia);
                     db.SaveChanges();
-                    pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea,1).ToList();
+                    pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea).ToList();
                     pListAsistencia.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     ControlAsistenciaViewModel = new ControlDeAsistenciaViewModel
                     {
