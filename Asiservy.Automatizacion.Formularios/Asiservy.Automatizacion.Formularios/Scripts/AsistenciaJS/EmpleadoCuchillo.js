@@ -8,17 +8,19 @@ $(document).ready(function () {
 function Nuevo() {
     $('#IdEmpleadoCuchillo').val("0");
     $("#SelectEmpleado").prop('selectedIndex', 0);
-    $("#SelectColor").prop('selectedIndex', 0);
-    $("#SelectNumeroCuchillo").empty();
-    $("#SelectNumeroCuchillo").append("<option value='' >-- Seleccionar Opción--</option>");
+    $('#SelectCuchilloBlanco').prop('selectedIndex', 0);
+    $('#SelectCuchilloRojo').prop('selectedIndex', 0);
+    $('#SelectCuchilloNegro').prop('selectedIndex', 0);
 }
 
-function SeleccionEmpleadoCuchillo(id, cedula, color, numero, estado) {
+function SeleccionEmpleadoCuchillo(id, cedula, blanco,rojo, negro, estado) {
     
     $('#IdEmpleadoCuchillo').val(id);
     $('#SelectEmpleado').val(cedula);
-    $('#SelectColor').val(color.charAt(0));
-    CambioColorCuchillo(color.charAt(0), numero);
+    $('#SelectCuchilloBlanco').val(blanco);
+    $('#SelectCuchilloRojo').val(rojo);
+    $('#SelectCuchilloNegro').val(negro);
+   
     if (estado == 'A') {
         $('#CheckEstadoRegistro').prop('checked', true);
         // console.log($('#LabelEstado').val());
@@ -46,35 +48,35 @@ function CargarEmpleadoCuchillo() {
     });
 }
 
-function CambioColorCuchillo(valor,numero) {
-    $("#SelectNumeroCuchillo").empty();
-    $("#SelectNumeroCuchillo").append("<option value='' >-- Seleccionar Opción--</option>");
+//function CambioColorCuchillo(valor,numero) {
+//    $("#SelectNumeroCuchillo").empty();
+//    $("#SelectNumeroCuchillo").append("<option value='' >-- Seleccionar Opción--</option>");
   
-    $.ajax({
-        url: "../Asistencia/ConsultaNumeroCuchillo",
-        type: "Get",
-        data:
-        {
-            dsColor: valor
-        },
-        success: function (resultado) {
+//    $.ajax({
+//        url: "../Asistencia/ConsultaNumeroCuchillo",
+//        type: "Get",
+//        data:
+//        {
+//            dsColor: valor
+//        },
+//        success: function (resultado) {
          
-            if (!$.isEmptyObject(resultado)) {
-                $.each(resultado, function (create, row) {
-                    $("#SelectNumeroCuchillo").append("<option value='" + row.NumeroCuchillo + "'>" + row.NumeroCuchillo + "</option>")
-                });
-                if (numero != "0") {
-                    $('#SelectNumeroCuchillo').val(numero);    
-                }
-            } else {
-                MensajeAdvertencia("Color no tiene numeros asigandos", false);
-            }
-        },
-        error: function (resultado) {
-            MensajeError(JSON.stringify(resultado), false);
-        }
-    });
-}
+//            if (!$.isEmptyObject(resultado)) {
+//                $.each(resultado, function (create, row) {
+//                    $("#SelectNumeroCuchillo").append("<option value='" + row.NumeroCuchillo + "'>" + row.NumeroCuchillo + "</option>")
+//                });
+//                if (numero != "0") {
+//                    $('#SelectNumeroCuchillo').val(numero);    
+//                }
+//            } else {
+//                MensajeAdvertencia("Color no tiene numeros asigandos", false);
+//            }
+//        },
+//        error: function (resultado) {
+//            MensajeError(JSON.stringify(resultado), false);
+//        }
+//    });
+//}
 
 
 

@@ -13,22 +13,24 @@
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumeroCuchillo)
+                @Html.DisplayNameFor(model => model.CuchilloBlanco)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ColorCuchillo)
+                @Html.DisplayNameFor(model => model.CuchilloRojo)
             </th>
-   
+            <th>
+                @Html.DisplayNameFor(model => model.CuchilloNegro)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.EstadoRegistro)
             </th>
-           
+
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr onclick="SeleccionEmpleadoCuchillo('@item.IdEmpleadoCuchillo','@item.Cedula','@item.ColorCuchillo','@item.NumeroCuchillo','@item.EstadoRegistro')">
+        <tr onclick="SeleccionEmpleadoCuchillo('@item.IdEmpleadoCuchillo','@item.Cedula','@item.CuchilloBlanco','@item.CuchilloRojo','@item.CuchilloNegro','@item.EstadoRegistro')">
             <td>
                 @Html.DisplayFor(modelItem => item.IdEmpleadoCuchillo)
             </td>
@@ -39,16 +41,18 @@
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NumeroCuchillo)
+                @Html.DisplayFor(modelItem => item.CuchilloBlanco)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ColorCuchillo)
+                @Html.DisplayFor(modelItem => item.CuchilloRojo)
             </td>
-
+            <td>
+                @Html.DisplayFor(modelItem => item.CuchilloNegro)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EstadoRegistro)
             </td>
-           
+
         </tr>
         }
     </tbody>
