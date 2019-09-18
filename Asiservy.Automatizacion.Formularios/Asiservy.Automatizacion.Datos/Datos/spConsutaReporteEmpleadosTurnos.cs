@@ -11,11 +11,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsutaEmpleadosTurnos
+    public partial class spConsutaReporteEmpleadosTurnos
     {
         public string CEDULA { get; set; }
         public string NOMBRES { get; set; }
-        public string CODLINEA { get; set; }
         public string LINEA { get; set; }
         public string TURNO { get; set; }
     }

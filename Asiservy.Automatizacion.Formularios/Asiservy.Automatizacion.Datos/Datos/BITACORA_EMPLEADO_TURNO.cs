@@ -20,5 +20,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public string TerminalIngresoLog { get; set; }
+        public string CodLinea { get; set; }
+        public string Observacion { get; set; }
+        public string EstadoRegistro { get; set; }
     }
 }

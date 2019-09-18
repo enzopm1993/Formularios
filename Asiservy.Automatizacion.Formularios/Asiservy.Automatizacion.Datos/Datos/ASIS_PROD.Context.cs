@@ -216,5 +216,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosTurnos>("spConsutaEmpleadosTurnos", lineaParameter);
         }
+    
+        public virtual ObjectResult<spConsutaReporteEmpleadosTurnos> spConsutaReporteEmpleadosTurnos(string linea, string turno)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("turno", turno) :
+                new ObjectParameter("turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaReporteEmpleadosTurnos>("spConsutaReporteEmpleadosTurnos", lineaParameter, turnoParameter);
+        }
     }
 }
