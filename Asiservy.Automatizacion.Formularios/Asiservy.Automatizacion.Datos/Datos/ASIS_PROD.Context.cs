@@ -48,6 +48,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<EMPLEADO_CUCHILLO> EMPLEADO_CUCHILLO { get; set; }
         public virtual DbSet<BITACORA_EMPLEADO_TURNO> BITACORA_EMPLEADO_TURNO { get; set; }
         public virtual DbSet<EMPLEADO_TURNO> EMPLEADO_TURNO { get; set; }
+        public virtual DbSet<CONTROL_ESFERO> CONTROL_ESFERO { get; set; }
+        public virtual DbSet<EMPLEADO_ESFERO> EMPLEADO_ESFERO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -228,6 +230,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaReporteEmpleadosTurnos>("spConsutaReporteEmpleadosTurnos", lineaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaEmpleadoEsfero> spConsutaEmpleadoEsfero(string linea)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadoEsfero>("spConsutaEmpleadoEsfero", lineaParameter);
         }
     }
 }
