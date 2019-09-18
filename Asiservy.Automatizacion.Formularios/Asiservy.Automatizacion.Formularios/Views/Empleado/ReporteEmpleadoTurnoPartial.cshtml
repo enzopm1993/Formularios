@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsutaReporteEmpleadosTurnos>
+
+@{
+    ViewBag.Title = "ReporteEmpleadoTurnoPartial";
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CEDULA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOMBRES)
+        </th>        
+        <th>
+            @Html.DisplayNameFor(model => model.LINEA)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.TURNO)
+        </th>
+
+    </tr>
+
+@if(Model != null)
+{
+    foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CEDULA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOMBRES)
+        </td> 
+        <td>
+            @Html.DisplayFor(modelItem => item.LINEA)
+        </td>
+        <td class="text-center">
+            @Html.DisplayFor(modelItem => item.TURNO)
+        </td>
+      
+    </tr>
+    }
+}
+</table>

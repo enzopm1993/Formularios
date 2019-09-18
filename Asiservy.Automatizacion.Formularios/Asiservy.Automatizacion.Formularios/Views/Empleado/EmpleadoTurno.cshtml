@@ -1,0 +1,84 @@
+﻿@model List<Asiservy.Automatizacion.Formularios.Models.Empleado.EmpleadoViewModel>
+
+@{
+    ViewBag.Title = "EmpleadoTurno";
+}
+
+<br />
+<h3 class="">Asignar Turno</h3>
+<h4>@ViewBag.Linea</h4>
+
+
+<div class=" container-fluid">
+    @using (Html.BeginForm("EmpleadoTurno"))
+    {
+        <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Cedula)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Nombre)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model[0].CodLinea)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Linea)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Turno)
+                </th>
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @for(var i = 0; i<Model.Count(); i++)
+            {
+            <tr>
+                <td>
+                    @{int j = i + 1;
+                }
+                @j
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => modelItem[i].Cedula, new { @class = "form-control", @readonly = "readonly" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => modelItem[i].Nombre, new { @class = "form-control", @readonly = "readonly" })
+            </td>
+            <td hidden> 
+                @Html.TextBoxFor(modelItem => modelItem[i].CodLinea, new { @class = "form-control", @readonly = "readonly" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => modelItem[i].Linea, new { @class = "form-control", @readonly = "readonly" })
+            </td>
+            <td>
+
+                <div class="custom-control custom-radio" role="group">
+                    @Html.RadioButtonFor(modelItem => modelItem[i].Turno, "1", new { @class = "custom-control-input", @id = Model[i].Cedula + "-1" })
+                    <label class="custom-control-label" for="@Model[i].Cedula-1">Turno 1</label>
+                </div>
+
+                <div class="custom-control custom-radio" role="group">
+                    @Html.RadioButtonFor(modelItem => modelItem[i].Turno, "2", new { @class = "custom-control-input", @id = Model[i].Cedula + "-2" })
+                    <label class="custom-control-label" for="@Model[i].Cedula-2">Turno 2</label>
+                </div>
+                @Html.ValidationMessageFor(model => model[i].Turno, "", new { @class = "input-validation-error text-danger has-error" })
+            </td>
+
+            </tr>
+            }
+            </tbody>
+            </table>
+
+    <div class="text-center">
+        <input type="submit" name="name" value="Guardar" class="btn btn-primary" />
+    </div>
+    }
+</div>
