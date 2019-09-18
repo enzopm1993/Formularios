@@ -13,13 +13,13 @@
     @if (ViewBag.AsistenciaExiste == 0)
     {
 
-        <center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea',0);"/></center>
+        <center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0');"/></center>
     }
     else
     {
         <script>
             //console.log("hola mundo");
-             GenerarAsistenciaDiaria('@ViewBag.CodLinea',1);
+             GenerarAsistenciaDiaria('@ViewBag.CodLinea','1');
         </script>
     }
 

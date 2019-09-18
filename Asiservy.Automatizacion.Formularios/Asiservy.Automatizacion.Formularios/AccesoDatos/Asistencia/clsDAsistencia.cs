@@ -17,14 +17,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
-              //  pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA).ToList();
+                pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1).ToList();
             }
             if (pListAsistencia.ToList().Count == 0)
                 return 0;
             else
                 return 1;
         }
-        public ControlDeAsistenciaViewModel ObtenerAsistenciaDiaria(string CodLinea, int BanderaExiste)
+        public ControlDeAsistenciaViewModel ObtenerAsistenciaDiaria(string CodLinea, int BanderaExiste, string usuario, string terminal)
         {
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
@@ -38,11 +38,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     ControlAsistencia = new List<ASISTENCIA>();
                     foreach (var item in ListaEmpleados)
                     {
-                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CODIGOLINEA });
+                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CODIGOLINEA, Turno="1", Observacion="", UsuarioCreacionLog=usuario,TerminalCreacionLog=terminal, FechaCreacionLog=DateTime.Now, EstadoRegistro="A" });
                     }
                     db.ASISTENCIA.AddRange(ControlAsistencia);
                     db.SaveChanges();
-                  //  pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea).ToList();
+                    pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea,1).ToList();
                     pListAsistencia.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     ControlAsistenciaViewModel = new ControlDeAsistenciaViewModel
                     {
@@ -51,7 +51,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 }
                 else
                 {
-                   // pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea).ToList();
+                    pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea,1).ToList();
                     pListAsistencia.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     ControlAsistenciaViewModel = new ControlDeAsistenciaViewModel
                     {
@@ -71,7 +71,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 DateTime FechaFin = DateTime.Now.AddDays(1);
                 var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == psAsistencia.Cedula && (x.Fecha > Fechainicio && x.Fecha < FechaFin)).FirstOrDefault();
                 BuscarEnAsistencia.EstadoAsistencia = psAsistencia.EstadoAsistencia;
+                if (!string.IsNullOrEmpty(psAsistencia.Observacion))
                 BuscarEnAsistencia.Observacion = psAsistencia.Observacion;
+                if (psAsistencia.Hora != null)
+                BuscarEnAsistencia.Hora = psAsistencia.Hora;
+                BuscarEnAsistencia.FechaModificacionLog = psAsistencia.FechaModificacionLog;
+                BuscarEnAsistencia.UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                BuscarEnAsistencia.TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
                 db.SaveChanges();
                 return "Registro actualizado con éxito";
             }

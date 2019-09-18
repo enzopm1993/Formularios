@@ -451,7 +451,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
            
             return ListaSolicitudesPermiso;
         }
-
+        public string ConsultaMotivoPermisoxEmpleado(string cedula)
+        {
+            string poMotivoPermiso=string.Empty;
+            using (ASIS_PRODEntities db=new ASIS_PRODEntities())
+            {
+                string CodMotivo = db.sp_ConsultaMotivoSolicitudPermisoAsistencia(cedula).FirstOrDefault();
+                if (!string.IsNullOrEmpty(CodMotivo))
+                {
+                     poMotivoPermiso = ConsultarMotivos(CodMotivo).FirstOrDefault().DescripcionMotivo;
+                }
+               
+                return poMotivoPermiso;
+            }
+        }
         public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso(SOLICITUD_PERMISO filtros)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -483,7 +496,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
                 foreach (var lista in ListaSolicitudes.ToList())
                 {
-                    var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == lista.CodigoMotivo);
+                    //var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == lista.CodigoMotivo);
+                    var poMotivoPermiso = ConsultarMotivos(lista.CodigoMotivo).FirstOrDefault();
+                    //ConsultarMotivos(codmot)
                     var poEmpleado = entities.spConsutaEmpleados(lista.Identificacion).FirstOrDefault();
                     ListaSolicitudesPermiso.Add( new SolicitudPermisoViewModel
                     {
@@ -497,7 +512,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         Identificacion = lista.Identificacion,
                         NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : "",
                         CodigoMotivo = lista.CodigoMotivo,
-                        DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
+                        DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.DescripcionMotivo : "",
                         Observacion = lista.Observacion,
                         FechaSalida = lista.FechaSalida,
                         FechaRegreso = lista.FechaRegreso,

@@ -169,5 +169,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             }
             
         }
+
+        public sp_ConsultaEmpleadosMovidos ConsultarCambioPersonal(string cedula)
+        {
+            sp_ConsultaEmpleadosMovidos poCambioPersonal = null;
+            using (ASIS_PRODEntities db=new ASIS_PRODEntities())
+            {
+                poCambioPersonal = db.sp_ConsultaEmpleadosMovidos(cedula).FirstOrDefault();
+                return poCambioPersonal;
+            }
+        }
     }
 }
