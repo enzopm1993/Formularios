@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Empleado.EmpleadoEsferoViewModel>
+
+
+<table class="table" id="TableEmpleadoEsferoPartial">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroEsfero)
+            </th>
+            <td>
+                @Html.DisplayNameFor(model => model.EstadoRegistro)
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cedula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeroEsfero)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoRegistro)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<script>
+
+    $('#TableEmpleadoEsferoPartial').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        "pageLength": 5,
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+        "pagingType": "full_numbers"
+
+    });
+</script>

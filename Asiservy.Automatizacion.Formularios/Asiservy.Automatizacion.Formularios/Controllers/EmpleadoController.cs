@@ -1,5 +1,6 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado;
 using Asiservy.Automatizacion.Formularios.Models.Empleado;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,122 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         string[] Usuario = null;
         clsDError clsDError = null;
         clsDEmpleado clsDEmpleado = null;
-        
+        clsDEmpleadoEsfero clsDEmpleadoEsfero = null;
+
+        #region EMPLEADO ESFERO
+        [Authorize]
+        public ActionResult EmpleadoEsfero()
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+                if(Empleado != null)
+                {
+                    var ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltro(Empleado.CODIGOLINEA, null, null);
+                    ViewBag.Empleados = ListaEmpleados;
+                }
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[1]
+                });
+                return RedirectToAction("Home","Home");
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EmpleadoEsfero(EmpleadoEsferoViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid) return View(model);
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                clsDEmpleadoEsfero = new clsDEmpleadoEsfero();
+                model.EstadoRegistro = model.EstadoRegistro == "true" ? clsAtributos.EstadoRegistroActivo : clsAtributos.EstadoRegistroInactivo;
+                model.UsuarioIngresoLog = Usuario[0];
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                var Respuesta = clsDEmpleadoEsfero.GuardarMoficicarEsfero(model);
+                return RedirectToAction("EmpleadoEsfero");
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[1]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        [Authorize]
+        public ActionResult EmpleadoEsferoPartial()
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                clsDEmpleadoEsfero = new clsDEmpleadoEsfero();
+                var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+                List<EmpleadoEsferoViewModel> ListaEmpleadoEsfero = new List<EmpleadoEsferoViewModel>();
+                if (Empleado != null)
+                {
+                    ListaEmpleadoEsfero = clsDEmpleadoEsfero.ConsultaEmpleadoEsfero(Empleado.CODIGOLINEA);
+                 
+                }
+
+                return PartialView(ListaEmpleadoEsfero);
+            }
+            catch (Exception ex)
+            {
+
+                // SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[1]
+                });
+                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        #endregion
+
+
+        #region EMPLEADO TURNO
         // GET: Empleado
         [Authorize]
         public ActionResult EmpleadoTurno()
@@ -156,6 +272,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message,JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
+
 
 
 
