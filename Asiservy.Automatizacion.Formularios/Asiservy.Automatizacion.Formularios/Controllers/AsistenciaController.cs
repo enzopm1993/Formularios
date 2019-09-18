@@ -24,6 +24,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDClasificador clsDClasificador = null;
         clsDCuchillo clsDCuchillo = null;
         clsApiUsuario clsApiUsuario=null;
+        clsDSolicitudPermiso ClsDSolicitudPermiso = null;
+        
         #region Métodos
         protected void SetSuccessMessage(string message)
         {
@@ -42,6 +44,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         #endregion
 
+        #region Asistencia
         // GET: Asistencia
         [Authorize]
         public ActionResult Asistencia()
@@ -77,74 +80,181 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 });
                 return RedirectToAction("Home", "Home");
             }
-            
+
         }
         [Authorize]
         public ActionResult AsistenciaPartial(string CodLinea, int BanderaExiste)
         {
             try
             {
+                liststring = User.Identity.Name.Split('_');
                 clsDCambioPersonal = new clsDCambioPersonal();
                 clsDClasificador = new clsDClasificador();
                 var EstadoAsistencia = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste);
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress);
                 clsApiUsuario = new clsApiUsuario();
                 DateTime? pdUltimaMarcacion;
                 foreach (var item in AsistenciaViewModel.ControlAsistencia)
                 {
-                    //pdUltimaMarcacion = clsApiUsuario.ConsultarFechaBiometrico(item.Cedula);
-                    pdUltimaMarcacion =Convert.ToDateTime("2019-09-16 17:05:03.367");
-                    
+                    pdUltimaMarcacion = clsApiUsuario.ConsultarFechaBiometrico(item.Cedula);
+                    //pdUltimaMarcacion =Convert.ToDateTime("2019-09-18 17:05:03.367");
+
                     if (item.Turno == "1")
                     {
-                        if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
+                        if (pdUltimaMarcacion != null)
+                        {
+                            if ((pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString()))
+                            {
+                                item.Bloquear = 1;
+                                item.Observacion += "No ha marcado en el biométrico";
+                            }
+                        }
+                        else
                         {
                             item.Bloquear = 1;
-                            item.Observacion += "No ha marcado en el biométrico, debe acercarse a marcar";
+                            item.Observacion += "No ha marcado en el biométrico";
                         }
+
                     }
                     if (item.Turno == "2")
                     {
-                        if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
+                        if (pdUltimaMarcacion != null)
+                        {
+                            if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
+                            {
+                                item.Bloquear = 1;
+                                item.Observacion += "No ha marcado en el biométrico";
+                            }
+                        }
+                        else
                         {
                             item.Bloquear = 1;
-                            item.Observacion += "No ha marcado en el biométrico, debe acercarse a marcar";
+                            item.Observacion += "No ha marcado en el biométrico";
                         }
                     }
                     sp_ConsultaEmpleadosMovidos CambioPersonal = clsDCambioPersonal.ConsultarCambioPersonal(item.Cedula);
-                     
+
                     if (CambioPersonal != null)
                     {
                         item.Bloquear = 1;
-                        item.Observacion += "El empleado fue movido a"+CambioPersonal.Linea;
+                        item.Observacion += "El empleado fue movido a " + CambioPersonal.Linea;
+                    }
+                    ClsDSolicitudPermiso = new clsDSolicitudPermiso();
+                    string MotivoSolicitud = ClsDSolicitudPermiso.ConsultaMotivoPermisoxEmpleado(item.Cedula);
+                    if (!string.IsNullOrEmpty(MotivoSolicitud))
+                    {
+                        item.Bloquear = 1;
+                        item.Observacion += " Tiene permiso: " + MotivoSolicitud;
                     }
                 }
                 return PartialView(AsistenciaViewModel);
             }
             catch (Exception ex)
             {
-
-               return  Json(ex.Message, JsonRequestBehavior.AllowGet);
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
         [HttpPost]
-        public JsonResult GrabarAsistenciaEmpleado(string cedula, string nombre,TimeSpan  Hora,string observacion)
+        public JsonResult ConsultarBiometrico(string cedula)
         {
             try
             {
-                clsDAsistencia = new clsDAsistencia();
-                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula=cedula, Hora=Hora, Observacion=observacion, EstadoAsistencia=clsAtributos.EstadoPresente});
+
+                clsApiUsuario = new clsApiUsuario();
+                if (Convert.ToDateTime(clsApiUsuario.ConsultarFechaBiometrico(cedula).Value.ToShortDateString()) < Convert.ToDateTime(DateTime.Now.ToShortDateString()))
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+
+                //return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
-            return Json("",JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        public JsonResult GrabarAsistenciaEmpleado(string cedula, string nombre, TimeSpan Hora, string observacion, string estado)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');
+                clsDAsistencia = new clsDAsistencia();
+                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, Hora = Hora, Observacion = observacion, EstadoAsistencia = estado, UsuarioModificacionLog = liststring[1], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now });
+                return Json(Resultado, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public JsonResult CambiarAsistenciaEmpleadoFalta(string cedula)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');
+                clsDAsistencia = new clsDAsistencia();
+                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, EstadoAsistencia = clsAtributos.EstadoFalta, UsuarioModificacionLog = liststring[1], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now });
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
         [Authorize]
         public ActionResult RptAsistencia()
         {
@@ -156,6 +266,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
+        #endregion
+
+
 
         #region Cambio_PersonaldeÁrea
         [Authorize]
@@ -165,10 +278,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ConsultaCombosGeneral();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return RedirectToAction("Home", "Home");
             }
             return View();
         }

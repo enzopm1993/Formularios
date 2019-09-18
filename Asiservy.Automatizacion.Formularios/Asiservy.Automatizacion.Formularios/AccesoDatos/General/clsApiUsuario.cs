@@ -64,7 +64,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             if (Result != null && Result.Count>0)
             {
                 var Resultado = Result[0];
-                 pdfecha = (DateTime)Resultado.UltimaMarcacion;
+                if (!string.IsNullOrEmpty((string)Resultado.UltimaMarcacion.Value))
+                pdfecha = (DateTime)Resultado.UltimaMarcacion;
             }
             return pdfecha;
 

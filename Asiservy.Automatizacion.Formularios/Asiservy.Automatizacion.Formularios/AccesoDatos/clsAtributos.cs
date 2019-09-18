@@ -59,9 +59,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string TipoRegresar = "R";
 
         //Estados Asistencia
-        public static string EstadoPresente = "P";
-        public static string EstadoFalta = "F";
-        public static string EstadoAtraso = "A";
+        public static string EstadoPresente = "1";
+        public static string EstadoFalta = "3";
+        public static string EstadoAtraso = "2";
 
 
         //Clasificador de colores de cuchillos

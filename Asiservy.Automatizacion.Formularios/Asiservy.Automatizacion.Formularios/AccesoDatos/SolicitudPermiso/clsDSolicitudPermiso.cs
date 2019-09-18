@@ -451,7 +451,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
            
             return ListaSolicitudesPermiso;
         }
-
+        public string ConsultaMotivoPermisoxEmpleado(string cedula)
+        {
+            string poMotivoPermiso=string.Empty;
+            using (ASIS_PRODEntities db=new ASIS_PRODEntities())
+            {
+                string CodMotivo = db.sp_ConsultaMotivoSolicitudPermisoAsistencia(cedula).FirstOrDefault();
+                if (!string.IsNullOrEmpty(CodMotivo))
+                {
+                     poMotivoPermiso = ConsultarMotivos(CodMotivo).FirstOrDefault().DescripcionMotivo;
+                }
+               
+                return poMotivoPermiso;
+            }
+        }
         public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso(SOLICITUD_PERMISO filtros)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
