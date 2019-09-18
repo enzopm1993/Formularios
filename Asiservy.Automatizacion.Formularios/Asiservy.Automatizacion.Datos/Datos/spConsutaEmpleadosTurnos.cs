@@ -11,16 +11,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsutaEmpleadosCuchillos
+    public partial class spConsutaEmpleadosTurnos
     {
-        public string Cedula { get; set; }
-        public string Nombre { get; set; }
-        public string CodLinea { get; set; }
-        public Nullable<int> CuchilloBlanco { get; set; }
-        public string ValidaBlanco { get; set; }
-        public Nullable<int> CuchilloRojo { get; set; }
-        public string ValidaRojo { get; set; }
-        public Nullable<int> CuchilloNegro { get; set; }
-        public string ValidaNegro { get; set; }
+        public string CEDULA { get; set; }
+        public string NOMBRES { get; set; }
+        public string LINEA { get; set; }
+        public string TURNO { get; set; }
     }
 }

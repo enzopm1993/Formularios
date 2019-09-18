@@ -36,7 +36,7 @@
 
             <div class="col-md-2 col-sm-12">
                 <div class="form-group">
-                    <label>Cuchillo Balnco</label>
+                    <label>Cuchillo Blanco</label>
                     @Html.DropDownListFor(model => model.CuchilloBlanco, new SelectList(ViewBag.CuchillosBlancos, "NumeroCuchillo", "NumeroCuchillo"), "Seleccione", new { @class = "form-control", @id = "SelectCuchilloBlanco" })
                     @Html.ValidationMessageFor(model => model.CuchilloBlanco, "", new { @class = "text-danger" })
                 </div>

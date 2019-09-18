@@ -11,8 +11,11 @@ namespace Asiservy.Automatizacion.Formularios.Models.Asistencia
         public string Cedula { get; set; }
         public string Nombre { get; set; }
         public Nullable<int> CuchilloBlanco { get; set; }
+        public string ValidaBlanco { get; set; }
         public Nullable<int> CuchilloRojo { get; set; }
+        public string ValidaRojo { get; set; }
         public Nullable<int> CuchilloNegro { get; set; }
+        public string ValidaNegro { get; set; }
         public System.DateTime Fecha { get; set; }
         public string EstadoCuchillo { get; set; }
         public string EstadoRegistro { get; set; }

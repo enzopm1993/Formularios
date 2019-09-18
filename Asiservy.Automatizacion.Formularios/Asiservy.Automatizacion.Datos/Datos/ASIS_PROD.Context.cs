@@ -46,6 +46,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CUCHILLO> CUCHILLO { get; set; }
         public virtual DbSet<CONTROL_CUCHILLO> CONTROL_CUCHILLO { get; set; }
         public virtual DbSet<EMPLEADO_CUCHILLO> EMPLEADO_CUCHILLO { get; set; }
+        public virtual DbSet<BITACORA_EMPLEADO_TURNO> BITACORA_EMPLEADO_TURNO { get; set; }
+        public virtual DbSet<EMPLEADO_TURNO> EMPLEADO_TURNO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -184,15 +186,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaEmpleadosMovidos>("sp_ConsultaEmpleadosMovidos", cedulaParameter);
         }
     
-        public virtual ObjectResult<spConsutaEmpleadosCuchillos> spConsutaEmpleadosCuchillos(string linea)
-        {
-            var lineaParameter = linea != null ?
-                new ObjectParameter("linea", linea) :
-                new ObjectParameter("linea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosCuchillos>("spConsutaEmpleadosCuchillos", lineaParameter);
-        }
-    
         public virtual ObjectResult<string> sp_ConsultaMotivoSolicitudPermisoAsistencia(string cedula)
         {
             var cedulaParameter = cedula != null ?
@@ -200,6 +193,28 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("cedula", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_ConsultaMotivoSolicitudPermisoAsistencia", cedulaParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaEmpleadosCuchillos> spConsutaEmpleadosCuchillos(string linea, string estado)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            var estadoParameter = estado != null ?
+                new ObjectParameter("estado", estado) :
+                new ObjectParameter("estado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosCuchillos>("spConsutaEmpleadosCuchillos", lineaParameter, estadoParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaEmpleadosTurnos> spConsutaEmpleadosTurnos(string linea)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosTurnos>("spConsutaEmpleadosTurnos", lineaParameter);
         }
     }
 }
