@@ -41,7 +41,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     foreach (var item in ListaEmpleados)
                     {
                         var FueMovidoAOtraArea = clsDCambioPersonal.ConsultarCambioPersonal(item.CEDULA);
-                        if (FueMovidoAOtraArea!=null)
+                        if (FueMovidoAOtraArea==null)
                         ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CODIGOLINEA, Turno="1", Observacion="", UsuarioCreacionLog=usuario,TerminalCreacionLog=terminal, FechaCreacionLog=DateTime.Now, EstadoRegistro="A" });
 
                     }
