@@ -742,6 +742,7 @@
     <Content Include="Views\Empleado\ReporteEmpleadoTurno.cshtml" />
     <Content Include="Views\Empleado\EmpleadoEsfero.cshtml" />
     <Content Include="Views\Empleado\EmpleadoEsferoPartial.cshtml" />
+    <Content Include="Views\Asistencia\EmpleadosCambioPersonalPartial.cshtml" />
     <Content Include="Views\Empleado\ControlEsferoPartial.cshtml" />
     <Content Include="Views\Empleado\ControlEsfero.cshtml" />
     <None Include="Web.Debug.config">

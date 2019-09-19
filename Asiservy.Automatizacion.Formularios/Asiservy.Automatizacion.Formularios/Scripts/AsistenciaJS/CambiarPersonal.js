@@ -71,6 +71,7 @@ function ConsultarEmpleados() {
     //ConsultarEmpleado = "ConsultarEmpleado";
     if ($('#SelectLineaOrigen').val() != "") {
         $.ajax({
+            url: "../Asistencia/EmpleadosCambioPersonalPartial",
             type: "GET",
             data:
             {
@@ -79,7 +80,6 @@ function ConsultarEmpleados() {
                 pscargo: $('#SelectCargoOrigen').val(),
                 tipo: $('#optcambiaremp').val()
             },
-            url: '../Asistencia/EmpleadosCambioPersonalPartial',
             success: function (data) {
                 $('#DivEmpleados').html(data);
                 $('#btnGuardarCambioEmp').show();

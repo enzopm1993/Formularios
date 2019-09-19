@@ -25,7 +25,10 @@ function CargarUsuarioRol(estado) {
 
 
 
-function check(id,color,cedula) {
+function check(id, color, cedula) {
+    console.log(id);
+    console.log(color);
+    console.log(cedula);
     //7b8a8b
     var label = "#labelCuchillo";
     var numero = 0;

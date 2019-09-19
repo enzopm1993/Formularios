@@ -3,6 +3,7 @@
 
 <div style="padding-top: 10px; padding-bottom: 100px">
     @Html.HiddenFor(z=>z.ControlAsistencia[0].Turno)
+    @Html.Hidden("EstadoControlCuchillo","1");
     <div class="table-responsive">
 
         <table class="table " id="TableCuchillos">
@@ -11,13 +12,20 @@
                 <td class="align-bottom" rowspan="2"></td>
                 <td class="align-bottom" rowspan="2"><b> Personal</b></td>
                 <td class="align-bottom" rowspan="2"><b>Hora</b> </td>
-                <td class="align-middle" colspan="3"><b>Cuchillos</b> </td>
+
                 <td class="align-bottom" rowspan="2"><b>Observación</b> </td>
                 <td class="align-bottom" rowspan="2"><b>Check</b> </td>
                 <td class="align-bottom" rowspan="2"><b>Estado</b> </td>
                 <td class="align-bottom" rowspan="2"></td>
+                <td class="align-middle" colspan="3"><b>Cuchillos</b> </td>
             </tr>
             <tr>
+                <td>
+                    <div class="text-center">
+
+                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
+                    </div>
+                </td>
                 <td>
                     <div class="text-center">
                         <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
@@ -27,12 +35,6 @@
                     <div class="text-center">
 
                         <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
-                    </div>
-                </td>
-                <td>
-                    <div class="text-center">
-
-                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
                     </div>
                 </td>
             </tr>
@@ -49,75 +51,156 @@
                 {
                    <script>DeshabilitarControles('@cont');</script>
                 }
-                <tr bgcolor="@color" id="@cont">
-                    <td hidden>
-                        @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Cedula)
-                    </td>
-                    
-                    <td>
-                        @cont
-                    </td>
-                    <td>
-                        @*@Html.TextBoxFor(z => z.ControlAsistencia[cont - 1].NOMBRES, new { style = "width:100%; border: 0;", @readonly = true })*@
-                        @item.NOMBRES
+                   <tr bgcolor="@color" id="@cont">
+                       <td hidden>
+                           @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Cedula)
+                       </td>
 
-                    </td>
-                    <td>
-                        @*<input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />*@
-                        @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Hora, new { type = "time", @class = "form-control" })
-                    </td>
-                    <td class="text-center align-content-center">
-                        <div class="col-xs-2 text-xs-center">
-                            <label class="btn btn-light text-xs-center" id="labelCuchilloRojo">
-                                <input type="checkbox" onchange="Cuchillo(1,1)" id="CheckCuchilloRojo">21
-                            </label>
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="col-xs-2 text-xs-center">
-                            <label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
-                                <input type="checkbox" onchange="Cuchillo(2,1)" id="CheckCuchilloNegro">01
-                            </label>
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="col-xs-2 text-xs-center">
-                            <label class="btn btn-light text-xs-center" id="labelCuchilloBlanco">
-                                <input type="checkbox" onchange="Cuchillo(3,1)" id="CheckCuchilloBlanco">31
-                            </label>
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div>
-                            @*<input type="text" class="form-control-plaintext" id="Observacion" placeholder="Observacion">*@
-                            @Html.TextAreaFor(x => x.ControlAsistencia[cont - 1].Observacion, new { @row = "2" })
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <label class="btn btn-light text-xs-center" id="LabelAsistencia-@cont">
-                            
-                            @if (item.EstadoAsistencia == "1" || item.EstadoAsistencia == "2") { <script> PintarCHeck('@cont');</script>}
-                            @*<input type="checkbox" autocomplete="on" onchange="fillBook(0)" id="CheckAsistencia">*@
-                            <input type="checkbox" autocomplete="on" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');" id="CheckAsistencia-@cont">
-                        </label>
-                    </td>
-                    <td>
-                        @*<select class="custom-select" id="SelectEstado" onchange="CambioEstado(1)">
-                        <option selected>Seleccione</option>
-                        <option value="1">Presente</option>
-                        <option value="2">Atraso</option>
-                        <option value="3">Falta</option>
-                    </select>*@
-                        @Html.DropDownListFor(model => model.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "", @witdh="200px", @onchange= "GuardarPersona("+@cont+",'"+@item.NOMBRES+"','combo')" })
-                    </td>
-                    <td>
-                        <center> 
-                            @if (item.Observacion== "No ha marcado en el biométrico") { 
-                                 <img src="~/Content/images/actualizar.png" width="30" id="actualizar-@cont" height="30" style="cursor: pointer" onclick="ConsultarBiometrico('@cont','@item.Cedula')" />
-                            }
-                        </center>
-                    </td>
-                </tr>
+                       <td>
+                           @cont
+                       </td>
+                       <td>
+                           @*@Html.TextBoxFor(z => z.ControlAsistencia[cont - 1].NOMBRES, new { style = "width:100%; border: 0;", @readonly = true })*@
+                           @item.NOMBRES
+
+                       </td>
+                       <td>
+                           @*<input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />*@
+                           @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Hora, new { type = "time", @class = "form-control" })
+                       </td>
+
+                       <td class="text-center">
+                           <div>
+                               @*<input type="text" class="form-control-plaintext" id="Observacion" placeholder="Observacion">*@
+                               @Html.TextAreaFor(x => x.ControlAsistencia[cont - 1].Observacion, new { @row = "2" })
+                           </div>
+                       </td>
+                       <td class="text-center">
+                           <label class="btn btn-light text-xs-center" id="LabelAsistencia-@cont">
+
+                               @if (item.EstadoAsistencia == "1" || item.EstadoAsistencia == "2")
+                               {
+                                   <script> PintarCHeck('@cont');</script>}
+                               @*<input type="checkbox" autocomplete="on" onchange="fillBook(0)" id="CheckAsistencia">*@
+                               <input type="checkbox" autocomplete="on" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');" id="CheckAsistencia-@cont">
+                           </label>
+                       </td>
+                       <td>
+                           @*<select class="custom-select" id="SelectEstado" onchange="CambioEstado(1)">
+                <option selected>Seleccione</option>
+                <option value="1">Presente</option>
+                <option value="2">Atraso</option>
+                <option value="3">Falta</option>
+            </select>*@
+                           @Html.DropDownListFor(model => model.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "", @witdh = "200px", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','combo')" })
+                       </td>
+                       <td>
+                           <center>
+                               @if (item.Observacion == "No ha marcado en el biométrico")
+                               {
+                                   <img src="~/Content/images/actualizar.png" width="30" id="actualizar-@cont" height="30" style="cursor: pointer" onclick="ConsultarBiometrico('@cont','@item.Cedula')" />
+                               }
+                           </center>
+                       </td>
+
+                       <td class="text-center align-content-center">
+                           @{ var cuchillo = (from c in Model.ControlDeCuchillos
+                                                     where c.Cedula == item.Cedula
+                                                     select c).FirstOrDefault();}
+                           @if (cuchillo != null)
+                           {
+                               if (cuchillo.CuchilloBlanco != 0)
+                               {
+                                   <div class="col-xs-2 text-xs-center">
+                                       <label class="btn btn-dark text-xs-center" id="labelCuchilloBlanco_@cuchillo.CuchilloBlanco">
+                                           @cuchillo.CuchilloBlanco
+                                           @Html.CheckBox("Blanco" + cuchillo.CuchilloBlanco, cuchillo.ValidaBlanco == "1", new { @onchange = "check(this.id,'B','" + cuchillo.Cedula + "')" })
+                                       </label>
+                                   </div>
+                                   if (cuchillo.ValidaBlanco == "1")
+                                   {
+                                       <script>
+                                    $("#labelCuchilloBlanco_@cuchillo.CuchilloBlanco").css("background", "#28B463");
+                                       </script>
+                                   }
+                               }
+                               else
+                               {
+                                   <div class="col-xs-2 text-xs-center">
+                                       @if (cuchillo != null)
+                                       {
+                                           <label class="btn btn-light text-xs-center" id="labelCuchilloBlanco_@cuchillo.CuchilloBlanco">
+                                               @cuchillo.CuchilloBlanco
+                                               @Html.CheckBox("Blanco" + cuchillo.CuchilloBlanco, false, new { @disabled = "disabled" })
+                                            
+                                           </label>
+                                       }
+                                   </div>
+                               }
+                           }
+                       </td>
+                       <td class="text-center">
+                         
+                           @if (cuchillo != null)
+                           {
+                               if (cuchillo.CuchilloRojo != 0)
+                               {
+                                   <div class="col-xs-2 text-xs-center">
+                                       <label class="btn btn-dark text-xs-center" id="labelCuchilloRojo_@cuchillo.CuchilloRojo">
+                                           @cuchillo.CuchilloRojo
+                                           @Html.CheckBox("Rojo" + cuchillo.CuchilloRojo, cuchillo.ValidaRojo == "1", new { @onchange = "check(this.id,'R','" + cuchillo.Cedula + "')" })
+                                       </label>
+                                   </div>
+                                   if (cuchillo.ValidaRojo == "1")
+                                   {
+                                       <script>
+                                    $("#labelCuchilloRojo_@cuchillo.CuchilloRojo").css("background", "#28B463");
+                                       </script>
+                                   }
+                               }
+                               else
+                               {
+                                   <div class="col-xs-2 text-xs-center">
+                                       <label class="btn btn-dark text-xs-center" id="labelCuchilloRojo_@cuchillo.CuchilloRojo">
+                                           @cuchillo.CuchilloRojo
+                                           @Html.CheckBox("Rojo" + cuchillo.CuchilloRojo, false, new { @disabled = "disabled" })
+                                       </label>
+                                   </div>
+                               }
+                           }
+
+                       </td>
+                       <td class="text-center">
+                          
+                           @if (cuchillo != null)
+                           {
+                               if (cuchillo.CuchilloNegro != 0)
+                               {
+                                   <div class="col-xs-2 text-xs-center">
+                                       <label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
+                                           @cuchillo.CuchilloNegro
+                                           @Html.CheckBox("Negro" + cuchillo.CuchilloNegro, cuchillo.ValidaNegro == "1", new { @onchange = "check(this.id,'N','" + cuchillo.Cedula + "')" })
+                                       </label>
+                                   </div>
+                                   if (cuchillo.ValidaNegro == "1")
+                                   {
+                                       <script>
+                                    $("#labelCuchilloNegro_@cuchillo.CuchilloNegro").css("background", "#28B463");
+                                       </script>
+                                   }
+                               }
+                               else
+                               {
+                                   <div class="col-xs-2 text-xs-center">
+                                       <label class="btn btn-dark text-xs-center" id="labelCuchilloNegro_@cuchillo.CuchilloNegro">
+                                           @cuchillo.CuchilloNegro
+                                           @Html.CheckBox("Negro" + cuchillo.CuchilloNegro, false, new { @disabled = "disabled" })
+                                       </label>
+                                   </div>
+                               }
+                           }
+                       </td>
+                   </tr>
             }
             <tr>
         </table>
