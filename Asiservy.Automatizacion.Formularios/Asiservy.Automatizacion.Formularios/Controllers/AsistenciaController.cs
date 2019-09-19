@@ -82,6 +82,33 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
+
+        [Authorize]
+        public ActionResult AsistenciaPrestado()
+        {
+
+            try
+            {
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
         [Authorize]
         public ActionResult AsistenciaPartial(string CodLinea, int BanderaExiste)
         {
