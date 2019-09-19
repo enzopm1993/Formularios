@@ -144,6 +144,9 @@
     <Compile Include="Datos\spConsultaOpcionesPorRol.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsutaControlEsferos.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsutaEmpleadoEsfero.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

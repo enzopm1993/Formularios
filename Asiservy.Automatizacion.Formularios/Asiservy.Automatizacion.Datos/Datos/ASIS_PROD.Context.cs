@@ -240,5 +240,22 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadoEsfero>("spConsutaEmpleadoEsfero", lineaParameter);
         }
+    
+        public virtual ObjectResult<spConsutaControlEsferos> spConsutaControlEsferos(string linea, Nullable<System.DateTime> fecha, string tipo)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("tipo", tipo) :
+                new ObjectParameter("tipo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaControlEsferos>("spConsutaControlEsferos", lineaParameter, fechaParameter, tipoParameter);
+        }
     }
 }
