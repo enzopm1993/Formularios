@@ -37,11 +37,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 {
                     var Linea = entities.spConsultaLinea(x.CodLinea).FirstOrDefault();
                     var Area = entities.spConsultaArea(x.CodArea).FirstOrDefault();
+                    var Empleado = entities.spConsutaEmpleados(x.Cedula).FirstOrDefault();
                     //var Cargo = entities.spConsultaCargos(x.Cedula).FirstOrDefault();
 
                     ListadoCambioPersonal.Add(new BitacoraCambioPersonalModelView
                     {
                         Cedula = x.Cedula,
+                        Nombre = Empleado != null ? Empleado.NOMBRES : "",
                         //CodCargo = x.CodCargo,
                         //Cargo = Cargo.Descripcion,
                         Area = Area!=null? Area.Descripcion:"",

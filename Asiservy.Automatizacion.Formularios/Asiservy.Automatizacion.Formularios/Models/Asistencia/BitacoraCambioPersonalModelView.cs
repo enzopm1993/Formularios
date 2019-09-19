@@ -12,6 +12,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.Asistencia
         public int IdBitacoraCambioPersonal { get; set; }
 
         public string Cedula { get; set; }
+        public string Nombre { get; set; }
         public string Tipo { get; set; }
         public string CodLinea { get; set; }
         public string Linea { get; set; }
