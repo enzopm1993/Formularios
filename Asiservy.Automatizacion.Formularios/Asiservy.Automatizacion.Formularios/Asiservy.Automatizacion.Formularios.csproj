@@ -502,6 +502,8 @@
     <Content Include="Scripts\DataTables\media\js\dataTables.semanticui.min.js" />
     <Content Include="Scripts\DataTables\media\js\jquery.dataTables.js" />
     <Content Include="Scripts\DataTables\media\js\jquery.dataTables.min.js" />
+    <Content Include="Scripts\Empleado\EmpleadoEsfero.js" />
+    <Content Include="Scripts\Empleado\ReporteEmpleadoTurno.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -625,9 +627,10 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCuchillo.cs" />
+    <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
     <Compile Include="AccesoDatos\General\clsApiUsuario.cs" />
     <Compile Include="AccesoDatos\General\clsDClasificador.cs" />
-    <Compile Include="AccesoDatos\clsDEmpleado.cs" />
+    <Compile Include="AccesoDatos\Empleado\clsDEmpleado.cs" />
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDNivelUsuario.cs" />
@@ -656,7 +659,8 @@
     <Compile Include="Models\Asistencia\EmpleadoCuchilloViewModel.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
-    <Compile Include="Models\Empleado.cs" />
+    <Compile Include="Models\Empleado\EmpleadoEsferoViewModel.cs" />
+    <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
     <Compile Include="Models\Motivo.cs" />
     <Compile Include="Models\Seguridad\Clasificador.cs" />
@@ -731,6 +735,11 @@
     <Content Include="Views\Asistencia\CuchilloEmpleadoPartial.cshtml" />
     <Content Include="Views\Asistencia\ControlCuchillo.cshtml" />
     <Content Include="Views\Asistencia\ControlCuchilloPartial.cshtml" />
+    <Content Include="Views\Empleado\EmpleadoTurno.cshtml" />
+    <Content Include="Views\Empleado\ReporteEmpleadoTurnoPartial.cshtml" />
+    <Content Include="Views\Empleado\ReporteEmpleadoTurno.cshtml" />
+    <Content Include="Views\Empleado\EmpleadoEsfero.cshtml" />
+    <Content Include="Views\Empleado\EmpleadoEsferoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -740,7 +749,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Empleado\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

@@ -10,18 +10,15 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class BITACORA_EMPLEADO_TURNO
+    public partial class spConsutaEmpleadoEsfero
     {
-        public int IdBitacoraEmpleadoTurno { get; set; }
         public string Cedula { get; set; }
-        public string Turno { get; set; }
-        public Nullable<System.DateTime> FechaIngresoLog { get; set; }
+        public string Nombre { get; set; }
+        public string NumeroEsfero { get; set; }
+        public string EstadoRegistro { get; set; }
+        public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public string TerminalIngresoLog { get; set; }
-        public string CodLinea { get; set; }
-        public string Observacion { get; set; }
-        public string EstadoRegistro { get; set; }
     }
 }

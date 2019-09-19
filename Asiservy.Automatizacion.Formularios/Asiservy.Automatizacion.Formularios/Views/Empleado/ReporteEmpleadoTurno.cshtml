@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "ReporteEmpleadoTurno";
+}
+<br />
+<h3>Reporte Empleado Turno</h3>
+<h4>@ViewBag.Linea</h4>
+
+<div class="container-fluid">
+
+    <div class="form-group">
+        <label>Turno</label>
+        <select id="SelectTurno" class="form-control" onchange="CargarEmpleadoTurno(this.value)">
+            <option value="0">Todos</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+        </select>
+    </div>
+
+    <div class="table-responsive" id="TableEmpleadoTurno">
+
+    </div>
+
+</div>
+
+
+<script src="~/Scripts/Empleado/ReporteEmpleadoTurno.js"></script>
