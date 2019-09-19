@@ -258,6 +258,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaControlEsferos>("spConsutaControlEsferos", lineaParameter, fechaParameter, tipoParameter);
         }
     
+        public virtual ObjectResult<spConsultaControlAsistencia> spConsultaControlAsistencia(string linea, Nullable<System.DateTime> fecha)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlAsistencia>("spConsultaControlAsistencia", lineaParameter, fechaParameter);
+        }
+    
         public virtual ObjectResult<sp_ConsultaAsistenciaDiariaPersonalMovido> sp_ConsultaAsistenciaDiariaPersonalMovido(string codLinea, Nullable<int> turno)
         {
             var codLineaParameter = codLinea != null ?

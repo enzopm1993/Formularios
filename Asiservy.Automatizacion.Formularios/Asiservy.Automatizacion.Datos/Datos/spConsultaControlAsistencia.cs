@@ -11,24 +11,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class sp_ConsultaAsistenciaDiariaPersonalMovido
+    public partial class spConsultaControlAsistencia
     {
-        public string NOMBRES { get; set; }
-        public Nullable<int> IdAsistencia { get; set; }
-        public Nullable<int> Bloquear { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
+        public int IdAsistencia { get; set; }
         public string Cedula { get; set; }
+        public string Nombre { get; set; }
+        public Nullable<System.DateTime> Fecha { get; set; }
+        public string CodigoEstado { get; set; }
         public string EstadoAsistencia { get; set; }
         public string Observacion { get; set; }
         public Nullable<System.TimeSpan> Hora { get; set; }
         public string EstadoRegistro { get; set; }
+        public string CodLinea { get; set; }
         public string Linea { get; set; }
         public string Turno { get; set; }
-        public Nullable<System.DateTime> FechaCreacionLog { get; set; }
-        public string UsuarioCreacionLog { get; set; }
-        public string TerminalCreacionLog { get; set; }
-        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
-        public string UsuarioModificacionLog { get; set; }
-        public string TerminalModificacionLog { get; set; }
     }
 }
