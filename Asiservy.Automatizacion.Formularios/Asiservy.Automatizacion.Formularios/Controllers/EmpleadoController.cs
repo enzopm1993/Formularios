@@ -122,7 +122,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = Usuario[1]
+                    UsuarioIngreso = Usuario[0]
                 });
                 return Json(ex.Message,JsonRequestBehavior.AllowGet);
             }

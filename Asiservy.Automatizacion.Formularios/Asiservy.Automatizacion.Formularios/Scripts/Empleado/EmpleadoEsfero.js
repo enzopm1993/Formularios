@@ -2,8 +2,7 @@
 
 $(document).ready(function () {
     CargarTablaEmpleadoEsfero();
-    $('#SelectEmpleado').val(0);
-  
+    $('#SelectEmpleado').val(0);  
 
 });
 

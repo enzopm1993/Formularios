@@ -35,7 +35,7 @@ function DeshabilitarControles(fila) {
 }
 function GenerarAsistenciaDiaria(IdLinea, bandera) {
     MostrarModalCargando();
-    //console.log("hola");
+   console.log("hola");
     $.ajax({
         url: '../Asistencia/AsistenciaPartial',
         type: 'POST',
