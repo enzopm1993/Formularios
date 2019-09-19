@@ -48,16 +48,19 @@ function GenerarAsistenciaDiaria(IdLinea, bandera) {
         },
         success: function (resultado) {
             //MensajeCorrecto(resultado, true);
+            CerrarModalCargando();
             $('#PartialAsistencia').html(resultado);
             $('#GenerarAsistencia').hide();
-            CerrarModalCargando();
+           
             if (bandera == 0) {
                 $('#GenerarAsistencia').prop("disabled", false);
             }
         }
         ,
         error: function (result) {
-            Console.log(result);
+
+            CerrarModalCargando();
+            //Console.log(result);
             //MensajeError(result, false);
             if (bandera == 0) {
                 $('#GenerarAsistencia').prop("disabled", false);

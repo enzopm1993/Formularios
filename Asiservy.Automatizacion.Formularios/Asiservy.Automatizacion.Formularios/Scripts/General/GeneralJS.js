@@ -1,12 +1,14 @@
 ﻿
 
 function MostrarModalCargando() {
-    $("#exampleModalCenter").modal();
+ //   console.log("MostrarModalCargando");
+    $('#exampleModalCenter').modal();
 }
 
 
 function CerrarModalCargando() {
-    $("#exampleModalCenter").hide();
+  //  console.log("CerrarModalCargando");
+    $('#exampleModalCenter').modal("hide");
 }
 
 
