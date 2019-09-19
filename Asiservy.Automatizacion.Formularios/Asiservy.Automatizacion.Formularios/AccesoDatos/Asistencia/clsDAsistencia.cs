@@ -30,15 +30,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             {
                 
                 List<ASISTENCIA> ControlAsistencia = null;
-                
+                clsDCambioPersonal clsDCambioPersonal = new clsDCambioPersonal();
+
                 ControlDeAsistenciaViewModel ControlAsistenciaViewModel = null;
                 if (BanderaExiste == 0)
                 {
+
                     List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", CodLinea, "0").Where(x => x.CODIGOCARGO != "221").ToList();
                     ControlAsistencia = new List<ASISTENCIA>();
                     foreach (var item in ListaEmpleados)
                     {
+                        var FueMovidoAOtraArea = clsDCambioPersonal.ConsultarCambioPersonal(item.CEDULA);
+                        if (FueMovidoAOtraArea!=null)
                         ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CODIGOLINEA, Turno="1", Observacion="", UsuarioCreacionLog=usuario,TerminalCreacionLog=terminal, FechaCreacionLog=DateTime.Now, EstadoRegistro="A" });
+
                     }
                     db.ASISTENCIA.AddRange(ControlAsistencia);
                     db.SaveChanges();

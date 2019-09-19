@@ -96,7 +96,7 @@
                     <td class="text-center">
                         <label class="btn btn-light text-xs-center" id="LabelAsistencia-@cont">
                             
-                            @if (item.EstadoAsistencia != "3") { <script> PintarCHeck('@cont');</script>}
+                            @if (item.EstadoAsistencia == "1" || item.EstadoAsistencia == "2") { <script> PintarCHeck('@cont');</script>}
                             @*<input type="checkbox" autocomplete="on" onchange="fillBook(0)" id="CheckAsistencia">*@
                             <input type="checkbox" autocomplete="on" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');" id="CheckAsistencia-@cont">
                         </label>
@@ -108,7 +108,7 @@
                         <option value="2">Atraso</option>
                         <option value="3">Falta</option>
                     </select>*@
-                        @Html.DropDownListFor(model => model.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "form-control", @onchange= "GuardarPersona("+@cont+",'"+@item.NOMBRES+"','combo')" })
+                        @Html.DropDownListFor(model => model.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "", @witdh="200px", @onchange= "GuardarPersona("+@cont+",'"+@item.NOMBRES+"','combo')" })
                     </td>
                     <td>
                         <center> 
