@@ -3,6 +3,7 @@
 
 <div style="padding-top: 10px; padding-bottom: 100px">
     @Html.HiddenFor(z=>z.ControlAsistencia[0].Turno)
+    @Html.Hidden("EstadoControlCuchillo","1");
     <div class="table-responsive">
 
         <table class="table " id="TableCuchillos">
@@ -27,13 +28,13 @@
                 </td>
                 <td>
                     <div class="text-center">
-
-                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
+                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
                     </div>
                 </td>
                 <td>
                     <div class="text-center">
-                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
+
+                        <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
                     </div>
                 </td>
             </tr>
@@ -103,53 +104,101 @@
                        </td>
 
                        <td class="text-center align-content-center">
-                           <div class="col-xs-2 text-xs-center">
-                               @{ var cuchilloblanco = (from c in Model.ControlDeCuchillos
-                                                         where c.Cedula == item.Cedula
-                                                         select c.CuchilloBlanco).FirstOrDefault();}
-                               @if (cuchilloblanco != null)
+                           @{ var cuchillo = (from c in Model.ControlDeCuchillos
+                                                     where c.Cedula == item.Cedula
+                                                     select c).FirstOrDefault();}
+                           @if (cuchillo != null)
+                           {
+                               if (cuchillo.CuchilloBlanco != 0)
                                {
-                                   <label class="btn btn-light text-xs-center" id="labelCuchilloBlanco">
-
-
-                                       @cuchilloblanco
-                                       <input type="checkbox" onchange="Cuchillo(3,1)" id="CheckCuchilloBlanco">
-                                   </label>
+                                   <div class="col-xs-2 text-xs-center">
+                                       <label class="btn btn-dark text-xs-center" id="labelCuchilloBlanco_@cuchillo.CuchilloBlanco">
+                                           @cuchillo.CuchilloBlanco
+                                           @Html.CheckBox("Blanco" + cuchillo.CuchilloBlanco, cuchillo.ValidaBlanco == "1", new { @onchange = "check(this.id,'B','" + cuchillo.Cedula + "')" })
+                                       </label>
+                                   </div>
+                                   if (cuchillo.ValidaBlanco == "1")
+                                   {
+                                       <script>
+                                    $("#labelCuchilloBlanco_@cuchillo.CuchilloBlanco").css("background", "#28B463");
+                                       </script>
+                                   }
                                }
-                           </div>
-                           
+                               else
+                               {
+                                   <div class="col-xs-2 text-xs-center">
+                                       @if (cuchillo != null)
+                                       {
+                                           <label class="btn btn-light text-xs-center" id="labelCuchilloBlanco_@cuchillo.CuchilloBlanco">
+                                               @cuchillo.CuchilloBlanco
+                                               @Html.CheckBox("Blanco" + cuchillo.CuchilloBlanco, false, new { @disabled = "disabled" })
+                                            
+                                           </label>
+                                       }
+                                   </div>
+                               }
+                           }
                        </td>
                        <td class="text-center">
-                           <div class="col-xs-2 text-xs-center">
-                               @{ var cuchilloRojo = (from c in Model.ControlDeCuchillos
-                                                       where c.Cedula == item.Cedula
-                                                       select c.CuchilloRojo).FirstOrDefault();}
-                               @if (cuchilloRojo != null) { 
-                                   <label class="btn btn-light text-xs-center" id="labelCuchilloRojo">
-
-
-                                       @cuchilloRojo
-                                       <input type="checkbox" onchange="Cuchillo(1,1)" id="CheckCuchilloRojo">
-                                   </label>
+                         
+                           @if (cuchillo != null)
+                           {
+                               if (cuchillo.CuchilloRojo != 0)
+                               {
+                                   <div class="col-xs-2 text-xs-center">
+                                       <label class="btn btn-dark text-xs-center" id="labelCuchilloRojo_@cuchillo.CuchilloRojo">
+                                           @cuchillo.CuchilloRojo
+                                           @Html.CheckBox("Rojo" + cuchillo.CuchilloRojo, cuchillo.ValidaRojo == "1", new { @onchange = "check(this.id,'R','" + cuchillo.Cedula + "')" })
+                                       </label>
+                                   </div>
+                                   if (cuchillo.ValidaRojo == "1")
+                                   {
+                                       <script>
+                                    $("#labelCuchilloRojo_@cuchillo.CuchilloRojo").css("background", "#28B463");
+                                       </script>
+                                   }
                                }
-                           </div>
-                           
+                               else
+                               {
+                                   <div class="col-xs-2 text-xs-center">
+                                       <label class="btn btn-dark text-xs-center" id="labelCuchilloRojo_@cuchillo.CuchilloRojo">
+                                           @cuchillo.CuchilloRojo
+                                           @Html.CheckBox("Rojo" + cuchillo.CuchilloRojo, false, new { @disabled = "disabled" })
+                                       </label>
+                                   </div>
+                               }
+                           }
+
                        </td>
                        <td class="text-center">
-                           <div class="col-xs-2 text-xs-center">
-                               @{ var cuchilloNegro = (from c in Model.ControlDeCuchillos
-                                                        where c.Cedula == item.Cedula
-                                                        select c.CuchilloNegro).FirstOrDefault();}
-                               @if (cuchilloNegro != null)
+                          
+                           @if (cuchillo != null)
+                           {
+                               if (cuchillo.CuchilloNegro != 0)
                                {
-                                   <label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
-
-
-                                       @cuchilloNegro
-                                       <input type="checkbox" onchange="Cuchillo(2,1)" id="CheckCuchilloNegro">
-                                   </label>
+                                   <div class="col-xs-2 text-xs-center">
+                                       <label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
+                                           @cuchillo.CuchilloNegro
+                                           @Html.CheckBox("Negro" + cuchillo.CuchilloNegro, cuchillo.ValidaNegro == "1", new { @onchange = "check(this.id,'N','" + cuchillo.Cedula + "')" })
+                                       </label>
+                                   </div>
+                                   if (cuchillo.ValidaNegro == "1")
+                                   {
+                                       <script>
+                                    $("#labelCuchilloNegro_@cuchillo.CuchilloNegro").css("background", "#28B463");
+                                       </script>
+                                   }
                                }
-                           </div>
+                               else
+                               {
+                                   <div class="col-xs-2 text-xs-center">
+                                       <label class="btn btn-dark text-xs-center" id="labelCuchilloNegro_@cuchillo.CuchilloNegro">
+                                           @cuchillo.CuchilloNegro
+                                           @Html.CheckBox("Negro" + cuchillo.CuchilloNegro, false, new { @disabled = "disabled" })
+                                       </label>
+                                   </div>
+                               }
+                           }
                        </td>
                    </tr>
             }
