@@ -34,6 +34,7 @@ function DeshabilitarControles(fila) {
     $('#'+fila+' :input').prop("disabled", true);
 }
 function GenerarAsistenciaDiaria(IdLinea, bandera) {
+    MostrarModalCargando();
     //console.log("hola");
     $.ajax({
         url: '../Asistencia/AsistenciaPartial',
@@ -46,7 +47,7 @@ function GenerarAsistenciaDiaria(IdLinea, bandera) {
             //MensajeCorrecto(resultado, true);
             $('#PartialAsistencia').html(resultado);
             $('#GenerarAsistencia').hide();
-            
+            CerrarModalCargando();
         }
         ,
         error: function (result) {

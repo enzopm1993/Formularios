@@ -1,4 +1,16 @@
 ﻿
+
+function MostrarModalCargando() {
+    $("#ModalCargando").show();
+}
+
+
+function CerrarModalCargando() {
+    $("#ModalCargando").hide();
+}
+
+
+
     window.onload = function () {
         if (typeof history.pushState === "function") {
         history.pushState("jibberish", null, null);
