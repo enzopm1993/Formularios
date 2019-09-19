@@ -21,7 +21,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr onclick="SeleccionEmpleadoEsfero('@item.Cedula','@item.NumeroEsfero','@item.EstadoRegistro')">
                 <td>
                     @Html.DisplayFor(modelItem => item.Cedula)
                 </td>

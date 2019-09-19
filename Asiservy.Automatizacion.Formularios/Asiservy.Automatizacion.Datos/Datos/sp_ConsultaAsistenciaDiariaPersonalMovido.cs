@@ -10,21 +10,24 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class CONTROL_ESFERO
+    public partial class sp_ConsultaAsistenciaDiariaPersonalMovido
     {
+        public string NOMBRES { get; set; }
+        public Nullable<int> IdAsistencia { get; set; }
+        public Nullable<System.DateTime> Fecha { get; set; }
         public string Cedula { get; set; }
-        public string Linea { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public Nullable<System.TimeSpan> HoraInicio { get; set; }
+        public string EstadoAsistencia { get; set; }
+        public string Observacion { get; set; }
+        public Nullable<System.TimeSpan> Hora { get; set; }
         public string EstadoRegistro { get; set; }
-        public System.DateTime FechaIngresoLog { get; set; }
-        public string UsuarioIngresoLog { get; set; }
-        public string TerminalIngresoLog { get; set; }
+        public string Linea { get; set; }
+        public string Turno { get; set; }
+        public Nullable<System.DateTime> FechaCreacionLog { get; set; }
+        public string UsuarioCreacionLog { get; set; }
+        public string TerminalCreacionLog { get; set; }
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<System.TimeSpan> HoraFin { get; set; }
     }
 }

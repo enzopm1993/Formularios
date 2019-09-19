@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "ControlEsfero";
+}
+
+<h3>ControlEsfero</h3>
+<h4>@ViewBag.Linea</h4>
+<div class="container-fluid">
+
+    <div class="form-group">
+        <label>Tipo</label>
+        <select class="form-control" id="SelectTipo" onchange="SeleccionTipo(this.value)">
+            <option value="0">Seleccione</option>
+            <option value="1">Entrada</option>
+            <option value="2">Salida</option>
+        </select>
+    </div>
+
+    <div id="DivTableControlEsfero"></div>
+
+</div>
+<script src="~/Scripts/Empleado/ControlEsfero.js"></script>

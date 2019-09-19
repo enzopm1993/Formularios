@@ -10,21 +10,14 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class CONTROL_ESFERO
+    public partial class spConsutaControlEsferos
     {
         public string Cedula { get; set; }
-        public string Linea { get; set; }
+        public string Nombre { get; set; }
+        public string NumeroEsfero { get; set; }
         public System.DateTime Fecha { get; set; }
-        public Nullable<System.TimeSpan> HoraInicio { get; set; }
+        public Nullable<System.TimeSpan> Hora { get; set; }
         public string EstadoRegistro { get; set; }
-        public System.DateTime FechaIngresoLog { get; set; }
-        public string UsuarioIngresoLog { get; set; }
-        public string TerminalIngresoLog { get; set; }
-        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
-        public string UsuarioModificacionLog { get; set; }
-        public string TerminalModificacionLog { get; set; }
-        public Nullable<System.TimeSpan> HoraFin { get; set; }
     }
 }

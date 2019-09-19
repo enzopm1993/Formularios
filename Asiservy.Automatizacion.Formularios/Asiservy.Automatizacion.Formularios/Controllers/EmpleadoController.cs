@@ -20,6 +20,115 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDEmpleadoEsfero clsDEmpleadoEsfero = null;
 
         #region EMPLEADO ESFERO
+
+        [Authorize]
+        public ActionResult ControlEsfero()
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();               
+                var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+                ViewBag.Linea = Empleado.LINEA;
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[1]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult ControlEsfero(spConsutaControlEsferos model,string dsTipo)
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleadoEsfero = new clsDEmpleadoEsfero();
+              
+                var respuesta = clsDEmpleadoEsfero.GuardarModificarControlEsfero(new CONTROL_ESFERO
+                {
+                    Cedula = model.Cedula,
+                    HoraInicio = model.Hora,
+                    UsuarioIngresoLog = Usuario[0],
+                    TerminalIngresoLog = Request.UserHostAddress
+                },dsTipo);
+
+                return Json(respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+               // SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[1]
+                });
+                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize]
+        public ActionResult ControlEsferoPartial(string dsTipo)
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                clsDEmpleadoEsfero = new clsDEmpleadoEsfero();
+                var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+                List<spConsutaControlEsferos> model = new List<spConsutaControlEsferos>();
+                if (Empleado != null)
+                {
+                   clsDEmpleadoEsfero.GenerarControlEmpleadoEsfero(Empleado.CODIGOLINEA, Usuario[0], Request.UserHostAddress);
+                    model = clsDEmpleadoEsfero.ConsultaControlEsfero(Empleado.CODIGOLINEA, dsTipo);
+                    
+                }
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+
+                // SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[1]
+                });
+                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [Authorize]
         public ActionResult EmpleadoEsfero()
         {
@@ -69,6 +178,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.UsuarioIngresoLog = Usuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 var Respuesta = clsDEmpleadoEsfero.GuardarMoficicarEsfero(model);
+                SetSuccessMessage(Respuesta);
                 return RedirectToAction("EmpleadoEsfero");
             }
             catch (Exception ex)
@@ -86,7 +196,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = Usuario[1]
                 });
-                return RedirectToAction("Home", "Home");
+                return RedirectToAction("EmpleadoEsfero");
             }
         }
 
