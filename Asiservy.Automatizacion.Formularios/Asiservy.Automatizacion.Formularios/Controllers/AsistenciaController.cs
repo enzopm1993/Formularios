@@ -175,14 +175,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
 
                 clsApiUsuario = new clsApiUsuario();
-                if (Convert.ToDateTime(clsApiUsuario.ConsultarFechaBiometrico(cedula).Value.ToShortDateString()) < Convert.ToDateTime(DateTime.Now.ToShortDateString()))
+                var ultimaMarcacionBiometrico = clsApiUsuario.ConsultarFechaBiometrico(cedula);
+                if (ultimaMarcacionBiometrico != null)
                 {
-                    return Json(false, JsonRequestBehavior.AllowGet);
+                    if (Convert.ToDateTime(ultimaMarcacionBiometrico.Value.ToShortDateString()) < Convert.ToDateTime(DateTime.Now.ToShortDateString()))
+                    {
+                        return Json(false, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(true, JsonRequestBehavior.AllowGet);
+                    }
                 }
                 else
                 {
-                    return Json(true, JsonRequestBehavior.AllowGet);
+                    return Json(false, JsonRequestBehavior.AllowGet);
                 }
+                
 
                 //return Json(true, JsonRequestBehavior.AllowGet);
             }
