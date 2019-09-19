@@ -69,6 +69,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.UsuarioIngresoLog = Usuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 var Respuesta = clsDEmpleadoEsfero.GuardarMoficicarEsfero(model);
+                SetSuccessMessage(Respuesta);
                 return RedirectToAction("EmpleadoEsfero");
             }
             catch (Exception ex)
@@ -86,7 +87,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = Usuario[1]
                 });
-                return RedirectToAction("Home", "Home");
+                return RedirectToAction("EmpleadoEsfero");
             }
         }
 

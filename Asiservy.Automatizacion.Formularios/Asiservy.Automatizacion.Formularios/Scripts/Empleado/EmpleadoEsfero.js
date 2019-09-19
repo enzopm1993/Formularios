@@ -8,6 +8,26 @@ $(document).ready(function () {
 
 
 
+function SeleccionEmpleadoEsfero(cedula, numero, estado) {
+
+    $('#SelectEmpleado').val(cedula);
+    $('#NumeroEsfero').val(numero);
+   
+    if (estado == 'A') {
+        $('#CheckEstadoRegistro').prop('checked', true);
+        // console.log($('#LabelEstado').val());
+        $('#LabelEstado').text('Activo');
+
+    }
+    else {
+        $('#CheckEstadoRegistro').prop('checked', false);
+        $('#LabelEstado').text('Inactivo');
+    }
+
+}
+
+
+
 function CargarTablaEmpleadoEsfero() {
     $.ajax({
         url: "../Empleado/EmpleadoEsferoPartial",
