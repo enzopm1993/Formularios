@@ -35,7 +35,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             TempData["MensajeError"] = message;
         }
-        public void ConsultaCombosGeneral()
+        public void ConsultaComboLineas()
         {
             clsDGeneral = new clsDGeneral();
             ViewBag.Lineas = clsDGeneral.ConsultaLineas();
@@ -215,7 +215,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -233,6 +233,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+                liststring = User.Identity.Name.Split('_');
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
@@ -241,7 +243,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -258,6 +260,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                liststring = User.Identity.Name.Split('_');
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
@@ -266,7 +269,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -278,15 +281,108 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
-
-        [Authorize]
-        public ActionResult EditarAsistencia()
-        {
-            return View();
-        }
         #endregion
 
 
+
+        #region EDITAR ASISTENCIA
+        [Authorize]
+        public ActionResult EditarAsistencia()
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                clsDEmpleado = new clsDEmpleado();
+                this.ConsultaComboLineas();
+                ViewBag.Estado = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {Grupo=clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro=clsAtributos.EstadoRegistroActivo});
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                //Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                liststring = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return RedirectToAction("Home","Home");
+            }
+            
+        }
+        [Authorize]
+        public ActionResult EditarAsistenciaPartial(string dsLinea, DateTime ddFecha)
+        {
+            try
+            {
+                clsDAsistencia = new clsDAsistencia();
+                var model = clsDAsistencia.ConsultaControlAsistencia(dsLinea,ddFecha);
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                // SetErrorMessage(ex.Message);
+                liststring = User.Identity.Name.Split('_');
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult ModificarAsistencia(ASISTENCIA model)
+        {
+            try
+            {
+                if (model != null && model.IdAsistencia == 0) return Json("No se puedo actualizar el registro", JsonRequestBehavior.AllowGet);
+                liststring = User.Identity.Name.Split('_');
+                clsDAsistencia = new clsDAsistencia();
+                model.UsuarioCreacionLog = liststring[0];
+                model.TerminalCreacionLog = Request.UserHostAddress;
+                var respuesta = clsDAsistencia.ModificarAsistencia(model);
+                return Json(respuesta,JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                // SetErrorMessage(ex.Message);
+                liststring = User.Identity.Name.Split('_');
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+
+        #endregion
 
         #region Cambio_PersonaldeÁrea
         [Authorize]
@@ -294,7 +390,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                ConsultaCombosGeneral();
+                ConsultaComboLineas();
             }
             catch (Exception ex)
             {
@@ -778,6 +874,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
+
         public ActionResult EmpleadosCambioPersonalPartial(string pslinea, string psarea, string pscargo,string tipo)
         {
             try
@@ -871,6 +968,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+      
         #region METODOS GENERICOS
         public JsonResult ConsultaListadoAreas(string CodLinea)
         {

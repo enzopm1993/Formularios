@@ -310,6 +310,7 @@
     <Content Include="Content\images\ui-icons_cc0000_256x240.png" />
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery.modal.min.css" />
     <Content Include="Content\Login\font-awesome.min.css" />
     <Content Include="Content\Login\Login.css" />
     <Content Include="Content\PruebaStyle\prueba.css" />
@@ -540,6 +541,7 @@
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\General\CargarCombosLineas.js" />
     <Content Include="Scripts\General\GeneralJS.js" />
+    <Content Include="Scripts\General\jquery.modal.min.js" />
     <Content Include="Scripts\gijgo\combined\gijgo.js" />
     <Content Include="Scripts\gijgo\combined\gijgo.min.js" />
     <Content Include="Scripts\gijgo\combined\messages\messages.bg-bg.js" />
@@ -745,6 +747,7 @@
     <Content Include="Views\Asistencia\EmpleadosCambioPersonalPartial.cshtml" />
     <Content Include="Views\Empleado\ControlEsferoPartial.cshtml" />
     <Content Include="Views\Empleado\ControlEsfero.cshtml" />
+    <Content Include="Views\Asistencia\EditarAsistenciaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

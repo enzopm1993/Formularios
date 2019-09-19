@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlAsistencia>
+
+<table class="table" id="TableEditarAsistenciaPartial">
+    <thead>
+        <tr>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.IdAsistencia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoAsistencia)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.Turno)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td hidden>
+                        @Html.DisplayFor(modelItem => item.IdAsistencia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cedula)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EstadoAsistencia)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Turno)
+                    </td>
+                    <td>
+                        <input type="button" name="name" value="Editar" class="btn btn-link" onclick="MostarModalEditar('@item.IdAsistencia','@item.CodigoEstado','@item.Hora','@item.Observacion')" />
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+
+
+<script>
+
+    $('#TableEditarAsistenciaPartial').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        "pageLength": 5,
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+        "pagingType": "full_numbers"
+
+    });
+</script>

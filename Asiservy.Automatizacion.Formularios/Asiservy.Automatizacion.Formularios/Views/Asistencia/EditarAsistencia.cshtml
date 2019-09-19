@@ -2,93 +2,86 @@
 @{
     ViewBag.Title = "EditarAsistencia";
 }
-<script src="~/Scripts/jquery-ui.js"></script>
-<script src="~/Scripts/Mensajes/Mensajes.js"></script>
-<script src="~/Scripts/AsistenciaJS/EditarAsistencia.js"></script>
-<link href="~/Content/jquery-ui.css" rel="stylesheet" />
-<link href="~/Content/EditarAsistenciaCss/EditAsistencia.css" rel="stylesheet" />
-@*<h4>EditarAsistencia</h4>*@
+
 <style>
-    input, select, textarea {
+    input, select {
         max-width: 100%
     }
 </style>
+<h3>Editar Asistencia</h3>
 
-<br />
-<div class="container-fluid" style="padding-bottom: 20px">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4 col-sm-12 ">
-            <h4>Editar Asistencia</h4>
-            <div class="table-responsive border border-primary">
-                <table class="table table-borderless">
-                    <tr>
-                        <td>Fecha:</td>
-                        <td>
-                            <input class="form-control" type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Empleado:</td>
-                        <td>
 
-                            <div class="ui-widget">
-
-                                <select id="combobox">
-                                    <option value="">Select one...</option>
-                                    <option value="Anchundia Anchundia Aura Maria">Anchundia Anchundia Aura Maria</option>
-                                    <option value="Anchundia Parrales Viviana">Anchundia Parrales Viviana</option>
-                                    <option value="Bailon Mero María Ines">Bailon Mero María Ines</option>
-                                    <option value="Bravo Mnzaba Betsy Janet">Bravo Mnzaba Betsy Janet</option>
-                                    <option value="Cardenas Espinoza Patricia">Cardenas Espinoza Patricia</option>
-                                    <option value="Espinal Delgado Joyce Maryeli">Espinal Delgado Joyce Maryeli</option>
-                                    <option value="García Cedeño Mariuxi Katherine">García Cedeño Mariuxi Katherine</option>
-                                    <option value="Intriago Sornoza Mayra Johana">Intriago Sornoza Mayra Johana</option>
-                                    <option value="Jaramillo Gómez María Elizabeth">Jaramillo Gómez María Elizabeth</option>
-                                    <option value="Macias Chancay Sandy Ismenia">Macias Chancay Sandy Ismenia</option>
-                                    <option value="Moreira Zambrano Mercedes">Moreira Zambrano Mercedes</option>
-                                    <option value="Posligua Santana Francisca">Posligua Santana Francisca</option>
-                                    <option value="Quijano Moreira Emily Juliana">Quijano Moreira Emily Juliana</option>
-                                    <option value="Reyes Raamirez Jessenia Katehrine">Reyes Raamirez Jessenia Katehrine</option>
-                                    <option value="Rezabala Suarez Jova Alexandra">Rezabala Suarez Jova Alexandra</option>
-                                    <option value="Silvia Indio Mariana Gabriela">Silvia Indio Mariana Gabriela</option>
-                                    <option value="Valencia Ochoa Gema Jhael">Valencia Ochoa Gema Jhael</option>
-                                    <option value="Vera Intriago Diana Gabriela">Vera Intriago Diana Gabriela</option>
-                                    <option value="Zambrano Solorzano Nury Juana">Zambrano Solorzano Nury Juana</option>
-
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Motivo</td>
-                        <td>
-                            <select id="combobox" class="form-control">
-                                <option value="">Seleccione...</option>
-                                <option value="1">Atraso</option>
-                                <option value="2">Presente</option>
-                                <option value="3">Falta</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Hora</td>
-                        <td>
-                            <input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Observación:</td>
-                        <td><textarea class="form-control" rows="3" cols="30"></textarea></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><center><input type="button" value="Guardar" onclick="Mensaje('Registro Exitoso')" class="btn btn-info" /></center></td>
-                    </tr>
-                </table>
+        <div class=" offset-md-2 col-md-4 col-sm-12">
+            <div class="form-group">
+                <label>Linea</label>
+                @Html.DropDownList("SelectLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), new { @class = "form-control" })
             </div>
         </div>
 
-    </div>
-</div>
-<div id="ModalMensaje"> </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <label>Fecha</label>
+                <input class="form-control" type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="Fecha" />
+            </div>
+        </div>
 
+
+        <div class="col-md-12 col-sm-12 text-center">
+            <div class="form-group">
+                <input class="btn btn-primary" type="button" id="btnConsultar" name="name" value="Consultar" onclick="ConsultarControlAsistencia(this.id)" />
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="modal fade" id="EditarAsistenciaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Asistencia</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="name" value=""id="txtId" />
+
+                    <div class="form-group col-md-12">
+                        <label>Estado</label>
+                        @Html.DropDownList("SelectEstado", new SelectList(ViewBag.Estado, "Codigo", "Descripcion"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group  col-md-12">
+                        <label>Hora</label>
+                        <input type="time" name="name" value="" id="txtHora" class="form-control"/>
+                    </div>
+                    <div class="form-group  col-md-12">
+                        <label>Observacion</label>
+                        <input type="text" name="name" value="" id="txtObservacion" class="form-control"/>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="GuardarAsistencia()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="DivTableControlAsistencia" class="table-responsive"></div>
+
+</div>
+
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+
+<script src="~/Scripts/AsistenciaJS/EditarAsistencia.js"></script>
