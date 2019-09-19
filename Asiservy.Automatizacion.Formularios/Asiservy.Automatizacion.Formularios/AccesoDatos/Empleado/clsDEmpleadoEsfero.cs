@@ -9,6 +9,67 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado
 {
     public class clsDEmpleadoEsfero
     {
+
+        public string GuardarModificarControlEsfero(CONTROL_ESFERO model, string tipo)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var FechaActual = DateTime.Now.Date;
+                var control = db.CONTROL_ESFERO.FirstOrDefault(x=> x.Cedula == model.Cedula && x.Fecha == FechaActual);
+                if(control != null)
+                {
+                    if (tipo == "1")
+                        control.HoraInicio = model.HoraInicio;
+                    else
+                        control.HoraFin = model.HoraInicio;
+                    control.FechaModificacionLog = DateTime.Now;
+                    control.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    control.TerminalModificacionLog = model.TerminalIngresoLog;
+                    db.SaveChanges();
+                }
+
+                return clsAtributos.MsjRegistroGuardado;
+            }
+        }
+
+        public List<spConsutaControlEsferos> ConsultaControlEsfero(string dsLinea, string tipo)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var FechaActual = DateTime.Now.Date;
+                var ListadoControl= db.spConsutaControlEsferos(dsLinea, FechaActual,tipo).ToList();
+                return ListadoControl;
+            }
+        }
+
+        public void GenerarControlEmpleadoEsfero(string dsLinea, string dsUsuario, string dsTerminal)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var FechaActual = DateTime.Now.Date;
+                var Control = db.CONTROL_ESFERO.FirstOrDefault(x => x.Fecha == FechaActual);
+                if(Control == null)
+                {
+                    var EmpleadoEsfero = this.ConsultaEmpleadoEsfero(dsLinea).Where(x=> x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                    foreach(var x in EmpleadoEsfero)
+                    {
+                        db.CONTROL_ESFERO.Add(new CONTROL_ESFERO {
+                            Cedula = x.Cedula,
+                            Fecha = DateTime.Now,
+                            EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                            FechaIngresoLog = DateTime.Now,
+                            Linea = dsLinea,
+                            TerminalIngresoLog= dsTerminal,
+                            UsuarioIngresoLog = dsUsuario
+                        });
+                    }
+                    db.SaveChanges();
+                }
+
+            }
+        }
+
+
         public List<EmpleadoEsferoViewModel> ConsultaEmpleadoEsfero(string linea)
         {
 
