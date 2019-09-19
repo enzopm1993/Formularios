@@ -35,7 +35,10 @@ function DeshabilitarControles(fila) {
 }
 function GenerarAsistenciaDiaria(IdLinea, bandera) {
     MostrarModalCargando();
-   console.log("hola");
+    //console.log("hola");
+    if (bandera == 0) {
+        $('#GenerarAsistencia').prop("disabled", true);
+    }
     $.ajax({
         url: '../Asistencia/AsistenciaPartial',
         type: 'POST',
@@ -48,11 +51,17 @@ function GenerarAsistenciaDiaria(IdLinea, bandera) {
             $('#PartialAsistencia').html(resultado);
             $('#GenerarAsistencia').hide();
             CerrarModalCargando();
+            if (bandera == 0) {
+                $('#GenerarAsistencia').prop("disabled", false);
+            }
         }
         ,
         error: function (result) {
             Console.log(result);
             //MensajeError(result, false);
+            if (bandera == 0) {
+                $('#GenerarAsistencia').prop("disabled", false);
+            }
         }
     });
 }
