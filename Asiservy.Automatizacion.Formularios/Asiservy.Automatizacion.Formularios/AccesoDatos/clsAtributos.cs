@@ -27,10 +27,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string EstadoSolicitudRevisado = "003";
 
         //Niveles de usuario
-        public static int NivelEmpleado =3;
-        public static int NivelJefe =2;
-        public static int NivelJefatura =1;
-        public static int NivelGerencia =0;
+        public static int NivelEmpleado = 3;
+        public static int NivelJefe = 2;
+        public static int NivelJefatura = 1;
+        public static int NivelGerencia = 0;
 
         //Roles de usuario
         public static int RolSupervisor = 5;
@@ -52,8 +52,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
 
         //Motivos de permiso medico
-        public static string CodigoMotivoPermisoCitaMedica = "LE"; 
-        public static string CodigoMotivoPermisoEnfermedadNP = "EN"; 
+        public static string CodigoMotivoPermisoCitaMedica = "LE";
+        public static string CodigoMotivoPermisoEnfermedadNP = "EN";
 
         //Tipos Cambio de personal de Área
         public static string TipoPrestar = "P";
@@ -76,5 +76,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //Clasificador de Estados de Control Cuchillo
         public static string CodigoGrupoEstadoControlCuchillo = "005";
 
+        //Estados de Control de cuchillo
+        public static string Entrada = "1";
+        public static string IrAlmorzar = "2";
+        public static string RegresoAlmuerzo = "3";
+        public static string Salida = "4";
     }
 }

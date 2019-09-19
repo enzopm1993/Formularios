@@ -149,7 +149,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         item.Bloquear = 1;
                         item.Observacion += " Tiene permiso: " + MotivoSolicitud;
                     }
+
+                    
                 }
+                //Control de Cuchillos
+                clsDCuchillo = new clsDCuchillo();
+                List<ControlCuchilloViewModel> modelCuchillo = new List<ControlCuchilloViewModel>();
+                modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada);
+                AsistenciaViewModel.ControlDeCuchillos = modelCuchillo;
+
+                //**
                 return PartialView(AsistenciaViewModel);
             }
             catch (Exception ex)
