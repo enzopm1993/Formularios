@@ -444,6 +444,10 @@
         <Function Name="spConsultaCodigosEnfermedad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsultaControlAsistencia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Linea" Type="varchar" Mode="In" />
+          <Parameter Name="Fecha" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="spConsultaLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="varchar" Mode="In" />
         </Function>
@@ -811,6 +815,10 @@
             <Parameter Name="linea" Mode="In" Type="String" />
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="tipo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaControlAsistencia" ReturnType="Collection(ASIS_PRODModel.spConsultaControlAsistencia)">
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="sp_ConsultaAsistenciaDiariaPersonalMovido" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido)">
             <Parameter Name="codLinea" Mode="In" Type="String" />
@@ -1206,9 +1214,24 @@
           <Property Type="Time" Name="Hora" Nullable="true" />
           <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <ComplexType Name="spConsultaControlAsistencia">
+          <Property Type="Int32" Name="IdAsistencia" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
+          <Property Type="String" Name="CodigoEstado" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="EstadoAsistencia" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
+          <Property Type="Time" Name="Hora" Nullable="true" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
+        </ComplexType>
         <ComplexType Name="sp_ConsultaAsistenciaDiariaPersonalMovido">
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="200" />
           <Property Type="Int32" Name="IdAsistencia" Nullable="true" />
+          <Property Type="Int32" Name="Bloquear" Nullable="true" />
           <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
           <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="EstadoAsistencia" Nullable="true" MaxLength="1" />
@@ -1812,11 +1835,30 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlAsistencia" FunctionName="ASIS_PRODModel.Store.spConsultaControlAsistencia">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlAsistencia">
+                <ScalarProperty Name="IdAsistencia" ColumnName="IdAsistencia" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="CodigoEstado" ColumnName="CodigoEstado" />
+                <ScalarProperty Name="EstadoAsistencia" ColumnName="EstadoAsistencia" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_ConsultaAsistenciaDiariaPersonalMovido" FunctionName="ASIS_PRODModel.Store.sp_ConsultaAsistenciaDiariaPersonalMovido">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido">
                 <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
                 <ScalarProperty Name="IdAsistencia" ColumnName="IdAsistencia" />
+                <ScalarProperty Name="Bloquear" ColumnName="Bloquear" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="EstadoAsistencia" ColumnName="EstadoAsistencia" />
