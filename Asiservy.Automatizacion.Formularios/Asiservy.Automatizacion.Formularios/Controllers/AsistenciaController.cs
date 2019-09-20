@@ -189,9 +189,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 //Control de Cuchillos
                 clsDCuchillo = new clsDCuchillo();
-                List<ControlCuchilloViewModel> modelCuchillo = new List<ControlCuchilloViewModel>();
-                modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada);
-                AsistenciaViewModel.ControlDeCuchillos = modelCuchillo;
+                List<ControlCuchilloViewModel> ControlCuchillos = clsDCuchillo.ConsultaControlCuchillos();
+                //List<ControlCuchilloViewModel> modelCuchillo = new List<ControlCuchilloViewModel>();
+                //modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada);
+                AsistenciaViewModel.ControlDeCuchillos = ControlCuchillos;
 
                 //**
                 return PartialView(AsistenciaViewModel);
@@ -629,6 +630,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 poControlCuchillo.TerminalIngresoLog = Request.UserHostAddress;
 
                 var respuesta = clsDCuchillo.GuardarModificarControlCuchillo(poControlCuchillo, dbCheck);
+                if (respuesta != clsAtributos.MsjRegistroGuardado)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+
+                }
                 return Json(respuesta, JsonRequestBehavior.AllowGet);
 
 

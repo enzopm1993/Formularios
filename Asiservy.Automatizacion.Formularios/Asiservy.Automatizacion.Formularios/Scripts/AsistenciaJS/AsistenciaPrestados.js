@@ -163,3 +163,46 @@ function PintarCHeck(fila) {
 function DeshabilitarControles(fila) {
     $('#' + fila + ' :input').prop("disabled", true);
 }
+
+
+//METODOS PARA CUCHILLOS
+function check(id, color, cedula) {
+    // alert(id);
+    console.log(id);
+    console.log(color);
+    console.log(cedula);
+    //7b8a8b
+    var estado = "1";
+    if (id == "") {
+        GuardarControlCuchillo(cedula, color, id, estado, true);
+    } else {
+        GuardarControlCuchillo(cedula, color, id, estado, false);
+    }  
+}
+function GuardarControlCuchillo(cedula, color, numero, estado, check) {
+    $.ajax({
+        url: "../Asistencia/GuardarControlCuchillo",
+        type: "GET",
+        data: {
+            dsCedula: cedula,
+            dsColor: color,
+            dsNumero: numero,
+            dsEstado: estado,
+            dbCheck: check
+        },
+        success: function (resultado) {
+            //alert(resultado);
+            //if (resultado = "No es posible asignar el cuchillo, por que ya ha sido prestado")
+            //{
+            //    MensajeError(resultado, false);
+            //}
+        },
+        error: function (resultado) {
+            //console.log(resultado.responseJSON);
+            MensajeError(resultado.responseJSON + "", false);
+        
+
+        }
+    });
+}
+//FIN METODOS PARA CUCHILLOS

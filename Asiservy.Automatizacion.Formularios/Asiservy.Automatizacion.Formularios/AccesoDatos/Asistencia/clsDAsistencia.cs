@@ -164,39 +164,27 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         ControlAsistencia = pListAsistenciaMovidos.OrderBy(z => z.NOMBRES).ToList()
                     };
                 }
-                List<int?> CuchillosBlancos = new List<int?>();
-                List<int?> CuchillosRojos = new List<int?>();
-                List<int?> CuchillosNegros = new List<int?>();
-                List<int?> CuchilloBlancoNoAsignado;
-                List<int?> CuchilloNegroNoAsignado;
-                List<int?> CuchilloRojoNoAsignado;
-                var EmpleadosXCuchillos = db.EMPLEADO_CUCHILLO.ToList();
-                var ControlCuchillos = db.CONTROL_CUCHILLO.Where(x => x.Fecha.ToShortDateString() == DateTime.Now.ToShortDateString()).ToList();
-                foreach (var item in ControlCuchillos)
+                List<int?> CuchillosBlancos = db.sp_ObtenerCuchillosSobrantes(clsAtributos.CodigoColorCuchilloBlanco).ToList(); 
+                List<int?> CuchillosRojos = db.sp_ObtenerCuchillosSobrantes(clsAtributos.CodigoColorCuchilloRojo).ToList();
+                List<int?> CuchillosNegros = db.sp_ObtenerCuchillosSobrantes(clsAtributos.CodigoColorCuchilloNegro).ToList();
+                List<ControlDeAsistenciaPrestadosViewModel.Cuchillos> CuchillosBlancosSobrantes = new List<ControlDeAsistenciaPrestadosViewModel.Cuchillos>();
+                List<ControlDeAsistenciaPrestadosViewModel.Cuchillos> CuchillosRojosSobrantes = new List<ControlDeAsistenciaPrestadosViewModel.Cuchillos>();
+                List<ControlDeAsistenciaPrestadosViewModel.Cuchillos> CuchillosNegrosSobrantes = new List<ControlDeAsistenciaPrestadosViewModel.Cuchillos>();
+                foreach (var item in CuchillosBlancos)
                 {
-                    CuchilloBlancoNoAsignado = (from c in EmpleadosXCuchillos
-                             where c.Cedula == item.Cedula && c.CuchilloBlanco != item.CuchilloBlanco
-                             select c.CuchilloBlanco).ToList();
-                    if (CuchilloBlancoNoAsignado.Count > 0)
-                    {
-                        CuchillosBlancos.Add(CuchilloBlancoNoAsignado.FirstOrDefault());
-                    }
-                    CuchilloRojoNoAsignado = (from c in EmpleadosXCuchillos
-                                                where c.Cedula == item.Cedula && c.CuchilloRojo != item.CuchilloRojo
-                                                select c.CuchilloRojo).ToList();
-                    if (CuchilloRojoNoAsignado.Count > 0)
-                    {
-                        CuchillosRojos.Add(CuchilloRojoNoAsignado.FirstOrDefault());
-                    }
-                    CuchilloNegroNoAsignado = (from c in EmpleadosXCuchillos
-                                                where c.Cedula == item.Cedula && c.CuchilloNegro != item.CuchilloNegro
-                                                select c.CuchilloNegro).ToList();
-                    if (CuchilloNegroNoAsignado.Count > 0)
-                    {
-                        CuchillosNegros.Add(CuchilloNegroNoAsignado.FirstOrDefault());
-                    }
+                    CuchillosBlancosSobrantes.Add(new ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id=item, Numero=item});
                 }
-
+                foreach (var item in CuchillosRojos)
+                {
+                    CuchillosRojosSobrantes.Add(new ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id = item, Numero = item });
+                }
+                foreach (var item in CuchillosNegros)
+                {
+                    CuchillosNegrosSobrantes.Add(new ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id = item, Numero = item });
+                }
+                ControlDeAsistenciaPrestadosViewModel.CuchillosBlancosSobrantes = CuchillosBlancosSobrantes;
+                ControlDeAsistenciaPrestadosViewModel.CuchillosRojosSobrantes = CuchillosRojosSobrantes;
+                ControlDeAsistenciaPrestadosViewModel.CuchillosNegrosSobrantes = CuchillosNegrosSobrantes;
                 return ControlDeAsistenciaPrestadosViewModel;
             }
         }
@@ -205,9 +193,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using(ASIS_PRODEntities db =new  ASIS_PRODEntities())
             {
-                DateTime Fechainicio = DateTime.Now.AddDays(-1);
-                DateTime FechaFin = DateTime.Now.AddDays(1);
-                var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == psAsistencia.Cedula && (x.Fecha > Fechainicio && x.Fecha < FechaFin)).FirstOrDefault();
+                DateTime Fechainicio =Convert.ToDateTime(DateTime.Now.ToShortDateString());
+                DateTime FechaFin = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
+                var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == psAsistencia.Cedula && (x.Fecha >= Fechainicio && x.Fecha < FechaFin)).FirstOrDefault();
                 BuscarEnAsistencia.EstadoAsistencia = psAsistencia.EstadoAsistencia;
                 if (!string.IsNullOrEmpty(psAsistencia.Observacion))
                 BuscarEnAsistencia.Observacion = psAsistencia.Observacion;

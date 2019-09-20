@@ -26,6 +26,7 @@ function CargarUsuarioRol(estado) {
 
 
 function check(id, color, cedula) {
+   // alert(id);
     console.log(id);
     console.log(color);
     console.log(cedula);
