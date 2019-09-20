@@ -672,7 +672,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 });
                 return RedirectToAction("Cuchillo");
 
-            }0
+            }
         }
 
         [Authorize]
