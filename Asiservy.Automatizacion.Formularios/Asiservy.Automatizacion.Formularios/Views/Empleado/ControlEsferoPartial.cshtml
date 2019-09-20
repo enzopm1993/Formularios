@@ -50,7 +50,11 @@
                         var hora = DateTime.Now.TimeOfDay;
                         @Html.TextBoxFor(modelItem => item.Hora, new { type = "time", @class = "form-control", @id = "Hora" + item.Cedula })
                     <script>
-                        $('#Hora' + @item.Cedula).val(@hora.Hours +":"+@hora.Minutes);
+                        if(@hora.Hours>9)
+                            $('#Hora' + @item.Cedula).val(@hora.Hours +":" +@hora.Minutes);
+                        else
+                            $('#Hora' + @item.Cedula).val("0"+@hora.Hours +":" +@hora.Minutes);
+
                     </script>
                     }
                 </td>

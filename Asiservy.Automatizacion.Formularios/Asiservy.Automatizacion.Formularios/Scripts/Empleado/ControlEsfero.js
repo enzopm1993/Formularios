@@ -1,13 +1,13 @@
-﻿$(function () {
-    var d = new Date(),
-        h = d.getHours(),
-        m = d.getMinutes();
-    if (h < 10) h = '0' + h;
-    if (m < 10) m = '0' + m;
-    $('input[type="time"][value="now"]').each(function () {
-        $(this).attr({ 'value': h + ':' + m });
-    });
-});
+﻿//$(function () {
+//    var d = new Date(),
+//        h = d.getHours(),
+//        m = d.getMinutes();
+//    if (h < 10) h = '0' + h;
+//    if (m < 10) m = '0' + m;
+//    $('input[type="time"][value="now"]').each(function () {
+//        $(this).attr({ 'value': h + ':' + m });
+//    });
+//});
 
 function SeleccionTipo(valor) {
     if (valor != "0") {
@@ -39,14 +39,18 @@ function GuardarMoficarControl(id,cedula) {
     var hora = $(idHora).val();
     var label = "#label-" + cedula;
     id = "#" + id;
-    if ($(id).prop('checked')) {
-        $(label).css("background", "#28B463");
-      
+    if (hora == "") {
+        MensajeAdvertencia("Ingrese una hora", false);
+        $(id).prop('checked', false);
     } else {
-        $(label).css("background", "#7b8a8b");
-        hora = null;
+        if ($(id).prop('checked')) {
+            $(label).css("background", "#28B463");
 
-    }
+        } else {
+            $(label).css("background", "#7b8a8b");
+            hora = null;
+
+        }
         $(id).prop("disabled", true);
         $.ajax({
             url: "../Empleado/ControlEsfero",
@@ -66,5 +70,5 @@ function GuardarMoficarControl(id,cedula) {
 
             }
         });
-  
+    }
 }
