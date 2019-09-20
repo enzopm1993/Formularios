@@ -200,7 +200,15 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check) {
         error: function (resultado) {
             //console.log(resultado.responseJSON);
             MensajeError(resultado.responseJSON + "", false);
-        
+            if (color == "B") {
+                $('#Blanco' + cedula).prop('selectedIndex',0);
+            }
+            if (color == "R") {
+                $('#Rojo' + cedula).prop('selectedIndex', 0);
+            }
+            if (color == "N") {
+                $('#Rojo' + cedula).prop('selectedIndex', 0);
+            }
 
         }
     });
