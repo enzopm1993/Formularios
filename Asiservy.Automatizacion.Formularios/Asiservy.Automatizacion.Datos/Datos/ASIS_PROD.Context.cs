@@ -48,8 +48,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<EMPLEADO_CUCHILLO> EMPLEADO_CUCHILLO { get; set; }
         public virtual DbSet<BITACORA_EMPLEADO_TURNO> BITACORA_EMPLEADO_TURNO { get; set; }
         public virtual DbSet<EMPLEADO_TURNO> EMPLEADO_TURNO { get; set; }
-        public virtual DbSet<CONTROL_ESFERO> CONTROL_ESFERO { get; set; }
         public virtual DbSet<EMPLEADO_ESFERO> EMPLEADO_ESFERO { get; set; }
+        public virtual DbSet<CONTROL_ESFERO> CONTROL_ESFERO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -282,6 +282,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiariaPersonalMovido>("sp_ConsultaAsistenciaDiariaPersonalMovido", codLineaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_ObtenerCuchillosSobrantes(string colorCuchillo)
+        {
+            var colorCuchilloParameter = colorCuchillo != null ?
+                new ObjectParameter("ColorCuchillo", colorCuchillo) :
+                new ObjectParameter("ColorCuchillo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_ObtenerCuchillosSobrantes", colorCuchilloParameter);
         }
     }
 }

@@ -14,6 +14,43 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
         List<sp_ConsultaAsistenciaDiariaPersonalMovido> pListAsistenciaMovidos = null;
         spConsutaEmpleados BuscarControlador = null;
+
+        public string ModificarAsistencia(ASISTENCIA model)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var Asistencia = db.ASISTENCIA.FirstOrDefault(x=> x.IdAsistencia == model.IdAsistencia);
+                if (Asistencia != null) {
+                    Asistencia.Hora = model.Hora;
+                    Asistencia.EstadoAsistencia = model.EstadoAsistencia;
+                    Asistencia.Observacion = model.Observacion;
+                    Asistencia.FechaModificacionLog = DateTime.Now;
+                    Asistencia.UsuarioModificacionLog = model.UsuarioCreacionLog;
+                    Asistencia.TerminalModificacionLog = model.TerminalCreacionLog;
+                    db.SaveChanges();
+                    return clsAtributos.MsjRegistroGuardado;
+                }
+                else
+                {
+                    return clsAtributos.MsjRegistroError;
+
+                }
+
+
+            }
+        }
+
+        public List<spConsultaControlAsistencia> ConsultaControlAsistencia(string Linea, DateTime Fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                List<spConsultaControlAsistencia> Listado = null;
+                Listado = db.spConsultaControlAsistencia(Linea, Fecha).ToList(); 
+
+                return Listado;
+            }
+        }
+
         public int ConsultarExistenciaAsistencia(string cedula)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())

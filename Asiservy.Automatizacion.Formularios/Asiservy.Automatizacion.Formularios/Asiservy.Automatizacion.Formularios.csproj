@@ -747,6 +747,7 @@
     <Content Include="Views\Asistencia\EmpleadosCambioPersonalPartial.cshtml" />
     <Content Include="Views\Empleado\ControlEsferoPartial.cshtml" />
     <Content Include="Views\Empleado\ControlEsfero.cshtml" />
+    <Content Include="Views\Asistencia\EditarAsistenciaPartial.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaPrestado.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaPrestadoPartial.cshtml" />
     <None Include="Web.Debug.config">

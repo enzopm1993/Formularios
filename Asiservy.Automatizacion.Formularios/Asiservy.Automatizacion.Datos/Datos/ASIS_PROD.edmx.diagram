@@ -31,8 +31,8 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO" Width="1.5" PointX="14.25" PointY="6.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_EMPLEADO_TURNO" Width="1.5" PointX="14.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_TURNO" Width="1.5" PointX="14.375" PointY="10.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ESFERO" Width="1.5" PointX="14.375" PointY="14.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_ESFERO" Width="1.5" PointX="10.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ESFERO" Width="1.5" PointX="14.375" PointY="14.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

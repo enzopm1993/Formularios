@@ -10,6 +10,9 @@
                 @Html.DisplayNameFor(model => model.Cedula)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Tipo)
             </th>
             <th>
@@ -18,7 +21,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Area)
             </th>
-           
+
             <th>
                 @Html.DisplayNameFor(model => model.FechaIngresoLog)
             </th>
@@ -36,35 +39,38 @@
             foreach (var item in Model)
             {
                 string Tipo = item.Tipo == "P" ? "Prestado" : "Regreso";
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IdBitacoraCambioPersonal)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cedula)
-                    </td>
-                    <td>
-                       
-                        <input type="text" name="name" value="@Tipo" readonly  class="form-control"/>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdBitacoraCambioPersonal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
 
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Linea)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Area)
-                    </td>
-                  
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaIngresoLog)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
-                    </td>
-                </tr>
+                <input type="text" name="name" value="@Tipo" readonly class="form-control" />
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Linea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Area)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+            </td>
+        </tr>
             }
         }
     </tbody>
