@@ -76,7 +76,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return RedirectToAction("Home", "Home");
             }
@@ -515,7 +515,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -557,7 +557,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return RedirectToAction("Home", "Home");
             }
@@ -594,7 +594,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message,JsonRequestBehavior.AllowGet);
             }
@@ -624,7 +624,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return RedirectToAction("Home", "Home");
             }
@@ -668,11 +668,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return RedirectToAction("Cuchillo");
 
-            }
+            }0
         }
 
         [Authorize]
@@ -698,7 +698,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message,JsonRequestBehavior.AllowGet);
             }
@@ -772,7 +772,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return RedirectToAction("CuchilloEmpleado");
             }
@@ -820,7 +820,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -847,7 +847,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -904,7 +904,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -963,7 +963,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -989,7 +989,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -1014,7 +1014,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
