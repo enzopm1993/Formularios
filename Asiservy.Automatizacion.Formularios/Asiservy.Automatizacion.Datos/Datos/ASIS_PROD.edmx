@@ -119,6 +119,7 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="Tipo" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="CONTROL_ESFERO">
           <Key>
@@ -829,7 +830,7 @@
           </FunctionImport>
           <EntitySet Name="CONTROL_ESFERO" EntityType="ASIS_PRODModel.CONTROL_ESFERO" />
           <FunctionImport Name="sp_ObtenerCuchillosSobrantes" ReturnType="Collection(Int32)">
-            <Parameter Name="ColorCuchillo" Mode="In" Type="String" />
+          <Parameter Name="ColorCuchillo" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -1067,6 +1068,7 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
         <ComplexType Name="sp_ConsultaAsistenciaDiaria">
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
@@ -1639,6 +1641,7 @@
           <EntitySetMapping Name="CONTROL_CUCHILLO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_CUCHILLO">
               <MappingFragment StoreEntitySet="CONTROL_CUCHILLO">
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
