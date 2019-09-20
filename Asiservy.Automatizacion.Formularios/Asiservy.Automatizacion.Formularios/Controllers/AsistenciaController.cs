@@ -89,7 +89,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             try
             {
-
+                clsDEmpleado = new clsDEmpleado();
+                clsDGeneral = new clsDGeneral();
+                liststring = User.Identity.Name.Split('_');
+                clsDAsistencia = new clsDAsistencia();
+                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaPrestados(liststring[1]);
+                ViewBag.AsistenciaExiste = AsitenciaExiste;
+                ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(liststring[1]);
+                ViewBag.CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
+                //Asistencia.ControlAsistencia.ForEach(a=>a.Hora= hora);
                 return View();
             }
             catch (Exception ex)
@@ -107,6 +115,101 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     UsuarioIngreso = liststring[1]
                 });
                 return RedirectToAction("Home", "Home");
+            }
+        }
+        [Authorize]
+        public ActionResult AsistenciaPrestadoPartial(string CodLinea, int BanderaExiste)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');
+                clsDCambioPersonal = new clsDCambioPersonal();
+                clsDClasificador = new clsDClasificador();
+                var EstadoAsistencia = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                ViewBag.EstadoAsistencia = EstadoAsistencia;
+
+                clsDAsistencia = new clsDAsistencia();
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress);
+                clsApiUsuario = new clsApiUsuario();
+                DateTime? pdUltimaMarcacion;
+                foreach (var item in AsistenciaViewModel.ControlAsistencia)
+                {
+                    pdUltimaMarcacion = clsApiUsuario.ConsultarFechaBiometrico(item.Cedula);
+                    //pdUltimaMarcacion =Convert.ToDateTime("2019-09-18 17:05:03.367");
+
+                    if (item.Turno == "1")
+                    {
+                        if (pdUltimaMarcacion != null)
+                        {
+                            if ((pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString()))
+                            {
+                                item.Bloquear = 1;
+                                item.Observacion += "No ha marcado en el biométrico";
+                            }
+                        }
+                        else
+                        {
+                            item.Bloquear = 1;
+                            item.Observacion += "No ha marcado en el biométrico";
+                        }
+
+                    }
+                    if (item.Turno == "2")
+                    {
+                        if (pdUltimaMarcacion != null)
+                        {
+                            if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
+                            {
+                                item.Bloquear = 1;
+                                item.Observacion += "No ha marcado en el biométrico";
+                            }
+                        }
+                        else
+                        {
+                            item.Bloquear = 1;
+                            item.Observacion += "No ha marcado en el biométrico";
+                        }
+                    }
+                    //sp_ConsultaEmpleadosMovidos CambioPersonal = clsDCambioPersonal.ConsultarCambioPersonal(item.Cedula);
+
+                    //if (CambioPersonal != null)
+                    //{
+                    //    item.Bloquear = 1;
+                    //    item.Observacion += "El empleado fue movido a " + CambioPersonal.Linea;
+                    //}
+                    ClsDSolicitudPermiso = new clsDSolicitudPermiso();
+                    string MotivoSolicitud = ClsDSolicitudPermiso.ConsultaMotivoPermisoxEmpleado(item.Cedula);
+                    if (!string.IsNullOrEmpty(MotivoSolicitud))
+                    {
+                        item.Bloquear = 1;
+                        item.Observacion += " Tiene permiso: " + MotivoSolicitud;
+                    }
+
+
+                }
+                //Control de Cuchillos
+                clsDCuchillo = new clsDCuchillo();
+                List<ControlCuchilloViewModel> modelCuchillo = new List<ControlCuchilloViewModel>();
+                modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada);
+                AsistenciaViewModel.ControlDeCuchillos = modelCuchillo;
+
+                //**
+                return PartialView(AsistenciaViewModel);
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
         [Authorize]
