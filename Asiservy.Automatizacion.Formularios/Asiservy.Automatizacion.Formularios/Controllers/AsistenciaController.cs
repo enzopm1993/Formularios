@@ -82,7 +82,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
+        [Authorize]
+        public ActionResult AsistenciaGeneral()
+        {
+            return View();
 
+        }
         [Authorize]
         public ActionResult AsistenciaPrestado()
         {

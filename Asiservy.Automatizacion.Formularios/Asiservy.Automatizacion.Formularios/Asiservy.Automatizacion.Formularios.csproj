@@ -750,6 +750,7 @@
     <Content Include="Views\Asistencia\EditarAsistenciaPartial.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaPrestado.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaPrestadoPartial.cshtml" />
+    <Content Include="Views\Asistencia\AsistenciaGeneral.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
