@@ -13,6 +13,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spConsultaControlHueso
     {
+        public int IdDetalle { get; set; }
         public string Cedula { get; set; }
         public string Nombre { get; set; }
         public string Linea { get; set; }

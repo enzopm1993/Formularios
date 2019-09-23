@@ -304,15 +304,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaLimpiadorasControlHueso>("spConsultaLimpiadorasControlHueso", lineaParameter);
         }
     
-        public virtual ObjectResult<spConsultaControlHueso> spConsultaControlHueso(Nullable<int> idControlHueso)
-        {
-            var idControlHuesoParameter = idControlHueso.HasValue ?
-                new ObjectParameter("IdControlHueso", idControlHueso) :
-                new ObjectParameter("IdControlHueso", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", idControlHuesoParameter);
-        }
-    
         public virtual ObjectResult<sp_ConsultaAsistenciaGeneralDiaria> sp_ConsultaAsistenciaGeneralDiaria(string codLinea, Nullable<int> turno)
         {
             var codLineaParameter = codLinea != null ?
@@ -324,6 +315,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaGeneralDiaria>("sp_ConsultaAsistenciaGeneralDiaria", codLineaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlHueso> spConsultaControlHueso(Nullable<int> idControlHueso)
+        {
+            var idControlHuesoParameter = idControlHueso.HasValue ?
+                new ObjectParameter("IdControlHueso", idControlHueso) :
+                new ObjectParameter("IdControlHueso", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", idControlHuesoParameter);
         }
     }
 }

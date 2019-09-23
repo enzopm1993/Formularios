@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlHueso>
+
+
+<style>
+    input, select, textarea {
+         max-width: 100%;
+    }
+</style>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Lote)
+        </th>
+        <th hidden>
+            @Html.DisplayNameFor(model => model.Cedula)
+        </th>
+        <th style=" width: 70%;">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            <label>Huesos</label>
+        </th>
+
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            <td hidden>
+                @Html.TextBoxFor(modelItem => item.Cedula, new { @class = "form-control", @readonly = "readonly" })
+            </td>
+            <td style="">
+                @Html.TextBoxFor(modelItem => item.Nombre, new { @class = "form-control", @readonly = "readonly" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => item.CantidadHueso, new {@type="number" ,@class = "form-control", @id="Huesos-"+item.IdDetalle })
+            </td>
+
+            <td>
+                <label class="btn btn-dark text-xs-center" id="labelCheck-@item.IdDetalle">
+                    @Html.CheckBox("Check" + item.IdDetalle, item.CantidadHueso > 0, new { @onchange = "checkControlHueso(this.id,'" + item.IdDetalle + "')" })
+
+                </label>
+                @if (item.CantidadHueso > 0)
+                {
+                    <script>
+                        $("#Huesos-@item.IdDetalle").prop("readonly", true);
+                        $("#labelCheck-@item.IdDetalle").css("background", "#28B463");
+                    </script>
+                }
+            </td>
+        </tr>
+    }
+
+</table>
