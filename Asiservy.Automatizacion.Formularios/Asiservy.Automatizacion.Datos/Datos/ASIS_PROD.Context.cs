@@ -50,6 +50,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<EMPLEADO_TURNO> EMPLEADO_TURNO { get; set; }
         public virtual DbSet<EMPLEADO_ESFERO> EMPLEADO_ESFERO { get; set; }
         public virtual DbSet<CONTROL_ESFERO> CONTROL_ESFERO { get; set; }
+        public virtual DbSet<CONTROL_HUESO> CONTROL_HUESO { get; set; }
+        public virtual DbSet<CONTROL_HUESO_DETALLE> CONTROL_HUESO_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -291,6 +293,37 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("ColorCuchillo", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_ObtenerCuchillosSobrantes", colorCuchilloParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaLimpiadorasControlHueso> spConsultaLimpiadorasControlHueso(string linea)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaLimpiadorasControlHueso>("spConsultaLimpiadorasControlHueso", lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlHueso> spConsultaControlHueso(Nullable<int> idControlHueso)
+        {
+            var idControlHuesoParameter = idControlHueso.HasValue ?
+                new ObjectParameter("IdControlHueso", idControlHueso) :
+                new ObjectParameter("IdControlHueso", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", idControlHuesoParameter);
+        }
+    
+        public virtual ObjectResult<sp_ConsultaAsistenciaGeneralDiaria> sp_ConsultaAsistenciaGeneralDiaria(string codLinea, Nullable<int> turno)
+        {
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("codLinea", codLinea) :
+                new ObjectParameter("codLinea", typeof(string));
+    
+            var turnoParameter = turno.HasValue ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaGeneralDiaria>("sp_ConsultaAsistenciaGeneralDiaria", codLineaParameter, turnoParameter);
         }
     }
 }
