@@ -754,6 +754,7 @@
     <Content Include="Views\Asistencia\AsistenciaPrestadoPartial.cshtml" />
     <Content Include="Views\Empleado\ControlHueso.cshtml" />
     <Content Include="Views\Empleado\ControlHuesoPartial.cshtml" />
+    <Content Include="Views\Empleado\ControlHuesoPartialCabecera.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

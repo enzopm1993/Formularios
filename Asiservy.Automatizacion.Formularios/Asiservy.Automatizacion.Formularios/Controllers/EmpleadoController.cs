@@ -424,13 +424,44 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [Authorize]
+        public ActionResult ControlHuesoPartialCabecera()
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDControlHueso = new clsDControlHueso();
+                var model = clsDControlHueso.ConsultaControlHueso(DateTime.Now);
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        [Authorize]
         public ActionResult ControlHuesoPartial(int id)
         {
             try
             {
                 Usuario = User.Identity.Name.Split('_');
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaControlHueso(id);
+                var model = clsDControlHueso.ConsultaControlHuesoDetalle(id);
                 return PartialView(model);
             }
             catch (Exception ex)
@@ -453,24 +484,40 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
-
+     
         [Authorize]
-        public ActionResult GenerarControlHueso(string dsLinea, string dsLote, string Hora)
+        public ActionResult GenerarControlHueso(CONTROL_HUESO model)
         {
             try
             {
-                if (string.IsNullOrEmpty(dsLinea) || string.IsNullOrEmpty(dsLote) || dsLote == "0" || string.IsNullOrEmpty(Hora))
+                if (string.IsNullOrEmpty(model.Linea) 
+                    || string.IsNullOrEmpty(model.Lote) 
+                    || model.Lote == "0"
+                    || model.HoraInicio== TimeSpan.Parse("00:00")
+                    || model.HoraFin== TimeSpan.Parse("00:00")
+                    )
                 {
                     Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     return Json("Parametros Incompletos", JsonRequestBehavior.AllowGet);
                 }
+                if (model.HoraInicio > model.HoraFin)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return Json("Hora fin no puede ser mayor a la hora de inicio", JsonRequestBehavior.AllowGet);
+                }
+
                 Usuario = User.Identity.Name.Split('_');
                 clsDControlHueso = new clsDControlHueso();
                 int id = clsDControlHueso.GenerarControlHueso(new CONTROL_HUESO {
-                    Linea = dsLinea,
-                    //Hora = TimeSpan.Parse(Hora),
-                    Lote = dsLote,
-                    EstadoRegistro=clsAtributos.EstadoRegistroActivo,
+                    Linea = model.Linea,
+                    TipoControlHueso= model.TipoControlHueso,
+                    HoraInicio = model.HoraInicio,
+                    HoraFin = model.HoraFin,
+                    Lote = model.Lote,
+                    OrdenFabricacion = model.Lote,
+                    Observacion = model.Observacion,
+                    TotalPieza = model.TotalPieza,
+                    EstadoRegistro =clsAtributos.EstadoRegistroActivo,
                     UsuarioIngresoLog= Usuario[0],
                     FechaIngresoLog = DateTime.Now,
                     TerminalIngresoLog = Request.UserHostAddress
