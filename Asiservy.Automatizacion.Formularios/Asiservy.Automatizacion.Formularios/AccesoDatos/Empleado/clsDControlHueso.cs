@@ -28,11 +28,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado
             }
         }
 
-        public List<spConsultaControlHueso> ConsultaControlHueso(int id)
+        public List<spConsultaControlHuesoDetalle> ConsultaControlHuesoDetalle(int id)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var result = entities.spConsultaControlHueso(id).ToList();
+                var result = entities.spConsultaControlHuesoDetalle(id).ToList();
+                return result;
+            }
+        }
+        public List<spConsultaControlHueso> ConsultaControlHueso(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var result = entities.spConsultaControlHueso(Fecha).ToList();
                 return result;
             }
         }
@@ -60,43 +68,49 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado
                 List<spConsultaLimpiadorasControlHueso> detalle = new List<spConsultaLimpiadorasControlHueso>();
                 var FechaActual = DateTime.Now.Date;
                 doControl.Fecha = FechaActual;
-                var ControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x=> 
+                var ControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x =>
                 x.Linea == doControl.Linea
-                && x.Lote == doControl.Lote
-              //  && x.Hora == doControl.Hora
-                && x.Fecha ==FechaActual);
-                if(ControlHueso== null)
+              //  && x.Lote == doControl.Lote
+                && x.HoraFin > doControl.HoraInicio
+               // && x.HoraFin == doControl.HoraFin
+                && x.Fecha == FechaActual);
+                if (ControlHueso == null)
                 {
-                    detalle = ConsultaLimpiadorasControlHueso(doControl.Linea);
-                    foreach (var x in detalle)
+                    if (doControl.TipoControlHueso == clsAtributos.Hueso || doControl.TipoControlHueso == clsAtributos.Roto)
                     {
-                        doControl.CONTROL_HUESO_DETALLE.Add(new CONTROL_HUESO_DETALLE
+                        detalle = ConsultaLimpiadorasControlHueso(doControl.Linea);
+                        foreach (var x in detalle)
                         {
-                            CantidadHueso = 0,
-                            Cedula = x.CEDULA,
-                            EstadoRegistro = clsAtributos.EstadoRegistroActivo,
-                            FechaIngresoLog = DateTime.Now,
-                            UsuarioIngresoLog = doControl.UsuarioIngresoLog,
-                            TerminalIngresoLog = doControl.TerminalIngresoLog
-                        });
+                            doControl.CONTROL_HUESO_DETALLE.Add(new CONTROL_HUESO_DETALLE
+                            {
+                                CantidadHueso = 0,
+                                Cedula = x.CEDULA,
+                                EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                                FechaIngresoLog = DateTime.Now,
+                                UsuarioIngresoLog = doControl.UsuarioIngresoLog,
+                                TerminalIngresoLog = doControl.TerminalIngresoLog
+                            });
+                        }
                     }
                     entities.CONTROL_HUESO.Add(doControl);
                     entities.SaveChanges();
                 }
                 else
                 {
-                    return ControlHueso.IdControlHueso;
+                    return 0;
                 }
-              
+
                 var idControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x =>
                    x.Linea == doControl.Linea
                    && x.Lote == doControl.Lote
-                 //  && x.Hora == doControl.Hora
+                   && x.HoraInicio == doControl.HoraInicio
+                   && x.HoraFin == doControl.HoraFin
                    && x.Fecha == FechaActual);
                 return idControlHueso.IdControlHueso;
             }
         }   
 
+       
 
         public List<spConsultaLimpiadorasControlHueso> ConsultaLimpiadorasControlHueso(string Linea)
         {

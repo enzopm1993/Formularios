@@ -11,19 +11,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsultaControlHueso
+    public partial class spConsultaControlHuesoDetalle
     {
-        public int IdControlHueso { get; set; }
-        public string CodLinea { get; set; }
+        public int IdDetalle { get; set; }
+        public string Cedula { get; set; }
+        public string Nombre { get; set; }
         public string Linea { get; set; }
+        public Nullable<int> CantidadHueso { get; set; }
         public string Lote { get; set; }
-        public string OrdenFabricacion { get; set; }
-        public string Observacion { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
         public Nullable<System.TimeSpan> HoraInicio { get; set; }
         public Nullable<System.TimeSpan> HoraFin { get; set; }
-        public Nullable<int> CodTipoControl { get; set; }
-        public string TipoControlHueso { get; set; }
-        public Nullable<int> TotalPieza { get; set; }
     }
 }

@@ -87,10 +87,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string CodigoGrupoTipoControlHuesos = "006";
 
         //Tipo Control Huesos
-        public static string Hueso = "1";
-        public static string Panza = "2";
-        public static string PescadoPartido = "3";
-        public static string Roto = "4";
+        public static int Hueso = 1;
+        public static int Panza = 2;
+        public static int PescadoPartido = 3;
+        public static int Roto = 4;
 
 
     }

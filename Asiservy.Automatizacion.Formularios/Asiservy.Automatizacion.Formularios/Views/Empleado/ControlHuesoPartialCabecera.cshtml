@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlHueso>
+
+<table class="table table-hover" style="cursor:pointer">
+    <tr>
+        <th>
+            <label>Id</label>
+        </th>
+
+        <th>
+            <label>Inicio</label>
+        </th>
+        <th>
+            <label>Fin</label>
+        </th>   
+        <th>
+            <label>Tipo Control</label>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lote)
+        </th>
+        <th>
+            <label>Orden Fabricación</label>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </th>       
+    </tr>
+
+@foreach (var item in Model) {
+    <tr onclick="SeleccionControlHueso('@item.IdControlHueso','@item.Lote','@item.OrdenFabricacion',@item.CodTipoControl,'@item.HoraInicio','@item.HoraFin','@item.Observacion','@item.TotalPieza')">
+        <td>
+            @Html.DisplayFor(modelItem => item.IdControlHueso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoraInicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoraFin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoControlHueso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observacion)
+        </td>
+
+    </tr>
+}
+
+</table>
