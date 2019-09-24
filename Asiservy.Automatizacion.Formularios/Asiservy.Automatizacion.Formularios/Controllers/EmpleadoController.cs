@@ -19,6 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDEmpleado clsDEmpleado = null;
         clsDEmpleadoEsfero clsDEmpleadoEsfero = null;
         clsDControlHueso clsDControlHueso = null;
+        clsDClasificador clsDClasificador = null;
 
         #region EMPLEADO ESFERO
 
@@ -393,9 +394,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
+                clsDClasificador = new clsDClasificador();
+                var TipoControlHueso = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoTipoControlHuesos, EstadoRegistro=clsAtributos.EstadoRegistroActivo});
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
                 ViewBag.Linea = Empleado.LINEA;
                 ViewBag.CodLinea = Empleado.CODIGOLINEA;
+                ViewBag.TipoControlHueso = TipoControlHueso;
 
                 return View();
             }
@@ -464,7 +468,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDControlHueso = new clsDControlHueso();
                 int id = clsDControlHueso.GenerarControlHueso(new CONTROL_HUESO {
                     Linea = dsLinea,
-                    Hora = TimeSpan.Parse(Hora),
+                    //Hora = TimeSpan.Parse(Hora),
                     Lote = dsLote,
                     EstadoRegistro=clsAtributos.EstadoRegistroActivo,
                     UsuarioIngresoLog= Usuario[0],
@@ -506,7 +510,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 int id = clsDControlHueso.ValidaControlHueso(new CONTROL_HUESO
                 {
                     Linea = dsLinea,
-                    Hora = TimeSpan.Parse(Hora)    
+                    //Hora = TimeSpan.Parse(Hora)    
                 });
                 // var listadoLimpiadoras = clsDControlHueso.ConsultaLimpiadorasControlHueso(dsLinea);
                 //  clsDControlHueso.GenerarControlHuesoDetalle(listadoLimpiadoras, id, Usuario[0], Request.UserHostAddress);

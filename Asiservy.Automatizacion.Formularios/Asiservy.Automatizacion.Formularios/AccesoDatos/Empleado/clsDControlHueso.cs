@@ -44,7 +44,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado
                 var FechaActual = DateTime.Now.Date;
                 var ControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x =>
                 x.Linea == doControl.Linea              
-                && x.Hora == doControl.Hora
+               // && x.Hora == doControl.Hora
                 && x.Fecha == FechaActual);
                 if (ControlHueso != null)
                     return ControlHueso.IdControlHueso;
@@ -63,7 +63,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado
                 var ControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x=> 
                 x.Linea == doControl.Linea
                 && x.Lote == doControl.Lote
-                && x.Hora == doControl.Hora
+              //  && x.Hora == doControl.Hora
                 && x.Fecha ==FechaActual);
                 if(ControlHueso== null)
                 {
@@ -91,7 +91,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado
                 var idControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x =>
                    x.Linea == doControl.Linea
                    && x.Lote == doControl.Lote
-                   && x.Hora == doControl.Hora
+                 //  && x.Hora == doControl.Hora
                    && x.Fecha == FechaActual);
                 return idControlHueso.IdControlHueso;
             }

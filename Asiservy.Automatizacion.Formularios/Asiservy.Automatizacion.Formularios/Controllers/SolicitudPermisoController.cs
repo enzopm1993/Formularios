@@ -549,7 +549,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             var Nombre = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]).FirstOrDefault();
             string Cedula = psIdUsuario[1] + "";
             if (piSupervisor > 0)
+            {
                 ViewBag.Supervisor = piSupervisor;
+                ViewBag.CodLinea = Nombre.CODIGOLINEA;
+
+            }
             else
             {
                 ViewBag.NombreEmpleado = Nombre != null ? Nombre.NOMBRES : psIdUsuario[1];
