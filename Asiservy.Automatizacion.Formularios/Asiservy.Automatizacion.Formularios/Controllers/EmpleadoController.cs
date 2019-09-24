@@ -18,6 +18,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDError clsDError = null;
         clsDEmpleado clsDEmpleado = null;
         clsDEmpleadoEsfero clsDEmpleadoEsfero = null;
+        clsDControlHueso clsDControlHueso = null;
+        clsDClasificador clsDClasificador = null;
 
         #region EMPLEADO ESFERO
 
@@ -273,7 +275,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = Usuario[1]
+                    UsuarioIngreso = Usuario[0]
                 });
                 return View();
             }
@@ -383,6 +385,200 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         #endregion
+
+        #region CONTROL HUESOS
+        [Authorize]
+        public ActionResult ControlHueso()
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                clsDClasificador = new clsDClasificador();
+                var TipoControlHueso = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoTipoControlHuesos, EstadoRegistro=clsAtributos.EstadoRegistroActivo});
+                var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+                ViewBag.Linea = Empleado.LINEA;
+                ViewBag.CodLinea = Empleado.CODIGOLINEA;
+                ViewBag.TipoControlHueso = TipoControlHueso;
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return RedirectToAction("Home","Home");
+            }
+
+        }
+
+        [Authorize]
+        public ActionResult ControlHuesoPartial(int id)
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDControlHueso = new clsDControlHueso();
+                var model = clsDControlHueso.ConsultaControlHueso(id);
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        [Authorize]
+        public ActionResult GenerarControlHueso(string dsLinea, string dsLote, string Hora)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(dsLinea) || string.IsNullOrEmpty(dsLote) || dsLote == "0" || string.IsNullOrEmpty(Hora))
+                {
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return Json("Parametros Incompletos", JsonRequestBehavior.AllowGet);
+                }
+                Usuario = User.Identity.Name.Split('_');
+                clsDControlHueso = new clsDControlHueso();
+                int id = clsDControlHueso.GenerarControlHueso(new CONTROL_HUESO {
+                    Linea = dsLinea,
+                    //Hora = TimeSpan.Parse(Hora),
+                    Lote = dsLote,
+                    EstadoRegistro=clsAtributos.EstadoRegistroActivo,
+                    UsuarioIngresoLog= Usuario[0],
+                    FechaIngresoLog = DateTime.Now,
+                    TerminalIngresoLog = Request.UserHostAddress
+                });
+               // var listadoLimpiadoras = clsDControlHueso.ConsultaLimpiadorasControlHueso(dsLinea);
+              //  clsDControlHueso.GenerarControlHuesoDetalle(listadoLimpiadoras, id, Usuario[0], Request.UserHostAddress);
+                return Json(id,JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        [Authorize]
+        public ActionResult ValidaControlHueso(string dsLinea, string Hora)
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDControlHueso = new clsDControlHueso();
+                int id = clsDControlHueso.ValidaControlHueso(new CONTROL_HUESO
+                {
+                    Linea = dsLinea,
+                    //Hora = TimeSpan.Parse(Hora)    
+                });
+                // var listadoLimpiadoras = clsDControlHueso.ConsultaLimpiadorasControlHueso(dsLinea);
+                //  clsDControlHueso.GenerarControlHuesoDetalle(listadoLimpiadoras, id, Usuario[0], Request.UserHostAddress);
+                return Json(id, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        [Authorize]
+        public ActionResult GuardarControlHueso(CONTROL_HUESO_DETALLE detalle)
+        {
+            try
+            {
+                if (detalle== null)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return Json("Parametros Incompletos", JsonRequestBehavior.AllowGet);
+                }
+
+                Usuario = User.Identity.Name.Split('_');
+                clsDControlHueso = new clsDControlHueso();
+                detalle.UsuarioIngresoLog = Usuario[0];
+                detalle.TerminalIngresoLog = Request.UserHostAddress;
+                var respuesta = clsDControlHueso.GuardarModificarControlHueso(detalle);
+              
+                return Json(respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        #endregion
+
 
 
 

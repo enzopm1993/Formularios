@@ -81,5 +81,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string IrAlmorzar = "2";
         public static string RegresoAlmuerzo = "3";
         public static string Salida = "4";
+
+
+        //Classificador Tipo Control Huesos
+        public static string CodigoGrupoTipoControlHuesos = "006";
+
+        //Tipo Control Huesos
+        public static string Hueso = "1";
+        public static string Panza = "2";
+        public static string PescadoPartido = "3";
+        public static string Roto = "4";
+
+
     }
 }

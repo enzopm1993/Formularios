@@ -1,0 +1,79 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.CONTROL_HUESO
+
+@{
+    ViewBag.Title = "ControlHueso";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<h3>Control de Huesos</h3>
+<h4>@ViewBag.Linea</h4>
+<h4>@DateTime.Now.ToShortDateString()</h4>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="col-md-2 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Lote, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <select class="form-control" id="SelectLote" onchange="seleccionLote(this.value)">
+                        <option value="0">Seleccione</option>
+                        <option value="A1">A1</option>
+                        <option value="B1">B1</option>
+                        <option value="B2">B2</option>
+                        <option value="B3">B3</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.Lote, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6">
+                <label>Tipo Control</label>
+                @Html.DropDownList("TipoControlHueso", new SelectList(ViewBag.TipoControlHueso, "Codigo", "Descripcion"), new { @class = "form-control" })
+            </div>
+            <input type="hidden" name="name" id="txtLinea" value="@ViewBag.CodLinea" />
+            <div class="col-md-2 col-sm-6">
+                <div class="form-group">
+                    <label>Hora Inicio</label>
+                    <input class="form-control" type="time" name="name" value="" id="txtHoraInicio" />
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6">
+                <div class="form-groupf">
+                    <label>Hora Fin</label>
+                    <input class="form-control" type="time" name="name" value="" id="txtHoraFin" />
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div class="form-groupf">
+                    <label>Observación</label>
+                    <input class="form-control" type="text" name="name" value="" id="txtObservacion" />
+                </div>
+            </div>
+
+        </div>
+        <br />
+        <div class="row">
+            <div id="DivTableControlHueso" class="table-responsive">
+
+            </div>
+
+            <div class="col-12 text-center">
+                <input type="button" id="btnGenerar" name="Generar" value="Generar" class="btn btn-primary" onclick="GenerarControlHueso()" hidden />
+            </div>
+        </div>
+
+
+    </div>
+}
+
+
+<script src="~/Scripts/Empleado/ControlHueso.js"></script>

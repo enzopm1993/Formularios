@@ -11,14 +11,16 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsultaControlHueso
+    public partial class spConsultarEmpleadosxTurno
     {
-        public int IdDetalle { get; set; }
-        public string Cedula { get; set; }
-        public string Nombre { get; set; }
-        public string Linea { get; set; }
-        public Nullable<int> CantidadHueso { get; set; }
-        public string Lote { get; set; }
-        public Nullable<System.TimeSpan> Hora { get; set; }
+        public string CEDULA { get; set; }
+        public string NOMBRES { get; set; }
+        public string CODIGOLINEA { get; set; }
+        public string LINEA { get; set; }
+        public string CODIGOAREA { get; set; }
+        public string AREA { get; set; }
+        public string CODIGOCARGO { get; set; }
+        public string CARGO { get; set; }
+        public string TURNO { get; set; }
     }
 }

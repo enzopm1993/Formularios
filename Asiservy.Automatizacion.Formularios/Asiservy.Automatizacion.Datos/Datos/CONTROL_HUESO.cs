@@ -23,8 +23,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdControlHueso { get; set; }
         public string Linea { get; set; }
         public System.DateTime Fecha { get; set; }
-        public System.TimeSpan Hora { get; set; }
+        public System.TimeSpan HoraInicio { get; set; }
+        public System.TimeSpan HoraFin { get; set; }
         public string Lote { get; set; }
+        public string OrdenFabricacion { get; set; }
+        public int TipoControlHueso { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
