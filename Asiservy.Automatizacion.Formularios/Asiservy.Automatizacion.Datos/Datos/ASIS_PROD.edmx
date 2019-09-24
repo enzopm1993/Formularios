@@ -522,6 +522,10 @@
         <Function Name="spConsultaOpcionesPorRol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDROL" Type="int" Mode="In" />
         </Function>
+        <Function Name="spConsultarCambioPersonalxLineaxTurno" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Linea" Type="varchar" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
+        </Function>
         <Function Name="spConsultarEmpleadosxTurno" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CodLinea" Type="varchar" Mode="In" />
           <Parameter Name="Turno" Type="char" Mode="In" />
@@ -926,7 +930,11 @@
           <Parameter Name="IdControlHueso" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spConsultaControlHueso" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHueso)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultarCambioPersonalxLineaxTurno" ReturnType="Collection(ASIS_PRODModel.spConsultarCambioPersonalxLineaxTurno)">
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -1463,6 +1471,10 @@
           <Property Type="Int32" Name="CodTipoControl" Nullable="true" />
           <Property Type="String" Name="TipoControlHueso" Nullable="true" MaxLength="20" />
           <Property Type="Int32" Name="TotalPieza" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spConsultarCambioPersonalxLineaxTurno">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2211,6 +2223,14 @@
                 <ScalarProperty Name="CodTipoControl" ColumnName="CodTipoControl" />
                 <ScalarProperty Name="TipoControlHueso" ColumnName="TipoControlHueso" />
                 <ScalarProperty Name="TotalPieza" ColumnName="TotalPieza" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultarCambioPersonalxLineaxTurno" FunctionName="ASIS_PRODModel.Store.spConsultarCambioPersonalxLineaxTurno">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarCambioPersonalxLineaxTurno">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

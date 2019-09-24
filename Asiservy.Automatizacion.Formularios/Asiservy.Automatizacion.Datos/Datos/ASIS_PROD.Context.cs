@@ -347,5 +347,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", fechaParameter);
         }
+    
+        public virtual ObjectResult<spConsultarCambioPersonalxLineaxTurno> spConsultarCambioPersonalxLineaxTurno(string linea, string turno)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarCambioPersonalxLineaxTurno>("spConsultarCambioPersonalxLineaxTurno", lineaParameter, turnoParameter);
+        }
     }
 }

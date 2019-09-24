@@ -162,6 +162,9 @@
     <Compile Include="Datos\spConsultaOpcionesPorRol.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultarCambioPersonalxLineaxTurno.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultarEmpleadosxTurno.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
