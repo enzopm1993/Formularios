@@ -9,25 +9,33 @@
     <h4 class="custom-control-inline">Fecha: &nbsp; @DateTime.Now.ToString("dd-MM-yyyy") </h4>
     <br />
     <label>@ViewBag.Linea</label>
+    @Html.Hidden("Existe")
+    Turno: <input type="hidden" name="CodLinea" id="CodLinea" value="@ViewBag.CodLinea" />
     <br />
-    @if (ViewBag.AsistenciaExiste == 0)
-    {
+    @*@if (ViewBag.AsistenciaExiste == 0)
+        {*@
 
-        <center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiariaGeneral('@ViewBag.CodLinea','0');" /></center>
-    }
-    else
-    {
-        <script>
-            //console.log("hola mundo");
+    <select name="TurnoGen" id="TurnoGen" class="browser-default custom-select" onchange="ConsultarSiExisteAsistencia();">
+        <option selected>Seleccione</option>
+        <option value="1">Turno 1</option>
+        <option value="2">Turno 2</option>
+    </select>
 
-            $(document).ready(function () {
-                GenerarAsistenciaDiariaGeneral('@ViewBag.CodLinea','1');
-                //  Nuevo();
-            });
+    <center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiariaGeneral('@ViewBag.CodLinea','0');" /></center>
+    //}
+    @*else
+        {
+            <script>
 
 
-        </script>
-    }
+                $(document).ready(function () {
+                    GenerarAsistenciaDiariaGeneral('@ViewBag.CodLinea','1');
+
+                });
+
+
+            </script>
+        }*@
 
 
 

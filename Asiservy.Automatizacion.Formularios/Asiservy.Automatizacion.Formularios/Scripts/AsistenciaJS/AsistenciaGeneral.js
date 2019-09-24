@@ -1,15 +1,44 @@
-﻿function GenerarAsistenciaDiariaGeneral(IdLinea, bandera) {
+﻿function ConsultarSiExisteAsistencia() {
+    $('#PartialAsistencia').empty();
+    $.ajax({
+        //contentType: "application/json; charset=utf-8",
+        url: '../Asistencia/ConsultarExistenciaAsistencia',
+        type: "POST",
+        data: {
+            Turno: $('#TurnoGen').val()
+        },
+        success: function (resultado) {
+            $('#Existe').val(resultado);
+
+            if (resultado == 0) {
+                $('#GenerarAsistencia').show();
+
+            }
+            if (resultado == 1) {
+                GenerarAsistenciaDiariaGeneral($('#CodLinea').val(), resultado);
+            }
+        },
+        error: function (result) {
+            Console.log(result);
+            //MensajeError(result, false);
+        }
+    });
+}
+function GenerarAsistenciaDiariaGeneral(IdLinea, bandera) {
     MostrarModalCargando();
     //console.log("hola");
+    var turno;
     if (bandera == 0) {
         $('#GenerarAsistenciaMovidos').prop("disabled", true);
     }
+    turno = $('#TurnoGen').val();
     $.ajax({
         url: '../Asistencia/AsistenciaGeneralPartial',
         type: 'POST',
         data: {
             CodLinea: IdLinea,
-            BanderaExiste: bandera
+            BanderaExiste: bandera,
+            Turno: turno
         },
         success: function (resultado) {
             //MensajeCorrecto(resultado, true);

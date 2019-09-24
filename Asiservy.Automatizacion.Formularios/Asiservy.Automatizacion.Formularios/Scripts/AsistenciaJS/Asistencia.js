@@ -1,4 +1,33 @@
-﻿function ConsultarBiometrico(fila,cedula) {
+﻿
+function ConsultarSiExisteAsistencia() {
+    $('#PartialAsistencia').empty();
+    $.ajax({
+        //contentType: "application/json; charset=utf-8",
+        url: '../Asistencia/ConsultarExistenciaAsistencia',
+        type: "POST",
+        data: {
+            Turno: $('#TurnoGen').val()
+        },
+        success: function (resultado) {
+            $('#Existe').val(resultado);
+
+            if (resultado == 0)
+            {
+                $('#GenerarAsistencia').show();
+                
+            }
+            if (resultado == 1)
+            {
+                GenerarAsistenciaDiaria($('#CodLinea').val(), resultado);
+            }
+        },
+        error: function (result) {
+            Console.log(result);
+            //MensajeError(result, false);
+        }
+    });
+}
+function ConsultarBiometrico(fila, cedula) {
     //alert("hola");
     var indice = fila - 1;
     $.ajax({
@@ -39,10 +68,12 @@ function GenerarAsistenciaDiaria(IdLinea, bandera) {
     var turno;
     if (bandera == 0) {
         $('#GenerarAsistencia').prop("disabled", true);
-        turno = $('#TurnoGen').val();
-    } else {
-        turno = $('#TurnoCons').val();
+        
     }
+    turno = $('#TurnoGen').val();
+    //else {
+    //    turno = $('#TurnoCons').val();
+    //}
     $.ajax({
         url: '../Asistencia/AsistenciaPartial',
         type: 'POST',

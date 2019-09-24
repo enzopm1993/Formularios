@@ -47,6 +47,33 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #region Asistencia
         // GET: Asistencia
         [Authorize]
+        public JsonResult ConsultarExistenciaAsistencia(string Turno)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');
+                clsDAsistencia = new clsDAsistencia();
+                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1],Turno);
+                return Json(AsitenciaExiste, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+               
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
+        [Authorize]
         public ActionResult Asistencia()
         {
             try
@@ -55,13 +82,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 clsDGeneral = new clsDGeneral();
                 liststring = User.Identity.Name.Split('_');
-                clsDAsistencia = new clsDAsistencia();
-                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1]);
-                ViewBag.AsistenciaExiste = AsitenciaExiste;
-                //var Asistencia = clsDAsistencia.ObtenerAsistenciaDiaria(liststring[1]);
+                //clsDAsistencia = new clsDAsistencia();
+                //int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1]);
+                //ViewBag.AsistenciaExiste = AsitenciaExiste;
+                ////var Asistencia = clsDAsistencia.ObtenerAsistenciaDiaria(liststring[1]);
                 ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(liststring[1]);
                 ViewBag.CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
-                //Asistencia.ControlAsistencia.ForEach(a=>a.Hora= hora);
+                ////Asistencia.ControlAsistencia.ForEach(a=>a.Hora= hora);
 
                 return View(/*Asistencia*/);
             }
@@ -91,10 +118,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 clsDGeneral = new clsDGeneral();
                 liststring = User.Identity.Name.Split('_');
-                clsDAsistencia = new clsDAsistencia();
-                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1]);
-                ViewBag.AsistenciaExiste = AsitenciaExiste;
-                //var Asistencia = clsDAsistencia.ObtenerAsistenciaDiaria(liststring[1]);
+                //clsDAsistencia = new clsDAsistencia();
+                //int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1],"1");
+                //ViewBag.AsistenciaExiste = AsitenciaExiste;
+                ////var Asistencia = clsDAsistencia.ObtenerAsistenciaDiaria(liststring[1]);
                 ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(liststring[1]);
                 ViewBag.CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
                 return View();
@@ -117,7 +144,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
         [HttpPost]
-        public ActionResult AsistenciaGeneralPartial(string CodLinea, int BanderaExiste)
+        public ActionResult AsistenciaGeneralPartial(string CodLinea, int BanderaExiste, string turno)
         {
             try
             {
@@ -128,7 +155,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress);
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, turno);
                 clsApiUsuario = new clsApiUsuario();
                 DateTime? pdUltimaMarcacion;
                 foreach (var item in AsistenciaViewModel.ControlAsistencia)
@@ -346,7 +373,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress);
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, Turno);
                 clsApiUsuario = new clsApiUsuario();
                 DateTime? pdUltimaMarcacion;
                 foreach (var item in AsistenciaViewModel.ControlAsistencia)
