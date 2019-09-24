@@ -146,8 +146,12 @@
           <Property Name="IdControlHueso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Linea" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
-          <Property Name="Hora" Type="time" Precision="7" Nullable="false" />
+          <Property Name="HoraInicio" Type="time" Precision="7" Nullable="false" />
+          <Property Name="HoraFin" Type="time" Precision="7" Nullable="false" />
           <Property Name="Lote" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="OrdenFabricacion" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TipoControlHueso" Type="int" Nullable="false" />
+          <Property Name="Observacion" Type="varchar" MaxLength="500" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -896,19 +900,19 @@
           <FunctionImport Name="spConsultaLimpiadorasControlHueso" ReturnType="Collection(ASIS_PRODModel.spConsultaLimpiadorasControlHueso)">
           <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_ConsultaAsistenciaGeneralDiaria" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaAsistenciaGeneralDiaria)">
+            <Parameter Name="codLinea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaControlHueso" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHueso)">
+          <Parameter Name="IdControlHueso" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="CONTROL_HUESO" EntityType="ASIS_PRODModel.CONTROL_HUESO" />
           <EntitySet Name="CONTROL_HUESO_DETALLE" EntityType="ASIS_PRODModel.CONTROL_HUESO_DETALLE" />
           <AssociationSet Name="FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" Association="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO">
             <End Role="CONTROL_HUESO" EntitySet="CONTROL_HUESO" />
             <End Role="CONTROL_HUESO_DETALLE" EntitySet="CONTROL_HUESO_DETALLE" />
           </AssociationSet>
-          <FunctionImport Name="sp_ConsultaAsistenciaGeneralDiaria" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaAsistenciaGeneralDiaria)">
-            <Parameter Name="codLinea" Mode="In" Type="String" />
-            <Parameter Name="Turno" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="spConsultaControlHueso" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHueso)">
-            <Parameter Name="IdControlHueso" Mode="In" Type="Int32" />
-          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -1339,6 +1343,34 @@
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="LINEA" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="sp_ConsultaAsistenciaGeneralDiaria">
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="IdAsistencia" Nullable="true" />
+          <Property Type="Int32" Name="Bloquear" Nullable="true" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="EstadoAsistencia" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
+          <Property Type="Time" Name="Hora" Nullable="true" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaCreacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioCreacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalCreacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spConsultaControlHueso">
+          <Property Type="Int32" Name="IdDetalle" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="CantidadHueso" Nullable="true" />
+          <Property Type="String" Name="Lote" Nullable="true" MaxLength="10" />
+          <Property Type="Time" Name="Hora" Nullable="true" />
+        </ComplexType>
         <EntityType Name="CONTROL_HUESO">
           <Key>
             <PropertyRef Name="IdControlHueso" />
@@ -1346,8 +1378,12 @@
           <Property Name="IdControlHueso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Linea" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Hora" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="HoraInicio" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="HoraFin" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Lote" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OrdenFabricacion" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TipoControlHueso" Type="Int32" Nullable="false" />
+          <Property Name="Observacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -1386,34 +1422,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="sp_ConsultaAsistenciaGeneralDiaria">
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="IdAsistencia" Nullable="true" />
-          <Property Type="Int32" Name="Bloquear" Nullable="true" />
-          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="EstadoAsistencia" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
-          <Property Type="Time" Name="Hora" Nullable="true" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="Linea" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaCreacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioCreacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalCreacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="spConsultaControlHueso">
-          <Property Type="Int32" Name="IdDetalle" Nullable="false" />
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="CantidadHueso" Nullable="true" />
-          <Property Type="String" Name="Lote" Nullable="true" MaxLength="10" />
-          <Property Type="Time" Name="Hora" Nullable="true" />
-        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2054,41 +2062,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="CONTROL_HUESO">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_HUESO">
-              <MappingFragment StoreEntitySet="CONTROL_HUESO">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="IdControlHueso" ColumnName="IdControlHueso" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CONTROL_HUESO_DETALLE">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_HUESO_DETALLE">
-              <MappingFragment StoreEntitySet="CONTROL_HUESO_DETALLE">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="CantidadHueso" ColumnName="CantidadHueso" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="IdControlHueso" ColumnName="IdControlHueso" />
-                <ScalarProperty Name="IdControlHuesoDetalle" ColumnName="IdControlHuesoDetalle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_ConsultaAsistenciaGeneralDiaria" FunctionName="ASIS_PRODModel.Store.sp_ConsultaAsistenciaGeneralDiaria">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_ConsultaAsistenciaGeneralDiaria">
@@ -2125,6 +2098,45 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CONTROL_HUESO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_HUESO">
+              <MappingFragment StoreEntitySet="CONTROL_HUESO">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="TipoControlHueso" ColumnName="TipoControlHueso" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="IdControlHueso" ColumnName="IdControlHueso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CONTROL_HUESO_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_HUESO_DETALLE">
+              <MappingFragment StoreEntitySet="CONTROL_HUESO_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="CantidadHueso" ColumnName="CantidadHueso" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdControlHueso" ColumnName="IdControlHueso" />
+                <ScalarProperty Name="IdControlHuesoDetalle" ColumnName="IdControlHuesoDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
