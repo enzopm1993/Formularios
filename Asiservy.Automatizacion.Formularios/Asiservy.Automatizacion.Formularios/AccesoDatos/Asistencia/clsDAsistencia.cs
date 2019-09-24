@@ -11,6 +11,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
     public class clsDAsistencia
     {
         List<sp_ConsultaAsistenciaDiaria> pListAsistencia = null;
+        List<sp_ConsultaAsistenciaGeneralDiaria> pListAsistenciaGeneral = null;
+        List<ASISTENCIA> pListAsistenciaExiste = null;
 
         List<sp_ConsultaAsistenciaDiariaPersonalMovido> pListAsistenciaMovidos = null;
         spConsutaEmpleados BuscarControlador = null;
@@ -55,10 +57,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
+                DateTime fechaInicio = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+                DateTime fechaFin= Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
-                pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1).ToList();
+                //pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1).ToList();
+                pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin && x.Linea== BuscarControlador.CODIGOLINEA &&x.Turno=="1").ToList();
             }
-            if (pListAsistencia.ToList().Count == 0)
+            //if (pListAsistencia.ToList().Count == 0)
+            if (pListAsistenciaExiste.ToList().Count == 0)
                 return 0;
             else
                 return 1;
@@ -74,6 +80,53 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return 0;
             else
                 return 1;
+        }
+        public ControlDeAsistenciaGeneralViewModel ObtenerAsistenciaGeneralDiaria(string CodLinea, int BanderaExiste, string usuario, string terminal)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                List<ASISTENCIA> ControlAsistencia = null;
+                clsDCambioPersonal clsDCambioPersonal = new clsDCambioPersonal();
+
+                ControlDeAsistenciaGeneralViewModel ControlAsistenciaGeneralViewModel = null;
+                if (BanderaExiste == 0)
+                {
+
+                    List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", CodLinea, "0").Where(x => x.CODIGOCARGO != "221").ToList();
+                    ControlAsistencia = new List<ASISTENCIA>();
+                    foreach (var item in ListaEmpleados)
+                    {
+                        var FueMovidoAOtraArea = clsDCambioPersonal.ConsultarCambioPersonal(item.CEDULA);
+                        if (FueMovidoAOtraArea == null)
+                            ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CODIGOLINEA, Turno = "1", Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A" });
+
+                    }
+                    var PersonalMovidoAEstaLinea = clsDCambioPersonal.ConsultarCambioPersonalxLinea(CodLinea);
+                    foreach (var item in PersonalMovidoAEstaLinea)
+                    {
+                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = "1", Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A" });
+
+                    }
+                    db.ASISTENCIA.AddRange(ControlAsistencia);
+                    db.SaveChanges();
+                    pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, 1).ToList();
+                    pListAsistenciaGeneral.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    ControlAsistenciaGeneralViewModel = new ControlDeAsistenciaGeneralViewModel
+                    {
+                        ControlAsistencia = pListAsistenciaGeneral.OrderBy(z => z.NOMBRES).ToList()
+                    };
+                }
+                else
+                {
+                    pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, 1).ToList();
+                    pListAsistenciaGeneral.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    ControlAsistenciaGeneralViewModel = new ControlDeAsistenciaGeneralViewModel
+                    {
+                        ControlAsistencia = pListAsistenciaGeneral.OrderBy(z => z.NOMBRES).ToList()
+                    };
+                }
+                return ControlAsistenciaGeneralViewModel;
+            }
         }
         public ControlDeAsistenciaViewModel ObtenerAsistenciaDiaria(string CodLinea, int BanderaExiste, string usuario, string terminal)
         {

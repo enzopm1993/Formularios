@@ -2,8 +2,45 @@
 @{
     ViewBag.Title = "AsistenciaGeneral";
 }
-
+<script src="~/Scripts/AsistenciaJS/AsistenciaGeneral.js"></script>
 <h2>AsistenciaGeneral</h2>
+<div style="padding-top: 10px; padding-bottom: 100px">
+
+    <h4 class="custom-control-inline">Fecha: &nbsp; @DateTime.Now.ToString("dd-MM-yyyy") </h4>
+    <br />
+    <label>@ViewBag.Linea</label>
+    <br />
+    @if (ViewBag.AsistenciaExiste == 0)
+    {
+
+        <center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiariaGeneral('@ViewBag.CodLinea','0');" /></center>
+    }
+    else
+    {
+        <script>
+            //console.log("hola mundo");
+
+            $(document).ready(function () {
+                GenerarAsistenciaDiariaGeneral('@ViewBag.CodLinea','1');
+                //  Nuevo();
+            });
+
+
+        </script>
+    }
+
+
+
+    <div class="table-responsive" id="PartialAsistencia">
+
+
+    </div>
+
+</div>
+<div id="ModalMensaje"> </div>
+
+<link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
+<script src="~/Scripts/Mensajes/Mensajes.js"></script>
 
 
 

@@ -1,0 +1,101 @@
+﻿@model Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaGeneralViewModel
+
+<div style="padding-top: 10px; padding-bottom: 100px">
+    @Html.HiddenFor(z => z.ControlAsistencia[0].Turno)
+    @Html.Hidden("EstadoControlCuchillo", "1")
+
+    <div class="table-responsive">
+
+        <table class="table " id="TableCuchillos">
+            <tr class="text-center">
+                <td class="align-bottom"  hidden></td>
+                <td class="align-bottom" ></td>
+                <td class="align-bottom" ><b> Personal</b></td>
+                <td class="align-bottom" ><b>Hora</b> </td>
+
+                <td class="align-bottom" ><b>Observación</b> </td>
+                <td class="align-bottom"><b>Check</b> </td>
+                <td class="align-bottom" ><b>Estado</b> </td>
+                <td class="align-bottom" ></td>
+               
+            </tr>
+            
+            @{
+                int cont = 0;
+            }
+            @foreach (var item in Model.ControlAsistencia)
+            {
+                cont++;
+                string color = "";
+                if (item.Bloquear == 1) { color = "#E3D6D3"; } else { color = "FFFFFF"; }
+
+                if (item.Bloquear == 1)
+                {
+                    <script>DeshabilitarControles('@cont')</script>
+                }
+                <tr bgcolor="@color" id="@cont">
+                    <td hidden>
+                        @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Cedula)
+                    </td>
+
+                    <td>
+                        @cont
+                    </td>
+                    <td>
+                        @*@Html.TextBoxFor(z => z.ControlAsistencia[cont - 1].NOMBRES, new { style = "width:100%; border: 0;", @readonly = true })*@
+                        @item.NOMBRES
+
+                    </td>
+                    <td>
+                        @*<input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />*@
+                        @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Hora, new { type = "time", @class = "form-control" })
+                    </td>
+
+                    <td class="text-center">
+                        <div>
+                            @*<input type="text" class="form-control-plaintext" id="Observacion" placeholder="Observacion">*@
+                            @Html.TextAreaFor(x => x.ControlAsistencia[cont - 1].Observacion, new { @row = "2" })
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <label class="btn btn-light text-xs-center" id="LabelAsistencia-@cont">
+
+                            @if (item.EstadoAsistencia == "1" || item.EstadoAsistencia == "2")
+                            {
+                                <script> PintarCHeck('@cont');</script>}
+                            @*<input type="checkbox" autocomplete="on" onchange="fillBook(0)" id="CheckAsistencia">*@
+                            <input type="checkbox" autocomplete="on" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');" id="CheckAsistencia-@cont">
+                        </label>
+                    </td>
+                    <td>
+                        @*<select class="custom-select" id="SelectEstado" onchange="CambioEstado(1)">
+                                <option selected>Seleccione</option>
+                                <option value="1">Presente</option>
+                                <option value="2">Atraso</option>
+                                <option value="3">Falta</option>
+                            </select>*@
+                        @Html.DropDownListFor(model => model.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "", @witdh = "200px", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','combo')" })
+                    </td>
+                    <td>
+                        <center>
+                            @if (item.Observacion == "No ha marcado en el biométrico")
+                            {
+                                <img src="~/Content/images/actualizar.png" width="30" id="actualizar-@cont" height="30" style="cursor: pointer" onclick="ConsultarBiometrico('@cont','@item.Cedula')" />
+                            }
+                        </center>
+                    </td>
+
+                   
+                </tr>
+            }
+            <tr>
+        </table>
+
+        @*<div class="text-center" style="width:100%">
+                <button type="button" class="btn btn-info" onclick="Mensaje('Registro Exitoso')">GUARDAR</button>
+            </div>*@
+
+
+    </div>
+
+</div>

@@ -13,10 +13,22 @@
     @if (ViewBag.AsistenciaExiste == 0)
     {
 
-        <center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0');"/></center>
+        <select name="TurnoGen" id="TurnoGen" class="browser-default custom-select">
+            <option selected>Seleccione</option>
+            <option value="1">Turno 1</option>
+            <option value="2">Turno 2</option>
+
+        </select>
+
+        <center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0');" /></center>
     }
     else
     {
+        <select name="TurnoCons" id="TurnoCons" class="browser-default custom-select">
+            <option selected>Seleccione</option>
+            <option value="1">Turno 1</option>
+            <option value="2">Turno 2</option>
+        </select>
         <script>
             //console.log("hola mundo");
 
@@ -25,7 +37,7 @@
                 //  Nuevo();
             });
 
-             
+
         </script>
     }
 

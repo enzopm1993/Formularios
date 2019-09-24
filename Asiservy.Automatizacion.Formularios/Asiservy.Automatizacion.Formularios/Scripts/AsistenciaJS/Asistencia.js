@@ -36,15 +36,20 @@ function DeshabilitarControles(fila) {
 function GenerarAsistenciaDiaria(IdLinea, bandera) {
     MostrarModalCargando();
     //console.log("hola");
+    var turno;
     if (bandera == 0) {
         $('#GenerarAsistencia').prop("disabled", true);
+        turno = $('#TurnoGen').val();
+    } else {
+        turno = $('#TurnoCons').val();
     }
     $.ajax({
         url: '../Asistencia/AsistenciaPartial',
         type: 'POST',
         data: {
             CodLinea: IdLinea,
-            BanderaExiste: bandera
+            BanderaExiste: bandera,
+            Turno: turno
         },
         success: function (resultado) {
             //MensajeCorrecto(resultado, true);

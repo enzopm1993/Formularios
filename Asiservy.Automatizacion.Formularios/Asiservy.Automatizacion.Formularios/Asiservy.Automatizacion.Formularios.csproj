@@ -318,6 +318,7 @@
     <Content Include="Content\SolicitudPermisoCss\SolicitudPermisoMedico.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\AsistenciaJS\Asistencia.js" />
+    <Content Include="Scripts\AsistenciaJS\AsistenciaGeneral.js" />
     <Content Include="Scripts\AsistenciaJS\AsistenciaPrestados.js" />
     <Content Include="Scripts\AsistenciaJS\BitacoraCambioPersonal.js" />
     <Content Include="Scripts\AsistenciaJS\CambiarPersonal.js" />
@@ -658,6 +659,7 @@
     <Compile Include="Models\Asistencia\BitacoraCambioPersonalModelView.cs" />
     <Compile Include="Models\Asistencia\CambioDePersonalViewModel.cs" />
     <Compile Include="Models\Asistencia\ControlCuchilloViewModel.cs" />
+    <Compile Include="Models\Asistencia\ControlDeAsistenciaGeneralViewModel.cs" />
     <Compile Include="Models\Asistencia\ControlDeAsistenciaPrestadosViewModel.cs" />
     <Compile Include="Models\Asistencia\ControlDeAsistenciaViewModel.cs" />
     <Compile Include="Models\Asistencia\EmpleadoCuchilloViewModel.cs" />
@@ -751,6 +753,7 @@
     <Content Include="Views\Asistencia\AsistenciaPrestado.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaPrestadoPartial.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaGeneral.cshtml" />
+    <Content Include="Views\Asistencia\AsistenciaGeneralPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
