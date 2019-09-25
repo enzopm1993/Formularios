@@ -127,7 +127,8 @@ function GenerarControlHueso() {
         MensajeAdvertencia("Ingrese rango de horas");
         return;
 
-    }   
+    }
+    MostrarModalCargando();
     $('#btnGenerar').prop("disabled", true);     
     $.ajax({
         url: "../Empleado/GenerarControlHueso",
@@ -146,17 +147,18 @@ function GenerarControlHueso() {
                 MensajeAdvertencia("Ya se ha generado un control con esos parametros");
                 return;
             }
-            if (TipoControlHueso == 1 || TipoControlHueso == 4)
+            if (tipoControl == 1 || tipoControl == 4)
                 CargarControlHuesoDetalle(resultado);
             else
                 NuevoControlHueso();
             $('#btnGenerar').prop("disabled", false);
 
-
+            CerrarModalCargando();
         },
         error: function (resultado) {
             MensajeError(resultado.responseJSON, false);
             $('#btnGenerar').prop("disabled", false);
+            CerrarModalCargando();
 
         }
     });
@@ -223,12 +225,15 @@ function checkControlHueso(id, detalle) {
     id = "#" + id;
     label = "#labelCheck-" + detalle;
     var txtHueso = '#Huesos-' + detalle;
+    var txtMiga = '#Miga-' + detalle;
     var huesos = $(txtHueso).val();
+    var miga = $(txtMiga).val();
     if ($(id).prop('checked')) {
         if (huesos > 0) {
             $(label).css("background", "#28B463");
             $(txtHueso).prop("readonly", true);
-            GuardarControlHueso(detalle, huesos);
+            $(txtMiga).prop("readonly", true);
+            GuardarControlHueso(detalle, huesos, miga, id);
         } else {
             $(id).prop('checked', false);
             $(label).css("background", "#7b8a8b");
@@ -237,25 +242,36 @@ function checkControlHueso(id, detalle) {
     } else {
         $(label).css("background", "#7b8a8b");
         $(txtHueso).prop("readonly", false);
-        GuardarControlHueso(detalle, 0);
+        $(txtMiga).prop("readonly", false);
+        GuardarControlHueso(detalle, 0, 0, id);
 
     }
 }
 
 
-function GuardarControlHueso(detalle, hueso) {
+function GuardarControlHueso(detalle, hueso, miga, id) {
+    
+    label = "#labelCheck-" + detalle; var txtHueso = '#Huesos-' + detalle;
+    var txtMiga = '#Miga-' + detalle;
+
         $.ajax({
             url: "../Empleado/GuardarControlHueso",
-            type: "GET",
+            type: "POST",
             data: {
                 IdControlHuesoDetalle: detalle,
-                CantidadHueso: hueso
+                CantidadHueso: hueso,
+                diMiga: miga
             },
             success: function (resultado) {                
 
             },
             error: function (resultado) {
+
                 MensajeError(resultado.responseJSON, false);
+                $(txtHueso).prop("readonly", false);
+                $(txtMiga).prop("readonly", false);
+                $(id).prop('checked', false);
+                $(label).css("background", "#7b8a8b");
             }
         });   
 

@@ -16,7 +16,9 @@
         <th>
             <label>Huesos</label>
         </th>
-
+        <th>
+            <label>Miga</label>
+        </th>
 
         <th></th>
     </tr>
@@ -36,7 +38,9 @@
             <td>
                 @Html.TextBoxFor(modelItem => item.CantidadHueso, new {@type="number" ,@class = "form-control", @id="Huesos-"+item.IdDetalle })
             </td>
-
+            <td>
+                @Html.TextBoxFor(modelItem => item.Miga, new { @type = "number", @class = "form-control", @id = "Miga-" + item.IdDetalle })          
+            </td>
             <td>
                 <label class="btn btn-dark text-xs-center" id="labelCheck-@item.IdDetalle">
                     @Html.CheckBox("Check" + item.IdDetalle, item.CantidadHueso > 0, new { @onchange = "checkControlHueso(this.id,'" + item.IdDetalle + "')" })

@@ -632,6 +632,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCuchillo.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDControlHueso.cs" />
+    <Compile Include="AccesoDatos\Empleado\clsDControlMiga.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
     <Compile Include="AccesoDatos\General\clsApiUsuario.cs" />
     <Compile Include="AccesoDatos\General\clsDClasificador.cs" />

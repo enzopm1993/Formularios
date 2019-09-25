@@ -20,6 +20,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDEmpleadoEsfero clsDEmpleadoEsfero = null;
         clsDControlHueso clsDControlHueso = null;
         clsDClasificador clsDClasificador = null;
+        clsDControlMiga clsDControlMiga = null;
 
         #region EMPLEADO ESFERO
 
@@ -585,7 +586,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [Authorize]
-        public ActionResult GuardarControlHueso(CONTROL_HUESO_DETALLE detalle)
+        [HttpPost]
+        public ActionResult GuardarControlHueso(CONTROL_HUESO_DETALLE detalle,decimal diMiga)
         {
             try
             {
@@ -597,8 +599,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 Usuario = User.Identity.Name.Split('_');
                 clsDControlHueso = new clsDControlHueso();
+                clsDControlMiga = new clsDControlMiga();
                 detalle.UsuarioIngresoLog = Usuario[0];
                 detalle.TerminalIngresoLog = Request.UserHostAddress;
+                this.clsDControlMiga.GuardarModificarControlMiga(new CONTROL_MIGA {
+                    IdControlHuesoMiga = detalle.IdControlHuesoDetalle,
+                    Miga = diMiga,
+                    EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                    FechaIngresoLog = DateTime.Now,
+                    UsuarioIngresoLog = Usuario[0],
+                    TerminalIngresoLog = Request.UserHostAddress
+                });
                 var respuesta = clsDControlHueso.GuardarModificarControlHueso(detalle);
               
                 return Json(respuesta, JsonRequestBehavior.AllowGet);
