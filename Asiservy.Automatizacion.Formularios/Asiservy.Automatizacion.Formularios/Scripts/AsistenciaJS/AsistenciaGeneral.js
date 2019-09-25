@@ -1,28 +1,34 @@
 ﻿function ConsultarSiExisteAsistencia() {
-    $('#PartialAsistencia').empty();
-    $.ajax({
-        //contentType: "application/json; charset=utf-8",
-        url: '../Asistencia/ConsultarExistenciaAsistencia',
-        type: "POST",
-        data: {
-            Turno: $('#TurnoGen').val()
-        },
-        success: function (resultado) {
-            $('#Existe').val(resultado);
+    if ($('#TurnoGen').prop('selectedIndex') == 0) {
+        $('#GenerarAsistencia').hide();
+        MensajeError("Debe seleccionar un turno", false);
+    } else {
+        $('#PartialAsistencia').empty();
+        $.ajax({
+            //contentType: "application/json; charset=utf-8",
+            url: '../Asistencia/ConsultarExistenciaAsistenciaGeneral',
+            type: "POST",
+            data: {
+                Turno: $('#TurnoGen').val()
+            },
+            success: function (resultado) {
+                $('#Existe').val(resultado);
 
-            if (resultado == 0) {
-                $('#GenerarAsistencia').show();
+                if (resultado == 0) {
+                    $('#GenerarAsistencia').show();
 
+                }
+                if (resultado == 1) {
+                    GenerarAsistenciaDiariaGeneral($('#CodLinea').val(), resultado);
+                    $('#GenerarAsistencia').hide();
+                }
+            },
+            error: function (result) {
+                //Console.log(result);
+                //MensajeError(result, false);
             }
-            if (resultado == 1) {
-                GenerarAsistenciaDiariaGeneral($('#CodLinea').val(), resultado);
-            }
-        },
-        error: function (result) {
-            Console.log(result);
-            //MensajeError(result, false);
-        }
-    });
+        });
+    }
 }
 function GenerarAsistenciaDiariaGeneral(IdLinea, bandera) {
     MostrarModalCargando();
@@ -30,6 +36,7 @@ function GenerarAsistenciaDiariaGeneral(IdLinea, bandera) {
     var turno;
     if (bandera == 0) {
         $('#GenerarAsistenciaMovidos').prop("disabled", true);
+        $('#GenerarAsistencia').hide();
     }
     turno = $('#TurnoGen').val();
     $.ajax({
@@ -73,7 +80,7 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
     $('#CheckAsistencia-' + indice).prop("disabled", true);
     $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", true);
     if (ComboOCheck == 'check') {
-        if ($('#ControlAsistencia_0__Turno').val() == '1') {
+        if ($('#TurnoGen').val() == '1') {
             if (hora > 7) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('2');
             }
@@ -81,7 +88,7 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('1');
             }
         }
-        if ($('#ControlAsistencia_0__Turno').val() == '2') {
+        if ($('#TurnoGen').val() == '2') {
             if (hora > 18) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('2');
             }

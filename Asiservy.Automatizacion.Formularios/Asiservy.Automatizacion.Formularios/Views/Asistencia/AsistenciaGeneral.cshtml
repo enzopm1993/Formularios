@@ -10,6 +10,7 @@
     <br />
     <label>@ViewBag.Linea</label>
     @Html.Hidden("Existe")
+    <br />
     Turno: <input type="hidden" name="CodLinea" id="CodLinea" value="@ViewBag.CodLinea" />
     <br />
     @*@if (ViewBag.AsistenciaExiste == 0)
@@ -21,8 +22,8 @@
         <option value="2">Turno 2</option>
     </select>
 
-    <center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiariaGeneral('@ViewBag.CodLinea','0');" /></center>
-    //}
+    <center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiariaGeneral('@ViewBag.CodLinea','0');" style="display:none" /></center>
+    @*//}*@
     @*else
         {
             <script>
