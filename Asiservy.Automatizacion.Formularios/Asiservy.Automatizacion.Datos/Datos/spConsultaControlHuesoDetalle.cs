@@ -18,6 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Nombre { get; set; }
         public string Linea { get; set; }
         public Nullable<int> CantidadHueso { get; set; }
+        public Nullable<decimal> Miga { get; set; }
         public string Lote { get; set; }
         public Nullable<System.TimeSpan> HoraInicio { get; set; }
         public Nullable<System.TimeSpan> HoraFin { get; set; }

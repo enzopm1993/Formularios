@@ -12,12 +12,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CONTROL_HUESO_DETALLE
+    public partial class CONTROL_MIGA
     {
-        public int IdControlHuesoDetalle { get; set; }
-        public int IdControlHueso { get; set; }
-        public string Cedula { get; set; }
-        public int CantidadHueso { get; set; }
+        public int IdControlHuesoMiga { get; set; }
+        public decimal Miga { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -26,7 +24,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CONTROL_HUESO CONTROL_HUESO { get; set; }
-        public virtual CONTROL_MIGA CONTROL_MIGA { get; set; }
+        public virtual CONTROL_HUESO_DETALLE CONTROL_HUESO_DETALLE { get; set; }
     }
 }

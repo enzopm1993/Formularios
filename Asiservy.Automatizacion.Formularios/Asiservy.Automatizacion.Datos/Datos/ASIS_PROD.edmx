@@ -177,6 +177,20 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CONTROL_MIGA">
+          <Key>
+            <PropertyRef Name="IdControlHuesoMiga" />
+          </Key>
+          <Property Name="IdControlHuesoMiga" Type="int" Nullable="false" />
+          <Property Name="Miga" Type="decimal" Precision="2" Scale="2" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CUCHILLO">
           <Key>
             <PropertyRef Name="NumeroCuchillo" />
@@ -443,6 +457,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE">
+          <End Role="CONTROL_HUESO_DETALLE" Type="Self.CONTROL_HUESO_DETALLE" Multiplicity="1" />
+          <End Role="CONTROL_MIGA" Type="Self.CONTROL_MIGA" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_HUESO_DETALLE">
+              <PropertyRef Name="IdControlHuesoDetalle" />
+            </Principal>
+            <Dependent Role="CONTROL_MIGA">
+              <PropertyRef Name="IdControlHuesoMiga" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OPCION_ROL_OPCION">
           <End Role="OPCION" Type="Self.OPCION" Multiplicity="0..1" />
           <End Role="OPCION_ROL" Type="Self.OPCION_ROL" Multiplicity="*" />
@@ -575,6 +601,7 @@
           <EntitySet Name="CONTROL_ESFERO" EntityType="Self.CONTROL_ESFERO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_HUESO" EntityType="Self.CONTROL_HUESO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_HUESO_DETALLE" EntityType="Self.CONTROL_HUESO_DETALLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CONTROL_MIGA" EntityType="Self.CONTROL_MIGA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CUCHILLO" EntityType="Self.CUCHILLO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EMPLEADO_CUCHILLO" EntityType="Self.EMPLEADO_CUCHILLO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EMPLEADO_ESFERO" EntityType="Self.EMPLEADO_ESFERO" Schema="dbo" store:Type="Tables" />
@@ -601,6 +628,10 @@
           <AssociationSet Name="FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" Association="Self.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO">
             <End Role="CONTROL_HUESO" EntitySet="CONTROL_HUESO" />
             <End Role="CONTROL_HUESO_DETALLE" EntitySet="CONTROL_HUESO_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE" Association="Self.FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE">
+            <End Role="CONTROL_HUESO_DETALLE" EntitySet="CONTROL_HUESO_DETALLE" />
+            <End Role="CONTROL_MIGA" EntitySet="CONTROL_MIGA" />
           </AssociationSet>
           <AssociationSet Name="FK_OPCION_ROL_OPCION" Association="Self.FK_OPCION_ROL_OPCION">
             <End Role="OPCION" EntitySet="OPCION" />
@@ -926,15 +957,20 @@
             <Parameter Name="CodLinea" Mode="In" Type="String" />
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaControlHuesoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHuesoDetalle)">
-          <Parameter Name="IdControlHueso" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaControlHueso" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHueso)">
           <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spConsultarCambioPersonalxLineaxTurno" ReturnType="Collection(ASIS_PRODModel.spConsultarCambioPersonalxLineaxTurno)">
             <Parameter Name="Linea" Mode="In" Type="String" />
             <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="CONTROL_MIGA" EntityType="ASIS_PRODModel.CONTROL_MIGA" />
+          <AssociationSet Name="FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE" Association="ASIS_PRODModel.FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE">
+            <End Role="CONTROL_HUESO_DETALLE" EntitySet="CONTROL_HUESO_DETALLE" />
+            <End Role="CONTROL_MIGA" EntitySet="CONTROL_MIGA" />
+          </AssociationSet>
+          <FunctionImport Name="spConsultaControlHuesoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHuesoDetalle)">
+            <Parameter Name="IdControlHueso" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -1424,6 +1460,7 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CONTROL_HUESO" Relationship="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" FromRole="CONTROL_HUESO_DETALLE" ToRole="CONTROL_HUESO" />
+          <NavigationProperty Name="CONTROL_MIGA" Relationship="ASIS_PRODModel.FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE" FromRole="CONTROL_HUESO_DETALLE" ToRole="CONTROL_MIGA" />
         </EntityType>
         <Association Name="FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO">
           <End Type="ASIS_PRODModel.CONTROL_HUESO" Role="CONTROL_HUESO" Multiplicity="1" />
@@ -1448,16 +1485,6 @@
           <Property Type="String" Name="CARGO" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="TURNO" Nullable="true" MaxLength="1" />
         </ComplexType>
-        <ComplexType Name="spConsultaControlHuesoDetalle">
-          <Property Type="Int32" Name="IdDetalle" Nullable="false" />
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="CantidadHueso" Nullable="true" />
-          <Property Type="String" Name="Lote" Nullable="true" MaxLength="10" />
-          <Property Type="Time" Name="HoraInicio" Nullable="true" />
-          <Property Type="Time" Name="HoraFin" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="spConsultaControlHueso">
           <Property Type="Int32" Name="IdControlHueso" Nullable="false" />
           <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
@@ -1475,6 +1502,44 @@
         <ComplexType Name="spConsultarCambioPersonalxLineaxTurno">
           <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <EntityType Name="CONTROL_MIGA">
+          <Key>
+            <PropertyRef Name="IdControlHuesoMiga" />
+          </Key>
+          <Property Name="IdControlHuesoMiga" Type="Int32" Nullable="false" />
+          <Property Name="Miga" Type="Decimal" Nullable="false" Precision="2" Scale="2" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CONTROL_HUESO_DETALLE" Relationship="ASIS_PRODModel.FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE" FromRole="CONTROL_MIGA" ToRole="CONTROL_HUESO_DETALLE" />
+        </EntityType>
+        <Association Name="FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE">
+          <End Type="ASIS_PRODModel.CONTROL_HUESO_DETALLE" Role="CONTROL_HUESO_DETALLE" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CONTROL_MIGA" Role="CONTROL_MIGA" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_HUESO_DETALLE">
+              <PropertyRef Name="IdControlHuesoDetalle" />
+            </Principal>
+            <Dependent Role="CONTROL_MIGA">
+              <PropertyRef Name="IdControlHuesoMiga" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spConsultaControlHuesoDetalle">
+          <Property Type="Int32" Name="IdDetalle" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="CantidadHueso" Nullable="true" />
+          <Property Type="Decimal" Name="Miga" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="Lote" Nullable="true" MaxLength="10" />
+          <Property Type="Time" Name="HoraInicio" Nullable="true" />
+          <Property Type="Time" Name="HoraFin" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2194,20 +2259,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaControlHuesoDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaControlHuesoDetalle">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlHuesoDetalle">
-                <ScalarProperty Name="IdDetalle" ColumnName="IdDetalle" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="CantidadHueso" ColumnName="CantidadHueso" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaControlHueso" FunctionName="ASIS_PRODModel.Store.spConsultaControlHueso">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlHueso">
@@ -2231,6 +2282,36 @@
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarCambioPersonalxLineaxTurno">
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CONTROL_MIGA">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_MIGA">
+              <MappingFragment StoreEntitySet="CONTROL_MIGA">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Miga" ColumnName="Miga" />
+                <ScalarProperty Name="IdControlHuesoMiga" ColumnName="IdControlHuesoMiga" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlHuesoDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaControlHuesoDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlHuesoDetalle">
+                <ScalarProperty Name="IdDetalle" ColumnName="IdDetalle" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="CantidadHueso" ColumnName="CantidadHueso" />
+                <ScalarProperty Name="Miga" ColumnName="Miga" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
