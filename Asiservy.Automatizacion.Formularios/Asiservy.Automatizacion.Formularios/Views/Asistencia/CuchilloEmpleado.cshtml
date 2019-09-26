@@ -21,7 +21,8 @@
 
             <div class="col-md-3 col-sm-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Cedula, htmlAttributes: new { @class = "control-label col-md-2" })
+                   
+                    <label class="control-label col-md-2">Empleado</label>
                     @if (ViewBag.Empleados != null)
                     {
                         @Html.DropDownListFor(model => model.Cedula, new SelectList(ViewBag.Empleados, "CEDULA", "NOMBRES"), "Seleccione", new { @class = "form-control", @id = "SelectEmpleado" })
