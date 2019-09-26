@@ -19,7 +19,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDControlHueso clsDControlHueso = null;
         clsDClasificador clsDClasificador = null;
         clsDControlMiga clsDControlMiga = null;
-
+        clsDGeneral clsDGeneral = null;
+        clsDLogin clsDLogin = null;
         #region CONTROL HUESOS
         [Authorize]
         public ActionResult ControlHueso()
@@ -284,12 +285,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 clsDClasificador = new clsDClasificador();
-               // var TipoControlHueso = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoTipoControlHuesos, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-                var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
-                ViewBag.Linea = Empleado.LINEA;
-             //   ViewBag.CodLinea = Empleado.CODIGOLINEA;
-              //  ViewBag.TipoControlHueso = TipoControlHueso;
+                clsDGeneral = new clsDGeneral();
+                clsDLogin = new clsDLogin();
 
+                var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+                ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;                
+                List<int?> roles = clsDLogin.ConsultaRolesUsuario(Usuario[1]);
+                if (roles.FirstOrDefault(x=> x.Value ==clsAtributos.RolSupervisorGeneral)!=null)
+                {
+                    ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
+                }
+                ViewBag.ComboLineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro=clsAtributos.EstadoRegistroActivo }); 
                 return View();
             }
             catch (Exception ex)
@@ -312,37 +318,107 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        //[Authorize]
-        //public ActionResult ControlHuesoPartialCabecera()
-        //{
-        //    try
-        //    {
-        //        Usuario = User.Identity.Name.Split('_');
-        //        clsDControlHueso = new clsDControlHueso();
-        //        var model = clsDControlHueso.ConsultaControlHueso(DateTime.Now);
-        //        return PartialView(model);
-        //    }
-        //    catch (Exception ex)
-        //    {
+        [Authorize]
+        public ActionResult ReporteControlAvanceDiarioPartial(DateTime ddFecha,string dsLinea)
+        {
+            try
+            {
+               // Usuario = User.Identity.Name.Split('_');
+                clsDControlHueso = new clsDControlHueso();
+                var model = clsDControlHueso.ConsultaControlAvanceDiarioPorLinea(ddFecha.Date, dsLinea);
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
 
-        //        //SetErrorMessage(ex.Message);
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        Usuario = User.Identity.Name.Split('_');
-        //        clsDError = new clsDError();
-        //        clsDError.GrabarError(new ERROR
-        //        {
-        //            Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            Mensaje = ex.Message,
-        //            Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-        //            FechaIngreso = DateTime.Now,
-        //            TerminalIngreso = Request.UserHostAddress,
-        //            UsuarioIngreso = Usuario[0]
-        //        });
-        //        return Json(ex.Message, JsonRequestBehavior.AllowGet);
-        //    }
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
 
-        //}
+        }
+        [Authorize]
+        public ActionResult ReporteAvanceDiarioPorLimpiadora()
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                clsDClasificador = new clsDClasificador();
+                clsDGeneral = new clsDGeneral();
+                clsDLogin = new clsDLogin();
 
+                var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+                ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;
+                List<int?> roles = clsDLogin.ConsultaRolesUsuario(Usuario[1]);
+                if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral) != null)
+                {
+                    ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
+                }
+                ViewBag.ComboLineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+
+        }
+
+        [Authorize]
+        public ActionResult ReporteAvanceDiarioPorLimpiadoraPartial(DateTime ddFecha, string dsLinea)
+        {
+            try
+            {
+                // Usuario = User.Identity.Name.Split('_');
+                clsDControlHueso = new clsDControlHueso();
+                var model = clsDControlHueso.ConsultaControlAvanceDiarioPorLimpiadora(ddFecha.Date, dsLinea);
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
         #endregion
 
 

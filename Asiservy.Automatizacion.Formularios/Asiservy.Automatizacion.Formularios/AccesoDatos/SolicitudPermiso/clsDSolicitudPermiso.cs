@@ -29,7 +29,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 poSolicitud.FechaModificacionLog = doSolicitud.FechaModificacionLog;
                 poSolicitud.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
                 poSolicitud.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
-                poSolicitud.ValidaMedico = doSolicitud.ValidaMedico;
+                poSolicitud.ValidaMedico = doSolicitud.ValidaMedico??poSolicitud.ValidaMedico;
                 psMensaje = "Registro Actualizado Correctamente";
 
                 BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaAvanceDiarioPorLimpiadora>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Cedula)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th class="text-center">
+            <label>Total Huesos</label>
+        </th>
+        <th class="text-center">
+            <label>Miga Promedio</label>
+        </th>
+        <th class="text-center">
+            <label>Avance %</label>
+        </th>
+     
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cedula)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td class="text-center">
+            @Html.DisplayFor(modelItem => item.TotalHueso)
+        </td>
+        <td class="text-center">
+            @Html.DisplayFor(modelItem => item.Miga)
+        </td>
+        <td class="text-center">
+            @Html.DisplayFor(modelItem => item.Avance)
+        </td>
+       
+    </tr>
+}
+
+</table>

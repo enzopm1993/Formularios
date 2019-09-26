@@ -875,7 +875,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             int piSupervisor=0;
             if (roles.Any())
             {
-                piSupervisor = roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisor) ?? 0;
+                piSupervisor = roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorLinea) ?? 0;
             }
             return piSupervisor;
         }

@@ -3,12 +3,33 @@
 
 
 $(document).ready(function () {
-   
-    $("#DivHora").hide();
+    $("#DivHora").hide();   
+    CargarAreas
 });
 
 
-
+function CargarAreas() {
+    $.ajax({
+        url: "../SolicitudPermiso/ConsultaListadoAreas",
+        type: "Get",
+        data:
+        {
+            CodLinea: $('#selectLinea').val()
+        },
+        success: function (resultado) {
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#selectArea").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
+                });
+            } else {
+                MensajeAdvertencia("La linea seleccionado no tiene areas asignadas", false);
+            }
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+        }
+    });
+}
 function CambioHoraFecha() {
     var HoraDesde = document.getElementById("timeHoraSalida");
     var HoraHasta = document.getElementById("timeHoraRegreso");

@@ -279,3 +279,33 @@ function GuardarControlHueso(detalle, hueso, miga, id) {
         });   
 
 }
+
+
+function CargarReporteAvance() {
+    var txtFecha = $('#txtFecha').val();
+    var selectLinea = $('#selectLinea').val();
+    $('#btnConsultar').prop("disabled", true);
+    MostrarModalCargando();
+    $.ajax({
+        url: "../Hueso/ReporteControlAvanceDiarioPartial",
+        type: "GET",
+        data: {
+            ddFecha:txtFecha,
+            dsLinea: selectLinea
+        },
+        success: function (resultado) {
+            var bitacora = $('#DivTableReporteControlAvance');
+            bitacora.html(resultado);
+           
+            $('#btnConsultar').prop("disabled", false);
+            CerrarModalCargando();
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseJSON, false);
+            $('#btnConsultar').prop("disabled", false);
+            CerrarModalCargando();
+
+        }
+    });
+
+}
