@@ -25,7 +25,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
            
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poRoles = entities.USUARIO_ROL.Where(x => x.IdUsuario == dsIdUsuario).Select(x => x.IdRol).ToList();
+                var poRoles = entities.USUARIO_ROL.Where(x => x.IdUsuario == dsIdUsuario && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).Select(x => x.IdRol).ToList();
                 return poRoles;
 
             }

@@ -33,7 +33,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int NivelGerencia = 0;
 
         //Roles de usuario
-        public static int RolSupervisor = 5;
+        public static int RolSupervisorGeneral = 5;
+        public static int RolSupervisorLinea = 19;
         public static int RolGarita = 10;
 
         //Codigos de Lineas
@@ -52,7 +53,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
 
         //Motivos de permiso medico
-        public static string CodigoMotivoPermisoCitaMedica = "LE";
+        public static string CodigoMotivoPermisoCitaMedica = "CM";
         public static string CodigoMotivoPermisoEnfermedadNP = "EN";
 
         //Tipos Cambio de personal de Área
@@ -92,8 +93,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int PescadoPartido = 3;
         public static int Roto = 4;
 
-        //Cargos empleados
+        //Cargos 
         public static string CargoLimpiadora = "134";
+        
 
     }
 }

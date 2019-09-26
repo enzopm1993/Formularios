@@ -1,9 +1,11 @@
 ﻿
 @{
-    ViewBag.Title = "ReporteControlAvanceDiario";
+    ViewBag.Title = "ReporteAvanceDiarioPorLimpiadora";
 }
 
-<h3>Reporte Control Avance Diario</h3>
+<h3>Reporte Avance Diario Por Limpiadora</h3>
+
+
 <hr />
 <div class="container-fluid">
     <div class="row">
@@ -22,14 +24,14 @@
                 }
                 else
                 {
-                    @Html.DropDownList("Linea", new SelectList(ViewBag.ComboLineas, "Codigo", "Descripcion", ViewBag.LineaEmpleado), "Seleccione", new { @class = "form-control", @readonly = "@readonly", @onchange = "CambioLinea(this.id)" ,@id="selectLinea" })
-                <script>
+                    @Html.DropDownList("Linea", new SelectList(ViewBag.ComboLineas, "Codigo", "Descripcion", ViewBag.LineaEmpleado), "Seleccione", new { @class = "form-control", @readonly = "@readonly", @onchange = "CambioLinea(this.id)", @id = "selectLinea" })
+                    <script>
                     function CambioLinea(id) {
                         console.log(id);
                         console.log(@ViewBag.LineaEmpleado);
                         $('#' + id).val('@ViewBag.LineaEmpleado');
                     }
-                </script>
+                    </script>
 
                 }
             </div>
@@ -37,14 +39,14 @@
         <div class="col-md-12 col-sm-12 text-center">
             <div class="form-group">
                 <label> </label>
-                <input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />
+                <input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvanceLimpiadora()" />
             </div>
         </div>
 
     </div>
     <div class="row">
-        <div class="table-responsive" id="DivTableReporteControlAvance">  </div>
+        <div class="table-responsive" id="DivTableReporteControlAvancePorLimpiadora">  </div>
     </div>
 </div>
 
-<script src="~/Scripts/ControlAvance/ControlHueso.js"></script>
+<script src="~/Scripts/ControlAvance/ReporteAvancePorLimpiadora.js"></script>
