@@ -101,6 +101,22 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CONTROL_AUDITORIASANGRE">
+          <Key>
+            <PropertyRef Name="IdControlAuditoriaSangre" />
+          </Key>
+          <Property Name="IdControlAuditoriaSangre" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cedula" Type="varchar" MaxLength="20" />
+          <Property Name="Porcentaje" Type="int" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
+          <Property Name="FechaCreacionLog" Type="datetime" />
+          <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="Hora" Type="time" Precision="7" />
+        </EntityType>
         <EntityType Name="CONTROL_CUCHILLO">
           <Key>
             <PropertyRef Name="IdControlCuchillo" />
@@ -182,7 +198,7 @@
             <PropertyRef Name="IdControlHuesoMiga" />
           </Key>
           <Property Name="IdControlHuesoMiga" Type="int" Nullable="false" />
-          <Property Name="Miga" Type="decimal" Precision="2" Scale="2" Nullable="false" />
+          <Property Name="Miga" Type="decimal" Precision="3" Scale="2" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -533,6 +549,10 @@
           <Parameter Name="Linea" Type="varchar" Mode="In" />
           <Parameter Name="Fecha" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="spConsultaControlAvanceDiarioPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="linea" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spConsultaControlHueso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
         </Function>
@@ -548,6 +568,7 @@
         <Function Name="spConsultaOpcionesPorRol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDROL" Type="int" Mode="In" />
         </Function>
+        <Function Name="spConsultarAuditoriaSangreDiaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spConsultarCambioPersonalxLineaxTurno" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Linea" Type="varchar" Mode="In" />
           <Parameter Name="Turno" Type="char" Mode="In" />
@@ -597,6 +618,7 @@
           <EntitySet Name="BITACORA_SOLICITUD" EntityType="Self.BITACORA_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CAMBIO_PERSONAL" EntityType="Self.CAMBIO_PERSONAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLASIFICADOR" EntityType="Self.CLASIFICADOR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CONTROL_AUDITORIASANGRE" EntityType="Self.CONTROL_AUDITORIASANGRE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_CUCHILLO" EntityType="Self.CONTROL_CUCHILLO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_ESFERO" EntityType="Self.CONTROL_ESFERO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_HUESO" EntityType="Self.CONTROL_HUESO" Schema="dbo" store:Type="Tables" />
@@ -970,8 +992,14 @@
             <End Role="CONTROL_MIGA" EntitySet="CONTROL_MIGA" />
           </AssociationSet>
           <FunctionImport Name="spConsultaControlHuesoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHuesoDetalle)">
-            <Parameter Name="IdControlHueso" Mode="In" Type="Int32" />
+          <Parameter Name="IdControlHueso" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spConsultaControlAvanceDiarioPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaControlAvanceDiarioPorLinea)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="CONTROL_AUDITORIASANGRE" EntityType="ASIS_PRODModel.CONTROL_AUDITORIASANGRE" />
+          <FunctionImport Name="spConsultarAuditoriaSangreDiaria" ReturnType="Collection(ASIS_PRODModel.spConsultarAuditoriaSangreDiaria)" />
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -1508,7 +1536,7 @@
             <PropertyRef Name="IdControlHuesoMiga" />
           </Key>
           <Property Name="IdControlHuesoMiga" Type="Int32" Nullable="false" />
-          <Property Name="Miga" Type="Decimal" Nullable="false" Precision="2" Scale="2" />
+          <Property Name="Miga" Type="Decimal" Nullable="false" Precision="3" Scale="2" />
           <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -1536,10 +1564,52 @@
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="CantidadHueso" Nullable="true" />
-          <Property Type="Decimal" Name="Miga" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="Miga" Nullable="true" Precision="3" Scale="2" />
           <Property Type="String" Name="Lote" Nullable="true" MaxLength="10" />
           <Property Type="Time" Name="HoraInicio" Nullable="true" />
           <Property Type="Time" Name="HoraFin" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spConsultaControlAvanceDiarioPorLinea">
+          <Property Type="String" Name="Lote" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Talla" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="Especie" Nullable="false" MaxLength="2" />
+          <Property Type="Time" Name="HoraInicio" Nullable="false" />
+          <Property Type="Time" Name="HoraFin" Nullable="false" />
+          <Property Type="Int32" Name="Tiempo" Nullable="true" />
+          <Property Type="Int32" Name="CodTipoControl" Nullable="false" />
+          <Property Type="String" Name="TipoControl" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="Promedio" Nullable="false" Precision="2" Scale="2" />
+          <Property Type="Int32" Name="Huesos" Nullable="true" />
+          <Property Type="Int32" Name="Limpiadoras" Nullable="true" />
+          <Property Type="Int32" Name="KiloTeorico" Nullable="false" />
+          <Property Type="Int32" Name="KiloReal" Nullable="false" />
+          <Property Type="Int32" Name="TipoLimpieza" Nullable="false" />
+          <Property Type="Int32" Name="avance" Nullable="false" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <EntityType Name="CONTROL_AUDITORIASANGRE">
+          <Key>
+            <PropertyRef Name="IdControlAuditoriaSangre" />
+          </Key>
+          <Property Name="IdControlAuditoriaSangre" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Porcentaje" Type="Int32" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Hora" Type="Time" Precision="7" />
+        </EntityType>
+        <ComplexType Name="spConsultarAuditoriaSangreDiaria">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
+          <Property Type="Time" Name="Hora" Nullable="true" />
+          <Property Type="Int32" Name="Porcentaje" Nullable="true" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2312,6 +2382,57 @@
                 <ScalarProperty Name="Lote" ColumnName="Lote" />
                 <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
                 <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlAvanceDiarioPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaControlAvanceDiarioPorLinea">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlAvanceDiarioPorLinea">
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="Tiempo" ColumnName="Tiempo" />
+                <ScalarProperty Name="CodTipoControl" ColumnName="CodTipoControl" />
+                <ScalarProperty Name="TipoControl" ColumnName="TipoControl" />
+                <ScalarProperty Name="Promedio" ColumnName="Promedio" />
+                <ScalarProperty Name="Huesos" ColumnName="Huesos" />
+                <ScalarProperty Name="Limpiadoras" ColumnName="Limpiadoras" />
+                <ScalarProperty Name="KiloTeorico" ColumnName="KiloTeorico" />
+                <ScalarProperty Name="KiloReal" ColumnName="KiloReal" />
+                <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
+                <ScalarProperty Name="avance" ColumnName="avance" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CONTROL_AUDITORIASANGRE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_AUDITORIASANGRE">
+              <MappingFragment StoreEntitySet="CONTROL_AUDITORIASANGRE">
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdControlAuditoriaSangre" ColumnName="IdControlAuditoriaSangre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultarAuditoriaSangreDiaria" FunctionName="ASIS_PRODModel.Store.spConsultarAuditoriaSangreDiaria">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarAuditoriaSangreDiaria">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
