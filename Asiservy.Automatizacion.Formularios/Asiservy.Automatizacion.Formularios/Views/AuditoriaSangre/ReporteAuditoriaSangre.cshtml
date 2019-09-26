@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "ReporteAuditoriaSangre";
+}
+<script src="~/Scripts/AuditoriaSangre/RptAuditoriaSangre.js"></script>
+<h4>Reporte Auditoria Sangre</h4>
+<div class="row">
+    <div class="col-md-3 col-sm-12">
+       
+        <div class="form-group">
+            <label>Fecha:</label>
+            <input type="date" id="Fecha" class="form-control" />
+        </div>
+
+
+    </div>
+    <div class=" col-md-3 col-sm-12">
+        
+        <div class="form-group">
+
+            <label>Línea:</label>
+            @Html.DropDownList("Lineas", (IEnumerable<SelectListItem>)ViewBag.Lineas, "Selecione", new { @class = "form-control", @onchange = "CambioClase(this.value)" })
+
+        </div>
+
+
+    </div>
+</div>
+<div class="row">
+    <div class=" col-md-6 col-sm-12">
+        <center>
+            <div class="form-group">
+                <input type="button" value="Consultar" class="btn btn-primary" />
+            </div>
+        </center>
+     </div>
+</div>
+

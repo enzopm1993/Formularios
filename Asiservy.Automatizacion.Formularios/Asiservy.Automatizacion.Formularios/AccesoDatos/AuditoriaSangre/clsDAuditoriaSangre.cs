@@ -26,6 +26,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre
                     BuscarAuditoriaSangre.EstadoRegistro = AuditoriaSangre.EstadoRegistro;
                     BuscarAuditoriaSangre.FechaModificacionLog = DateTime.Now;
                     BuscarAuditoriaSangre.Porcentaje = AuditoriaSangre.Porcentaje;
+                    BuscarAuditoriaSangre.TerminalModificacionLog = AuditoriaSangre.TerminalCreacionLog;
+                    BuscarAuditoriaSangre.UsuarioModificacionLog = AuditoriaSangre.UsuarioCreacionLog;
                     db.SaveChanges();
 
                 }

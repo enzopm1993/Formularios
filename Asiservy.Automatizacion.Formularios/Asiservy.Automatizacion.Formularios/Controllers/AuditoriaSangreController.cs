@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre;
+using Asiservy.Automatizacion.Formularios.Models.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
         clsDEmpleado clsDEmpleado = null;
         clsDError clsDError = null;
+        clsDClasificador clsDClasificador = null;
         string[] liststring;
         clsDAuditoriaSangre clsDAuditoriaSangre = null;
         // GET: AuditoriaSangre
+        [Authorize]
         public ActionResult ControlAuditoriaSangre()
         {
             try
@@ -71,6 +74,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+        [Authorize]
+        [HttpPost]
         public ActionResult ControlAuditoriaSangrePartial(string Cedula, string Porcentaje, string fecha,string estado)
         {
             try
@@ -103,6 +108,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     UsuarioIngreso = "sistemas"
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ReporteAuditoriaSangre()
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                var ListLineas= clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                
+                ViewBag.Lineas = new SelectList(ListLineas, "codigo", "descripcion");
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
     }

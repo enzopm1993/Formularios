@@ -332,6 +332,7 @@
     <Content Include="Scripts\AsistenciaJS\ReporteDistribucion.js" />
     <Content Include="Scripts\AsistenciaJS\RptAsistencia.js" />
     <Content Include="Scripts\AuditoriaSangre\AuditoriaSangre.js" />
+    <Content Include="Scripts\AuditoriaSangre\RptAuditoriaSangre.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -638,7 +639,6 @@
     <Compile Include="AccesoDatos\ControlHueso\clsDControlHueso.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDControlMiga.cs" />
     <Compile Include="AccesoDatos\AuditoriaSangre\clsDAuditoriaSangre.cs" />
-   
     <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
     <Compile Include="AccesoDatos\General\clsApiUsuario.cs" />
     <Compile Include="AccesoDatos\General\clsDClasificador.cs" />
@@ -762,7 +762,6 @@
     <Content Include="Views\Asistencia\EditarAsistenciaPartial.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaPrestado.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaPrestadoPartial.cshtml" />
-   
     <Content Include="Views\Asistencia\AsistenciaGeneral.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaGeneralPartial.cshtml" />
     <Content Include="Views\AuditoriaSangre\ControlAuditoriaSangre.cshtml" />
@@ -772,6 +771,7 @@
     <Content Include="Views\Hueso\ControlHuesoPartial.cshtml" />
     <Content Include="Views\Hueso\ControlHuesoPartialCabecera.cshtml" />
     <Content Include="Views\Hueso\ReporteControlAvanceDiario.cshtml" />
+    <Content Include="Views\AuditoriaSangre\ReporteAuditoriaSangre.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
