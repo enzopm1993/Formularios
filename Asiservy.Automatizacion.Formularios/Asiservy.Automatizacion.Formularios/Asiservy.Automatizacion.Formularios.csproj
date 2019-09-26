@@ -293,6 +293,8 @@
     <Content Include="Content\gijgo\modular\tree.css" />
     <Content Include="Content\gijgo\modular\tree.min.css" />
     <Content Include="Content\images\actualizar.png" />
+    <Content Include="Content\images\agregar.png" />
+    <Content Include="Content\images\agregar1.jpg" />
     <Content Include="Content\images\arrow-hidden.jpg" />
     <Content Include="Content\images\arrow-hidden1.jpg" />
     <Content Include="Content\images\asilogo.jpg" />
@@ -329,6 +331,7 @@
     <Content Include="Scripts\AsistenciaJS\PersonalNomina.js" />
     <Content Include="Scripts\AsistenciaJS\ReporteDistribucion.js" />
     <Content Include="Scripts\AsistenciaJS\RptAsistencia.js" />
+    <Content Include="Scripts\AuditoriaSangre\AuditoriaSangre.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -632,6 +635,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCuchillo.cs" />
+    <Compile Include="AccesoDatos\AuditoriaSangre\clsDAuditoriaSangre.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDControlHueso.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
     <Compile Include="AccesoDatos\General\clsApiUsuario.cs" />
@@ -649,6 +653,7 @@
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
+    <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -759,6 +764,9 @@
     <Content Include="Views\Empleado\ControlHuesoPartialCabecera.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaGeneral.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaGeneralPartial.cshtml" />
+    <Content Include="Views\AuditoriaSangre\ControlAuditoriaSangre.cshtml" />
+    <Content Include="Views\AuditoriaSangre\ControlAuditoriaSangrePartial.cshtml" />
+    <Content Include="Views\AuditoriaSangre\EmpleadoBuscar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

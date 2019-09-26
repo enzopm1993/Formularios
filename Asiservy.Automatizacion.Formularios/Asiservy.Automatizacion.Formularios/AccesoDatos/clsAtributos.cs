@@ -92,6 +92,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int PescadoPartido = 3;
         public static int Roto = 4;
 
+        //Cargos empleados
+        public static string CargoLimpiadora = "134";
 
     }
 }
