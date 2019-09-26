@@ -181,5 +181,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return poCambioPersonal;
             }
         }
+        public List<spConsultarCambioPersonalxLineaxTurno> ConsultarCambioPersonalxLinea(string CodLinea,string Turno)
+        {
+
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                //return db.CAMBIO_PERSONAL.Where(x => x.CodLinea == CodLinea).ToList();
+                return db.spConsultarCambioPersonalxLineaxTurno(CodLinea,Turno).ToList();
+            }
+        }
     }
 }

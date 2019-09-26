@@ -1,0 +1,93 @@
+﻿@model  List<Asiservy.Automatizacion.Datos.Datos.spConsutaEmpleadosFiltro>
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalEmpleado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Empleados</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"  onclick="cerrarmodalempleado()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-primary" id="mensajeError">
+                <table class="table table-bordered table-striped table-hover" id="EmpleadosTabla">
+                    <thead>
+                        <tr>
+                            <th>Cédula</th>
+                            <th>Nombre</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="@item.CEDULA" onclick="EmpleadoCons('@item.CEDULA','@item.NOMBRES');">
+                            <td>@item.CEDULA</td>
+                            <td>@item.NOMBRES</td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="cerrarmodalempleado()">Close</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<script>
+    //dataTable Buscar Empleados
+    $('#EmpleadosTabla').DataTable({
+        language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        pageLength: 5,
+        lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']]
+    })
+
+    var sPath = window.location.pathname;
+    var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+    function EmpleadoCons(cedula,nombre)
+    {
+        
+        //$('#NombreEmpleado').val(nombre);
+        $('#Cedula').val(cedula);
+        //Select(cedula);
+        cerrarmodalempleado();
+       
+    }
+    function cerrarmodalempleado() {
+        $('#ModalEmpleado').modal('hide');
+        
+        if (sPage = "SolicitudPermiso") {
+            $('#CargarEmpleadoPG').attr("disabled", false);
+        }
+        
+        if (sPage = "SolicitudPermisoDispensario") {
+            $('#CargarEmpleadoPM').attr("disabled", false);
+        }
+    }
+</script>

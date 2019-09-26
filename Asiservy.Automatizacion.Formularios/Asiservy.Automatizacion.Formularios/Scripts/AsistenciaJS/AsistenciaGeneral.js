@@ -6,7 +6,7 @@
         $('#PartialAsistencia').empty();
         $.ajax({
             //contentType: "application/json; charset=utf-8",
-            url: '../Asistencia/ConsultarExistenciaAsistenciaPrestados',
+            url: '../Asistencia/ConsultarExistenciaAsistenciaGeneral',
             type: "POST",
             data: {
                 Turno: $('#TurnoGen').val()
@@ -19,28 +19,28 @@
 
                 }
                 if (resultado == 1) {
-                    GenerarAsistenciaDiariaMovidos($('#CodLinea').val(), resultado);
+                    GenerarAsistenciaDiariaGeneral($('#CodLinea').val(), resultado);
                     $('#GenerarAsistencia').hide();
                 }
             },
             error: function (result) {
-                Console.log(result);
+                //Console.log(result);
                 //MensajeError(result, false);
             }
         });
     }
 }
-
-function GenerarAsistenciaDiariaMovidos(IdLinea, bandera) {
+function GenerarAsistenciaDiariaGeneral(IdLinea, bandera) {
     MostrarModalCargando();
     //console.log("hola");
+    var turno;
     if (bandera == 0) {
         $('#GenerarAsistenciaMovidos').prop("disabled", true);
         $('#GenerarAsistencia').hide();
     }
     turno = $('#TurnoGen').val();
     $.ajax({
-        url: '../Asistencia/AsistenciaPrestadoPartial',
+        url: '../Asistencia/AsistenciaGeneralPartial',
         type: 'POST',
         data: {
             CodLinea: IdLinea,
@@ -213,7 +213,7 @@ function check(id, color, cedula) {
         GuardarControlCuchillo(cedula, color, id, estado, true);
     } else {
         GuardarControlCuchillo(cedula, color, id, estado, false);
-    }  
+    }
 }
 function GuardarControlCuchillo(cedula, color, numero, estado, check) {
     $.ajax({
@@ -237,7 +237,7 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check) {
             //console.log(resultado.responseJSON);
             MensajeError(resultado.responseJSON + "", false);
             if (color == "B") {
-                $('#Blanco' + cedula).prop('selectedIndex',0);
+                $('#Blanco' + cedula).prop('selectedIndex', 0);
             }
             if (color == "R") {
                 $('#Rojo' + cedula).prop('selectedIndex', 0);

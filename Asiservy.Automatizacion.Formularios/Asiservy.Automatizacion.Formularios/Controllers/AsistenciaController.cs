@@ -47,6 +47,87 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #region Asistencia
         // GET: Asistencia
         [Authorize]
+        public JsonResult ConsultarExistenciaAsistenciaGeneral(string Turno)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');
+                clsDAsistencia = new clsDAsistencia();
+                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaGeneral(liststring[1], Turno);
+                return Json(AsitenciaExiste, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        [Authorize]
+        public JsonResult ConsultarExistenciaAsistencia(string Turno)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');
+                clsDAsistencia = new clsDAsistencia();
+                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1],Turno);
+                return Json(AsitenciaExiste, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+               
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
+        [Authorize]
+        public JsonResult ConsultarExistenciaAsistenciaPrestados(string Turno)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');
+                clsDAsistencia = new clsDAsistencia();
+                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaPrestados(liststring[1], Turno);
+                return Json(AsitenciaExiste, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        [Authorize]
         public ActionResult Asistencia()
         {
             try
@@ -55,13 +136,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 clsDGeneral = new clsDGeneral();
                 liststring = User.Identity.Name.Split('_');
-                clsDAsistencia = new clsDAsistencia();
-                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1]);
-                ViewBag.AsistenciaExiste = AsitenciaExiste;
-                //var Asistencia = clsDAsistencia.ObtenerAsistenciaDiaria(liststring[1]);
+                //clsDAsistencia = new clsDAsistencia();
+                //int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1]);
+                //ViewBag.AsistenciaExiste = AsitenciaExiste;
+                ////var Asistencia = clsDAsistencia.ObtenerAsistenciaDiaria(liststring[1]);
                 ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(liststring[1]);
                 ViewBag.CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
-                //Asistencia.ControlAsistencia.ForEach(a=>a.Hora= hora);
+                ////Asistencia.ControlAsistencia.ForEach(a=>a.Hora= hora);
 
                 return View(/*Asistencia*/);
             }
@@ -82,7 +163,128 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
+        [Authorize]
+        public ActionResult AsistenciaGeneral()
+        {
+            try
+            {
+                TimeSpan hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm"));
+                clsDEmpleado = new clsDEmpleado();
+                clsDGeneral = new clsDGeneral();
+                liststring = User.Identity.Name.Split('_');
+                //clsDAsistencia = new clsDAsistencia();
+                //int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1],"1");
+                //ViewBag.AsistenciaExiste = AsitenciaExiste;
+                ////var Asistencia = clsDAsistencia.ObtenerAsistenciaDiaria(liststring[1]);
+                ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(liststring[1]);
+                ViewBag.CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
 
+        }
+        [HttpPost]
+        public ActionResult AsistenciaGeneralPartial(string CodLinea, int BanderaExiste, string turno)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');
+                clsDCambioPersonal = new clsDCambioPersonal();
+                clsDClasificador = new clsDClasificador();
+                var EstadoAsistencia = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                ViewBag.EstadoAsistencia = EstadoAsistencia;
+
+                clsDAsistencia = new clsDAsistencia();
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, turno);
+                clsApiUsuario = new clsApiUsuario();
+                DateTime? pdUltimaMarcacion;
+                foreach (var item in AsistenciaViewModel.ControlAsistencia)
+                {
+                    pdUltimaMarcacion = clsApiUsuario.ConsultarFechaBiometrico(item.Cedula);
+                    //pdUltimaMarcacion =Convert.ToDateTime("2019-09-18 17:05:03.367");
+
+                    if (item.Turno == "1")
+                    {
+                        if (pdUltimaMarcacion != null)
+                        {
+                            if ((pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString()))
+                            {
+                                item.Bloquear = 1;
+                                item.Observacion += "No ha marcado en el biométrico";
+                            }
+                        }
+                        else
+                        {
+                            item.Bloquear = 1;
+                            item.Observacion += "No ha marcado en el biométrico";
+                        }
+
+                    }
+                    if (item.Turno == "2")
+                    {
+                        if (pdUltimaMarcacion != null)
+                        {
+                            if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
+                            {
+                                item.Bloquear = 1;
+                                item.Observacion += "No ha marcado en el biométrico";
+                            }
+                        }
+                        else
+                        {
+                            item.Bloquear = 1;
+                            item.Observacion += "No ha marcado en el biométrico";
+                        }
+                    }
+                    //sp_ConsultaEmpleadosMovidos CambioPersonal = clsDCambioPersonal.ConsultarCambioPersonal(item.Cedula);
+
+                    //if (CambioPersonal != null)
+                    //{
+                    //    item.Bloquear = 1;
+                    //    item.Observacion += "El empleado fue movido a " + CambioPersonal.Linea;
+                    //}
+                    ClsDSolicitudPermiso = new clsDSolicitudPermiso();
+                    string MotivoSolicitud = ClsDSolicitudPermiso.ConsultaMotivoPermisoxEmpleado(item.Cedula);
+                    if (!string.IsNullOrEmpty(MotivoSolicitud))
+                    {
+                        item.Bloquear = 1;
+                        item.Observacion += " Tiene permiso: " + MotivoSolicitud;
+                    }
+
+
+                }
+                return PartialView(AsistenciaViewModel);
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
         [Authorize]
         public ActionResult AsistenciaPrestado()
         {
@@ -92,12 +294,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 clsDGeneral = new clsDGeneral();
                 liststring = User.Identity.Name.Split('_');
-                clsDAsistencia = new clsDAsistencia();
-                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaPrestados(liststring[1]);
-                ViewBag.AsistenciaExiste = AsitenciaExiste;
+                //clsDAsistencia = new clsDAsistencia();
+                //int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaPrestados(liststring[1]);
+                //ViewBag.AsistenciaExiste = AsitenciaExiste;
                 ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(liststring[1]);
                 ViewBag.CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
-                //Asistencia.ControlAsistencia.ForEach(a=>a.Hora= hora);
+                ///Asistencia.ControlAsistencia.ForEach(a=>a.Hora= hora);
                 return View();
             }
             catch (Exception ex)
@@ -118,7 +320,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult AsistenciaPrestadoPartial(string CodLinea, int BanderaExiste)
+        public ActionResult AsistenciaPrestadoPartial(string CodLinea, int BanderaExiste, string Turno)
         {
             try
             {
@@ -129,7 +331,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress);
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress,Turno);
                 clsApiUsuario = new clsApiUsuario();
                 DateTime? pdUltimaMarcacion;
                 foreach (var item in AsistenciaViewModel.ControlAsistencia)
@@ -214,7 +416,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult AsistenciaPartial(string CodLinea, int BanderaExiste)
+        public ActionResult AsistenciaPartial(string CodLinea, int BanderaExiste, string Turno)
         {
             try
             {
@@ -225,7 +427,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress);
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, Turno);
                 clsApiUsuario = new clsApiUsuario();
                 DateTime? pdUltimaMarcacion;
                 foreach (var item in AsistenciaViewModel.ControlAsistencia)
