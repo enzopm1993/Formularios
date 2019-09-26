@@ -45,6 +45,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home", "Home");
             }
         }
+        public ActionResult ReporteAuditoriaSangrePArtial(string CodLinea, DateTime Fecha)
+        {
+            try
+            {
+                clsDAuditoriaSangre = new clsDAuditoriaSangre();
+                var ReporteAuditoriaSangre = clsDAuditoriaSangre.ConsultarReporteAuditoriaSangre(CodLinea,Fecha);
+                return PartialView(ReporteAuditoriaSangre);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
         //public ActionResult ControlAuditoriaSangrePartial()
         //{
         //    return PartialView();

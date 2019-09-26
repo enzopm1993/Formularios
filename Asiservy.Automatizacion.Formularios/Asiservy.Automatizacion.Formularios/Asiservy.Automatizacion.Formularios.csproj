@@ -776,6 +776,7 @@
     <Content Include="Views\Hueso\ReporteAvanceDiarioPorLimpiadora.cshtml" />
     <Content Include="Views\Hueso\ReporteAvanceDiarioPorLimpiadoraPartial.cshtml" />
     <Content Include="Views\AuditoriaSangre\ReporteAuditoriaSangre.cshtml" />
+    <Content Include="Views\AuditoriaSangre\ReporteAuditoriaSangrePArtial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

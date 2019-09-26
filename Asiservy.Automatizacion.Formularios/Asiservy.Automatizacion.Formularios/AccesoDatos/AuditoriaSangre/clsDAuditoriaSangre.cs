@@ -43,5 +43,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre
             }
         }
 
+        public List<spReporteAuditoriaSangre> ConsultarReporteAuditoriaSangre(string CodLinea, DateTime Fecha) 
+        {
+            using (ASIS_PRODEntities db=new ASIS_PRODEntities())
+            {
+                return db.spReporteAuditoriaSangre(CodLinea,Fecha).ToList();
+            }
+        }
     }
 }
