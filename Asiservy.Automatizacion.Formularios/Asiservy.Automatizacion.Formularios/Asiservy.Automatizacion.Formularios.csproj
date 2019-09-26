@@ -631,7 +631,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCuchillo.cs" />
-    <Compile Include="AccesoDatos\Empleado\clsDControlHueso.cs" />
+    <Compile Include="AccesoDatos\ControlHueso\clsDControlHueso.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDControlMiga.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
     <Compile Include="AccesoDatos\General\clsApiUsuario.cs" />
@@ -651,6 +651,7 @@
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HuesoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MensajeController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
@@ -753,9 +754,10 @@
     <Content Include="Views\Asistencia\EditarAsistenciaPartial.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaPrestado.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaPrestadoPartial.cshtml" />
-    <Content Include="Views\Empleado\ControlHueso.cshtml" />
-    <Content Include="Views\Empleado\ControlHuesoPartial.cshtml" />
-    <Content Include="Views\Empleado\ControlHuesoPartialCabecera.cshtml" />
+    <Content Include="Views\Hueso\ControlHueso.cshtml" />
+    <Content Include="Views\Hueso\ControlHuesoPartial.cshtml" />
+    <Content Include="Views\Hueso\ControlHuesoPartialCabecera.cshtml" />
+    <Content Include="Views\Hueso\ReporteControlAvanceDiario.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

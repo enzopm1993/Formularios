@@ -27,6 +27,8 @@ function NuevoControlHueso() {
     $('#txtHoraFin').prop("disabled", false);
     $('#divPiezas').prop("hidden", true);
     $('#txtPiezas').val(0);
+    $('#txtPiezas').prop("disabled", false);
+
     CargarControlHueso();
 }
 
@@ -42,6 +44,7 @@ function SeleccionControlHueso(id, lote, orden, tipo, horainicio, horafin, obser
     $('#txtObservacion').prop("disabled", true);
     $('#txtHoraInicio').prop("disabled", true);
     $('#txtHoraFin').prop("disabled", true);
+    $('#txtPiezas').prop("disabled", true);
 
     if (tipo == 3) {
         $('#divPiezas').prop("hidden", false);
@@ -59,7 +62,7 @@ function CargarControlHuesoDetalle(id) {
   //  console.log(id);
    
     $.ajax({
-        url: "../Empleado/ControlHuesoPartial",
+        url: "../Hueso/ControlHuesoPartial",
         type: "GET",
         data: {
             id: id         
@@ -78,7 +81,7 @@ function CargarControlHuesoDetalle(id) {
 }
 function CargarControlHueso() {
     $.ajax({
-        url: "../Empleado/ControlHuesoPartialCabecera",
+        url: "../Hueso/ControlHuesoPartialCabecera",
         type: "GET",       
         success: function (resultado) {
             var bitacora = $('#DivTableControlHueso');
@@ -131,7 +134,7 @@ function GenerarControlHueso() {
     MostrarModalCargando();
     $('#btnGenerar').prop("disabled", true);     
     $.ajax({
-        url: "../Empleado/GenerarControlHueso",
+        url: "../Hueso/GenerarControlHueso",
         type: "GET",
         data: {
             Linea: $('#txtLinea').val(),
@@ -177,7 +180,7 @@ function GenerarControlHueso() {
 //         //   console.log(hora);
 //        }
 //        $.ajax({
-//            url: "../Empleado/ValidaControlHueso",
+//            url: "../Hueso/ValidaControlHueso",
 //            type: "GET",
 //            data: {
 //                dsLinea: $('#txtLinea').val(),
@@ -255,7 +258,7 @@ function GuardarControlHueso(detalle, hueso, miga, id) {
     var txtMiga = '#Miga-' + detalle;
 
         $.ajax({
-            url: "../Empleado/GuardarControlHueso",
+            url: "../Hueso/GuardarControlHueso",
             type: "POST",
             data: {
                 IdControlHuesoDetalle: detalle,

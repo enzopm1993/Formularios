@@ -5,7 +5,7 @@ using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
 
 
-namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado
+namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 {
     public class clsDControlHueso
     {
@@ -120,6 +120,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado
                 Listado = entities.spConsultaLimpiadorasControlHueso(Linea).ToList();
                 return Listado;
             }
+        }
+
+        public List<spConsultaControlAvanceDiarioPorLinea> ConsultaControlAvanceDiarioPorLinea(DateTime Fecha, string Linea)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                List<spConsultaControlAvanceDiarioPorLinea> Listado = new List<spConsultaControlAvanceDiarioPorLinea>();
+                Listado = entities.spConsultaControlAvanceDiarioPorLinea(Fecha,Linea).ToList();
+                return Listado;
+            }
+
         }
     }
 }
