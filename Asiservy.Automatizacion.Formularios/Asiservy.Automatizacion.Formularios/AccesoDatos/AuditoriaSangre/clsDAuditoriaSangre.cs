@@ -11,13 +11,22 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var BuscarAuditoriaSangre = db.CONTROL_AUDITORIASANGRE.Where(x => x.FechaCreacionLog == AuditoriaSangre.FechaCreacionLog && x.Cedula == AuditoriaSangre.Cedula).ToList();
-                if (BuscarAuditoriaSangre.Count == 0)
+                DateTime FechaFin = AuditoriaSangre.FechaCreacionLog.Value.AddSeconds(1);
+                var BuscarAuditoriaSangre = db.CONTROL_AUDITORIASANGRE.Where(x => x.FechaCreacionLog>AuditoriaSangre.FechaCreacionLog && x.FechaCreacionLog<FechaFin && x.Cedula == AuditoriaSangre.Cedula).FirstOrDefault();
+                if (BuscarAuditoriaSangre==null)
                 {
                     db.CONTROL_AUDITORIASANGRE.Add(AuditoriaSangre);
                     db.SaveChanges();
 
                     //return db.spConsultarAuditoriaSangreDiaria().ToList();
+
+                }
+                else
+                {
+                    BuscarAuditoriaSangre.EstadoRegistro = AuditoriaSangre.EstadoRegistro;
+                    BuscarAuditoriaSangre.FechaModificacionLog = DateTime.Now;
+                    BuscarAuditoriaSangre.Porcentaje = AuditoriaSangre.Porcentaje;
+                    db.SaveChanges();
 
                 }
                 return db.spConsultarAuditoriaSangreDiaria().ToList();

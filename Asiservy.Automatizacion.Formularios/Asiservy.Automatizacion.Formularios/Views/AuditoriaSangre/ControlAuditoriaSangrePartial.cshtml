@@ -23,7 +23,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr onclick="CargarAuditoria('@item.Cedula', '@item.Porcentaje')">
+            <tr onclick="CargarAuditoria('@item.Fecha','@item.Cedula', '@item.Porcentaje')">
                 <td>
                     @item.Cedula
                 </td>
