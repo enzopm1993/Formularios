@@ -28,7 +28,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Home", "Home");
             }
         }
         //public ActionResult ControlAuditoriaSangrePartial()
@@ -60,7 +71,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult ControlAuditoriaSangrePartial(string Cedula, string Porcentaje, string fecha)
+        public ActionResult ControlAuditoriaSangrePartial(string Cedula, string Porcentaje, string fecha,string estado)
         {
             try
             {
@@ -69,9 +80,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 DateTime Fecha;
                 Fecha = string.IsNullOrEmpty(fecha) ? DateTime.Now :Convert.ToDateTime(fecha);
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
-
+                
                 List<spConsultarAuditoriaSangreDiaria> ListaAuditoria = clsDAuditoriaSangre.GuardarActualizarAuditoriaSangre(new CONTROL_AUDITORIASANGRE { Cedula=Cedula,Porcentaje=Convert.ToInt32(Porcentaje),
-                FechaCreacionLog=Fecha,EstadoRegistro=clsAtributos.EstadoRegistroActivo,TerminalCreacionLog= Request.UserHostAddress, UsuarioCreacionLog= liststring[0],
+                FechaCreacionLog=Fecha,EstadoRegistro=estado,TerminalCreacionLog= Request.UserHostAddress, UsuarioCreacionLog= liststring[0],
                     Hora = hora
                 });
 
