@@ -24,5 +24,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre
             }
                 
         }
+        public List<spConsultarAuditoriaSangreDiaria> ConsultarAuditoriaSangreDiaria()
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultarAuditoriaSangreDiaria().ToList();
+            }
+        }
+
     }
 }

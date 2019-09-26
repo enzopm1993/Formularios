@@ -19,7 +19,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         // GET: AuditoriaSangre
         public ActionResult ControlAuditoriaSangre()
         {
-            return View();
+            try
+            {
+                clsDAuditoriaSangre = new clsDAuditoriaSangre();
+                ViewBag.AuditoriaSangre = clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria();
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
         //public ActionResult ControlAuditoriaSangrePartial()
         //{
