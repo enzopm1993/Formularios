@@ -9,11 +9,12 @@
 <hr />
 <div class=" container">
     <div class="row">
-        <div class="form-group">
-            <label>Estado</label>
-            @Html.DropDownList("EstadoControlCuchillo", new SelectList(ViewBag.EstadosControlCuchillo, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @onchange = "SelectEstado(this.value)",@id= "EstadoControlCuchillo" })
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Estado</label>
+                @Html.DropDownList("EstadoControlCuchillo", new SelectList(ViewBag.EstadosControlCuchillo, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @onchange = "SelectEstado(this.value)", @id = "EstadoControlCuchillo" })
+            </div>
         </div>
-
     </div>
     <div class="table-responsive" id="TablaControlCuchillo">
 

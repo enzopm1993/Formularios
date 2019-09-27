@@ -3,10 +3,10 @@
 
 
 function SelectEstado(valor) {
-    CargarUsuarioRol(valor);
+    CargarControlCuchillo(valor);
 }
 
-function CargarUsuarioRol(estado) {
+function CargarControlCuchillo(estado) {
     $.ajax({
         url: "../Asistencia/ControlCuchilloPartial",
         type: "GET",

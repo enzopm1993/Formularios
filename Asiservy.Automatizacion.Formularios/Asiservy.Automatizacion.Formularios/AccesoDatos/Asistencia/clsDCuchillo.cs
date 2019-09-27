@@ -20,23 +20,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 DateTime fechaInicio =Convert.ToDateTime(DateTime.Now.ToShortDateString());
                 DateTime fechaFin = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
                 //
-                if (model.CuchilloBlanco != 0)
+                if (model.EstadoCuchillo == clsAtributos.Entrada)
                 {
-                    bool ExisteBlanco = entities.CONTROL_CUCHILLO.Where(x => x.Fecha>=fechaInicio && x.Fecha< fechaFin).Any(z => z.CuchilloBlanco == model.CuchilloBlanco);
-                    if (ExisteBlanco)
-                        return "No es posible asignar el cuchillo, por que ya ha sido prestado";
-                }
-                if (model.CuchilloRojo != 0)
-                {
-                    bool ExisteRojo = entities.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin).Any(z => z.CuchilloRojo == model.CuchilloRojo);
-                    if (ExisteRojo)
-                        return "No es posible asignar el cuchillo, por que ya ha sido prestado";
-                }
-                if (model.CuchilloNegro != 0)
-                {
-                    bool ExisteNegro = entities.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin).Any(z => z.CuchilloNegro == model.CuchilloNegro);
-                    if (ExisteNegro)
-                        return "No es posible asignar el cuchillo, por que ya ha sido prestado";
+                    if (model.CuchilloBlanco != 0)
+                    {
+                        bool ExisteBlanco = entities.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin).Any(z => z.CuchilloBlanco == model.CuchilloBlanco);
+                        if (ExisteBlanco && check)
+                            return "No es posible asignar el cuchillo, por que ya ha sido prestado";
+                    }
+                    if (model.CuchilloRojo != 0)
+                    {
+                        bool ExisteRojo = entities.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin).Any(z => z.CuchilloRojo == model.CuchilloRojo);
+                        if (ExisteRojo && check)
+                            return "No es posible asignar el cuchillo, por que ya ha sido prestado";
+                    }
+                    if (model.CuchilloNegro != 0)
+                    {
+                        bool ExisteNegro = entities.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin).Any(z => z.CuchilloNegro == model.CuchilloNegro);
+                        if (ExisteNegro && check)
+                            return "No es posible asignar el cuchillo, por que ya ha sido prestado";
+                    }
                 }
                 //validacion de que nno exista el cuchillo en control de cuchillo
                
@@ -288,6 +291,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 entities.SaveChanges();
 
              return clsAtributos.MsjRegistroGuardado;
+            }
+
+        }
+
+        public List<spConsultaReporteControlCuchillo> ConsultaControlCuchillo(DateTime Fecha, string Linea)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.spConsultaReporteControlCuchillo(Fecha,Linea).ToList();
+               
             }
 
         }
