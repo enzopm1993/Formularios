@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre;
+using Asiservy.Automatizacion.Formularios.Models.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
         clsDEmpleado clsDEmpleado = null;
         clsDError clsDError = null;
+        clsDClasificador clsDClasificador = null;
         string[] liststring;
         clsDAuditoriaSangre clsDAuditoriaSangre = null;
         // GET: AuditoriaSangre
+        [Authorize]
         public ActionResult ControlAuditoriaSangre()
         {
             try
@@ -40,6 +43,31 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     UsuarioIngreso = "sistemas"
                 });
                 return RedirectToAction("Home", "Home");
+            }
+        }
+        [Authorize]
+        public ActionResult ReporteAuditoriaSangrePArtial(string CodLinea, DateTime Fecha)
+        {
+            try
+            {
+                clsDAuditoriaSangre = new clsDAuditoriaSangre();
+                var ReporteAuditoriaSangre = clsDAuditoriaSangre.ConsultarReporteAuditoriaSangre(CodLinea,Fecha);
+                return PartialView(ReporteAuditoriaSangre);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
         //public ActionResult ControlAuditoriaSangrePartial()
@@ -71,6 +99,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+        [Authorize]
+        [HttpPost]
         public ActionResult ControlAuditoriaSangrePartial(string Cedula, string Porcentaje, string fecha,string estado)
         {
             try
@@ -91,6 +121,33 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [Authorize]
+        public ActionResult ReporteAuditoriaSangre()
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                var ListLineas= clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                
+                ViewBag.Lineas = new SelectList(ListLineas, "codigo", "descripcion");
+                return View();
+            }
+            catch (Exception ex)
+            {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR

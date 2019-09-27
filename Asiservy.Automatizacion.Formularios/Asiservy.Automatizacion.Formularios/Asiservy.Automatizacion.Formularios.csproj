@@ -332,6 +332,7 @@
     <Content Include="Scripts\AsistenciaJS\ReporteDistribucion.js" />
     <Content Include="Scripts\AsistenciaJS\RptAsistencia.js" />
     <Content Include="Scripts\AuditoriaSangre\AuditoriaSangre.js" />
+    <Content Include="Scripts\AuditoriaSangre\RptAuditoriaSangre.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -775,6 +776,8 @@
     <Content Include="Views\Hueso\ReporteControlAvanceDiarioPartial.cshtml" />
     <Content Include="Views\Hueso\ReporteAvanceDiarioPorLimpiadora.cshtml" />
     <Content Include="Views\Hueso\ReporteAvanceDiarioPorLimpiadoraPartial.cshtml" />
+    <Content Include="Views\AuditoriaSangre\ReporteAuditoriaSangre.cshtml" />
+    <Content Include="Views\AuditoriaSangre\ReporteAuditoriaSangrePArtial.cshtml" />
     <Content Include="Views\Empleado\ReportePersonalNominaPorLinea.cshtml" />
     <Content Include="Views\Empleado\ReporteDistribucionPorLinea.cshtml" />
     <Content Include="Views\Empleado\ReporteDistribucionPorLineaPartial.cshtml" />

@@ -26,6 +26,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre
                     BuscarAuditoriaSangre.EstadoRegistro = AuditoriaSangre.EstadoRegistro;
                     BuscarAuditoriaSangre.FechaModificacionLog = DateTime.Now;
                     BuscarAuditoriaSangre.Porcentaje = AuditoriaSangre.Porcentaje;
+                    BuscarAuditoriaSangre.TerminalModificacionLog = AuditoriaSangre.TerminalCreacionLog;
+                    BuscarAuditoriaSangre.UsuarioModificacionLog = AuditoriaSangre.UsuarioCreacionLog;
                     db.SaveChanges();
 
                 }
@@ -41,5 +43,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre
             }
         }
 
+        public List<spReporteAuditoriaSangre> ConsultarReporteAuditoriaSangre(string CodLinea, DateTime Fecha) 
+        {
+            using (ASIS_PRODEntities db=new ASIS_PRODEntities())
+            {
+                return db.spReporteAuditoriaSangre(CodLinea,Fecha).ToList();
+            }
+        }
     }
 }
