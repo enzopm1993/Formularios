@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "ReporteDistribucionPorLinea";
+}
+
+<h3>Distribucion del personal por linea</h3>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="form-group">
+                <label>Linea</label>
+                @Html.DropDownList("Linea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @onchange = "CargarReporteDistribucion(this.value)" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="table-responsive" id="DivTableReporteDistribucion"></div>
+    </div>
+</div>
+<script src="~/Scripts/Empleado/ReporteDistribucionPorLinea.js"></script>

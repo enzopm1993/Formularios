@@ -461,7 +461,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     clsDSolicitudPermiso = new clsDSolicitudPermiso();
                     clsDEmpleado = new clsDEmpleado();
                     string[] psIdUsuario = User.Identity.Name.Split('_');
-                    var poEmpleado = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]).FirstOrDefault();
+                    var poEmpleado = clsDEmpleado.ConsultaEmpleado(model.Identificacion).FirstOrDefault();
                     solicitudPermiso.CodigoLinea = poEmpleado.CODIGOLINEA;
                     solicitudPermiso.CodigoArea = poEmpleado.CODIGOAREA;
                     solicitudPermiso.CodigoCargo = poEmpleado.CODIGOCARGO;

@@ -512,6 +512,7 @@
     <Content Include="Scripts\Empleado\ControlEsfero.js" />
     <Content Include="Scripts\ControlAvance\ControlHueso.js" />
     <Content Include="Scripts\Empleado\EmpleadoEsfero.js" />
+    <Content Include="Scripts\Empleado\ReporteDistribucionPorLinea.js" />
     <Content Include="Scripts\Empleado\ReporteEmpleadoTurno.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
@@ -774,6 +775,9 @@
     <Content Include="Views\Hueso\ReporteControlAvanceDiarioPartial.cshtml" />
     <Content Include="Views\Hueso\ReporteAvanceDiarioPorLimpiadora.cshtml" />
     <Content Include="Views\Hueso\ReporteAvanceDiarioPorLimpiadoraPartial.cshtml" />
+    <Content Include="Views\Empleado\ReportePersonalNominaPorLinea.cshtml" />
+    <Content Include="Views\Empleado\ReporteDistribucionPorLinea.cshtml" />
+    <Content Include="Views\Empleado\ReporteDistribucionPorLineaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

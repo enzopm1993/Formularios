@@ -18,12 +18,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDError clsDError = null;
         clsDEmpleado clsDEmpleado = null;
         clsDEmpleadoEsfero clsDEmpleadoEsfero = null;
-     
-       
+        clsDClasificador clsDClasificador = null;
+
 
         #region EMPLEADO ESFERO
 
-        [Authorize]
+           [Authorize]
         public ActionResult ControlEsfero()
         {
             try
@@ -48,7 +48,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = Usuario[1]
+                    UsuarioIngreso = Usuario[0]
                 });
                 return RedirectToAction("Home", "Home");
             }
@@ -386,10 +386,97 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         #endregion
 
-      
+
+#region REPORTES
+
+        [Authorize]
+        public ActionResult ReportePersonalNominaPorLinea()
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                var model = clsDEmpleado.ConsultaPersonalNominaPorLinea();      
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        [Authorize]
+        public ActionResult ReporteDistribucionPorLinea()
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                return View();
 
 
+            }
+            catch (Exception ex)
+            {
 
+                SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        [Authorize]
+        public ActionResult ReporteDistribucionPorLineaPartial(string Linea)
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea);
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+
+                // SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+       
+        #endregion
 
 
         protected void SetSuccessMessage(string message)
