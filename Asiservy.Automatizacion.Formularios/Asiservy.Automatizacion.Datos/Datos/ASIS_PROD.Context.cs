@@ -54,6 +54,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_HUESO_DETALLE> CONTROL_HUESO_DETALLE { get; set; }
         public virtual DbSet<CONTROL_MIGA> CONTROL_MIGA { get; set; }
         public virtual DbSet<CONTROL_AUDITORIASANGRE> CONTROL_AUDITORIASANGRE { get; set; }
+        public virtual DbSet<PROYECCION_PROGRAMACION> PROYECCION_PROGRAMACION { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

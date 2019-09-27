@@ -135,6 +135,9 @@
     <Compile Include="Datos\OPCION_ROL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\PROYECCION_PROGRAMACION.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\ROL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

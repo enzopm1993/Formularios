@@ -369,6 +369,27 @@
           <Property Name="TerminalModificacionlog" Type="varchar" MaxLength="50" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
         </EntityType>
+        <EntityType Name="PROYECCION_PROGRAMACION">
+          <Key>
+            <PropertyRef Name="IdProyeccionProgramacion" />
+          </Key>
+          <Property Name="IdProyeccionProgramacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Lote" Type="varchar" MaxLength="5" />
+          <Property Name="OrdenFabricacion" Type="varchar" MaxLength="10" />
+          <Property Name="Toneladas" Type="int" />
+          <Property Name="Lineas" Type="nvarchar" MaxLength="30" />
+          <Property Name="HoraInicio" Type="time" Precision="7" />
+          <Property Name="HoraFin" Type="nchar" MaxLength="10" />
+          <Property Name="Destino" Type="varchar" MaxLength="5" />
+          <Property Name="FechaProduccion" Type="date" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
+          <Property Name="FechaCreacionLog" Type="datetime" />
+          <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="ROL">
           <Key>
             <PropertyRef Name="IdRol" />
@@ -648,6 +669,7 @@
           <EntitySet Name="NIVEL_USUARIO" EntityType="Self.NIVEL_USUARIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OPCION" EntityType="Self.OPCION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OPCION_ROL" EntityType="Self.OPCION_ROL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PROYECCION_PROGRAMACION" EntityType="Self.PROYECCION_PROGRAMACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROL" EntityType="Self.ROL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SOLICITUD_PERMISO" EntityType="Self.SOLICITUD_PERMISO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -1026,6 +1048,7 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="PROYECCION_PROGRAMACION" EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" />
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -1669,6 +1692,27 @@
           <Property Type="Int32" Name="PermisoGeneral" Nullable="true" />
           <Property Type="Int32" Name="Total" Nullable="true" />
         </ComplexType>
+        <EntityType Name="PROYECCION_PROGRAMACION">
+          <Key>
+            <PropertyRef Name="IdProyeccionProgramacion" />
+          </Key>
+          <Property Name="IdProyeccionProgramacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Lote" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="OrdenFabricacion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Toneladas" Type="Int32" />
+          <Property Name="Lineas" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="HoraInicio" Type="Time" Precision="7" />
+          <Property Name="HoraFin" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Destino" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="FechaProduccion" Type="DateTime" Precision="0" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2542,6 +2586,28 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="PROYECCION_PROGRAMACION">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.PROYECCION_PROGRAMACION">
+              <MappingFragment StoreEntitySet="PROYECCION_PROGRAMACION">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="Destino" ColumnName="Destino" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="Lineas" ColumnName="Lineas" />
+                <ScalarProperty Name="Toneladas" ColumnName="Toneladas" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="IdProyeccionProgramacion" ColumnName="IdProyeccionProgramacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
