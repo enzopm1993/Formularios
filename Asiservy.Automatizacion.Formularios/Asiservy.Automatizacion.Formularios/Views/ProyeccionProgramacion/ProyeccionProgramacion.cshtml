@@ -1,7 +1,65 @@
-﻿@*@model Asiservy.Automatizacion.Datos.Datos*@
+﻿@model Asiservy.Automatizacion.Datos.Datos.PROYECCION_PROGRAMACION
 @{
     ViewBag.Title = "ProyeccionProgramacion";
 }
-
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/ProyeccionProgramacion/ProyeccionProgramacion.js"></script>
 <h4>Proyección Programación</h4>
 
+<div class="row">
+
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Lote:</label>
+            @Html.TextBoxFor(m => m.Lote, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Fecha:</label>
+            @Html.TextBoxFor(m => m.FechaProduccion, new { @class = "form-control input-large", type = "date" })
+
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Toneladas:</label>
+            @Html.TextBoxFor(m => m.Toneladas, new { @class = "form-control" })
+
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Destino:</label>
+            @Html.DropDownList("Lineas", (IEnumerable<SelectListItem>)ViewBag.Destino, "Selecione", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Tipo Limpieza:</label>
+            @Html.DropDownList("Lineas", (IEnumerable<SelectListItem>)ViewBag.TipoLimpieza, "Selecione", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Observación:</label>
+            @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control" })
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <center>
+            <div class="form-group">
+                <input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" />
+            </div>
+        </center>
+    </div>
+
+
+</div>

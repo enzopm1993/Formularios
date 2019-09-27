@@ -614,6 +614,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacion.js" />
     <Content Include="Scripts\SeguridadJS\Clasificador.js" />
     <Content Include="Scripts\SeguridadJS\NivelUsuario.js" />
     <Content Include="Scripts\SeguridadJS\Opcion.js" />
@@ -647,6 +648,7 @@
     <Compile Include="AccesoDatos\Empleado\clsDEmpleado.cs" />
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
+    <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDNivelUsuario.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDOpcion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDOpcionRol.cs" />
