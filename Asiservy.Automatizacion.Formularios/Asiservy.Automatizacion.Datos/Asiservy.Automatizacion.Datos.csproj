@@ -192,6 +192,9 @@
     <Compile Include="Datos\spConsultarEmpleadosxTurno.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaReporteControlCuchillo.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsutaControlEsferos.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
