@@ -382,6 +382,7 @@
           <Property Name="HoraFin" Type="nchar" MaxLength="10" />
           <Property Name="Destino" Type="varchar" MaxLength="5" />
           <Property Name="FechaProduccion" Type="date" />
+          <Property Name="Observacion" Type="varchar" MaxLength="100" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
           <Property Name="FechaCreacionLog" Type="datetime" />
           <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
@@ -1712,6 +1713,7 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2589,6 +2591,7 @@
           <EntitySetMapping Name="PROYECCION_PROGRAMACION">
             <EntityTypeMapping TypeName="ASIS_PRODModel.PROYECCION_PROGRAMACION">
               <MappingFragment StoreEntitySet="PROYECCION_PROGRAMACION">
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />

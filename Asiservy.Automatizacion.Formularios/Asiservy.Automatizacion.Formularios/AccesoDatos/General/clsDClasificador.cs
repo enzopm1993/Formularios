@@ -17,7 +17,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 string Respuesta = string.Empty;
-                var poClasificador = entities.CLASIFICADOR.FirstOrDefault(x => x.IdClasificador == model.IdClasificador);
+                var poClasificador = entities.CLASIFICADOR.FirstOrDefault(x => 
+                x.IdClasificador == model.IdClasificador
+                || (x.Grupo == model.Grupo && x.Codigo== model.Codigo));
                 if (poClasificador != null)
                 {
                     poClasificador.Descripcion = model.Descripcion;
