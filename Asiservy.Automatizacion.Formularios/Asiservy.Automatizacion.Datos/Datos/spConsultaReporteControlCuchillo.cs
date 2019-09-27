@@ -14,14 +14,31 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class spConsultaReporteControlCuchillo
     {
         public string Cedula { get; set; }
-        public string NOMBRES { get; set; }
-        public Nullable<int> CuchilloBlanco { get; set; }
-        public int ValidaBlanco { get; set; }
-        public Nullable<int> CuchilloRojo { get; set; }
-        public int ValidaRojo { get; set; }
-        public Nullable<int> CuchilloNegro { get; set; }
-        public int ValidaNegro { get; set; }
-        public string CodigoEstado { get; set; }
-        public string EstadoCuchillo { get; set; }
+        public string Nombre { get; set; }
+        public string CodLinea { get; set; }
+        public Nullable<int> ECBlanco { get; set; }
+        public string EVBlanco { get; set; }
+        public Nullable<int> ECRojo { get; set; }
+        public string EVRojo { get; set; }
+        public Nullable<int> ECNegro { get; set; }
+        public string EVNegro { get; set; }
+        public Nullable<int> ACBlanco { get; set; }
+        public string AVBlanco { get; set; }
+        public Nullable<int> ACRojo { get; set; }
+        public string AVRojo { get; set; }
+        public Nullable<int> ACNegro { get; set; }
+        public string AVNegro { get; set; }
+        public Nullable<int> RCBlanco { get; set; }
+        public string RVBlanco { get; set; }
+        public Nullable<int> RCRojo { get; set; }
+        public string RVRojo { get; set; }
+        public Nullable<int> RCNegro { get; set; }
+        public string RVNegro { get; set; }
+        public Nullable<int> SCBlanco { get; set; }
+        public string SVBlanco { get; set; }
+        public Nullable<int> SCRojo { get; set; }
+        public string SVRojo { get; set; }
+        public Nullable<int> SCNegro { get; set; }
+        public string SVNegro { get; set; }
     }
 }

@@ -1726,16 +1726,33 @@
           <Property Name="TipoLimpieza" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="spConsultaReporteControlCuchillo">
-          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
-          <Property Type="Int32" Name="CuchilloBlanco" Nullable="true" />
-          <Property Type="Int32" Name="ValidaBlanco" Nullable="false" />
-          <Property Type="Int32" Name="CuchilloRojo" Nullable="true" />
-          <Property Type="Int32" Name="ValidaRojo" Nullable="false" />
-          <Property Type="Int32" Name="CuchilloNegro" Nullable="true" />
-          <Property Type="Int32" Name="ValidaNegro" Nullable="false" />
-          <Property Type="String" Name="CodigoEstado" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="EstadoCuchillo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ECBlanco" Nullable="true" />
+          <Property Type="String" Name="EVBlanco" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ECRojo" Nullable="true" />
+          <Property Type="String" Name="EVRojo" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ECNegro" Nullable="true" />
+          <Property Type="String" Name="EVNegro" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ACBlanco" Nullable="true" />
+          <Property Type="String" Name="AVBlanco" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ACRojo" Nullable="true" />
+          <Property Type="String" Name="AVRojo" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ACNegro" Nullable="true" />
+          <Property Type="String" Name="AVNegro" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="RCBlanco" Nullable="true" />
+          <Property Type="String" Name="RVBlanco" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="RCRojo" Nullable="true" />
+          <Property Type="String" Name="RVRojo" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="RCNegro" Nullable="true" />
+          <Property Type="String" Name="RVNegro" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="SCBlanco" Nullable="true" />
+          <Property Type="String" Name="SVBlanco" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="SCRojo" Nullable="true" />
+          <Property Type="String" Name="SVRojo" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="SCNegro" Nullable="true" />
+          <Property Type="String" Name="SVNegro" Nullable="false" MaxLength="1" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2638,15 +2655,32 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaReporteControlCuchillo">
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="CuchilloBlanco" ColumnName="CuchilloBlanco" />
-                <ScalarProperty Name="ValidaBlanco" ColumnName="ValidaBlanco" />
-                <ScalarProperty Name="CuchilloRojo" ColumnName="CuchilloRojo" />
-                <ScalarProperty Name="ValidaRojo" ColumnName="ValidaRojo" />
-                <ScalarProperty Name="CuchilloNegro" ColumnName="CuchilloNegro" />
-                <ScalarProperty Name="ValidaNegro" ColumnName="ValidaNegro" />
-                <ScalarProperty Name="CodigoEstado" ColumnName="CodigoEstado" />
-                <ScalarProperty Name="EstadoCuchillo" ColumnName="EstadoCuchillo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="ECBlanco" ColumnName="ECBlanco" />
+                <ScalarProperty Name="EVBlanco" ColumnName="EVBlanco" />
+                <ScalarProperty Name="ECRojo" ColumnName="ECRojo" />
+                <ScalarProperty Name="EVRojo" ColumnName="EVRojo" />
+                <ScalarProperty Name="ECNegro" ColumnName="ECNegro" />
+                <ScalarProperty Name="EVNegro" ColumnName="EVNegro" />
+                <ScalarProperty Name="ACBlanco" ColumnName="ACBlanco" />
+                <ScalarProperty Name="AVBlanco" ColumnName="AVBlanco" />
+                <ScalarProperty Name="ACRojo" ColumnName="ACRojo" />
+                <ScalarProperty Name="AVRojo" ColumnName="AVRojo" />
+                <ScalarProperty Name="ACNegro" ColumnName="ACNegro" />
+                <ScalarProperty Name="AVNegro" ColumnName="AVNegro" />
+                <ScalarProperty Name="RCBlanco" ColumnName="RCBlanco" />
+                <ScalarProperty Name="RVBlanco" ColumnName="RVBlanco" />
+                <ScalarProperty Name="RCRojo" ColumnName="RCRojo" />
+                <ScalarProperty Name="RVRojo" ColumnName="RVRojo" />
+                <ScalarProperty Name="RCNegro" ColumnName="RCNegro" />
+                <ScalarProperty Name="RVNegro" ColumnName="RVNegro" />
+                <ScalarProperty Name="SCBlanco" ColumnName="SCBlanco" />
+                <ScalarProperty Name="SVBlanco" ColumnName="SVBlanco" />
+                <ScalarProperty Name="SCRojo" ColumnName="SCRojo" />
+                <ScalarProperty Name="SVRojo" ColumnName="SVRojo" />
+                <ScalarProperty Name="SCNegro" ColumnName="SCNegro" />
+                <ScalarProperty Name="SVNegro" ColumnName="SVNegro" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
