@@ -684,6 +684,7 @@
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
     <Compile Include="Models\Motivo.cs" />
+    <Compile Include="Models\ProyeccionProgramacion\ProyeccionProgramacionViewModel.cs" />
     <Compile Include="Models\Seguridad\Clasificador.cs" />
     <Compile Include="Models\Seguridad\ConsultaOpcionesxRolViewModel.cs" />
     <Compile Include="Models\Seguridad\NivelUsuarioViewModel.cs" />

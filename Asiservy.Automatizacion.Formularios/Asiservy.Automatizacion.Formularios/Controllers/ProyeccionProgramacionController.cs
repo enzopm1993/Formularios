@@ -1,4 +1,6 @@
-﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
+﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion;
 using Asiservy.Automatizacion.Formularios.Models.Seguridad;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
         clsDError clsDError = null;
         clsDClasificador clsDClasificador = null;
+        clsDProyeccionProgramacion clsDProyeccionProgramacion = null;
         string[] liststring;
         // GET: ProyeccionProgramacion
         [Authorize]
@@ -27,6 +30,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var ListDestinoProduccion = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoDestinoProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
 
                 ViewBag.Destino = new SelectList(ListDestinoProduccion, "codigo", "descripcion");
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                ViewBag.Proyeccion = clsDProyeccionProgramacion.ConsultarProyeccionProgramacion();
                 return View();
             }
             catch (Exception ex)
@@ -35,11 +40,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 throw;
             }
         }
-        [Authorize]
-        public ActionResult ProyeccionProgramacionPartial()
+
+        [HttpPost]
+        public ActionResult ProyeccionProgramacionPartial(string Lote,DateTime FechaProduccion,int Toneladas,string Destino, string TipoLimpieza,string Observacion)
         {
             try
             {
+                PROYECCION_PROGRAMACION
                 return PartialView();
             }
             catch (Exception ex)
