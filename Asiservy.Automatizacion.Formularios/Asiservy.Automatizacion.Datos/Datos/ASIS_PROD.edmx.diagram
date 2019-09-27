@@ -39,6 +39,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_MIGA" Width="1.5" PointX="20.875" PointY="1.75" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AUDITORIASANGRE" Width="1.5" PointX="0.75" PointY="16.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" Width="1.5" PointX="16.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -54,6 +54,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_HUESO_DETALLE> CONTROL_HUESO_DETALLE { get; set; }
         public virtual DbSet<CONTROL_MIGA> CONTROL_MIGA { get; set; }
         public virtual DbSet<CONTROL_AUDITORIASANGRE> CONTROL_AUDITORIASANGRE { get; set; }
+        public virtual DbSet<PROYECCION_PROGRAMACION> PROYECCION_PROGRAMACION { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -405,6 +406,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("FECHA", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAuditoriaSangre>("spReporteAuditoriaSangre", codLineaParameter, fECHAParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaPersonalNominaPorLinea> spConsultaPersonalNominaPorLinea()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalNominaPorLinea>("spConsultaPersonalNominaPorLinea");
+        }
+    
+        public virtual ObjectResult<spConsultaDistribucionPorLinea> spConsultaDistribucionPorLinea(Nullable<System.DateTime> fecha, string linea)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaDistribucionPorLinea>("spConsultaDistribucionPorLinea", fechaParameter, lineaParameter);
         }
     }
 }

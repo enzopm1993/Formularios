@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaDistribucionPorLinea>
+
+<table class="table">
+    <thead class="table-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cargo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PuestoTrabajo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Presente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Falta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermisoMedico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CambioArea)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermisoGeneral)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+
+        </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cargo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PuestoTrabajo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Presente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Falta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PermisoMedico)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CambioArea)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PermisoGeneral)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+
+            </tr>
+        }
+
+</table>

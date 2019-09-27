@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaPersonalNominaPorLinea>
+
+@{
+    ViewBag.Title = "ReportePersonalNominaPorLinea";
+}
+
+<h3>Personal Nomina Por Linea</h3>
+
+<br />
+<div class="table-responsive">
+    <table class="table">
+        <thead class="table-light">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Area)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PuestoTrabajo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Linea1)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Linea2)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Linea3)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Linea4)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Linea5)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total)
+                </th>
+
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PuestoTrabajo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Linea1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Linea2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Linea3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Linea4)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Linea5)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>

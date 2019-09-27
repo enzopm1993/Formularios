@@ -37,13 +37,11 @@
                             @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), "Seleccione la Línea", new { @onchange = "CambioLineas(this.id)", @class = "form-control", @id = "selectLinea" })
                             @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
 
-                            <script>                                 
+                            @*<script>                                 
                                 function CambioLineas(id) {                                   
                                     $('#' + id).val('@ViewBag.CodLinea');
-                                }
-                          
-                               
-                            </script>
+                                }    
+                            </script>*@
                         </div>
 
                         <div class="col-md-4 col-sm-12">

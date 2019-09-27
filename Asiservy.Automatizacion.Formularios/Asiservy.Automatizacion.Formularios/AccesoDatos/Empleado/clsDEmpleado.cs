@@ -9,7 +9,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public class clsDEmpleado
     {
-
+        public List<spConsultaPersonalNominaPorLinea> ConsultaPersonalNominaPorLinea()
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaPersonalNominaPorLinea().ToList();
+            }
+        }
+        public List<spConsultaDistribucionPorLinea> spConsultaDistribucionPorLinea(string Linea)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaDistribucionPorLinea(DateTime.Now,Linea).ToList();
+            }
+        }
         public void GuardarModificarEmpleadoTurno(EmpleadoViewModel model)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
