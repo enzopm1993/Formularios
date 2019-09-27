@@ -381,6 +381,7 @@
           <Property Name="HoraInicio" Type="time" Precision="7" />
           <Property Name="HoraFin" Type="nchar" MaxLength="10" />
           <Property Name="Destino" Type="varchar" MaxLength="5" />
+          <Property Name="TipoLimpieza" Type="varchar" MaxLength="5" />
           <Property Name="FechaProduccion" Type="date" />
           <Property Name="Observacion" Type="varchar" MaxLength="100" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
@@ -607,6 +608,10 @@
         <Function Name="spConsultarEmpleadosxTurno" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CodLinea" Type="varchar" Mode="In" />
           <Parameter Name="Turno" Type="char" Mode="In" />
+        </Function>
+        <Function Name="spConsultaReporteControlCuchillo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
+          <Parameter Name="linea" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsultarUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
@@ -1050,6 +1055,10 @@
             <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="PROYECCION_PROGRAMACION" EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" />
+          <FunctionImport Name="spConsultaReporteControlCuchillo" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteControlCuchillo)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -1714,7 +1723,20 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Observacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TipoLimpieza" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="spConsultaReporteControlCuchillo">
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="Int32" Name="CuchilloBlanco" Nullable="true" />
+          <Property Type="Int32" Name="ValidaBlanco" Nullable="false" />
+          <Property Type="Int32" Name="CuchilloRojo" Nullable="true" />
+          <Property Type="Int32" Name="ValidaRojo" Nullable="false" />
+          <Property Type="Int32" Name="CuchilloNegro" Nullable="true" />
+          <Property Type="Int32" Name="ValidaNegro" Nullable="false" />
+          <Property Type="String" Name="CodigoEstado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="EstadoCuchillo" Nullable="true" MaxLength="100" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2591,6 +2613,7 @@
           <EntitySetMapping Name="PROYECCION_PROGRAMACION">
             <EntityTypeMapping TypeName="ASIS_PRODModel.PROYECCION_PROGRAMACION">
               <MappingFragment StoreEntitySet="PROYECCION_PROGRAMACION">
+                <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
@@ -2611,6 +2634,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaReporteControlCuchillo" FunctionName="ASIS_PRODModel.Store.spConsultaReporteControlCuchillo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaReporteControlCuchillo">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="CuchilloBlanco" ColumnName="CuchilloBlanco" />
+                <ScalarProperty Name="ValidaBlanco" ColumnName="ValidaBlanco" />
+                <ScalarProperty Name="CuchilloRojo" ColumnName="CuchilloRojo" />
+                <ScalarProperty Name="ValidaRojo" ColumnName="ValidaRojo" />
+                <ScalarProperty Name="CuchilloNegro" ColumnName="CuchilloNegro" />
+                <ScalarProperty Name="ValidaNegro" ColumnName="ValidaNegro" />
+                <ScalarProperty Name="CodigoEstado" ColumnName="CodigoEstado" />
+                <ScalarProperty Name="EstadoCuchillo" ColumnName="EstadoCuchillo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
