@@ -69,7 +69,9 @@ function Mover(result) {
 //consultar_empleados
 function ConsultarEmpleados() {
     //ConsultarEmpleado = "ConsultarEmpleado";
+  
     if ($('#SelectLineaOrigen').val() != "") {
+        MostrarModalCargando();
         $.ajax({
             url: "../Asistencia/EmpleadosCambioPersonalPartial",
             type: "GET",
@@ -79,17 +81,21 @@ function ConsultarEmpleados() {
                 psarea: $('#SelectAreaOrigen').val(),
                 pscargo: $('#SelectCargoOrigen').val(),
                 tipo: $('#optcambiaremp').val()
+              
             },
             success: function (data) {
                 $('#DivEmpleados').html(data);
                 $('#btnGuardarCambioEmp').show();
                 $('#Guardar').show();
                 $('#Guardar').val('Mover Empleados');
+                CerrarModalCargando();
+
             }
         });
         $('#contempleados').show();
     } else {
         MensajeError("Debe seleccionar al menos la línea a consultar", false);
+
     }
     
 
