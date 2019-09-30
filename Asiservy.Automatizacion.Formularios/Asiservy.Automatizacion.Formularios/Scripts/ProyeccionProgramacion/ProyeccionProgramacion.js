@@ -1,43 +1,78 @@
 ﻿$(document).ready(function () {
-    var fecha = new Date(); //Fecha actual
-    var mes = fecha.getMonth() + 1; //obteniendo mes
-    var dia = fecha.getDate()+1; //obteniendo dia
-    var ano = fecha.getFullYear(); //obteniendo año
+    //var fecha = new Date(); //Fecha actual
+    //var mes = fecha.getMonth() + 1; //obteniendo mes
+    //var dia = fecha.getDate()+1; //obteniendo dia
+    //var ano = fecha.getFullYear(); //obteniendo año
+    //if (dia < 10)
+    //    dia = '0' + dia; //agrega cero si el menor de 10
+    //if (mes < 10)
+    //    mes = '0' + mes //agrega cero si el menor de 10
+    //document.getElementById('FechaProduccion').value = ano + "-" + mes + "-" + dia;
+});
+function Limpiar() {
+    $('#Lote').val("");
+    //$('#FechaProduccion').val("");
+    $('#Toneladas').val("");
+    $('#Destino').prop('selectedIndex', 0);
+    $('#TipoLimpieza').prop('selectedIndex', 0);
+    $('#Observacion').val("");
+    $('#IdProyeccion').val("");
+    
+}
+function EditarProyeccion(IdProyeccion, Lote, Fecha, Toneladas, Destino, TipoLimpieza, Observacion) {
+   // alert(Fecha);
+    var FechaD = new Date(Fecha);
+    var mes = FechaD.getMonth()+1; //obteniendo mes
+    var dia = FechaD.getDate(); //obteniendo dia
+    var ano = FechaD.getFullYear(); //obteniendo año
     if (dia < 10)
         dia = '0' + dia; //agrega cero si el menor de 10
     if (mes < 10)
-        mes = '0' + mes //agrega cero si el menor de 10
-    document.getElementById('FechaProduccion').value = ano + "-" + mes + "-" + dia;
-});
+        mes = '0' + mes; //agrega cero si el menor de 10
+    $('#IdProyeccion').val(IdProyeccion);
+    $('#Lote').val(Lote);
+    $('#FechaProduccion').val(ano + "-" + mes + "-" + dia);
+    $('#Toneladas').val(Toneladas);
+    $('#Destino').val(Destino);
+    $('#TipoLimpieza').val(TipoLimpieza);
+    $('#Observacion').val(Observacion);
 
+}
 function IngresarProyeccionProgramacion() {
-    $.ajax({
-        url: "../ProyeccionProgramacion/ProyeccionProgramacionPartial",
-        type: "POST",
-        data:
-        {
-            Lote: $('#Lote').val(),
-            FechaProduccion: $('#FechaProduccion').val(),
-            Toneladas: $('#Toneladas').val(),
-            Destino: $('#Destino').val(),
-            TipoLimpieza: $('#TipoLimpieza').val(),
-            Observacion: $('#Observacion').val()
-        },
-        success: function (resultado) {
-            $('#Lote').val(""),
-            $('#FechaProduccion').val(""),
-            $('#Toneladas').val(""),
-            $('#Destino').prop('selectedIndex', 0),
-            $('#TipoLimpieza').prop('selectedIndex', 0),
-            $('#Observacion').val("")
-            $('#DivProyeccion').html(resultado);
-            MensajeCorrecto("Registro ingresado con éxito", true);
-        },
-        error: function (resultado) {
-            MensajeError(JSON.stringify(resultado), false);
+    var idPro;
+    if ($('#IdProyeccion').val() == "") {
+        idPro = 0;
+    } else {
+        idPro = $('#IdProyeccion').val();
+    }
+    if ($('#Lote').val() == "" || $('#FechaProduccion').val() == "" || $('#Toneladas').val() == "" || $('#Destino').prop('selectedIndex') == 0 || $('#TipoLimpieza').prop('selectedIndex') == 0) {
+        MensajeError("Debe ingresar los campos requeridos", false);
+    } else {
+        $.ajax({
+            url: "../ProyeccionProgramacion/ProyeccionProgramacionPartial",
+            type: "POST",
+            data:
+            {
+                IdProyeccionProgramacion: idPro,
+                Lote: $('#Lote').val(),
+                FechaProduccion: $('#FechaProduccion').val(),
+                Toneladas: $('#Toneladas').val(),
+                Destino: $('#Destino').val(),
+                TipoLimpieza: $('#TipoLimpieza').val(),
+                Observacion: $('#Observacion').val()
+            },
+            success: function (resultado) {
+                Limpiar();
+                $('#DivProyeccion').html(resultado);
+                MensajeCorrecto("Registro ingresado con éxito", true);
+            },
+            error: function (resultado) {
+                MensajeError(JSON.stringify(resultado), false);
 
-        }
-    });
+            }
+        });
+    }
+    
 }
 $('#tablaProyeccion').DataTable({
     "language": {

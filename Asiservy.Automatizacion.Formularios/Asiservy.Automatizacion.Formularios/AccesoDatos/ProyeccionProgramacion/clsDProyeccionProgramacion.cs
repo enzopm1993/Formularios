@@ -15,6 +15,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
             {
                 var BuscarProyeccion = db.PROYECCION_PROGRAMACION.Find(ProyeccionProgramacion.IdProyeccionProgramacion);
                 DateTime fecha = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
+                if (BuscarProyeccion == null)
+                {
+                    db.PROYECCION_PROGRAMACION.Add(ProyeccionProgramacion);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    BuscarProyeccion.Lote = ProyeccionProgramacion.Lote;
+                    db.SaveChanges();
+                }
                 var ListProyeccionProgramacion = (from p in db.PROYECCION_PROGRAMACION
                                                   join c in db.CLASIFICADOR on new { Codigo = p.TipoLimpieza, Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado } equals new { c.Codigo, c.Grupo }
                                                   join d in db.CLASIFICADOR on new { Codigo = p.Destino, Grupo = clsAtributos.CodigoGrupoDestinoProduccion } equals new { d.Codigo, d.Grupo }

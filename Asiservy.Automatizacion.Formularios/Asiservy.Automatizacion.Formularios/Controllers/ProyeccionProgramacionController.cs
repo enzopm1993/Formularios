@@ -37,22 +37,51 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 
         [HttpPost]
-        public ActionResult ProyeccionProgramacionPartial(string Lote,DateTime FechaProduccion,int Toneladas,string Destino, string TipoLimpieza,string Observacion)
+        public ActionResult ProyeccionProgramacionPartial(int IdProyeccionProgramacion,string Lote,DateTime? FechaProduccion,int? Toneladas,string Destino, string TipoLimpieza,string Observacion,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin)
         {
             try
             {
-                PROYECCION_PROGRAMACION
-                return PartialView();
+                if (string.IsNullOrEmpty(Lineas))
+                {
+                    PROYECCION_PROGRAMACION ProyeccionProgramacion = new PROYECCION_PROGRAMACION()
+                    {
+
+                        IdProyeccionProgramacion = IdProyeccionProgramacion,
+                        Lote = Lote,
+                        FechaProduccion = FechaProduccion,
+                        Toneladas = Toneladas,
+                        Destino = Destino,
+                        TipoLimpieza = TipoLimpieza,
+                        Observacion = Observacion
+
+                    };
+                }
+                else
+                {
+                    PROYECCION_PROGRAMACION ProyeccionProgramacion = new PROYECCION_PROGRAMACION()
+                    {
+
+                        IdProyeccionProgramacion = IdProyeccionProgramacion,
+                        Lineas=Lineas,
+                        HoraInicio=HoraInicio,
+                        HoraFin=HoraFin
+
+                    };
+                }
+               
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                var Respuesta = clsDProyeccionProgramacion.GuardarActualizarProyeccionProgramacion(ProyeccionProgramacion);
+                return PartialView(Respuesta);
             }
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
         [Authorize]
@@ -60,12 +89,30 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                ViewBag.Proyeccion = clsDProyeccionProgramacion.ConsultarProyeccionProgramacion();
                 return View();
             }
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
+            }
+        }
+        public ActionResult ModalEditarProyeccion(int IdProyeccion)
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                var ListLineas = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                ViewBag.IdProyeccion = IdProyeccion;
+                ViewBag.Lineas = ListLineas;
+                return PartialView();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
     }

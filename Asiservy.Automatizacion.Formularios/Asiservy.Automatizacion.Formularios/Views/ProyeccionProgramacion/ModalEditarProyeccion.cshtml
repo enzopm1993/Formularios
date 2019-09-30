@@ -1,0 +1,50 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="ModalEditarProyeccion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Editar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          <input type="text" value="@ViewBag.IdProyeccion" id="idproyeccionmodal" hidden/>
+                <div class="modal-body">
+                    
+                    <div id="DivBodyEditar" >
+                        <div class="row">
+                            
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Líneas: </label> <br />
+                                    @foreach (var item in ViewBag.Lineas)
+                                    {
+                                              <label>&nbsp;&nbsp; @item.Descripcion </label><input type="checkbox" id="Linea@item.Codigo" value="@item.Descripcion"  class=""/>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Hora Inicio: </label> <input type="time" class="form-control" id="HoraInicio" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="align-left">Hora Fin:</label><input type="time" class="form-control" id="HoraFin" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                       
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="ActualizarProyeccion()">Guardar</button>
+                    </div>
+                </div>
+         
+        </div>
+    </div>
+</div>
+
+
+

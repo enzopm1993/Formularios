@@ -6,17 +6,18 @@
 <h4>Proyección Programación</h4>
 
 <div class="row">
-
+    @Html.Hidden("IdProyeccion")
+    @{var Fecha = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"); }
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Lote:</label>
-            @Html.TextBoxFor(m => m.Lote, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Lote, new { @class = "form-control"})
         </div>
     </div>
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Fecha:</label>
-            @Html.TextBoxFor(m => m.FechaProduccion, new { @class = "form-control input-large", type = "date" })
+            @Html.TextBoxFor(m => m.FechaProduccion, new { @class = "form-control input-large", type = "date", @Value = Fecha })
 
         </div>
     </div>
@@ -30,13 +31,13 @@
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Destino:</label>
-            @Html.DropDownList("Destino", (IEnumerable<SelectListItem>)ViewBag.Destino, "Selecione", new { @class = "form-control" })
+            @Html.DropDownList("Destino", (IEnumerable<SelectListItem>)ViewBag.Destino, "Seleccione", new { @class = "form-control" })
         </div>
     </div>
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Tipo Limpieza:</label>
-            @Html.DropDownList("TipoLimpieza", (IEnumerable<SelectListItem>)ViewBag.TipoLimpieza, "Selecione", new { @class = "form-control" })
+            @Html.DropDownList("TipoLimpieza", (IEnumerable<SelectListItem>)ViewBag.TipoLimpieza, "Seleccione", new { @class = "form-control" })
         </div>
     </div>
     <div class="col-md-4 col-sm-6">
@@ -50,7 +51,8 @@
     <div class="col-md-12 col-sm-12">
         <center>
             <div class="form-group">
-                <input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" />
+                <input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="IngresarProyeccionProgramacion()" />
+                <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />
             </div>
         </center>
     </div>
@@ -60,7 +62,7 @@
 
 <div id="DivProyeccion">
 
-    <table class="table table-hover" id="tablaProyeccion" style="cursor: pointer" id="TablaAuditoriaSangre">
+    <table class="table table-hover" id="tablaProyeccion" style="cursor: pointer" >
         <thead>
             <tr>
                 <th>
@@ -83,7 +85,7 @@
         <tbody>
             @foreach (var item in ViewBag.Proyeccion)
             {
-                <tr>
+                <tr  onclick="EditarProyeccion('@item.IdProyeccion','@item.Lote','@item.FechaProduccion','@item.Tonelada','@item.CodDestino','@item.IdTipoLimpieza','@item.Observacion');">
                     <td>
                         @item.Lote
                     </td>
