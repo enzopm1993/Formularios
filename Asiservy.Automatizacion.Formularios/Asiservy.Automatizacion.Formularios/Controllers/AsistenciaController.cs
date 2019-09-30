@@ -615,9 +615,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return View();
         }
         #endregion
-
-
-
+    
         #region EDITAR ASISTENCIA
         [Authorize]
         public ActionResult EditarAsistencia()
@@ -1128,6 +1126,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 var Empleados = clsDEmpleado.ConsultaEmpleadosFiltro(linea.CODIGOLINEA, null, null);
                 ViewBag.Empleados = Empleados;
+                ViewBag.Linea = linea.LINEA;
             }
             var poCuchillosBlancos = clsDCuchillo.ConsultarCuchillos(new CUCHILLO { ColorCuchillo = clsAtributos.CodigoColorCuchilloBlanco });
             var poCuchillosRojos = clsDCuchillo.ConsultarCuchillos(new CUCHILLO { ColorCuchillo = clsAtributos.CodigoColorCuchilloRojo });
@@ -1191,7 +1190,63 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+        [Authorize]
+        // GET: Asistencia/ReporteControlCuchillo
+        public ActionResult ReporteControlCuchillo()
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {Grupo =clsAtributos.CodGrupoLineaProduccion, EstadoRegistro=clsAtributos.EstadoRegistroActivo });
+                return View();
 
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        [Authorize]
+        // GET: Asistencia/ReporteControlCuchilloPartial
+        public ActionResult ReporteControlCuchilloPartial(DateTime Fecha, string Linea)
+        {
+            try
+            {
+                clsDCuchillo = new clsDCuchillo();
+                var model = clsDCuchillo.ConsultaControlCuchillo(Fecha,Linea);
+                return PartialView(model);
+
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
         #endregion
 
         [Authorize]

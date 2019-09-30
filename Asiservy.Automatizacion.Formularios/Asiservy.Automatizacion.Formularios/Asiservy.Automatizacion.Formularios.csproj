@@ -329,6 +329,7 @@
     <Content Include="Scripts\AsistenciaJS\EditarAsistencia.js" />
     <Content Include="Scripts\AsistenciaJS\EmpleadoCuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\PersonalNomina.js" />
+    <Content Include="Scripts\AsistenciaJS\ReporteControlCuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\ReporteDistribucion.js" />
     <Content Include="Scripts\AsistenciaJS\RptAsistencia.js" />
     <Content Include="Scripts\AuditoriaSangre\AuditoriaSangre.js" />
@@ -787,6 +788,8 @@
     <Content Include="Views\Empleado\ReportePersonalNominaPorLinea.cshtml" />
     <Content Include="Views\Empleado\ReporteDistribucionPorLinea.cshtml" />
     <Content Include="Views\Empleado\ReporteDistribucionPorLineaPartial.cshtml" />
+    <Content Include="Views\Asistencia\ReporteControlCuchillo.cshtml" />
+    <Content Include="Views\Asistencia\ReporteControlCuchilloPartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionPartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEditar.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ModalEditarProyeccion.cshtml" />
