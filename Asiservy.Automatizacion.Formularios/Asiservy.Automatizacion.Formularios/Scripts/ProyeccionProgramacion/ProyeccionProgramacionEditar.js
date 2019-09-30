@@ -44,7 +44,7 @@ function AbrirModal(IdProyeccion) {
         data: { IdProyeccion: IdProyeccion },
         success: function (resultado) {
             
-            var m = document.getElementById("DivEditarProyeccion");
+            var m = document.getElementById("modaleditarpro");
             m.innerHTML = resultado;
             //var modal = document.getElementById("ModalError");
             $("#ModalEditarProyeccion").modal("show");
