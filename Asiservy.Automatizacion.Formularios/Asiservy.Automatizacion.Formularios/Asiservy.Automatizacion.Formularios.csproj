@@ -617,6 +617,8 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacion.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEditar.js" />
     <Content Include="Scripts\SeguridadJS\Clasificador.js" />
     <Content Include="Scripts\SeguridadJS\NivelUsuario.js" />
     <Content Include="Scripts\SeguridadJS\Opcion.js" />
@@ -650,6 +652,7 @@
     <Compile Include="AccesoDatos\Empleado\clsDEmpleado.cs" />
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
+    <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDNivelUsuario.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDOpcion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDOpcionRol.cs" />
@@ -666,6 +669,7 @@
     <Compile Include="Controllers\HuesoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MensajeController.cs" />
+    <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
     <Compile Include="Global.asax.cs">
@@ -684,6 +688,7 @@
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
     <Compile Include="Models\Motivo.cs" />
+    <Compile Include="Models\ProyeccionProgramacion\ProyeccionProgramacionViewModel.cs" />
     <Compile Include="Models\Seguridad\Clasificador.cs" />
     <Compile Include="Models\Seguridad\ConsultaOpcionesxRolViewModel.cs" />
     <Compile Include="Models\Seguridad\NivelUsuarioViewModel.cs" />
@@ -781,11 +786,16 @@
     <Content Include="Views\Hueso\ReporteAvanceDiarioPorLimpiadoraPartial.cshtml" />
     <Content Include="Views\AuditoriaSangre\ReporteAuditoriaSangre.cshtml" />
     <Content Include="Views\AuditoriaSangre\ReporteAuditoriaSangrePArtial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacion.cshtml" />
     <Content Include="Views\Empleado\ReportePersonalNominaPorLinea.cshtml" />
     <Content Include="Views\Empleado\ReporteDistribucionPorLinea.cshtml" />
     <Content Include="Views\Empleado\ReporteDistribucionPorLineaPartial.cshtml" />
     <Content Include="Views\Asistencia\ReporteControlCuchillo.cshtml" />
     <Content Include="Views\Asistencia\ReporteControlCuchilloPartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionPartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEditar.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ModalEditarProyeccion.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEditarPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

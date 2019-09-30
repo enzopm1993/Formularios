@@ -95,7 +95,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //Cargos 
         public static string CargoLimpiadora = "134";
-        
 
+        //Clasificador Tipos de limpieza pescado
+        public static string CodigoGrupoTipoLimpiezaPescado = "008";
+
+        //Clasificador Destinos de produccion
+        public static string CodigoGrupoDestinoProduccion = "007";
     }
 }

@@ -1,0 +1,63 @@
+﻿@model List<Asiservy.Automatizacion.Formularios.Models.ProyeccionProgramacion.ProyeccionProgramacionViewModel>
+
+<table class="table table-hover" id="tablaProyeccion" style="cursor: pointer">
+    <thead>
+        <tr>
+            <th>
+                Lote
+            </th>
+            <th>
+                Toneladas
+            </th>
+            <th>
+                Destino
+            </th>
+            <th>
+                Tipo Limpieza
+            </th>
+            <th>
+                Observación
+            </th>
+            <th>
+                Líneas
+            </th>
+            <th>
+                Hora Inicio
+            </th>
+            <th>
+                Hora fin
+            </th>
+            <th>
+                Acción
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Lote
+                </td>
+                <td>
+                    @item.Tonelada
+                </td>
+                <td>
+                    @item.Destino
+                </td>
+                <td>
+                    @item.TipoLimpieza
+                </td>
+                <td>
+                    @item.Observacion
+                </td>
+                <td>@item.Lineas</td>
+                <td>@item.HoraInicio</td>
+                <td>@item.HoraFin</td>
+                <td>
+                    <a href="#" onclick="AbrirModal('@item.IdProyeccion');">Editar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

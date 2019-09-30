@@ -1,0 +1,117 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.PROYECCION_PROGRAMACION
+@{
+    ViewBag.Title = "ProyeccionProgramacion";
+}
+
+<h4>Proyección Programación</h4>
+
+<div class="row">
+    @Html.Hidden("IdProyeccion")
+    @{var Fecha = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"); }
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Lote:</label>
+            @Html.TextBoxFor(m => m.Lote, new { @class = "form-control"})
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Fecha:</label>
+            @Html.TextBoxFor(m => m.FechaProduccion, new { @class = "form-control input-large", type = "date", @Value = Fecha })
+
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Toneladas:</label>
+            @Html.TextBoxFor(m => m.Toneladas, new { @class = "form-control" })
+
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Destino:</label>
+            @Html.DropDownList("Destino", (IEnumerable<SelectListItem>)ViewBag.Destino, "Seleccione", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Tipo Limpieza:</label>
+            @Html.DropDownList("TipoLimpieza", (IEnumerable<SelectListItem>)ViewBag.TipoLimpieza, "Seleccione", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Observación:</label>
+            @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control" })
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <center>
+            <div class="form-group">
+                <input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="IngresarProyeccionProgramacion()" />
+                <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />
+            </div>
+        </center>
+    </div>
+
+
+</div>
+
+<div id="DivProyeccion">
+
+    <table class="table table-hover" id="tablaProyeccion" style="cursor: pointer" >
+        <thead>
+            <tr>
+                <th>
+                    Lote
+                </th>
+                <th>
+                    Toneladas
+                </th>
+                <th>
+                    Destino
+                </th>
+                <th>
+                    Tipo Limpieza
+                </th>
+                <th>
+                    Observación
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Proyeccion)
+            {
+                <tr  onclick="EditarProyeccion('@item.IdProyeccion','@item.Lote','@item.FechaProduccion','@item.Tonelada','@item.CodDestino','@item.IdTipoLimpieza','@item.Observacion');">
+                    <td>
+                        @item.Lote
+                    </td>
+                    <td>
+                        @item.Tonelada
+                    </td>
+                    <td>
+                        @item.Destino
+                    </td>
+                    <td>
+                        @item.TipoLimpieza
+                    </td>
+                    <td>
+                        @item.Observacion
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/ProyeccionProgramacion/ProyeccionProgramacion.js"></script>
