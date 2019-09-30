@@ -1191,8 +1191,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        // GET: Asistencia/ReporteControluchillo
-        public ActionResult ReporteControluchillo()
+        // GET: Asistencia/ReporteControlCuchillo
+        public ActionResult ReporteControlCuchillo()
         {
             try
             {
@@ -1220,8 +1220,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [Authorize]
-        // GET: Asistencia/ReporteControluchillo
-        public ActionResult ReporteControluchilloPartial(DateTime Fecha, string Linea)
+        // GET: Asistencia/ReporteControlCuchilloPartial
+        public ActionResult ReporteControlCuchilloPartial(DateTime Fecha, string Linea)
         {
             try
             {

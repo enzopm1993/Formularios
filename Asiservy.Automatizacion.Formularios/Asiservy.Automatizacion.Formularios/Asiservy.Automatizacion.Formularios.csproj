@@ -782,8 +782,8 @@
     <Content Include="Views\Empleado\ReportePersonalNominaPorLinea.cshtml" />
     <Content Include="Views\Empleado\ReporteDistribucionPorLinea.cshtml" />
     <Content Include="Views\Empleado\ReporteDistribucionPorLineaPartial.cshtml" />
-    <Content Include="Views\Asistencia\ReporteControluchillo.cshtml" />
-    <Content Include="Views\Asistencia\ReporteControluchilloPartial.cshtml" />
+    <Content Include="Views\Asistencia\ReporteControlCuchillo.cshtml" />
+    <Content Include="Views\Asistencia\ReporteControlCuchilloPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

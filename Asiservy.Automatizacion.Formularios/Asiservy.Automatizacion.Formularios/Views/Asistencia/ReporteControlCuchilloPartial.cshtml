@@ -12,13 +12,13 @@
             <th class="text-center" colspan="2">
                 <label>Entrada</label>
             </th>
-            <th class="text-center" colspan="2">
+            <th class="text-center" colspan="2" style="background:#F0F8FF">
                 <label>Almuerzo</label>
             </th>
             <th class="text-center" colspan="2">
                 <label>Regreso</label>
             </th>
-            <th class="text-center" colspan="2">
+            <th class="text-center" colspan="2" style="background:#F0F8FF">
                 <label>Salida</label>
             </th>
         </tr>
@@ -28,11 +28,11 @@
             </th>
             <th class="text-center">
                 <label>Rojo</label>
-            </th>
-            <th class="text-center">
+            </th >
+            <th class="text-center" style="background:#F0F8FF"> 
                 <label>Blanco</label>
             </th>
-            <th class="text-center">
+            <th class="text-center" style="background:#F0F8FF">
                 <label>Rojo</label>
             </th>
             <th class="text-center">
@@ -41,10 +41,10 @@
             <th class="text-center">
                 <label>Rojo</label>
             </th>
-            <th class="text-center">
+            <th class="text-center" style="background:#F0F8FF">
                 <label>Blanco</label>
-            </th>
-            <th class="text-center">
+            </th >
+            <th class="text-center" style="background:#F0F8FF">
                 <label>Rojo</label>
             </th>
         </tr>
@@ -93,7 +93,7 @@
             }
         </td>
         @* Almuerzo *@
-        <td>
+        <td style="background:#F0F8FF">
             @if (item.AVBlanco == "1")
             {
                 <label class="btn" style="background:#28B463">
@@ -110,7 +110,7 @@
                 </label>
             }
         </td>
-        <td>
+        <td style="background:#F0F8FF">
             @if (item.AVRojo == "1")
             {
                 <label class="btn" style="background:#28B463">
@@ -167,7 +167,7 @@
 
 
         @* Salida *@
-        <td>
+        <td style="background:#F0F8FF">
             @if (item.SVBlanco == "1")
             {
                 <label class="btn" style="background:#28B463">
@@ -184,7 +184,7 @@
                 </label>
             }
         </td>
-        <td>
+        <td style="background:#F0F8FF">
             @if (item.SVRojo == "1")
             {
                 <label class="btn" style="background:#28B463">

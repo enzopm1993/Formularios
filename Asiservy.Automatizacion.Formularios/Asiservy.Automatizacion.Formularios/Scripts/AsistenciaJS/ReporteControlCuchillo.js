@@ -12,7 +12,7 @@ function CargarReporteControlCuchillo() {
         return;
     }
     $.ajax({
-        url: "../Asistencia/ReporteControluchilloPartial",
+        url: "../Asistencia/ReporteControlCuchilloPartial",
         type: "GET",
         data: {
             Fecha: fecha,
