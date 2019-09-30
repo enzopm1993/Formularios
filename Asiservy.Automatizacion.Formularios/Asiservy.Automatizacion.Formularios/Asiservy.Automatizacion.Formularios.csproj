@@ -300,6 +300,8 @@
     <Content Include="Content\images\asilogo.jpg" />
     <Content Include="Content\images\asiservylogo1.jpg" />
     <Content Include="Content\images\buscar.png" />
+    <Content Include="Content\images\cargando1.gif" />
+    <Content Include="Content\images\cargando2.gif" />
     <Content Include="Content\images\cuchillo01.jpg" />
     <Content Include="Content\images\cuchillo02.jpg" />
     <Content Include="Content\images\cuchillo03.jpg" />
