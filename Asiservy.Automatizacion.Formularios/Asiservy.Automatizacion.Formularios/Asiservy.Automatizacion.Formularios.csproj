@@ -793,6 +793,7 @@
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionPartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEditar.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ModalEditarProyeccion.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEditarPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

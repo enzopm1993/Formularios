@@ -22,8 +22,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 }
                 else
                 {
-                    BuscarProyeccion.Lote = ProyeccionProgramacion.Lote;
-                    db.SaveChanges();
+                    if (string.IsNullOrEmpty(ProyeccionProgramacion.Lineas))//Si el update viene de la vista ProyeccionProgramacion
+                    {
+                        BuscarProyeccion.Lote = ProyeccionProgramacion.Lote;
+                        BuscarProyeccion.Destino = ProyeccionProgramacion.Destino;
+                        db.SaveChanges();
+                    }
+                    else//Si el update viene de la vista Proyeccion Programacion Editar
+                    {
+                        BuscarProyeccion.Lineas = ProyeccionProgramacion.Lineas;
+                        BuscarProyeccion.HoraInicio = ProyeccionProgramacion.HoraInicio;
+                        BuscarProyeccion.HoraFin = ProyeccionProgramacion.HoraFin;
+                        db.SaveChanges();
+                    }
+                    
                 }
                 var ListProyeccionProgramacion = (from p in db.PROYECCION_PROGRAMACION
                                                   join c in db.CLASIFICADOR on new { Codigo = p.TipoLimpieza, Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado } equals new { c.Codigo, c.Grupo }
@@ -39,7 +51,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                                                       CodDestino = p.Destino,
                                                       IdTipoLimpieza = p.TipoLimpieza,
                                                       FechaProduccion = p.FechaProduccion,
-                                                      IdProyeccion = p.IdProyeccionProgramacion
+                                                      IdProyeccion = p.IdProyeccionProgramacion,
+                                                      Lineas=p.Lineas,
+                                                      HoraFin=p.HoraFin,
+                                                      HoraInicio=p.HoraInicio
                                                   }).ToList();
                 return ListProyeccionProgramacion;
             }
@@ -65,7 +80,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                                                       CodDestino = p.Destino,
                                                       IdTipoLimpieza = p.TipoLimpieza,
                                                       FechaProduccion = p.FechaProduccion,
-                                                      IdProyeccion = p.IdProyeccionProgramacion
+                                                      IdProyeccion = p.IdProyeccionProgramacion,
+                                                      Lineas=p.Lineas,
+                                                      HoraInicio=p.HoraInicio,
+                                                      HoraFin=p.HoraFin
                                                   }).ToList();
                 return ListProyeccionProgramacion;
             }

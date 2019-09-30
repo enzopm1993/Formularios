@@ -42,13 +42,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [HttpPost]
-        public ActionResult ProyeccionProgramacionPartial(int IdProyeccionProgramacion,string Lote,DateTime? FechaProduccion,int? Toneladas,string Destino, string TipoLimpieza,string Observacion,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin)
+        public ActionResult ProyeccionProgramacionPartial(int IdProyeccionProgramacion,string Lote,DateTime? FechaProduccion,int? Toneladas,string Destino, string TipoLimpieza,string Observacion/*,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin*/)
         {
             try
             {
-                if (string.IsNullOrEmpty(Lineas))
-                {
-                    PROYECCION_PROGRAMACION ProyeccionProgramacion = new PROYECCION_PROGRAMACION()
+                PROYECCION_PROGRAMACION ProyeccionProgramacion = null;
+                //if (string.IsNullOrEmpty(Lineas))
+                //{
+                   ProyeccionProgramacion = new PROYECCION_PROGRAMACION()
                     {
 
                         IdProyeccionProgramacion = IdProyeccionProgramacion,
@@ -60,19 +61,45 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         Observacion = Observacion
 
                     };
-                }
-                else
-                {
-                    PROYECCION_PROGRAMACION ProyeccionProgramacion = new PROYECCION_PROGRAMACION()
+                //}
+                //else
+                //{
+                //    ProyeccionProgramacion = new PROYECCION_PROGRAMACION()
+                //    {
+
+                //        IdProyeccionProgramacion = IdProyeccionProgramacion,
+                //        Lineas=Lineas,
+                //        HoraInicio=HoraInicio,
+                //        HoraFin=HoraFin
+
+                //    };
+                //}
+               
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                var Respuesta = clsDProyeccionProgramacion.GuardarActualizarProyeccionProgramacion(ProyeccionProgramacion);
+                return PartialView(Respuesta);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        [HttpPost]
+        public ActionResult ProyeccionProgramacionEditarPartial(int IdProyeccionProgramacion,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin)
+        {
+            try
+            {
+                PROYECCION_PROGRAMACION ProyeccionProgramacion = null;
+                ProyeccionProgramacion = new PROYECCION_PROGRAMACION()
                     {
 
                         IdProyeccionProgramacion = IdProyeccionProgramacion,
-                        Lineas=Lineas,
-                        HoraInicio=HoraInicio,
-                        HoraFin=HoraFin
+                        Lineas = Lineas,
+                        HoraInicio = HoraInicio,
+                        HoraFin = HoraFin
 
                     };
-                }
                
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 var Respuesta = clsDProyeccionProgramacion.GuardarActualizarProyeccionProgramacion(ProyeccionProgramacion);

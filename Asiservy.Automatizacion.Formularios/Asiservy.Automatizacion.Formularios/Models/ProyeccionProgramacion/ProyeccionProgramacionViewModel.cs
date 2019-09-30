@@ -16,5 +16,8 @@ namespace Asiservy.Automatizacion.Formularios.Models.ProyeccionProgramacion
         public  string IdTipoLimpieza { get; set; }
         public string TipoLimpieza { get; set; }
         public string Observacion { get; set; }
+        public  string Lineas { get; set; }
+        public TimeSpan? HoraInicio { get; set; }
+        public TimeSpan? HoraFin { get; set; }
     }
 }

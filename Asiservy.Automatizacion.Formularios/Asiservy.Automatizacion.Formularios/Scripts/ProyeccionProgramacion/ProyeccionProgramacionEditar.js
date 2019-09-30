@@ -7,8 +7,9 @@
     }); 
     selected = selected.slice(0, -1);
     //alert(selected)
+    $('#ModalEditarProyeccion').modal('hide')
     $.ajax({
-        url: "../ProyeccionProgramacion/ProyeccionProgramacionPartial",
+        url: "../ProyeccionProgramacion/ProyeccionProgramacionEditarPartial",
         type: "POST",
         data:
         {
@@ -25,8 +26,8 @@
             //Observacion: $('#Observacion').val()
         },
         success: function (resultado) {
-            Limpiar();
-            $('#DivProyeccion').html(resultado);
+            //Limpiar();
+            $('#DivEditarProyeccion').html(resultado);
             MensajeCorrecto("Registro ingresado con éxito", true);
         },
         error: function (resultado) {
@@ -39,9 +40,10 @@
 function AbrirModal(IdProyeccion) {
     $.ajax({
         url: "../ProyeccionProgramacion/ModalEditarProyeccion",
-        type: "Get",
+        type: "POST",
         data: { IdProyeccion: IdProyeccion },
         success: function (resultado) {
+            
             var m = document.getElementById("DivEditarProyeccion");
             m.innerHTML = resultado;
             //var modal = document.getElementById("ModalError");
