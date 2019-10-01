@@ -5,6 +5,7 @@ using Asiservy.Automatizacion.Formularios.Models.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -36,8 +37,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Home", "Home");
             }
         }
 
@@ -82,7 +93,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
-                throw ex;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
         [HttpPost]
@@ -90,6 +112,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                liststring = User.Identity.Name.Split('_');
                 PROYECCION_PROGRAMACION ProyeccionProgramacion = null;
                 ProyeccionProgramacion = new PROYECCION_PROGRAMACION()
                     {
@@ -97,9 +120,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         IdProyeccionProgramacion = IdProyeccionProgramacion,
                         Lineas = Lineas,
                         HoraInicio = HoraInicio,
-                        HoraFin = HoraFin
-
-                    };
+                        HoraFin = HoraFin,
+                        UsuarioCreacionLog = liststring[0],
+                        TerminalCreacionLog = Request.UserHostAddress,
+                        FechaCreacionLog=DateTime.Now
+                };
                
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 var Respuesta = clsDProyeccionProgramacion.GuardarActualizarProyeccionProgramacion(ProyeccionProgramacion);
@@ -108,7 +133,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
-                throw ex;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
         [Authorize]
@@ -123,7 +159,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
-                throw ex;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return RedirectToAction("Home", "Home");
             }
         }
         public ActionResult ModalEditarProyeccion(int IdProyeccion)
@@ -139,7 +186,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
-                throw ex;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
     }
