@@ -30,7 +30,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr onclick="SeleccionEmpleadoCuchillo('@item.IdEmpleadoCuchillo','@item.Cedula','@item.CuchilloBlanco','@item.CuchilloRojo','@item.CuchilloNegro','@item.EstadoRegistro')">
+        <tr onclick="SeleccionEmpleadoCuchillo('@item.IdEmpleadoCuchillo','@item.Cedula','@item.CuchilloBlanco','@item.CuchilloRojo','@item.CuchilloNegro','@item.EstadoRegistro','@item.Nombre')">
             <td>
                 @Html.DisplayFor(modelItem => item.IdEmpleadoCuchillo)
             </td>

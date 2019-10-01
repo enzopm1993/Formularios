@@ -7,6 +7,7 @@
     <div class="form-horizontal">
         <br />
         <h4>Asignar Cuchillo - Empleado</h4>
+        <input type="hidden" id="selectLinea" value="@ViewBag.CodLinea"/>
         <label>@ViewBag.Linea</label>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -22,15 +23,22 @@
 
             <div class="col-md-3 col-sm-12">
                 <div class="form-group">
-                   
-                    <label class="control-label col-md-2">Empleado</label>
+
+                    <label class="control-label ">Empleado</label>
                     @if (ViewBag.Empleados != null)
                     {
-                        @Html.DropDownListFor(model => model.Cedula, new SelectList(ViewBag.Empleados, "CEDULA", "NOMBRES"), "Seleccione", new { @class = "form-control", @id = "SelectEmpleado" })
+                        @*@Html.DropDownListFor(model => model.Cedula, new SelectList(ViewBag.Empleados, "CEDULA", "NOMBRES"), "Seleccione", new { @class = "form-control", @id = "SelectEmpleado" })*@
+                    <div class="input-group">
+                        @Html.TextBox("NombreEmpleado", null, new { style = "width: 65%;", @readonly = "readonly", @class = "form-control" })
+                        @Html.Hidden("Cedula",null, new {@id= "Identificacion" })
+                        <button type="button" onclick="CargarEmpleados('CargarEmpleadoPG');" id="CargarEmpleadoPG" class="">
+                            <img src="~/Content/images/buscar.png" />
+                        </button><br />
+                    </div>
                     }
                     else
                     {
-                        @Html.DropDownListFor(model => model.Cedula, new SelectList("", "CEDULA", "NOMBRES"), new { @class = "form-control" })
+                        @*@Html.DropDownListFor(model => model.Cedula, new SelectList("", "CEDULA", "NOMBRES"), new { @class = "form-control" })*@
                     }
                     @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
                 </div>
@@ -83,6 +91,7 @@
 
 <div class="table-responsive" id="DivTableEmpleadoCuchillo"></div>
 
+<div id="ModelCargarEmpleados"></div>
 
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
@@ -92,3 +101,4 @@
 <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 
 <script src="~/Scripts/AsistenciaJS/EmpleadoCuchillo.js"></script>
+<script src="~/Scripts/SolicitudPermisoJS/Empleado.js"></script>
