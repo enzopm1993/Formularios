@@ -5,184 +5,189 @@
 @Html.Hidden("EstadoControlCuchillo", "1")
 @*<div class="table-responsive">*@
 
+<input type="text" id="busqueda" onkeyup="buscarenTabla()" placeholder="Buscar por Nombres..">
 <table class="table " id="TableCuchillos">
-    <tr class="text-center">
-        <td class="align-bottom" rowspan="2" hidden></td>
-        <td class="align-bottom" rowspan="2"></td>
-        <td class="align-bottom" rowspan="2"><b> Personal</b></td>
-        <td class="align-bottom" rowspan="2"><b>Hora</b> </td>
+    <thead>
+        <tr class="text-center">
+            <th class="align-bottom" rowspan="2" hidden></th>
+            <th class="align-bottom" rowspan="2"></th>
+            <th class="align-bottom" rowspan="2"><b> Personal</b></th>
+            <th class="align-bottom" rowspan="2"><b>Hora</b> </th>
 
-        <td class="align-bottom" rowspan="2"><b>Observación</b> </td>
-        <td class="align-bottom" rowspan="2"><b>Check</b> </td>
-        <td class="align-bottom" rowspan="2"><b>Estado</b> </td>
-        <td class="align-bottom" rowspan="2"></td>
-        <td class="align-middle" colspan="3"><b>Cuchillos</b> </td>
-    </tr>
-    <tr>
-        <td>
-            <div class="text-center">
+            <th class="align-bottom" rowspan="2"><b>Observación</b> </th>
+            <th class="align-bottom" rowspan="2"><b>Check</b> </th>
+            <th class="align-bottom" rowspan="2"><b>Estado</b> </th>
+            <th class="align-bottom" rowspan="2"></th>
+            <th class="align-middle" colspan="3"><b>Cuchillos</b> </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="text-center">
 
-                <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
-            </div>
-        </td>
-        <td>
-            <div class="text-center">
-                <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
-            </div>
-        </td>
-        <td>
-            <div class="text-center">
-
-                <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
-            </div>
-        </td>
-    </tr>
-    @{
-        int cont = 0;
-    }
-    @foreach (var item in Model.ControlAsistencia)
-    {
-        cont++;
-        string color = "";
-        if (item.Bloquear == 1) { color = "#E3D6D3"; } else { color = "FFFFFF"; }
-
-        if (item.Bloquear == 1)
-        {
-            <script>DeshabilitarControles('@cont')</script>
-        }
-        <tr bgcolor="@color" id="@cont">
-            <td hidden>
-                @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Cedula)
-            </td>
-
-            <td>
-                @cont
-            </td>
-            <td>
-                @*@Html.TextBoxFor(z => z.ControlAsistencia[cont - 1].NOMBRES, new { style = "width:100%; border: 0;", @readonly = true })*@
-                @item.NOMBRES
-
-            </td>
-            <td>
-                @*<input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />*@
-                @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Hora, new { type = "time", @class = "form-control" })
-            </td>
-
-            <td class="text-center">
-                <div>
-                    @*<input type="text" class="form-control-plaintext" id="Observacion" placeholder="Observacion">*@
-                    @Html.TextAreaFor(x => x.ControlAsistencia[cont - 1].Observacion, new { @row = "2" })
+                    <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
                 </div>
-            </td>
-            <td class="text-center">
-                <label class="btn btn-light text-xs-center" id="LabelAsistencia-@cont">
+            </th>
+            <th>
+                <div class="text-center">
+                    <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
+                </div>
+            </th>
+            <th>
+                <div class="text-center">
 
-                    @if (item.EstadoAsistencia == "1" || item.EstadoAsistencia == "2")
+                    <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int cont = 0;
+        }
+        @foreach (var item in Model.ControlAsistencia)
+        {
+            cont++;
+            string color = "";
+            if (item.Bloquear == 1) { color = "#E3D6D3"; } else { color = "FFFFFF"; }
+
+            if (item.Bloquear == 1)
+            {
+                <script>DeshabilitarControles('@cont')</script>
+            }
+            <tr bgcolor="@color" id="@cont">
+                <td hidden>
+                    @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Cedula)
+                </td>
+
+                <td>
+                    @cont
+                </td>
+                <td>
+                    @*@Html.TextBoxFor(z => z.ControlAsistencia[cont - 1].NOMBRES, new { style = "width:100%; border: 0;", @readonly = true })*@
+                    @item.NOMBRES
+
+                </td>
+                <td>
+                    @*<input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />*@
+                    @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Hora, new { type = "time", @class = "form-control" })
+                </td>
+
+                <td class="text-center">
+                    <div>
+                        @*<input type="text" class="form-control-plaintext" id="Observacion" placeholder="Observacion">*@
+                        @Html.TextAreaFor(x => x.ControlAsistencia[cont - 1].Observacion, new { @row = "2" })
+                    </div>
+                </td>
+                <td class="text-center">
+                    <label class="btn btn-light text-xs-center" id="LabelAsistencia-@cont">
+
+                        @if (item.EstadoAsistencia == "1" || item.EstadoAsistencia == "2")
+                        {
+                            <script> PintarCHeck('@cont');</script>}
+                        @*<input type="checkbox" autocomplete="on" onchange="fillBook(0)" id="CheckAsistencia">*@
+                        <input type="checkbox" autocomplete="on" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');" id="CheckAsistencia-@cont">
+                    </label>
+                </td>
+                <td>
+                    @*<select class="custom-select" id="SelectEstado" onchange="CambioEstado(1)">
+                            <option selected>Seleccione</option>
+                            <option value="1">Presente</option>
+                            <option value="2">Atraso</option>
+                            <option value="3">Falta</option>
+                        </select>*@
+                    @Html.DropDownListFor(x => x.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "", @witdh = "200px", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','combo')" })
+                </td>
+                <td>
+                    <center>
+                        @if (item.Observacion == "No ha marcado en el biométrico")
+                        {
+                            <img src="~/Content/images/actualizar.png" width="30" id="actualizar-@cont" height="30" style="cursor: pointer" onclick="ConsultarBiometrico('@cont','@item.Cedula')" />
+                        }
+                    </center>
+                </td>
+
+                <td class="text-center align-content-center">
+                    @{ var cuchillo = (from c in Model.ControlDeCuchillos
+                                        where c.Cedula == item.Cedula
+                                        select c).FirstOrDefault();}
+
+                    @if (cuchillo != null)
                     {
-                        <script> PintarCHeck('@cont');</script>}
-                    @*<input type="checkbox" autocomplete="on" onchange="fillBook(0)" id="CheckAsistencia">*@
-                    <input type="checkbox" autocomplete="on" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');" id="CheckAsistencia-@cont">
-                </label>
-            </td>
-            <td>
-                @*<select class="custom-select" id="SelectEstado" onchange="CambioEstado(1)">
-                        <option selected>Seleccione</option>
-                        <option value="1">Presente</option>
-                        <option value="2">Atraso</option>
-                        <option value="3">Falta</option>
-                    </select>*@
-                @Html.DropDownListFor(x => x.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "", @witdh = "200px", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','combo')" })
-            </td>
-            <td>
-                <center>
-                    @if (item.Observacion == "No ha marcado en el biométrico")
-                    {
-                        <img src="~/Content/images/actualizar.png" width="30" id="actualizar-@cont" height="30" style="cursor: pointer" onclick="ConsultarBiometrico('@cont','@item.Cedula')" />
+                        <div class="col-xs-2 text-xs-center">
+                            @if (cuchillo.CuchilloBlanco != 0)
+                            {
+                                Model.CuchillosBlancosSobrantes.Add(new Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id = cuchillo.CuchilloBlanco, Numero = cuchillo.CuchilloBlanco });
+                                @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero", cuchillo.CuchilloBlanco), "Seleccione", new { @class = "", @onchange = "check(this.value,'B','" + item.Cedula + "')" });
+
+                            }
+                            else
+                            {
+                                @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "", @onchange = "check(this.value,'B','" + item.Cedula + "')" });
+
+                            }
+
+
+                        </div>
                     }
-                </center>
-            </td>
+                    else
+                    {
+                        <div class="col-xs-2 text-xs-center">
+                            @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "", @onchange = "check(this.value,'B','" + item.Cedula + "')" })
 
-            <td class="text-center align-content-center">
-                @{ var cuchillo = (from c in Model.ControlDeCuchillos
-                                    where c.Cedula == item.Cedula
-                                    select c).FirstOrDefault();}
-
-                @if (cuchillo != null)
-                {
-                    <div class="col-xs-2 text-xs-center">
-                        @if (cuchillo.CuchilloBlanco != 0)
-                        {
-                            Model.CuchillosBlancosSobrantes.Add(new Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id = cuchillo.CuchilloBlanco, Numero = cuchillo.CuchilloBlanco });
-                            @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero", cuchillo.CuchilloBlanco), "Seleccione", new { @class = "", @onchange = "check(this.value,'B','" + item.Cedula + "')" });
-
-                        }
-                        else
-                        {
-                            @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "", @onchange = "check(this.value,'B','" + item.Cedula + "')" });
-
-                        }
-
-
-                    </div>
-                }
-                else
-                {
-                    <div class="col-xs-2 text-xs-center">
-                        @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "", @onchange = "check(this.value,'B','" + item.Cedula + "')" })
-
-                    </div>
-                }
+                        </div>
+                    }
 
 
 
 
-            </td>
-            <td class="text-center">
+                </td>
+                <td class="text-center">
 
-                @if (cuchillo != null)
-                {
-                    <div class="col-xs-2 text-xs-center">
-                        @if (cuchillo.CuchilloRojo != 0)
-                        {
-                            Model.CuchillosRojosSobrantes.Add(new Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id = cuchillo.CuchilloRojo, Numero = cuchillo.CuchilloRojo });
+                    @if (cuchillo != null)
+                    {
+                        <div class="col-xs-2 text-xs-center">
+                            @if (cuchillo.CuchilloRojo != 0)
+                            {
+                                Model.CuchillosRojosSobrantes.Add(new Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id = cuchillo.CuchilloRojo, Numero = cuchillo.CuchilloRojo });
 
-                            @Html.DropDownList("Rojo" + item.Cedula, new SelectList(Model.CuchillosRojosSobrantes, "Id", "Numero", cuchillo.CuchilloRojo), "Seleccione", new { @class = "", @onchange = "check(this.value,'R','" + item.Cedula + "')" })
+                                @Html.DropDownList("Rojo" + item.Cedula, new SelectList(Model.CuchillosRojosSobrantes, "Id", "Numero", cuchillo.CuchilloRojo), "Seleccione", new { @class = "", @onchange = "check(this.value,'R','" + item.Cedula + "')" })
 
-                        }
-                        else
-                        {
+                            }
+                            else
+                            {
+                                @Html.DropDownList("Rojo" + item.Cedula, new SelectList(Model.CuchillosRojosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "", @onchange = "check(this.value,'R','" + item.Cedula + "')" })
+
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-xs-2 text-xs-center">
                             @Html.DropDownList("Rojo" + item.Cedula, new SelectList(Model.CuchillosRojosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "", @onchange = "check(this.value,'R','" + item.Cedula + "')" })
 
-                        }
-                    </div>
-                }
-                else
-                {
+                        </div>
+                    }
+
+
+                </td>
+                <td class="text-center">
+
                     <div class="col-xs-2 text-xs-center">
-                        @Html.DropDownList("Rojo" + item.Cedula, new SelectList(Model.CuchillosRojosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "", @onchange = "check(this.value,'R','" + item.Cedula + "')" })
+
+                        @Html.DropDownList("Negro" + item.Cedula, new SelectList(Model.CuchillosNegrosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "", @onchange = "check(this.value,'N','" + item.Cedula + "')" })
+
 
                     </div>
-                }
 
+                    <div class="col-xs-2 text-xs-center">
 
-            </td>
-            <td class="text-center">
+                    </div>
 
-                <div class="col-xs-2 text-xs-center">
-
-                    @Html.DropDownList("Negro" + item.Cedula, new SelectList(Model.CuchillosNegrosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "", @onchange = "check(this.value,'N','" + item.Cedula + "')" })
-
-
-                </div>
-
-                <div class="col-xs-2 text-xs-center">
-
-                </div>
-
-            </td>
-        </tr>
-    }
-    <tr>
+                </td>
+            </tr>
+        }
+    </tbody>
+    @*<tr>*@
 </table>
 
 @*<div class="text-center" style="width:100%">

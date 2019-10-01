@@ -15,13 +15,18 @@
     
      @*@if (ViewBag.AsistenciaExiste == 0)
     {*@
+           <div class="row">
+               <div class="col-md-4 col-sm-12">
+                   <select name="TurnoGen" id="TurnoGen" class="browser-default custom-select" onchange="ConsultarSiExisteAsistencia();">
+                       <option selected>Seleccione</option>
+                       <option value="1">Turno 1</option>
+                       <option value="2">Turno 2</option>
 
-        <select name="TurnoGen" id="TurnoGen" class="browser-default custom-select" onchange="ConsultarSiExisteAsistencia();">
-            <option selected>Seleccione</option>
-            <option value="1">Turno 1</option>
-            <option value="2">Turno 2</option>
-
-        </select>
+                   </select>
+               </div>
+               
+           </div>
+        
 
         <center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0');" style="display:none" /></center>
     @*}

@@ -1,4 +1,25 @@
-﻿function ConsultarSiExisteAsistencia() {
+﻿function buscarenTabla() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("busqueda");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("TableCuchillos");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[2];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+function ConsultarSiExisteAsistencia() {
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
         MensajeError("Debe seleccionar un turno", false);
@@ -210,9 +231,19 @@ function check(id, color, cedula) {
     //7b8a8b
     var estado = "1";
     if (id == "") {
-        GuardarControlCuchillo(cedula, color, id, estado, true);
+        //parametros cuchillo victor
+        alert("seleccione");
+        GuardarControlCuchillo(cedula, color, 1, estado, false);
+        //***
+
+        //GuardarControlCuchillo(cedula, color, id, estado, true);
     } else {
-        GuardarControlCuchillo(cedula, color, id, estado, false);
+        //parametros cuchillo victor
+        alert("cuchillo seleccionado");
+        GuardarControlCuchillo(cedula, color, id, estado, true);
+        //**
+
+        //GuardarControlCuchillo(cedula, color, id, estado, false);
     }  
 }
 function GuardarControlCuchillo(cedula, color, numero, estado, check) {
