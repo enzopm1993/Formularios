@@ -3,28 +3,28 @@
 <table class="table">
     <thead class="table-light">
         <tr>
-            <th>
+            <th hidden>
                 @Html.DisplayNameFor(model => model.Cargo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PuestoTrabajo)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.Presente)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.Falta)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.PermisoMedico)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.CambioArea)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.PermisoGeneral)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.Total)
             </th>
 
@@ -33,28 +33,28 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td hidden>
                     @Html.DisplayFor(modelItem => item.Cargo)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PuestoTrabajo)
                 </td>
-                <td>
+                <td class="text-center">
                     @Html.DisplayFor(modelItem => item.Presente)
                 </td>
-                <td>
+                <td  class="text-center">
                     @Html.DisplayFor(modelItem => item.Falta)
                 </td>
-                <td>
+                <td  class="text-center">
                     @Html.DisplayFor(modelItem => item.PermisoMedico)
                 </td>
-                <td>
+                <td class="text-center">
                     @Html.DisplayFor(modelItem => item.CambioArea)
                 </td>
-                <td>
+                <td class="text-center">
                     @Html.DisplayFor(modelItem => item.PermisoGeneral)
                 </td>
-                <td>
+                <td class="text-center">
                     @Html.DisplayFor(modelItem => item.Total)
                 </td>
 

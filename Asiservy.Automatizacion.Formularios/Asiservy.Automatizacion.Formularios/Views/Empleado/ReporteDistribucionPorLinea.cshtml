@@ -2,12 +2,17 @@
 @{
     ViewBag.Title = "ReporteDistribucionPorLinea";
 }
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 
 <h3>Distribucion del personal por linea</h3>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-4 col-sm-12">
             <div class="form-group">
                 <label>Linea</label>
                 @Html.DropDownList("Linea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @onchange = "CargarReporteDistribucion(this.value)" })

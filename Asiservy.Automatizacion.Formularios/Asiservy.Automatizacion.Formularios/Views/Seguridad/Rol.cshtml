@@ -35,7 +35,7 @@
 
                 <div class="form-group">
                     @Html.Label("Estado")<br />
-                    @Html.RadioButtonFor(model => model.EstadoRegistro, "A")  @Html.Label("Activo")
+                    @Html.RadioButtonFor(model => model.EstadoRegistro, "A", new { @checked="checked"})  @Html.Label("Activo")
                     @Html.RadioButtonFor(model => model.EstadoRegistro, "I")  @Html.Label("Inactivo")
                     <br />
                     @Html.ValidationMessage("ErrorEstado", "", new { @class = "input-validation-error text-danger has-error" })
@@ -44,9 +44,9 @@
             <div class="col-md-offset-2 col-md-12">
                 <center>
                     <div class="form-group">
-
-                        <input type="button" value="Nuevo" id="Nuevo" class="btn btn-info" />
                         <input type="submit" value="Grabar" class="btn btn-primary" />
+                        <input type="button" value="Nuevo" id="Nuevo" class="btn btn-info" />
+
                     </div>
                 </center>
             </div>

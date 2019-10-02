@@ -374,7 +374,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {   
                 
-                ValidacionSupervisor();
+                ValidacionControladorLinea();
                 ConsultaCombosGeneral();
                 return View();
             }
@@ -446,11 +446,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 psMensajeValidarFecha = ValidarFechas(model);
                 if(!string.IsNullOrEmpty(psMensajeValidarFecha))
                 {
-                    int piSupervisor = ValidarRolSupervisor();
-                    if (piSupervisor > 0)
-                        ViewBag.Supervisor = piSupervisor;
+                    //int piContrladorLinea = ValidarRolControladorLinea();
+                    //if (piContrladorLinea > 0)
+                    //    ViewBag.ControladorLinea = piContrladorLinea;
                     ConsultaCombosGeneral();
-                    ValidacionSupervisor();
+                    ValidacionControladorLinea();
                     ModelState.AddModelError("CustomError", psMensajeValidarFecha);
                     return View(model);
                 }         
@@ -516,7 +516,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 else
                 {
-                    ValidacionSupervisor();
+                    ValidacionControladorLinea();
                     ConsultaCombosGeneral();
                     return View(model);
                 }
@@ -541,16 +541,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public void ValidacionSupervisor()
+        public void ValidacionControladorLinea()
         {
-            int piSupervisor = ValidarRolSupervisor();
+            int piContrladorLinea = ValidarRolControladorLinea();
             string[] psIdUsuario = User.Identity.Name.Split('_');
             clsDEmpleado = new clsDEmpleado();
             var Nombre = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]).FirstOrDefault();
             string Cedula = psIdUsuario[1] + "";
-            if (piSupervisor > 0)
+            if (piContrladorLinea > 0)
             {
-                ViewBag.Supervisor = piSupervisor;
+                ViewBag.ControladorLinea = piContrladorLinea;
                 ViewBag.CodLinea = Nombre.CODIGOLINEA;
 
             }
@@ -867,17 +867,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public int ValidarRolSupervisor()
+        public int ValidarRolControladorLinea()
         {
             clsDLogin = new clsDLogin();
             string[] psIdUsuario = User.Identity.Name.Split('_');
             List<int?> roles = clsDLogin.ConsultaRolesUsuario(psIdUsuario[1]);
-            int piSupervisor=0;
+            int piContrladorLinea=0;
             if (roles.Any())
             {
-                piSupervisor = roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorLinea) ?? 0;
+                piContrladorLinea = roles.FirstOrDefault(x => x.Value == clsAtributos.RolControladorLinea) ?? 0;
             }
-            return piSupervisor;
+            return piContrladorLinea;
         }
         public int ValidarRolGarita()
         {

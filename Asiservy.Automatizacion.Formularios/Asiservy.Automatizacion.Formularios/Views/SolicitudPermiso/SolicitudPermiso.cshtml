@@ -30,18 +30,21 @@
             @using (Html.BeginForm("SolicitudPermiso", "SolicitudPermiso"))
             {
                 <div class="row">
-                    @if (ViewBag.Supervisor != null)
+                    @if (ViewBag.ControladorLinea != null)
                     {
                         <div class="col-md-4 col-sm-12">
                             @Html.LabelFor(m => m.DescripcionLinea)
                             @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), "Seleccione la Línea", new { @onchange = "CambioLineas(this.id)", @class = "form-control", @id = "selectLinea" })
                             @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
 
-                            @*<script>                                 
+                            <script> 
+                                $(document).ready(function () {                                    
+                                    CargarAreas();
+                                });
                                 function CambioLineas(id) {                                   
                                     $('#' + id).val('@ViewBag.CodLinea');
                                 }    
-                            </script>*@
+                            </script>
                         </div>
 
                         <div class="col-md-4 col-sm-12">
@@ -63,7 +66,7 @@
                     <div class="col-md-6 col-sm-12">
                         <label>Empleado</label>
                         <div>
-                            @if (ViewBag.Supervisor != null)
+                            @if (ViewBag.ControladorLinea != null)
                             {
                                 @Html.TextBoxFor(m => m.NombreEmpleado, null, new { style = "width: 65%;", @readonly = "readonly" })
                                 @Html.HiddenFor(m => m.Identificacion)
