@@ -1127,6 +1127,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var Empleados = clsDEmpleado.ConsultaEmpleadosFiltro(linea.CODIGOLINEA, null, null);
                 ViewBag.Empleados = Empleados;
                 ViewBag.Linea = linea.LINEA;
+                ViewBag.CodLinea = linea.CODIGOLINEA;
             }
             var poCuchillosBlancos = clsDCuchillo.ConsultarCuchillos(new CUCHILLO { ColorCuchillo = clsAtributos.CodigoColorCuchilloBlanco });
             var poCuchillosRojos = clsDCuchillo.ConsultarCuchillos(new CUCHILLO { ColorCuchillo = clsAtributos.CodigoColorCuchilloRojo });

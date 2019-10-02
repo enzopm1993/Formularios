@@ -26,6 +26,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                     {
                         BuscarProyeccion.Lote = ProyeccionProgramacion.Lote;
                         BuscarProyeccion.Destino = ProyeccionProgramacion.Destino;
+                        BuscarProyeccion.FechaModificacionLog = ProyeccionProgramacion.FechaCreacionLog;
+                        BuscarProyeccion.UsuarioModificacionLog = ProyeccionProgramacion.UsuarioCreacionLog;
+                        BuscarProyeccion.TerminalModificacionLog = ProyeccionProgramacion.TerminalCreacionLog;
                         db.SaveChanges();
                     }
                     else//Si el update viene de la vista Proyeccion Programacion Editar
@@ -33,12 +36,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                         BuscarProyeccion.Lineas = ProyeccionProgramacion.Lineas;
                         BuscarProyeccion.HoraInicio = ProyeccionProgramacion.HoraInicio;
                         BuscarProyeccion.HoraFin = ProyeccionProgramacion.HoraFin;
+                        BuscarProyeccion.FechaModificacionLog = ProyeccionProgramacion.FechaCreacionLog;
+                        BuscarProyeccion.UsuarioModificacionLog = ProyeccionProgramacion.UsuarioCreacionLog;
+                        BuscarProyeccion.TerminalModificacionLog = ProyeccionProgramacion.TerminalCreacionLog;
                         db.SaveChanges();
                     }
                     
                 }
                 var ListProyeccionProgramacion = (from p in db.PROYECCION_PROGRAMACION
-                                                  join c in db.CLASIFICADOR on new { Codigo = p.TipoLimpieza, Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado } equals new { c.Codigo, c.Grupo }
+                                                  join c in db.CLASIFICADOR on new { Codigo = p.TipoLimpieza, Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { c.Codigo, c.Grupo, c.EstadoRegistro }
                                                   join d in db.CLASIFICADOR on new { Codigo = p.Destino, Grupo = clsAtributos.CodigoGrupoDestinoProduccion } equals new { d.Codigo, d.Grupo }
                                                   where p.FechaProduccion == fecha
                                                   select new ProyeccionProgramacionViewModel

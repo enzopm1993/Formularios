@@ -63,8 +63,9 @@ function IngresarProyeccionProgramacion() {
             },
             success: function (resultado) {
                 Limpiar();
+                $('#DivProyeccion').empty();
                 $('#DivProyeccion').html(resultado);
-                MensajeCorrecto("Registro ingresado con éxito", true);
+                MensajeCorrecto("Registro ingresado con éxito", false);
             },
             error: function (resultado) {
                 MensajeError(JSON.stringify(resultado), false);

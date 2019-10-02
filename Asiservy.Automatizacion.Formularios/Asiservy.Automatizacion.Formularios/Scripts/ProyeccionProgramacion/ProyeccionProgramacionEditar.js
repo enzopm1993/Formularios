@@ -7,6 +7,29 @@
     }); 
     selected = selected.slice(0, -1);
     //alert(selected)
+    if (selected == "") {
+        //MensajeError("Debe seleccionar al menos una línea", false);
+        $('#msgerrorLineas').show();
+        return false;
+    }
+    if ($('#HoraInicio').val() == "") {
+        //MensajeError("Debe ingresar la hora de inicio", false);
+        
+        $('#msgerrorHoraInicio').show();
+        $('#HoraInicio').focus();
+        return false;
+    }
+    if ($('#HoraFin').val() == "") {
+        //MensajeError("Debe ingresar la hora de Fin", false);
+        $('#msgerrorHoraFin').show();
+        $('#HoraFin').focus();
+        return false;
+    }
+    if ($('#HoraFin').val() < $('#HoraInicio').val()) {
+        $('#msgerrorHoras').show();
+        return false;
+    }
+    
     $('#ModalEditarProyeccion').modal('hide')
     $.ajax({
         url: "../ProyeccionProgramacion/ProyeccionProgramacionEditarPartial",
@@ -28,7 +51,7 @@
         success: function (resultado) {
             //Limpiar();
             $('#DivEditarProyeccion').html(resultado);
-            MensajeCorrecto("Registro ingresado con éxito", true);
+            MensajeCorrecto("Registro ingresado con éxito", false);
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);
@@ -44,7 +67,7 @@ function AbrirModal(IdProyeccion) {
         data: { IdProyeccion: IdProyeccion },
         success: function (resultado) {
             
-            var m = document.getElementById("DivEditarProyeccion");
+            var m = document.getElementById("modaleditarpro");
             m.innerHTML = resultado;
             //var modal = document.getElementById("ModalError");
             $("#ModalEditarProyeccion").modal("show");

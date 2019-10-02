@@ -65,7 +65,7 @@
                               <td>@item.HoraInicio</td>
                               <td>@item.HoraFin</td>
                               <td>
-                                  <a onclick="AbrirModal('@item.IdProyeccion');">Editar</a>
+                                  <a href="#" onclick="AbrirModal('@item.IdProyeccion');">Editar</a>
                               </td>
                           </tr>
                       }
@@ -75,6 +75,8 @@
 
 
       </div>
+
+<div id="modaleditarpro"></div>
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />

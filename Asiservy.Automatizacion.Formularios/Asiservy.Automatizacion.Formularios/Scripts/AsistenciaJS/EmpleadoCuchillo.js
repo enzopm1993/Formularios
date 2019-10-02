@@ -11,15 +11,20 @@ function Nuevo() {
     $('#SelectCuchilloBlanco').prop('selectedIndex', 0);
     $('#SelectCuchilloRojo').prop('selectedIndex', 0);
     $('#SelectCuchilloNegro').prop('selectedIndex', 0);
+    $('#NombreEmpleado').val("");
+    $('#Identificacion').val("");
+    
 }
 
-function SeleccionEmpleadoCuchillo(id, cedula, blanco,rojo, negro, estado) {
+function SeleccionEmpleadoCuchillo(id, cedula, blanco,rojo, negro, estado, nombre) {
     
     $('#IdEmpleadoCuchillo').val(id);
     $('#SelectEmpleado').val(cedula);
     $('#SelectCuchilloBlanco').val(blanco);
     $('#SelectCuchilloRojo').val(rojo);
     $('#SelectCuchilloNegro').val(negro);
+    $('#NombreEmpleado').val(nombre);
+    $('#Identificacion').val(cedula);
    
     if (estado == 'A') {
         $('#CheckEstadoRegistro').prop('checked', true);
