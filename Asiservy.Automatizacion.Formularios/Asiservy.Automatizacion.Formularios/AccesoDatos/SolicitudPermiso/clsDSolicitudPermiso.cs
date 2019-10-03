@@ -281,6 +281,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                             {
                                 foreach (var x in LineasPertenece)
                                     ListaLineas.Add(x.Codigo+"");
+                                ListaLineas.Add(clsAtributos.CodLineaProduccionEmpaque);
+                                ListaLineas.Add(clsAtributos.CodLineaProduccionRecuperadoControl);
                             }
                         }
                         if(NivelUsuario != null) {

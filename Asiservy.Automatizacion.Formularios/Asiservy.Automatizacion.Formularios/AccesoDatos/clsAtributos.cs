@@ -40,6 +40,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //Codigos de Lineas
         public static string CodLineaProduccion = "07";
+        public static string CodLineaProduccionEmpaque = "45";
+        public static string CodLineaProduccionRecuperadoControl = "47";
+
 
         //ClasificadorGenerico de Lineas
         public static string CodGrupoLineaProduccion = "002";

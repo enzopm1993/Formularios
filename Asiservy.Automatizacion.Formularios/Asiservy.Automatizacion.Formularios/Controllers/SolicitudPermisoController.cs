@@ -909,7 +909,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             clsDGeneral = new clsDGeneral();
             clsApiUsuario = new clsApiUsuario();
             ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
-            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(clsAtributos.CodigoMotivoPermisoEnfermedadNP);
+            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null);
             ViewBag.Lineas = clsDGeneral.ConsultaLineas();
             string[] psIdUsuario = User.Identity.Name.Split('_');
             ViewBag.NombreMedico = clsApiUsuario.ConsultaListaUsuariosSap().FirstOrDefault(x => x.Cedula == psIdUsuario[1]).Nombre??"";
