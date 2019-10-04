@@ -806,7 +806,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #region CUCHILLO
         [Authorize]
-        public ActionResult GuardarControlCuchillo(string dsCedula, string dsColor,string dsNumero,string dsEstado,bool dbCheck)
+        public ActionResult GuardarControlCuchillo(string dsCedula, string dsColor,string dsNumero,string dsEstado,bool dbCheck, bool dbTipo=false)
         {
             try
             {
@@ -828,6 +828,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 poControlCuchillo.FechaIngresoLog = DateTime.Now;
                 poControlCuchillo.UsuarioIngresoLog = liststring[0];
                 poControlCuchillo.TerminalIngresoLog = Request.UserHostAddress;
+                if (dbTipo)
+                {
+                    poControlCuchillo.Tipo = "P";
+                }
 
                 var respuesta = clsDCuchillo.GuardarModificarControlCuchillo(poControlCuchillo, dbCheck);
                 if (respuesta != clsAtributos.MsjRegistroGuardado)
@@ -1143,7 +1147,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDCuchillo = new clsDCuchillo();
-                var model = clsDCuchillo.ConsultarEmpleadoCuchillo(new Models.Asistencia.EmpleadoCuchilloViewModel());
+                clsDEmpleado = new clsDEmpleado();
+                liststring = User.Identity.Name.Split('_');
+                var psLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
+                var model = clsDCuchillo.ConsultarEmpleadoCuchillo(new Models.Asistencia.EmpleadoCuchilloViewModel(),psLinea);
                 return PartialView(model);
 
             }

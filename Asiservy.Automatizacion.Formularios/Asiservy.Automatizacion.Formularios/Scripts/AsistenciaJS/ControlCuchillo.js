@@ -7,17 +7,21 @@ function SelectEstado(valor) {
 }
 
 function CargarControlCuchillo(estado) {
-    $.ajax({
+    MostrarModalCargando();  
+  $.ajax({
         url: "../Asistencia/ControlCuchilloPartial",
         type: "GET",
         data: { dsEstado: estado},
         success: function (resultado) {
             var bitacora = $('#TablaControlCuchillo');
             bitacora.html(resultado);
+            CerrarModalCargando();
         },
         error: function (resultado) {
            
             MensajeError(resultado, false);
+            CerrarModalCargando();
+
         }
     });
 }
@@ -27,9 +31,9 @@ function CargarControlCuchillo(estado) {
 
 function check(id, color, cedula) {
    // alert(id);
-    console.log(id);
-    console.log(color);
-    console.log(cedula);
+    //console.log(id);
+    //console.log(color);
+    //console.log(cedula);
     //7b8a8b
     var label = "#labelCuchillo";
     var numero = 0;
@@ -50,7 +54,7 @@ function check(id, color, cedula) {
 
     }
     //console.log(label);
-    console.log(cedula);
+   // console.log(cedula);
     id = "#" + id;
     $(id).prop('disabled', true);
     if($(id).prop('checked')) {
@@ -80,7 +84,9 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check,idCheck,idL
         },
         error: function (resultado) {
             //console.log(resultado.responseJSON);
-            MensajeError(resultado.responseJSON + "", false);
+            //console.log(resultado);
+            MensajeError(resultado.responseText + "", false);
+           // MensajeError(resultado + "", false);
             $(idCheck).prop('checked', false);
             $(idLabel).css("background", "#7b8a8b");
             $(idCheck).prop('disabled', false);

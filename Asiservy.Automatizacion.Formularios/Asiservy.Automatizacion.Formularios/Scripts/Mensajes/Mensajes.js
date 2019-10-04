@@ -52,17 +52,25 @@ function MensajeCorrecto(mensaje, r) {
 
 
 function MensajeError(mensaje, r) {
+    //console.log("Prueba de Mensaje");
+    //console.log(mensaje);
     $.ajax({
         url: "../Mensaje/Error",
         type: "Get",
         data: { reload: r },
         success: function (resultado) {
-            var m = document.getElementById("ModalMensaje");
-            m.innerHTML = resultado;
+            $('#ModalMensaje').html(resultado);
+            //var m = document.getElementById("ModalMensaje");
+            //m.innerHTML = resultado;
+            $('#mensajeError').html(mensaje);
             $("#ModalError").modal("show");
-            document.getElementById('mensajeError').innerHTML = mensaje;
+            //document.getElementById('mensajeError').innerHTML = mensaje;
                //console.log(mensaje);
+        },
+        error: function (resultaod) {
+            console.log(resultaod);
         }
+        
     });
 }
 
