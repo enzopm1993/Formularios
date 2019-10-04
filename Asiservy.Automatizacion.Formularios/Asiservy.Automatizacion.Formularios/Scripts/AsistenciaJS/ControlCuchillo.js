@@ -7,17 +7,21 @@ function SelectEstado(valor) {
 }
 
 function CargarControlCuchillo(estado) {
-    $.ajax({
+    MostrarModalCargando();  
+  $.ajax({
         url: "../Asistencia/ControlCuchilloPartial",
         type: "GET",
         data: { dsEstado: estado},
         success: function (resultado) {
             var bitacora = $('#TablaControlCuchillo');
             bitacora.html(resultado);
+            CerrarModalCargando();
         },
         error: function (resultado) {
            
             MensajeError(resultado, false);
+            CerrarModalCargando();
+
         }
     });
 }
