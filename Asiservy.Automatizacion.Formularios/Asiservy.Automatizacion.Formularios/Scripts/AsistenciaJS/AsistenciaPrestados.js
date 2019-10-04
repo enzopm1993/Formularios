@@ -255,7 +255,8 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check) {
             dsColor: color,
             dsNumero: numero,
             dsEstado: estado,
-            dbCheck: check
+            dbCheck: check,
+            dbtipo: 'P'
         },
         success: function (resultado) {
             //alert(resultado);
