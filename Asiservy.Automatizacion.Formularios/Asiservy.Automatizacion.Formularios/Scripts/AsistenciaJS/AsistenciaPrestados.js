@@ -232,14 +232,14 @@ function check(id, color, cedula) {
     var estado = "1";
     if (id == "") {
         //parametros cuchillo victor
-        alert("seleccione");
+      //  alert("seleccione");
         GuardarControlCuchillo(cedula, color, 1, estado, false);
         //***
 
         //GuardarControlCuchillo(cedula, color, id, estado, true);
     } else {
         //parametros cuchillo victor
-        alert("cuchillo seleccionado");
+   //     alert("cuchillo seleccionado");
         GuardarControlCuchillo(cedula, color, id, estado, true);
         //**
 
@@ -256,7 +256,7 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check) {
             dsNumero: numero,
             dsEstado: estado,
             dbCheck: check,
-            dbtipo: 'P'
+            dbTipo: true
         },
         success: function (resultado) {
             //alert(resultado);

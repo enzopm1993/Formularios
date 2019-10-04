@@ -40,17 +40,19 @@ function check(id, color, cedula) {
     var estado = $('#EstadoControlCuchillo').val();
     if (color == 'B') {
         label = label + "Blanco_";
-        label = label + id.substring(8, 6);
-        numero = id.substring(8, 6);
+        label = label + id.substring(9, 6);
+        numero = id.substring(9, 6);
+        //console.log(numero);
+
     } if (color == 'R') {
         label = label + "Rojo_";
-        label = label + id.substring(7, 4);
-        numero = id.substring(7, 4);
+        label = label + id.substring(8, 4);
+        numero = id.substring(8, 4);
 
     } if (color == 'N') {
         label = label + "Negro_";
-        label = label + id.substring(8, 5);
-        numero = id.substring(8, 5);
+        label = label + id.substring(9, 5);
+        numero = id.substring(9, 5);
 
     }
     //console.log(label);

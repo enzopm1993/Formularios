@@ -11,6 +11,29 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
     {
         clsDEmpleado clsDEmpleado = null;
 
+        public void ActualizarControlCuchiillo(string cedula, string color)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var ControlCuchillo = entities.CONTROL_CUCHILLO.Where(x=>x.Cedula== cedula).ToList();
+                if (ControlCuchillo.Any())
+                {
+                    foreach (var x in ControlCuchillo)
+                    {
+                        if (color == clsAtributos.CodigoColorCuchilloBlanco)
+                            x.CuchilloBlanco = 0;
+                        if (color == clsAtributos.CodigoColorCuchilloRojo)
+                            x.CuchilloRojo = 0;
+                        if (color == clsAtributos.CodigoColorCuchilloNegro)
+                            x.CuchilloNegro = 0;
+                    }
+                    entities.SaveChanges();
+                }
+
+            }
+        }
+
+
         public string GuardarModificarControlCuchillo(CONTROL_CUCHILLO model,bool check)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())

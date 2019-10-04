@@ -831,6 +831,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (dbTipo)
                 {
                     poControlCuchillo.Tipo = "P";
+                    clsDCuchillo.ActualizarControlCuchiillo(dsCedula, dsColor);
                 }
 
                 var respuesta = clsDCuchillo.GuardarModificarControlCuchillo(poControlCuchillo, dbCheck);
@@ -1240,7 +1241,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
-                SetErrorMessage(ex.Message);
+                //     SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 liststring = User.Identity.Name.Split('_');
                 clsDError.GrabarError(new ERROR
@@ -1252,7 +1254,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = liststring[1]
                 });
-                return RedirectToAction("Home", "Home");
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
