@@ -67,11 +67,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
 
         }
 
-        public List<ProyeccionProgramacionViewModel> ConsultarProyeccionProgramacion()
+        public List<ProyeccionProgramacionViewModel> ConsultarProyeccionProgramacion(DateTime? ddFecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                DateTime fecha = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
+                DateTime fecha;
+                if (ddFecha == null)
+                    fecha = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
+                else
+                    fecha = ddFecha ?? Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
                 var ListProyeccionProgramacion = (from p in db.PROYECCION_PROGRAMACION
                                                   join c in db.CLASIFICADOR on new { Codigo = p.TipoLimpieza, Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado, EstadoRegistro =clsAtributos.EstadoRegistroActivo} equals new { c.Codigo, c.Grupo, c.EstadoRegistro }
                                                   join d in db.CLASIFICADOR on new { Codigo = p.Destino, Grupo = clsAtributos.CodigoGrupoDestinoProduccion } equals new { d.Codigo, d.Grupo }
