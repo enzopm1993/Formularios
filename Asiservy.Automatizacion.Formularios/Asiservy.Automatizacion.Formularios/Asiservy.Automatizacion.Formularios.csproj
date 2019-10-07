@@ -620,6 +620,7 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEditar.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\ReporteProyeccionProgramacion.js" />
     <Content Include="Scripts\SeguridadJS\Clasificador.js" />
     <Content Include="Scripts\SeguridadJS\NivelUsuario.js" />
     <Content Include="Scripts\SeguridadJS\Opcion.js" />
@@ -798,6 +799,8 @@
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEditar.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ModalEditarProyeccion.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEditarPartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ReporteProyeccionProgramacion.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ReporteProyeccionProgramacionPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

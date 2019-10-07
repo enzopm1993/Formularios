@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.ProyeccionProgramacion.ProyeccionProgramacionViewModel>
+
+
+<table class="table">
+    <tr>
+        <th hidden>
+            @Html.DisplayNameFor(model => model.IdProyeccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lote)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaProduccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tonelada)
+        </th>
+        <th hidden>
+            @Html.DisplayNameFor(model => model.CodDestino)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destino)
+        </th>
+        <th hidden>
+            @Html.DisplayNameFor(model => model.IdTipoLimpieza)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoLimpieza)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lineas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoraInicio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoraFin)
+        </th>
+      
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td hidden>
+            @Html.DisplayFor(modelItem => item.IdProyeccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaProduccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tonelada)
+        </td>
+        <td hidden>
+            @Html.DisplayFor(modelItem => item.CodDestino)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Destino)
+        </td>
+        <td hidden>
+            @Html.DisplayFor(modelItem => item.IdTipoLimpieza)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoLimpieza)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lineas)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoraInicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoraFin)
+        </td>
+      
+    </tr>
+}
+
+</table>
