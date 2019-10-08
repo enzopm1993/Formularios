@@ -67,13 +67,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             {
                 List<spConsultaLimpiadorasControlHueso> detalle = new List<spConsultaLimpiadorasControlHueso>();
                 var FechaActual = DateTime.Now.Date;
-                doControl.Fecha = FechaActual;
+                //doControl.Fecha = FechaActual;
                 var ControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x =>
                 x.Linea == doControl.Linea
               //  && x.Lote == doControl.Lote
                 && x.HoraFin > doControl.HoraInicio
                // && x.HoraFin == doControl.HoraFin
-                && x.Fecha == FechaActual);
+                && x.FechaIngresoLog == FechaActual);
                 if (ControlHueso == null)
                 {
                     if (doControl.TipoControlHueso == clsAtributos.Hueso || doControl.TipoControlHueso == clsAtributos.Roto)

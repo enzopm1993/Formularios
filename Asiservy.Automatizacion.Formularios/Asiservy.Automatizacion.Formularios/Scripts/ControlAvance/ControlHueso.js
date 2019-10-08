@@ -3,6 +3,52 @@ $(document).ready(function () {
     CargarControlHueso();
 });
 
+function CargarOrdenFabricacion(valor) {
+    $("#SelectOrdenFabricacion").empty();
+    $("#SelectOrdenFabricacion").append("<option value='' >-- Seleccionar Opción--</option>");
+    $.ajax({
+        url: "../Hueso/ConsultarOrdenesFabricacion",
+        type: "GET",
+        data: {
+            Fecha: valor
+        },
+        success: function (resultado) {
+           
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#SelectOrdenFabricacion").append("<option value='" + row.Orden + "'>" + row.Orden + "</option>")
+                });
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseJSON, false);
+        }
+    });
+}
+
+
+function CargarLotes(valor) {
+    $("#SelectLote").empty();
+    $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>");
+    $.ajax({
+        url: "../Hueso/ConsultarLotesPorLinea",
+        type: "GET",
+        data: {
+            Orden: valor
+        },
+        success: function (resultado) {
+
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#SelectLote").append("<option value='" + row.descripcion + "'>" + row.descripcion + "</option>")
+                });
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseJSON, false);
+        }
+    });
+}
 function SeleccionarTipoControl(valor) {
     console.log(valor);
     if (valor == "3") {
@@ -19,7 +65,6 @@ function NuevoControlHueso() {
     $('#SelectTipoControl').val(1);
     $('#txtObservacion').val('');
     $('#SelectLote').prop("selectedIndes", 0);
-
     $('#SelectLote').prop("disabled", false);
     $('#SelectTipoControl').prop("disabled", false);
     $('#txtObservacion').prop("disabled", false);
@@ -28,7 +73,23 @@ function NuevoControlHueso() {
     $('#divPiezas').prop("hidden", true);
     $('#txtPiezas').val(0);
     $('#txtPiezas').prop("disabled", false);
+    $("#SelectLote").empty();
+    $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>");
+    var fecha = new Date();
+    var dia = fecha.getDay();
+    var mes = fecha.getMonth();
 
+    if (dia < 10)
+        dia = "0" + dia;
+    if (mes < 10)
+        mes = "0" + mes;
+
+    var fechaProduccion = fecha.getFullYear() + "-" + mes + "-" + dia;
+
+
+    console.log(fechaProduccion);
+    $('#txtFechaProduccion').val(fechaProduccion);
+    CargarOrdenFabricacion(fechaProduccion);
     CargarControlHueso();
 }
 
@@ -143,7 +204,9 @@ function GenerarControlHueso() {
             HoraInicio: horaInicio,
             HoraFin: horaFin,
             Observacion: observacion+"",
-            TotalPieza: $('#txtPiezas').val()
+            TotalPieza: $('#txtPiezas').val(),
+            OrdenFabricacion: $('#SelectOrdenFabricacion').val(),
+            Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
             if (resultado == 0) {

@@ -10,31 +10,29 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
     public class clsDApiOrdenFabricacion
     {
 
-        public object ConsultaLotesPorOrdenFabricacionLinea(string OrdernFabricacion, string Linea)
+        public object ConsultaLotesPorOrdenFabricacionLinea(int OrdernFabricacion, string Linea)
         {
             var client = new RestClient("http://192.168.0.31:8870");
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
-            var request = new RestRequest("/api/Lotes/PorOrdenLinea/"+OrdernFabricacion+"/"+Linea, Method.GET);
+            var request = new RestRequest("/api/Produccion/LotesPorOrdenLinea/" + OrdernFabricacion+"/"+Linea, Method.GET);
             IRestResponse response = client.Execute(request);
             var content = response.Content;
             var ListaUsuarios = JsonConvert.DeserializeObject(content);
-            return ListaUsuarios;
-
-
-           
+            return ListaUsuarios;           
         }
         public object ConsultaOrdenFabricacionPorFechaProduccion(DateTime FechaProduccion)
         {
             var client = new RestClient("http://192.168.0.31:8870");
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
-            var request = new RestRequest("/api/Lotes/PorOrdenLinea/", Method.GET);
+            var request = new RestRequest("/api/Produccion/OrdenesFabricacionPorFecha/"+FechaProduccion.ToString("yyyy-MM-dd"), Method.GET);
             IRestResponse response = client.Execute(request);
             var content = response.Content;
-            var ListaUsuarios = JsonConvert.DeserializeObject(content);
-            return ListaUsuarios;
+            var ListaOrdenes = JsonConvert.DeserializeObject(content);
+            return ListaOrdenes;
 
         }
+       
     }
 }
