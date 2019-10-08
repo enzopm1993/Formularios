@@ -105,5 +105,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //Clasificador Destinos de produccion
         public static string CodigoGrupoDestinoProduccion = "007";
+
+        //Clasificador Grupo Especie pescado
+        public static string CodigoGrupoEspeciePescado= "009";
+
+        //Clasificador rupo Talla de pescado
+        public static string CodigoGrupoTallaPescado = "010";
+
+        //Tallas de pescado
+        public static string Talla35="001";
+        public static string Talla1418 = "002";
+        public static string Talla1934 = "003";
+        public static string Talla13 = "004";
+
+        //Especies pescado
+        public static string yellowfin = "01";
+        public static string skipjack = "02";
+        public static string bigeye = "03";
+
     }
 }

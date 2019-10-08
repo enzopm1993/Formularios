@@ -11,7 +11,7 @@
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Lote:</label>
-            @Html.TextBoxFor(m => m.Lote, new { @class = "form-control"})
+            @Html.TextBoxFor(m => m.Lote, new { @class = "form-control" })
         </div>
     </div>
     <div class="col-md-4 col-sm-6">
@@ -44,6 +44,18 @@
         <div class="form-group">
             <label>Observación:</label>
             @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Especie:</label>
+            @Html.DropDownList("Especie", (IEnumerable<SelectListItem>)ViewBag.Especie, "Seleccione", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Talla:</label>
+            @Html.DropDownList("Talla", (IEnumerable<SelectListItem>)ViewBag.Talla, "Seleccione", new { @class = "form-control" })
         </div>
     </div>
 </div>
