@@ -2,6 +2,8 @@
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDControlMiga clsDControlMiga = null;
         clsDGeneral clsDGeneral = null;
         clsDLogin clsDLogin = null;
+        clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
         #region CONTROL HUESOS
         [Authorize]
         public ActionResult ControlHueso()
@@ -29,13 +32,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 clsDClasificador = new clsDClasificador();
                 var TipoControlHueso = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoTipoControlHuesos, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
                 ViewBag.Linea = Empleado.LINEA;
                 ViewBag.CodLinea = Empleado.CODIGOLINEA;
                 ViewBag.TipoControlHueso = TipoControlHueso;
-
+                ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProduccion(DateTime.Now);
+              
                 return View();
             }
             catch (Exception ex)
@@ -150,7 +155,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     HoraInicio = model.HoraInicio,
                     HoraFin = model.HoraFin,
                     Lote = model.Lote,
-                    OrdenFabricacion = model.Lote,
+                    Fecha = model.Fecha,
+                    OrdenFabricacion = model.OrdenFabricacion,
                     Observacion = model.Observacion,
                     TotalPieza = model.TotalPieza,
                     EstadoRegistro = clsAtributos.EstadoRegistroActivo,
@@ -269,6 +275,75 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
 
+        }
+
+
+        public JsonResult ConsultarOrdenesFabricacion(DateTime Fecha)
+        {
+            try
+            {
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                dynamic result= clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProduccion(Fecha);
+                List<OrdenFabricacion> Listado = new List<OrdenFabricacion>();
+                foreach(var x in result)
+                {
+                    Listado.Add(new OrdenFabricacion { Orden = x.OrdenFabricacion });
+                }
+
+                return Json(Listado, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult ConsultarLotesPorLinea(int Orden)
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                var Linea = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                dynamic result = clsDApiOrdenFabricacion.ConsultaLotesPorOrdenFabricacionLinea(Orden,Linea.CODIGOLINEA);
+                List<ClasificadorGenerico> Listado = new List<ClasificadorGenerico>();
+                foreach (var x in result)
+                {
+                    Listado.Add(new ClasificadorGenerico { descripcion = x.Lote });
+                }
+
+                return Json(Listado, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
         }
         #endregion
 

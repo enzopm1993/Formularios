@@ -27,7 +27,8 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr onclick="SeleccionControlHueso('@item.IdControlHueso','@item.Lote','@item.OrdenFabricacion',@item.CodTipoControl,'@item.HoraInicio','@item.HoraFin','@item.Observacion','@item.TotalPieza')">
+    var FechaProduccion = item.Fecha.Value.ToString("yyyy-MM-dd");
+    <tr onclick="SeleccionControlHueso('@item.IdControlHueso','@item.Lote','@item.OrdenFabricacion',@item.CodTipoControl,'@item.HoraInicio','@item.HoraFin','@item.Observacion','@item.TotalPieza','@FechaProduccion')">
         <td>
             @Html.DisplayFor(modelItem => item.IdControlHueso)
         </td>
