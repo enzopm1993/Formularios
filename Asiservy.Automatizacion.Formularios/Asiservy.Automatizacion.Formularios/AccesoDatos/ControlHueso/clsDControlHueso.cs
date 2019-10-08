@@ -73,7 +73,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
               //  && x.Lote == doControl.Lote
                 && x.HoraFin > doControl.HoraInicio
                // && x.HoraFin == doControl.HoraFin
-                && x.FechaIngresoLog == FechaActual);
+                && x.FechaIngresoLog >= FechaActual);
                 if (ControlHueso == null)
                 {
                     if (doControl.TipoControlHueso == clsAtributos.Hueso || doControl.TipoControlHueso == clsAtributos.Roto)

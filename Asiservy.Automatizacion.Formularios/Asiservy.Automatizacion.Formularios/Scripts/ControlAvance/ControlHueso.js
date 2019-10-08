@@ -73,39 +73,50 @@ function NuevoControlHueso() {
     $('#divPiezas').prop("hidden", true);
     $('#txtPiezas').val(0);
     $('#txtPiezas').prop("disabled", false);
+    $('#SelectOrdenFabricacion').prop("disabled", false);
+    $('#txtFechaProduccion').prop("disabled", false);
+
     $("#SelectLote").empty();
     $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>");
     var fecha = new Date();
-    var dia = fecha.getDay();
-    var mes = fecha.getMonth();
+    console.log(fecha);
+    var dia = fecha.getDate();
+    var mes = fecha.getMonth()+1;
 
     if (dia < 10)
         dia = "0" + dia;
     if (mes < 10)
         mes = "0" + mes;
 
-    var fechaProduccion = fecha.getFullYear() + "-" + mes + "-" + dia;
-
-
-    console.log(fechaProduccion);
+    var fechaProduccion = fecha.getFullYear() + "-" + mes + "-" + dia;    
     $('#txtFechaProduccion').val(fechaProduccion);
     CargarOrdenFabricacion(fechaProduccion);
     CargarControlHueso();
 }
 
-function SeleccionControlHueso(id, lote, orden, tipo, horainicio, horafin, observacion,piezas) {
+function SeleccionControlHueso(id, lote, orden, tipo, horainicio, horafin, observacion,piezas,fecha) {
+    $("#SelectLote").empty();
+    $("#SelectLote").append("<option value='" + lote + "' >" + lote+"</option>");
+
+    $("#SelectOrdenFabricacion").empty();
+    $("#SelectOrdenFabricacion").append("<option value='" + orden + "' >" + orden + "</option>");
+
+   
+    $('#txtFechaProduccion').val(fecha);
     $('#txtIdControlHueso').val(id);
     $('#txtHoraInicio').val(horainicio);
     $('#txtHoraFin').val(horafin);
     $('#SelectTipoControl').val(tipo);
     $('#txtObservacion').val(observacion);
-    $('#SelectLote').val(lote);
+  
     $('#SelectLote').prop("disabled", true);
     $('#SelectTipoControl').prop("disabled", true);
     $('#txtObservacion').prop("disabled", true);
     $('#txtHoraInicio').prop("disabled", true);
     $('#txtHoraFin').prop("disabled", true);
     $('#txtPiezas').prop("disabled", true);
+    $('#SelectOrdenFabricacion').prop("disabled", true);
+    $('#txtFechaProduccion').prop("disabled", true);
 
     if (tipo == 3) {
         $('#divPiezas').prop("hidden", false);
@@ -211,6 +222,7 @@ function GenerarControlHueso() {
         success: function (resultado) {
             if (resultado == 0) {
                 MensajeAdvertencia("Ya se ha generado un control con esos parametros");
+                CerrarModalCargando();
                 return;
             }
             if (tipoControl == 1 || tipoControl == 4)
