@@ -438,5 +438,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteControlCuchillo>("spConsultaReporteControlCuchillo", fechaParameter, lineaParameter);
         }
+    
+        public virtual ObjectResult<spConsultarCaambioPersonalxCedula> spConsultarCaambioPersonalxCedula(string cedula)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("Cedula", cedula) :
+                new ObjectParameter("Cedula", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarCaambioPersonalxCedula>("spConsultarCaambioPersonalxCedula", cedulaParameter);
+        }
     }
 }

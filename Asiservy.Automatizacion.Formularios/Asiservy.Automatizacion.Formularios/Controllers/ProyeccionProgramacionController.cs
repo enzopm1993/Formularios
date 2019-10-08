@@ -17,6 +17,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDClasificador clsDClasificador = null;
         clsDProyeccionProgramacion clsDProyeccionProgramacion = null;
         string[] liststring;
+
+        #region Métodos
+        protected void SetSuccessMessage(string message)
+        {
+            TempData["MensajeConfirmacion"] = message;
+        }
+        protected void SetErrorMessage(string message)
+        {
+            TempData["MensajeError"] = message;
+        }
+        #endregion
         // GET: ProyeccionProgramacion
         [Authorize]
         public ActionResult ProyeccionProgramacion()
@@ -37,7 +48,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
@@ -57,6 +68,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                liststring = User.Identity.Name.Split('_');
                 PROYECCION_PROGRAMACION ProyeccionProgramacion = null;
                 //if (string.IsNullOrEmpty(Lineas))
                 //{
@@ -69,9 +81,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         Toneladas = Toneladas,
                         Destino = Destino,
                         TipoLimpieza = TipoLimpieza,
-                        Observacion = Observacion
+                        Observacion = Observacion,
+                        FechaCreacionLog=DateTime.Now,
+                        UsuarioCreacionLog=liststring[0],
+                        TerminalCreacionLog= Request.UserHostAddress
 
-                    };
+                   };
                 //}
                 //else
                 //{
@@ -159,7 +174,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
@@ -214,7 +229,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
-               // Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {

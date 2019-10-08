@@ -1293,6 +1293,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 else
                 {
                     ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(pslinea, psarea, pscargo, clsAtributos.TipoRegresar);
+                    ViewBag.ADondeFuePrestado = clsDEmpleado.ConsultarDondeFueMovido(ListaEmpleados);
                 }
                 return PartialView(ListaEmpleados);
             }

@@ -158,7 +158,22 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return pListEmpleados;
             }
         }
+        public List<spConsutaEmpleadosFiltro> ConsultarDondeFueMovido(List<spConsutaEmpleadosFiltro> ListEmpleados)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                List<spConsutaEmpleadosFiltro> Empleados = new List<spConsutaEmpleadosFiltro>();
+                spConsultarCaambioPersonalxCedula consultarempleado = null;
+                foreach (var item in ListEmpleados)
+                {
+                     consultarempleado = db.spConsultarCaambioPersonalxCedula(item.CEDULA).FirstOrDefault();
+                     Empleados.Add(new spConsutaEmpleadosFiltro { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA });
 
+                }
+
+                return Empleados;
+            }
+        }
         public List<spConsutaEmpleadosFiltro> ConsultaEmpleadosFiltroCambioPersonal(string dsLinea, string dsArea, string dsCargo,string psTipo)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())

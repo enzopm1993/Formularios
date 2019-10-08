@@ -601,6 +601,9 @@
         </Function>
         <Function Name="spConsultaPersonalNominaPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spConsultarAuditoriaSangreDiaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spConsultarCaambioPersonalxCedula" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Cedula" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spConsultarCambioPersonalxLineaxTurno" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Linea" Type="varchar" Mode="In" />
           <Parameter Name="Turno" Type="char" Mode="In" />
@@ -1059,6 +1062,9 @@
             <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="PROYECCION_PROGRAMACION" EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" />
+          <FunctionImport Name="spConsultarCaambioPersonalxCedula" ReturnType="Collection(ASIS_PRODModel.spConsultarCaambioPersonalxCedula)">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -1754,6 +1760,10 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="spConsultarCaambioPersonalxCedula">
+          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="LINEA" Nullable="false" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2684,6 +2694,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultarCaambioPersonalxCedula" FunctionName="ASIS_PRODModel.Store.spConsultarCaambioPersonalxCedula">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarCaambioPersonalxCedula">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

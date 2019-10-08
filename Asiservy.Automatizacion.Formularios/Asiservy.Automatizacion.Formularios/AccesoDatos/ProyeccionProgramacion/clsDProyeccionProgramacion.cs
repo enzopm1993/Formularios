@@ -29,6 +29,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                         BuscarProyeccion.FechaModificacionLog = ProyeccionProgramacion.FechaCreacionLog;
                         BuscarProyeccion.UsuarioModificacionLog = ProyeccionProgramacion.UsuarioCreacionLog;
                         BuscarProyeccion.TerminalModificacionLog = ProyeccionProgramacion.TerminalCreacionLog;
+                        BuscarProyeccion.FechaProduccion = ProyeccionProgramacion.FechaProduccion;
+                        BuscarProyeccion.Observacion = ProyeccionProgramacion.Observacion;
+                        BuscarProyeccion.Toneladas = ProyeccionProgramacion.Toneladas;
+                        BuscarProyeccion.TipoLimpieza = ProyeccionProgramacion.TipoLimpieza;
+
                         db.SaveChanges();
                     }
                     else//Si el update viene de la vista Proyeccion Programacion Editar
@@ -73,13 +78,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
             {
                 DateTime fecha;
                 if (ddFecha == null)
-                    fecha = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
+                    fecha = DateTime.Now;
                 else
-                    fecha = ddFecha ?? Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
+                    fecha = ddFecha ?? DateTime.Now;
                 var ListProyeccionProgramacion = (from p in db.PROYECCION_PROGRAMACION
                                                   join c in db.CLASIFICADOR on new { Codigo = p.TipoLimpieza, Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado, EstadoRegistro =clsAtributos.EstadoRegistroActivo} equals new { c.Codigo, c.Grupo, c.EstadoRegistro }
                                                   join d in db.CLASIFICADOR on new { Codigo = p.Destino, Grupo = clsAtributos.CodigoGrupoDestinoProduccion } equals new { d.Codigo, d.Grupo }
-                                                  where p.FechaProduccion == fecha
+                                                  where p.FechaProduccion > fecha
+                                                  //where p.FechaProduccion == DateTime.Now
                                                   select new ProyeccionProgramacionViewModel
                                                   {
                                                       Lote = p.Lote,
