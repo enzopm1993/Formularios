@@ -19,26 +19,29 @@ function FinalizarSolicitud(valor) {
 }
 
 function Finalizar(result) {
-   // console.log(result);
-
-    var resultado = JSON.stringify(result)
-    var resultado2 = JSON.parse(resultado)
-    console.log(resultado2);
-    $.ajax({
-        url: '../SolicitudPermiso/FinalizarSolicitud',
-        type: 'POST',
-        dataType: "json",
-        data: {
-            diIdSolicitud: resultado2
-        },
-        success: function (resultado) {
-            MensajeCorrecto(resultado + "\n Solicitud Finalizada",true);
-        }
-        ,
-        error: function () {
-            MensajeError("No se ha podido obtener la información",false);
-        }
-    });
+   
+    if (result.length > 0) {
+        var resultado = JSON.stringify(result)
+        var resultado2 = JSON.parse(resultado)
+        console.log(resultado2);
+        $.ajax({
+            url: '../SolicitudPermiso/FinalizarSolicitud',
+            type: 'POST',
+            dataType: "json",
+            data: {
+                diIdSolicitud: resultado2
+            },
+            success: function (resultado) {
+                MensajeCorrecto(resultado + "\n Solicitud Finalizada", true);
+            }
+            ,
+            error: function (resultado) {
+                MensajeError(resultado.responseText, false);
+            }
+        });
+    } else {
+        MensajeAdvertencia("Seleccione al menos una solicitud");
+    }
 }
 function Anular() {
     valor = document.getElementById("txtIdSolicitud").value;
@@ -68,6 +71,7 @@ function Anular() {
 
 function Mostrar(valor) {
     //console.log(valor);
+    MostrarModalCargando();
     var sPath = window.location.pathname;
     var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
     $.ajax({
@@ -78,14 +82,18 @@ function Mostrar(valor) {
             frm:sPage
         },
         success: function (resultado) {
+            CerrarModalCargando();
             document.getElementById("modal_body").innerHTML = resultado;
            
             document.getElementById("frmName").value = sPage;
             //console.log(sPage);
             $('#ModalEditarSolicitud').modal('toggle');
+         
         }
         ,
         error: function () {
+            CerrarModalCargando();
+
             MensajeError("No se ha podido obtener la información",false);
         }
     });
