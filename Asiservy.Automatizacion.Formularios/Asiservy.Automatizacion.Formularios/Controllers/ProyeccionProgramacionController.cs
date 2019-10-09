@@ -91,7 +91,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         Destino = Destino,
                         TipoLimpieza = TipoLimpieza,
                         Observacion = Observacion,
-                        
+                        Especie=Especie,
+                        Talla=Talla,
                         FechaCreacionLog=DateTime.Now,
                         UsuarioCreacionLog=liststring[0],
                         TerminalCreacionLog= Request.UserHostAddress
@@ -133,7 +134,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public ActionResult ProyeccionProgramacionEditarPartial(int IdProyeccionProgramacion,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin)
+        public ActionResult ProyeccionProgramacionEditarPartial(int IdProyeccionProgramacion,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin,string Observacion)
         {
             try
             {
@@ -146,6 +147,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         Lineas = Lineas,
                         HoraInicio = HoraInicio,
                         HoraFin = HoraFin,
+                        Observacion=Observacion,
                         UsuarioCreacionLog = liststring[0],
                         TerminalCreacionLog = Request.UserHostAddress,
                         FechaCreacionLog=DateTime.Now

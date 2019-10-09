@@ -48,7 +48,8 @@ function IngresarProyeccionProgramacion() {
     } else {
         idPro = $('#IdProyeccion').val();
     }
-    if ($('#Lote').val() == "" || $('#FechaProduccion').val() == "" || $('#Toneladas').val() == "" || $('#Destino').prop('selectedIndex') == 0 || $('#TipoLimpieza').prop('selectedIndex') == 0) {
+    if ($('#Lote').val() == "" || $('#FechaProduccion').val() == "" || $('#Toneladas').val() == "" || $('#Destino').prop('selectedIndex') == 0 || $('#TipoLimpieza').prop('selectedIndex') == 0
+        || $('#Especie').prop('selectedIndex') == 0 || $('#Talla').prop('selectedIndex') == 0) {
         MensajeError("Debe ingresar los campos requeridos", false);
     } else {
         $.ajax({

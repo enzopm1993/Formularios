@@ -16,6 +16,12 @@
                 Tipo Limpieza
             </th>
             <th>
+                Especie
+            </th>
+            <th>
+                Talla   
+            </th>
+            <th>
                 Observación
             </th>
         </tr>
@@ -23,23 +29,29 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr onclick="EditarProyeccion('@item.IdProyeccion','@item.Lote','@item.FechaProduccion','@item.Tonelada','@item.CodDestino','@item.IdTipoLimpieza','@item.Observacion');">
-                <td>
-                    @item.Lote
-                </td>
-                <td>
-                    @item.Tonelada
-                </td>
-                <td>
-                    @item.Destino
-                </td>
-                <td>
-                    @item.TipoLimpieza
-                </td>
-                <td>
-                    @item.Observacion
-                </td>
-            </tr>
+        <tr onclick="EditarProyeccion('@item.IdProyeccion','@item.Lote','@item.FechaProduccion','@item.Tonelada','@item.CodDestino','@item.IdTipoLimpieza','@item.Observacion');">
+            <td>
+                @item.Lote
+            </td>
+            <td>
+                @item.Tonelada
+            </td>
+            <td>
+                @item.Destino
+            </td>
+            <td>
+                @item.TipoLimpieza
+            </td>
+            <td>
+                @item.Especie
+            </td>
+            <td>
+                @item.Talla
+            </td>
+            <td>
+                @item.Observacion
+            </td>
+        </tr>
         }
     </tbody>
 </table>

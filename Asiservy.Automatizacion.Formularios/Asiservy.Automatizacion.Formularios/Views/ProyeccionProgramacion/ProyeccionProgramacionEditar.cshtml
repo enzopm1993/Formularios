@@ -3,78 +3,91 @@
     ViewBag.Title = "ProyeccionProgramacionEditar";
 }
 
-<h4>Editar Proyección Programación </h4>
+<h4>Proyección Programación </h4>
 <br />
 @{ var Fecha = DateTime.Now.AddDays(1).ToShortDateString();}
 <b>Fecha de Proyección: </b> @Fecha
 <br /><br />
-      <div id="DivEditarProyeccion" class="table-responsive">
-          
-              <table class="table table-hover" id="tablaProyeccion" style="cursor: pointer">
-                  <thead>
-                      <tr>
-                          <th>
-                              Lote
-                          </th>
-                          <th>
-                              Toneladas
-                          </th>
-                          <th>
-                              Destino
-                          </th>
-                          <th>
-                              Tipo Limpieza
-                          </th>
-                          <th>
-                              Observación
-                          </th>
-                          <th>
-                              Líneas
-                          </th>
-                          <th>
-                              Hora Inicio
-                          </th>
-                          <th>
-                              Hora fin
-                          </th>
-                          <th>
-                              Acción
-                          </th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      @foreach (var item in ViewBag.Proyeccion)
-                      {
-                          <tr>
-                              <td>
-                                  @item.Lote
-                              </td>
-                              <td>
-                                  @item.Tonelada
-                              </td>
-                              <td>
-                                  @item.Destino
-                              </td>
-                              <td>
-                                  @item.TipoLimpieza
-                              </td>
-                              <td>
-                                  @item.Observacion
-                              </td>
-                              <td>@item.Lineas</td>
-                              <td>@item.HoraInicio</td>
-                              <td>@item.HoraFin</td>
-                              <td>
-                                  <a href="#" onclick="AbrirModal('@item.IdProyeccion');">Editar</a>
-                              </td>
-                          </tr>
-                      }
-                  </tbody>
-              </table>
-      
+<div id="DivEditarProyeccion" class="table-responsive">
+
+    <table class="table table-hover" id="tablaProyeccion" style="cursor: pointer">
+        <thead>
+            <tr>
+                <th>
+                    Lote
+                </th>
+                <th>
+                    Toneladas
+                </th>
+                <th>
+                    Destino
+                </th>
+                <th>
+                    Tipo Limpieza
+                </th>
+                <th>
+                    Especie
+                </th>
+                <th>
+                    Talla
+                </th>
+                <th>
+                    Observación
+                </th>
+
+                <th>
+                    Líneas
+                </th>
+                <th>
+                    Hora Inicio
+                </th>
+                <th>
+                    Hora fin
+                </th>
+                <th>
+                    Acción
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Proyeccion)
+            {
+                <tr>
+                    <td>
+                        @item.Lote
+                    </td>
+                    <td>
+                        @item.Tonelada
+                    </td>
+                    <td>
+                        @item.Destino
+                    </td>
+                    <td>
+                        @item.TipoLimpieza
+                    </td>
+                    <td>
+                        @item.Especie
+                    </td>
+                    <td>
+                        @item.Talla
+                    </td>
+                    <td>
+                        @item.Observacion
+                    </td>
+                    <td>@item.Lineas</td>
+                    <td>@item.HoraInicio</td>
+                    <td>@item.HoraFin</td>
+                    <td>
+                        <a href="#" onclick="AbrirModal('@item.IdProyeccion');">Editar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 
-      </div>
+
+</div>
 
 <div id="modaleditarpro"></div>
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
@@ -84,3 +97,4 @@
 <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 <script src="~/Scripts/ProyeccionProgramacion/ProyeccionProgramacionEditar.js"></script>
+<link href="~/Content/ProyeccionProgramacionCss/ProyeccionProgramacionEditar.css" rel="stylesheet" />
