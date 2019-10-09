@@ -1,5 +1,5 @@
 ﻿<!-- Modal -->
-<div class="modal fade" id="ModalEditarProyeccion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="ModalEditarProyeccion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" data-backdrop="static" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -19,7 +19,11 @@
                                     <label>Líneas: </label> <br />
                                     @foreach (var item in ViewBag.Lineas)
                                     {
-                                        <label>&nbsp;&nbsp; @item.Descripcion </label><input type="checkbox" id="Linea@item.Codigo" value="@item.Descripcion" class="" />
+                                        <label class="btn btn-dark text-xs-center" id="Label-@item.Codigo" onclick="PintarLinea('@item.Codigo')">
+                                            @item.Descripcion
+                                            <input type="checkbox" id="Linea-@item.Codigo" value="@item.Descripcion" class="" />
+                                        </label>
+                                        @*<label>&nbsp;&nbsp; @item.Descripcion </label><input type="checkbox" id="Linea@item.Codigo" value="@item.Descripcion" class="" />*@
                                     }
                                     <label id="msgerrorLineas" style="display:none; color:red">Debe ingresar al menos una línea</label>
                                 </div>
@@ -38,7 +42,13 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                   
+                                    <label class="align-left">Observación:</label><textarea rows="5" cols="25" id="observacionedit" class="form-control"></textarea>
+                                    @*<label id="msgerrorHoraFin" style="display:none; color:red">La hora de Fin no puede estar vacia</label>*@
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+
                                     <label id="msgerrorHoras" style="display:none; color:red">La hora de inicio no puede ser mayor a la hora Fin</label>
                                 </div>
                             </div>

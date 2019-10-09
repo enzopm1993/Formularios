@@ -1,4 +1,13 @@
-﻿function ActualizarProyeccion() {
+﻿function PintarLinea(id) {
+    if ($('#Linea-' + id).prop('checked')) {
+        $("#Label-" + id).removeClass("btn-dark");
+        $("#Label-" + id).addClass("btn-info");
+    } else {
+        $("#Label-" + id).removeClass("btn-info");
+        $("#Label-" + id).addClass("btn-dark");
+    }
+}
+function ActualizarProyeccion() {
     var selected = '';
     $('#DivBodyEditar input[type=checkbox]').each(function () {
         if (this.checked) {
@@ -39,7 +48,8 @@
             Lineas: selected,
             HoraInicio: $('#HoraInicio').val(),
             HoraFin: $('#HoraFin').val(),
-            IdProyeccionProgramacion: $('#idproyeccionmodal').val()
+            IdProyeccionProgramacion: $('#idproyeccionmodal').val(),
+            Observacion: $('#observacionedit').val()
             //IdProyeccionProgramacion: idPro,
             //Lote: $('#Lote').val(),
             //FechaProduccion: $('#FechaProduccion').val(),

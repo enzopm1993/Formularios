@@ -1,87 +1,131 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.ProyeccionProgramacion.ProyeccionProgramacionViewModel>
 
 
-<table class="table">
-    <tr>
-        <th hidden>
-            @Html.DisplayNameFor(model => model.IdProyeccion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Lote)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaProduccion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tonelada)
-        </th>
-        <th hidden>
-            @Html.DisplayNameFor(model => model.CodDestino)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Destino)
-        </th>
-        <th hidden>
-            @Html.DisplayNameFor(model => model.IdTipoLimpieza)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoLimpieza)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Observacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Lineas)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HoraInicio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HoraFin)
-        </th>
-      
-    </tr>
+<table class="table" id="rptproyeccion">
+    <thead>
+        <tr>
+             <th>
+                @Html.DisplayNameFor(model => model.Lote)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaProduccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tonelada)
+            </th>
+        
+            <th>
+                @Html.DisplayNameFor(model => model.Destino)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.TipoLimpieza)
+            </th>
+            <th>
+                Especie
+            </th>
+            <th>
+                Talla
+            </th>
+            <th>
+                Observación
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lineas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraFin)
+            </th>
+            <th>
+                Usuario Ingreso
+            </th>
+            <th> Usuario Modificación</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+              
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lote)
+                </td>
+                <td>
+                    @item.FechaProduccion.Value.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tonelada)
+                </td>
+           
+                <td>
+                    @Html.DisplayFor(modelItem => item.Destino)
+                </td>
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoLimpieza)
+                </td>
+                <td>
+                    @item.Especie
+                </td>
+                <td>
+                    @item.Talla
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lineas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraInicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraFin)
+                </td>
+                <td>
+                    @item.UsuarioIngreso
+                </td>
+                <td> @item.UsuarioModificacion</td>
+            </tr>
+        }
+    </tbody>
 
-@foreach (var item in Model) {
-    <tr>
-        <td hidden>
-            @Html.DisplayFor(modelItem => item.IdProyeccion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Lote)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaProduccion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tonelada)
-        </td>
-        <td hidden>
-            @Html.DisplayFor(modelItem => item.CodDestino)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Destino)
-        </td>
-        <td hidden>
-            @Html.DisplayFor(modelItem => item.IdTipoLimpieza)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoLimpieza)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Observacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Lineas)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HoraInicio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HoraFin)
-        </td>
-      
-    </tr>
-}
+
 
 </table>
+<script>
+
+    $('#rptproyeccion').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        "pageLength": 5,
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+        "pagingType": "full_numbers"
+
+    });
+</script>

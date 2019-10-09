@@ -11,7 +11,7 @@
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Lote:</label>
-            @Html.TextBoxFor(m => m.Lote, new { @class = "form-control"})
+            @Html.TextBoxFor(m => m.Lote, new { @class = "form-control" })
         </div>
     </div>
     <div class="col-md-4 col-sm-6">
@@ -46,6 +46,18 @@
             @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control" })
         </div>
     </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Especie:</label>
+            @Html.DropDownList("Especie", (IEnumerable<SelectListItem>)ViewBag.Especie, "Seleccione", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Talla:</label>
+            @Html.DropDownList("Talla", (IEnumerable<SelectListItem>)ViewBag.Talla, "Seleccione", new { @class = "form-control" })
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12">
@@ -78,6 +90,12 @@
                     Tipo Limpieza
                 </th>
                 <th>
+                    Especie
+                </th>
+                <th>
+                    Talla
+                </th>
+                <th>
                     Observación
                 </th>
             </tr>
@@ -85,23 +103,29 @@
         <tbody>
             @foreach (var item in ViewBag.Proyeccion)
             {
-                <tr  onclick="EditarProyeccion('@item.IdProyeccion','@item.Lote','@item.FechaProduccion','@item.Tonelada','@item.CodDestino','@item.IdTipoLimpieza','@item.Observacion');">
-                    <td>
-                        @item.Lote
-                    </td>
-                    <td>
-                        @item.Tonelada
-                    </td>
-                    <td>
-                        @item.Destino
-                    </td>
-                    <td>
-                        @item.TipoLimpieza
-                    </td>
-                    <td>
-                        @item.Observacion
-                    </td>
-                </tr>
+            <tr onclick="EditarProyeccion('@item.IdProyeccion','@item.Lote','@item.FechaProduccion','@item.Tonelada','@item.CodDestino','@item.IdTipoLimpieza','@item.Observacion');">
+                <td>
+                    @item.Lote
+                </td>
+                <td>
+                    @item.Tonelada
+                </td>
+                <td>
+                    @item.Destino
+                </td>
+                <td>
+                    @item.TipoLimpieza
+                </td>
+                <td>
+                    @item.Especie
+                </td>
+                <td>
+                    @item.Talla
+                </td>
+                <td>
+                    @item.Observacion
+                </td>
+            </tr>
             }
         </tbody>
     </table>

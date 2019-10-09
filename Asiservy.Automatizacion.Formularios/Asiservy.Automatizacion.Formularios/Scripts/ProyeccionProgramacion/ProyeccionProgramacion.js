@@ -15,8 +15,11 @@ function Limpiar() {
     $('#Toneladas').val("");
     $('#Destino').prop('selectedIndex', 0);
     $('#TipoLimpieza').prop('selectedIndex', 0);
+    $('#Especie').prop('selectedIndex', 0);
+    $('#Talla').prop('selectedIndex', 0);
     $('#Observacion').val("");
     $('#IdProyeccion').val("");
+
     
 }
 function EditarProyeccion(IdProyeccion, Lote, Fecha, Toneladas, Destino, TipoLimpieza, Observacion) {
@@ -45,7 +48,8 @@ function IngresarProyeccionProgramacion() {
     } else {
         idPro = $('#IdProyeccion').val();
     }
-    if ($('#Lote').val() == "" || $('#FechaProduccion').val() == "" || $('#Toneladas').val() == "" || $('#Destino').prop('selectedIndex') == 0 || $('#TipoLimpieza').prop('selectedIndex') == 0) {
+    if ($('#Lote').val() == "" || $('#FechaProduccion').val() == "" || $('#Toneladas').val() == "" || $('#Destino').prop('selectedIndex') == 0 || $('#TipoLimpieza').prop('selectedIndex') == 0
+        || $('#Especie').prop('selectedIndex') == 0 || $('#Talla').prop('selectedIndex') == 0) {
         MensajeError("Debe ingresar los campos requeridos", false);
     } else {
         $.ajax({
@@ -59,7 +63,9 @@ function IngresarProyeccionProgramacion() {
                 Toneladas: $('#Toneladas').val(),
                 Destino: $('#Destino').val(),
                 TipoLimpieza: $('#TipoLimpieza').val(),
-                Observacion: $('#Observacion').val()
+                Observacion: $('#Observacion').val(),
+                Especie: $('#Especie').val(),
+                Talla: $('#Talla').val()
             },
             success: function (resultado) {
                 Limpiar();

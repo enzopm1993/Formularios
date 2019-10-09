@@ -151,7 +151,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     db.ASISTENCIA.AddRange(ControlAsistencia);
                     db.SaveChanges();
                     pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, Convert.ToInt32(turno)).ToList();
-                    pListAsistenciaGeneral.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    //pListAsistenciaGeneral.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    foreach (var item in pListAsistenciaGeneral)
+                    {
+                        item.Hora = item.EstadoAsistencia == clsAtributos.EstadoFalta ? TimeSpan.Parse(DateTime.Now.ToString("HH:mm")) : item.Hora;
+                    }
                     ControlAsistenciaGeneralViewModel = new ControlDeAsistenciaGeneralViewModel
                     {
                         ControlAsistencia = pListAsistenciaGeneral.OrderBy(z => z.NOMBRES).ToList()
@@ -160,7 +164,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 else
                 {
                     pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, Convert.ToInt32(turno)).ToList();
-                    pListAsistenciaGeneral.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    //pListAsistenciaGeneral.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    foreach (var item in pListAsistenciaGeneral)
+                    {
+                        item.Hora = item.EstadoAsistencia == clsAtributos.EstadoFalta ? TimeSpan.Parse(DateTime.Now.ToString("HH:mm")) : item.Hora;
+                    }
                     ControlAsistenciaGeneralViewModel = new ControlDeAsistenciaGeneralViewModel
                     {
                         ControlAsistencia = pListAsistenciaGeneral.OrderBy(z => z.NOMBRES).ToList()
@@ -193,7 +201,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     db.ASISTENCIA.AddRange(ControlAsistencia);
                     db.SaveChanges();
                     pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea,Convert.ToInt32(turno)).ToList();
-                    pListAsistencia.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    //pListAsistencia.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    foreach (var item in pListAsistencia)
+                    {
+                        item.Hora = item.EstadoAsistencia == clsAtributos.EstadoFalta ? TimeSpan.Parse(DateTime.Now.ToString("HH:mm")) : item.Hora;
+                    }
                     ControlAsistenciaViewModel = new ControlDeAsistenciaViewModel
                     {
                         ControlAsistencia = pListAsistencia.OrderBy(z => z.NOMBRES).ToList()
@@ -202,7 +214,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 else
                 {
                     pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea, Convert.ToInt32(turno)).ToList();
-                    pListAsistencia.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    //pListAsistencia.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    foreach (var item in pListAsistencia)
+                    {
+                        item.Hora = item.EstadoAsistencia == clsAtributos.EstadoFalta ? TimeSpan.Parse(DateTime.Now.ToString("HH:mm")) : item.Hora;
+                    }
                     ControlAsistenciaViewModel = new ControlDeAsistenciaViewModel
                     {
                         ControlAsistencia = pListAsistencia.OrderBy(z => z.NOMBRES).ToList()
@@ -245,7 +261,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     db.ASISTENCIA.AddRange(ControlAsistencia);
                     db.SaveChanges();
                     pListAsistenciaMovidos = db.sp_ConsultaAsistenciaDiariaPersonalMovido(CodLinea, Convert.ToInt32(turno)).ToList();
-                    pListAsistenciaMovidos.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    //pListAsistenciaMovidos.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    foreach (var item in pListAsistenciaMovidos)
+                    {
+                        item.Hora = item.EstadoAsistencia == clsAtributos.EstadoFalta ? TimeSpan.Parse(DateTime.Now.ToString("HH:mm")) : item.Hora;
+                    }
                     ControlDeAsistenciaPrestadosViewModel = new ControlDeAsistenciaPrestadosViewModel
                     {
                         ControlAsistencia = pListAsistenciaMovidos.OrderBy(z => z.NOMBRES).ToList()
@@ -254,7 +274,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 else
                 {
                     pListAsistenciaMovidos = db.sp_ConsultaAsistenciaDiariaPersonalMovido(CodLinea, Convert.ToInt32(turno)).ToList();
-                    pListAsistenciaMovidos.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    //pListAsistenciaMovidos.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
+                    foreach (var item in pListAsistenciaMovidos)
+                    {
+                        item.Hora = item.EstadoAsistencia == clsAtributos.EstadoFalta ? TimeSpan.Parse(DateTime.Now.ToString("HH:mm")) : item.Hora;
+                    }
                     ControlDeAsistenciaPrestadosViewModel = new ControlDeAsistenciaPrestadosViewModel
                     {
                         ControlAsistencia = pListAsistenciaMovidos.OrderBy(z => z.NOMBRES).ToList()

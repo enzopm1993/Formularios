@@ -42,6 +42,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var ListDestinoProduccion = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoDestinoProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
 
                 ViewBag.Destino = new SelectList(ListDestinoProduccion, "codigo", "descripcion");
+
+                var ListEspeciePescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoEspeciePescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+
+                ViewBag.Especie = new SelectList(ListEspeciePescado, "codigo", "descripcion");
+
+                var ListTallaPescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoTallaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+
+                ViewBag.Talla = new SelectList(ListTallaPescado, "codigo", "descripcion");
+
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 ViewBag.Proyeccion = clsDProyeccionProgramacion.ConsultarProyeccionProgramacion(null);
                 return View();
@@ -64,7 +73,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [HttpPost]
-        public ActionResult ProyeccionProgramacionPartial(int IdProyeccionProgramacion,string Lote,DateTime? FechaProduccion,int? Toneladas,string Destino, string TipoLimpieza,string Observacion/*,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin*/)
+        public ActionResult ProyeccionProgramacionPartial(int IdProyeccionProgramacion,string Lote,DateTime? FechaProduccion,int? Toneladas,string Destino, string TipoLimpieza,string Observacion, string Especie, string Talla/*,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin*/)
         {
             try
             {
@@ -82,6 +91,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         Destino = Destino,
                         TipoLimpieza = TipoLimpieza,
                         Observacion = Observacion,
+                        Especie=Especie,
+                        Talla=Talla,
                         FechaCreacionLog=DateTime.Now,
                         UsuarioCreacionLog=liststring[0],
                         TerminalCreacionLog= Request.UserHostAddress
@@ -123,7 +134,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public ActionResult ProyeccionProgramacionEditarPartial(int IdProyeccionProgramacion,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin)
+        public ActionResult ProyeccionProgramacionEditarPartial(int IdProyeccionProgramacion,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin,string Observacion)
         {
             try
             {
@@ -136,6 +147,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         Lineas = Lineas,
                         HoraInicio = HoraInicio,
                         HoraFin = HoraFin,
+                        Observacion=Observacion,
                         UsuarioCreacionLog = liststring[0],
                         TerminalCreacionLog = Request.UserHostAddress,
                         FechaCreacionLog=DateTime.Now

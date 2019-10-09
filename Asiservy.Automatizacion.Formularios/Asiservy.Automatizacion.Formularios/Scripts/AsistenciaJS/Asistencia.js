@@ -1,4 +1,30 @@
-﻿function buscarenTabla() {
+﻿//var ListaIdsHora = new Array();
+//function PushHoras(id) {
+//    ListaIdsHora.push(id);
+//}
+//function mueveReloj() {
+//    momentoActual = new Date()
+//    hora = momentoActual.getHours()
+//    minuto = momentoActual.getMinutes()
+//    segundo = momentoActual.getSeconds()
+//    hora = hora < 10 ? '0' + hora : hora;
+//    segundo = segundo < 10 ? '0' + segundo : segundo;
+//    minuto = minuto < 10 ? '0' + minuto : minuto;
+//    horaImprimible = hora + ":" + minuto + ":" + segundo
+
+//    //$('#ControlAsistencia_3__Hora').val(horaImprimible); 
+//    //$('#' + id).val(horaImprimible); 
+//    ListaIdsHora.forEach(function (elemento, indice, array) {
+//        //console.log(elemento, indice);
+//        $('#' + elemento).val(horaImprimible); 
+//    });
+//    setTimeout("mueveReloj()", 1000)
+//}
+//$(window).on('load', function () {
+
+//});
+
+function buscarenTabla() {
     // Declare variables
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("busqueda");
