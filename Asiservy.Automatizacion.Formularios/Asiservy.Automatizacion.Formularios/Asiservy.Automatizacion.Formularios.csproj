@@ -305,8 +305,10 @@
     <Content Include="Content\images\cuchillo01.jpg" />
     <Content Include="Content\images\cuchillo02.jpg" />
     <Content Include="Content\images\cuchillo03.jpg" />
+    <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\pez-salto.gif" />
     <Content Include="Content\images\pez.gif" />
+    <Content Include="Content\images\pez.png" />
     <Content Include="Content\images\searchicon.png" />
     <Content Include="Content\images\ui-icons_444444_256x240.png" />
     <Content Include="Content\images\ui-icons_555555_256x240.png" />
