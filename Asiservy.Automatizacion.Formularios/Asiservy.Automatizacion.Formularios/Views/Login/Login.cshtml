@@ -99,7 +99,7 @@
             contentType: "application/json; charset=utf-8",
             type: "POST",
             url: "@Url.Action("LogIn", "Login")",
-            data: JSON.stringify( { usuario: $("#txtUsuario").val(), password: $("#txtPassword").val()}),
+            data: JSON.stringify({ usuario: $("#txtUsuario").val().trim(), password: $("#txtPassword").val()}),
         success: function (data) {
             if (data == 1) {
 
