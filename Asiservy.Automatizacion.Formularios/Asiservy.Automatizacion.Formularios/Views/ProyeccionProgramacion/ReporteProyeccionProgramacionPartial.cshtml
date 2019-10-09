@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.ProyeccionProgramacion.ProyeccionProgramacionViewModel>
 
 
-<table class="table" id="rptproyeccion">
+<table class="table" id="rptProyeccion">
     <thead>
         <tr>
-             <th>
+            <th>
                 @Html.DisplayNameFor(model => model.Lote)
             </th>
             <th>
@@ -13,11 +13,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Tonelada)
             </th>
-        
+
             <th>
                 @Html.DisplayNameFor(model => model.Destino)
             </th>
-           
+
             <th>
                 @Html.DisplayNameFor(model => model.TipoLimpieza)
             </th>
@@ -49,7 +49,6 @@
         @foreach (var item in Model)
         {
             <tr>
-              
                 <td>
                     @Html.DisplayFor(modelItem => item.Lote)
                 </td>
@@ -59,11 +58,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Tonelada)
                 </td>
-           
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Destino)
                 </td>
-               
+
                 <td>
                     @Html.DisplayFor(modelItem => item.TipoLimpieza)
                 </td>
@@ -92,13 +91,10 @@
             </tr>
         }
     </tbody>
-
-
-
 </table>
 <script>
 
-    $('#rptproyeccion').DataTable({
+    $('#rptProyeccion').DataTable({
         "language": {
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",
@@ -125,7 +121,11 @@
         },
         "pageLength": 5,
         "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
-        "pagingType": "full_numbers"
+        "pagingType": "full_numbers",
+        "dom": 'Bfrtip',
+        "buttons": [
+            'excel', 'pdf', 'print'
+        ]
 
     });
 </script>

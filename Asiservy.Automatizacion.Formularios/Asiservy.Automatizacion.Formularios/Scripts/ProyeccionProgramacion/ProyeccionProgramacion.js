@@ -81,6 +81,7 @@ function IngresarProyeccionProgramacion() {
     }
     
 }
+
 $('#tablaProyeccion').DataTable({
     "language": {
         "sProcessing": "Procesando...",
