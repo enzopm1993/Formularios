@@ -196,11 +196,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     }
                     return Json(psRespuesta, JsonRequestBehavior.AllowGet);
                 }
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return Json("Error, no se ha enviado ninguna solicitud", JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
             {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {

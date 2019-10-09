@@ -13,11 +13,18 @@
     <link href="~/Content/Login/Login.css" rel="shortcut icon" />
     <script src="~/Scripts/General/GeneralJS.js"></script>
 </head>
-<body @*onload="mueveReloj();"*@>
+<body>
+    <style>
+        .navbar {
+            padding:5px;
+            padding-left:10px;
+            padding-right:10px;
+        }
+    </style>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="menu">
         <a class="navbar-brand" href="../Home/Home">
-            <img style="height:50px; width:170px" src="~/Content/images/logo1.png" class="img-responsive" />
+            <img style="height:50px; width:50px" src="~/Content/images/pez.png" class="img-responsive" />
         </a>
         @if (User.Identity.IsAuthenticated)
         {
@@ -90,15 +97,15 @@
             </script>
         }
     </div>
-    
+
     <!-- Modal -->
-    <div class="modal" style="background-color: white;"  id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
+    <div class="modal" style="background-color: white;" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">               
+            <div class="modal-content">
                 <div class="modal-body text-center">
                     <div class="text-center">
                         <img style="width:100%" src="~/Content/images/cargando1.gif" />
-                      
+
                     </div>
                 </div>
             </div>
