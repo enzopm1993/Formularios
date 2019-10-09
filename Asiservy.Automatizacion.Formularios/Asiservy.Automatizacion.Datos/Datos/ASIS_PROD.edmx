@@ -656,6 +656,9 @@
           <Parameter Name="CodLinea" Type="varchar" Mode="In" />
           <Parameter Name="FECHA" Type="date" Mode="In" />
         </Function>
+        <Function Name="spReporteCambioPersonal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CodLinea" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="ASIS_PRODModelStoreContainer">
           <EntitySet Name="ASISTENCIA" EntityType="Self.ASISTENCIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_CAMBIO_PERSONAL" EntityType="Self.BITACORA_CAMBIO_PERSONAL" Schema="dbo" store:Type="Tables" />
@@ -1067,6 +1070,9 @@
             <End Role="CONTROL_HUESO_DETALLE" EntitySet="CONTROL_HUESO_DETALLE" />
             <End Role="CONTROL_MIGA" EntitySet="CONTROL_MIGA" />
           </AssociationSet>
+          <FunctionImport Name="spReporteCambioPersonal" ReturnType="Collection(ASIS_PRODModel.spReporteCambioPersonal)">
+            <Parameter Name="CodLinea" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -1768,6 +1774,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spReporteCambioPersonal">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="TIPO" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="LineaMovido" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LineaOriginal" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2708,6 +2722,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spReporteCambioPersonal" FunctionName="ASIS_PRODModel.Store.spReporteCambioPersonal">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteCambioPersonal">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="LineaMovido" ColumnName="LineaMovido" />
+                <ScalarProperty Name="LineaOriginal" ColumnName="LineaOriginal" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
