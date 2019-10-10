@@ -78,6 +78,7 @@ function Observacion(valor) {
 
 function Mostrar(valor) {
     //console.log(valor);
+    MostrarModalCargando();
     $.ajax({
         url: '../SolicitudPermiso/SolicitudPermisoEdit',
         type: 'GET',
@@ -86,11 +87,14 @@ function Mostrar(valor) {
             frm: sPage
         },
         success: function (resultado) {
+            CerrarModalCargando();
             document.getElementById("modal_body").innerHTML = resultado;
             $('#ModalAprobacion').modal('toggle');
         }
         ,
         error: function () {
+            CerrarModalCargando();
+
             MensajeError("No se ha podido obtener la información",false);
         }
     });
