@@ -427,7 +427,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, Turno);
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste, liststring[0], Request.UserHostAddress, Turno);
                 clsApiUsuario = new clsApiUsuario();
                 DateTime? pdUltimaMarcacion;
                 foreach (var item in AsistenciaViewModel.ControlAsistencia)
@@ -560,7 +560,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
-                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, Hora = Hora, Observacion = observacion, EstadoAsistencia = estado, UsuarioModificacionLog = liststring[1], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now });
+                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, Hora = Hora, Observacion = observacion, EstadoAsistencia = estado, UsuarioModificacionLog = liststring[0], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now });
                 return Json(Resultado, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -588,7 +588,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
-                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, EstadoAsistencia = clsAtributos.EstadoFalta, UsuarioModificacionLog = liststring[1], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now });
+                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, EstadoAsistencia = clsAtributos.EstadoFalta, UsuarioModificacionLog = liststring[0], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now });
             }
             catch (Exception ex)
             {
@@ -734,7 +734,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return RedirectToAction("Home", "Home");
             }
@@ -762,7 +762,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                return RedirectToAction("Home", "Home");
             }
@@ -796,7 +796,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
@@ -1068,7 +1068,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return RedirectToAction("Home", "Home");
             }
@@ -1233,7 +1233,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return RedirectToAction("Home", "Home");
             }
@@ -1263,7 +1263,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
                     FechaIngreso = DateTime.Now,
                     TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[1]
+                    UsuarioIngreso = liststring[0]
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
