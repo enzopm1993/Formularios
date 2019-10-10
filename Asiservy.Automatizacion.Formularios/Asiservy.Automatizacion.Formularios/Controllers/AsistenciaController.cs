@@ -25,7 +25,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDCuchillo clsDCuchillo = null;
         clsApiUsuario clsApiUsuario=null;
         clsDSolicitudPermiso ClsDSolicitudPermiso = null;
-        
+        clsDLogin clsDLogin = null;
         #region Métodos
         protected void SetSuccessMessage(string message)
         {
@@ -1205,8 +1205,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                liststring = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
+                clsDEmpleado = new clsDEmpleado();
+                clsDLogin = new clsDLogin();
                 ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {Grupo =clsAtributos.CodGrupoLineaProduccion, EstadoRegistro=clsAtributos.EstadoRegistroActivo });
+                var Empleado = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault();
+                ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;
+                List<int?> roles = clsDLogin.ConsultaRolesUsuario(liststring[1]);
+                if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.RolControladorGeneral) != null)
+                {
+                    ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
+                }
+
                 return View();
 
             }

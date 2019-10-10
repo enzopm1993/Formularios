@@ -24,15 +24,14 @@
                 <label>Linea</label>
                 @if (ViewBag.SupervisorGeneral != null)
                 {
-                    @Html.DropDownList("Linea", new SelectList(ViewBag.ComboLineas, "Codigo", "Descripcion"), "Selecciones", new { @class = "form-control", @id = "selectLinea" })
+                    @Html.DropDownList("Linea", new SelectList(ViewBag.ComboLineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLinea" })
                 }
                 else
                 {
                     @Html.DropDownList("Linea", new SelectList(ViewBag.ComboLineas, "Codigo", "Descripcion", ViewBag.LineaEmpleado), "Seleccione", new { @class = "form-control", @readonly = "@readonly", @onchange = "CambioLinea(this.id)" ,@id="selectLinea" })
                 <script>
                     function CambioLinea(id) {
-                        console.log(id);
-                        console.log(@ViewBag.LineaEmpleado);
+                        
                         $('#' + id).val('@ViewBag.LineaEmpleado');
                     }
                 </script>

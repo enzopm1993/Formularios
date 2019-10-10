@@ -17,8 +17,21 @@
         <div class="col-md-4 col-sm-6">
             <div class="form-group">
                 <label>Linea</label>
-                @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLinea" })
-            </div>
+                @if (ViewBag.SupervisorGeneral != null)
+                {
+                    @Html.DropDownList("Linea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLinea" })
+                }
+                else
+                {
+                    @Html.DropDownList("Linea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.LineaEmpleado), "Seleccione", new { @class = "form-control", @readonly = "@readonly", @onchange = "CambioLinea(this.id)", @id = "selectLinea" })
+                    <script>
+                    function CambioLinea(id) {
+                        $('#' + id).val('@ViewBag.LineaEmpleado');
+                    }
+                    </script>
+
+                }
+            </div>          
         </div>
     </div>
     <div class="row">

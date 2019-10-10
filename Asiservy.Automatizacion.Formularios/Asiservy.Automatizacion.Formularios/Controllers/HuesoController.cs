@@ -366,7 +366,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
                 ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;                
                 List<int?> roles = clsDLogin.ConsultaRolesUsuario(Usuario[1]);
-                if (roles.FirstOrDefault(x=> x.Value ==clsAtributos.RolSupervisorGeneral)!=null)
+                if (roles.FirstOrDefault(x=> x.Value ==clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.RolControladorGeneral) != null)
                 {
                     ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
                 }
