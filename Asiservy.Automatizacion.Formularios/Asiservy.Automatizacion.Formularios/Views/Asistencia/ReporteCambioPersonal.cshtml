@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "ReporteCambioPersonal";
+}
+
+<h4>Reporte Cambio Personal</h4>
+
+<div class="row">
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Linea:</label>
+            @Html.DropDownList("Linea", (IEnumerable<SelectListItem>)ViewBag.Lineas, "Seleccione", new { @class = "form-control" })
+            <label id="msgerrorlinea" style="display:none; color:red">Debe seleccionar una línea</label>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Fecha desde:</label>
+            @{
+                var fechahasta = DateTime.Now.ToString("yyyy-MM-dd"); ;
+                var fechadesde = Convert.ToDateTime(fechahasta).AddMonths(-1).ToString("yyyy-MM-dd"); ;
+            }
+            <input type="date" id="fechadesde" class="form-control" value="@fechadesde" />
+            <label id="msgerrorfechaInicio" style="display:none; color:red">Debe ingresar una fecha inicial</label>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label>Fecha hasta:</label>
+            <input type="date" id="fechahasta" class="form-control" value="@fechahasta" />
+            <label id="msgerrorFechaFin" style="display:none; color:red">Debe ingresar una fecha final</label>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+
+            <label id="msgerrorFechas" style="display:none; color:red">La fecha inicial no puede ser mayor a la fecha final</label>
+        </div>
+    </div>
+    <div class="col-md-offset-2 col-md-12">
+        <center>
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" value="Consultar" onclick="ConsultarCambioPersonal()" />
+
+            </div>
+        </center>
+    </div>
+</div>
+@*<div class="row">
+        
+        <input type="button" class="btn btn-primary" value="Consultar" onclick="ConsultarCambioPersonal()" />
+   
+</div>*@
+<br />
+<div id="resultadoreporte">
+
+</div>
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/AsistenciaJS/ReporteCambioPersonal.js"></script>

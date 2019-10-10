@@ -1289,7 +1289,59 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
+        [Authorize]
+        public ActionResult ReporteCambioPersonal()
+        {
+            try
+            {
+                clsDGeneral = new clsDGeneral();
+                var Lineas = clsDGeneral.ConsultaLineas();
+                ViewBag.Lineas= new SelectList(Lineas, "codigo", "descripcion");
+                return View();
+            }
+            catch (Exception ex)
+            {
 
+                SetErrorMessage(ex.Message);
+                liststring = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return RedirectToAction("Home","Home");
+            }
+        }
+        public ActionResult ReporteCambioPersonalPartial(string CodLinea, DateTime FechaInicio, DateTime FechaFin)
+        {
+            try
+            {
+                clsDCambioPersonal = new clsDCambioPersonal();
+                List<spReporteCambioPersonal> Resultado = clsDCambioPersonal.ReporteCambioPersonal(CodLinea, FechaInicio, FechaFin);
+                return PartialView(Resultado);
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex.Message);
+                liststring = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
         public ActionResult EmpleadosCambioPersonalPartial(string pslinea, string psarea, string pscargo,string tipo)
         {
             try
