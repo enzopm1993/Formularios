@@ -1306,12 +1306,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home","Home");
             }
         }
-        public ActionResult ReporteCambioPersonalPartial(string CodLinea)
+        public ActionResult ReporteCambioPersonalPartial(string CodLinea, DateTime FechaInicio, DateTime FechaFin)
         {
             try
             {
                 clsDCambioPersonal = new clsDCambioPersonal();
-                List<spReporteCambioPersonal> Resultado = clsDCambioPersonal.ReporteCambioPersonal(CodLinea);
+                List<spReporteCambioPersonal> Resultado = clsDCambioPersonal.ReporteCambioPersonal(CodLinea, FechaInicio, FechaFin);
                 return PartialView(Resultado);
             }
             catch (Exception ex)

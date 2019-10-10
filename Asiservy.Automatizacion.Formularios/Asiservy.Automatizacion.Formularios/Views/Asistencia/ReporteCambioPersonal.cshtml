@@ -10,18 +10,31 @@
         <div class="form-group">
             <label>Linea:</label>
             @Html.DropDownList("Linea", (IEnumerable<SelectListItem>)ViewBag.Lineas, "Seleccione", new { @class = "form-control" })
+            <label id="msgerrorlinea" style="display:none; color:red">Debe seleccionar una línea</label>
         </div>
     </div>
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Fecha desde:</label>
-            <input type="date" id="fechadesde" class="form-control" />
+            @{
+                var fechahasta = DateTime.Now.ToString("yyyy-MM-dd"); ;
+                var fechadesde = Convert.ToDateTime(fechahasta).AddMonths(-1).ToString("yyyy-MM-dd"); ;
+            }
+            <input type="date" id="fechadesde" class="form-control" value="@fechadesde" />
+            <label id="msgerrorfechaInicio" style="display:none; color:red">Debe ingresar una fecha inicial</label>
         </div>
     </div>
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Fecha hasta:</label>
-            <input type="date" id="fechahasta" class="form-control" />
+            <input type="date" id="fechahasta" class="form-control" value="@fechahasta" />
+            <label id="msgerrorFechaFin" style="display:none; color:red">Debe ingresar una fecha final</label>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+
+            <label id="msgerrorFechas" style="display:none; color:red">La fecha inicial no puede ser mayor a la fecha final</label>
         </div>
     </div>
     <div class="col-md-offset-2 col-md-12">

@@ -191,11 +191,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             }
         }
 
-        public List<spReporteCambioPersonal> ReporteCambioPersonal(string CodLinea)
+        public List<spReporteCambioPersonal> ReporteCambioPersonal(string CodLinea, DateTime? FechaInicio, DateTime? FechaFin)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.spReporteCambioPersonal(CodLinea).ToList();
+                return db.spReporteCambioPersonal(CodLinea,FechaInicio,FechaFin).ToList();
             }
         }
     }
