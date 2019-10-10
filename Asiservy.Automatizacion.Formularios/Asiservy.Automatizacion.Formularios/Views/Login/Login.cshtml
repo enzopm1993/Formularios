@@ -64,7 +64,7 @@
                     <div class="input-container">
                         
                             <i class="fa fa-user icon"></i>
-                            <input style="width:100%" placeholder="Usuario" name="usuario" type="text" autofocus id="txtUsuario">
+                            <input style="width:100%" placeholder="Usuario" name="usuario" type="text" autofocus id="txtUsuario" onkeyup="javascript:this.value=this.value.toUpperCase();">
                        
                     </div>
                     <div class="input-container">
@@ -99,7 +99,7 @@
             contentType: "application/json; charset=utf-8",
             type: "POST",
             url: "@Url.Action("LogIn", "Login")",
-            data: JSON.stringify( { usuario: $("#txtUsuario").val(), password: $("#txtPassword").val()}),
+            data: JSON.stringify({ usuario: $("#txtUsuario").val().trim(), password: $("#txtPassword").val()}),
         success: function (data) {
             if (data == 1) {
 
