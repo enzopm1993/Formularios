@@ -1,0 +1,45 @@
+﻿@model List<Asiservy.Automatizacion.Datos.Datos.spReporteCambioPersonal>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nombres
+            </th>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Línea Movido
+            </th>
+            <th>
+                Línea Original
+            </th>
+            <th>
+                Fecha
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.NOMBRES
+                </td>
+                <td>
+                    @item.TIPO
+                </td>
+                <td>
+                    @item.LineaMovido
+                </td>
+                <td>
+                    @item.LineaOriginal
+                </td>
+                <td>
+                    @item.Fecha
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

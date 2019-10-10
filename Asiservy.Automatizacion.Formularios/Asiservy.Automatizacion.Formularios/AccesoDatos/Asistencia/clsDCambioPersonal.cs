@@ -190,5 +190,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return db.spConsultarCambioPersonalxLineaxTurno(CodLinea,Turno).ToList();
             }
         }
+
+        public List<spReporteCambioPersonal> ReporteCambioPersonal(string CodLinea)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spReporteCambioPersonal(CodLinea).ToList();
+            }
+        }
     }
 }

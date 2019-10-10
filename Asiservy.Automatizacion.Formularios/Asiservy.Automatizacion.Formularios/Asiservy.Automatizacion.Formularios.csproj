@@ -335,6 +335,7 @@
     <Content Include="Scripts\AsistenciaJS\EditarAsistencia.js" />
     <Content Include="Scripts\AsistenciaJS\EmpleadoCuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\PersonalNomina.js" />
+    <Content Include="Scripts\AsistenciaJS\ReporteCambioPersonal.js" />
     <Content Include="Scripts\AsistenciaJS\ReporteControlCuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\ReporteDistribucion.js" />
     <Content Include="Scripts\AsistenciaJS\RptAsistencia.js" />
@@ -805,6 +806,8 @@
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEditarPartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ReporteProyeccionProgramacion.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ReporteProyeccionProgramacionPartial.cshtml" />
+    <Content Include="Views\Asistencia\ReporteCambioPersonal.cshtml" />
+    <Content Include="Views\Asistencia\ReporteCambioPersonalPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
