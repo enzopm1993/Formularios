@@ -111,7 +111,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 Fecha = string.IsNullOrEmpty(fecha) ? DateTime.Now :Convert.ToDateTime(fecha);
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
                 
-                List<spConsultarAuditoriaSangreDiaria> ListaAuditoria = clsDAuditoriaSangre.GuardarActualizarAuditoriaSangre(new CONTROL_AUDITORIASANGRE { Cedula=Cedula,Porcentaje=Convert.ToInt32(Porcentaje),
+                List<spConsultarAuditoriaSangreDiaria> ListaAuditoria = clsDAuditoriaSangre.GuardarActualizarAuditoriaSangre(new CONTROL_AUDITORIASANGRE { Cedula=Cedula,Porcentaje=Convert.ToDecimal(Porcentaje),
                 FechaCreacionLog=Fecha,EstadoRegistro=estado,TerminalCreacionLog= Request.UserHostAddress, UsuarioCreacionLog= liststring[0],
                     Hora = hora
                 });
