@@ -55,6 +55,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_HUESO_DETALLE> CONTROL_HUESO_DETALLE { get; set; }
         public virtual DbSet<CONTROL_MIGA> CONTROL_MIGA { get; set; }
         public virtual DbSet<CONTROL_AUDITORIASANGRE> CONTROL_AUDITORIASANGRE { get; set; }
+        public virtual DbSet<CONTROL_COCHE_LINEA> CONTROL_COCHE_LINEA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -463,6 +464,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteCambioPersonal>("spReporteCambioPersonal", codLineaParameter, fechaInicioParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaReporteControlCochePorLineas> spConsultaReporteControlCochePorLineas(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteControlCochePorLineas>("spConsultaReporteControlCochePorLineas", fechaParameter);
         }
     }
 }
