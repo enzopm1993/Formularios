@@ -79,7 +79,7 @@ function NuevoControlHueso() {
     $("#SelectLote").empty();
     $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>");
     var fecha = new Date();
-    console.log(fecha);
+   // console.log(fecha);
     var dia = fecha.getDate();
     var mes = fecha.getMonth()+1;
 

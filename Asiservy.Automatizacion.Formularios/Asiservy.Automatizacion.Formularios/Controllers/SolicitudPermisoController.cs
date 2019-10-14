@@ -704,7 +704,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDGeneral = new clsDGeneral();
-                ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+                ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
                 ViewBag.Estados = clsDGeneral.ConsultarEstadosSolicitudSelect();
                 int RolGarita = ValidarRolGarita();
                 if (RolGarita > 0)
@@ -900,7 +900,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             clsDSolicitudPermiso = new clsDSolicitudPermiso();
             clsDGeneral = new clsDGeneral();
             ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null);
-            ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+            ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
             //ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
             //ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
         }
@@ -912,7 +912,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             clsApiUsuario = new clsApiUsuario();
             ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
             ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null);
-            ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+            ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
             string[] psIdUsuario = User.Identity.Name.Split('_');
             ViewBag.NombreMedico = clsApiUsuario.ConsultaListaUsuariosSap().FirstOrDefault(x => x.Cedula == psIdUsuario[1]).Nombre??"";
             //ViewBag.Areas = clsDGeneral.ConsultaAreas("0");

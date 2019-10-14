@@ -38,7 +38,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public void ConsultaComboLineas()
         {
             clsDGeneral = new clsDGeneral();
-            ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+            ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
             //ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
             //ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
         }
@@ -747,7 +747,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDGeneral = new clsDGeneral();
-                ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+                ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
                 return View();
 
             }
@@ -1295,7 +1295,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDGeneral = new clsDGeneral();
-                var Lineas = clsDGeneral.ConsultaLineas();
+                var Lineas = clsDGeneral.ConsultaLineas("0");
                 ViewBag.Lineas= new SelectList(Lineas, "codigo", "descripcion");
                 return View();
             }
