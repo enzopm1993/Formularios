@@ -8,7 +8,7 @@ function AprobarSolitudes() {
         result.push(this.id);
         i++;
     });
-    console.log(result);
+    //console.log(result);
     Aprobar(result);    
 }
 function AprobarSolicitud(valor) {
@@ -19,7 +19,7 @@ function AprobarSolicitud(valor) {
 }
 
 function Aprobar(result) {
-    console.log(result);
+    //console.log(result);
 
     var resultado = JSON.stringify(result)
     var resultado2 = JSON.parse(resultado)
@@ -29,12 +29,10 @@ function Aprobar(result) {
         type: 'POST',
         dataType: "json",
         data: {
-            diIdSolicitud: resultado2
-           
+            diIdSolicitud: resultado2           
         },
         success: function (resultado) {
-            MensajeCorrecto(resultado + "\n Solicitud Aprobada",true);
-            
+            MensajeCorrecto(resultado + "\n Solicitud Aprobada",true);            
         }
         ,
         error: function () {
@@ -70,7 +68,7 @@ function Anular() {
 }
 
 function Observacion(valor) {
-    console.log(valor);
+   // console.log(valor);
     document.getElementById("txtObservaccionAnulacion").value = "";
     document.getElementById("txtIdSolicitud").value = valor;
     $('#ModalObservacion').modal("show");

@@ -16,7 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdControlAuditoriaSangre { get; set; }
         public string Cedula { get; set; }
-        public Nullable<int> Porcentaje { get; set; }
+        public Nullable<decimal> Porcentaje { get; set; }
         public string EstadoRegistro { get; set; }
         public Nullable<System.DateTime> FechaCreacionLog { get; set; }
         public string UsuarioCreacionLog { get; set; }
