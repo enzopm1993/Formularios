@@ -808,7 +808,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDGeneral = new clsDGeneral();
-                var Lineas = clsDGeneral.ConsultaLineas();
+                var Lineas = clsDGeneral.ConsultaLineas("0");
                 ViewBag.Lineas = new SelectList(Lineas, "codigo", "descripcion");
                 return View();
             }
@@ -965,7 +965,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                return Json(ex.Message,JsonRequestBehavior.AllowGet);
             }
         }
         [Authorize]
@@ -1459,7 +1459,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return RedirectToAction("Home", "Home");
             }
         }
         //[HttpPost]
@@ -1496,153 +1508,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
-        [Authorize]
-        public ActionResult ReporteCambioPersonal()
-        {
-            try
-            {
-                clsDGeneral = new clsDGeneral();
-                var Lineas = clsDGeneral.ConsultaLineas("0");
-                ViewBag.Lineas= new SelectList(Lineas, "codigo", "descripcion");
-                return View();
-            }
-            catch (Exception ex)
-            {
-
-                SetErrorMessage(ex.Message);
-                liststring = User.Identity.Name.Split('_');
-                clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[0]
-                });
-                return RedirectToAction("Home","Home");
-            }
-        }
-        public ActionResult ReporteCambioPersonalPartial(string CodLinea, DateTime FechaInicio, DateTime FechaFin)
-        {
-            try
-            {
-                clsDCambioPersonal = new clsDCambioPersonal();
-                List<spReporteCambioPersonal> Resultado = clsDCambioPersonal.ReporteCambioPersonal(CodLinea, FechaInicio, FechaFin);
-                return PartialView(Resultado);
-            }
-            catch (Exception ex)
-            {
-                SetErrorMessage(ex.Message);
-                liststring = User.Identity.Name.Split('_');
-                clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public ActionResult EmpleadosCambioPersonalPartial(string pslinea, string psarea, string pscargo,string tipo)
-        {
-            try
-            {
-                List<spConsutaEmpleadosFiltro> ListaEmpleados=new List<spConsutaEmpleadosFiltro>();
-                clsDEmpleado = new clsDEmpleado();
-                if (tipo == "prestar")
-                {
-                    ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(pslinea, psarea, pscargo, clsAtributos.TipoPrestar);
-
-                }
-                else
-                {
-                    ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(pslinea, psarea, pscargo, clsAtributos.TipoRegresar);
-                    ViewBag.ADondeFuePrestado = clsDEmpleado.ConsultarDondeFueMovido(ListaEmpleados);
-                }
-                return PartialView(ListaEmpleados);
-            }
-            catch (Exception ex)
-            {
-                SetErrorMessage(ex.Message);
-                liststring = User.Identity.Name.Split('_');
-                clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [Authorize]
-        public JsonResult MoverEmpleados(string[] dCedulas, string dlinea, string darea, string tipo)
-        {
-            try
-            {
-                List<CAMBIO_PERSONAL> pListCambioPersonal = new List<CAMBIO_PERSONAL>();
-                List<BITACORA_CAMBIO_PERSONAL> pListBitacoraCambioPersonal = new List<BITACORA_CAMBIO_PERSONAL>();
-                liststring = User.Identity.Name.Split('_');
-                string psRespuesta = string.Empty;
-                if (dCedulas != null && dCedulas.Length > 0)
-                {
-                    foreach (var pscedulas in dCedulas)
-                    {
-                        if (!string.IsNullOrEmpty(pscedulas))
-                        {
-                            pListCambioPersonal.Add(new CAMBIO_PERSONAL {
-                                Cedula = pscedulas,
-                                CodLinea = dlinea,
-                                CodArea = darea,
-                                FechaIngresoLog = DateTime.Now,
-                                UsuarioIngresoLog = liststring[0],
-                                TerminalIngresoLog = Request.UserHostAddress,
-                                EstadoRegistro = "A"
-                            });
-                            pListBitacoraCambioPersonal.Add(new BITACORA_CAMBIO_PERSONAL {
-                            Cedula= pscedulas,
-                            Tipo=tipo=="prestar"?"P":"R",
-                            CodLinea= dlinea,
-                            CodArea= darea,
-                            FechaIngresoLog = DateTime.Now,
-                            UsuarioIngresoLog = liststring[0],
-                            TerminalIngresoLog = Request.UserHostAddress,
-                            });
-                        }
-                    }
-                    clsDCambioPersonal = new clsDCambioPersonal();
-                    psRespuesta = clsDCambioPersonal.GuardarCambioDePersonal(pListCambioPersonal, pListBitacoraCambioPersonal, tipo);
-                    return Json(psRespuesta, JsonRequestBehavior.AllowGet);
-                }
-                return Json("Error, no se ha seleccionado ningún empleado", JsonRequestBehavior.AllowGet);
-
-            }
-            catch (Exception ex)
-            {
-                SetErrorMessage(ex.Message);
-                clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
-            }
-        }
+       
       
         #region METODOS GENERICOS
         public JsonResult ConsultaListadoAreas(string CodLinea)
