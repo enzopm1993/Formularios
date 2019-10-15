@@ -39,11 +39,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
             
         }
-        public List<spConsultaLinea> ConsultaLineas()
+        public List<spConsultaLinea> ConsultaLineas(string dsCodigo)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.spConsultaLinea("0").ToList();
+                return entities.spConsultaLinea(dsCodigo).ToList();
             }
         }
 

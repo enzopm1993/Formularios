@@ -24,7 +24,7 @@ function CargarReporteAvanceLimpiadora() {
             MensajeError(resultado.responseJSON, false);
             $('#btnConsultar').prop("disabled", false);
             CerrarModalCargando();
-
+           
         }
     });
 

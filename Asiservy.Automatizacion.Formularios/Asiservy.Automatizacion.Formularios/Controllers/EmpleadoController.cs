@@ -20,6 +20,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDEmpleadoEsfero clsDEmpleadoEsfero = null;
         clsDClasificador clsDClasificador = null;
         clsDLogin clsDLogin = null;
+        clsDGeneral clsDGeneral = null;
 
         #region EMPLEADO ESFERO
 
@@ -426,13 +427,26 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDClasificador = new clsDClasificador();
                 clsDEmpleado = new clsDEmpleado();
                 clsDLogin = new clsDLogin();
-                ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                clsDGeneral = new clsDGeneral();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
                 ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;
                 List<int?> roles = clsDLogin.ConsultaRolesUsuario(Usuario[1]);
                 if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral|| x.Value == clsAtributos.RolControladorGeneral) != null)
                 {
                     ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
+                    ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                    ViewBag.Proceso = 1;
+                } else if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorLinea || x.Value == clsAtributos.RolControladorLinea) != null)
+                {
+                    ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Codigo = Empleado.CODIGOLINEA });
+                    ViewBag.Proceso = 1;
+
+                }
+                else
+                {
+                    ViewBag.Lineas = clsDGeneral.ConsultaLineas(Empleado.CODIGOLINEA);
+                    ViewBag.Proceso = 0;
+
                 }
 
                 return View();
@@ -458,13 +472,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult ReporteDistribucionPorLineaPartial(string Linea)
+        public ActionResult ReporteDistribucionPorLineaPartial(string Linea, bool Proceso)
         {
             try
             {
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
-                var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea);
+                var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea, Proceso);
                 return PartialView(model);
             }
             catch (Exception ex)

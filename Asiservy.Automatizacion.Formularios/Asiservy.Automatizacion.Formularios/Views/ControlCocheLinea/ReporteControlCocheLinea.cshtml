@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "ReporteControlCocheLinea";
+}
+<br />
+<h4>Reporte Control de Coche Por Linea</h4>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-3">
+
+            <input type="date" name="name" id="txtFecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+            <span class="field-validation-valid text-danger" hidden id="txtValidaFecha"> Ingrese la Fecha </span>
+
+        </div>
+       
+        <div class="col-4">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            <input type="button" id="btnGuardar" class="btn btn-primary" name="name" onclick="CargarControlCoche()" value="Consultar" />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="table-responsive" id="DivTableReporteControlCoche">
+        </div>
+    </div>
+
+</div>
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+
+<script src="~/Scripts/ControlCocheLinea/ReporteControlCoche.js"></script>

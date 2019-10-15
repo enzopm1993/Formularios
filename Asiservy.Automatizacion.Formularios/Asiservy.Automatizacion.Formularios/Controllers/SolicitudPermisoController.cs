@@ -225,22 +225,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 SolicitudPermisoViewModel model = clsDSolicitudPermiso.ConsultaSolicitudPermiso(dsSolicitud);
                 if (model.Origen == clsAtributos.SolicitudOrigenGeneral && string.IsNullOrEmpty(frm))
                 { 
-                    ConsultaCombosGeneral();
+                    ConsultaCombosGeneral(false);
                 }
                 else if (!string.IsNullOrEmpty(frm) && frm == "BandejaMedico")
                 {
-                    ConsultaCombosMedicos();
+                    ConsultaCombosMedicos(true);
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
                 }
                 else if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
                 {
-                    ConsultaCombosGeneral();
+                    ConsultaCombosGeneral(true);
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
 
                 }
                 else
                 {
-                    ConsultaCombosMedicos();
+                    ConsultaCombosMedicos(false);
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", model.CodigoDiagnostico);
 
                 }
@@ -377,7 +377,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {   
                 
                 ValidacionControladorLinea();
-                ConsultaCombosGeneral();
+                ConsultaCombosGeneral(false);
                 return View();
             }
             catch (Exception ex)
@@ -451,7 +451,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     //int piContrladorLinea = ValidarRolControladorLinea();
                     //if (piContrladorLinea > 0)
                     //    ViewBag.ControladorLinea = piContrladorLinea;
-                    ConsultaCombosGeneral();
+                    ConsultaCombosGeneral(false);
                     ValidacionControladorLinea();
                     ModelState.AddModelError("CustomError", psMensajeValidarFecha);
                     return View(model);
@@ -519,7 +519,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 else
                 {
                     ValidacionControladorLinea();
-                    ConsultaCombosGeneral();
+                    ConsultaCombosGeneral(false);
                     return View(model);
                 }
 
@@ -576,7 +576,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                ConsultaCombosMedicos();
+                ConsultaCombosMedicos(false);
                 return View();
             }
             catch (Exception ex)
@@ -611,7 +611,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 psMensajeValidarFecha = ValidarFechas(model);
                 if (!string.IsNullOrEmpty(psMensajeValidarFecha))
                 {
-                    ConsultaCombosMedicos();
+                    ConsultaCombosMedicos(false);
                     ModelState.AddModelError("CustomError", psMensajeValidarFecha);
                     return View(model);
                 }
@@ -671,7 +671,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 else
                 {
-                    ConsultaCombosMedicos();
+                    ConsultaCombosMedicos(false);
                     return View(model);
                 }
 
@@ -704,7 +704,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDGeneral = new clsDGeneral();
-                ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+                ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
                 ViewBag.Estados = clsDGeneral.ConsultarEstadosSolicitudSelect();
                 int RolGarita = ValidarRolGarita();
                 if (RolGarita > 0)
@@ -894,25 +894,33 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return piGarita;
         }
 
-        public void ConsultaCombosGeneral()
+        public void ConsultaCombosGeneral(bool RRHH)
         {
-            clsDClasificador = new clsDClasificador();
             clsDSolicitudPermiso = new clsDSolicitudPermiso();
             clsDGeneral = new clsDGeneral();
-            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null);
-            ViewBag.Lineas = clsDGeneral.ConsultaLineas();
-            //ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
-            //ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
+            if(!RRHH)
+                ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null).Where(x=> x.CodigoMotivo != "CP" && x.CodigoMotivo !="EP");
+            else
+                ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null);
+            ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
+           
         }
-        public void ConsultaCombosMedicos()
+        public void ConsultaCombosMedicos(bool bandeja)
         {
             clsDClasificador = new clsDClasificador();
             clsDSolicitudPermiso = new clsDSolicitudPermiso();
             clsDGeneral = new clsDGeneral();
             clsApiUsuario = new clsApiUsuario();
             ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
-            ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null);
-            ViewBag.Lineas = clsDGeneral.ConsultaLineas();
+            if (bandeja)
+            {
+                ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null).Where(x=> x.CodigoMotivo== "CM");
+            }
+            else
+            {
+                ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null).Where(x => x.CodigoMotivo == "EN");
+            }
+            ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
             string[] psIdUsuario = User.Identity.Name.Split('_');
             ViewBag.NombreMedico = clsApiUsuario.ConsultaListaUsuariosSap().FirstOrDefault(x => x.Cedula == psIdUsuario[1]).Nombre??"";
             //ViewBag.Areas = clsDGeneral.ConsultaAreas("0");

@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.ControlCocheLinea.ControlCocheLineaViewModel>
+
+<table class="table hover" style="cursor: pointer;" id="TablaControlCoche">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdControlCocheLinea)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraFin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Coches)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.DescripcionLinea)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Talla)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr onclick="SelectControlCoche('@item.IdControlCocheLinea','@item.Fecha.ToString("yyyy-MM-dd")','@item.HoraInicio','@item.HoraFin','@item.Linea','@item.Talla','@item.Observacion','@item.Coches')">
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdControlCocheLinea)
+                </td>
+                <td>
+                    <label>@item.Fecha.ToString("yyyy-MM-dd")</label>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraInicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraFin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Coches)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescripcionLinea)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Talla)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+
+    $('#TablaControlCoche').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        "pageLength": 5,
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+        "pagingType": "full_numbers"
+
+    });
+</script>

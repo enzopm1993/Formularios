@@ -2,51 +2,55 @@
 @{
     ViewBag.Title = "ProyeccionProgramacion";
 }
-
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>    
 <h4>Proyección Programación</h4>
 
 <div class="row">
     @Html.Hidden("IdProyeccion")
     @{var Fecha = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"); }
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Lote:</label>
             @Html.TextBoxFor(m => m.Lote, new { @class = "form-control" })
         </div>
     </div>
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Fecha:</label>
             @Html.TextBoxFor(m => m.FechaProduccion, new { @class = "form-control input-large", type = "date", @Value = Fecha })
 
         </div>
     </div>
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Toneladas:</label>
             @Html.TextBoxFor(m => m.Toneladas, new { @class = "form-control" })
 
         </div>
     </div>
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Destino:</label>
             @Html.DropDownList("Destino", (IEnumerable<SelectListItem>)ViewBag.Destino, "Seleccione", new { @class = "form-control" })
         </div>
     </div>
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Tipo Limpieza:</label>
             @Html.DropDownList("TipoLimpieza", (IEnumerable<SelectListItem>)ViewBag.TipoLimpieza, "Seleccione", new { @class = "form-control" })
         </div>
     </div>
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-5 col-sm-6">
         <div class="form-group">
             <label>Observación:</label>
             @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control" })
         </div>
     </div>
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Especie:</label>
             @Html.DropDownList("Especie", (IEnumerable<SelectListItem>)ViewBag.Especie, "Seleccione", new { @class = "form-control" })
