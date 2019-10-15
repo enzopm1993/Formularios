@@ -610,7 +610,6 @@
         <Function Name="spConsultaDistribucionPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="datetime" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
-          <Parameter Name="proceso" Type="bit" Mode="In" />
         </Function>
         <Function Name="spConsultaLimpiadorasControlHueso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="linea" Type="varchar" Mode="In" />
@@ -1104,7 +1103,6 @@
           <FunctionImport Name="spConsultaDistribucionPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaDistribucionPorLinea)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
-            <Parameter Name="proceso" Mode="In" Type="Boolean" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">

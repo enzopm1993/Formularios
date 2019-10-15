@@ -1,12 +1,8 @@
 ﻿
 
 function CargarReporteDistribucion() {
-    var linea = $('#selectLinea').val();
-    var proceso = $('#txtProceso').val();
-    var bool = false;
-    if (proceso == 1)
-        bool = true;
-    console.log(proceso);
+    var linea = $('#selectLinea').val();   
+    
     if (linea > 0) {
         $('#btnGuardarCargando').prop("hidden", false);
         $('#btnGuardar').prop("hidden", true);
@@ -14,8 +10,8 @@ function CargarReporteDistribucion() {
             url: "../Empleado/ReporteDistribucionPorLineaPartial",
             type: "GET",
             data: {
-                Linea: linea,
-                Proceso: bool
+                Linea: linea
+               
             },
             success: function (resultado) {
                 var bitacora = $('#DivTableReporteDistribucion');

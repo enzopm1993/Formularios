@@ -435,17 +435,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
                     ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-                    ViewBag.Proceso = 1;
+                    
                 } else if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorLinea || x.Value == clsAtributos.RolControladorLinea) != null)
                 {
                     ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Codigo = Empleado.CODIGOLINEA });
-                    ViewBag.Proceso = 1;
+                
 
                 }
                 else
                 {
                     ViewBag.Lineas = clsDGeneral.ConsultaLineas(Empleado.CODIGOLINEA);
-                    ViewBag.Proceso = 0;
+                  
 
                 }
 
@@ -472,13 +472,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult ReporteDistribucionPorLineaPartial(string Linea, bool Proceso)
+        public ActionResult ReporteDistribucionPorLineaPartial(string Linea)
         {
             try
             {
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
-                var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea, Proceso);
+                var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea);
                 return PartialView(model);
             }
             catch (Exception ex)
