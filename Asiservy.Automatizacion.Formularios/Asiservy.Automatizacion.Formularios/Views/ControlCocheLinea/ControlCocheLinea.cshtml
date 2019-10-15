@@ -78,8 +78,8 @@
         <div class="offset-md-1 col-2">
             <div class="form-group">
                 @Html.LabelFor(model => model.Talla, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.EditorFor(model => model.Talla, new { htmlAttributes = new { @class = "form-control", @id = "selectTalla" } })
-                @Html.ValidationMessageFor(model => model.Talla, "", new { @class = "text-danger" })
+                @Html.DropDownList("Tallas", new SelectList(ViewBag.Tallas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectTalla" })
+                <span class="field-validation-valid text-danger" hidden id="txtValidaTalla">Selecciones una talla </span>
             </div>
         </div>
 

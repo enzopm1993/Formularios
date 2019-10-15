@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +17,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDError clsDError = null;
         clsDControlCocheLinea clsDControlCocheLinea = null;
         clsDClasificador clsDClasificador = null;
-
+        clsDApiProduccion clsDApiProduccion = null;
         // GET: ControlCocheLinea
         [Authorize]
         public ActionResult ControlCocheLinea()
         {
             try
             {
+                clsDApiProduccion = new clsDApiProduccion();
                 clsDClasificador = new clsDClasificador();
                 ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {Grupo= clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                ViewBag.Tallas = clsDApiProduccion.ConsultarTallas(null);
                 return View();
             }
             catch (Exception ex)

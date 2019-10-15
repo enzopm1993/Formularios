@@ -67,6 +67,7 @@ function validar() {
    var horaFin= $("#txtHoraFin").val();
    var coches= $("#txtCoches").val();
    var linea= $("#selectLineas").val();
+    var talla = $("#selectTalla").val();
     var bool= true;
 
     if (fecha == "") {
@@ -102,6 +103,12 @@ function validar() {
         bool = false;
     } else {
         $("#txtValidaLinea").prop("hidden", true);
+    }
+    if (talla == "") {
+        $("#txtValidaTalla").prop("hidden", false);
+        bool = false;
+    } else {
+        $("#txtValidaTalla").prop("hidden", true);
     }
 
     return bool;

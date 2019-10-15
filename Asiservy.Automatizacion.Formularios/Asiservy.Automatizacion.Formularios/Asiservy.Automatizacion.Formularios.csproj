@@ -660,6 +660,7 @@
     <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
     <Compile Include="AccesoDatos\General\clsApiUsuario.cs" />
     <Compile Include="AccesoDatos\General\clsDApiOrdenFabricacion.cs" />
+    <Compile Include="AccesoDatos\General\clsDApiProduccion.cs" />
     <Compile Include="AccesoDatos\General\clsDClasificador.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDEmpleado.cs" />
     <Compile Include="AccesoDatos\General\clsDError.cs" />
