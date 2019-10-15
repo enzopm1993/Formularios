@@ -9,7 +9,7 @@
             type: "Get",
             data:
             {
-                dsLinea: "01",
+                dsLinea: $('#CodLinea').val(),
                 //dsLinea: $('#selectLinea').val(),
                 //dsArea: $('#selectArea').val(),
                 //dsCargo: $('#selectCargo').val(),
