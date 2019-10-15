@@ -1,0 +1,107 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.CONTROL_CUCHILLO
+<link href="~/Content/AsistenciaCss/PrestarCuchillo.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "PrestarCuchillo";
+}
+
+<h4>Prestar Cuchillo</h4>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="row">
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.Cedula, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    @****@
+
+    <div class="col-md-6 col-sm-6">
+        <div class="form-group">
+            <label>Empleado:</label>
+            <div class="input-group">
+                @Html.Hidden("Identificacion")
+                @Html.TextBox("NombreEmpleado", null, new { @class = "form-control", @readonly = "readonly" })
+                <button type="button" onclick="CargarEmpleados('CargarEmpleadoAS');" id="CargarEmpleadoAS">
+                    <img src="~/Content/images/buscar.png" />
+                </button><br />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-6">
+        <div class="form-group">
+            <label>Cuchillo Blanco:</label>
+            @Html.DropDownListFor(x => x.CuchilloBlanco, (IEnumerable<SelectListItem>)ViewBag.CuchilloBlanco, "Seleccione", new { @class = "form-control", disabled = "disabled" })
+
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div class="form-group">
+            <label>Cuchillo Rojo:</label>
+            @Html.DropDownListFor(x => x.CuchilloRojo, (IEnumerable<SelectListItem>)ViewBag.CuchilloRojo, "Seleccione", new { @class = "form-control", disabled = "disabled" })
+
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div class="form-group">
+            <label>Cuchillo Negro:</label>
+            @Html.DropDownListFor(x => x.CuchilloNegro, (IEnumerable<SelectListItem>)ViewBag.CuchilloNegro, "Seleccione", new { @class = "form-control", disabled = "disabled" })
+
+        </div>
+    </div>
+    @*<div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Cuchillo Rojo:</label>
+                @Html.DropDownListFor(x=>x.CuchilloBlanco, (IEnumerable<SelectListItem>)ViewBag.CuchilloBlanco, "Seleccione", new { @class = "form-control" })
+
+            </div>
+        </div>*@
+
+    @****@
+
+
+
+
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.CuchilloNegro, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CuchilloNegro, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CuchilloNegro, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+
+    @*<div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>*@
+</div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <center>
+                <div class="form-group">
+                   
+                    <input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="check('B')" />
+                    @*<input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
+                </div>
+            </center>
+        </div>
+    </div>
+}
+
+    <div id="ModelCargarEmpleados"></div>
+    <script src="~/Scripts/AsistenciaJS/PrestarCuchillo.js"></script>
