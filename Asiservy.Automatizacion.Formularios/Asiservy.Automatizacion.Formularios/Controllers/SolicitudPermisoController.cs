@@ -936,12 +936,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
    
 
-        public ActionResult EmpleadoBuscar(string dsLinea, string dsArea, string dsCargo)
+        public ActionResult EmpleadoBuscar(string dsLinea, string dsArea, string dsCargo,string formulario)
         {
             try
             {
                 clsDEmpleado = new clsDEmpleado();
                 List<spConsutaEmpleadosFiltro> lista = clsDEmpleado.ConsultaEmpleadosFiltro(dsLinea,dsArea,dsCargo);
+
+                if (!string.IsNullOrEmpty(formulario))
+                {
+                    if (formulario == "PrestarCuchillo")
+                    {
+                        lista = clsDEmpleado.RetornaPersonalSinCuchilloAsignado(lista);
+                    }
+                }
                 return PartialView(lista);
 
             }catch(Exception ex)

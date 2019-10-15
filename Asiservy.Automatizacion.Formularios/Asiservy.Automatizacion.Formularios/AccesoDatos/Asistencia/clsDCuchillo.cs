@@ -145,6 +145,38 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return ControlCuchillosViewModel;
             }
         }
+        public ControlCuchilloViewModel ConsultarCOntrolCuchilloxCedula(string cedula)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                ControlCuchilloViewModel ControlCuchillosViewModel = null;
+                DateTime fechaInicio = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+                DateTime FechaFin = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
+                CONTROL_CUCHILLO controlCuchillos = db.CONTROL_CUCHILLO.Where(x =>x.Cedula==cedula &&( x.Fecha >= fechaInicio && x.Fecha < FechaFin)).FirstOrDefault();
+                if (controlCuchillos != null)
+                {
+                    ControlCuchillosViewModel = new ControlCuchilloViewModel()
+                    {
+                        Cedula = controlCuchillos.Cedula,
+                        CuchilloBlanco = controlCuchillos.CuchilloBlanco,
+                        CuchilloRojo = controlCuchillos.CuchilloRojo,
+                        CuchilloNegro = controlCuchillos.CuchilloNegro,
+                    };
+                }
+                else {
+                    ControlCuchillosViewModel = new ControlCuchilloViewModel()
+                    {
+                        Cedula=cedula,
+                        CuchilloBlanco=0,
+                        CuchilloRojo=0,
+                        CuchilloNegro=0
+                    };
+                }
+                    
+
+                return ControlCuchillosViewModel;
+            }
+        }
         public List<ControlCuchilloViewModel> ConsultarEmpleadosCuchilloPorLinea(string Linea, string Estado)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -361,5 +393,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             }
 
         }
+
+        public List<int?> CuchillosSobrantes(string Color)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.sp_ObtenerCuchillosSobrantes(Color).ToList();
+            }
+        }
+        
     }
 }

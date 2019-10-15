@@ -72,7 +72,7 @@
     var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
     function EmpleadoCons(cedula,nombre)
     {
-        
+        //alert(sPage);
         $('#NombreEmpleado').val(nombre);
         $('#Identificacion').val(cedula);
         //Select(cedula);
@@ -82,12 +82,67 @@
     function cerrarmodalempleado() {
         $('#ModalEmpleado').modal('hide');
         
-        if (sPage = "SolicitudPermiso") {
+        if (sPage == "SolicitudPermiso") {
             $('#CargarEmpleadoPG').attr("disabled", false);
         }
         
-        if (sPage = "SolicitudPermisoDispensario") {
+        if (sPage == "SolicitudPermisoDispensario") {
             $('#CargarEmpleadoPM').attr("disabled", false);
+        }
+        if (sPage == "PrestarCuchillo") {
+            //alert(sPage);
+            $('#CargarEmpleadoAS').attr("disabled", false);
+            $('#CuchilloBlanco').attr('disabled', false);
+            $('#CuchilloRojo').attr('disabled', false);
+            $('#CuchilloNegro').attr('disabled', false);
+            //ConsultarCuchilloPorCedula
+            $.ajax({
+                url: '../Asistencia/ConsultarCuchilloPorCedula',
+                type: 'POST',
+                dataType: "json",
+                data: {
+                    cedula: $('#Identificacion').val()
+                },
+                success: function (resultado) {
+                    //MensajeCorrecto(resultado, true);
+                    //console.log(resultado.CuchilloBlanco);
+                    //var valor = $("#CuchilloBlanco option[value='1']").val();
+                    if (resultado.CuchilloBlanco == 0) {
+                        $('#CuchilloBlanco').prop('selectedIndex', 0);
+                    } else {
+                   
+                        //console.log($("#CuchilloBlanco option[value='" + resultado.CuchilloBlanco+"']").val());
+                        //console.log(resultado.CuchilloBlanco);
+                        if (typeof $("#CuchilloBlanco option[value='" + resultado.CuchilloBlanco + "']").val() === "undefined") {
+                            $('#CuchilloBlanco option').eq(0).after("<option value='"+resultado.CuchilloBlanco+"' >"+resultado.CuchilloBlanco+"</option>");
+                        }
+                        
+                        $('#CuchilloBlanco').val(resultado.CuchilloBlanco);
+                    }
+                    if (resultado.CuchilloRojo == 0) {
+                        $('#CuchilloRojo').prop('selectedIndex', 0);
+                    } else {
+                        if (typeof $("#CuchilloRojo option[value='" + resultado.CuchilloRojo + "']").val() === "undefined") {
+                            $('#CuchilloRojo').eq(0).after("<option value='" + resultado.CuchilloRojo + "' >" + resultado.CuchilloRojo + "</option>");
+                        }
+                        $('#CuchilloRojo').val(resultado.CuchilloRojo);
+                    }
+                    if (resultado.CuchilloNegro == 0) {
+                        $('#CuchilloNegro').prop('selectedIndex', 0);
+                    } else {
+                        if (typeof $("#CuchilloNegro option[value='" + resultado.CuchilloNegro + "']").val() === "undefined") {
+                            $('#CuchilloNegro').eq(0).after("<option value='" + resultado.CuchilloNegro + "' >" + resultado.CuchilloNegro + "</option>");
+                        }
+                        $('#CuchilloNegro').val(resultado.CuchilloNegro);
+                    }
+                    
+                }
+                ,
+                error: function (resultado) {
+                   
+                    MensajeError(resultado, true);
+                }
+            });
         }
     }
 </script>

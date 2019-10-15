@@ -224,5 +224,31 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return pListEmpleados;
             }
         }
+        public List<spConsutaEmpleadosFiltro> RetornaPersonalSinCuchilloAsignado(List<spConsutaEmpleadosFiltro> ListPersonas)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                //foreach (var item in ListPersonas.ToArray())
+                //{
+                //    if (db.EMPLEADO_CUCHILLO.Where(x => x.Cedula == item.CEDULA).ToList().Count == 0)
+                //    {
+                //        ListPersonas.Remove(ListPersonas.Where(z=>z.CEDULA==item.CEDULA).FirstOrDefault());
+                //    }
+                //}
+                var EmpleadoxCuchillo = db.EMPLEADO_CUCHILLO.ToList();
+                var EmpleadosSinCuchillo = (from e in ListPersonas
+                                            join ec in EmpleadoxCuchillo 
+                                                    on new { Cedula=e.CEDULA, EstadoRegistro=clsAtributos.EstadoRegistroActivo } equals new { ec.Cedula, ec.EstadoRegistro } into EmpCuchi
+                                            from ec in EmpCuchi.DefaultIfEmpty()
+                                            where   ec == null 
+                                            select new spConsutaEmpleadosFiltro
+                                            {
+                                                CEDULA = e.CEDULA,
+                                                NOMBRES = e.NOMBRES
+                                            }).ToList();
+           
+                return EmpleadosSinCuchillo;
+            }
+        }
     }
 }

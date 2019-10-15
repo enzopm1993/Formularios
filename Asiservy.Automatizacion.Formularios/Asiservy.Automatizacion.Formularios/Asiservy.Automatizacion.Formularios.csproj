@@ -107,6 +107,7 @@
   <ItemGroup>
     <Content Include="Content\AsistenciaCss\Asistencia.css" />
     <Content Include="Content\AsistenciaCss\CambiarPersonal.css" />
+    <Content Include="Content\AsistenciaCss\PrestarCuchillo.css" />
     <Content Include="Content\AsistenciaCss\RptAsistencia.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -335,6 +336,7 @@
     <Content Include="Scripts\AsistenciaJS\EditarAsistencia.js" />
     <Content Include="Scripts\AsistenciaJS\EmpleadoCuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\PersonalNomina.js" />
+    <Content Include="Scripts\AsistenciaJS\PrestarCuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\ReporteCambioPersonal.js" />
     <Content Include="Scripts\AsistenciaJS\ReporteControlCuchillo.js" />
     <Content Include="Scripts\AsistenciaJS\ReporteDistribucion.js" />
@@ -817,6 +819,7 @@
     <Content Include="Views\ControlCocheLinea\ControlCocheLineaPartial.cshtml" />
     <Content Include="Views\ControlCocheLinea\ReporteControlCocheLinea.cshtml" />
     <Content Include="Views\ControlCocheLinea\ReporteControlCocheLineaPartial.cshtml" />
+    <Content Include="Views\Asistencia\PrestarCuchillo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
