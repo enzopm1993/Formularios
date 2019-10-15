@@ -35,6 +35,7 @@ function MensajeCorrecto(mensaje, r) {
     if (sPage = 'SolicitudPermisoDispensario') {
         $('#GuardarSolicitudDispensario').prop('readonly', true);
     }
+    $('body,html').animate({ scrollTop: 0 }, 500);
     //$.ajax({
     //    url: "../Mensaje/Correcto",
     //    type: "Get",
@@ -48,35 +49,39 @@ function MensajeCorrecto(mensaje, r) {
     //           //console.log(r);
     //    }
     //});
-    if (r)
-        location.reload();
-    $('.alert').prop("hidden", false);
+    $('#response').html('');
     $('<div class="alert alert-success">' +
         '<button type="button" class="close" data-dismiss="alert">' +
         '&times;</button><p id="pMensaje"></p></div>').hide().appendTo('#response').fadeIn(1000);
     $('#pMensaje').text(mensaje);
+
+   
+
     $(".alert").delay(1000).fadeOut(
         "normal",
         function () {
             $(this).remove();
         });
-
+    if (r)
+        location.reload();
 }
 
 
 function MensajeError(mensaje, r) {
-    if (r)
-        location.reload();
-
+  
+    $('body,html').animate({ scrollTop: 0 }, 500);
+    $('#response').html('');
     $('<div class="alert alert-danger">' +
         '<button type="button" class="close" data-dismiss="alert">' +
         '&times;</button><p id="pMensaje"></p></div>').hide().appendTo('#response').fadeIn(1000);
     $('#pMensaje').text(mensaje);
-    $(".alert").delay(3000).fadeOut(
-        "normal",
-        function () {
-            $(this).remove();
-        });
+    //$(".alert").delay(3000).fadeOut(
+    //    "normal",
+    //    function () {
+    //        $(this).remove();
+    //    });
+    if (r)
+        location.reload();
     //console.log("Prueba de Mensaje");
     //console.log(mensaje);
     //$.ajax({
@@ -103,9 +108,9 @@ function MensajeError(mensaje, r) {
 
 function MensajeAdvertencia(mensaje, r) {
 
-    if (r)
-        location.reload();
-   
+  
+    $('body,html').animate({ scrollTop: 0 }, 500);
+    $('#response').html('');
     $('<div class="alert alert-warning">' +
         '<button type="button" class="close" data-dismiss="alert">' +
         '&times;</button><p id="pMensaje"></p></div>').hide().appendTo('#response').fadeIn(1000);
@@ -115,6 +120,8 @@ function MensajeAdvertencia(mensaje, r) {
         function () {
             $(this).remove();
         });
+    if (r)
+        location.reload();
     //$.ajax({
     //    url: "../Mensaje/Advertencia",
     //    type: "Get",

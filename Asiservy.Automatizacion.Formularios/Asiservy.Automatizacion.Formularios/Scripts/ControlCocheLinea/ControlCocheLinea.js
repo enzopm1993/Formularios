@@ -56,6 +56,7 @@ function Nuevo() {
     $("#txtValidaHoraFin").prop("hidden", true);
     $("#txtValidaCoche").prop("hidden", true);
     $("#txtValidaLinea").prop("hidden", true);
+    $("#txtValidaTalla").prop("hidden", true);
 }
 
 
@@ -68,8 +69,8 @@ function validar() {
    var coches= $("#txtCoches").val();
    var linea= $("#selectLineas").val();
     var talla = $("#selectTalla").val();
-    var bool= true;
-
+    var bool = true;
+    
     if (fecha == "") {
         $("#txtValidaFecha").prop("hidden", false);
         bool= false;
@@ -98,13 +99,13 @@ function validar() {
     } else {
         $("#txtValidaCoche").prop("hidden", true);
     }
-    if (linea == "") {
+    if (linea == "" || linea == null) {
         $("#txtValidaLinea").prop("hidden", false);
         bool = false;
     } else {
         $("#txtValidaLinea").prop("hidden", true);
     }
-    if (talla == "") {
+    if (talla == "" || talla == null) {
         $("#txtValidaTalla").prop("hidden", false);
         bool = false;
     } else {
