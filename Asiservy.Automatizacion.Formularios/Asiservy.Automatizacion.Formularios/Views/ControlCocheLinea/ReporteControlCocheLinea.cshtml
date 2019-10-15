@@ -14,8 +14,13 @@
             <span class="field-validation-valid text-danger" hidden id="txtValidaFecha"> Ingrese la Fecha </span>
 
         </div>
+       
         <div class="col-4">
-            <input type="button" class="btn btn-primary" name="name" onclick="CargarControlCoche()" value="Consultar" />
+            <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            <input type="button" id="btnGuardar" class="btn btn-primary" name="name" onclick="CargarControlCoche()" value="Consultar" />
         </div>
     </div>
     <br />

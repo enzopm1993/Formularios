@@ -67,7 +67,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var ControlCoche = entities.CONTROL_COCHE_LINEA.FirstOrDefault(x=> x.IdControlCocheLinea == model.IdControlCocheLinea);
+                var ControlCoche = entities.CONTROL_COCHE_LINEA.FirstOrDefault(x=> (x.IdControlCocheLinea == model.IdControlCocheLinea)
+                || (x.Fecha==model.Fecha && x.HoraInicio == model.HoraInicio && x.HoraFin == model.HoraFin && x.Linea == model.Linea));
 
                 if(ControlCoche != null)
                 {

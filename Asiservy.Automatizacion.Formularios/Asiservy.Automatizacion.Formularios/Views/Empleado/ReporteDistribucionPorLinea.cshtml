@@ -12,9 +12,9 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-4 col-6">
             <div class="form-group">
-                <label>Linea</label>
+               
                 @if (ViewBag.SupervisorGeneral != null)
                 {
                     @Html.DropDownList("Linea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLinea" })
@@ -31,6 +31,13 @@
 
                 }
             </div>
+        </div>
+        <div class="col-6">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            <input type="button" id="btnGuardar" class="btn btn-primary" name="name" onclick="CargarReporteDistribucion()" value="Consultar" />
         </div>
 
     </div>

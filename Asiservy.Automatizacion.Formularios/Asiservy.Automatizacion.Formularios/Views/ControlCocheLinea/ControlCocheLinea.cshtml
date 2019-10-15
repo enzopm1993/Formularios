@@ -11,103 +11,106 @@
 </style>
 
 <h4>Control Coche Por Linea</h4>
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <div class="row">
+<div class="form-horizontal">
+    <div class="row">
 
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="col-md-2 col-sm-4 col-2">
-                <div class="form-group">
-                    <label>Id</label>
-                    <input type="text" name="name" id="txtIdControlCoche" value="0" class="form-control" readonly />
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-4 col-6">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label" })
-                    @{var FechaActual = DateTime.Now.ToString("yyyy-MM-dd"); }
-                    <input type="date" id="txtFecha" name="name" value="@FechaActual" class="form-control" />
-                    <span class="field-validation-valid text-danger" hidden id="txtValidaFecha"> Ingrese la Fecha </span>
-
-                </div>
-            </div>
-
-            <div class="col-md-2 col-sm-4 col-4">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label" })
-                    <input type="time" id="txtHoraInicio" name="name" value="" class="form-control" />
-                    <span class="field-validation-valid text-danger" hidden id="txtValidaHoraInicio"> Ingrese la Hora </span>
-
-                </div>
-            </div>
-
-            <div class="col-md-2 col-sm-4 col-4">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.HoraFin, htmlAttributes: new { @class = "control-label" })
-                    <input type="time" id="txtHoraFin" name="name" value="" class="form-control" />
-                    <span class="field-validation-valid text-danger" hidden id="txtValidaHoraFin"> Ingrese la Hora </span>
-
-                </div>
-            </div>
-
-            <div class="col-md-1 col-sm-4 col-4">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Coches, htmlAttributes: new { @class = "control-label" })
-                    <input type="number" id="txtCoches" class="form-control" name="name" value="0" />
-                    <span class="field-validation-valid text-danger" hidden id="txtValidaCoche">Ingrese #Coches </span>
-
-                </div>
-            </div>
-
-            <div class="col-md-2 col-sm-4 col-4">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Linea, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLineas" })
-                    <span class="field-validation-valid text-danger" hidden id="txtValidaLinea">Selecciones una linea </span>
-                </div>
+        <div class="col-md-2 col-sm-4 col-2">
+            <div class="form-group">
+                <label>Id</label>
+                <input type="text" name="name" id="txtIdControlCoche" value="0" class="form-control" readonly />
             </div>
         </div>
 
-        <div class="row">
-            <div class="offset-md-1 col-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Talla, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Talla, new { htmlAttributes = new { @class = "form-control", @id = "selectTalla" } })
-                    @Html.ValidationMessageFor(model => model.Talla, "", new { @class = "text-danger" })
-                </div>
-            </div>
+        <div class="col-md-3 col-sm-4 col-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label" })
+                @{var FechaActual = DateTime.Now.ToString("yyyy-MM-dd"); }
+                <input type="date" id="txtFecha" name="name" value="@FechaActual" class="form-control" />
+                <span class="field-validation-valid text-danger" hidden id="txtValidaFecha"> Ingrese la Fecha </span>
 
-            <div class="col-md-8 col-10">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Observacion, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control", @id = "txtObservacion" } })
-                    @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
-                </div>
             </div>
         </div>
-        <div class="text-center">
-            <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Espere...
-            </button>
-            <input type="button" name="name" id="btnGuardar" value="Guardar" onclick="GuardarControl()" class="btn btn-primary" />
-            <input type="button" name="name" id="btnNuevo" value="Nuevo" onclick="Nuevo()" class="btn btn-info" />
 
+        <div class="col-md-2 col-sm-4 col-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label" })
+                <input type="time" id="txtHoraInicio" name="name" value="" class="form-control" />
+                <span class="field-validation-valid text-danger" hidden id="txtValidaHoraInicio"> Ingrese la Hora </span>
+
+            </div>
         </div>
-        <br />
-        <div class="table-responsive" id="DivTableControlCoche">
 
+        <div class="col-md-2 col-sm-4 col-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.HoraFin, htmlAttributes: new { @class = "control-label" })
+                <input type="time" id="txtHoraFin" name="name" value="" class="form-control" />
+                <span class="field-validation-valid text-danger" hidden id="txtValidaHoraFin"> Ingrese la Hora </span>
+
+            </div>
+        </div>
+
+        <div class="col-md-1 col-sm-4 col-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Coches, htmlAttributes: new { @class = "control-label" })
+                <input type="number" id="txtCoches" class="form-control" name="name" value="0" />
+                <span class="field-validation-valid text-danger" hidden id="txtValidaCoche">Ingrese #Coches </span>
+
+            </div>
+        </div>
+
+        <div class="col-md-2 col-sm-4 col-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Linea, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLineas" })
+                <span class="field-validation-valid text-danger" hidden id="txtValidaLinea">Selecciones una linea </span>
+            </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="offset-md-1 col-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Talla, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.Talla, new { htmlAttributes = new { @class = "form-control", @id = "selectTalla" } })
+                @Html.ValidationMessageFor(model => model.Talla, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-8 col-10">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Observacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control", @id = "txtObservacion" } })
+                @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Espere...
+        </button>
+        <input type="button" name="name" id="btnGuardar" value="Guardar" onclick="GuardarControl()" class="btn btn-primary" />
+        <input type="button" name="name" id="btnNuevo" value="Nuevo" onclick="Nuevo()" class="btn btn-info" />
+
+    </div>
+
+   
+    <br />
+
+    <div class="table-responsive" id="DivTableControlCoche">
+
+    </div>
+</div>
 }
+
+
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />

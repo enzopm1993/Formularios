@@ -1,5 +1,4 @@
 ﻿
-
 $(document).ready(function () {
     CargarControlCoche();
 });
@@ -130,11 +129,12 @@ function GuardarControl() {
         success: function (resultado) {
            
             CargarControlCoche();
+            
+            MensajeCorrecto(resultado);
+            Nuevo();          
             $("#btnGuardar").prop("disabled", false);
             $('#btnGuardarCargando').prop("hidden", true);
             $('#btnGuardar').prop("hidden", false);
-            MensajeCorrecto(resultado);
-            Nuevo();
         },
         error: function (resultado) {
           
@@ -149,3 +149,5 @@ function GuardarControl() {
     });
 
 }
+
+

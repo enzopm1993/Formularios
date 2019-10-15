@@ -9,6 +9,8 @@ function CargarControlCoche() {
         $('#txtValidaFecha').prop('hidden', true);
 
     }
+    $('#btnGuardarCargando').prop("hidden", false);
+    $('#btnGuardar').prop("hidden", true);
     $.ajax({
         url: "../ControlCocheLinea/ReporteControlCocheLineaPartial",
         type: "GET",
@@ -18,9 +20,14 @@ function CargarControlCoche() {
         success: function (resultado) {
             var DivControl = $('#DivTableReporteControlCoche');
             DivControl.html(resultado);
+            $('#btnGuardarCargando').prop("hidden", true);
+            $('#btnGuardar').prop("hidden", false);
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
+            $('#btnGuardarCargando').prop("hidden", true);
+            $('#btnGuardar').prop("hidden", false);
+
         }
     });
 

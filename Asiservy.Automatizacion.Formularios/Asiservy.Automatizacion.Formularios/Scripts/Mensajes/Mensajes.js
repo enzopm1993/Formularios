@@ -35,61 +35,99 @@ function MensajeCorrecto(mensaje, r) {
     if (sPage = 'SolicitudPermisoDispensario') {
         $('#GuardarSolicitudDispensario').prop('readonly', true);
     }
-    $.ajax({
-        url: "../Mensaje/Correcto",
-        type: "Get",
-        data: { reload: r },
-        success: function (resultado) {
-            var m = document.getElementById("ModalMensaje");
-            m.innerHTML = resultado;
-            //var modal = document.getElementById("ModalError");
-            $("#ModalCorrecto").modal("show");
-            document.getElementById('mensajeCorrecto').innerHTML = mensaje;
-               //console.log(r);
-        }
-    });
+    //$.ajax({
+    //    url: "../Mensaje/Correcto",
+    //    type: "Get",
+    //    data: { reload: r },
+    //    success: function (resultado) {
+    //        var m = document.getElementById("ModalMensaje");
+    //        m.innerHTML = resultado;
+    //        //var modal = document.getElementById("ModalError");
+    //        $("#ModalCorrecto").modal("show");
+    //        document.getElementById('mensajeCorrecto').innerHTML = mensaje;
+    //           //console.log(r);
+    //    }
+    //});
+    if (r)
+        location.reload();
+    $('.alert').prop("hidden", false);
+    $('<div class="alert alert-success">' +
+        '<button type="button" class="close" data-dismiss="alert">' +
+        '&times;</button><p id="pMensaje"></p></div>').hide().appendTo('#response').fadeIn(1000);
+    $('#pMensaje').text(mensaje);
+    $(".alert").delay(1000).fadeOut(
+        "normal",
+        function () {
+            $(this).remove();
+        });
+
 }
 
 
 function MensajeError(mensaje, r) {
+    if (r)
+        location.reload();
+
+    $('<div class="alert alert-danger">' +
+        '<button type="button" class="close" data-dismiss="alert">' +
+        '&times;</button><p id="pMensaje"></p></div>').hide().appendTo('#response').fadeIn(1000);
+    $('#pMensaje').text(mensaje);
+    $(".alert").delay(1000).fadeOut(
+        "normal",
+        function () {
+            $(this).remove();
+        });
     //console.log("Prueba de Mensaje");
     //console.log(mensaje);
-    $.ajax({
-        url: "../Mensaje/Error",
-        type: "Get",
-        data: { reload: r },
-        success: function (resultado) {
-            $('#ModalMensaje').html(resultado);
-            //var m = document.getElementById("ModalMensaje");
-            //m.innerHTML = resultado;
-            $('#mensajeError').html(mensaje);
-            $("#ModalError").modal("show");
-            //document.getElementById('mensajeError').innerHTML = mensaje;
-               //console.log(mensaje);
-        },
-        error: function (resultaod) {
-            console.log(resultaod);
-        }
+    //$.ajax({
+    //    url: "../Mensaje/Error",
+    //    type: "Get",
+    //    data: { reload: r },
+    //    success: function (resultado) {
+    //        $('#ModalMensaje').html(resultado);
+    //        //var m = document.getElementById("ModalMensaje");
+    //        //m.innerHTML = resultado;
+    //        $('#mensajeError').html(mensaje);
+    //        $("#ModalError").modal("show");
+    //        //document.getElementById('mensajeError').innerHTML = mensaje;
+    //           //console.log(mensaje);
+    //    },
+    //    error: function (resultaod) {
+    //        console.log(resultaod);
+    //    }
         
-    });
+    //});
 }
 
 
 
 function MensajeAdvertencia(mensaje, r) {
-    $.ajax({
-        url: "../Mensaje/Advertencia",
-        type: "Get",
-        data: { reload: r },
-        success: function (resultado) {
-            var m = document.getElementById("ModalMensaje");
-            m.innerHTML = resultado;
-            //var modal = document.getElementById("ModalError");
-            $("#ModalAdvertencia").modal("show");
-            document.getElementById('mensajeAdvertencia').innerHTML = mensaje;
-            //console.log(mensaje);
-        }
-    });
+
+    if (r)
+        location.reload();
+   
+    $('<div class="alert alert-warning">' +
+        '<button type="button" class="close" data-dismiss="alert">' +
+        '&times;</button><p id="pMensaje"></p></div>').hide().appendTo('#response').fadeIn(1000);
+    $('#pMensaje').text(mensaje);
+    $(".alert").delay(1000).fadeOut(
+        "normal",
+        function () {
+            $(this).remove();
+        });
+    //$.ajax({
+    //    url: "../Mensaje/Advertencia",
+    //    type: "Get",
+    //    data: { reload: r },
+    //    success: function (resultado) {
+    //        var m = document.getElementById("ModalMensaje");
+    //        m.innerHTML = resultado;
+    //        //var modal = document.getElementById("ModalError");
+    //        $("#ModalAdvertencia").modal("show");
+    //        document.getElementById('mensajeAdvertencia').innerHTML = mensaje;
+    //        //console.log(mensaje);
+    //    }
+    //});
 }
 
 
