@@ -22,7 +22,7 @@ function Limpiar() {
 
     
 }
-function EditarProyeccion(IdProyeccion, Lote, Fecha, Toneladas, Destino, TipoLimpieza, Observacion) {
+function EditarProyeccion(IdProyeccion, Lote, Fecha, Toneladas, Destino, TipoLimpieza, Observacion, Especie, Talla) {
    // alert(Fecha);
     var FechaD = new Date(Fecha);
     var mes = FechaD.getMonth()+1; //obteniendo mes
@@ -39,6 +39,10 @@ function EditarProyeccion(IdProyeccion, Lote, Fecha, Toneladas, Destino, TipoLim
     $('#Destino').val(Destino);
     $('#TipoLimpieza').val(TipoLimpieza);
     $('#Observacion').val(Observacion);
+    $('#Talla').val(Talla);
+    $('#Especie').val(Especie);
+    console.log(Especie);
+    console.log(Talla);
 
 }
 function IngresarProyeccionProgramacion() {

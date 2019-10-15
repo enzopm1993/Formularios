@@ -29,7 +29,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr onclick="EditarProyeccion('@item.IdProyeccion','@item.Lote','@item.FechaProduccion','@item.Tonelada','@item.CodDestino','@item.IdTipoLimpieza','@item.Observacion');">
+        <tr onclick="EditarProyeccion('@item.IdProyeccion','@item.Lote','@item.FechaProduccion','@item.Tonelada','@item.CodDestino','@item.IdTipoLimpieza','@item.Observacion','@item.CodEspecie','@item.CodTalla');">
             <td>
                 @item.Lote
             </td>

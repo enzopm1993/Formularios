@@ -1447,6 +1447,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //{
                 //    CuchillosBlancosSobrantes.Add(new ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id = item, Numero = item });
                 //}
+                clsDEmpleado = new clsDEmpleado();
+                //clsDGeneral = new clsDGeneral();
+                liststring = User.Identity.Name.Split('_');
+                
+                //ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(liststring[1]);
+                ViewBag.CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
+
                 clsDCuchillo = new clsDCuchillo();
                 var CuchillosBlancosSobrantes = clsDCuchillo.CuchillosSobrantes(clsAtributos.CodigoColorCuchilloBlanco).Select(x => new ControlDeAsistenciaPrestadosViewModel.Cuchillos { Numero = x, Id = x }).ToList();
                 ViewBag.CuchilloBlanco = new SelectList(CuchillosBlancosSobrantes, "Id", "Numero");
