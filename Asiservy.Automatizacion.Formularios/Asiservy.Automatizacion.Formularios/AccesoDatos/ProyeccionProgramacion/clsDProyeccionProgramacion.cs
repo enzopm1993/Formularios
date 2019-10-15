@@ -110,7 +110,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                                                       HoraInicio = p.HoraInicio,
                                                       HoraFin = p.HoraFin,
                                                       Especie = e.Descripcion,
-                                                      Talla = f.Descripcion
+                                                      Talla = f.Descripcion,
+                                                      CodEspecie=e.Codigo,
+                                                      CodTalla=f.Codigo
 
                                                   }).ToList();
                 }
@@ -140,6 +142,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                                                       HoraFin = p.HoraFin,
                                                       Especie = e.Descripcion,
                                                       Talla = f.Descripcion,
+                                                      CodEspecie=e.Codigo,
+                                                      CodTalla=f.Codigo,
                                                       UsuarioIngreso=p.UsuarioCreacionLog,
                                                       UsuarioModificacion=p.UsuarioModificacionLog
                                                   }).ToList();

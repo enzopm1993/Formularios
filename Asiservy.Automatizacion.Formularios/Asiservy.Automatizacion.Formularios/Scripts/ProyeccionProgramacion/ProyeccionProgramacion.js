@@ -22,7 +22,7 @@ function Limpiar() {
 
     
 }
-function EditarProyeccion(IdProyeccion, Lote, Fecha, Toneladas, Destino, TipoLimpieza, Observacion, Talla, Especie) {
+function EditarProyeccion(IdProyeccion, Lote, Fecha, Toneladas, Destino, TipoLimpieza, Observacion, Especie, Talla) {
    // alert(Fecha);
     var FechaD = new Date(Fecha);
     var mes = FechaD.getMonth()+1; //obteniendo mes
