@@ -414,19 +414,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalNominaPorLinea>("spConsultaPersonalNominaPorLinea");
         }
     
-        public virtual ObjectResult<spConsultaDistribucionPorLinea> spConsultaDistribucionPorLinea(Nullable<System.DateTime> fecha, string linea)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            var lineaParameter = linea != null ?
-                new ObjectParameter("linea", linea) :
-                new ObjectParameter("linea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaDistribucionPorLinea>("spConsultaDistribucionPorLinea", fechaParameter, lineaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaReporteControlCuchillo> spConsultaReporteControlCuchillo(Nullable<System.DateTime> fecha, string linea)
         {
             var fechaParameter = fecha.HasValue ?
@@ -473,6 +460,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fecha", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteControlCochePorLineas>("spConsultaReporteControlCochePorLineas", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaDistribucionPorLinea> spConsultaDistribucionPorLinea(Nullable<System.DateTime> fecha, string linea, Nullable<bool> proceso)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            var procesoParameter = proceso.HasValue ?
+                new ObjectParameter("proceso", proceso) :
+                new ObjectParameter("proceso", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaDistribucionPorLinea>("spConsultaDistribucionPorLinea", fechaParameter, lineaParameter, procesoParameter);
         }
     }
 }
