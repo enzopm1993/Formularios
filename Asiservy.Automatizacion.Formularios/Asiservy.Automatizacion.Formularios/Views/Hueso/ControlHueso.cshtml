@@ -22,7 +22,7 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="row">
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-3 col-6">
             <div class="form-group">
 
                 <label>Fecha Producción</label>
@@ -30,13 +30,13 @@
 
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-3 col-6">
             <div class="form-group">
                 <label>Orden Fabricación</label>
                 @Html.DropDownList("OrdenFabricacion", new SelectList(ViewBag.OrdenesFabricacion, "OrdenFabricacion", "OrdenFabricacion"), "Seleccione", new { @class = "form-control", @id = "SelectOrdenFabricacion", @onchange = "CargarLotes(this.value)" })
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-3 col-6">
             <div class="form-group">
                 <label>Lote</label>
                 <select id="SelectLote" class="form-control">
@@ -54,25 +54,25 @@
       
         <input type="hidden" name="name" id="txtLinea" value="@ViewBag.CodLinea" />
         <input type="hidden" name="name" id="txtIdControlHueso" value="0" />
-        <div class="col-md-2 col-sm-6">
+        <div class="col-md-2 col-6">
             <div class="form-group">
                 <label>Hora Inicio</label>
                 <input class="form-control" type="time" name="name" value="" id="txtHoraInicio" />
             </div>
         </div>
-        <div class="col-md-2 col-sm-6">
+        <div class="col-md-2 col-6">
             <div class="form-groupf">
                 <label>Hora Fin</label>
                 <input class="form-control" type="time" name="name" value="" id="txtHoraFin" />
             </div>
         </div>
-        <div class="col-md-2 col-sm-12" hidden id="divPiezas">
+        <div class="col-md-2 col-12" hidden id="divPiezas">
             <div class="form-groupf">
                 <label>Total Piezas</label>
                 <input class="form-control" type="number" name="name" value="0" id="txtPiezas" />
             </div>
         </div>
-        <div class="col-md-8 col-sm-12">
+        <div class="col-md-8 col-12">
             <div class="form-groupf">
                 <label>Observación</label>
                 <input class="form-control" type="text" name="name" value="" id="txtObservacion" />

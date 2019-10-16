@@ -401,6 +401,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                // Usuario = User.Identity.Name.Split('_');
                 clsDControlHueso = new clsDControlHueso();
                 var model = clsDControlHueso.ConsultaControlAvanceDiarioPorLinea(ddFecha.Date, dsLinea);
+                if (!model.Any())
+                    return Json("1",JsonRequestBehavior.AllowGet);
                 return PartialView(model);
             }
             catch (Exception ex)

@@ -1,7 +1,13 @@
 ﻿
 
 function CargarReporte() {
+
+    if ($('#txtFecha').val() == "") {
+        MensajeAdvertencia("Ingrese una fecha");
+        return;
+    }
     MostrarModalCargando();
+
     $.ajax({
         url: "../ProyeccionProgramacion/ReporteProyeccionProgramacionPartial",
         type: "GET",

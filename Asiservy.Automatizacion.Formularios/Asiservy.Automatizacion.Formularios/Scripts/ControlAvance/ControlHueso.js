@@ -359,6 +359,15 @@ function GuardarControlHueso(detalle, hueso, miga, id) {
 function CargarReporteAvance() {
     var txtFecha = $('#txtFecha').val();
     var selectLinea = $('#selectLinea').val();
+   // console.log(selectLinea);
+    if (txtFecha == "") {
+        MensajeAdvertencia("Igrese una Fecha");
+        return;
+    }
+    if (selectLinea == "") {
+        MensajeAdvertencia("Seleccione una Linea");
+        return;
+    }
     $('#btnConsultar').prop("disabled", true);
     MostrarModalCargando();
     $.ajax({
@@ -369,11 +378,17 @@ function CargarReporteAvance() {
             dsLinea: selectLinea
         },
         success: function (resultado) {
-            var bitacora = $('#DivTableReporteControlAvance');
-            bitacora.html(resultado);
-           
+            if (resultado == "1") {
+                CerrarModalCargando();
+                MensajeAdvertencia("No existen registros para esa linea");
+
+            } else {
+                var bitacora = $('#DivTableReporteControlAvance');
+                bitacora.html(resultado);
+                CerrarModalCargando();
+            }
             $('#btnConsultar').prop("disabled", false);
-            CerrarModalCargando();
+           
         },
         error: function (resultado) {
             MensajeError(resultado.responseJSON, false);
