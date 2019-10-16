@@ -8,14 +8,14 @@
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-md-3 col-6">
 
             <input type="date" name="name" id="txtFecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
             <span class="field-validation-valid text-danger" hidden id="txtValidaFecha"> Ingrese la Fecha </span>
 
         </div>
        
-        <div class="col-4">
+        <div class="col-md-4 col-6">
             <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Espere...
