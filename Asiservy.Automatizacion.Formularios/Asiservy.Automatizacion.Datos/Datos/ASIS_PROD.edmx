@@ -156,6 +156,41 @@
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="Tipo" Type="char" MaxLength="1" />
         </EntityType>
+        <EntityType Name="CONTROL_ENFUNDADO">
+          <Key>
+            <PropertyRef Name="IdControlEnfundado" />
+          </Key>
+          <Property Name="IdControlEnfundado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Hora" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Lote" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TeoricoFunda" Type="int" Nullable="false" />
+          <Property Name="PesoProducto" Type="decimal" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="EspecificacionFunda" Type="int" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CONTROL_ENFUNDADO_DETALLE">
+          <Key>
+            <PropertyRef Name="IdControlEnfundadoDetalle" />
+          </Key>
+          <Property Name="IdControlEnfundadoDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdControlEnfundado" Type="int" Nullable="false" />
+          <Property Name="Cedula" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="Fundas" Type="int" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CONTROL_ESFERO">
           <Key>
             <PropertyRef Name="Cedula" />
@@ -505,6 +540,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO">
+          <End Role="CONTROL_ENFUNDADO" Type="Self.CONTROL_ENFUNDADO" Multiplicity="1" />
+          <End Role="CONTROL_ENFUNDADO_DETALLE" Type="Self.CONTROL_ENFUNDADO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_ENFUNDADO">
+              <PropertyRef Name="IdControlEnfundado" />
+            </Principal>
+            <Dependent Role="CONTROL_ENFUNDADO_DETALLE">
+              <PropertyRef Name="IdControlEnfundado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO">
           <End Role="CONTROL_HUESO" Type="Self.CONTROL_HUESO" Multiplicity="1" />
           <End Role="CONTROL_HUESO_DETALLE" Type="Self.CONTROL_HUESO_DETALLE" Multiplicity="*" />
@@ -601,6 +648,12 @@
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsultaControlEnfundado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="date" Mode="In" />
+        </Function>
+        <Function Name="spConsultaControlEnfundadoDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
         <Function Name="spConsultaControlHueso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
         </Function>
@@ -674,6 +727,12 @@
           <Parameter Name="linea" Type="varchar" Mode="In" />
           <Parameter Name="turno" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spReporteAsistencia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FechaInicio" Type="date" Mode="In" />
+          <Parameter Name="FechaFin" Type="date" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
+          <Parameter Name="Linea" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spReporteAuditoriaSangre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CodLinea" Type="varchar" Mode="In" />
           <Parameter Name="FECHA" Type="date" Mode="In" />
@@ -693,6 +752,8 @@
           <EntitySet Name="CONTROL_AUDITORIASANGRE" EntityType="Self.CONTROL_AUDITORIASANGRE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_COCHE_LINEA" EntityType="Self.CONTROL_COCHE_LINEA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_CUCHILLO" EntityType="Self.CONTROL_CUCHILLO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CONTROL_ENFUNDADO" EntityType="Self.CONTROL_ENFUNDADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CONTROL_ENFUNDADO_DETALLE" EntityType="Self.CONTROL_ENFUNDADO_DETALLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_ESFERO" EntityType="Self.CONTROL_ESFERO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_HUESO" EntityType="Self.CONTROL_HUESO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_HUESO_DETALLE" EntityType="Self.CONTROL_HUESO_DETALLE" Schema="dbo" store:Type="Tables" />
@@ -720,6 +781,10 @@
           <AssociationSet Name="FK__USUARIO_R__IdRol__534D60F1" Association="Self.FK__USUARIO_R__IdRol__534D60F1">
             <End Role="ROL" EntitySet="ROL" />
             <End Role="USUARIO_ROL" EntitySet="USUARIO_ROL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO" Association="Self.FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO">
+            <End Role="CONTROL_ENFUNDADO" EntitySet="CONTROL_ENFUNDADO" />
+            <End Role="CONTROL_ENFUNDADO_DETALLE" EntitySet="CONTROL_ENFUNDADO_DETALLE" />
           </AssociationSet>
           <AssociationSet Name="FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" Association="Self.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO">
             <End Role="CONTROL_HUESO" EntitySet="CONTROL_HUESO" />
@@ -1104,7 +1169,25 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
-        </EntityContainer>
+          <EntitySet Name="CONTROL_ENFUNDADO" EntityType="ASIS_PRODModel.CONTROL_ENFUNDADO" />
+          <EntitySet Name="CONTROL_ENFUNDADO_DETALLE" EntityType="ASIS_PRODModel.CONTROL_ENFUNDADO_DETALLE" />
+          <AssociationSet Name="FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO" Association="ASIS_PRODModel.FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO">
+            <End Role="CONTROL_ENFUNDADO" EntitySet="CONTROL_ENFUNDADO" />
+            <End Role="CONTROL_ENFUNDADO_DETALLE" EntitySet="CONTROL_ENFUNDADO_DETALLE" />
+          </AssociationSet>
+          <FunctionImport Name="spConsultaControlEnfundado" ReturnType="Collection(ASIS_PRODModel.spConsultaControlEnfundado)">
+          <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaControlEnfundadoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlEnfundadoDetalle)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spReporteAsistencia" ReturnType="Collection(ASIS_PRODModel.spReporteAsistencia)">
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+            <Parameter Name="Linea" Mode="In" Type="String" />
+          </FunctionImport>
+          </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
@@ -1844,7 +1927,80 @@
           <Property Type="Int32" Name="PermisoGeneral" Nullable="true" />
           <Property Type="Int32" Name="Total" Nullable="true" />
         </ComplexType>
-      </Schema>
+        <EntityType Name="CONTROL_ENFUNDADO">
+          <Key>
+            <PropertyRef Name="IdControlEnfundado" />
+          </Key>
+          <Property Name="IdControlEnfundado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Hora" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Lote" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TeoricoFunda" Type="Int32" Nullable="false" />
+          <Property Name="PesoProducto" Type="Decimal" Nullable="false" Precision="4" Scale="2" />
+          <Property Name="EspecificacionFunda" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CONTROL_ENFUNDADO_DETALLE" Relationship="ASIS_PRODModel.FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO" FromRole="CONTROL_ENFUNDADO" ToRole="CONTROL_ENFUNDADO_DETALLE" />
+        </EntityType>
+        <EntityType Name="CONTROL_ENFUNDADO_DETALLE">
+          <Key>
+            <PropertyRef Name="IdControlEnfundadoDetalle" />
+          </Key>
+          <Property Name="IdControlEnfundadoDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdControlEnfundado" Type="Int32" Nullable="false" />
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="Fundas" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CONTROL_ENFUNDADO" Relationship="ASIS_PRODModel.FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO" FromRole="CONTROL_ENFUNDADO_DETALLE" ToRole="CONTROL_ENFUNDADO" />
+        </EntityType>
+        <Association Name="FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO">
+          <End Type="ASIS_PRODModel.CONTROL_ENFUNDADO" Role="CONTROL_ENFUNDADO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CONTROL_ENFUNDADO_DETALLE" Role="CONTROL_ENFUNDADO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_ENFUNDADO">
+              <PropertyRef Name="IdControlEnfundado" />
+            </Principal>
+            <Dependent Role="CONTROL_ENFUNDADO_DETALLE">
+              <PropertyRef Name="IdControlEnfundado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spConsultaControlEnfundado">
+          <Property Type="Int32" Name="IdControlEnfundado" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="Time" Name="Hora" Nullable="false" />
+          <Property Type="String" Name="Lote" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="TeoricoFunda" Nullable="false" />
+          <Property Type="Decimal" Name="PesoProducto" Nullable="false" Precision="4" Scale="2" />
+          <Property Type="Int32" Name="CodFunda" Nullable="false" />
+          <Property Type="String" Name="Funda" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spConsultaControlEnfundadoDetalle">
+          <Property Type="Int32" Name="IdControlEnfundadoDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdControlEnfundado" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
+          <Property Type="Int32" Name="Fundas" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="spReporteAsistencia">
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
+          <Property Type="Time" Name="Hora" Nullable="true" />
+          <Property Type="String" Name="EstadoAsistencia" Nullable="true" MaxLength="1" />
+        </ComplexType>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -2829,6 +2985,79 @@
                 <ScalarProperty Name="CambioArea" ColumnName="CambioArea" />
                 <ScalarProperty Name="PermisoGeneral" ColumnName="PermisoGeneral" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CONTROL_ENFUNDADO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_ENFUNDADO">
+              <MappingFragment StoreEntitySet="CONTROL_ENFUNDADO">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="EspecificacionFunda" ColumnName="EspecificacionFunda" />
+                <ScalarProperty Name="PesoProducto" ColumnName="PesoProducto" />
+                <ScalarProperty Name="TeoricoFunda" ColumnName="TeoricoFunda" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdControlEnfundado" ColumnName="IdControlEnfundado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CONTROL_ENFUNDADO_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_ENFUNDADO_DETALLE">
+              <MappingFragment StoreEntitySet="CONTROL_ENFUNDADO_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Fundas" ColumnName="Fundas" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdControlEnfundado" ColumnName="IdControlEnfundado" />
+                <ScalarProperty Name="IdControlEnfundadoDetalle" ColumnName="IdControlEnfundadoDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlEnfundado" FunctionName="ASIS_PRODModel.Store.spConsultaControlEnfundado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlEnfundado">
+                <ScalarProperty Name="IdControlEnfundado" ColumnName="IdControlEnfundado" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="TeoricoFunda" ColumnName="TeoricoFunda" />
+                <ScalarProperty Name="PesoProducto" ColumnName="PesoProducto" />
+                <ScalarProperty Name="CodFunda" ColumnName="CodFunda" />
+                <ScalarProperty Name="Funda" ColumnName="Funda" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlEnfundadoDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaControlEnfundadoDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlEnfundadoDetalle">
+                <ScalarProperty Name="IdControlEnfundadoDetalle" ColumnName="IdControlEnfundadoDetalle" />
+                <ScalarProperty Name="IdControlEnfundado" ColumnName="IdControlEnfundado" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Fundas" ColumnName="Fundas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spReporteAsistencia" FunctionName="ASIS_PRODModel.Store.spReporteAsistencia">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteAsistencia">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="EstadoAsistencia" ColumnName="EstadoAsistencia" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
