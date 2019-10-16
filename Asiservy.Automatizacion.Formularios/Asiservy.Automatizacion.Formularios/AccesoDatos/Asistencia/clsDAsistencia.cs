@@ -84,7 +84,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                DateTime fechaInicio = Convert.ToDateTime(DateTime.Now.ToShortDateString()).AddHours(-12);
+                //DateTime fechaInicio = Convert.ToDateTime(DateTime.Now.ToShortDateString()).AddHours(-12);
+                DateTime fechaInicio = Convert.ToDateTime(DateTime.Now.ToShortDateString());
                 DateTime fechaFin= Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
                 ////pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1).ToList();
@@ -93,7 +94,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 IQueryable<ASISTENCIA> query = (from a in db.ASISTENCIA 
                                                 join b in db.CAMBIO_PERSONAL on new {a.Cedula, EstadoRegistro=clsAtributos.EstadoRegistroActivo, CodLinea= BuscarControlador.CODIGOLINEA } equals new {b.Cedula, b.EstadoRegistro,b.CodLinea } into c
                                                 from b in c.DefaultIfEmpty()
-                                                where a.Fecha >= fechaInicio && a.Fecha <= fechaFin 
+                                                where a.Fecha >= fechaInicio && a.Fecha < fechaFin 
                             // && b.CodLinea==BuscarControlador.CODIGOLINEA
                              && a.Linea== BuscarControlador.CODIGOLINEA//para que me traiga solo la asistencia de la linea que pertenece
                              && a.Turno==Turno 
