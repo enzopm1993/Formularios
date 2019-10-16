@@ -69,13 +69,13 @@
                 </td>
                 <td>
                     @*<input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />*@
-                    @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Hora, new { type = "time", @class = "form-control" })
+                    @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Hora, new { type = "time", @class = "form-control", @onkeyup = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');" })
                 </td>
 
                 <td class="text-center">
                     <div>
                         @*<input type="text" class="form-control-plaintext" id="Observacion" placeholder="Observacion">*@
-                        @Html.TextAreaFor(x => x.ControlAsistencia[cont - 1].Observacion, new { @row = "2" })
+                        @Html.TextAreaFor(x => x.ControlAsistencia[cont - 1].Observacion, new { @row = "2", @onkeyup = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');" })
                     </div>
                 </td>
                 <td class="text-center">
