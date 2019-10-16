@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlEnfundado>
+
+<table class="table" style="cursor: pointer;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdControlEnfundado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lote)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeoricoFunda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PesoProducto)
+            </th>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.CodFunda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Funda)
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr onclick="CargarControlEnfundadoDetalle('@item.IdControlEnfundado')">
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdControlEnfundado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hora)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lote)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeoricoFunda)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PesoProducto)
+                </td>
+                <td hidden>
+                    @Html.DisplayFor(modelItem => item.CodFunda)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Funda)
+                </td>
+              
+            </tr>
+        }
+    </tbody>
+</table>

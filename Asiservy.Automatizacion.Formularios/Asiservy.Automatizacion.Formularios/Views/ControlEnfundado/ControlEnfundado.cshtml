@@ -1,0 +1,76 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.CONTROL_ENFUNDADO
+
+@{
+    ViewBag.Title = "ControlEnfundado";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<h4>Control de horario de enfundado</h4>
+<label>@ViewBag.Linea</label>
+<hr />
+<div id="divFiltros">
+    <div class="row">
+        <div class="col-md-3 col-6">
+            <div class="form-group">
+                <label id="labelFecha">Fecha</label>
+                <input id="txtFecha" type="date" name="Fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+                <p class="text-warning" id="ValidaFecha" hidden>Ingrese una fecha </p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="form-group">
+                <label>Hora</label>
+                <input id="txtHora" type="time" name="Hora" value="00:00" class="form-control" />
+                <p class="text-warning" id="ValidaHora" hidden>Ingrese una hora </p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="form-group">
+                <label>Fundas Teoricas</label>
+                <input id="txtFundasTeoricas" type="number" class="form-control" name="name" value="25" />
+                <p class="text-warning" id="ValidaFundasTeoricas" hidden>Tiene que ser mayor a 0 </p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="form-group">
+                <label>Peso Producto</label>
+                <input id="txtPeso" type="number" class="form-control" name="name" value="7.5" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label>Lote</label>
+                @Html.DropDownList("Lotes", new SelectList(ViewBag.EspecificacionFunda, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @id = "selectLotes" })
+                <p class="text-warning" id="ValidaLote" hidden>Seleccione un lote </p>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label>Especificación de Funda</label>
+                @Html.DropDownList("Funda", new SelectList(ViewBag.EspecificacionFunda, "Codigo", "Descripcion"), new { @class = "form-control", @id = "selectEspecificacionFunda" })
+                <p class="text-warning" id="ValidaFunda" hidden>Tiene que ser mayor a 0 </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-center">
+        <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Espere...
+        </button> 
+        <input type="button" id="btnGenerar" class="btn btn-primary" name="Generar" value="Generar" onclick="GenerarControl()" />
+        <input type="button" class="btn btn-primary" name="Nuevo" value="Nuevo" onclick="Limpiar()" />
+    </div>
+</div>
+<br />
+<div id="DivTableControl" class="table-responsive">
+
+</div>
+<script src="~/Scripts/ControlEnfundado/ControlEnfundado.js"></script>

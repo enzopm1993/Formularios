@@ -96,6 +96,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //Cargos 
         public static string CargoLimpiadora = "134";
+        public static string CargoEnfundado = "129";
+        public static string CargoEmpacado = "201";
 
         //Clasificador Tipos de limpieza pescado
         public static string CodigoGrupoTipoLimpiezaPescado = "008";
@@ -127,6 +129,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int NivelJefe = 2;
         public static int NivelJefatura = 1;
         public static int NivelGerencia = 0;
+
+        //Clasificador Funda
+        public static string CodigoGrupoFunda = "012";
+        public static string FundaAurtion = "1";
+
 
     }
 }

@@ -54,16 +54,19 @@ function MensajeCorrecto(mensaje, r) {
         '<button type="button" class="close" data-dismiss="alert">' +
         '&times;</button><p id="pMensaje"></p></div>').hide().appendTo('#response').fadeIn(1000);
     $('#pMensaje').text(mensaje);
-
    
-
+    
     $(".alert").delay(1000).fadeOut(
         "normal",
         function () {
             $(this).remove();
         });
-    if (r)
-        location.reload();
+   
+
+    if (r) 
+        setTimeout('location.reload()', 2500);
+   
+    
 }
 
 
@@ -80,8 +83,8 @@ function MensajeError(mensaje, r) {
     //    function () {
     //        $(this).remove();
     //    });
-    if (r)
-        location.reload();
+    //if (r)
+    //    location.reload();
     //console.log("Prueba de Mensaje");
     //console.log(mensaje);
     //$.ajax({
@@ -120,8 +123,8 @@ function MensajeAdvertencia(mensaje, r) {
         function () {
             $(this).remove();
         });
-    if (r)
-        location.reload();
+    //if (r)
+    //    location.reload();
     //$.ajax({
     //    url: "../Mensaje/Advertencia",
     //    type: "Get",

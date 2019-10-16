@@ -350,6 +350,7 @@
     <Content Include="Scripts\ControlAvance\ReporteAvancePorLimpiadora.js" />
     <Content Include="Scripts\ControlCocheLinea\ControlCocheLinea.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteControlCoche.js" />
+    <Content Include="Scripts\ControlEnfundado\ControlEnfundado.js" />
     <Content Include="Scripts\DataTables\extensions\AutoFill\js\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\extensions\AutoFill\js\autoFill.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\extensions\AutoFill\js\autoFill.bootstrap4.js" />
@@ -654,6 +655,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCuchillo.cs" />
     <Compile Include="AccesoDatos\ControlCocheLinea\clsDControlCocheLinea.cs" />
+    <Compile Include="AccesoDatos\ControlEnfundado\clsDControlEnfundado.cs" />
     <Compile Include="AccesoDatos\ControlHueso\clsDControlHueso.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDControlMiga.cs" />
     <Compile Include="AccesoDatos\AuditoriaSangre\clsDAuditoriaSangre.cs" />
@@ -678,6 +680,7 @@
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
+    <Compile Include="Controllers\ControlEnfundadoController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HuesoController.cs" />
@@ -821,6 +824,9 @@
     <Content Include="Views\ControlCocheLinea\ReporteControlCocheLinea.cshtml" />
     <Content Include="Views\ControlCocheLinea\ReporteControlCocheLineaPartial.cshtml" />
     <Content Include="Views\Asistencia\PrestarCuchillo.cshtml" />
+    <Content Include="Views\ControlEnfundado\ControlEnfundado.cshtml" />
+    <Content Include="Views\ControlEnfundado\ControlEnfundadoPartial.cshtml" />
+    <Content Include="Views\ControlEnfundado\ControlEnfundadoDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
