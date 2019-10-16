@@ -1,4 +1,24 @@
-﻿function buscarenTabla() {
+﻿function toDate(dStr, format) {
+    //**
+    var pieces = dStr.split(':'),
+        hour, minute, second;
+
+
+    hour = parseInt(pieces[0], 10);
+    minute = parseInt(pieces[1], 10);
+    //second = parseInt(pieces[2], 10);
+
+
+    var fecha = new Date(2019, 10, 12, hour, minute);
+    //alert(fecha);
+    //**
+
+    if (format == "h:m") {
+        return fecha;
+    } else
+        return "Invalid Format";
+}
+function buscarenTabla() {
     // Declare variables
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("busqueda");
@@ -93,27 +113,40 @@ function GenerarAsistenciaDiariaGeneral(IdLinea, bandera) {
 
 //guardar con check
 function GuardarPersona(fila, nombre, ComboOCheck) {
+    //**
+    //console.log('change');
+    var banderaChangesinCheck = false;
+    //**
     var valor = fila - 1;
     var d = new Date();
     var indice = fila;
-    var hora = d.getHours();
+    //var hora = d.getHours();
+    var hora = toDate($('#ControlAsistencia_' + valor + '__Hora').val(), "h:m");
     //alert(hora);  LabelAsistencia-
+    //** 
+
+    if (ComboOCheck != 'change') {
+    //**
     $('#CheckAsistencia-' + indice).prop("disabled", true);
     $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", true);
+
+        //**
+    }
+    //**
     if (ComboOCheck == 'check') {
         if ($('#TurnoGen').val() == '1') {
-            if (hora > 7) {
+            if (hora > toDate("07:00", "h:m")){
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('2');
             }
-            if (hora <= 7) {
+            if (hora <= toDate("07:00", "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('1');
             }
         }
         if ($('#TurnoGen').val() == '2') {
-            if (hora > 18) {
+            if (hora > toDate("07:00", "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('2');
             }
-            if (hora <= 18) {
+            if (hora <= toDate("07:00", "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('1');
             }
         }
@@ -127,6 +160,16 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
         }
 
     }
+    //***
+    if (ComboOCheck == 'change' && $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val() != '3')//para saber si se dispara el evento onchange de hora u observacion
+    {
+        $("#CheckAsistencia-" + fila).prop('checked', false);
+    }
+
+    if (ComboOCheck == 'change' && $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val() == '3') {
+        banderaChangesinCheck = true;
+    }
+    //**
     if ($('#CheckAsistencia-' + fila).prop('checked')) {
         $("#LabelAsistencia-" + fila).css("background", "green");
         fila -= 1;
@@ -157,7 +200,7 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
                 $("#CheckAsistencia-" + indice).prop('checked', false);
             }
         });
-    } else {
+    } else if (($('#CheckAsistencia-' + fila).prop('checked') == false) && banderaChangesinCheck == false){
 
         $("#LabelAsistencia-" + fila).css("background", "transparent");
         fila -= 1;
