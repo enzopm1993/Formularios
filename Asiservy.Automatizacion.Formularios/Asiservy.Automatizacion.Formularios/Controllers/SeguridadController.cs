@@ -582,13 +582,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public void ConsultarComboNivelUsuario()
         {
             clsApiUsuario = new clsApiUsuario();
+            clsDClasificador = new clsDClasificador();
             ViewBag.Usuarios = clsApiUsuario.ConsultaUsuariosSap();
-            List<ClasificadorGenerico> ClasificadorNivel = new List<ClasificadorGenerico>();
-            ClasificadorNivel.Add(new ClasificadorGenerico { codigo = 0, descripcion = "Gerencia" });
-            ClasificadorNivel.Add(new ClasificadorGenerico { codigo = 1, descripcion = "Sub-Gerencia" });
-            ClasificadorNivel.Add(new ClasificadorGenerico { codigo = 2, descripcion = "Jefe Departamento" });
-            ClasificadorNivel.Add(new ClasificadorGenerico { codigo = 3, descripcion = "Empleado" });
-            ViewBag.Nivel = ClasificadorNivel;
+            
+            ViewBag.Nivel = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {
+                Grupo = clsAtributos.CodigoGrupoNivelUsuario,
+                EstadoRegistro = clsAtributos.EstadoRegistroActivo
+            });
         }
 
         #endregion

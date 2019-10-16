@@ -26,11 +26,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string EstadoSolicitudAnulado = "004";
         public static string EstadoSolicitudRevisado = "003";
 
-        //Niveles de usuario
-        public static int NivelEmpleado = 3;
-        public static int NivelJefe = 2;
-        public static int NivelJefatura = 1;
-        public static int NivelGerencia = 0;
+      
 
         //Roles de usuario
         public static int RolSupervisorGeneral = 4;
@@ -123,6 +119,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string yellowfin = "01";
         public static string skipjack = "02";
         public static string bigeye = "03";
+
+
+        //Clasificador Nivel Usuario
+        public static string CodigoGrupoNivelUsuario = "011";
+        public static int NivelEmpleado = 3;
+        public static int NivelJefe = 2;
+        public static int NivelJefatura = 1;
+        public static int NivelGerencia = 0;
 
     }
 }
