@@ -38,7 +38,7 @@ fieldset {
     padding: 10px;
     position: relative;
     border-radius: 4px;
-    background-color: #E3E3E3;
+    background-color: #F6F8F9;
     padding-left: 10px !important;
 }
 
@@ -51,4 +51,17 @@ legend {
     border-radius: 4px;
     padding: 5px 5px 5px 10px;
     background-color: #ffffff;
+}
+#div2regresar {
+    border: 1px solid #ddd !important;
+    margin: 0;
+    xmin-width: 0;
+    padding: 10px;
+    position: relative;
+    border-radius: 4px;
+    background-color: #F6F8F9;
+    padding-left: 10px !important;
+}
+input, select, textarea {
+     max-width: 100%;
 }

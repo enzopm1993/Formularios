@@ -126,7 +126,7 @@ function ConsultarEmpleadosRegresar() {
         });
         $('#contempleados').show();
     } else {
-        MensajeError("Debe seleccionar al menos la línea a consultar", false);
+        MensajeAdvertencia("Debe seleccionar al menos la línea a consultar", false);
     }
    
 }
