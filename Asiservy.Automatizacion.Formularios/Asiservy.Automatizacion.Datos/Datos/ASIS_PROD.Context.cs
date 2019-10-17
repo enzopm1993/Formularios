@@ -380,11 +380,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlAvanceDiarioPorLinea>("spConsultaControlAvanceDiarioPorLinea", fechaParameter, lineaParameter);
         }
     
-        public virtual ObjectResult<spConsultarAuditoriaSangreDiaria> spConsultarAuditoriaSangreDiaria()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarAuditoriaSangreDiaria>("spConsultarAuditoriaSangreDiaria");
-        }
-    
         public virtual ObjectResult<spConsultaAvanceDiarioPorLimpiadora> spConsultaAvanceDiarioPorLimpiadora(Nullable<System.DateTime> fecha, string linea)
         {
             var fechaParameter = fecha.HasValue ?
@@ -396,19 +391,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("linea", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaAvanceDiarioPorLimpiadora>("spConsultaAvanceDiarioPorLimpiadora", fechaParameter, lineaParameter);
-        }
-    
-        public virtual ObjectResult<spReporteAuditoriaSangre> spReporteAuditoriaSangre(string codLinea, Nullable<System.DateTime> fECHA)
-        {
-            var codLineaParameter = codLinea != null ?
-                new ObjectParameter("CodLinea", codLinea) :
-                new ObjectParameter("CodLinea", typeof(string));
-    
-            var fECHAParameter = fECHA.HasValue ?
-                new ObjectParameter("FECHA", fECHA) :
-                new ObjectParameter("FECHA", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAuditoriaSangre>("spReporteAuditoriaSangre", codLineaParameter, fECHAParameter);
         }
     
         public virtual ObjectResult<spConsultaPersonalNominaPorLinea> spConsultaPersonalNominaPorLinea()
@@ -514,6 +496,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Linea", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAsistencia>("spReporteAsistencia", fechaInicioParameter, fechaFinParameter, turnoParameter, lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultarAuditoriaSangreDiaria> spConsultarAuditoriaSangreDiaria()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarAuditoriaSangreDiaria>("spConsultarAuditoriaSangreDiaria");
+        }
+    
+        public virtual ObjectResult<spReporteAuditoriaSangre> spReporteAuditoriaSangre(string codLinea, Nullable<System.DateTime> fECHA)
+        {
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("CodLinea", codLinea) :
+                new ObjectParameter("CodLinea", typeof(string));
+    
+            var fECHAParameter = fECHA.HasValue ?
+                new ObjectParameter("FECHA", fECHA) :
+                new ObjectParameter("FECHA", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAuditoriaSangre>("spReporteAuditoriaSangre", codLineaParameter, fECHAParameter);
         }
     }
 }
