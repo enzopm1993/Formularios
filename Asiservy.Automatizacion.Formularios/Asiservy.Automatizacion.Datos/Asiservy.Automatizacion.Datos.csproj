@@ -231,9 +231,6 @@
     <Compile Include="Datos\spConsutaEmpleadosFiltro.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\spConsutaEmpleadosFiltroCambioPersonal.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datos\spConsutaEmpleadosTurnos.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
