@@ -26,6 +26,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDNivelUsuario clsDNivelUsuario = null;
         clsDOpcionRol OpcionesRol = null;
         clsDClasificador clsDClasificador = null;
+        clsDModulo clsDModulo = null;
         string[] liststring;
         protected void SetSuccessMessage(string message)
         {
@@ -36,6 +37,93 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             TempData["MensajeError"] = message;
         }
         // GET: Seguridad
+        #region MODULOS
+        [Authorize]
+        public ActionResult Modulo()
+        {
+            try
+            {               
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                liststring = User.Identity.Name.Split('_');
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Modulo(MODULO model)
+        {
+            try
+            {
+                //Guardar
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                liststring = User.Identity.Name.Split('_');
+                SetErrorMessage(ex.Message);
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        [Authorize]
+        public ActionResult ModuloPartial()
+        {
+            try
+            {
+                clsDModulo = new clsDModulo();
+                var model = clsDModulo.ConsultarModulos(new MODULO());
+                return PartialView(model);
+
+            }
+            catch (Exception ex)
+            {
+                liststring = User.Identity.Name.Split('_');
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        #endregion
+
+
         #region OPCION
         [Authorize]
         public ActionResult Opcion()
@@ -140,7 +228,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
-                SetErrorMessage(ex.Message);
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
@@ -565,6 +654,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                // SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
@@ -617,6 +707,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
+                liststring = User.Identity.Name.Split('_');
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
@@ -695,6 +786,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {

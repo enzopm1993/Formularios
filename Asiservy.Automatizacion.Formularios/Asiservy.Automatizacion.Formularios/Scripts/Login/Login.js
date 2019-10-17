@@ -16,20 +16,18 @@ $("#btnIngresar").on("click", function () {
     $.ajax({
         contentType: "application/json; charset=utf-8",
         type: "POST",
-        url: "@Url.Action("LogIn", "Login")",
+        url: "../Login/LogIn",
         data: JSON.stringify({ usuario: $("#txtUsuario").val().trim(), password: $("#txtPassword").val() }),
         success: function (data) {
             if (data == 1) {
-
                 $('#menu').show();
-
                 $('#logoutli').show();
 
-                var returnUrl = "@Request.QueryString["ReturnUrl"]";
+                var returnUrl = "";
 
                 if (returnUrl == "") {
 
-                    window.location.href = "@Url.Action("Home", "Home")";
+                    window.location.href = "../Home/Home";
 
                 }
                 else {

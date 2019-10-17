@@ -58,6 +58,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_COCHE_LINEA> CONTROL_COCHE_LINEA { get; set; }
         public virtual DbSet<CONTROL_ENFUNDADO> CONTROL_ENFUNDADO { get; set; }
         public virtual DbSet<CONTROL_ENFUNDADO_DETALLE> CONTROL_ENFUNDADO_DETALLE { get; set; }
+        public virtual DbSet<MODULO> MODULO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -516,7 +517,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAuditoriaSangre>("spReporteAuditoriaSangre", codLineaParameter, fECHAParameter);
         }
     
-        public virtual ObjectResult<spConsutaEmpleadosFiltroCambioPersonal> spConsutaEmpleadosFiltroCambioPersonal(string area, string linea, string cargo)
+        public virtual ObjectResult<spConsutaEmpleadosFiltroCambioPersonal> spConsutaEmpleadosFiltroCambioPersonal(string area, string linea, string cargo, string tipo)
         {
             var areaParameter = area != null ?
                 new ObjectParameter("Area", area) :
@@ -530,7 +531,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Cargo", cargo) :
                 new ObjectParameter("Cargo", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltroCambioPersonal>("spConsutaEmpleadosFiltroCambioPersonal", areaParameter, lineaParameter, cargoParameter);
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltroCambioPersonal>("spConsutaEmpleadosFiltroCambioPersonal", areaParameter, lineaParameter, cargoParameter, tipoParameter);
         }
     }
 }

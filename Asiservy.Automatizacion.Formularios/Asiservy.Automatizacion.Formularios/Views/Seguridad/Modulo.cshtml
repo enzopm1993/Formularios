@@ -1,0 +1,48 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.MODULO
+
+@{
+    ViewBag.Title = "Modulo";
+}
+
+<h4>Modulo</h4>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        <div class="row">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="offset-md-3 col-md-3 col-6">
+                <div class="form-group">
+                    <label>ID</label>  
+                    <input type="text" class="form-control"readonly name="name" value="0" />
+                    @Html.ValidationMessageFor(model => model.IdModulo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4 col-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <button class="btn btn-outline-primary" type="button">
+                    <img src="~/Content/icons/limpiar48.png" />
+                </button>
+                <button class="btn" type="button">
+                    <img src="~/Content/icons/new.png" />
+                </button>
+               
+                <input type="button" class="btn btn-primary" id="txtGuardar" name="name" value="Guardar" />
+                <input type="button" class="btn btn-info" id="txtNuevo" name="name" value="Nuevo" />
+            </div>
+        </div>
+      </div>
+}

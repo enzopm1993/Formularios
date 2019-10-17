@@ -674,6 +674,7 @@
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
+    <Compile Include="AccesoDatos\Seguridad\clsDModulo.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDNivelUsuario.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDOpcion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDOpcionRol.cs" />
@@ -833,6 +834,8 @@
     <Content Include="Views\ControlEnfundado\ControlEnfundado.cshtml" />
     <Content Include="Views\ControlEnfundado\ControlEnfundadoPartial.cshtml" />
     <Content Include="Views\ControlEnfundado\ControlEnfundadoDetallePartial.cshtml" />
+    <Content Include="Views\Seguridad\Modulo.cshtml" />
+    <Content Include="Views\Seguridad\ModuloPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
