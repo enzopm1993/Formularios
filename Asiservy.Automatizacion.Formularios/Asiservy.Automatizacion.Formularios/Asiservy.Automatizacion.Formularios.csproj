@@ -293,6 +293,10 @@
     <Content Include="Content\gijgo\modular\timepicker.min.css" />
     <Content Include="Content\gijgo\modular\tree.css" />
     <Content Include="Content\gijgo\modular\tree.min.css" />
+    <Content Include="Content\icons\clave.png" />
+    <Content Include="Content\icons\clave32.png" />
+    <Content Include="Content\icons\user.png" />
+    <Content Include="Content\icons\user32.png" />
     <Content Include="Content\images\actualizar.png" />
     <Content Include="Content\images\agregar.png" />
     <Content Include="Content\images\agregar1.jpg" />
@@ -306,6 +310,7 @@
     <Content Include="Content\images\cuchillo01.jpg" />
     <Content Include="Content\images\cuchillo02.jpg" />
     <Content Include="Content\images\cuchillo03.jpg" />
+    <Content Include="Content\images\fondo4.jpg" />
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\pez-salto.gif" />
     <Content Include="Content\images\pez.gif" />
@@ -621,6 +626,7 @@
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
+    <Content Include="Scripts\Login\Login.js" />
     <Content Include="Scripts\Mensajes\Mensajes.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\popper-utils.js" />
