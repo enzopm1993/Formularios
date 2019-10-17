@@ -24,7 +24,7 @@
     
     <div class="row">
         <div class="form-group col-md-3">
-            @Html.LabelFor(model => model.Cedula, htmlAttributes: new { @class = "control-label " })
+            <label class="control-label">Cédula</label>
             <div class="input-group">
                 @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
 
@@ -61,7 +61,7 @@
             <div>
                 <button type="button" onclick="IngresarAuditoriaSangre();" id="Agregar">
 
-                    <img src="~/Content/images/agregar1.jpg" style="width:30px" />
+                    <img src="~/Content/images/agregar1.png" style="width:30px" />
                 </button><br />
             </div>
         </div>

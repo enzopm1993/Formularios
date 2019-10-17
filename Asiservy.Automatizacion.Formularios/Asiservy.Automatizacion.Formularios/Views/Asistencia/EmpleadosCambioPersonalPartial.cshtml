@@ -6,26 +6,35 @@
             <th></th>
             <th>Cédula</th>
             <th>Nombre</th>
-            <th>Movido a</th>
-            <th>Línea</th>
-            <th>Área</th>
-            <th>Cargo</th>
-        </tr>
+            @if (ViewBag.ADondeFuePrestado != null)
+            {
+                <th>Movido a</th>
+            }
+                <th>Línea</th>
+                <th>Área</th>
+                <th>Cargo</th>
+            </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
         <tr>
-            <td><input type="checkbox" id="Empleado-@item.CEDULA"/></td>
+            <td><input type="checkbox" id="Empleado-@item.CEDULA" /></td>
             <td>@item.CEDULA</td>
             <td>@item.NOMBRES</td>
-            @{ 
-                List<spConsutaEmpleadosFiltro> listEmpleados = ViewBag.ADondeFuePrestado;
-                string LineaMovido = (from e in listEmpleados
-                         where e.CEDULA == item.CEDULA
-                         select e.LINEA).FirstOrDefault();
+            @{string LineaMovido = "";
+                if (ViewBag.ADondeFuePrestado != null)
+                {
+                    List<spConsutaEmpleadosFiltro> listEmpleados = ViewBag.ADondeFuePrestado;
+                    LineaMovido = (from e in listEmpleados
+                                   where e.CEDULA == item.CEDULA
+                                   select e.LINEA).FirstOrDefault();
+                }
             }
-            <td>@LineaMovido</td>
+            @if (ViewBag.ADondeFuePrestado != null)
+            {
+                <td>@LineaMovido</td>
+            }
             <td>@item.LINEA</td>
             <td>@item.AREA</td>
             <td>@item.CARGO</td>

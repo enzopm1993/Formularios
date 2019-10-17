@@ -1,4 +1,4 @@
-﻿
+﻿@*@model Asiservy.Automatizacion.Datos.Datos.spReporteAsistencia*@
 @{
     ViewBag.Title = "RptAsistencia";
 }
@@ -16,7 +16,7 @@
 
     <br />
     <img src="~/Content/images/arrow-hidden1.jpg" id="img-arrow" alt="" onclick="showOrHide();" />
-    <div id="showorhide" >
+    <div id="showorhide">
         <form action="#" class="col-12" style="border:groove">
             <div class="row">
                 <div class="col-6">
@@ -29,15 +29,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="Area">Área:</label>
-                        <select class="form-control" id="comboarea">
-                            <option selected>Seleccione..</option>
-                            <option value="Procesos">Procesos</option>
-                            <option value="Febrero">Pouch</option>
-                            <option value="Marzo">Lomo</option>
-                            <option value="Marzo">Lata</option>
+                        @*@Html.DropDownListFor(m => m.CodLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @class = "form-control" })*@
 
-                        </select>
                     </div>
                     <div class="form-group" id="trlineas">
                         <label for="Area">Líneas:</label>
@@ -101,7 +94,7 @@
         </form>
         <br />
     </div>
-  
+
     <div class="table-responsive" id="tbldia">
 
         <table class="table table-bordered" id="tblrptdia">
@@ -166,11 +159,11 @@
             <div class="card-header"></div>
             <div class="card-body text-info">
                 <p>
-                     P: Presente <br />
-                     F: Falta <br />
-                     A: Atraso
+                    P: Presente <br />
+                    F: Falta <br />
+                    A: Atraso
                 </p>
-                
+
                 @*<p class="card-text">Some quick example text to build on the panel title and make up the bulk of the panel's content.</p>*@
             </div>
         </div>

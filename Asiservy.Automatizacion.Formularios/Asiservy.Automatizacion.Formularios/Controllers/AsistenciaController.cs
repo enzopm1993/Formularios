@@ -612,6 +612,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult RptAsistencia()
         {
+            clsDGeneral = new clsDGeneral();
+            ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
             return View();
         }
         #endregion
