@@ -3,6 +3,20 @@
 @{
     ViewBag.Title = "Opcion";
 }
+<style>
+    .col-md-3 {
+        padding-right: 15px;
+        padding-left: 10px;
+    }
+    .form-group {
+        margin-bottom: 0.6rem;
+    }
+    label {
+         display: inline-block; 
+        margin-bottom: 0rem; 
+    }
+
+</style>
 
 <h3>Mantenimiento de Opciones</h3>
 
@@ -10,82 +24,106 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.TextBoxFor(model => model.IdOpcion,new { @class = "form-control", @hidden = "hidden", @value="0" })
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.TextBoxFor(model => model.IdOpcion, new { @class = "form-control", @hidden = "hidden", @value = "0",@id="txtIdOpcion" })
 
-    <div class="row">
+        <div class="row">
+            <div class="col-md-3 col-6">
+                <div class="form-group">
+                    <label>Modulo</label>
+                    @Html.DropDownListFor(model => model.IdModulo, new SelectList(ViewBag.modulos, "codigo", "descripcion"), "Selecione", new { @class = "form-control", @onchange = "CambioModulo(this.value)", @id = "txtIdModulo" })
+
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label" })
+                    <input type="text" class="form-control" id="txtNombre" name="name" value="" />
+                   
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Formulario, htmlAttributes: new { @class = "control-label " })
+                    <input type="text" class="form-control" id="txtFormulario" name="name" value="" />
+
+                  
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Clase, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.Clase, (IEnumerable<SelectListItem>)ViewBag.Clase, "Selecione", new { @class = "form-control", @onchange = "CambioClase(this.value)", @id = "selectClase" })
+                   
+                </div>
+            </div>
 
 
-        <div class="col-md-3 col-sm-12">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
-            </div>
         </div>
-        <div class="col-md-2 col-sm-12">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Formulario, htmlAttributes: new { @class = "control-label " })
-                @Html.EditorFor(model => model.Formulario, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Formulario, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-12">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Clase, htmlAttributes: new { @class = "control-label" })
-                @Html.DropDownListFor(model => model.Clase, (IEnumerable<SelectListItem>)ViewBag.Clase, "Selecione", new { @class = "form-control", @onchange = "CambioClase(this.value)" })
-                @Html.ValidationMessageFor(model => model.Clase, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-12" id="divPadre">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Padre, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownListFor(model => model.Padre, new SelectList(ViewBag.opciones, "IdOpcion", "Nombre"), "Seleccione", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Padre, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-12" id="divUrl">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.TextBoxFor(model => model.Url, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
-            </div>
-        </div> 
-        <div class="col-md-1 col-sm-12" id="divUrl">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Orden, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.TextBoxFor(model => model.Orden, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Orden, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <div class="form-group">
-                <div class="custom-control custom-checkbox mb-3">
-                    @Html.CheckBox("EstadoRegistro",true,new {@id= "CheckEstadoRegistro", @class= "custom-control-input",@onchange="CambioEstado(this.checked)" })
-                 @*   <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">*@
-                    <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
+
+
+        <div class="row">
+            <div class="col-md-3 col-6" id="divPadre">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Padre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownListFor(model => model.Padre, new SelectList(ViewBag.opciones, "IdOpcion", "Nombre"), "Seleccione", new { @class = "form-control", @id = "selectPadre" })
+                   
+                </div>
+            </div>
+            <div class="col-md-3 col-6" id="divUrl">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <input type="text" class="form-control" id="txtUrl" name="name" value="" />
+                    
+                </div>
+            </div>
+            <div class="col-md-3 col-6" id="divUrl">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Orden, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <input type="text" class="form-control" id="txtOrden" name="name" value="" />
+
+                   
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="form-group">
+                    <label>Estado</label>
+                    <div class="custom-control custom-checkbox mb-3">
+                        @Html.CheckBox("EstadoRegistro", true, new { @id = "CheckEstadoRegistro", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
+                        @*   <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">*@
+                        <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-12 text-center">
-        <div class="form-group">
-            <input type="submit" value="Grabar" class="btn btn-primary" onclick="Grabar()" />
-            <input type="button" value="Nuevo" class="btn btn-info" onclick="Nuevo()" />
-        </div>
-    </div>
-
-
-</div>
-}
-    <div id="DivTableOpciones" class="table-responsive" style="padding-bottom:5%">
         
+
+        <div class="col-md-12 text-center">
+            <div class="form-group">
+                <button class="btn" id="btnGuardar" onclick="GuargarOpcion()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                </button>
+                <button class="btn" id="btnLimpiar" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/clear24.png" />
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+}
+    <hr />
+    <div id="DivTableOpciones" class="table-responsive" style="padding-bottom:5%">
+        <div id="spinnerCargando" hidden class="text-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Cargando...</span>
+            </div>
+        </div>
     </div>
 
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
@@ -95,11 +133,12 @@
 <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 
-@*<script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+
+<script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
 <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
 <script src="~/Scripts/DataTables/media/js/dataTables.jszip.min.js"></script>
 <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
-<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>*@
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>
 
 
 <script src="~/Scripts/SeguridadJS/Opcion.js"></script>

@@ -3,46 +3,91 @@
 @{
     ViewBag.Title = "Modulo";
 }
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<h4>Matenimiento de Modulos</h4>
 
-<h4>Modulo</h4>
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         <div class="row">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="offset-md-3 col-md-3 col-6">
+            <div class="col-md-2 col-4">
                 <div class="form-group">
-                    <label>ID</label>  
-                    <input type="text" class="form-control"readonly name="name" value="0" />
+                    <label>ID</label>
+                    <input type="text" id="txtId" class="form-control" readonly name="name" value="0" />
                     @Html.ValidationMessageFor(model => model.IdModulo, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="col-md-4 col-6">
+            <div class="col-md-3 col-4">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    <input type="text" class="form-control" id="txtNombre" name="name" value="" />
+                    <p id="ValidaNombre" hidden class="text-warning">Ingrese un nombre</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Estado Registro</label>
+                    <div class="custom-control custom-checkbox mb-3">
+
+                        @Html.CheckBox("EstadoRegistro", true, new { @id = "CheckEstadoRegistro", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
+                        @*   <input type="checkbox" class="custom-control-input" id="CheckEstadoRegistro" name="example1">*@
+                        <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado</label>
+                    </div>
+                </div>
+            </div>
+            <div class=" text-left col-5" style="">
+
+                <label>Acciones </label>
+                <div class="form-group">
+                    <button class="btn btn-primary" id="btnCargando" type="button" disabled hidden>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Espere...
+                    </button>
+                    <button class="btn" id="btnGuardar" onclick="GuargarModulo()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/add24.png" />
+                    </button>
+                    <button class="btn" id="btnLimpiar" onclick="Limpiar()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/clear24.png" />
+                    </button>
+                    
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 text-center">
-                <button class="btn btn-outline-primary" type="button">
-                    <img src="~/Content/icons/limpiar48.png" />
-                </button>
-                <button class="btn" type="button">
-                    <img src="~/Content/icons/new.png" />
-                </button>
-               
-                <input type="button" class="btn btn-primary" id="txtGuardar" name="name" value="Guardar" />
-                <input type="button" class="btn btn-info" id="txtNuevo" name="name" value="Nuevo" />
-            </div>
-        </div>
-      </div>
+
+    </div>
 }
+<hr />
+<br />
+<div id="DivTableModulos" class="table-responsive">
+    <div class="text-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
+</div>
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+
+
+<script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.jszip.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>
+
+<script src="~/Scripts/SeguridadJS/Modulo.js"></script>

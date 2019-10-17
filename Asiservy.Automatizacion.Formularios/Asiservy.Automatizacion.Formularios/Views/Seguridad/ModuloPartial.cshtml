@@ -1,42 +1,49 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.MODULO>
 
-<table class="table-hover table" id="TableModulo" >
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer"id="TableModulo">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdModulo)
+                <label>Id</label>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EstadoRegistro)
+                <label>Estado</label>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaIngresoLog)
+                <label>Fecha Ingreso</label>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
+                <label>Usuario Ingreso</label>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TerminalIngresoLog)
+                <label>Terminal Ingreso</label>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaModificacionLog)
+                <label>Fecha Modificación</label>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsuarioModificacionLog)
+                <label>Usuario Modificación</label>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TerminalModificacionLog)
+                <label>Terminal Modificación</label>
+
             </th>
-           
+
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr  onclick="CargarModulo('@item.IdModulo','@item.Nombre','@item.EstadoRegistro')">
                 <td>
                     @Html.DisplayFor(modelItem => item.IdModulo)
                 </td>
@@ -64,8 +71,65 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
                 </td>
-              
+
             </tr>
-        }</tbody>
+        }
+    </tbody>
 
 </table>
+
+<style>
+.iconCopy { background-image: url('~/Content/icons/excel24.png'); }
+</style>
+<script>
+
+    $('#TableModulo').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        "pageLength": 5,
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+        "pagingType": "full_numbers",
+        "dom": 'Bfrtip',
+        "order": [[0, "desc"]],
+        "buttons": [            
+            {
+                extend: 'copyHtml5',
+                text: ' <img style="width:100%" src="../../Content/icons/copy24.png" />',
+                titleAttr: 'Copy'
+            },
+            {
+                extend: 'excelHtml5',
+                text: '<img style="width:100%" src="../../Content/icons/excel24.png" />',
+                titleAttr: 'Excel'
+            },
+            {
+                extend: 'print',
+                text: '<img style="width:100%" src="../../Content/icons/print24.png" />',
+                titleAttr: 'Print'
+            }
+        ]
+
+    });
+</script>

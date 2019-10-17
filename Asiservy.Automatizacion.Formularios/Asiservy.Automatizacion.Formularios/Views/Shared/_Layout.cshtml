@@ -4,21 +4,54 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Asiservy</title>
+
     <script src="~/Scripts/jquery-3.0.0.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
-    <link href="~/Content/Login/Login.css" rel="shortcut icon" />
     <script src="~/Scripts/General/GeneralJS.js"></script>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Login/Login.css" rel="shortcut icon" />
+
+
+    <link rel="apple-touch-icon" sizes="57x57" href="~/Content/ICO/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/Content/ICO/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/Content/ICO/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/ICO/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/Content/ICO/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/ICO/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/Content/ICO/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/Content/ICO/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/ICO/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/Content/ICO/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/ICO/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/Content/ICO/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/ICO/favicon-16x16.png">
+    <link rel="manifest" href="~/Content/ICO/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="~/Content/ICO/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
 </head>
-<body>
+<body style="background:rgba(189, 189, 189, 0.04);">
     <style>
         .navbar {
-            padding:5px;
-            padding-left:10px;
-            padding-right:10px;
+            padding: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        th, td {
+            white-space: nowrap;
+        }
+
+        div.dataTables_wrapper {
+            margin: 0 auto;
+        }
+
+        div.container {
+            width: 80%;
         }
     </style>
 
@@ -77,13 +110,13 @@
 
     <div id="ModalMensaje"></div>
 
-    <div style="padding-bottom: 50px" class="container-fluid">
+    <div style="padding-bottom: 50px;" class="container-fluid">
         <div style="padding-bottom:5%; padding-top:1%">
             <div id="response">
-               
+
             </div>
-            
-           
+
+
             @RenderBody()
         </div>
         <script src="~/Scripts/Mensajes/Mensajes.js"></script>
@@ -101,6 +134,12 @@
               MensajeError("@TempData["MensajeError"]",false);
             </script>
         }
+        else if (TempData["MensajeAdvertencia"] != null)
+        {
+            <script>
+                MensajeAdvertencia("@TempData["MensajeAdvertencia"]", false);
+            </script>
+        }
     </div>
 
     <!-- Modal -->
@@ -116,15 +155,31 @@
             </div>
         </div>
     </div>
+    @{
+        if (User.Identity.IsAuthenticated)
+        {
+            <footer style="color:black">
+                <hr />
+                <p>&copy; @DateTime.Now.Year - Asiservy S.A</p>
+            </footer>
+        }
+        else
+        {
 
+            <footer style="color:white">
+                <hr />
+                <p>&copy; @DateTime.Now.Year - Asiservy S.A</p>
+            </footer>
+        }
+    }
 
-
-    <footer style="color:white">
-        <hr />
-        <p>&copy; @DateTime.Now.Year - Asiservy S.A</p>
-    </footer>
+ 
 </body>
+
+
+
 </html>
+
 
 @{
     string[] liststring = User.Identity.Name.Split('_');

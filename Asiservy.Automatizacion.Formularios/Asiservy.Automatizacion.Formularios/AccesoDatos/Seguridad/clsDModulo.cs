@@ -29,7 +29,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
             }
         }
 
-        public string GuardarModificarOpcion(MODULO doModulo)
+        public string GuardarModificarModulo(MODULO doModulo)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {

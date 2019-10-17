@@ -71,14 +71,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                //Guardar
-                return View();
+                liststring = User.Identity.Name.Split('_');
+
+                if (model == null || string.IsNullOrEmpty(model.Nombre))
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
+                clsDModulo = new clsDModulo();
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = liststring[0];
+                model.FechaIngresoLog = DateTime.Now;
+                var mensaje =  clsDModulo.GuardarModificarModulo(model);
+                return Json(mensaje, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
             {
                 liststring = User.Identity.Name.Split('_');
-                SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
@@ -89,7 +98,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = liststring[0]
                 });
-                return RedirectToAction("Home", "Home");
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+
             }
         }
         [Authorize]
@@ -98,7 +108,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDModulo = new clsDModulo();
-                var model = clsDModulo.ConsultarModulos(new MODULO());
+                var model = clsDModulo.ConsultarModulos(new MODULO()).OrderByDescending(x=>x.IdModulo);
                 return PartialView(model);
 
             }
@@ -157,51 +167,54 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                var errors = ModelState
-               .Where(x => x.Value.Errors.Count > 0)
-               .Select(x => new { x.Key, x.Value.Errors })
-               .ToArray();
+               // var errors = ModelState
+               //.Where(x => x.Value.Errors.Count > 0)
+               //.Select(x => new { x.Key, x.Value.Errors })
+               //.ToArray();
                
                 if (string.IsNullOrEmpty(model.Nombre))
                 {
-                    ModelState.AddModelError("Nombre", "Campo Requerido");
+                    return Json("0", JsonRequestBehavior.AllowGet);
                 }
                 
                 if (string.IsNullOrEmpty(model.Clase))
                 {
-                    ModelState.AddModelError("Clase", "Campo Requerido");
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
                 }
                 if (model.Clase == "0" && model.Padre == null || model.Padre == 0)
                 {
-                    ModelState.AddModelError("Padre", "Campo Requerido");
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
                 }
                 if (model.Clase == "0" && string.IsNullOrEmpty(model.Url))
                 {
-                    ModelState.AddModelError("Url", "Campo Requerido");
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
                 }
                 if (string.IsNullOrEmpty(model.Formulario) && model.Clase=="0")
                 {
-                    ModelState.AddModelError("Formulario", "Campo Requerido");
-                }
-                ConsultaOpciones();
-                if (!ModelState.IsValid)
-                    return View(model);
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
+                }             
 
                 clsDopcion = new clsDOpcion();
                 model.Clase = model.Clase == "0" ? "H" : "P";
-                model.EstadoRegistro = model.EstadoRegistro == "true" ? clsAtributos.EstadoRegistroActivo : clsAtributos.EstadoRegistroInactivo;
+                model.EstadoRegistro = model.EstadoRegistro == "A" ? clsAtributos.EstadoRegistroActivo : clsAtributos.EstadoRegistroInactivo;
                 string[] Usuario = User.Identity.Name.Split('_');
                 model.FechaCreacionLog = DateTime.Now;
                 model.UsuarioCreacionLog = Usuario[0];
                 model.TerminalCreacionLog = Request.UserHostAddress;
                 var respuesta = clsDopcion.GuardarModificarOpcion(model);
-                SetSuccessMessage(respuesta);
-                return View();
+
+                return Json(respuesta, JsonRequestBehavior.AllowGet);
+
 
             }
             catch (Exception ex)
             {
-                SetErrorMessage(ex.Message);
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
@@ -212,17 +225,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = "sistemas"
                 });
-                return View();
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+
             }
         }
 
         [Authorize]
-        public ActionResult OpcionPartial()
+        public ActionResult OpcionPartial(int idModulo)
         {
             try
             {
                 clsDopcion = new clsDOpcion();
-                var opciones = clsDopcion.ConsultarOpciones(null);
+                var opciones = clsDopcion.ConsultarOpciones(new OPCION {IdModulo= idModulo }).OrderByDescending(x=> x.IdOpcion);
                 return PartialView(opciones);
 
             }
@@ -248,8 +262,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public void ConsultaOpciones()
         {
             clsDopcion = new clsDOpcion();
+            clsDModulo = new clsDModulo();
+            var modulos = clsDModulo.ConsultarModulos(new MODULO { EstadoRegistro = clsAtributos.EstadoRegistroActivo}).Select(x=> new ClasificadorGenerico {codigo=x.IdModulo,descripcion= x.Nombre});
             var opciones = clsDopcion.ConsultarOpciones(new OPCION {EstadoRegistro=clsAtributos.EstadoRegistroActivo, Clase="P"}).Select(x => new { x.IdOpcion, x.Nombre });
             ViewBag.opciones = opciones;
+            ViewBag.modulos = modulos;
             List<ClasificadorGenerico> ClasificadorClase = new List<ClasificadorGenerico>();
             ClasificadorClase.Add(new ClasificadorGenerico { codigo = 0, descripcion = "Hijo" });
             ClasificadorClase.Add(new ClasificadorGenerico { codigo = 1, descripcion = "Padre" });
