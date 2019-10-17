@@ -158,16 +158,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return pListEmpleados;
             }
         }
-        public List<spConsutaEmpleadosFiltro> ConsultarDondeFueMovido(List<spConsutaEmpleadosFiltro> ListEmpleados)
+        public List<spConsutaEmpleadosFiltroCambioPersonal> ConsultarDondeFueMovido(List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                List<spConsutaEmpleadosFiltro> Empleados = new List<spConsutaEmpleadosFiltro>();
+                List<spConsutaEmpleadosFiltroCambioPersonal> Empleados = new List<spConsutaEmpleadosFiltroCambioPersonal>();
                 spConsultarCaambioPersonalxCedula consultarempleado = null;
                 foreach (var item in ListEmpleados)
                 {
                      consultarempleado = db.spConsultarCaambioPersonalxCedula(item.CEDULA).FirstOrDefault();
-                     Empleados.Add(new spConsutaEmpleadosFiltro { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA });
+                     Empleados.Add(new spConsutaEmpleadosFiltroCambioPersonal { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA });
 
                 }
 
@@ -186,32 +186,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     dsCargo = "0";
 
                 List<spConsutaEmpleadosFiltroCambioPersonal> pListEmpleados = null;
-                List<spConsutaEmpleadosFiltroCambioPersonal> pListEmpleadoR = new List<spConsutaEmpleadosFiltroCambioPersonal>();
-                pListEmpleados = db.spConsutaEmpleadosFiltroCambioPersonal(dsArea, dsLinea, dsCargo).ToList();
-                if (psTipo == clsAtributos.TipoPrestar)
-                {
-                    foreach (var item in pListEmpleados.ToArray())
-                    {
-                        if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.CEDULA && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo))
-                        {
-                            pListEmpleados.Remove(item);
-                        }
-                    }
-                    return pListEmpleados;
-                }
-                else
-                {
-                    foreach (var item in pListEmpleados)
-                    {
-                        if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.CEDULA && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo))
-                        {
-                            pListEmpleadoR.Add(item);
-                        }
-                    }
-                    return pListEmpleadoR;
-                }
-
-
+                //List<spConsutaEmpleadosFiltroCambioPersonal> pListEmpleadoR = new List<spConsutaEmpleadosFiltroCambioPersonal>();
+                pListEmpleados = db.spConsutaEmpleadosFiltroCambioPersonal(dsArea, dsLinea, dsCargo,psTipo).ToList();
+               
+                return pListEmpleados;
+                
             }
             //using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             //{

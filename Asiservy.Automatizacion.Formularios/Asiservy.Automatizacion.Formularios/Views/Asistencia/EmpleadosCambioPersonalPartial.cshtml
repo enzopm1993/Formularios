@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsutaEmpleadosFiltro>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsutaEmpleadosFiltroCambioPersonal>
 @using Asiservy.Automatizacion.Datos.Datos;
 <table id="TablaEmpleadosCambioP" class="table table-bordered table-striped">
     <thead>
@@ -25,7 +25,7 @@
             @{string LineaMovido = "";
                 if (ViewBag.ADondeFuePrestado != null)
                 {
-                    List<spConsutaEmpleadosFiltro> listEmpleados = ViewBag.ADondeFuePrestado;
+                    List<spConsutaEmpleadosFiltroCambioPersonal> listEmpleados = ViewBag.ADondeFuePrestado;
                     LineaMovido = (from e in listEmpleados
                                    where e.CEDULA == item.CEDULA
                                    select e.LINEA).FirstOrDefault();

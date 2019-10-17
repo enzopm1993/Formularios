@@ -407,6 +407,7 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
+          <Property Name="IdModulo" Type="int" />
         </EntityType>
         <EntityType Name="OPCION_ROL">
           <Key>
@@ -721,6 +722,7 @@
           <Parameter Name="Area" Type="varchar" Mode="In" />
           <Parameter Name="Linea" Type="varchar" Mode="In" />
           <Parameter Name="Cargo" Type="varchar" Mode="In" />
+          <Parameter Name="Tipo" Type="char" Mode="In" />
         </Function>
         <Function Name="spConsutaEmpleadosTurnos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="linea" Type="varchar" Mode="In" />
@@ -1196,6 +1198,7 @@
             <Parameter Name="Area" Mode="In" Type="String" />
             <Parameter Name="Linea" Mode="In" Type="String" />
             <Parameter Name="Cargo" Mode="In" Type="String" />
+            <Parameter Name="Tipo" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -1317,6 +1320,7 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="OPCION_ROL" Relationship="ASIS_PRODModel.FK_OPCION_ROL_OPCION" FromRole="OPCION" ToRole="OPCION_ROL" />
+          <Property Name="IdModulo" Type="Int32" />
         </EntityType>
         <Association Name="FK_OPCION_ROL_OPCION">
           <End Type="ASIS_PRODModel.OPCION" Role="OPCION" Multiplicity="0..1" />
@@ -2288,6 +2292,7 @@
           <EntitySetMapping Name="OPCION">
             <EntityTypeMapping TypeName="ASIS_PRODModel.OPCION">
               <MappingFragment StoreEntitySet="OPCION">
+                <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
                 <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
