@@ -96,13 +96,24 @@
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Espere...
         </button>
-        <input type="button" name="name" id="btnGuardar" value="Guardar" onclick="GuardarControl()" class="btn btn-primary" />
-        <input type="button" name="name" id="btnNuevo" value="Nuevo" onclick="Nuevo()" class="btn btn-info" />
-
+        @*<input type="button" name="name" id="btnGuardar" value="Guardar" onclick="GuardarControl()" class="btn btn-primary" />
+        <input type="button" name="name" id="btnNuevo" value="Nuevo" onclick="Nuevo()" class="btn btn-info" />*@
+      
+        <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGuardar" onclick="GuardarControl()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/add24.png" />
+        </button>
+        <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/clear24.png" />
+        </button>
     </div>
 
-   
-    <br />
+
+    <hr />
+    <div class="d-flex justify-content-center">
+        <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
 
     <div class="table-responsive" id="DivTableControlCoche">
 
@@ -110,11 +121,4 @@
 </div>
 }
 
-
-<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
-<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
-<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
-<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
-<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 <script src="~/Scripts/ControlCocheLinea/ControlCocheLinea.js"></script>

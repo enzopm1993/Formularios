@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="59c6417c0c5c4b7f83e9599e8ac8c621" Name="Diagram1" ZoomLevel="60">
+      <Diagram DiagramId="59c6417c0c5c4b7f83e9599e8ac8c621" Name="Diagram1" ZoomLevel="51">
         <EntityTypeShape EntityType="ASIS_PRODModel.JUSTICA_SOLICITUD" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.NIVEL_APROBACION" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.NIVEL_USUARIO" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />

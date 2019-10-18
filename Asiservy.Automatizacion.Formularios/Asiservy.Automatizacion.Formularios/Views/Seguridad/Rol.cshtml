@@ -4,7 +4,7 @@
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        <h4>ROL</h4>
+        <h4>Mantenimiento Rol</h4>
         <hr />
         <div class="row">
 
@@ -35,7 +35,7 @@
 
                 <div class="form-group">
                     @Html.Label("Estado")<br />
-                    @Html.RadioButtonFor(model => model.EstadoRegistro, "A", new { @checked="checked"})  @Html.Label("Activo")
+                    @Html.RadioButtonFor(model => model.EstadoRegistro, "A", new { @checked = "checked" })  @Html.Label("Activo")
                     @Html.RadioButtonFor(model => model.EstadoRegistro, "I")  @Html.Label("Inactivo")
                     <br />
                     @Html.ValidationMessage("ErrorEstado", "", new { @class = "input-validation-error text-danger has-error" })
@@ -44,20 +44,40 @@
             <div class="col-md-offset-2 col-md-12">
                 <center>
                     <div class="form-group">
-                        <input type="submit" value="Grabar" class="btn btn-primary" />
-                        <input type="button" value="Nuevo" id="Nuevo" class="btn btn-info" />
-
+                        @*<input type="submit" value="Grabar" class="btn btn-primary" />
+                        <input type="button" value="Nuevo" id="Nuevo" class="btn btn-info" />*@
+                        <button class="btn" id="btnGuardar" onclick="GuargarOpcion()" style="border-color:#2c3e50" type="submit">
+                            <img style="width:100%" src="~/Content/icons/add24.png" />
+                        </button>
+                        <button class="btn" id="Nuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/clear24.png" />
+                        </button>
                     </div>
                 </center>
             </div>
         </div>
 
     }
-
+        <hr />
 
     <div class="table-responsive" style="padding-bottom:5%" id="DetalleRoles">
 
     </div>
 </div>
+
+
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+
+
+<script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.jszip.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>
 
 <script src="~/Scripts/SeguridadJS/Rol.js"></script>

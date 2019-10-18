@@ -18,15 +18,21 @@ function SelectControlCoche(id, fecha, horaInicio, horaFin, Linea, talla,observa
     $("#txtObservacion").val(observacion);
 } 
 function CargarControlCoche() {
+
+    $('#spinnerCargando').prop("hidden", false);
+    var DivControl = $('#DivTableControlCoche');
+    DivControl.html('');
     $.ajax({
         url: "../ControlCocheLinea/ControlCocheLineaPartial",
         type: "GET",
         success: function (resultado) {
             var DivControl = $('#DivTableControlCoche');
+            $('#spinnerCargando').prop("hidden", true);  
             DivControl.html(resultado);
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
+            $('#spinnerCargando').prop("hidden", true);  
         }
     });
 
@@ -49,6 +55,7 @@ function Nuevo() {
     $("#txtHoraFin").val("00:00");
     $("#txtCoches").val("0");
     $("#selectLineas").prop("selectedIndex",0);  
+    $("#selectTalla").prop("selectedIndex", 0);  
     $("#txtObservacion").val("");
 
     $("#txtValidaFecha").prop("hidden", true);
@@ -119,8 +126,9 @@ function GuardarControl() {
     if (!validar())
         return;
     $("#btnGuardar").prop("disabled", true);
-    $('#btnGuardarCargando').prop("hidden", false);
-    $('#btnGuardar').prop("hidden", true);
+    $('#spinnerCargando').prop("hidden", false);
+    var DivControl = $('#DivTableControlCoche');
+    DivControl.html('');
     $.ajax({
         url: "../ControlCocheLinea/ControlCocheLinea",
         type: "POST",
@@ -134,22 +142,19 @@ function GuardarControl() {
             Talla: $("#selectTalla").val(),
             Observacion: $("#txtObservacion").val(),
         },
-        success: function (resultado) {
-           
-            CargarControlCoche();
-            
+        success: function (resultado) {           
+            CargarControlCoche();            
             MensajeCorrecto(resultado);
             Nuevo();          
             $("#btnGuardar").prop("disabled", false);
-            $('#btnGuardarCargando').prop("hidden", true);
-            $('#btnGuardar').prop("hidden", false);
+         
         },
         error: function (resultado) {
           
             CargarControlCoche();
             $("#btnGuardar").prop("disabled", false);
-            $('#btnGuardarCargando').prop("hidden", true);
-            $('#btnGuardar').prop("hidden", false);
+             $('#spinnerCargando').prop("hidden", true);
+
             MensajeError(resultado.responseText, false);
             Nuevo();
 

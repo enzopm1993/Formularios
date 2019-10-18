@@ -330,6 +330,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+
                 return View();
             }
             catch (Exception ex)
@@ -355,6 +357,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+
                 clsDEmpleado = new clsDEmpleado();
                 Usuario = User.Identity.Name.Split('_');
                 List<spConsutaReporteEmpleadosTurnos> model = new List<spConsutaReporteEmpleadosTurnos>();
@@ -395,6 +399,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 var model = clsDEmpleado.ConsultaPersonalNominaPorLinea();      
@@ -423,6 +429,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+
                 Usuario = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
                 clsDEmpleado = new clsDEmpleado();
@@ -476,6 +484,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea);

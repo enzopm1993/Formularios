@@ -5,7 +5,9 @@ function CargarReporteAvanceLimpiadora() {
     var txtFecha = $('#txtFecha').val();
     var selectLinea = $('#selectLinea').val();
     $('#btnConsultar').prop("disabled", true);
-    MostrarModalCargando();
+    $("#spinnerCargando").prop("hidden", false);
+    var bitacora = $('#DivTableReporteControlAvancePorLimpiadora');
+    bitacora.html('');
     $.ajax({
         url: "../Hueso/ReporteAvanceDiarioPorLimpiadoraPartial",
         type: "GET",
@@ -18,12 +20,14 @@ function CargarReporteAvanceLimpiadora() {
             bitacora.html(resultado);
 
             $('#btnConsultar').prop("disabled", false);
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden", true);
+
         },
         error: function (resultado) {
             MensajeError(resultado.responseJSON, false);
             $('#btnConsultar').prop("disabled", false);
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden", true);
+
            
         }
     });

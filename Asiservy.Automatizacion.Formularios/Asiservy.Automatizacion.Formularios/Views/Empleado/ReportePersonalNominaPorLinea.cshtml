@@ -8,8 +8,8 @@
 
 <br />
 <div class="table-responsive">
-    <table class="table">
-        <thead class="table-light">
+    <table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+        <thead>
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Area)
@@ -38,36 +38,37 @@
 
             </tr>
         </thead>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Area)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PuestoTrabajo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Linea1)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Linea2)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Linea3)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Linea4)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Linea5)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Total)
-                </td>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Area)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PuestoTrabajo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Linea1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Linea2)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Linea3)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Linea4)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Linea5)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Total)
+                    </td>
 
-            </tr>
-        }
-
+                </tr>
+            }
+        </tbody>
     </table>
 </div>

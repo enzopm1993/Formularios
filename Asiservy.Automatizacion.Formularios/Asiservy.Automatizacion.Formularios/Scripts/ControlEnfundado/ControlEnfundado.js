@@ -66,7 +66,8 @@ function Limpiar() {
 
 
 function CargarControlEnfundado() {
-    MostrarModalCargando()
+    $("#spinnerCargando").prop("hidden", false);
+    $("#DivTableControl").html('');
     $.ajax({
         url: "../ControlEnfundado/ControlEnfundadoPartial",
         type: "GET",
@@ -76,19 +77,21 @@ function CargarControlEnfundado() {
         success: function (resultado) {
             $("#DivTableControl").html('');
             $("#DivTableControl").html(resultado);
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden", true);
+
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
             $("#DivTableControl").html('');
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden", true);
+
         }
     });
 }
 
 function CargarControlEnfundadoDetalle(IdControl) {
-    MostrarModalCargando()
-
+    $("#spinnerCargando").prop("hidden", false);
+    $("#DivTableControl").html('');
     $('#btnGenerar').prop("hidden", true);
     $('#divFiltros').fadeOut("slow");
     $.ajax({
@@ -100,12 +103,14 @@ function CargarControlEnfundadoDetalle(IdControl) {
         success: function (resultado) {
             $("#DivTableControl").html('');
             $("#DivTableControl").html(resultado);
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden", true);
+
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
             $("#DivTableControl").html('');
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden", true);
+
         }
     });
 }

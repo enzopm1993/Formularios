@@ -840,6 +840,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+
                 clsDGeneral = new clsDGeneral();
                 var Lineas = clsDGeneral.ConsultaLineas("0");
                 ViewBag.Lineas = new SelectList(Lineas, "codigo", "descripcion");
@@ -867,6 +869,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+
                 clsDCambioPersonal = new clsDCambioPersonal();
                 List<spReporteCambioPersonal> Resultado = clsDCambioPersonal.ReporteCambioPersonal(CodLinea, FechaInicio, FechaFin);
                 return PartialView(Resultado);
@@ -1401,6 +1405,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+
                 liststring = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
                 clsDEmpleado = new clsDEmpleado();

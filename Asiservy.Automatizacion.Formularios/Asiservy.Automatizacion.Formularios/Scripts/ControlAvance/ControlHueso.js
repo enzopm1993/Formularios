@@ -21,7 +21,7 @@ function CargarOrdenFabricacion(valor) {
             }
         },
         error: function (resultado) {
-            MensajeError(resultado.responseJSON, false);
+            MensajeError(resultado.responseText, false);
         }
     });
 }
@@ -45,7 +45,7 @@ function CargarLotes(valor) {
             }
         },
         error: function (resultado) {
-            MensajeError(resultado.responseJSON, false);
+            MensajeError(resultado.responseText, false);
         }
     });
 }
@@ -92,6 +92,8 @@ function NuevoControlHueso() {
     $('#txtFechaProduccion').val(fechaProduccion);
     CargarOrdenFabricacion(fechaProduccion);
     CargarControlHueso();
+    $("#btnGenerar").prop("hidden", false);
+
 }
 
 function SeleccionControlHueso(id, lote, orden, tipo, horainicio, horafin, observacion,piezas,fecha) {
@@ -132,7 +134,9 @@ function SeleccionControlHueso(id, lote, orden, tipo, horainicio, horafin, obser
 
 function CargarControlHuesoDetalle(id) {
   //  console.log(id);
-   
+    $("#spinnerCargando").prop("hidden", false);
+    var bitacora = $('#DivTableControlHueso');  
+    bitacora.html('');
     $.ajax({
         url: "../Hueso/ControlHuesoPartial",
         type: "GET",
@@ -140,23 +144,31 @@ function CargarControlHuesoDetalle(id) {
             id: id         
         },
         success: function (resultado) {
+            $("#btnGenerar").prop("hidden", true);
             var bitacora = $('#DivTableControlHueso');
             bitacora.html('');
             var bitacora = $('#DivTableControlHuesoDetalle');
+            $("#spinnerCargando").prop("hidden", true);
             bitacora.html(resultado);
         },
         error: function (resultado) {
-            MensajeError(resultado.responseJSON, false);
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargando").prop("hidden", true);
+
         }
     });
 
 }
 function CargarControlHueso() {
+    $("#spinnerCargando").prop("hidden", false);
+    $('#DivTableControlHueso').html('');
+    $('#DivTableControlHuesoDetalle').html('');
     $.ajax({
         url: "../Hueso/ControlHuesoPartialCabecera",
         type: "GET",       
         success: function (resultado) {
             var bitacora = $('#DivTableControlHueso');
+            $("#spinnerCargando").prop("hidden", true);
             bitacora.html(resultado);
             var bitacora = $('#DivTableControlHuesoDetalle');
             bitacora.html('');
@@ -164,7 +176,9 @@ function CargarControlHueso() {
 
         },
         error: function (resultado) {
-            MensajeError(resultado.responseJSON, false);
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargando").prop("hidden", true);
+
             $('#btnNuevo').prop("disabled", false);
 
         }
@@ -203,7 +217,10 @@ function GenerarControlHueso() {
         return;
 
     }
-    MostrarModalCargando();
+    $('#DivTableControlHueso').html('');
+    $('#DivTableControlHuesoDetalle').html('');
+
+    $('#spinnerCargando').prop("hidden", false);     
     $('#btnGenerar').prop("disabled", true);     
     $.ajax({
         url: "../Hueso/GenerarControlHueso",
@@ -222,7 +239,8 @@ function GenerarControlHueso() {
         success: function (resultado) {
             if (resultado == 0) {
                 MensajeAdvertencia("Ya se ha generado un control con esos parametros");
-                CerrarModalCargando();
+                $('#spinnerCargando').prop("hidden", true);
+                CargarControlHueso();
                 return;
             }
             if (tipoControl == 1 || tipoControl == 4)
@@ -230,13 +248,14 @@ function GenerarControlHueso() {
             else
                 NuevoControlHueso();
             $('#btnGenerar').prop("disabled", false);
+            $('#spinnerCargando').prop("hidden", true);     
 
-            CerrarModalCargando();
         },
         error: function (resultado) {
-            MensajeError(resultado.responseJSON, false);
+            MensajeError(resultado.responseText, false);
             $('#btnGenerar').prop("disabled", false);
-            CerrarModalCargando();
+            $('#spinnerCargando').prop("hidden", true);     
+
 
         }
     });
@@ -277,7 +296,7 @@ function GenerarControlHueso() {
 //                }
 //            },
 //            error: function (resultado) {
-//                MensajeError(resultado.responseJSON, false);
+//                MensajeError(resultado.responseText, false);
 //            }
 //        });
 
@@ -345,7 +364,7 @@ function GuardarControlHueso(detalle, hueso, miga, id) {
             },
             error: function (resultado) {
 
-                MensajeError(resultado.responseJSON, false);
+                MensajeError(resultado.responseText, false);
                 $(txtHueso).prop("readonly", false);
                 $(txtMiga).prop("readonly", false);
                 $(id).prop('checked', false);
@@ -369,7 +388,9 @@ function CargarReporteAvance() {
         return;
     }
     $('#btnConsultar').prop("disabled", true);
-    MostrarModalCargando();
+    $("#spinnerCargando").prop("hidden", false);
+    var bitacora = $('#DivTableReporteControlAvance');
+    bitacora.html('');
     $.ajax({
         url: "../Hueso/ReporteControlAvanceDiarioPartial",
         type: "GET",
@@ -379,21 +400,24 @@ function CargarReporteAvance() {
         },
         success: function (resultado) {
             if (resultado == "1") {
-                CerrarModalCargando();
+    $("#spinnerCargando").prop("hidden", false);
+
                 MensajeAdvertencia("No existen registros para esa linea");
 
             } else {
                 var bitacora = $('#DivTableReporteControlAvance');
+                $("#spinnerCargando").prop("hidden", true);
                 bitacora.html(resultado);
-                CerrarModalCargando();
+               
             }
-            $('#btnConsultar').prop("disabled", false);
+            $('#btnConsultar').prop("disabled", true);
            
         },
         error: function (resultado) {
-            MensajeError(resultado.responseJSON, false);
+            MensajeError(resultado.responseText, false);
             $('#btnConsultar').prop("disabled", false);
-            CerrarModalCargando();
+    $("#spinnerCargando").prop("hidden", true);
+
 
         }
     });

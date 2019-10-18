@@ -92,3 +92,7 @@ input:focus {
     flex: 0 1 auto;
     padding: 1.25rem;
 }
+
+input, select, textarea {
+    max-width: 100%;
+}

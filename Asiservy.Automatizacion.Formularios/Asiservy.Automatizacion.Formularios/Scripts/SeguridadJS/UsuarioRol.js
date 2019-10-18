@@ -1,10 +1,10 @@
 ﻿$(document).ready(function () {
     CargarUsuarioRol();
-    Nuevo();
+    NuevoUsuarioRol();
 });
 
 
-function Nuevo() {
+function NuevoUsuarioRol() {
     $('#IdUsuarioRol').val('0');   
     $('#IdUsuario2').prop('selectedIndex', 0);
     $('#IdRol2').prop('selectedIndex', 0);   

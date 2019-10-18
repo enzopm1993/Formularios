@@ -29,6 +29,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+         
                 List<SolicitudPermisoViewModel> ListaSolicitud;
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 clsDGeneral = new clsDGeneral();
@@ -233,6 +235,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
                 }
                 else if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
+                {
+                    ConsultaCombosGeneral(true);
+                    ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
+
+                }
+                else if (!string.IsNullOrEmpty(frm) && frm == "BandejaAprobacion")
                 {
                     ConsultaCombosGeneral(true);
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
@@ -899,7 +907,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             clsDSolicitudPermiso = new clsDSolicitudPermiso();
             clsDGeneral = new clsDGeneral();
             if(!RRHH)
-                ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null).Where(x=> x.CodigoMotivo != "CP" && x.CodigoMotivo !="EP");
+                ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null).Where(x=> x.CodigoMotivo != "CP" && x.CodigoMotivo != "EP" && x.CodigoMotivo != "CH" && x.CodigoMotivo != "EH");
             else
                 ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null);
             ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");

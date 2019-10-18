@@ -357,6 +357,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 clsDClasificador = new clsDClasificador();
@@ -398,7 +400,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-               // Usuario = User.Identity.Name.Split('_');
+               
+
+                // Usuario = User.Identity.Name.Split('_');
                 clsDControlHueso = new clsDControlHueso();
                 var model = clsDControlHueso.ConsultaControlAvanceDiarioPorLinea(ddFecha.Date, dsLinea);
                 if (!model.Any())
@@ -430,6 +434,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 clsDClasificador = new clsDClasificador();

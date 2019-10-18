@@ -9,8 +9,8 @@ function CargarControlCoche() {
         $('#txtValidaFecha').prop('hidden', true);
 
     }
-    $('#btnGuardarCargando').prop("hidden", false);
-    $('#btnGuardar').prop("hidden", true);
+    $('#spinnerCargando').prop("hidden", false);
+
     $.ajax({
         url: "../ControlCocheLinea/ReporteControlCocheLineaPartial",
         type: "GET",
@@ -20,13 +20,13 @@ function CargarControlCoche() {
         success: function (resultado) {
             var DivControl = $('#DivTableReporteControlCoche');
             DivControl.html(resultado);
-            $('#btnGuardarCargando').prop("hidden", true);
-            $('#btnGuardar').prop("hidden", false);
+            $('#spinnerCargando').prop("hidden", true);
+            
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-            $('#btnGuardarCargando').prop("hidden", true);
-            $('#btnGuardar').prop("hidden", false);
+            $('#spinnerCargando').prop("hidden", true);
+           
 
         }
     });

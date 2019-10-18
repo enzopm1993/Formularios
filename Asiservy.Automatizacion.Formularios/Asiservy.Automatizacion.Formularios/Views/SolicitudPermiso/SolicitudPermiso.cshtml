@@ -8,25 +8,39 @@
 <script src="~/Scripts/jquery-ui.js"></script>
 <link href="~/Content/jquery-ui.css" rel="stylesheet" />
 <link href="~/Content/SolicitudPermisoCss/SolicitudPermiso.css" rel="stylesheet" />
-<style>
+
+<style type="text/css">
     input, select, textarea {
         max-width: 100%
+    }  
+
+    divBorder {
+        border: 3px solid;
+        height: 45px;
+        width: 250px;
+        margin: 45px 25px;
+        background-color: yellow;
+        font-size: 16px;
+        text-align: center;
+        padding-top: 10px;
+        word-wrap: break-word;
     }
+
+       
 </style>
 <br />
 <div style="padding:0 5% 5% 5%" class="container-fluid">
     <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-md-">
+        <div class="col-md-8">
             <h4>Solicitud de Permiso General</h4>
             <label>Fecha: @DateTime.Now.ToShortDateString()</label>
         </div>
     </div>
-
+ 
     <div class="row">
-
         <div class="col-md-2"></div>
-        <div class="col-md-8 col-sm-12 border border-secondary">
+        <div class="col-md-8 col-12 border rounded border-primary">
             @using (Html.BeginForm("SolicitudPermiso", "SolicitudPermiso"))
             {
                 <div class="row">
@@ -37,13 +51,14 @@
                             @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), "Seleccione la Línea", new { @onchange = "CambioLineas(this.id)", @class = "form-control", @id = "selectLinea" })
                             @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
 
-                            <script> 
-                                $(document).ready(function () {                                    
+                            <script>
+
+                                $(document).ready(function () {
                                     CargarAreas();
                                 });
-                                function CambioLineas(id) {                                   
+                                function CambioLineas(id) {
                                     $('#' + id).val('@ViewBag.CodLinea');
-                                }    
+                                }
                             </script>
                         </div>
 
@@ -106,23 +121,23 @@
                         <label class="custom-control-label" for="switchHoraFecha" id="LabelFecha">Fecha</label>
                     </div>
                 </div>
-                <div class="row"  id="DivHora">
-                    
-                        <div class="col-md-4 col-sm-12">
-                            <label>Fecha</label>
-                            @Html.TextBoxFor(m => m.FechaSalidaEntrada, new { @type = "date", @id = "dateSalidaRegreso", @class = "form-control" })
-                        </div>
-                        <div class="col-md-4 col-sm-5">
-                            <label>Hora Salida</label>
-                            @Html.TextBoxFor(m => m.HoraSalida, new { @type = "time", @id = "timeHoraSalida", @class = "form-control" })
-                            @*<input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />*@
-                        </div>
-                        <div class="col-md-4  col-sm-5">
-                            <label>Hora Regreso</label>
-                            @Html.TextBoxFor(m => m.HoraRegreso, new { @type = "time", @id = "timeHoraRegreso", @class = "form-control"})
-                            @*<input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />*@
-                        </div>
-                  
+                <div class="row" id="DivHora">
+
+                    <div class="col-md-4 col-sm-12">
+                        <label>Fecha</label>
+                        @Html.TextBoxFor(m => m.FechaSalidaEntrada, new { @type = "date", @id = "dateSalidaRegreso", @class = "form-control" })
+                    </div>
+                    <div class="col-md-4 col-sm-5">
+                        <label>Hora Salida</label>
+                        @Html.TextBoxFor(m => m.HoraSalida, new { @type = "time", @id = "timeHoraSalida", @class = "form-control" })
+                        @*<input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />*@
+                    </div>
+                    <div class="col-md-4  col-sm-5">
+                        <label>Hora Regreso</label>
+                        @Html.TextBoxFor(m => m.HoraRegreso, new { @type = "time", @id = "timeHoraRegreso", @class = "form-control" })
+                        @*<input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />*@
+                    </div>
+
                 </div>
                 <div class="row" id="DivFecha">
                     <div class="col-md-6 col-sm-12">
@@ -137,11 +152,21 @@
                     </div>
                 </div>
                 <br />
-                <center><input type="submit" class="btn btn-info" name="name" value="Generar" id="GuardarSolicitudGeneral" /></center>
+                @*<center><input type="submit" class="btn btn-info" name="name" value="Generar" id="GuardarSolicitudGeneral" /></center>*@
+                <div class="row">
+                    <div class=" text-center col-12">
+                        <button class="btn" id="GuardarSolicitudGeneral" onclick="Nuevo()" style="border-color:#2c3e50" type="submit">
+                            <img style="width:100%" src="~/Content/icons/send24.png" />
+                        </button>
+
+                    </div>
+                    
+                </div>
+                
                 <br />
             }
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-1"></div>
     </div>
 
 

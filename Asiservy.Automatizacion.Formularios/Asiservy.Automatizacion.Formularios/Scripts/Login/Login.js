@@ -4,6 +4,11 @@
     }
 });
 
+function Nuevo() {
+    $("#txtUsuario").val('');
+    $("#txtPassword").val('');
+}
+
 $('#logoutli').hide();
 $("#btnIngresar").on("click", function () {
 
@@ -14,6 +19,7 @@ $("#btnIngresar").on("click", function () {
     }
     $("#btnCargando").prop("hidden",false);
     $("#btnIngresar").prop("hidden", true);
+    $("#btnNuevo").prop("hidden", true);
     $.ajax({
         contentType: "application/json; charset=utf-8",
         type: "POST",
@@ -38,12 +44,19 @@ $("#btnIngresar").on("click", function () {
             else if (data == 0) {
                 //                $("#ModalErrorLogin").modal("show");
                 MensajeAdvertencia(" Error, usuario o contraseña incorrectos");
+                $("#btnCargando").prop("hidden", true);
+                $("#btnIngresar").prop("hidden", false);
+                $("#btnNuevo").prop("hidden", false);
+
             } else {
                 MensajeError(data, false);
+                $("#btnCargando").prop("hidden", true);
+                $("#btnIngresar").prop("hidden", false);
+                $("#btnNuevo").prop("hidden", false);
+
             }
 
-            $("#btnCargando").prop("hidden", true);
-            $("#btnIngresar").prop("hidden", false);
+            
         }
     });
 });
