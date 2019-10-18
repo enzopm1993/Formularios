@@ -18,6 +18,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDClasificador clsDClasificador = null;
         string[] liststring;
         clsDAuditoriaSangre clsDAuditoriaSangre = null;
+        protected void SetSuccessMessage(string message)
+        {
+            TempData["MensajeConfirmacion"] = message;
+        }
+        protected void SetErrorMessage(string message)
+        {
+            TempData["MensajeError"] = message;
+        }
         // GET: AuditoriaSangre
         [Authorize]
         public ActionResult ControlAuditoriaSangre()
@@ -31,7 +39,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
 
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {

@@ -612,6 +612,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult RptAsistencia()
         {
+            clsDGeneral = new clsDGeneral();
+            ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
             return View();
         }
         #endregion
@@ -863,7 +865,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                List<spConsutaEmpleadosFiltro> ListaEmpleados = new List<spConsutaEmpleadosFiltro>();
+                List<spConsutaEmpleadosFiltroCambioPersonal> ListaEmpleados = new List<spConsutaEmpleadosFiltroCambioPersonal>();
                 clsDEmpleado = new clsDEmpleado();
                 if (tipo == "prestar")
                 {

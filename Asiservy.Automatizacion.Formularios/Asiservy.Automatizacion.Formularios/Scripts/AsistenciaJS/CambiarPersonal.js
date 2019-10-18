@@ -14,7 +14,7 @@ function MoverEmpleados() {
             //console.log(result);
             Mover(result);
         } else {
-            MensajeError("Debe seleccionar La línea y el área a mover", false);
+            MensajeAdvertencia("Debe seleccionar La línea y el área a mover", false);
         }
     } else {
         $("input[type=checkbox]:checked").each(function (resultado) {
@@ -31,7 +31,11 @@ function MoverEmpleados() {
 }
 
 function Mover(result) {
-    console.log(result);
+    //console.log(result);
+    if (result.length  == 0) {
+        MensajeAdvertencia("Error, no se ha seleccionado ningún empleado");
+        return false;
+    }
     var pslinea = "";
     var psarea = "";
     var resultado = JSON.stringify(result)
@@ -94,7 +98,7 @@ function ConsultarEmpleados() {
         });
         $('#contempleados').show();
     } else {
-        MensajeError("Debe seleccionar al menos la línea a consultar", false);
+        MensajeAdvertencia("Debe seleccionar al menos la línea a consultar", false);
 
     }
     
@@ -122,7 +126,7 @@ function ConsultarEmpleadosRegresar() {
         });
         $('#contempleados').show();
     } else {
-        MensajeError("Debe seleccionar al menos la línea a consultar", false);
+        MensajeAdvertencia("Debe seleccionar al menos la línea a consultar", false);
     }
    
 }

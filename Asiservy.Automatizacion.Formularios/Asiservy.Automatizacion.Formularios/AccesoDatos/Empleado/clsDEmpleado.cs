@@ -158,23 +158,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return pListEmpleados;
             }
         }
-        public List<spConsutaEmpleadosFiltro> ConsultarDondeFueMovido(List<spConsutaEmpleadosFiltro> ListEmpleados)
+        public List<spConsutaEmpleadosFiltroCambioPersonal> ConsultarDondeFueMovido(List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                List<spConsutaEmpleadosFiltro> Empleados = new List<spConsutaEmpleadosFiltro>();
+                List<spConsutaEmpleadosFiltroCambioPersonal> Empleados = new List<spConsutaEmpleadosFiltroCambioPersonal>();
                 spConsultarCaambioPersonalxCedula consultarempleado = null;
                 foreach (var item in ListEmpleados)
                 {
                      consultarempleado = db.spConsultarCaambioPersonalxCedula(item.CEDULA).FirstOrDefault();
-                     Empleados.Add(new spConsutaEmpleadosFiltro { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA });
+                     Empleados.Add(new spConsutaEmpleadosFiltroCambioPersonal { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA });
 
                 }
 
                 return Empleados;
             }
         }
-        public List<spConsutaEmpleadosFiltro> ConsultaEmpleadosFiltroCambioPersonal(string dsLinea, string dsArea, string dsCargo,string psTipo)
+        public List<spConsutaEmpleadosFiltroCambioPersonal> ConsultaEmpleadosFiltroCambioPersonal(string dsLinea, string dsArea, string dsCargo,string psTipo)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -185,34 +185,50 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 if (string.IsNullOrEmpty(dsCargo))
                     dsCargo = "0";
 
-                List<spConsutaEmpleadosFiltro> pListEmpleados = null;
-                List<spConsutaEmpleadosFiltro> pListEmpleadoR = new List<spConsutaEmpleadosFiltro>();
-                pListEmpleados = db.spConsutaEmpleadosFiltro(dsArea, dsLinea, dsCargo).ToList();
-                if (psTipo == clsAtributos.TipoPrestar)
-                {
-                    foreach (var item in pListEmpleados.ToArray())
-                    {
-                        if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.CEDULA&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo))
-                        {
-                            pListEmpleados.Remove(item);
-                        }
-                    }
-                    return pListEmpleados;
-                }
-                else
-                {
-                    foreach (var item in pListEmpleados)
-                    {
-                        if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.CEDULA&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo))
-                        {
-                            pListEmpleadoR.Add(item);
-                        }
-                    }
-                    return pListEmpleadoR;
-                }
-                
+                List<spConsutaEmpleadosFiltroCambioPersonal> pListEmpleados = null;
+                //List<spConsutaEmpleadosFiltroCambioPersonal> pListEmpleadoR = new List<spConsutaEmpleadosFiltroCambioPersonal>();
+                pListEmpleados = db.spConsutaEmpleadosFiltroCambioPersonal(dsArea, dsLinea, dsCargo,psTipo).ToList();
+               
+                return pListEmpleados;
                 
             }
+            //using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            //{
+            //    if (string.IsNullOrEmpty(dsLinea))
+            //        dsLinea = "0";
+            //    if (string.IsNullOrEmpty(dsArea))
+            //        dsArea = "0";
+            //    if (string.IsNullOrEmpty(dsCargo))
+            //        dsCargo = "0";
+
+            //    List<spConsutaEmpleadosFiltro> pListEmpleados = null;
+            //    List<spConsutaEmpleadosFiltro> pListEmpleadoR = new List<spConsutaEmpleadosFiltro>();
+            //    pListEmpleados = db.spConsutaEmpleadosFiltro(dsArea, dsLinea, dsCargo).ToList();
+            //    if (psTipo == clsAtributos.TipoPrestar)
+            //    {
+            //        foreach (var item in pListEmpleados.ToArray())
+            //        {
+            //            if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.CEDULA&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo))
+            //            {
+            //                pListEmpleados.Remove(item);
+            //            }
+            //        }
+            //        return pListEmpleados;
+            //    }
+            //    else
+            //    {
+            //        foreach (var item in pListEmpleados)
+            //        {
+            //            if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.CEDULA&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo))
+            //            {
+            //                pListEmpleadoR.Add(item);
+            //            }
+            //        }
+            //        return pListEmpleadoR;
+            //    }
+
+
+            //}
         }
         public List<spConsutaEmpleados> ConsultaEmpleado(string dsCedula)
         {
