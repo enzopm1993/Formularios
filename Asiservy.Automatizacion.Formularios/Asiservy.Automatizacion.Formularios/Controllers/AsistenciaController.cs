@@ -132,6 +132,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                //clsApiUsuario = new clsApiUsuario();
+                //var respuestaapi = clsApiUsuario.ConsultarUltimaMarcacionxFecha(DateTime.Now);
                 TimeSpan hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm"));
                 clsDEmpleado = new clsDEmpleado();
                 clsDGeneral = new clsDGeneral();
@@ -429,13 +431,45 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDAsistencia = new clsDAsistencia();
                 var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste, liststring[0], Request.UserHostAddress, Turno);
                 clsApiUsuario = new clsApiUsuario();
-                DateTime? pdUltimaMarcacion;
+                DateTime? pdUltimaMarcacion=null;
+                ClsDSolicitudPermiso = new clsDSolicitudPermiso();
+                var ListUltimamarcacionUsuarios = clsApiUsuario.ConsultarUltimaMarcacionxFecha(DateTime.Now);
                 foreach (var item in AsistenciaViewModel.ControlAsistencia)
                 {
-                    pdUltimaMarcacion = clsApiUsuario.ConsultarFechaBiometrico(item.Cedula);
-                    //pdUltimaMarcacion =Convert.ToDateTime("2019-09-18 17:05:03.367");
+                    //pdUltimaMarcacion = clsApiUsuario.ConsultarFechaBiometrico(item.Cedula);
 
+                    pdUltimaMarcacion = ListUltimamarcacionUsuarios.Where(x => x.Cedula == item.Cedula).Select(x => x.UltimaMarcacion).FirstOrDefault();
                     if (item.Turno == "1")
+                    {
+                        if (pdUltimaMarcacion != null && pdUltimaMarcacion!= DateTime.MinValue)
+                        {
+                            if ((pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString()))
+                            {
+                                item.Bloquear = 1;
+                                item.Observacion += "No ha marcado en el biométrico";
+                            }
+                        }
+                        else
+                        {
+                            item.Bloquear = 1;
+                            item.Observacion += "No ha marcado en el biométrico";
+                        }
+                        //if (pdUltimaMarcacion != null)
+                        //{
+                        //    if ((pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString()))
+                        //    {
+                        //        item.Bloquear = 1;
+                        //        item.Observacion += "No ha marcado en el biométrico";
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    item.Bloquear = 1;
+                        //    item.Observacion += "No ha marcado en el biométrico";
+                        //}
+
+                    }
+                    if (item.Turno == "2")
                     {
                         if (pdUltimaMarcacion != null)
                         {
@@ -450,40 +484,37 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             item.Bloquear = 1;
                             item.Observacion += "No ha marcado en el biométrico";
                         }
-
-                    }
-                    if (item.Turno == "2")
-                    {
-                        if (pdUltimaMarcacion != null)
-                        {
-                            if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
-                            {
-                                item.Bloquear = 1;
-                                item.Observacion += "No ha marcado en el biométrico";
-                            }
-                        }
-                        else
-                        {
-                            item.Bloquear = 1;
-                            item.Observacion += "No ha marcado en el biométrico";
-                        }
-                    }
-                    sp_ConsultaEmpleadosMovidos CambioPersonal = clsDCambioPersonal.ConsultarCambioPersonal(item.Cedula);
-
-                    if (CambioPersonal != null)
-                    {
-                        item.Bloquear = 1;
-                        item.Observacion += "El empleado fue movido a " + CambioPersonal.Linea;
-                    }
-                    ClsDSolicitudPermiso = new clsDSolicitudPermiso();
-                    string MotivoSolicitud = ClsDSolicitudPermiso.ConsultaMotivoPermisoxEmpleado(item.Cedula);
-                    if (!string.IsNullOrEmpty(MotivoSolicitud))
-                    {
-                        item.Bloquear = 1;
-                        item.Observacion += " Tiene permiso: " + MotivoSolicitud;
+                        //if (pdUltimaMarcacion != null)
+                        //{
+                        //    if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
+                        //    {
+                        //        item.Bloquear = 1;
+                        //        item.Observacion += "No ha marcado en el biométrico";
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    item.Bloquear = 1;
+                        //    item.Observacion += "No ha marcado en el biométrico";
+                        //}
                     }
 
-                    
+                    //sp_ConsultaEmpleadosMovidos CambioPersonal = clsDCambioPersonal.ConsultarCambioPersonal(item.Cedula);
+
+                    //if (CambioPersonal != null)
+                    //{
+                    //    item.Bloquear = 1;
+                    //    item.Observacion += "El empleado fue movido a " + CambioPersonal.Linea;
+                    //}
+                    //ClsDSolicitudPermiso = new clsDSolicitudPermiso();
+                    //string MotivoSolicitud = ClsDSolicitudPermiso.ConsultaMotivoPermisoxEmpleado(item.Cedula);
+                    //if (!string.IsNullOrEmpty(MotivoSolicitud))
+                    //{
+                    //    item.Bloquear = 1;
+                    //    item.Observacion += " Tiene permiso: " + MotivoSolicitud;
+                    //}
+
+
                 }
                 //Control de Cuchillos
                 clsDCuchillo = new clsDCuchillo();
