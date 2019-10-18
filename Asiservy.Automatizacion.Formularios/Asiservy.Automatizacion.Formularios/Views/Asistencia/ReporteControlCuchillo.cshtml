@@ -2,19 +2,23 @@
 @{
     ViewBag.Title = "ReporteControluchillo";
 }
-
-<h2>Reporte Control Cuchillo</h2>
+<style>
+    input, select, textarea {
+        max-width:  100%;
+    }
+</style>
+<h4>Reporte Control Cuchillo</h4>
 
 <div class="container-fluid">
 
     <div class="row">
-        <div class="offset-md-3 col-md-4 col-sm-6">
+        <div class="col-4">
             <div class="form-group">
                 <label>Fecha</label>
                 <input type="date" class="form-control" name="name" value="@DateTime.Now.Date.ToString("yyyy-MM-dd")" id="txtFecha" />
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-4">
             <div class="form-group">
                 <label>Linea</label>
                 @if (ViewBag.SupervisorGeneral != null)
@@ -31,17 +35,27 @@
                     </script>
 
                 }
-            </div>          
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 text-center">
-            <input type="button" onclick="CargarReporteControlCuchillo()" class="btn btn-primary" name="name" value="Consultar" />
+            </div>
 
         </div>
+        <div class="col-4">
+            <label>Acciones</label>
+            @*<input type="button" onclick="CargarReporteControlCuchillo()" class="btn btn-primary" name="name" value="Consultar" />*@
+            <div class="form-group">
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarReporteControlCuchillo()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>
+            </div>
+        </div>
     </div>
-    <br />
-    <br />
+
+
+    <hr />
+    <div id="spinnerCargando" hidden class="text-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
     <div class="row">
         <div class="table-responsive" id="DivTableControlCuchillo"></div>
     </div>
