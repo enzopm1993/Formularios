@@ -234,6 +234,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+
                 //clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 //var modal = clsDProyeccionProgramacion.ConsultarProyeccionProgramacion(null);
                 return View();

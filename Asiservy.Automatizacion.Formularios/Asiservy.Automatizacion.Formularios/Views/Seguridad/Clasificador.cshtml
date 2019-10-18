@@ -67,13 +67,19 @@
 
         <div class="text-center col-md-12">
             <div class="form-group">
-                <input type="submit" value="Grabar" class="btn btn-primary" />
-                <input type="button" value="Nuevo" class="btn btn-info" onclick="Nuevo()" />
+                @*<input type="submit" value="Grabar" class="btn btn-primary" />
+                    <input type="button" value="Nuevo" class="btn btn-info" onclick="Nuevo()" />*@
+                <button class="btn" id="btnGuardar" onclick="Grabar()" style="border-color:#2c3e50" type="submit">
+                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                </button>
+                <button class="btn" id="" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/clear24.png" />
+                </button>
             </div>
         </div>
     </div>
 }
-
+    <hr />
 <div class="table-responsive" id="DivTableClasificador" style="padding-bottom:5%"> </div>
 
 <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
@@ -83,3 +89,10 @@
 <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 <script src="~/Scripts/SeguridadJS/Clasificador.js"></script>
+
+
+<script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.jszip.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>

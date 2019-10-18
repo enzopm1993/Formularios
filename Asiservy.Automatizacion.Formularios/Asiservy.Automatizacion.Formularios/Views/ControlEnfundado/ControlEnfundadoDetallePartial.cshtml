@@ -1,59 +1,63 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlEnfundadoDetalle>
 
 
-<table class="table">
-    <tr>
-        <th hidden>
-            @Html.DisplayNameFor(model => model.IdControlEnfundadoDetalle)
-        </th>
-        <th hidden>
-            @Html.DisplayNameFor(model => model.IdControlEnfundado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cedula)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            <label>Fundas</label>
-        </th>
-        <th>
-            <label>Acción</label>
-        </th>
-    </tr>
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.IdControlEnfundadoDetalle)
+            </th>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.IdControlEnfundado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                <label>Fundas</label>
+            </th>
+            <th>
+                <label>Acción</label>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td hidden>
+                    @Html.DisplayFor(modelItem => item.IdControlEnfundadoDetalle)
+                </td>
+                <td hidden>
+                    @Html.DisplayFor(modelItem => item.IdControlEnfundado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cedula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    <input type="number" id="Fundas-@item.Cedula" class="form-control" name="name" value="@item.Fundas" />
+                </td>
+                <td class="text-left">
+                    <label class="btn btn-dark text-xs-center" id="labelCheck-@item.Cedula">
+                        @Html.CheckBox("Check" + item.Cedula, item.Fundas > 0, new { @onchange = "checkControlEnfundado(this.id,'" + item.Cedula + "','" + item.IdControlEnfundadoDetalle + "')" })
 
-@foreach (var item in Model) {
-    <tr>
-        <td hidden>
-            @Html.DisplayFor(modelItem => item.IdControlEnfundadoDetalle)
-        </td>
-        <td hidden>
-            @Html.DisplayFor(modelItem => item.IdControlEnfundado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cedula)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            <input type="number" id="Fundas-@item.Cedula" class="form-control" name="name" value="@item.Fundas" />
-        </td>
-        <td class="text-left">
-            <label class="btn btn-dark text-xs-center" id="labelCheck-@item.Cedula">
-                @Html.CheckBox("Check" + item.Cedula, item.Fundas > 0, new { @onchange = "checkControlEnfundado(this.id,'" + item.Cedula+"','"+item.IdControlEnfundadoDetalle+ "')" })
-
-            </label>
-            @if (item.Fundas > 0)
-            {
-                <script>
-                        $("#Fundas-@item.Cedula").prop("readonly", true);                      
+                    </label>
+                    @if (item.Fundas > 0)
+                    {
+                        <script>
+                        $("#Fundas-@item.Cedula").prop("readonly", true);
                         $("#labelCheck-@item.Cedula").css("background", "#28B463");
-                </script>
-            }
-        </td>
-    </tr>
-}
-
+                        </script>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+<script src="~/Scripts/General/dataTableJS.js"></script> 

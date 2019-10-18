@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlEnfundado>
 
-<table class="table" style="cursor: pointer;">
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
             <th>
@@ -27,7 +27,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Funda)
             </th>
-           
+
         </tr>
     </thead>
     <tbody>
@@ -58,8 +58,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Funda)
                 </td>
-              
+
             </tr>
         }
     </tbody>
 </table>
+
+
+<script src="~/Scripts/General/dataTableJS.js"></script>

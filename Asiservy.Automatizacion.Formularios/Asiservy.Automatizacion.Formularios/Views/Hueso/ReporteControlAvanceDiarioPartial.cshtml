@@ -1,111 +1,116 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlAvanceDiarioPorLinea>
 
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Lote)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Talla)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Especie)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HoraInicio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HoraFin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tiempo)
-        </th>
-        <th hidden>
-            @Html.DisplayNameFor(model => model.CodTipoControl)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoControl)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Promedio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Huesos)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Limpiadoras)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.KiloTeorico)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.KiloReal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoLimpieza)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.avance)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Observacion)
-        </th>
-     
-    </tr>
+<table class=" table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Lote)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Talla)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Especie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraFin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tiempo)
+            </th>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.CodTipoControl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoControl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Promedio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Huesos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Limpiadoras)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KiloTeorico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KiloReal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoLimpieza)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.avance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Lote)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Talla)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Especie)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HoraInicio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HoraFin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tiempo)
-        </td>
-        <td hidden>
-            @Html.DisplayFor(modelItem => item.CodTipoControl)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoControl)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Promedio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Huesos)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Limpiadoras)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.KiloTeorico)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.KiloReal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoLimpieza)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.avance)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Observacion)
-        </td>
-      
-    </tr>
-}
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lote)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Talla)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Especie)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraInicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraFin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tiempo)
+                </td>
+                <td hidden>
+                    @Html.DisplayFor(modelItem => item.CodTipoControl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoControl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Promedio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Huesos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Limpiadoras)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KiloTeorico)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KiloReal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoLimpieza)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.avance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
 
+            </tr>
+        }
+    </tbody>
 </table>
+
+<script src="~/Scripts/General/dataTableJS.js"></script>

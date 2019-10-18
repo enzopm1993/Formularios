@@ -18,15 +18,15 @@
 
             <div class="col-md-4 col-sm-12">
                 <div class="form-group">
-                    @Html.Label("Id", htmlAttributes: new { @class = "control-label col-md-2"})
-                    @Html.TextBox("IdNivelUsuario","0", new { @class = "form-control", @readonly = "readonly",@value="0"  })
+                    @Html.Label("Id", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.TextBox("IdNivelUsuario", "0", new { @class = "form-control", @readonly = "readonly", @value = "0" })
                 </div>
             </div>
 
             <div class="col-md-4 col-sm-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.IdUsuario, new SelectList(ViewBag.Usuarios,"Cedula","Nombre"),"Seleccione", new {  @class = "form-control"  })
+                    @Html.DropDownListFor(model => model.IdUsuario, new SelectList(ViewBag.Usuarios, "Cedula", "Nombre"), "Seleccione", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.IdUsuario, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -34,7 +34,7 @@
             <div class="col-md-4 col-sm-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Nivel, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownListFor(model => model.Nivel, new SelectList(ViewBag.Nivel,"codigo","descripcion"), "Seleccione", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Nivel, new SelectList(ViewBag.Nivel, "codigo", "descripcion"), "Seleccione", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Nivel, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -53,12 +53,19 @@
 
         <div class="col-md-12 text-center">
             <div class="form-group">
-                <input type="submit" value="Grabar" class="btn btn-primary" onclick="Grabar()" />
-                <input type="button" value="Nuevo" class="btn btn-info" onclick="Nuevo()" />
+                @*<input type="submit" value="Grabar" class="btn btn-primary" onclick="Grabar()" />
+                    <input type="button" value="Nuevo" class="btn btn-info" onclick="Nuevo()" />*@
+                <button class="btn" id="btnGuardar" onclick="Grabar()" style="border-color:#2c3e50" type="submit">
+                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                </button>
+                <button class="btn" id="" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/clear24.png" />
+                </button>
             </div>
         </div>
     </div>
 }
+<hr />
 
 <div id="DivTableNivelUsuario" class="table-responsive" style="padding-bottom:5%">
 
@@ -71,5 +78,11 @@
 <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 
+
+<script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables/media/js/dataTables.jszip.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>
 
 <script src="~/Scripts/SeguridadJS/NivelUsuario.js"></script>

@@ -1,55 +1,69 @@
 ﻿@model List<Asiservy.Automatizacion.Datos.Datos.ROL>
-<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
-<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-<script src="~/Scripts/DataTables/media/js/jquery.dataTables.js"></script>
-<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
-<div>
-    <table class="table table-hover table-bordered" style="cursor: pointer" id="TablaRoles">
+
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+
         <thead>
             <tr>
                 <th>ID Rol</th>
                 <th>Descripción</th>
-                <th>Estado</th>
+               
+                <th>
+                    <label>Estado Registro</label>
+                </th>
+                <th>
+                    <label>Fecha Ingreso</label>
+
+                </th>
+                <th>
+                    <label>Usuario Ingreso</label>
+
+                </th>
+                <th>
+                    <label>Terminal Ingreso</label>
+
+                </th>
+                <th>
+                    <label>Fecha Modificación</label>
+
+                </th>
+                <th>
+                    <label>Usuario Modificación</label>
+
+                </th>
+                <th>
+                    <label>Terminal Modificación</label>
+
+                </th>
             </tr>
         </thead>
-        @foreach (var item in Model)
-        {
-            <tr onclick="EditarFilaRol('@item.IdRol','@item.Descripcion','@item.EstadoRegistro')">
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr id="trFila" onclick="EditarFilaRol('@item.IdRol','@item.Descripcion','@item.EstadoRegistro')">
                 <td>@item.IdRol</td>
                 <td>@item.Descripcion</td>
                 <td>@item.EstadoRegistro</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaCreacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioCreacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalCreacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+                </td>
             </tr>
-        }
-    </table>
-</div>
-<script>
-    $('#TablaRoles').DataTable({
-        "language": {
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
-            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sSearch": "Buscar:",
-            "sUrl": "",
-            "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst": "Primero",
-                "sLast": "Último",
-                "sNext": "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
             }
-        },
-        "pageLength": 5,
-        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
-        "pagingType": "full_numbers"
-    })
-</script>
+        </tbody>
+    </table>
+
+    <script src="~/Scripts/General/dataTableJS.js"></script>

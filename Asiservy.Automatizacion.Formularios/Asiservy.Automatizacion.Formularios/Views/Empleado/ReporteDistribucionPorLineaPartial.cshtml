@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaDistribucionPorLinea>
 
-<table class="table">
-    <thead class="table-light">
+<table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
         <tr>
             <th hidden>
                 @Html.DisplayNameFor(model => model.Cargo)
@@ -29,7 +29,8 @@
             </th>
 
         </tr>
-        </thead>
+    </thead>
+    <tbody>
         @foreach (var item in Model)
         {
             <tr>
@@ -42,10 +43,10 @@
                 <td class="text-center">
                     @Html.DisplayFor(modelItem => item.Presente)
                 </td>
-                <td  class="text-center">
+                <td class="text-center">
                     @Html.DisplayFor(modelItem => item.Falta)
                 </td>
-                <td  class="text-center">
+                <td class="text-center">
                     @Html.DisplayFor(modelItem => item.PermisoMedico)
                 </td>
                 <td class="text-center">
@@ -60,5 +61,7 @@
 
             </tr>
         }
-
+    </tbody>
 </table>
+
+<script src="~/Scripts/General/dataTableJS.js"></script>

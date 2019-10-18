@@ -48,13 +48,19 @@
         </div>
         <div class="form-group">
             <div class="col-md-12 text-center">
-                <input type="submit" value="Grabar" class="btn btn-primary" />
-                <input type="button" onclick="Nuevo()" value="Nuevo" class="btn btn-info" />
+                @*<input type="submit" value="Grabar" class="btn btn-primary" />
+                <input type="button" onclick="Nuevo()" value="Nuevo" class="btn btn-info" />*@
+                <button class="btn" id="btnGuardar" onclick="GuargarOpcion()" style="border-color:#2c3e50" type="submit">
+                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                </button>
+                <button class="btn" id="Nuevo" onclick="NuevoUsuarioRol()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/clear24.png" />
+                </button>
             </div>
         </div>
     </div>
 }
-
+    <hr />
 <div id="DivTableUsuarioRol" class="table-responsive" style="padding-bottom:5%">
 
 </div>
@@ -66,10 +72,10 @@
 <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 
-@*<script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
 <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
 <script src="~/Scripts/DataTables/media/js/dataTables.jszip.min.js"></script>
 <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
-<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>*@
+<script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>
 
 <script src="~/Scripts/SeguridadJS/UsuarioRol.js"></script>

@@ -13,7 +13,7 @@
 <hr />
 <div class="container-fluid">
     <div class="row">
-        <div class="offset-md-2 col-md-4 col-6">
+        <div class="col-md-4 col-6">
             <div class="form-group">
                 <label>Fecha</label>
                 <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="txtFecha" class="form-control" />
@@ -40,13 +40,23 @@
                 }
             </div>
         </div>
-        <div class="col-md-12 col-sm-12 text-center">
+        <div class="col-md-4 col-12">
+            <label>Acciones </label>
+
             <div class="form-group">
-                <label> </label>
-                <input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvanceLimpiadora()" />
+                @*   <input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvanceLimpiadora()" />*@
+                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnConsultar" onclick="CargarReporteAvanceLimpiadora()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>
             </div>
         </div>
 
+    </div>
+    <hr />
+    <div class="d-flex justify-content-center">
+        <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
     <div class="row">
         <div class="table-responsive" id="DivTableReporteControlAvancePorLimpiadora">  </div>

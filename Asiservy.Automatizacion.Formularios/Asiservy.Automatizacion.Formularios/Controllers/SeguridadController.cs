@@ -182,7 +182,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("0", JsonRequestBehavior.AllowGet);
 
                 }
-                if (model.Clase == "0" && model.Padre == null || model.Padre == 0)
+                if (model.Clase == "0" && (model.Padre == null || model.Padre == 0))
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
 
@@ -205,6 +205,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.FechaCreacionLog = DateTime.Now;
                 model.UsuarioCreacionLog = Usuario[0];
                 model.TerminalCreacionLog = Request.UserHostAddress;
+                if (model.Clase == "H")
+                    model.IdModulo = null; 
                 var respuesta = clsDopcion.GuardarModificarOpcion(model);
 
                 return Json(respuesta, JsonRequestBehavior.AllowGet);
@@ -236,7 +238,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDopcion = new clsDOpcion();
-                var opciones = clsDopcion.ConsultarOpciones(new OPCION {IdModulo= idModulo }).OrderByDescending(x=> x.IdOpcion);
+                List<OPCION> opciones = clsDopcion.ConsultarOpciones(new OPCION {IdModulo= idModulo }).OrderByDescending(x=> x.IdOpcion).ToList();
+                var hijos = clsDopcion.ConsultarOpciones(new OPCION { Clase="H"}); 
+                foreach(var x in hijos)
+                {
+                    bool padre = opciones.Any(y => y.IdOpcion == x.Padre);
+                    if (x.Clase == "H" && padre)
+                        opciones.Add(x);
+                }
+               
+
                 return PartialView(opciones);
 
             }
@@ -257,7 +268,40 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message,JsonRequestBehavior.AllowGet);
             }
         }
+        [Authorize]
+        public JsonResult ConsultarPadres(int idModulo)
+        {
+            try
+            {
+                clsDopcion = new clsDOpcion();
+                List<ClasificadorGenerico> opciones = clsDopcion.ConsultarOpciones(new OPCION {
+                    IdModulo = idModulo, Clase="P",
+                    EstadoRegistro =clsAtributos.EstadoRegistroActivo
+                }).Select(x=>new ClasificadorGenerico {
+                    codigo=x.IdOpcion,
+                    descripcion = x.Nombre
+                }).ToList();
 
+                return Json(opciones,JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         public void ConsultaOpciones()
         {

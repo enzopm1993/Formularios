@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-4 col-6">
             <div class="form-group">
-               
+
                 @if (ViewBag.SupervisorGeneral != null)
                 {
                     @Html.DropDownList("Linea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLinea" })
@@ -32,17 +32,24 @@
             </div>
         </div>
         <div class="col-6">
-            <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Espere...
+
+            @*<input type="button" id="btnGuardar" class="btn btn-primary" name="name" onclick="CargarReporteDistribucion()" value="Consultar" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnGuardar" onclick="CargarReporteDistribucion()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
             </button>
-            <input type="button" id="btnGuardar" class="btn btn-primary" name="name" onclick="CargarReporteDistribucion()" value="Consultar" />
+
         </div>
 
     </div>
-
+    <hr />
+    <div class="d-flex justify-content-center">
+        <div id="spinnerCargando"  hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
     <div class="row">
         <div class="table-responsive" id="DivTableReporteDistribucion"></div>
     </div>
 </div>
+
 <script src="~/Scripts/Empleado/ReporteDistribucionPorLinea.js"></script>

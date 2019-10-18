@@ -24,6 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
                 Usuario = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
                 clsDEmpleado = new clsDEmpleado();
