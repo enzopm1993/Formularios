@@ -70,6 +70,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return pdfecha;
 
         }
+        public List<Marcacion> ConsultarUltimaMarcacionxFecha(DateTime pdFecha)
+        {
+            var client = new RestClient("http://192.168.0.31:8870");
+            var request = new RestRequest("/api/Marcaciones/" + pdFecha.ToString("yyyy-MM-dd"), Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            var ListMacracaciones = JsonConvert.DeserializeObject<List<Marcacion>>(content);
+            return (List<Marcacion>)ListMacracaciones;
+        }
 
     }
 }

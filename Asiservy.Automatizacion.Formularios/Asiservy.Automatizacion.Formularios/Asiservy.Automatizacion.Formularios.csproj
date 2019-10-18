@@ -757,6 +757,7 @@
     <Compile Include="Models\ProyeccionProgramacion\ProyeccionProgramacionViewModel.cs" />
     <Compile Include="Models\Seguridad\Clasificador.cs" />
     <Compile Include="Models\Seguridad\ConsultaOpcionesxRolViewModel.cs" />
+    <Compile Include="Models\Seguridad\Marcacion.cs" />
     <Compile Include="Models\Seguridad\NivelUsuarioViewModel.cs" />
     <Compile Include="Models\Seguridad\Usuario.cs" />
     <Compile Include="Models\Seguridad\UsuarioRolViewModel.cs" />

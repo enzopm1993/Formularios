@@ -66,70 +66,70 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
 
         [Authorize]
-        [HttpPost]
-        public ActionResult Modulo(MODULO model)
-        {
-            try
-            {
-                liststring = User.Identity.Name.Split('_');
+        //[HttpPost]
+        //public ActionResult Modulo(MODULO model)
+        //{
+        //    try
+        //    {
+        //        liststring = User.Identity.Name.Split('_');
 
-                if (model == null || string.IsNullOrEmpty(model.Nombre))
-                    return Json("0", JsonRequestBehavior.AllowGet);
+        //        if (model == null || string.IsNullOrEmpty(model.Nombre))
+        //            return Json("0", JsonRequestBehavior.AllowGet);
 
-                clsDModulo = new clsDModulo();
-                model.TerminalIngresoLog = Request.UserHostAddress;
-                model.UsuarioIngresoLog = liststring[0];
-                model.FechaIngresoLog = DateTime.Now;
-                var mensaje =  clsDModulo.GuardarModificarModulo(model);
-                return Json(mensaje, JsonRequestBehavior.AllowGet);
+        //        clsDModulo = new clsDModulo();
+        //        model.TerminalIngresoLog = Request.UserHostAddress;
+        //        model.UsuarioIngresoLog = liststring[0];
+        //        model.FechaIngresoLog = DateTime.Now;
+        //        var mensaje =  clsDModulo.GuardarModificarModulo(model);
+        //        return Json(mensaje, JsonRequestBehavior.AllowGet);
 
-            }
-            catch (Exception ex)
-            {
-                liststring = User.Identity.Name.Split('_');
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        liststring = User.Identity.Name.Split('_');
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        clsDError.GrabarError(new ERROR
+        //        {
+        //            Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            Mensaje = ex.Message,
+        //            Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+        //            FechaIngreso = DateTime.Now,
+        //            TerminalIngreso = Request.UserHostAddress,
+        //            UsuarioIngreso = liststring[0]
+        //        });
+        //        return Json(ex.Message, JsonRequestBehavior.AllowGet);
 
-            }
-        }
-        [Authorize]
-        public ActionResult ModuloPartial()
-        {
-            try
-            {
-                clsDModulo = new clsDModulo();
-                var model = clsDModulo.ConsultarModulos(new MODULO()).OrderByDescending(x=>x.IdModulo);
-                return PartialView(model);
+        //    }
+        //}
+        //[Authorize]
+        //public ActionResult ModuloPartial()
+        //{
+        //    try
+        //    {
+        //        clsDModulo = new clsDModulo();
+        //        var model = clsDModulo.ConsultarModulos(new MODULO()).OrderByDescending(x=>x.IdModulo);
+        //        return PartialView(model);
 
-            }
-            catch (Exception ex)
-            {
-                liststring = User.Identity.Name.Split('_');
-                //SetErrorMessage(ex.Message);
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = liststring[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        liststring = User.Identity.Name.Split('_');
+        //        //SetErrorMessage(ex.Message);
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        clsDError.GrabarError(new ERROR
+        //        {
+        //            Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            Mensaje = ex.Message,
+        //            Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+        //            FechaIngreso = DateTime.Now,
+        //            TerminalIngreso = Request.UserHostAddress,
+        //            UsuarioIngreso = liststring[0]
+        //        });
+        //        return Json(ex.Message, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         #endregion
 
@@ -307,10 +307,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             clsDopcion = new clsDOpcion();
             clsDModulo = new clsDModulo();
-            var modulos = clsDModulo.ConsultarModulos(new MODULO { EstadoRegistro = clsAtributos.EstadoRegistroActivo}).Select(x=> new ClasificadorGenerico {codigo=x.IdModulo,descripcion= x.Nombre});
+            //var modulos = clsDModulo.ConsultarModulos(new MODULO { EstadoRegistro = clsAtributos.EstadoRegistroActivo}).Select(x=> new ClasificadorGenerico {codigo=x.IdModulo,descripcion= x.Nombre});
             var opciones = clsDopcion.ConsultarOpciones(new OPCION {EstadoRegistro=clsAtributos.EstadoRegistroActivo, Clase="P"}).Select(x => new { x.IdOpcion, x.Nombre });
             ViewBag.opciones = opciones;
-            ViewBag.modulos = modulos;
+            //ViewBag.modulos = modulos;
             List<ClasificadorGenerico> ClasificadorClase = new List<ClasificadorGenerico>();
             ClasificadorClase.Add(new ClasificadorGenerico { codigo = 0, descripcion = "Hijo" });
             ClasificadorClase.Add(new ClasificadorGenerico { codigo = 1, descripcion = "Padre" });
