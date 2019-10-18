@@ -527,7 +527,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
-                SetErrorMessage(ex.Message);
+                //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {

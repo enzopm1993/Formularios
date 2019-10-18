@@ -168,10 +168,10 @@ function GenerarAsistenciaDiaria(IdLinea, bandera) {
         }
         ,
         error: function (result) {
-
+            console.log(result);
             CerrarModalCargando();
-            //Console.log(result);
-            //MensajeError(result, false);
+            
+            MensajeError(result.responseJSON, false);
             if (bandera == 0) {
                 $('#GenerarAsistencia').prop("disabled", false);
             }
