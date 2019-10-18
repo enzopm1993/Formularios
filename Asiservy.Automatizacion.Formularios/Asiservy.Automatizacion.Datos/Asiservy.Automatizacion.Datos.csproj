@@ -132,9 +132,6 @@
     <Compile Include="Datos\JUSTICA_SOLICITUD.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\MODULO.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datos\NIVEL_APROBACION.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -232,6 +229,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsutaEmpleadosFiltro.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\spConsutaEmpleadosFiltroCambioPersonal.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsutaEmpleadosTurnos.cs">
