@@ -1,25 +1,94 @@
-﻿
-.input-container {
-    display: -ms-flexbox; /* IE10 */
-    display: flex;
-    width: 100%;
-    margin-bottom: 15px;
+﻿html, body {
+    background-image: url('../../Content/images/fondo4.jpg');
+    /*background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');*/
+    /*background-color:darkcyan;*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: 'Numans', sans-serif;
 }
 
-.icon {
-    padding: 10px;
-    background: #2C3E50;
-    color: white;
-    min-width: 50px;
-    text-align: center;
+.container {
+    height: 100%;
+    padding-top: 5%;
+    align-content: center;
 }
 
-.input-field {
-    width: 100%;
-    padding: 10px;
-    outline: none;
+.card {
+    height: 370px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 400px;
+    /*background-color: #2C3E50 !important;*/
+    background-color: hsla(210, 29%, 24%, 0.4)
 }
 
-    .input-field:focus {
-        border: 2px solid dodgerblue;
+.social_icon span {
+    font-size: 60px;
+    margin-left: 10px;
+    color: #FFC312;
+}
+
+    .social_icon span:hover {
+        color: white;
+        cursor: pointer;
     }
+
+.card-header h3 {
+    color: white;
+}
+
+.social_icon {
+    position: absolute;
+    right: 20px;
+    top: -45px;
+}
+
+.input-group-prepend span {
+    width: 50px;
+    background-color: #00264c;
+    color: black;
+    border: 0 !important;
+}
+
+input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.remember {
+    color: white;
+}
+
+    .remember input {
+        width: 20px;
+        height: 20px;
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+.login_btn {
+    color: white;
+    background-color: #00264c;
+    width: 100px;
+}
+
+    .login_btn:hover {
+        color: black;
+        background-color: white;
+    }
+
+.links {
+    color: white;
+}
+
+    .links a {
+        margin-left: 4px;
+    }
+
+.card-body {
+    -webkit-box-flex: 1;
+    /*-ms-flex: 1 1 auto;*/
+    flex: 0 1 auto;
+    padding: 1.25rem;
+}

@@ -1,130 +1,63 @@
-﻿<link href="~/Content/Login/Login.css" rel="stylesheet" />
-<link href="~/Content/Login/font-awesome.min.css" rel="stylesheet" />
+﻿
 @{
     ViewBag.Title = "Login";
 }
+<link href="~/Content/Login/Login.css" rel="stylesheet" />
 
-<!-- Modal --><br />
-<div class="modal fade" id="ModalErrorLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Mensaje del Sistema</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div class="container">
+    <div class="d-flex justify-content-center h-100">
+        <div class="card">
+            <div class="card-header">
+                <h3>Iniciar Sesión</h3>
+                @*<div class="d-flex justify-content-end social_icon">
+                    <span><i class="fab fa-facebook-square"></i></span>
+                    <span><i class="fab fa-google-plus-square"></i></span>
+                    <span><i class="fab fa-twitter-square"></i></span>
+                </div>*@
             </div>
-            <div class="modal-body">
-                Error, usuario o contraseña incorrectos
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                @*<button type="button" class="btn btn-primary">Save changes</button>*@
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="ModalErrorLogin2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Mensaje del Sistema</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Error, Ingrese los campos requeridos
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                @*<button type="button" class="btn btn-primary">Save changes</button>*@
-            </div>
-        </div>
-    </div>
-</div>
-<table>
-    <tr><td></td></tr>
-    <tr><td></td></tr>
-    <tr><td></td></tr>
-    <tr><td></td></tr>
-    <tr><td></td></tr>
-    <tr><td></td></tr>
-    <tr><td></td></tr>
-    <tr><td></td></tr>
-    <tr><td></td></tr>
-</table>
-<div align="center" style='width:100%; border-width:1px;'>
-    <div>
-        <div class="card border-secondary mb-3" style="max-width: 20rem;">
-            <div class="card-header"><h4 class="panel-title">Ingrese sus datos</h4></div>
             <div class="card-body">
-                <fieldset>
-                    <div class="input-container">                        
-                            <i class="fa fa-user icon"></i>
-                            <input style="width:100%; text-transform: uppercase"  placeholder="Usuario" name="usuario" type="text" autofocus id="txtUsuario">
+                <form>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <img style="width:80%" src="~/Content/icons/user32.png" />
+                        </span>
+                        </div>
+                        <input id="txtUsuario" type="text" class="form-control" placeholder="Usuario">
+
                     </div>
-                    <div class="input-container">
-                        <i class="fa fa-key icon"></i>
-                        <input style="width:100%" placeholder="Contraseña" name="password" type="password" id="txtPassword">
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key">
+                            <img style="width:80%" src="~/Content/icons/clave32.png" />
+                        </i></span>
+                        </div>
+                        <input id="txtPassword" type="password" class="form-control" placeholder="Contraseña">
                     </div>
-                        <center><button id="btnIngresar" class="btn btn-primary">Ingresar</button></center>
-                </fieldset>
+                    @*<div class="row align-items-center remember">
+                        <input type="checkbox">Remember Me
+                    </div>*@
+                    <div class="form-group">
+                        <input type="button" id="btnIngresar" value="Ingresar" class="btn float-right login_btn">
+                        <button hidden id="btnCargando" class="btn btn-primary float-right" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Espere...
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                @*<div class="d-flex justify-content-center links">
+            Don't have an account?<a href="#">Sign Up</a>
+        </div>
+        <div class="d-flex justify-content-center">
+            <a href="#">Forgot your password?</a>
+        </div>*@
+                <img style="width:70%" src="~/Content/images/logo1.png" />
             </div>
         </div>
     </div>
 </div>
-<script src="~/Scripts/jquery-3.0.0.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<script>
-    $(document).keypress(function (e) {
-        if (e.keyCode == 13) {
-            $('#btnIngresar').click();
-        }
-    });
-  
-   $('#logoutli').hide();
-    $("#btnIngresar").on("click", function () {
 
-        if ($("#txtUsuario").val().trim() == "" || $("#txtPassword").val().trim() == "") {
-            $("#ModalErrorLogin2").modal("show");
-            
-            return;
-        }
 
-        $.ajax({
-            contentType: "application/json; charset=utf-8",
-            type: "POST",
-            url: "@Url.Action("LogIn", "Login")",
-            data: JSON.stringify({ usuario: $("#txtUsuario").val().trim(), password: $("#txtPassword").val()}),
-        success: function (data) {
-            if (data == 1) {
-
-                $('#menu').show();
-
-                $('#logoutli').show();
-
-                var returnUrl = "@Request.QueryString["ReturnUrl"]";
-
-                if (returnUrl == "") {
-
-                    window.location.href = "@Url.Action("Home", "Home")";
-
-                }
-                else {
-                    window.location.href = returnUrl;
-                }
-
-            }
-            else if (data == 0) {
-                $("#ModalErrorLogin").modal("show");
-            } else {
-                 MensajeError(data,false);
-            }
-        }
-    });
-    });
-
-   
-</script>
+    <script src="~/Scripts/Login/Login.js"></script>

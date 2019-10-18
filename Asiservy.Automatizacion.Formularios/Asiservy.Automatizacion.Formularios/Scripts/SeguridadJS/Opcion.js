@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    CargarOpciones();
+   
     Nuevo();
 });
 
@@ -19,6 +19,10 @@ function CambioClase(valor) {
     }
 
 }
+function CambioModulo(id) {
+    CargarOpciones(id);
+}
+
 
 function CambioEstado(valor) {
    // console.log(valor);
@@ -44,23 +48,24 @@ function Nuevo() {
 
 }
 
-function CargarOpcion(id, nombre, formulario, clase, padre,url,orden, estado) {
+function CargarOpcion(id, nombre, formulario, clase, padre,url,orden, estado,modulo) {
     //console.log(id, nombre, formulario, clase, padre, estado);
     $('#IdOpcion').val(id);
-    $('#Nombre').val(nombre);
-    $('#Orden').val(orden);
-    $('#Formulario').val(formulario);
+    $('#txtIdModulo').val(modulo);
+    $('#txtNombre').val(nombre);
+    $('#txtOrden').val(orden);
+    $('#txtFormulario').val(formulario);
     
     if (clase == 'P') {
-        $('#Clase').prop('selectedIndex', 2);
-        $('#Padre').prop('selectedIndex', 0);
+        $('#selectClase').prop('selectedIndex', 2);
+        $('#selectPadre').prop('selectedIndex', 0);
         $('#divPadre').hide();
         $('#divUrl').hide();
     }
     else {
-        $('#Clase').prop('selectedIndex', 1);
+        $('#selectClase').prop('selectedIndex', 1);
         $('#divPadre').show();
-        $('#divUrl').show();
+        $('#txtUrl').show();
         $('#Url').val(url);
     }
 
@@ -79,17 +84,72 @@ function CargarOpcion(id, nombre, formulario, clase, padre,url,orden, estado) {
     }
 }
 
-function CargarOpciones() {
+function GuargarOpcion() {
+    //var Nombre = $("#txtNombre").val();
+    //if (Nombre == "") {
+    //    $("#ValidaNombre").prop("hidden", false);
+    //    return;
+    //}
+    //else {
+    //    $("#ValidaNombre").prop("hidden", true);
+
+    //}
+    var Estado = $("#CheckEstadoRegistro").val();
+    if (Estado == "true")
+        Estado = "A";
+    else
+        Estado = "I";
+
+
     $.ajax({
-        url: "../Seguridad/OpcionPartial",
-        type: "GET",
+        url: "../Seguridad/Opcion",
+        type: "POST",
+        data: {
+            IdModulo: $("#txtIdModulo").val(),
+            IdOpcion: $("#txtIdOpcion").val(),
+            Nombre: $("#txtNombre").val(), 
+            Formulario : $("#txtFormulario").val(),
+            Clase: $("#selectClase").val(),
+            Padre: $("#selectPadre").val(),
+            Url: $("#txtUrl").val(),
+            Orden: $("#txtOrden").val(),
+            EstadoRegistro: Estado
+        },
         success: function (resultado) {
-            var bitacora = $('#DivTableOpciones');            
-            bitacora.html(resultado);
-            
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            }
+            MensajeCorrecto(resultado);
+            CargarOpciones($("#txtIdModulo").val());
+
         },
         error: function (resultado) {
             MensajeError(resultado, false);
         }
     });
+}
+function CargarOpciones(id) {
+    if (id > 0) {
+        $("#spinnerCargando").prop("hidden", false);
+        $.ajax({
+            url: "../Seguridad/OpcionPartial",
+            type: "GET",
+            data: { idModulo: id },
+            success: function (resultado) {
+                var bitacora = $('#DivTableOpciones');
+                bitacora.html(resultado);
+
+            },
+            error: function (resultado) {
+                MensajeError(resultado, false);
+                var bitacora = $('#DivTableOpciones');
+                bitacora.html('');
+            }
+        });
+    } else {
+        var bitacora = $('#DivTableOpciones');
+        bitacora.html('');
+    }
+
 }

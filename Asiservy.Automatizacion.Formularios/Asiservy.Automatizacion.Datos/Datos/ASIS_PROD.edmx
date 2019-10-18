@@ -359,6 +359,20 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="20" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="MODULO">
+          <Key>
+            <PropertyRef Name="IdModulo" />
+          </Key>
+          <Property Name="IdModulo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="NIVEL_APROBACION">
           <Key>
             <PropertyRef Name="IdNivelAprobacion" />
@@ -766,6 +780,7 @@
           <EntitySet Name="ERROR" EntityType="Self.ERROR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTADO_SOLICITUD" EntityType="Self.ESTADO_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JUSTICA_SOLICITUD" EntityType="Self.JUSTICA_SOLICITUD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MODULO" EntityType="Self.MODULO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NIVEL_APROBACION" EntityType="Self.NIVEL_APROBACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NIVEL_USUARIO" EntityType="Self.NIVEL_USUARIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OPCION" EntityType="Self.OPCION" Schema="dbo" store:Type="Tables" />
@@ -1187,6 +1202,13 @@
           <FunctionImport Name="spReporteAuditoriaSangre" ReturnType="Collection(ASIS_PRODModel.spReporteAuditoriaSangre)">
             <Parameter Name="CodLinea" Mode="In" Type="String" />
             <Parameter Name="FECHA" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="MODULO" EntityType="ASIS_PRODModel.MODULO" />
+          <FunctionImport Name="spConsutaEmpleadosFiltroCambioPersonal" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosFiltroCambioPersonal)">
+            <Parameter Name="Area" Mode="In" Type="String" />
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Cargo" Mode="In" Type="String" />
+            <Parameter Name="Tipo" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">

@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.OPCION>
 
+
 <table class="table table-hover" style="cursor: pointer" id="TableOpcionPartial">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdOpcion)
+                <label>Id</label>
             </th>
-            <th>
+            <th style="width:200px">
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
@@ -25,7 +26,31 @@
                 @Html.DisplayNameFor(model => model.Orden)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EstadoRegistro)
+                <label>Estado Registro</label>
+            </th>
+            <th>
+                <label>Fecha Ingreso</label>
+
+            </th>
+            <th>
+                <label>Usuario Ingreso</label>
+
+            </th>
+            <th>
+                <label>Terminal Ingreso</label>
+
+            </th>
+            <th>
+                <label>Fecha Modificación</label>
+
+            </th>
+            <th>
+                <label>Usuario Modificación</label>
+
+            </th>
+            <th>
+                <label>Terminal Modificación</label>
+
             </th>
 
         </tr>
@@ -36,40 +61,58 @@
 
             foreach (var item in Model)
             {
-                <tr onclick="CargarOpcion('@item.IdOpcion', '@item.Nombre', '@item.Formulario', '@item.Clase', '@item.Padre','@item.Url','@item.Orden', '@item.EstadoRegistro')">
-            <td>
-                @Html.DisplayFor(modelItem => item.IdOpcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Formulario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Clase)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Padre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Url)
-            </td>
+                <tr onclick="CargarOpcion('@item.IdOpcion', '@item.Nombre', '@item.Formulario', '@item.Clase', '@item.Padre','@item.Url','@item.Orden', '@item.EstadoRegistro','@item.IdModulo')">
                     <td>
-                @Html.DisplayFor(modelItem => item.Orden)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstadoRegistro)
-            </td>
-
-        </tr>
+                        @Html.DisplayFor(modelItem => item.IdOpcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Formulario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Clase)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Padre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Url)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Orden)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EstadoRegistro)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaCreacionLog)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsuarioCreacionLog)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TerminalCreacionLog)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+                    </td>
+                </tr>
             }
         }
     </tbody>
 </table>
 
 
-<script>    
+<script>
+  
     $('#TableOpcionPartial').DataTable({
         "language": {
             "sProcessing": "Procesando...",
@@ -97,7 +140,27 @@
         },
         "pageLength": 5,
         "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
-        "pagingType": "full_numbers"
+        "pagingType": "full_numbers",
+        "dom": 'Bfrtip',
+        "order": [[0, "desc"]],
+
+        "buttons": [
+            {
+                extend: 'copyHtml5',
+                text: ' <img style="width:100%" src="../../Content/icons/copy24.png" />',
+                titleAttr: 'Copy'
+            },
+            {
+                extend: 'excelHtml5',
+                text: '<img style="width:100%" src="../../Content/icons/excel24.png" />',
+                titleAttr: 'Excel'
+            },
+            {
+                extend: 'print',
+                text: '<img style="width:100%" src="../../Content/icons/print24.png" />',
+                titleAttr: 'Print'
+            }
+        ]
 
     });
 </script>
