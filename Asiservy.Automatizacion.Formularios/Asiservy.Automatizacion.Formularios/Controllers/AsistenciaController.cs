@@ -519,7 +519,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //Control de Cuchillos
                 clsDCuchillo = new clsDCuchillo();
                 List<ControlCuchilloViewModel> modelCuchillo = new List<ControlCuchilloViewModel>();
-                modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada);
+                modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada,DateTime.Now);
                 AsistenciaViewModel.ControlDeCuchillos = modelCuchillo;
 
                 //**
@@ -1008,7 +1008,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult GuardarControlCuchillo(string dsCedula, string dsColor,string dsNumero,string dsEstado,bool dbCheck, bool dbTipo=false)
+        public ActionResult GuardarControlCuchillo(string dsCedula, string dsColor,string dsNumero,string dsEstado,bool dbCheck, DateTime ddFecha, bool dbTipo=false)
         {
             try
             {
@@ -1024,7 +1024,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 poControlCuchillo.CuchilloBlanco = dsColor == "B" ? int.Parse(dsNumero) : 0;
                 poControlCuchillo.CuchilloRojo = dsColor == "R" ? int.Parse(dsNumero) : 0;
                 poControlCuchillo.CuchilloNegro = dsColor == "N" ? int.Parse(dsNumero) : 0;
-                poControlCuchillo.Fecha = DateTime.Now;
+                poControlCuchillo.Fecha = ddFecha;
                 poControlCuchillo.EstadoCuchillo = dsEstado;
                 poControlCuchillo.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 poControlCuchillo.FechaIngresoLog = DateTime.Now;
@@ -1110,7 +1110,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         [Authorize]
         // GET: Asistencia/ControlCuchillo
-        public ActionResult ControlCuchilloPartial(string dsEstado)
+        public ActionResult ControlCuchilloPartial(string dsEstado, DateTime ddFecha)
         {
             try
             {
@@ -1122,7 +1122,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 List<ControlCuchilloViewModel> model = new List<ControlCuchilloViewModel>();
                 if (Empleado != null && !string.IsNullOrEmpty(dsEstado))
                 {
-                    model = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(Empleado.CODIGOLINEA, dsEstado);
+                    model = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(Empleado.CODIGOLINEA, dsEstado, ddFecha);
                 }               
 
                 return PartialView(model);

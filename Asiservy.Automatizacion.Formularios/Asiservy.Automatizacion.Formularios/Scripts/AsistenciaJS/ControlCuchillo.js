@@ -7,20 +7,34 @@ function SelectEstado(valor) {
 }
 
 function CargarControlCuchillo(estado) {
-    MostrarModalCargando();  
+    if (estado < 1)
+        return;
+
+    if ($("#txtFecha").val() == '' || $("#txtFecha").val() == null) {
+
+        MensajeAdvertencia("Ingrese una Fecha");
+        return;
+    }
+    $('#TablaControlCuchillo').html('');
+    $("#spinnerCargando").prop("hidden",false);
   $.ajax({
         url: "../Asistencia/ControlCuchilloPartial",
         type: "GET",
-        data: { dsEstado: estado},
+      data: {
+          dsEstado: estado,
+          ddFecha: $("#txtFecha").val()
+      },
         success: function (resultado) {
             var bitacora = $('#TablaControlCuchillo');
+            $("#spinnerCargando").prop("hidden", true);
             bitacora.html(resultado);
-            CerrarModalCargando();
+
         },
         error: function (resultado) {
            
             MensajeError(resultado, false);
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden", true);
+
 
         }
     });
@@ -79,7 +93,8 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check,idCheck,idL
             dsColor: color,
             dsNumero: numero,
             dsEstado: estado,
-            dbCheck: check
+            dbCheck: check,
+            ddFecha: $("#txtFecha").val()
         },
         success: function (resultado) {
             $(idCheck).prop('disabled', false);

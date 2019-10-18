@@ -48,19 +48,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 {
                     if (model.CuchilloBlanco != 0)
                     {
-                        bool ExisteBlanco = entities.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Tipo=="P" && x.Fecha < fechaFin).Any(z => z.CuchilloBlanco == model.CuchilloBlanco);
+                        bool ExisteBlanco = entities.CONTROL_CUCHILLO.Where(x => x.Fecha == model.Fecha && x.Tipo=="P" ).Any(z => z.CuchilloBlanco == model.CuchilloBlanco);
                         if (ExisteBlanco && check)
                             return "No es posible asignar el cuchillo, por que ya ha sido prestado";
                     }
                     if (model.CuchilloRojo != 0)
                     {
-                        bool ExisteRojo = entities.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Tipo == "P" && x.Fecha < fechaFin).Any(z => z.CuchilloRojo == model.CuchilloRojo);
+                        bool ExisteRojo = entities.CONTROL_CUCHILLO.Where(x => x.Fecha == model.Fecha && x.Tipo == "P" ).Any(z => z.CuchilloRojo == model.CuchilloRojo);
                         if (ExisteRojo && check)
                             return "No es posible asignar el cuchillo, por que ya ha sido prestado";
                     }
                     if (model.CuchilloNegro != 0)
                     {
-                        bool ExisteNegro = entities.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Tipo == "P" && x.Fecha < fechaFin).Any(z => z.CuchilloNegro == model.CuchilloNegro);
+                        bool ExisteNegro = entities.CONTROL_CUCHILLO.Where(x => x.Fecha == model.Fecha && x.Tipo == "P" ).Any(z => z.CuchilloNegro == model.CuchilloNegro);
                         if (ExisteNegro && check)
                             return "No es posible asignar el cuchillo, por que ya ha sido prestado";
                     }
@@ -71,7 +71,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         if (model.EstadoCuchillo != clsAtributos.Salida)
                         {
                             var estado = (int.Parse(model.EstadoCuchillo) - 1).ToString();
-                            bool validar = entities.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin
+                            bool validar = entities.CONTROL_CUCHILLO.Where(x => x.Fecha ==model.Fecha
                                                                           && x.EstadoCuchillo == estado
                                                                           && x.Cedula == model.Cedula
                                                                           && ((x.CuchilloBlanco == model.CuchilloBlanco && model.CuchilloBlanco > 0)
@@ -82,7 +82,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         }
                         else
                         {
-                            bool validar = entities.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin
+                            bool validar = entities.CONTROL_CUCHILLO.Where(x => x.Fecha == model.Fecha
                                                                           && x.EstadoCuchillo == clsAtributos.Entrada
                                                                           && x.Cedula == model.Cedula
                                                                           && ((x.CuchilloBlanco == model.CuchilloBlanco && model.CuchilloBlanco > 0)
@@ -97,7 +97,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 //validacion de que nno exista el cuchillo en control de cuchillo
                
                 var controlCuchillo = entities.CONTROL_CUCHILLO.FirstOrDefault(x=> x.Cedula == model.Cedula
-                && x.EstadoCuchillo == model.EstadoCuchillo && x.Fecha > FechaDesde && x.Fecha < FechaHasta);
+                && x.EstadoCuchillo == model.EstadoCuchillo && x.Fecha == model.Fecha);
                 if (controlCuchillo != null)
                 {
                     controlCuchillo.CuchilloBlanco = model.CuchilloBlanco!=0 ? 
@@ -109,7 +109,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     controlCuchillo.CuchilloNegro = model.CuchilloNegro != 0 ?
                                                     check ? model.CuchilloNegro : 0
                                                     : controlCuchillo.CuchilloNegro;
-                    controlCuchillo.Fecha = DateTime.Now;
+                    //controlCuchillo.Fecha = DateTime.Now;
                     controlCuchillo.FechaModificacionLog = DateTime.Now;
                     controlCuchillo.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     controlCuchillo.TerminalModificacionLog = model.TerminalIngresoLog;
@@ -177,12 +177,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return ControlCuchillosViewModel;
             }
         }
-        public List<ControlCuchilloViewModel> ConsultarEmpleadosCuchilloPorLinea(string Linea, string Estado)
+        public List<ControlCuchilloViewModel> ConsultarEmpleadosCuchilloPorLinea(string Linea, string Estado,DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 List<ControlCuchilloViewModel> ListadoEmpleadoCuchillo = new List<ControlCuchilloViewModel>();
-                var consulta = entities.spConsutaEmpleadosCuchillos(Linea, Estado).ToList();
+                var consulta = entities.spConsutaEmpleadosCuchillos(Linea, Estado, Fecha).ToList();
                 if(consulta != null)
                 {
                     foreach(var x in consulta)
