@@ -306,6 +306,7 @@
     <Content Include="Content\icons\puerta32.png" />
     <Content Include="Content\icons\save20.png" />
     <Content Include="Content\icons\send24.png" />
+    <Content Include="Content\icons\show24.png" />
     <Content Include="Content\icons\user32.png" />
     <Content Include="Content\icons\ver24.png" />
     <Content Include="Content\ICO\android-icon-144x144.png" />
