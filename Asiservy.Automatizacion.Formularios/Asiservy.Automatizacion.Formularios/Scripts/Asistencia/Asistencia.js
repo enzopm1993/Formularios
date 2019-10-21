@@ -170,7 +170,7 @@ function DeshabilitarControles(fila) {
     $('#'+fila+' :input').prop("disabled", true);
 }
 function GenerarAsistenciaDiaria(IdLinea, bandera) {
-    MostrarModalCargando();
+    $("#spinnerCargando").prop("hidden",false);
     //console.log("hola");
     var turno;
     if (bandera == 0) {
@@ -192,7 +192,7 @@ function GenerarAsistenciaDiaria(IdLinea, bandera) {
         },
         success: function (resultado) {
             //MensajeCorrecto(resultado, true);
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden",true);
             $('#PartialAsistencia').html(resultado);
             $('#GenerarAsistencia').hide();
            
@@ -203,7 +203,7 @@ function GenerarAsistenciaDiaria(IdLinea, bandera) {
         ,
         error: function (result) {
             console.log(result);
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden",true);
             
             MensajeError(result.responseJSON, false);
             if (bandera == 0) {

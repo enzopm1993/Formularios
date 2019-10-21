@@ -107,7 +107,7 @@ function ConsultarSiExisteAsistencia() {
 }
 
 function GenerarAsistenciaDiariaMovidos(IdLinea, bandera) {
-    MostrarModalCargando();
+    $("#spinnerCargando").prop("hidden", false);
     //console.log("hola");
     if (bandera == 0) {
         $('#GenerarAsistenciaMovidos').prop("disabled", true);
@@ -125,7 +125,7 @@ function GenerarAsistenciaDiariaMovidos(IdLinea, bandera) {
         },
         success: function (resultado) {
             //MensajeCorrecto(resultado, true);
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden", true);
             $('#PartialAsistencia').html(resultado);
             $('#GenerarAsistenciaMovidos').hide();
 
@@ -136,7 +136,7 @@ function GenerarAsistenciaDiariaMovidos(IdLinea, bandera) {
         ,
         error: function (result) {
 
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden", true);
             //Console.log(result);
             //MensajeError(result, false);
             if (bandera == 0) {
