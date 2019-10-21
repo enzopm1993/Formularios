@@ -438,7 +438,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //clsApiUsuario = new clsApiUsuario();
                 DateTime? pdUltimaMarcacion=null;
                 //ClsDSolicitudPermiso = new clsDSolicitudPermiso();
-                var ListUltimamarcacionUsuarios = clsApiUsuario.ConsultarUltimaMarcacionxFecha(DateTime.Now);
+                //var ListUltimamarcacionUsuarios = clsApiUsuario.ConsultarUltimaMarcacionxFecha(DateTime.Now);
                 //foreach (var item in AsistenciaViewModel.ControlAsistencia)
                 //{
                    
