@@ -78,7 +78,8 @@ function ConsultarSiExisteAsistencia() {
         url: '../Asistencia/ConsultarExistenciaAsistencia',
         type: "POST",
         data: {
-            Turno: $('#TurnoGen').val()
+            Turno: $('#TurnoGen').val(),
+            Fecha: $('#FechaAsistencia').val()
         },
         success: function (resultado) {
             $('#Existe').val(resultado);
@@ -154,7 +155,8 @@ function GenerarAsistenciaDiaria(IdLinea, bandera) {
         data: {
             CodLinea: IdLinea,
             BanderaExiste: bandera,
-            Turno: turno
+            Turno: turno,
+            Fecha: $('#FechaAsistencia').val()
         },
         success: function (resultado) {
             //MensajeCorrecto(resultado, true);
@@ -168,10 +170,10 @@ function GenerarAsistenciaDiaria(IdLinea, bandera) {
         }
         ,
         error: function (result) {
-
+            console.log(result);
             CerrarModalCargando();
-            //Console.log(result);
-            //MensajeError(result, false);
+            
+            MensajeError(result.responseJSON, false);
             if (bandera == 0) {
                 $('#GenerarAsistencia').prop("disabled", false);
             }
