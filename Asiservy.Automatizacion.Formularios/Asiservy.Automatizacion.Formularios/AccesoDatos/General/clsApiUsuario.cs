@@ -55,6 +55,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 
         public DateTime? ConsultarFechaBiometrico(string Identificacion)
         {
+
+            
+
             DateTime? pdfecha = null;
             var client = new RestClient("http://192.168.0.31:8870");
             var request = new RestRequest("/api/Marcaciones/"+ Identificacion, Method.GET);

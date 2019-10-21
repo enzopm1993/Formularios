@@ -10,7 +10,7 @@
 
 
 <div class="container-fluid" style="padding-bottom:100px">
-    <br /> @if (ViewBag.Garita != null)
+    @if (ViewBag.Garita != null)
     {
         <h4>Garita Control de Salida</h4>
     }
@@ -18,13 +18,13 @@
     {
         <h4>Reporte de Solicitudes</h4>
     }
-        <hr />
+    <hr />
     <div class="row">
-        <div class="form-group col-md-3 col-sm-12">
+        <div class="col-md-4 col-6">
             <label>Linea</label>
             @Html.DropDownList("IdLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @onchange = "CambioLinea(this.value)", @id = "selectLinea" })
         </div>
-        <div class="form-group col-md-3 col-sm-12">
+        <div class="col-md-4 col-6">
             <label>Area</label>
             <select class="form-control" id="selectArea">
                 <option value="">-- Seleccionar Opción--</option>
@@ -32,7 +32,7 @@
             </select>
             <br />
         </div>
-        <div class="form-group col-md-3 col-sm-12">
+        <div class="col-md-4 col-6">
             <label>Estado</label>
             @if (ViewBag.Garita != null)
             {
@@ -46,13 +46,38 @@
 
             }
         </div>
-        <div style="display: flex;justify-content: center;align-items: center;" class="form-group col-md-3 col-sm-12">
+       
+    </div>
+    @if (ViewBag.Garita == null)
+    {
+    <div class="row">
+        <div class="offset-md-3 col-md-3  col-6">
+            <label>Fecha Desde</label>
+            <input type="date" class="form-control" id="txtFechaDesde" name="name" value="@DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-md-3 col-6">
+            <label>Fecha Hasta</label>
+            <input type="date" class="form-control" id="txtFechaHasta" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        </div>
+        
+    </div>
+    }
+    <br />
+    <div class="row">
+        <div class="col-12 text-center">
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="" onclick="ConsultarSolicitudes()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>           
+        </div>
 
-            <input style="vertical-align: middle" type="button" name="name" value="Consultar" class="form-control btn btn-info" onclick="ConsultarSolicitudes();" />
+    </div>
+    <hr />
+    <div id="spinnerCargando" hidden class="text-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
         </div>
     </div>
-
-    <div id="RptSolicitudes">
+    <div id="RptSolicitudes" class="table-responsive">
 
     </div>
 

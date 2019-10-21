@@ -158,7 +158,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
             return ListaMotivo;
         }
-        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermisoReporte(string dsLinea, string dsArea, string dsEstado, bool dbGarita=false)
+        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermisoReporte(string dsLinea, string dsArea, string dsEstado, bool dbGarita=false, DateTime? FechaDesde = null, DateTime? FechaHasta = null)
         {
             entities = new ASIS_PRODEntities();
             clsApiUsuario = new clsApiUsuario();
@@ -186,9 +186,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 Lista = Lista.Where(x => x.FechaSalida.Date == DateTime.Now.Date);
                 Lista = Lista.Where(x => x.FechaBiometrico==null);
             }
+            if (FechaDesde != null)
+            {
+                var FechaFin = FechaHasta != null ? FechaHasta.Value.AddDays(1) : DateTime.Now.AddDays(1);
+                Lista = Lista.Where(x => x.FechaIngresoLog.Date >= FechaDesde && x.FechaIngresoLog<= FechaFin);
+
+            }
+
             foreach (var x in Lista.ToList())
             {
-                var fechaBiometrico = clsApiUsuario.ConsultarFechaBiometrico(x.Identificacion);
+                var fechaBiometrico = entities.spConsultaUltimaMarcacionBiometrico(x.Identificacion).FirstOrDefault();
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
                 string DescripcionEstadosSolicitud = (from e in entities.ESTADO_SOLICITUD
                                                       where e.Estado == x.EstadoSolicitud
@@ -206,33 +213,50 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : "",
                     //CodigoMotivo = x.CodigoMotivo,
                     //DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
-                    //Observacion = x.Observacion,
-                    //FechaSalida = x.FechaSalida,
-                    //FechaRegreso = x.FechaRegreso,
+                    Observacion = x.Observacion,
+                    FechaSalida = x.FechaSalida,
+                    FechaRegreso = x.FechaRegreso,
                     EstadoSolicitud = x.EstadoSolicitud,
                     DescripcionEstadoSolicitud = DescripcionEstadosSolicitud,
-                    FechaBiometrico = fechaBiometrico,
+                    FechaBiometrico = dbGarita?fechaBiometrico.Marcacion:x.FechaBiometrico,
                     //Origen = x.Origen,
                     //CodigoDiagnostico = x.CodigoDiagnostico,
-                    //FechaIngresoLog = x.FechaIngresoLog,
-                    //UsuarioIngresoLog = x.UsuarioIngresoLog,
-                    //TerminalIngresoLog = x.TerminalIngresoLog,
-                    //UsuarioModificacionLog = x.UsuarioModificacionLog,
-                    //FechaModificacionLog = x.FechaModificacionLog,
-                    //TerminalModificacionLog = x.TerminalModificacionLog
+                    FechaIngresoLog = x.FechaIngresoLog,
+                    UsuarioIngresoLog = x.UsuarioIngresoLog,
+                    TerminalIngresoLog = x.TerminalIngresoLog,
+                    UsuarioModificacionLog = x.UsuarioModificacionLog,
+                    FechaModificacionLog = x.FechaModificacionLog,
+                    TerminalModificacionLog = x.TerminalModificacionLog
                 });
             }
             return ListaSolicitudesPermiso;
         }
 
-        public string MarcarHoraSalidaSolicitudPermiso(int IdSolicitudPermiso, DateTime? FechaBiometrico)
+        public string MarcarHoraSalidaSolicitudPermiso(SOLICITUD_PERMISO model)
         {
             using(ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var Solicitud= entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == IdSolicitudPermiso);
+                var Solicitud= entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == model.IdSolicitudPermiso);
                 if (Solicitud != null)
                 {
-                    Solicitud.FechaBiometrico = FechaBiometrico??DateTime.Now;
+                    Solicitud.FechaBiometrico = model.FechaBiometrico ?? DateTime.Now;
+                    Solicitud.FechaModificacionLog = DateTime.Now;
+                    Solicitud.TerminalModificacionLog = model.TerminalIngresoLog;
+                    Solicitud.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    BITACORA_SOLICITUD bitacora = new BITACORA_SOLICITUD {
+                        IdSolicitud = Solicitud.IdSolicitudPermiso,
+                        EstadoSolicitud =Solicitud.EstadoSolicitud,
+                        Observacion = "Marcación de salida",
+                        FechaIngresoLog = DateTime.Now,
+                        FechaSalida= Solicitud.FechaSalida,
+                        FechaRegreso = Solicitud.FechaRegreso,
+                        TerminalIngresoLog = model.TerminalIngresoLog,
+                        UsuarioIngresoLog =model.UsuarioIngresoLog,
+                        Cedula= Solicitud.Identificacion
+
+                    };
+                    entities.BITACORA_SOLICITUD.Add(bitacora);
+
                 }
                 entities.SaveChanges();
                 return clsAtributos.MsjRegistroGuardado;
@@ -351,7 +375,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             {           
                 var poMotivoPermiso = this.ConsultarMotivos(x.CodigoMotivo).FirstOrDefault();
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
-                var fechaBiometrico = clsApiUsuario.ConsultarFechaBiometrico(x.Identificacion);
+              //  var fechaBiometrico = entities.spConsultaUltimaMarcacionBiometrico(x.Identificacion).FirstOrDefault();
                 ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
                 {
                     IdSolicitudPermiso = x.IdSolicitudPermiso,
@@ -369,7 +393,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     FechaSalida = x.FechaSalida,
                     FechaRegreso = x.FechaRegreso,
                     EstadoSolicitud = x.EstadoSolicitud,
-                    FechaBiometrico = fechaBiometrico,
+                    FechaBiometrico = x.FechaBiometrico,
                     Origen = x.Origen,
                     CodigoDiagnostico = x.CodigoDiagnostico,
                     FechaIngresoLog = x.FechaIngresoLog,

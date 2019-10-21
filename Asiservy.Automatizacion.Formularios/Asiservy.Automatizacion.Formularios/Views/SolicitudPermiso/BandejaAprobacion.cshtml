@@ -78,13 +78,13 @@
                         <td hidden>@m.FechaBiometrico</td>
                         <td style="width:200px">
                             <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="Nuevo" onclick="Mostrar(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
-                                <img style="width:100%" src="~/Content/icons/ver24.png" />
+                                <i class="fas fa-search"></i>
                             </button>
                             <button data-toggle="tooltip" data-placement="top" title="Aprobar" class="btn btn-link"  id="Nuevo" onclick="AprobarSolicitud(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
-                                <img style="width:100%" src="~/Content/icons/aprobar24.png" />
+                                <i class="fas fa-check"></i>
                             </button>
                             <button data-toggle="tooltip" data-placement="top" title="Anular" class="btn btn-link" id="Nuevo" onclick="Observacion(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
-                                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                                <i class="fas fa-times text-danger"></i>
                             </button>
                             @*<input name="chkbox" type="button" value="Ver" onclick="Mostrar(@m.IdSolicitudPermiso)" class=" btn btn-link" />
                             <input name="chkbox" type="button" value="Aprobar" onclick="AprobarSolicitud(@m.IdSolicitudPermiso)" class=" btn btn-link" />

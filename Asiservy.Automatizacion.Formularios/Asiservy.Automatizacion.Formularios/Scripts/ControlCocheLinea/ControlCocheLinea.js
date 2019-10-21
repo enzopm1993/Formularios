@@ -25,6 +25,9 @@ function CargarControlCoche() {
     $.ajax({
         url: "../ControlCocheLinea/ControlCocheLineaPartial",
         type: "GET",
+        data: {
+            Fecha: $("#txtFecha").val()
+        },
         success: function (resultado) {
             var DivControl = $('#DivTableControlCoche');
             $('#spinnerCargando').prop("hidden", true);  
@@ -41,16 +44,16 @@ function CargarControlCoche() {
 function Nuevo() {
     $("#txtIdControlCoche").val("0");
 
-    var fecha = new Date();
-    // console.log(fecha);
-    var dia = fecha.getDate();
-    var mes = fecha.getMonth() + 1;
-    if (dia < 10)
-        dia = "0" + dia;
-    if (mes < 10)
-        mes = "0" + mes;
-    var fechaFinal = fecha.getFullYear() + "-" + mes + "-" + dia;    
-    $("#txtFecha").val(fechaFinal);
+    //var fecha = new Date();
+    //// console.log(fecha);
+    //var dia = fecha.getDate();
+    //var mes = fecha.getMonth() + 1;
+    //if (dia < 10)
+    //    dia = "0" + dia;
+    //if (mes < 10)
+    //    mes = "0" + mes;
+    //var fechaFinal = fecha.getFullYear() + "-" + mes + "-" + dia;    
+    //$("#txtFecha").val(fechaFinal);
     $("#txtHoraInicio").val("00:00");
     $("#txtHoraFin").val("00:00");
     $("#txtCoches").val("0");

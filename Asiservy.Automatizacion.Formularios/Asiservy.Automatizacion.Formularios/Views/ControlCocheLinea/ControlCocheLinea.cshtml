@@ -32,7 +32,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label" })
                 @{var FechaActual = DateTime.Now.ToString("yyyy-MM-dd"); }
-                <input type="date" id="txtFecha" name="name" value="@FechaActual" class="form-control" />
+                <input type="date" id="txtFecha" name="name" value="@FechaActual" onchange="CargarControlCoche()" class="form-control" />
                 <span class="field-validation-valid text-danger" hidden id="txtValidaFecha"> Ingrese la Fecha </span>
 
             </div>

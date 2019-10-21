@@ -115,10 +115,11 @@
                     @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control" })
                 </div>
                 @Html.ValidationMessage("CustomError", "", new { @class = "input-validation-error text-danger has-error" })
-                <div class="col-md-2 col-sm-1">
+                <div class="col-12 text-center">
+                    <label>Fecha - Hora</label>
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
-                        <label class="custom-control-label" for="switchHoraFecha" id="LabelFecha">Fecha</label>
+                        <label class="custom-control-label" for="switchHoraFecha" id="LabelFecha"></label>
                     </div>
                 </div>
                 <div class="row" id="DivHora">

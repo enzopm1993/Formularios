@@ -254,7 +254,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlAsistencia>("spConsultaControlAsistencia", lineaParameter, fechaParameter);
         }
     
-        public virtual ObjectResult<sp_ConsultaAsistenciaDiariaPersonalMovido> sp_ConsultaAsistenciaDiariaPersonalMovido(string codLinea, Nullable<int> turno)
+        public virtual ObjectResult<sp_ConsultaAsistenciaDiariaPersonalMovido> sp_ConsultaAsistenciaDiariaPersonalMovido(string codLinea, Nullable<int> turno, Nullable<System.DateTime> fecha)
         {
             var codLineaParameter = codLinea != null ?
                 new ObjectParameter("codLinea", codLinea) :
@@ -264,7 +264,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", turno) :
                 new ObjectParameter("Turno", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiariaPersonalMovido>("sp_ConsultaAsistenciaDiariaPersonalMovido", codLineaParameter, turnoParameter);
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiariaPersonalMovido>("sp_ConsultaAsistenciaDiariaPersonalMovido", codLineaParameter, turnoParameter, fechaParameter);
         }
     
         public virtual ObjectResult<Nullable<int>> sp_ObtenerCuchillosSobrantes(string colorCuchillo)
@@ -557,6 +561,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fecha", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaLimpiadorasControlHueso>("spConsultaLimpiadorasControlHueso", lineaParameter, fechaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaUltimaMarcacionBiometrico> spConsultaUltimaMarcacionBiometrico(string cedula)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaUltimaMarcacionBiometrico>("spConsultaUltimaMarcacionBiometrico", cedulaParameter);
         }
     }
 }

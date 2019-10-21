@@ -1,5 +1,6 @@
 ﻿
 function ConsultarBitacora() {
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: "../SolicitudPermiso/BitacoraSolicitudPartial",
         type: "GET",
@@ -13,8 +14,10 @@ function ConsultarBitacora() {
             //console.log(JSON.stringify(resultado));
       
             var bitacora = $('#Bitacora');
+            $("#spinnerCargando").prop("hidden", true);
+
             if (resultado.Failed) {
-                MensajeError(resultado.Mensaje, false);
+                MensajeAdvertencia(resultado.Mensaje, false);
             } else {
                 bitacora.html(resultado);
             }
@@ -22,6 +25,8 @@ function ConsultarBitacora() {
         error: function (result) {
            /* console.log(JSON.stringify(result.responseText))*/;
             MensajeError(resultado.Mensaje, false);
+            $("#spinnerCargando").prop("hidden", true);
+
         }
     });
 }

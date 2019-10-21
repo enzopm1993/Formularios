@@ -33,7 +33,7 @@
 "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
 "pagingType": "full_numbers",
 "dom": 'Bfrtip',
-"order": [[0, "desc"]],
+        "order": [[0, "desc"], [1, "desc"]],
 "buttons": [
             {
         extend: 'pageLength',

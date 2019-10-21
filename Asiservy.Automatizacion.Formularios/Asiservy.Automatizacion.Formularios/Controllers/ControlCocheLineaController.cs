@@ -95,12 +95,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
 
        
-        public ActionResult ControlCocheLineaPartial()
+        public ActionResult ControlCocheLineaPartial(DateTime Fecha)
         {
             try
             {
                 clsDControlCocheLinea = new clsDControlCocheLinea();
-                var model = clsDControlCocheLinea.ConsultarControlCocheLinea(new Models.ControlCocheLinea.ControlCocheLineaViewModel { Fecha = DateTime.Now.Date});
+                var model = clsDControlCocheLinea.ConsultarControlCocheLinea(new Models.ControlCocheLinea.ControlCocheLineaViewModel { Fecha = Fecha });
                 return PartialView(model);
             }
             catch (Exception ex)

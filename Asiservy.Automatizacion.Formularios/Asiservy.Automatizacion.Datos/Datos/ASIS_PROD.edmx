@@ -623,6 +623,7 @@
         <Function Name="sp_ConsultaAsistenciaDiariaPersonalMovido" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codLinea" Type="varchar" Mode="In" />
           <Parameter Name="Turno" Type="int" Mode="In" />
+          <Parameter Name="Fecha" Type="date" Mode="In" />
         </Function>
         <Function Name="sp_ConsultaAsistenciaGeneralDiaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codLinea" Type="varchar" Mode="In" />
@@ -716,6 +717,9 @@
         <Function Name="spConsultarUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="Clave" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spConsultaUltimaMarcacionBiometrico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cedula" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsutaControlEsferos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="linea" Type="varchar" Mode="In" />
@@ -1116,6 +1120,7 @@
           <FunctionImport Name="sp_ConsultaAsistenciaDiariaPersonalMovido" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido)">
             <Parameter Name="codLinea" Mode="In" Type="String" />
             <Parameter Name="Turno" Mode="In" Type="Int32" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <EntitySet Name="CONTROL_ESFERO" EntityType="ASIS_PRODModel.CONTROL_ESFERO" />
           <FunctionImport Name="sp_ObtenerCuchillosSobrantes" ReturnType="Collection(Int32)">
@@ -1227,6 +1232,9 @@
           <FunctionImport Name="spConsultaLimpiadorasControlHueso" ReturnType="Collection(ASIS_PRODModel.spConsultaLimpiadorasControlHueso)">
             <Parameter Name="linea" Mode="In" Type="String" />
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaUltimaMarcacionBiometrico" ReturnType="Collection(ASIS_PRODModel.spConsultaUltimaMarcacionBiometrico)">
+            <Parameter Name="cedula" Mode="In" Type="String" />
           </FunctionImport>
           
           </EntityContainer>
@@ -2082,6 +2090,10 @@
           <Property Type="String" Name="CEDULA" Nullable="false" MaxLength="13" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="LINEA" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spConsultaUltimaMarcacionBiometrico">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="Marcacion" Nullable="true" Precision="23" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3191,6 +3203,14 @@
                 <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
                 <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
                 <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaUltimaMarcacionBiometrico" FunctionName="ASIS_PRODModel.Store.spConsultaUltimaMarcacionBiometrico">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaUltimaMarcacionBiometrico">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Marcacion" ColumnName="Marcacion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

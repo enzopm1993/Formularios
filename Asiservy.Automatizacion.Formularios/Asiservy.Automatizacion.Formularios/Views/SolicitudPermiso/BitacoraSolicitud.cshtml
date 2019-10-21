@@ -10,7 +10,7 @@
 
 
 <div class="container-fluid" style="padding-bottom:5%">
-    
+
     <br />
     <h4>BitacoraSolicitud</h4>
 
@@ -41,12 +41,19 @@
     </div>
     <div class="row">
         <div class="col text-center">
-            <button onclick="ConsultarBitacora()" class="btn btn-primary" type="button">
-                Consultar
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="ConsultarBitacora()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
             </button>
+
         </div>
     </div>
-    <br />
+
+    <hr />
+    <div id="spinnerCargando" hidden class="text-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
 
     <div class="table-responsive" style="padding-bottom:5%" id="Bitacora">
 
@@ -55,5 +62,6 @@
 
 </div>
 
-<div id="ModalMensaje"> </div>
+
+
 
