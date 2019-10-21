@@ -1,4 +1,25 @@
-﻿function toDate(dStr, format) {
+﻿function Nuevo() {
+    $('#GenerarAsistencia').hide();
+    $('#TurnoGen').removeAttr('disabled');
+    $('#txtFecha').removeAttr('disabled');
+    $('#ConsultaAsistencia').removeAttr('disabled');
+    $('#TurnoGen').prop('selectedIndex', 0);
+    $('#PartialAsistencia').empty();
+
+
+    var d = new Date();
+
+    var dia = d.getDate();
+
+    var mes = (d.getMonth() + 1) < 10 ? ("0" + (d.getMonth() + 1)) : d.getMonth() + 1;
+    var anio = d.getFullYear();
+
+    var fechatotal = anio + "-" + mes + "-" + dia
+    $('#txtFecha').val(fechatotal);
+
+
+}
+function toDate(dStr, format) {
     //**
     var pieces = dStr.split(':'),
         hour, minute, second;
@@ -42,8 +63,17 @@ function buscarenTabla() {
 function ConsultarSiExisteAsistencia() {
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
-        MensajeError("Debe seleccionar un turno", false);
+        $('#mensajeturno').show();
+        return false;
     } else {
+        $('#mensajeturno').hide();
+    }
+    if ($('#txtFecha').val() == "") {
+        $('#mensajefecha').show();
+        return false;
+    } else {
+        $('#mensajefecha').hide();
+    }
         $('#PartialAsistencia').empty();
         $.ajax({
             //contentType: "application/json; charset=utf-8",
@@ -58,6 +88,9 @@ function ConsultarSiExisteAsistencia() {
 
                 if (resultado == 0) {
                     $('#GenerarAsistencia').show();
+                    $('#TurnoGen').prop('disabled', 'disabled');
+                    $('#txtFecha').prop('disabled', 'disabled');
+                    $('#ConsultaAsistencia').prop('disabled', 'disabled');
 
                 }
                 if (resultado == 1) {
@@ -70,7 +103,7 @@ function ConsultarSiExisteAsistencia() {
                 //MensajeError(result, false);
             }
         });
-    }
+    
 }
 
 function GenerarAsistenciaDiariaMovidos(IdLinea, bandera) {
@@ -87,7 +120,8 @@ function GenerarAsistenciaDiariaMovidos(IdLinea, bandera) {
         data: {
             CodLinea: IdLinea,
             BanderaExiste: bandera,
-            Turno: turno
+            Turno: turno,
+            Fecha: $('#txtFecha').val()
         },
         success: function (resultado) {
             //MensajeCorrecto(resultado, true);
