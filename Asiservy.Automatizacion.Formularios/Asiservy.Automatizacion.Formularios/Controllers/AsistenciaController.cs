@@ -132,6 +132,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.JavaScrip = RouteData.Values["controller"]+"/"+ RouteData.Values["action"];
                 //clsApiUsuario = new clsApiUsuario();
                 //var respuestaapi = clsApiUsuario.ConsultarUltimaMarcacionxFecha(DateTime.Now);
                 TimeSpan hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm"));
@@ -170,6 +171,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 TimeSpan hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm"));
                 clsDEmpleado = new clsDEmpleado();
                 clsDGeneral = new clsDGeneral();
@@ -293,6 +296,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             try
             {
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 clsDEmpleado = new clsDEmpleado();
                 clsDGeneral = new clsDGeneral();
                 liststring = User.Identity.Name.Split('_');
@@ -657,6 +662,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 clsDClasificador = new clsDClasificador();
                 clsDEmpleado = new clsDEmpleado();
                 this.ConsultaComboLineas();
@@ -756,6 +763,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dataTableJS = "1";
                 ConsultaComboLineas();
             }
             catch (Exception ex)
@@ -843,6 +852,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 clsDGeneral = new clsDGeneral();
                 var Lineas = clsDGeneral.ConsultaLineas("0");
@@ -1072,6 +1082,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1"; 
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 clsDClasificador = new clsDClasificador();
                // clsDCuchillo = new clsDCuchillo();
                 clsDEmpleado = new clsDEmpleado();
@@ -1150,6 +1163,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 clsDClasificador = new clsDClasificador();
                 var ColorCuchillos = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {Grupo=clsAtributos.CodigoGrupoColorCuchillo, EstadoRegistro=clsAtributos.EstadoRegistroActivo });
                 ViewBag.ColorCuchillos = ColorCuchillos;
@@ -1254,6 +1270,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 ConsultarCombosEmpleadoCuchillo();
                 return View();
 
@@ -1408,6 +1427,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 liststring = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
@@ -1478,6 +1498,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+               
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 //List<int?> CuchillosBlancos = db.sp_ObtenerCuchillosSobrantes(clsAtributos.CodigoColorCuchilloBlanco).ToList();
                 //List<int?> CuchillosRojos = db.sp_ObtenerCuchillosSobrantes(clsAtributos.CodigoColorCuchilloRojo).ToList();
                 //List<int?> CuchillosNegros = db.sp_ObtenerCuchillosSobrantes(clsAtributos.CodigoColorCuchilloNegro).ToList();

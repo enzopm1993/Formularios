@@ -3,6 +3,9 @@
 
 
 function SelectEstado(valor) {
+    if (valor < 1 && $("#EstadoControlCuchillo").val() !="undefined")
+        valor = $("#EstadoControlCuchillo").val();
+
     CargarControlCuchillo(valor);
 }
 

@@ -30,6 +30,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+           
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
@@ -358,6 +361,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
 
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
@@ -435,6 +440,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
 
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();

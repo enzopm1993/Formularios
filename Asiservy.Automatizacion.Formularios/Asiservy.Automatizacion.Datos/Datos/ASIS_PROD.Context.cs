@@ -175,19 +175,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltro>("spConsutaEmpleadosFiltro", areaParameter, lineaParameter, cargoParameter);
         }
     
-        public virtual ObjectResult<sp_ConsultaAsistenciaDiaria> sp_ConsultaAsistenciaDiaria(string codLinea, Nullable<int> turno)
-        {
-            var codLineaParameter = codLinea != null ?
-                new ObjectParameter("codLinea", codLinea) :
-                new ObjectParameter("codLinea", typeof(string));
-    
-            var turnoParameter = turno.HasValue ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiaria>("sp_ConsultaAsistenciaDiaria", codLineaParameter, turnoParameter);
-        }
-    
         public virtual ObjectResult<sp_ConsultaEmpleadosMovidos> sp_ConsultaEmpleadosMovidos(string cedula)
         {
             var cedulaParameter = cedula != null ?
@@ -540,6 +527,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fecha", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosCuchillos>("spConsutaEmpleadosCuchillos", lineaParameter, estadoParameter, fechaParameter);
+        }
+    
+        public virtual ObjectResult<sp_ConsultaAsistenciaDiaria> sp_ConsultaAsistenciaDiaria(string codLinea, Nullable<int> turno, Nullable<System.DateTime> fecha)
+        {
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("codLinea", codLinea) :
+                new ObjectParameter("codLinea", typeof(string));
+    
+            var turnoParameter = turno.HasValue ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(int));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiaria>("sp_ConsultaAsistenciaDiaria", codLineaParameter, turnoParameter, fechaParameter);
         }
     }
 }

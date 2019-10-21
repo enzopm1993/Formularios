@@ -29,6 +29,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();               
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
@@ -137,6 +139,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
@@ -252,6 +258,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {            
             try
             {
+              
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
@@ -331,6 +338,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
 
                 return View();
             }
@@ -357,7 +366,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                ViewBag.dataTableJS = "1";
+               
 
                 clsDEmpleado = new clsDEmpleado();
                 Usuario = User.Identity.Name.Split('_');
@@ -400,6 +409,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+              
 
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();

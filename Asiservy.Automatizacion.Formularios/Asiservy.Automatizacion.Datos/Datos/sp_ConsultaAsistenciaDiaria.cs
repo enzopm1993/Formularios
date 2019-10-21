@@ -14,8 +14,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class sp_ConsultaAsistenciaDiaria
     {
         public string NOMBRES { get; set; }
-        public int IdAsistencia { get; set; }
-        public int Bloquear { get; set; }
+        public Nullable<int> IdAsistencia { get; set; }
+        public Nullable<int> Bloquear { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
         public string Cedula { get; set; }
         public string EstadoAsistencia { get; set; }

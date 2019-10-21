@@ -30,7 +30,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
-         
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+
                 List<SolicitudPermisoViewModel> ListaSolicitud;
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 clsDGeneral = new clsDGeneral();
@@ -62,6 +64,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+
                 List<SolicitudPermisoViewModel> ListaSolicitud;
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudAprobado, null);
@@ -223,6 +229,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 SolicitudPermisoViewModel model = clsDSolicitudPermiso.ConsultaSolicitudPermiso(dsSolicitud);
                 if (model.Origen == clsAtributos.SolicitudOrigenGeneral && string.IsNullOrEmpty(frm))
@@ -349,6 +356,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public ActionResult BandejaMedico()
         {
             try{
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 var model = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(new SOLICITUD_PERMISO {
                     //FechaSalida = DateTime.Now.AddMonths(-1),
@@ -382,8 +393,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public ActionResult SolicitudPermiso()
         {
             try
-            {   
-                
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+
                 ValidacionControladorLinea();
                 ConsultaCombosGeneral(false);
                 return View();
@@ -711,6 +725,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+
                 clsDGeneral = new clsDGeneral();
                 ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
                 ViewBag.Estados = clsDGeneral.ConsultarEstadosSolicitudSelect();
@@ -781,6 +799,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+
                 return View();
             }
             catch (Exception ex)
