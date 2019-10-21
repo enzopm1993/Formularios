@@ -371,7 +371,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\Asistencia\Asistencia.js" />
     <Content Include="Scripts\Asistencia\AsistenciaGeneral.js" />
-    <Content Include="Scripts\Asistencia\AsistenciaPrestados.js" />
+    <Content Include="Scripts\Asistencia\AsistenciaPrestado.js" />
     <Content Include="Scripts\Asistencia\BitacoraCambioPersonal.js" />
     <Content Include="Scripts\Asistencia\CambiarPersonalDeArea.js" />
     <Content Include="Scripts\Asistencia\ControlCuchillo.js" />

@@ -82,13 +82,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             else
                 return 1;
         }
-        public int ConsultarExistenciaAsistencia(string cedula, string Turno)
+        public int ConsultarExistenciaAsistencia(string cedula, string Turno,DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 //DateTime fechaInicio = Convert.ToDateTime(DateTime.Now.ToShortDateString()).AddHours(-12);
-                DateTime fechaInicio = Convert.ToDateTime(DateTime.Now.ToShortDateString());
-                DateTime fechaFin= Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
+                DateTime fechaInicio = Convert.ToDateTime(Fecha.ToShortDateString());
+                DateTime fechaFin= Convert.ToDateTime(Fecha.AddDays(1).ToShortDateString());
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
                 ////pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1).ToList();
                 //pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin && x.Linea== BuscarControlador.CODIGOLINEA &&x.Turno==Turno).ToList();
@@ -112,7 +112,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             else
                 return 1;
         }
-        public int ConsultarExistenciaAsistenciaPrestados(string cedula, string Turno)
+        public int ConsultarExistenciaAsistenciaPrestados(string cedula, string Turno, DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
