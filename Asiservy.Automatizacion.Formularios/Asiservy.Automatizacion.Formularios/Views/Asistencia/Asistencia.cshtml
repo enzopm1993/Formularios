@@ -27,15 +27,18 @@
                     <option value="2">Turno 2</option>
 
                 </select>
+                <label id="mensajeturno" class="text-danger" style="display:none">Debe seleccionar un turno</label>
             </div>
         </div>
         <div class="col-md-6 col-sm-6">
             <div class="form-group">
                 <label>Fecha:</label>
-                @{ 
+                @{
                     var fechaactual = DateTime.Now.ToString("yyyy-MM-dd");
                 }
-                @Html.TextBox("FechaAsistencia",fechaactual, new { type = "date", @class="form-control"})
+                @Html.TextBox("txtFecha", fechaactual, new { type = "date", @class = "form-control" })
+                <label id="mensajefecha" class="text-danger" style="display:none">Debe ingresar una fecha </label>
+                
             </div>
         </div>
     </div>
@@ -43,7 +46,8 @@
        
         <div class="col-md-12 col-sm-12">
             <center>
-                <input type="button" value="Consultar" class="btn btn-primary" onclick="ConsultarSiExisteAsistencia();"/>
+                <input type="button" id="ConsultaAsistencia" value="Consultar" class="btn btn-primary" onclick="ConsultarSiExisteAsistencia();" />
+                <input type="button" id="Limpiar" value="Limpiar" class="btn btn-info" onclick="Nuevo();" />
             </center>
         </div>
        
@@ -80,6 +84,6 @@
 <div id="ModalMensaje"> </div>
 
 <link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
-<script src="~/Scripts/AsistenciaJS/ControlCuchillo.js"></script>
+<script src="~/Scripts/Asistencia/ControlCuchillo.js"></script>
 
 

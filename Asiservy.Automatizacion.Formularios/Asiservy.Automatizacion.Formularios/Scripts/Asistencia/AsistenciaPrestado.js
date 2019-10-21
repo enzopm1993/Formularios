@@ -50,7 +50,8 @@ function ConsultarSiExisteAsistencia() {
             url: '../Asistencia/ConsultarExistenciaAsistenciaPrestados',
             type: "POST",
             data: {
-                Turno: $('#TurnoGen').val()
+                Turno: $('#TurnoGen').val(),
+                Fecha: $('#txtFecha').val()
             },
             success: function (resultado) {
                 $('#Existe').val(resultado);

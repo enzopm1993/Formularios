@@ -74,13 +74,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
         [Authorize]
-        public JsonResult ConsultarExistenciaAsistencia(string Turno)
+        public JsonResult ConsultarExistenciaAsistencia(string Turno, DateTime Fecha)
         {
             try
             {
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
-                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1],Turno);
+                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1],Turno, Fecha);
                 return Json(AsitenciaExiste, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -101,13 +101,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             
         }
         [Authorize]
-        public JsonResult ConsultarExistenciaAsistenciaPrestados(string Turno)
+        public JsonResult ConsultarExistenciaAsistenciaPrestados(string Turno,DateTime Fecha)
         {
             try
             {
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
-                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaPrestados(liststring[1], Turno);
+                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaPrestados(liststring[1], Turno,Fecha);
                 return Json(AsitenciaExiste, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
