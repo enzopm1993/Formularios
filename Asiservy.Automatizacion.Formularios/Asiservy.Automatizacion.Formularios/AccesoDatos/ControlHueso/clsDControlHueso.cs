@@ -91,7 +91,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 && x.HoraFin == doControl.HoraFin
                 && x.HoraInicio == doControl.HoraInicio
                
-                && x.FechaIngresoLog >= FechaActual
+                && x.Fecha == doControl.Fecha
                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (ControlHueso == null)
                 {

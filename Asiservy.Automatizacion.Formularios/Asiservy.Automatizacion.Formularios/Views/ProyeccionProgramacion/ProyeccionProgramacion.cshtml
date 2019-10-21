@@ -6,7 +6,7 @@
     input, select, textarea {
         max-width: 100%;
     }
-</style>    
+</style>
 <h4>Proyección Programación</h4>
 
 <div class="row">
@@ -67,8 +67,14 @@
     <div class="col-md-12 col-sm-12">
         <center>
             <div class="form-group">
-                <input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="IngresarProyeccionProgramacion()" />
-                <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />
+                <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="GuardarProyeccion" onclick="IngresarProyeccionProgramacion()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                </button>
+                <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="Limpiar()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/clear24.png" />
+                </button>
+                @*<input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="IngresarProyeccionProgramacion()" />
+                <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
             </div>
         </center>
     </div>
@@ -78,7 +84,7 @@
 
 <div id="DivProyeccion">
 
-    <table class="table table-hover" id="tablaProyeccion" style="cursor: pointer" >
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
         <thead>
             <tr>
                 <th>
@@ -107,32 +113,33 @@
         <tbody>
             @foreach (var item in ViewBag.Proyeccion)
             {
-            <tr onclick="EditarProyeccion('@item.IdProyeccion','@item.Lote','@item.FechaProduccion','@item.Tonelada','@item.CodDestino','@item.IdTipoLimpieza','@item.Observacion','@item.CodEspecie','@item.CodTalla');">
-                <td>
-                    @item.Lote
-                </td>
-                <td>
-                    @item.Tonelada
-                </td>
-                <td>
-                    @item.Destino
-                </td>
-                <td>
-                    @item.TipoLimpieza
-                </td>
-                <td>
-                    @item.Especie
-                </td>
-                <td>
-                    @item.Talla
-                </td>
-                <td>
-                    @item.Observacion
-                </td>
-            </tr>
+                <tr onclick="EditarProyeccion('@item.IdProyeccion','@item.Lote','@item.FechaProduccion','@item.Tonelada','@item.CodDestino','@item.IdTipoLimpieza','@item.Observacion','@item.CodEspecie','@item.CodTalla');">
+                    <td>
+                        @item.Lote
+                    </td>
+                    <td>
+                        @item.Tonelada
+                    </td>
+                    <td>
+                        @item.Destino
+                    </td>
+                    <td>
+                        @item.TipoLimpieza
+                    </td>
+                    <td>
+                        @item.Especie
+                    </td>
+                    <td>
+                        @item.Talla
+                    </td>
+                    <td>
+                        @item.Observacion
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 </div>
 
 
+<script src="~/Scripts/General/dataTableJS.js"></script>
