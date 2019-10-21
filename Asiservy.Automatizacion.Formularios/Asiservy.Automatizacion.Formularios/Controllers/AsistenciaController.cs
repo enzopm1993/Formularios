@@ -327,7 +327,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult AsistenciaPrestadoPartial(string CodLinea, int BanderaExiste, string Turno)
+        public ActionResult AsistenciaPrestadoPartial(string CodLinea, int BanderaExiste, string Turno, DateTime Fecha)
         {
             try
             {
@@ -338,7 +338,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress,Turno);
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress,Turno,Fecha);
                 clsApiUsuario = new clsApiUsuario();
                 DateTime? pdUltimaMarcacion;
                 foreach (var item in AsistenciaViewModel.ControlAsistencia)
@@ -435,92 +435,54 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 clsDAsistencia = new clsDAsistencia();
                 var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste, liststring[0], Request.UserHostAddress, Turno, Fecha);
-                clsApiUsuario = new clsApiUsuario();
+                //clsApiUsuario = new clsApiUsuario();
                 DateTime? pdUltimaMarcacion=null;
-                ClsDSolicitudPermiso = new clsDSolicitudPermiso();
+                //ClsDSolicitudPermiso = new clsDSolicitudPermiso();
                 var ListUltimamarcacionUsuarios = clsApiUsuario.ConsultarUltimaMarcacionxFecha(DateTime.Now);
-                foreach (var item in AsistenciaViewModel.ControlAsistencia)
-                {
-                    //pdUltimaMarcacion = clsApiUsuario.ConsultarFechaBiometrico(item.Cedula);
+                //foreach (var item in AsistenciaViewModel.ControlAsistencia)
+                //{
+                   
 
-                    pdUltimaMarcacion = ListUltimamarcacionUsuarios.Where(x => x.Cedula == item.Cedula).Select(x => x.UltimaMarcacion).FirstOrDefault();
-                    if (item.Turno == "1")
-                    {
-                        if (pdUltimaMarcacion != null && pdUltimaMarcacion!= DateTime.MinValue)
-                        {
-                            if ((pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString()))
-                            {
-                                item.Bloquear = 1;
-                                item.Observacion += "No ha marcado en el biométrico";
-                            }
-                        }
-                        else
-                        {
-                            item.Bloquear = 1;
-                            item.Observacion += "No ha marcado en el biométrico";
-                        }
-                        //if (pdUltimaMarcacion != null)
-                        //{
-                        //    if ((pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString()))
-                        //    {
-                        //        item.Bloquear = 1;
-                        //        item.Observacion += "No ha marcado en el biométrico";
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    item.Bloquear = 1;
-                        //    item.Observacion += "No ha marcado en el biométrico";
-                        //}
+                //    pdUltimaMarcacion = ListUltimamarcacionUsuarios.Where(x => x.Cedula == item.Cedula).Select(x => x.UltimaMarcacion).FirstOrDefault();
+                //    if (item.Turno == "1")
+                //    {
+                //        if (pdUltimaMarcacion != null && pdUltimaMarcacion!= DateTime.MinValue)
+                //        {
+                //            if ((pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString()))
+                //            {
+                //                item.Bloquear = 1;
+                //                item.Observacion += "No ha marcado en el biométrico";
+                //            }
+                //        }
+                //        else
+                //        {
+                //            item.Bloquear = 1;
+                //            item.Observacion += "No ha marcado en el biométrico";
+                //        }
+                      
 
-                    }
-                    if (item.Turno == "2")
-                    {
-                        if (pdUltimaMarcacion != null)
-                        {
-                            if ((pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString()))
-                            {
-                                item.Bloquear = 1;
-                                item.Observacion += "No ha marcado en el biométrico";
-                            }
-                        }
-                        else
-                        {
-                            item.Bloquear = 1;
-                            item.Observacion += "No ha marcado en el biométrico";
-                        }
-                        //if (pdUltimaMarcacion != null)
-                        //{
-                        //    if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
-                        //    {
-                        //        item.Bloquear = 1;
-                        //        item.Observacion += "No ha marcado en el biométrico";
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    item.Bloquear = 1;
-                        //    item.Observacion += "No ha marcado en el biométrico";
-                        //}
-                    }
+                //    }
+                //    if (item.Turno == "2")
+                //    {
+                //        if (pdUltimaMarcacion != null)
+                //        {
+                //            if ((pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString()))
+                //            {
+                //                item.Bloquear = 1;
+                //                item.Observacion += "No ha marcado en el biométrico";
+                //            }
+                //        }
+                //        else
+                //        {
+                //            item.Bloquear = 1;
+                //            item.Observacion += "No ha marcado en el biométrico";
+                //        }
+                       
+                //    }
 
-                    //sp_ConsultaEmpleadosMovidos CambioPersonal = clsDCambioPersonal.ConsultarCambioPersonal(item.Cedula);
+                   
 
-                    //if (CambioPersonal != null)
-                    //{
-                    //    item.Bloquear = 1;
-                    //    item.Observacion += "El empleado fue movido a " + CambioPersonal.Linea;
-                    //}
-                    //ClsDSolicitudPermiso = new clsDSolicitudPermiso();
-                    //string MotivoSolicitud = ClsDSolicitudPermiso.ConsultaMotivoPermisoxEmpleado(item.Cedula);
-                    //if (!string.IsNullOrEmpty(MotivoSolicitud))
-                    //{
-                    //    item.Bloquear = 1;
-                    //    item.Observacion += " Tiene permiso: " + MotivoSolicitud;
-                    //}
-
-
-                }
+                //}
                 //Control de Cuchillos
                 clsDCuchillo = new clsDCuchillo();
                 List<ControlCuchilloViewModel> modelCuchillo = new List<ControlCuchilloViewModel>();
