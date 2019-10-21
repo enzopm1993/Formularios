@@ -78,7 +78,8 @@ function ConsultarSiExisteAsistencia() {
         url: '../Asistencia/ConsultarExistenciaAsistencia',
         type: "POST",
         data: {
-            Turno: $('#TurnoGen').val()
+            Turno: $('#TurnoGen').val(),
+            Fecha: $('#FechaAsistencia').val()
         },
         success: function (resultado) {
             $('#Existe').val(resultado);
@@ -154,7 +155,8 @@ function GenerarAsistenciaDiaria(IdLinea, bandera) {
         data: {
             CodLinea: IdLinea,
             BanderaExiste: bandera,
-            Turno: turno
+            Turno: turno,
+            Fecha: $('#FechaAsistencia').val()
         },
         success: function (resultado) {
             //MensajeCorrecto(resultado, true);

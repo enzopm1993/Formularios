@@ -47,13 +47,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #region Asistencia
         // GET: Asistencia
         [Authorize]
-        public JsonResult ConsultarExistenciaAsistenciaGeneral(string Turno)
+        public JsonResult ConsultarExistenciaAsistenciaGeneral(string Turno,DateTime Fecha)
         {
             try
             {
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
-                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaGeneral(liststring[1], Turno);
+                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaGeneral(liststring[1], Turno, Fecha);
                 return Json(AsitenciaExiste, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -418,7 +418,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult AsistenciaPartial(string CodLinea, int BanderaExiste, string Turno)
+        public ActionResult AsistenciaPartial(string CodLinea, int BanderaExiste, string Turno,DateTime Fecha)
         {
             try
             {
@@ -429,7 +429,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste, liststring[0], Request.UserHostAddress, Turno);
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste, liststring[0], Request.UserHostAddress, Turno, Fecha);
                 clsApiUsuario = new clsApiUsuario();
                 DateTime? pdUltimaMarcacion=null;
                 ClsDSolicitudPermiso = new clsDSolicitudPermiso();
