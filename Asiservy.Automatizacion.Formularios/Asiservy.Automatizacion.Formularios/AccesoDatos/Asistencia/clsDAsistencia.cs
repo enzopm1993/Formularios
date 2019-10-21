@@ -61,7 +61,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 DateTime fechaInicio = Convert.ToDateTime(Fecha.ToShortDateString());
                 DateTime fechaFin = Convert.ToDateTime(Fecha.AddDays(1).ToShortDateString());
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
-                ////pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1).ToList();
+                pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1).ToList();
                 pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin && x.Linea== BuscarControlador.CODIGOLINEA &&x.Turno==Turno).ToList();
 
                 //IQueryable<ASISTENCIA> query = (from a in db.ASISTENCIA
@@ -90,7 +90,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 DateTime fechaInicio = Convert.ToDateTime(Fecha.ToShortDateString());
                 DateTime fechaFin= Convert.ToDateTime(Fecha.AddDays(1).ToShortDateString());
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
-                ////pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1).ToList();
+                pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1).ToList();
                 //pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin && x.Linea== BuscarControlador.CODIGOLINEA &&x.Turno==Turno).ToList();
 
                 IQueryable<ASISTENCIA> query = (from a in db.ASISTENCIA 
@@ -117,7 +117,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
-              //  pListAsistenciaMovidos = db.sp_ConsultaAsistenciaDiariaPersonalMovido(BuscarControlador.CODIGOLINEA + "", Convert.ToInt32(Turno)).ToList();
+                pListAsistenciaMovidos = db.sp_ConsultaAsistenciaDiariaPersonalMovido(BuscarControlador.CODIGOLINEA + "", Convert.ToInt32(Turno)).ToList();
             }
             if (pListAsistenciaMovidos.ToList().Count == 0)
                 return 0;
