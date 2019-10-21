@@ -13,9 +13,9 @@
 
 
     <input type="hidden" name="CodLinea" id="CodLinea" value="@ViewBag.CodLinea" />
-    
-     @*@if (ViewBag.AsistenciaExiste == 0)
-    {*@
+
+    @*@if (ViewBag.AsistenciaExiste == 0)
+        {*@
     <div class="row">
 
         <div class="col-md-6 col-sm-6">
@@ -38,23 +38,45 @@
                 }
                 @Html.TextBox("txtFecha", fechaactual, new { type = "date", @class = "form-control" })
                 <label id="mensajefecha" class="text-danger" style="display:none">Debe ingresar una fecha </label>
-                
+
             </div>
         </div>
     </div>
     <div class="row">
-       
-        <div class="col-md-12 col-sm-12">
-            <center>
-                <input type="button" id="ConsultaAsistencia" value="Consultar" class="btn btn-primary" onclick="ConsultarSiExisteAsistencia();" />
-                <input type="button" id="Limpiar" value="Limpiar" class="btn btn-info" onclick="Nuevo();" />
-            </center>
+
+        <div class="col-12 text-center">
+
+            <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="ConsultaAsistencia" onclick="ConsultarSiExisteAsistencia()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="Limpiar" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+
+            @*<center>
+                    <input type="button" id="ConsultaAsistencia" value="Consultar" class="btn btn-primary" onclick="ConsultarSiExisteAsistencia();" />
+                    <input type="button" id="Limpiar" value="Limpiar" class="btn btn-info" onclick="Nuevo();" />
+                </center>*@
         </div>
-       
+
     </div>
-        
-           <br />
-        <center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0');" style="display:none" /></center>
+
+
+    <hr />
+    <div id="spinnerCargando" hidden class="text-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
+
+
+    <div style="padding-top:5%" class="text-center">
+        <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0')" style="border-color:#2c3e50; display:none" type="button">
+            <img style="width:25px" src="~/Content/icons/tuerca32.png" /> Generar Asistencia
+        </button>
+        @*<center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0');" style="display:none" /></center>*@
+
+    </div>
     @*}
         else
         {*@
@@ -81,7 +103,7 @@
     </div>
 
 </div>
-<div id="ModalMensaje"> </div>
+
 
 <link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
 <script src="~/Scripts/Asistencia/ControlCuchillo.js"></script>
