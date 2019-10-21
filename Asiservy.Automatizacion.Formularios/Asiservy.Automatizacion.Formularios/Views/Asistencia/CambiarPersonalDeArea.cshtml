@@ -5,7 +5,7 @@
 
 
 
-<div class="container" style="padding-bottom:100px">
+<div class="container-fluid" style="padding-bottom:100px">
     <div class="row">
         <div class="col-md-6">
             <select class="browser-default custom-select" id="optcambiaremp">
@@ -17,7 +17,7 @@
     </div>
     <br />
     <div id="divregresar">
-        <div id="div2regresar" >
+        <div id="div2regresar">
             <div class="row">
 
                 <div class="form-group col-sm-12 col-md-6">
@@ -61,11 +61,11 @@
                     <center> <input type="button" id="ConsultarEmpleadosRegresar" value="Consultar" class="btn btn-primary" onclick="ConsultarEmpleadosRegresar();" /></center>
                     <br />
                 </div>
-               
+
             </div>
 
         </div>
-      
+
         @*<div class="row" id="EmpleadosRegresar">
                 <div class="col">
                     <table id="TablaEmpleadosRegresar" class="table table-striped">
@@ -136,7 +136,7 @@
 
 
         <div class="col-md-6 col-sm-12">
-          
+
             <fieldset class="form-group" style="height:100%">
 
                 <legend>Origen</legend>
@@ -160,18 +160,18 @@
                             </td>
                         </tr>
                         @*<tr id="trlineaop">
-                        <td>Línea:</td>
-                        <td>
-                            <select class="browser-default custom-select">
-                                <option selected>Seleccione..</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                        </td>
-                    </tr>*@
+                                <td>Línea:</td>
+                                <td>
+                                    <select class="browser-default custom-select">
+                                        <option selected>Seleccione..</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </td>
+                            </tr>*@
                         <tr>
                             <td></td>
                             <td>
@@ -188,7 +188,7 @@
         </div>
 
         <div class="col-md-6 col-sm-12">
-         
+
             <fieldset class="form-group" style="height:100%">
                 <legend>Mover a</legend>
                 <center>
@@ -251,16 +251,19 @@
 
 
     </div>
-    <div class="col-12" id="contempleados">
-        <br />
-        <div class="container table-responsive" id="DivEmpleados">
 
+    <div class="row">
+        <div class="col-12" id="contempleados">
+            <br />
+            <div class="table-responsive" id="DivEmpleados">
+
+            </div>
+            <br />
+            <div id="btnGuardarCambioEmp"><center><input type="button" value="Guardar" class="btn btn-primary" onclick="MoverEmpleados();" id="Guardar" /></center></div>
         </div>
-        <br />
-        <div id="btnGuardarCambioEmp"><center><input type="button" value="Guardar" class="btn btn-primary" onclick="MoverEmpleados();" id="Guardar" /></center></div>
     </div>
 
-
 </div>
-<script src="~/Scripts/AsistenciaJS/CambiarPersonal.js"></script>
+
 <script src="~/Scripts/General/CargarCombosLineas.js"></script>
+<link href="~/Content/AsistenciaCss/CambiarPersonal.css" rel="stylesheet" />

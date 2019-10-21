@@ -23,16 +23,19 @@ function SeleccionCuchilloColor(numero, color, estado) {
 }
 
 function CargarColorCuchillos() {
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: "../Asistencia/CuchilloPartial",
         type: "GET",
         success: function (resultado) {
 
             var bitacora = $('#DivColorCuchillos');
+            $("#spinnerCargando").prop("hidden", true);
             bitacora.html(resultado);
         },
         error: function (resultado) {
             MensajeError(resultado, false);
+            $("#spinnerCargando").prop("hidden", true);
         }
     });
 }

@@ -306,6 +306,7 @@
     <Content Include="Content\icons\puerta32.png" />
     <Content Include="Content\icons\save20.png" />
     <Content Include="Content\icons\send24.png" />
+    <Content Include="Content\icons\show24.png" />
     <Content Include="Content\icons\user32.png" />
     <Content Include="Content\icons\ver24.png" />
     <Content Include="Content\ICO\android-icon-144x144.png" />
@@ -377,7 +378,7 @@
     <Content Include="Scripts\Asistencia\ControlCuchillo.js" />
     <Content Include="Scripts\Asistencia\Cuchillo.js" />
     <Content Include="Scripts\Asistencia\EditarAsistencia.js" />
-    <Content Include="Scripts\Asistencia\EmpleadoCuchillo.js" />
+    <Content Include="Scripts\Asistencia\CuchilloEmpleado.js" />
     <Content Include="Scripts\Asistencia\PersonalNomina.js" />
     <Content Include="Scripts\Asistencia\PrestarCuchillo.js" />
     <Content Include="Scripts\Asistencia\ReporteCambioPersonal.js" />
@@ -390,7 +391,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\Hueso\ReporteAvancePorLimpiadora.js" />
+    <Content Include="Scripts\Hueso\ReporteAvanceDiarioPorLimpiadora.js" />
     <Content Include="Scripts\ControlCocheLinea\ControlCocheLinea.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteControlCocheLinea.js" />
     <Content Include="Scripts\ControlEnfundado\ControlEnfundado.js" />
@@ -659,7 +660,7 @@
     <Content Include="Scripts\gijgo\modular\timepicker.min.js" />
     <Content Include="Scripts\gijgo\modular\tree.js" />
     <Content Include="Scripts\gijgo\modular\tree.min.js" />
-    <Content Include="Scripts\Hueso\ReporteAvanceDiarioPorLimpiadora.js" />
+    <Content Include="Scripts\Hueso\ReporteControlAvanceDiario.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
     <Content Include="Scripts\jquery-3.0.0.slim.js" />

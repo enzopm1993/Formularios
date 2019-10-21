@@ -17,7 +17,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
         string[] Usuario = null;
         clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;       
+        clsDEmpleado clsDEmpleado = null;
         clsDControlHueso clsDControlHueso = null;
         clsDClasificador clsDClasificador = null;
         clsDControlMiga clsDControlMiga = null;
@@ -30,9 +30,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-           
-                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dataTableJS = "1";
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
@@ -43,7 +43,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.CodLinea = Empleado.CODIGOLINEA;
                 ViewBag.TipoControlHueso = TipoControlHueso;
                 ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProduccion(DateTime.Now);
-              
+
                 return View();
             }
             catch (Exception ex)
@@ -67,13 +67,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [Authorize]
-        public ActionResult ControlHuesoPartialCabecera()
+        public ActionResult ControlHuesoPartialCabecera(DateTime Fecha)
         {
             try
             {
                 Usuario = User.Identity.Name.Split('_');
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaControlHueso(DateTime.Now);
+                var model = clsDControlHueso.ConsultaControlHueso(Fecha);
                 return PartialView(model);
             }
             catch (Exception ex)
@@ -111,6 +111,43 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
 
                 //SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        [Authorize]
+        public JsonResult InactivarControlHueso(int id)
+        {
+            try
+            {
+                clsDControlHueso = new clsDControlHueso();
+                Usuario = User.Identity.Name.Split('_');
+                CONTROL_HUESO model = new CONTROL_HUESO
+                {                    
+                    IdControlHueso=id,
+                    UsuarioIngresoLog = Usuario[0],
+                    FechaIngresoLog = DateTime.Now,
+                    TerminalIngresoLog = Request.UserHostAddress
+                };
+                clsDControlHueso.InactivarControlHueso(model);
+                return Json("Registro Inactivado", JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 Usuario = User.Identity.Name.Split('_');
                 clsDError = new clsDError();

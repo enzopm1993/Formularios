@@ -61,24 +61,43 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             }
         }
 
+        public void InactivarControlHueso(CONTROL_HUESO model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var ControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x =>
+              x.IdControlHueso == model.IdControlHueso);
+
+                ControlHueso.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                ControlHueso.FechaModificacionLog = model.FechaIngresoLog;
+                ControlHueso.TerminalModificacionLog = model.TerminalIngresoLog;
+                ControlHueso.UsuarioModificacionLog = model.UsuarioIngresoLog;
+
+                entities.SaveChanges();
+            }
+
+        }
+
         public int GenerarControlHueso(CONTROL_HUESO doControl)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 List<spConsultaLimpiadorasControlHueso> detalle = new List<spConsultaLimpiadorasControlHueso>();
                 var FechaActual = DateTime.Now.Date;
-                //doControl.Fecha = FechaActual;
+                
                 var ControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x =>
                 x.Linea == doControl.Linea
-              //  && x.Lote == doControl.Lote
-                && x.HoraFin > doControl.HoraInicio
-               // && x.HoraFin == doControl.HoraFin
-                && x.FechaIngresoLog >= FechaActual);
+              
+                && x.HoraFin == doControl.HoraFin
+                && x.HoraInicio == doControl.HoraInicio
+               
+                && x.FechaIngresoLog >= FechaActual
+                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (ControlHueso == null)
                 {
                     if (doControl.TipoControlHueso == clsAtributos.Hueso || doControl.TipoControlHueso == clsAtributos.Roto)
                     {
-                        detalle = ConsultaLimpiadorasControlHueso(doControl.Linea);
+                        detalle = ConsultaLimpiadorasControlHueso(doControl.Linea, doControl.Fecha);
                         foreach (var x in detalle)
                         {
                             doControl.CONTROL_HUESO_DETALLE.Add(new CONTROL_HUESO_DETALLE
@@ -112,12 +131,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 
        
 
-        public List<spConsultaLimpiadorasControlHueso> ConsultaLimpiadorasControlHueso(string Linea)
+        public List<spConsultaLimpiadorasControlHueso> ConsultaLimpiadorasControlHueso(string Linea, DateTime Fecha)
         {
             using(ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 List<spConsultaLimpiadorasControlHueso> Listado = new List<spConsultaLimpiadorasControlHueso>();
-                Listado = entities.spConsultaLimpiadorasControlHueso(Linea).ToList();
+                Listado = entities.spConsultaLimpiadorasControlHueso(Linea, Fecha).ToList();
                 return Listado;
             }
         }
