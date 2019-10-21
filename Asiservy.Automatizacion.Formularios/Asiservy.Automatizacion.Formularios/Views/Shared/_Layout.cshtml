@@ -13,7 +13,7 @@
 
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/Login/Login.css" rel="shortcut icon" />
+
 
 
     <link rel="apple-touch-icon" sizes="57x57" href="~/Content/ICO/apple-icon-57x57.png">
@@ -33,51 +33,10 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="~/Content/ICO/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
+
+    <link href="~/Content/Layout/Layout.css" rel="stylesheet" />
 </head>
 <body style="background:rgba(189, 189, 189, 0.04);">
-    <style>
-        .navbar {
-            padding: 5px;
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        th, td {
-            white-space: nowrap;
-            padding: 0.5rem;
-        }
-
-        .table td {
-            padding: 0.4rem;
-        }
-
-        .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-            background-color: rgba(34, 60, 112, 0.70);
-            color: white;
-        }
-
-        div.dataTables_wrapper {
-            margin: 0 auto;
-        }
-
-        div.container {
-            width: 80%;
-        }
-
-        .col-md-3 .col-md-2 {
-            padding-right: 15px;
-            padding-left: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 0.6rem;
-        }
-
-        label {
-            display: inline-block;
-            margin-bottom: 0rem;
-        }
-    </style>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="menu">
         <a class="navbar-brand" href="../Home/Home">
@@ -232,6 +191,17 @@
         <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>
 
         <script src="~/Scripts/General/dataTableJS.js"></script>
+    }
+    if (ViewBag.JavaScrip != null)
+    {
+        string js = ViewBag.JavaScrip;
+        string url = "/Scripts/" + js + ".js";
+        var res = HttpUtility.UrlDecode(url);
+        <script src="@res"></script>
+
+
+
+
     }
 
 }

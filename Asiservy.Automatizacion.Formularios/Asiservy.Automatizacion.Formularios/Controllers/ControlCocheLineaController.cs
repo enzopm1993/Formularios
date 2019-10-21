@@ -25,6 +25,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDApiProduccion = new clsDApiProduccion();
                 clsDClasificador = new clsDClasificador();
                 ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {Grupo= clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
@@ -127,7 +128,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+
                 ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
 
                 return View();
             }

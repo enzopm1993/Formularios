@@ -1,0 +1,44 @@
+﻿
+
+.navbar {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+th, td {
+    white-space: nowrap;
+    padding: 0.5rem;
+}
+
+.table td {
+    padding: 0.4rem;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: rgba(34, 60, 112, 0.70);
+    color: white;
+}
+
+div.dataTables_wrapper {
+    margin: 0 auto;
+}
+
+div.container {
+    width: 80%;
+}
+
+.col-md-3 .col-md-2 {
+    padding-right: 15px;
+    padding-left: 10px;
+}
+
+.form-group {
+    margin-bottom: 0.6rem;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 0rem;
+}
+

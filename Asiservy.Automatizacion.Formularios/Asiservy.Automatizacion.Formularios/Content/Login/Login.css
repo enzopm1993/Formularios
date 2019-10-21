@@ -1,7 +1,5 @@
 ﻿html, body {
-    background-image: url('../../Content/images/fondo4.jpg');
-    /*background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');*/
-    /*background-color:darkcyan;*/
+    background-image: url('../../Content/images/fondo4.jpg');  
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
@@ -10,39 +8,24 @@
 
 .container {
     height: 100%;
-    padding-top: 5%;
+    padding-top: 1%;
     align-content: center;
 }
 
 .card {
-    height: 370px;
+    height: 400px;
     margin-top: auto;
     margin-bottom: auto;
     width: 400px;
     /*background-color: #2C3E50 !important;*/
-    background-color: hsla(210, 29%, 24%, 0.4)
-}
 
-.social_icon span {
-    font-size: 60px;
-    margin-left: 10px;
-    color: #FFC312;
+    background-color: hsla(210, 29%, 24%, 0.4);
 }
-
-    .social_icon span:hover {
-        color: white;
-        cursor: pointer;
-    }
 
 .card-header h3 {
     color: white;
 }
 
-.social_icon {
-    position: absolute;
-    right: 20px;
-    top: -45px;
-}
 
 .input-group-prepend span {
     width: 50px;

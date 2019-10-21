@@ -34,6 +34,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+
                 clsDClasificador = new clsDClasificador();
                 var ListLimpiezaPescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
 
@@ -179,6 +183,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 ViewBag.Proyeccion = clsDProyeccionProgramacion.ConsultarProyeccionProgramacion(null);
                 return View();
@@ -235,6 +242,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
 
                 //clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 //var modal = clsDProyeccionProgramacion.ConsultarProyeccionProgramacion(null);

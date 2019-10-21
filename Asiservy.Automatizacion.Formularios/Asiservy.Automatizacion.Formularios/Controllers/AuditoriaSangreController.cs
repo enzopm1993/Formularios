@@ -32,6 +32,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+               
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
                 ViewBag.AuditoriaSangre = clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria();
                 return View();
@@ -148,6 +151,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 clsDClasificador = new clsDClasificador();
                 var ListLineas= clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 

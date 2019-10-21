@@ -4,7 +4,7 @@
     ViewBag.Title = "ControlCuchillo";
 }
 
-<h4>ControlCuchillo</h4>
+<h4>Control de Cuchillos</h4>
 <label>@ViewBag.Linea</label>
 <hr />
 <div class=" container-fluid">
@@ -12,7 +12,7 @@
         <div class="col-4">
             <div class="form-group">
                 <label>Fecha</label>
-                <input type="date" class="form-control" id="txtFecha" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                <input type="date" class="form-control" id="txtFecha" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")"  onchange = "SelectEstado('')"/>
             </div>
         </div>
         <div class="col-4">
@@ -35,13 +35,3 @@
 
 
 <link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
-
-
-<link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
-<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-<link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
-<link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
-<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
-<script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>.
-
-<script src="~/Scripts/AsistenciaJS/ControlCuchillo.js"></script>
