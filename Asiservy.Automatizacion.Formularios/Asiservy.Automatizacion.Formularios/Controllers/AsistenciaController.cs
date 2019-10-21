@@ -1197,7 +1197,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 if (model.NumeroCuchillo == 0)
                 {
-                    ModelState.AddModelError("NumeroCuchillo", "CampoRequerido");
+                    ModelState.AddModelError("Numero Cuchillo", "Campo Requerido");
                     clsDClasificador = new clsDClasificador();
                     var ColorCuchillos = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoColorCuchillo, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                     ViewBag.ColorCuchillos = ColorCuchillos;
@@ -1300,6 +1300,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 liststring = User.Identity.Name.Split('_');
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 if (!ModelState.IsValid)
                 {

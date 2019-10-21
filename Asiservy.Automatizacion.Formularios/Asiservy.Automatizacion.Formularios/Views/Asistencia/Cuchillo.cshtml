@@ -10,7 +10,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h3>Mantenimiento de Cuchillo</h3>
+        <h4>Mantenimiento de Cuchillo</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
@@ -18,7 +18,7 @@
             <div class="offset-2 col-md-3 col-sm-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.NumeroCuchillo, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.NumeroCuchillo, new { htmlAttributes = new { @class = "form-control", @id= "NumeroCuchillo" } })
+                    @Html.EditorFor(model => model.NumeroCuchillo, new { htmlAttributes = new { @class = "form-control", @id = "NumeroCuchillo" } })
                     @Html.ValidationMessageFor(model => model.NumeroCuchillo, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -42,11 +42,18 @@
         </div>
         <div class="form-group">
             <div class="text-center">
-                <input type="submit" value="Grabar" class="btn btn-primary" />
+                <button data-toggle="tooltip" data-placement="top" title="Grabar" class="btn" id="Nuevo" style="border-color:#2c3e50" type="submit">
+                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                </button>
             </div>
         </div>
     </div>
 }
-
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
 <div id="DivColorCuchillos" class="table-responsive"></div>
 

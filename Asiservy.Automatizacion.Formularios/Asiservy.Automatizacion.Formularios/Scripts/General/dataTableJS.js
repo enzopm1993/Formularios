@@ -23,7 +23,11 @@
             "oAria": {
         "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-}
+            },
+              "buttons": {               
+                  "pageLength": "<img style='width:100%' src='../../Content/icons/show24.png' />"
+            }
+
 },
 "pageLength": 5,
 "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
@@ -32,10 +36,14 @@
 "order": [[0, "desc"]],
 "buttons": [
             {
+        extend: 'pageLength',
+        text: ' <img style="width:100%" src="../../Content/icons/show24.png" />',
+        titleAttr: 'Mostrar'
+    }, {
         extend: 'copyHtml5',
-                text: ' <img style="width:100%" src="../../Content/icons/copy24.png" />',
-    titleAttr: 'Copy'
-},
+        text: ' <img style="width:100%" src="../../Content/icons/copy24.png" />',
+        titleAttr: 'Copiar'
+    },
             {
         extend: 'excelHtml5',
                 text: '<img style="width:100%" src="../../Content/icons/excel24.png" />',
@@ -44,7 +52,7 @@
             {
         extend: 'print',
                 text: '<img style="width:100%" src="../../Content/icons/print24.png" />',
-    titleAttr: 'Print'
+    titleAttr: 'Imprimir'
 }
 ]
 

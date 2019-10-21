@@ -1,11 +1,13 @@
 ﻿
 
 $(document).ready(function () {
+    console.log("prueba");
+
     CargarEmpleadoCuchillo();
-     Nuevo();
+    NuevoCuchilloEmpleado();
 });
 
-function Nuevo() {
+function NuevoCuchilloEmpleado() {
     $('#IdEmpleadoCuchillo').val("0");
     $("#SelectEmpleado").prop('selectedIndex', 0);
     $('#SelectCuchilloBlanco').prop('selectedIndex', 0);
@@ -39,51 +41,24 @@ function SeleccionEmpleadoCuchillo(id, cedula, blanco,rojo, negro, estado, nombr
 
 
 function CargarEmpleadoCuchillo() {
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: "../Asistencia/CuchilloEmpleadoPartial",
         type: "GET",
         success: function (resultado) {
 
             var bitacora = $('#DivTableEmpleadoCuchillo');
+            $("#spinnerCargando").prop("hidden", true);
+
             bitacora.html(resultado);
         },
         error: function (resultado) {
             MensajeError(resultado, false);
+            $("#spinnerCargando").prop("hidden", true);
+
         }
     });
 }
-
-//function CambioColorCuchillo(valor,numero) {
-//    $("#SelectNumeroCuchillo").empty();
-//    $("#SelectNumeroCuchillo").append("<option value='' >-- Seleccionar Opción--</option>");
-  
-//    $.ajax({
-//        url: "../Asistencia/ConsultaNumeroCuchillo",
-//        type: "Get",
-//        data:
-//        {
-//            dsColor: valor
-//        },
-//        success: function (resultado) {
-         
-//            if (!$.isEmptyObject(resultado)) {
-//                $.each(resultado, function (create, row) {
-//                    $("#SelectNumeroCuchillo").append("<option value='" + row.NumeroCuchillo + "'>" + row.NumeroCuchillo + "</option>")
-//                });
-//                if (numero != "0") {
-//                    $('#SelectNumeroCuchillo').val(numero);    
-//                }
-//            } else {
-//                MensajeAdvertencia("Color no tiene numeros asigandos", false);
-//            }
-//        },
-//        error: function (resultado) {
-//            MensajeError(JSON.stringify(resultado), false);
-//        }
-//    });
-//}
-
-
 
 
 function CambioEstado(valor) {

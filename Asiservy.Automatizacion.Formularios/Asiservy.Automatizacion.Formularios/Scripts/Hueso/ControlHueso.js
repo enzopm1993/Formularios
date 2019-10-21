@@ -1,6 +1,6 @@
 ﻿
 $(document).ready(function () {
-    CargarControlHueso();
+   CargarControlHueso();
 });
 
 function CargarOrdenFabricacion(valor) {
@@ -19,6 +19,7 @@ function CargarOrdenFabricacion(valor) {
                     $("#SelectOrdenFabricacion").append("<option value='" + row.Orden + "'>" + row.Orden + "</option>")
                 });
             }
+            CargarControlHueso();
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -77,22 +78,11 @@ function NuevoControlHueso() {
     $('#txtFechaProduccion').prop("disabled", false);
 
     $("#SelectLote").empty();
-    $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>");
-    var fecha = new Date();
-   // console.log(fecha);
-    var dia = fecha.getDate();
-    var mes = fecha.getMonth()+1;
-
-    if (dia < 10)
-        dia = "0" + dia;
-    if (mes < 10)
-        mes = "0" + mes;
-
-    var fechaProduccion = fecha.getFullYear() + "-" + mes + "-" + dia;    
-    $('#txtFechaProduccion').val(fechaProduccion);
-    CargarOrdenFabricacion(fechaProduccion);
+    $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>"); 
+    CargarOrdenFabricacion($('#txtFechaProduccion').val());
     CargarControlHueso();
     $("#btnGenerar").prop("hidden", false);
+    $("#btnInactivar").prop("hidden", true);
 
 }
 
@@ -133,7 +123,6 @@ function SeleccionControlHueso(id, lote, orden, tipo, horainicio, horafin, obser
 }
 
 function CargarControlHuesoDetalle(id) {
-  //  console.log(id);
     $("#spinnerCargando").prop("hidden", false);
     var bitacora = $('#DivTableControlHueso');  
     bitacora.html('');
@@ -145,6 +134,7 @@ function CargarControlHuesoDetalle(id) {
         },
         success: function (resultado) {
             $("#btnGenerar").prop("hidden", true);
+            $("#btnInactivar").prop("hidden", false);
             var bitacora = $('#DivTableControlHueso');
             bitacora.html('');
             var bitacora = $('#DivTableControlHuesoDetalle');
@@ -165,7 +155,11 @@ function CargarControlHueso() {
     $('#DivTableControlHuesoDetalle').html('');
     $.ajax({
         url: "../Hueso/ControlHuesoPartialCabecera",
-        type: "GET",       
+        type: "GET",
+        data: {
+            Fecha: $("#txtFechaProduccion").val()
+        },
+    
         success: function (resultado) {
             var bitacora = $('#DivTableControlHueso');
             $("#spinnerCargando").prop("hidden", true);
@@ -240,6 +234,7 @@ function GenerarControlHueso() {
             if (resultado == 0) {
                 MensajeAdvertencia("Ya se ha generado un control con esos parametros");
                 $('#spinnerCargando').prop("hidden", true);
+                $('#btnGenerar').prop("disabled", false);
                 CargarControlHueso();
                 return;
             }
@@ -265,59 +260,6 @@ function GenerarControlHueso() {
    
 
 }
-
-//function ValidaControlHueso(hora) {
-//    if (hora != 0) {
-//        if (hora == "1") {
-//            var fecha = new Date();
-//            hora = fecha.toLocaleTimeString();
-//         //   console.log(hora);
-//        }
-//        $.ajax({
-//            url: "../Hueso/ValidaControlHueso",
-//            type: "GET",
-//            data: {
-//                dsLinea: $('#txtLinea').val(),
-//                Hora: hora
-//            },
-//            success: function (resultado) {
-//                if (resultado == 0) {
-//                    var bitacora = $('#DivTableControlHuesoDetalle');
-//                    bitacora.html('');
-//                    $('#btnGenerar').prop("hidden", false);
-//                    $('#SelectLote').prop("disabled", false);
-
-//                } else {
-//                    CargarControlHuesoDetalle(resultado)
-//                    $('#SelectLote').prop("selectedIndex", 0);
-//                    $('#SelectLote').prop("disabled", true);
-//                    $('#btnGenerar').prop("hidden", true);
-
-//                }
-//            },
-//            error: function (resultado) {
-//                MensajeError(resultado.responseText, false);
-//            }
-//        });
-
-//    }
-//}
-
-//function seleccionLote(valor) {
-//    if (valor != 0) {
-//        SelectHora = $('#SelectHora').val();
-//        if (SelectHora == 0) {
-//            MensajeAdvertencia("Seleccione una Hora");
-//            $('#SelectLote').prop("selectedIndex", 0);
-//        } else {
-//            ValidaControlHueso(SelectHora);
-//        }
-
-//    }
-
-//}
-
-
 function checkControlHueso(id, detalle) {
     id = "#" + id;
     label = "#labelCheck-" + detalle;
@@ -374,3 +316,68 @@ function GuardarControlHueso(detalle, hueso, miga, id) {
 
 }
 
+
+
+function InactivarRegistro() {
+    if ($("#txtIdControlHueso").val() < 1) {
+        NuevoControlHueso();
+        return;
+    }
+ 
+    $("#spinnerCargando").prop("hidden", false);
+    $('#DivTableControlHueso').html('');
+    $('#DivTableControlHuesoDetalle').html('');
+    $.ajax({
+        url: "../Hueso/InactivarControlHueso",
+        type: "GET",
+        data: {
+            id: $("#txtIdControlHueso").val()
+        },
+
+        success: function (resultado) {            
+            $("#spinnerCargando").prop("hidden", true);
+            MensajeCorrecto(resultado);
+            var bitacora = $('#DivTableControlHuesoDetalle');
+            bitacora.html('');
+            $('#btnNuevo').prop("disabled", false);
+            $('#btnInactivar').prop("disabled", false);
+            NuevoControlHueso();
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargando").prop("hidden", true);
+            $('#btnNuevo').prop("disabled", false);
+            $('#btnInactivar').prop("disabled", false);
+
+          
+
+        }
+    });
+
+}
+
+
+var modalConfirm = function (callback) {
+
+    $("#btnInactivar").on("click", function () {
+        $("#mi-modal").modal('show');
+    });
+
+    $("#modal-btn-si").on("click", function () {
+        callback(true);
+        $("#mi-modal").modal('hide');
+    });
+
+    $("#modal-btn-no").on("click", function () {
+        callback(false);
+        $("#mi-modal").modal('hide');
+    });
+};
+
+modalConfirm(function (confirm) {
+    if (confirm) {
+        //Acciones si el usuario confirma
+        InactivarRegistro();
+
+    }
+});

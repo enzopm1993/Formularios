@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaReporteControlCuchillo>
 
-<table class="table">
+<table class="table table-bordered table" id="tblDataTable">
     <thead>
         <tr>
             <th rowspan="2">
@@ -28,8 +28,8 @@
             </th>
             <th class="text-center">
                 <label>Rojo</label>
-            </th >
-            <th class="text-center" style="background:#F0F8FF"> 
+            </th>
+            <th class="text-center" style="background:#F0F8FF">
                 <label>Blanco</label>
             </th>
             <th class="text-center" style="background:#F0F8FF">
@@ -43,165 +43,169 @@
             </th>
             <th class="text-center" style="background:#F0F8FF">
                 <label>Blanco</label>
-            </th >
+            </th>
             <th class="text-center" style="background:#F0F8FF">
                 <label>Rojo</label>
             </th>
         </tr>
     </thead>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cedula)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @if (item.EVBlanco == "1")
-            {
-                <label class="btn" style="background:#28B463">
-                    <input type="checkbox" name="name" value="" disabled checked />
-                    @item.ECBlanco
-                </label>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cedula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @if (item.EVBlanco == "1")
+                    {
+                        <label class="btn" style="background:#28B463">
+                            <input type="checkbox" name="name" value="" disabled checked />
+                            @item.ECBlanco
+                        </label>
 
-            }
-            else
-            {
-                <label class="btn" style="background:#808080">
-                    <input type="checkbox" name="name" value="" disabled />
-                    @item.ECBlanco
-                </label>
-            }
-        </td>
+                    }
+                    else
+                    {
+                        <label class="btn" style="background:#808080">
+                            <input type="checkbox" name="name" value="" disabled />
+                            @item.ECBlanco
+                        </label>
+                    }
+                </td>
 
-        <td>
-            @if (item.EVRojo == "1")
-            {
-                <label class="btn" style="background:#28B463">
-                    <input type="checkbox" name="name" value="" disabled checked />
-                    @item.ECRojo
-                </label>
+                <td>
+                    @if (item.EVRojo == "1")
+                    {
+                        <label class="btn" style="background:#28B463">
+                            <input type="checkbox" name="name" value="" disabled checked />
+                            @item.ECRojo
+                        </label>
 
-            }
-            else
-            {
-                <label class="btn" style="background:#808080">
-                    <input type="checkbox" name="name" value="" disabled />
-                    @item.ECRojo
-                </label>
-            }
-        </td>
-        @* Almuerzo *@
-        <td style="background:#F0F8FF">
-            @if (item.AVBlanco == "1")
-            {
-                <label class="btn" style="background:#28B463">
-                    <input type="checkbox" name="name" value="" disabled checked />
-                    @item.ACBlanco
-                </label>
+                    }
+                    else
+                    {
+                        <label class="btn" style="background:#808080">
+                            <input type="checkbox" name="name" value="" disabled />
+                            @item.ECRojo
+                        </label>
+                    }
+                </td>
+                @* Almuerzo *@
+                <td style="background:#F0F8FF">
+                    @if (item.AVBlanco == "1")
+                    {
+                        <label class="btn" style="background:#28B463">
+                            <input type="checkbox" name="name" value="" disabled checked />
+                            @item.ACBlanco
+                        </label>
 
-            }
-            else
-            {
-                <label class="btn" style="background:#808080">
-                    <input type="checkbox" name="name" value="" disabled />
-                    @item.ACBlanco
-                </label>
-            }
-        </td>
-        <td style="background:#F0F8FF">
-            @if (item.AVRojo == "1")
-            {
-                <label class="btn" style="background:#28B463">
-                    <input type="checkbox" name="name" value="" disabled checked />
-                    @item.ACRojo
-                </label>
+                    }
+                    else
+                    {
+                        <label class="btn" style="background:#808080">
+                            <input type="checkbox" name="name" value="" disabled />
+                            @item.ACBlanco
+                        </label>
+                    }
+                </td>
+                <td style="background:#F0F8FF">
+                    @if (item.AVRojo == "1")
+                    {
+                        <label class="btn" style="background:#28B463">
+                            <input type="checkbox" name="name" value="" disabled checked />
+                            @item.ACRojo
+                        </label>
 
-            }
-            else
-            {
-                <label class="btn" style="background:#808080">
-                    <input type="checkbox" name="name" value="" disabled />
-                    @item.ACRojo
-                </label>
-            }
-        </td>
-
-
-        @* Regreso *@
-        <td>
-            @if (item.RVBlanco == "1")
-            {
-                <label class="btn" style="background:#28B463">
-                    <input type="checkbox" name="name" value="" disabled checked />
-                    @item.RCBlanco
-                </label>
-
-            }
-            else
-            {
-                <label class="btn" style="background:#808080">
-                    <input type="checkbox" name="name" value="" disabled />
-                    @item.RCBlanco
-                </label>
-            }
-        </td>
-        <td>
-            @if (item.RVRojo == "1")
-            {
-                <label class="btn" style="background:#28B463">
-                    <input type="checkbox" name="name" value="" disabled checked />
-                    @item.RCRojo
-                </label>
-
-            }
-            else
-            {
-                <label class="btn" style="background:#808080">
-                    <input type="checkbox" name="name" value="" disabled />
-                    @item.RCRojo
-                </label>
-            }
-        </td>
+                    }
+                    else
+                    {
+                        <label class="btn" style="background:#808080">
+                            <input type="checkbox" name="name" value="" disabled />
+                            @item.ACRojo
+                        </label>
+                    }
+                </td>
 
 
-        @* Salida *@
-        <td style="background:#F0F8FF">
-            @if (item.SVBlanco == "1")
-            {
-                <label class="btn" style="background:#28B463">
-                    <input type="checkbox" name="name" value="" disabled checked />
-                    @item.SCBlanco
-                </label>
+                @* Regreso *@
+                <td>
+                    @if (item.RVBlanco == "1")
+                    {
+                        <label class="btn" style="background:#28B463">
+                            <input type="checkbox" name="name" value="" disabled checked />
+                            @item.RCBlanco
+                        </label>
 
-            }
-            else
-            {
-                <label class="btn" style="background:#808080">
-                    <input type="checkbox" name="name" value="" disabled />
-                    @item.SCBlanco
-                </label>
-            }
-        </td>
-        <td style="background:#F0F8FF">
-            @if (item.SVRojo == "1")
-            {
-                <label class="btn" style="background:#28B463">
-                    <input type="checkbox" name="name" value="" disabled checked />
-                    @item.SCRojo
-                </label>
+                    }
+                    else
+                    {
+                        <label class="btn" style="background:#808080">
+                            <input type="checkbox" name="name" value="" disabled />
+                            @item.RCBlanco
+                        </label>
+                    }
+                </td>
+                <td>
+                    @if (item.RVRojo == "1")
+                    {
+                        <label class="btn" style="background:#28B463">
+                            <input type="checkbox" name="name" value="" disabled checked />
+                            @item.RCRojo
+                        </label>
 
-            }
-            else
-            {
-                <label class="btn" style="background:#808080">
-                    <input type="checkbox" name="name" value="" disabled />
-                    @item.SCRojo
-                </label>
-            }
-        </td>
-    </tr>
-}
+                    }
+                    else
+                    {
+                        <label class="btn" style="background:#808080">
+                            <input type="checkbox" name="name" value="" disabled />
+                            @item.RCRojo
+                        </label>
+                    }
+                </td>
 
+
+                @* Salida *@
+                <td style="background:#F0F8FF">
+                    @if (item.SVBlanco == "1")
+                    {
+                        <label class="btn" style="background:#28B463">
+                            <input type="checkbox" name="name" value="" disabled checked />
+                            @item.SCBlanco
+                        </label>
+
+                    }
+                    else
+                    {
+                        <label class="btn" style="background:#808080">
+                            <input type="checkbox" name="name" value="" disabled />
+                            @item.SCBlanco
+                        </label>
+                    }
+                </td>
+                <td style="background:#F0F8FF">
+                    @if (item.SVRojo == "1")
+                    {
+                        <label class="btn" style="background:#28B463">
+                            <input type="checkbox" name="name" value="" disabled checked />
+                            @item.SCRojo
+                        </label>
+
+                    }
+                    else
+                    {
+                        <label class="btn" style="background:#808080">
+                            <input type="checkbox" name="name" value="" disabled />
+                            @item.SCRojo
+                        </label>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+<script src="~/Scripts/General/dataTableJS.js"></script> 

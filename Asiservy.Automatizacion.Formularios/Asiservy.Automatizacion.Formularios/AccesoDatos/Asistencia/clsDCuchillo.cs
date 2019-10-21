@@ -276,14 +276,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 clsDEmpleado = new clsDEmpleado();
-                IEnumerable<EMPLEADO_CUCHILLO> EmpleadosCuchillos = entities.EMPLEADO_CUCHILLO;
-                List<EmpleadoCuchilloViewModel> ListadoEmpleadoCuchillo = new List<EmpleadoCuchilloViewModel>();
-
+                List<spConsultaCuchilloEmpleado> EmpleadosCuchillos = new List<spConsultaCuchilloEmpleado>();
+               
 
                 if (!string.IsNullOrEmpty(filtros.Cedula))
                 {
-                    EmpleadosCuchillos = EmpleadosCuchillos.Where(x => x.Cedula == filtros.Cedula);
-                }               
+                    EmpleadosCuchillos = entities.spConsultaCuchilloEmpleado(filtros.Cedula).ToList();
+                }
+                else
+                {
+                    EmpleadosCuchillos = entities.spConsultaCuchilloEmpleado("0").ToList();
+                }
 
 
                 List<EmpleadoCuchilloViewModel> Listado = (from c in EmpleadosCuchillos                                                
@@ -291,6 +294,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                                  {
                                                      IdEmpleadoCuchillo = c.IdEmpleadoCuchillo,
                                                      Cedula = c.Cedula,
+                                                     Nombre=c.Nombre,
                                                     CuchilloBlanco=c.CuchilloBlanco,
                                                     CuchilloRojo=c.CuchilloRojo,
                                                     CuchilloNegro=c.CuchilloNegro,
@@ -303,19 +307,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                                      UsuarioModificacionLog = c.UsuarioModificacionLog
                                                  }
                                                  ).ToList();
+             
 
-                foreach (var x in Listado)
-                {
-                    var empleado = clsDEmpleado.ConsultaEmpleado(x.Cedula).FirstOrDefault();
-                    if (empleado != null && empleado.CODIGOLINEA == Linea)
-                    {
-                        x.Nombre = empleado.NOMBRES ?? "";
-                        ListadoEmpleadoCuchillo.Add(x);
-                    }
-                }
-
-
-                return ListadoEmpleadoCuchillo;
+                return Listado;
             }
         }
 
