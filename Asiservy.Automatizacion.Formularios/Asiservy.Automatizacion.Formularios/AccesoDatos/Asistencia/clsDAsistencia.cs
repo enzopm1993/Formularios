@@ -61,7 +61,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 DateTime fechaInicio = Convert.ToDateTime(Fecha.ToShortDateString());
                 DateTime fechaFin = Convert.ToDateTime(Fecha.AddDays(1).ToShortDateString());
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
-                pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1).ToList();
+                pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1,Fecha).ToList();
                 pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin && x.Linea== BuscarControlador.CODIGOLINEA &&x.Turno==Turno).ToList();
 
                 //IQueryable<ASISTENCIA> query = (from a in db.ASISTENCIA
@@ -90,7 +90,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 DateTime fechaInicio = Convert.ToDateTime(Fecha.ToShortDateString());
                 DateTime fechaFin= Convert.ToDateTime(Fecha.AddDays(1).ToShortDateString());
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
-                pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1).ToList();
+                pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1,Fecha).ToList();
                 //pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin && x.Linea== BuscarControlador.CODIGOLINEA &&x.Turno==Turno).ToList();
 
                 IQueryable<ASISTENCIA> query = (from a in db.ASISTENCIA 
@@ -276,7 +276,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 }
                 else
                 {
-                    pListAsistenciaMovidos = db.sp_ConsultaAsistenciaDiariaPersonalMovido(CodLinea, Convert.ToInt32(turno)).ToList();
+                    pListAsistenciaMovidos = db.sp_ConsultaAsistenciaDiariaPersonalMovido(CodLinea, Convert.ToInt32(turno), Fecha).ToList();
                     //pListAsistenciaMovidos.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     foreach (var item in pListAsistenciaMovidos)
                     {
