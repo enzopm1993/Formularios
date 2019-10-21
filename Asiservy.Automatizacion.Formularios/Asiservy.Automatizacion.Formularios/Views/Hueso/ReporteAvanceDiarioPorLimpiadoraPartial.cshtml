@@ -38,7 +38,26 @@
                     @Html.DisplayFor(modelItem => item.Miga)
                 </td>
                 <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Avance)
+
+                    @Html.DisplayFor(modelItem => item.Avance) &nbsp;
+                    @{
+                        if (item.Avance > 70)
+                        {
+                            <i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i>
+                        }
+                        else if (item.Avance > 50)
+                        {
+                            <i class="fas fa-arrow-circle-right" style="background:#ffd800; border-radius:10px"></i>
+
+                        }
+                        else
+                        {
+                            <i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i>
+
+                        }
+
+                    }
+
                 </td>
 
             </tr>
