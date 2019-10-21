@@ -4,6 +4,8 @@ $(document).ready(function () {
 });
 
 function CargarOrdenFabricacion(valor) {
+    if (valor == '' || valor == null)
+        return;
     $("#SelectOrdenFabricacion").empty();
     $("#SelectOrdenFabricacion").append("<option value='' >-- Seleccionar Opción--</option>");
     $.ajax({
@@ -150,6 +152,9 @@ function CargarControlHuesoDetalle(id) {
 
 }
 function CargarControlHueso() {
+    //console.log($("#txtFechaProduccion").val());
+    if ($("#txtFechaProduccion").val() == '' || $("#txtFechaProduccion").val() == null)
+        return;
     $("#spinnerCargando").prop("hidden", false);
     $('#DivTableControlHueso').html('');
     $('#DivTableControlHuesoDetalle').html('');

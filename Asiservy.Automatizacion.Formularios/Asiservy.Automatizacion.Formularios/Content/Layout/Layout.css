@@ -28,7 +28,7 @@ div.container {
     width: 80%;
 }
 
-.col-md-3 .col-md-2 {
+.col-md-3 .col-md-2 .col-md-4 {
     padding-right: 15px;
     padding-left: 10px;
 }
@@ -42,3 +42,11 @@ label {
     margin-bottom: 0rem;
 }
 
+tbody{
+    font-size:13px;
+}
+
+.form-control {
+    padding: 0.20rem 0.30rem;
+    height: calc(1.5em + 0.55rem + 2px);
+}
