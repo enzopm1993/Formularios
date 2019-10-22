@@ -17,6 +17,10 @@ namespace ProyectoWeb.Controllers
         // GET: Login
         public ActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("home", "home");
+            }
             return View();
         }
         public ActionResult Logout()
