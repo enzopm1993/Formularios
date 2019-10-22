@@ -316,8 +316,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using(ASIS_PRODEntities db =new  ASIS_PRODEntities())
             {
-                DateTime Fechainicio =Convert.ToDateTime(DateTime.Now.ToShortDateString());
-                DateTime FechaFin = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
+                DateTime Fechainicio =Convert.ToDateTime(psAsistencia.Fecha.Value.ToShortDateString());
+                DateTime FechaFin = Convert.ToDateTime(psAsistencia.Fecha.Value.AddDays(1).ToShortDateString());
                 var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == psAsistencia.Cedula && (x.Fecha >= Fechainicio && x.Fecha < FechaFin)).FirstOrDefault();
                 BuscarEnAsistencia.EstadoAsistencia = psAsistencia.EstadoAsistencia;
                 if (!string.IsNullOrEmpty(psAsistencia.Observacion))
