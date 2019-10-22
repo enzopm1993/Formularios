@@ -5,44 +5,42 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Asiservy</title>
-
-    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
-    <script src="~/Scripts/General/GeneralJS.js"></script>
-
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-
-
-
-    <link rel="apple-touch-icon" sizes="57x57" href="~/Content/ICO/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="~/Content/ICO/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="~/Content/ICO/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/ICO/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="~/Content/ICO/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/ICO/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="~/Content/ICO/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="~/Content/ICO/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/ICO/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="~/Content/ICO/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/ICO/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="~/Content/ICO/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/ICO/favicon-16x16.png">
-    <link rel="manifest" href="~/Content/ICO/manifest.json">
+    <link rel="apple-touch-icon" sizes="57x57" href="~/Content/admin/img/ICO/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/Content/admin/img/ICO/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/Content/admin/img/ICO/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/admin/img/ICO/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/Content/admin/img/ICO/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/admin/img/ICO/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/Content/admin/img/ICO/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/Content/admin/img/ICO/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/admin/img/ICO/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/Content/admin/img/ICO/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/admin/img/ICO/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/Content/admin/img/ICO/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/admin/img/ICO/favicon-16x16.png">
+    <link rel="manifest" href="~/Content/admin/img/ICO/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="~/Content/ICO/ms-icon-144x144.png">
+    <meta name="msapplication-TileImage" content="~/Content/admin/img/ICO/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
-    <link href="~/Content/Layout/Layout.css" rel="stylesheet" />
-</head>
-<body style="background:rgba(189, 189, 189, 0.04);">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="menu">
-        <a class="navbar-brand" href="../Home/Home">
-            <img style="height:50px; width:50px" src="~/Content/images/pez.png" class="img-responsive" />
-        </a>
+
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+
+    <!-- Custom fonts for this template-->
+    <link href="~/Content/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="~/Content/admin/css/sb-admin-2.css" rel="stylesheet">
+
+    <link href="~/Content/Layout/Layout.css" rel="stylesheet" />
+
+
+</head>
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
         @if (User.Identity.IsAuthenticated)
         {
             List<ConsultaOpcionesxRolViewModel> Padre = new List<ConsultaOpcionesxRolViewModel>();
@@ -52,58 +50,187 @@
 
             Hijo = (List<ConsultaOpcionesxRolViewModel>)Session["Hijo"];
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav" style="width:100%">
-                    @if (Padre != null)
+            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+                    <div class="sidebar-brand-icon">
+                        <img class="imgLogoPez" src="~/Content/admin/img/logo_pez_102x102.png" alt="Asiservy" />
+                    </div>
+                    <div class="sidebar-brand-text mx-3">
+                        <img class="imgLogoAsy" src="~/Content/admin/img/logo_512x212.png" alt="Asiservy" />
+                    </div>
+                </a>
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+                @if (Padre != null)
+                {
+                    foreach (var MenusPadres in Padre)
                     {
-                        string[] ArrayUrl;
-                        foreach (var MenusPadres in Padre)
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">@MenusPadres.Nombre <span class="sr-only">(current)</span></a>
-                                <div class="dropdown-menu" aria-labelledby="themes">
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse@(MenusPadres.IdOpcion)" aria-expanded="true" aria-controls="collapse@(MenusPadres.IdOpcion)">
+                                <i class="fas fa-fw fa-cog"></i>
+                                <span>@MenusPadres.Nombre</span>
+                            </a>
+                            <div id="collapse@(MenusPadres.IdOpcion)" class="collapse" aria-labelledby="heading@item.Codigo" data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+
                                     @if (Hijo != null)
                                     {
                                         foreach (var MenuHijo in Hijo.Where(x => x.Padre == MenusPadres.IdOpcion))
                                         {
-                                            ArrayUrl = MenuHijo.Url.Split('/');
-                                            @Html.ActionLink(MenuHijo.Nombre, ArrayUrl[1], ArrayUrl[0], null, new { @class = "dropdown-item" })
+                                            <a class="collapse-item" href="/@MenuHijo.Url">@MenuHijo.Nombre</a>
                                         }
                                     }
                                 </div>
-                            </li>
-                        }
+                            </div>
+                        </li>
 
                     }
-                    <li style="width:100%" id="logoutli">
-                        <a class="nav-link" style="float:right" href="../Login/Logout?Length=11" id="logout">Cerrar Sesión</a>  <label id="userl" class="nav-link" style="float:right; color:#1CBC8B"> </label>
-                    </li>
+
+                }
 
 
-
-                </ul>
-
-            </div>
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+                <!-- Sidebar Toggler (Sidebar) -->
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>
+            </ul>
         }
-    </nav>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                @if (User.Identity.IsAuthenticated)
+                {
+
+                    <!-- Topbar -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                        <!-- Sidebar Toggle (Topbar) -->
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <!-- Topbar Navbar -->
+                        <ul class="navbar-nav ml-auto">
+
+                            <!-- Nav Item - User Information -->
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name.Split('_')[0]</span>
+                                    <img class="img-profile rounded-circle" src="~/Content/admin/img/user.png">
+                                </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Cerrar sesión
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- End of Topbar -->
+                }
+                <div id="ModalMensaje"></div>
+
+                <div class="container-fluid">
+                    <div id="response">
+
+                    </div>
 
 
-    <div id="ModalMensaje"></div>
+                    @RenderBody()
 
-    <div style="padding-bottom: 50px;" class="container-fluid">
-        <div style="padding-bottom:5%; padding-top:1%">
-            <div id="response">
 
+                </div>
+                <!-- Modal -->
+                <div class="modal" style="background-color: white;" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body text-center">
+                                <div class="text-center">
+                                    <img style="width:50%" src="~/Content/images/cargando1.gif" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.container-fluid -->
             </div>
+            <!-- End of Main Content -->
 
-
-            @RenderBody()
         </div>
-        <script src="~/Scripts/Mensajes/Mensajes.js"></script>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cierre de sesión</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">¿Está seguro de cerrar la sesión actual?.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="../Login/Logout?Length=11">Cerrar sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/Content/admin/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="~/Content/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="~/Content/admin/js/sb-admin-2.min.js"></script>
+
+    <script src="~/Scripts/General/GeneralJS.js"></script>
+    <script src="~/Scripts/Mensajes/Mensajes.js"></script>
+ 
+        @if (ViewBag.dataTableJS != null)
+        {
+            <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+            <link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+            <link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+            <link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+            <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+            <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
+
+            <script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+            <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
+            <script src="~/Scripts/DataTables/media/js/dataTables.jszip.min.js"></script>
+            <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
+            <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>
+
+            <script src="~/Scripts/General/dataTableJS.js"></script>
+        }
+
+
+        @if (ViewBag.JavaScrip != null)
+        {
+            string js = ViewBag.JavaScrip;
+            string url = "/Scripts/" + js + ".js";
+            var res = HttpUtility.UrlDecode(url);
+            <script src="@res"></script>
+
+        }
+       
 
         @if (TempData["MensajeConfirmacion"] != null)
         {
@@ -118,93 +245,7 @@
               MensajeError("@TempData["MensajeError"]",false);
             </script>
         }
-        else if (TempData["MensajeAdvertencia"] != null)
-        {
-            <script>
-                MensajeAdvertencia("@TempData["MensajeAdvertencia"]", false);
-            </script>
-        }
-    </div>
+   
 
-    <!-- Modal -->
-    <div class="modal" style="background-color: white;" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <div class="text-center">
-                        <img style="width:50%" src="~/Content/images/cargando1.gif" />
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @{
-        if (User.Identity.IsAuthenticated)
-        {
-            <footer style="color:black">
-                <hr />
-                <p>&copy; @DateTime.Now.Year - Asiservy S.A</p>
-            </footer>
-        }
-        else
-        {
-
-            <footer style="color:white">
-                <hr />
-                <p>&copy; @DateTime.Now.Year - Asiservy S.A</p>
-            </footer>
-        }
-    }
-
-
-</body>
-
-
-
+    </body>
 </html>
-
-
-@{
-    string[] liststring = User.Identity.Name.Split('_');
-    if (User.Identity.IsAuthenticated)
-    {
-        <script>
-           $('#userl').text("@liststring[0]" +" |");
-        </script>
-    }
-
-    if (ViewBag.dataTableJS != null)
-    {
-
-        <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
-        <link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-        <link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
-        <link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
-        <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
-        <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
-
-        <script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-        <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
-        <script src="~/Scripts/DataTables/media/js/dataTables.jszip.min.js"></script>
-        <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
-        <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>
-
-        <script src="~/Scripts/General/dataTableJS.js"></script>
-    }
-    if (ViewBag.JavaScrip != null)
-    {
-        string js = ViewBag.JavaScrip;
-        string url = "/Scripts/" + js + ".js";
-        var res = HttpUtility.UrlDecode(url);
-        <script src="@res"></script>
-
-
-
-
-    }
-
-}
-
-
-
