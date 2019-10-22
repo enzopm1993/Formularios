@@ -1,5 +1,5 @@
 ﻿html, body {
-    background-image: url('../../Content/images/fondo4.jpg');  
+    background-image: url('../../Content/images/fondo6.jpg');  
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
@@ -78,4 +78,9 @@ input:focus {
 
 input, select, textarea {
     max-width: 100%;
+}
+
+
+h3 {
+    font-family: "Comic Sans MS", cursive, sans-serif;
 }

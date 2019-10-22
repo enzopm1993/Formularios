@@ -191,15 +191,24 @@
 
     <div class="form-group">
         <div class="col-md-12 text-center">
-            <input type="submit" value="Grabar" class="btn btn-primary" />
-
+            @*<input type="submit" value="Grabar" class="btn btn-primary" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Grabar" class="btn" id="" onclick="" style="border-color:#2c3e50" type="submit">
+                <img style="width:100%" src="~/Content/icons/save20.png" />
+            </button>
             @if (ViewBag.Justifica != null)
             {
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseJustificar" aria-expanded="false" aria-controls="collapseExample">
+            <button data-toggle="collapse" data-placement="top" title="justificar" class="btn" data-target="#collapseJustificar" aria-expanded="false" aria-controls="collapseExample" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/justificar24.png" />
+            </button>
+            
+            @*<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseJustificar" aria-expanded="false" aria-controls="collapseExample">
                     justificar
-                </button>
+                </button>*@
             }
-            <input type="button" value="Cancelar" class="btn btn-primary" data-dismiss="modal" />
+            @*<input type="button" value="Cancelar" class="btn btn-primary" data-dismiss="modal" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Cancelar" class="btn" data-dismiss="modal" id="" onclick="" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
         </div>
     </div>
 

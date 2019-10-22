@@ -23,10 +23,10 @@ function CargarReporteAvance() {
             dsLinea: selectLinea
         },
         success: function (resultado) {
-            if (resultado == "1") {
-    $("#spinnerCargando").prop("hidden", false);
+            if (resultado == "1") { 
 
                 MensajeAdvertencia("No existen registros para esa linea");
+                $("#spinnerCargando").prop("hidden", true);
 
             } else {
                 var bitacora = $('#DivTableReporteControlAvance');
@@ -40,7 +40,7 @@ function CargarReporteAvance() {
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
             $('#btnConsultar').prop("disabled", false);
-    $("#spinnerCargando").prop("hidden", true);
+            $("#spinnerCargando").prop("hidden", true);
 
 
         }
