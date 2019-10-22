@@ -3,31 +3,92 @@
     ViewBag.Title = "AsistenciaGeneral";
 }
 
-<h2>AsistenciaGeneral</h2>
-<div style="padding-top: 10px; padding-bottom: 100px">
+<h4>Asistencia General</h4>
+<div  padding-bottom: 100px">
 
-    <h4 class="custom-control-inline">Fecha: &nbsp; @DateTime.Now.ToString("dd-MM-yyyy") </h4>
-    <br />
+    @*<h4 class="custom-control-inline">Fecha: &nbsp; @DateTime.Now.ToString("dd-MM-yyyy") </h4>*@
+  
     <label>@ViewBag.Linea</label>
     @Html.Hidden("Existe")
-    <br />
-    Turno: <input type="hidden" name="CodLinea" id="CodLinea" value="@ViewBag.CodLinea" />
+
+    <input type="hidden" name="CodLinea" id="CodLinea" value="@ViewBag.CodLinea" />
     <br />
     @*@if (ViewBag.AsistenciaExiste == 0)
         {*@
+    @*<div class="row">
+            <div class="col-md-4 col-sm-12">
+                <select name="TurnoGen" id="TurnoGen" class="browser-default custom-select" onchange="ConsultarSiExisteAsistencia();">
+                    <option selected>Seleccione</option>
+                    <option value="1">Turno 1</option>
+                    <option value="2">Turno 2</option>
+                </select>
+            </div>
+
+        </div>*@
+
     <div class="row">
-        <div class="col-md-4 col-sm-12">
-            <select name="TurnoGen" id="TurnoGen" class="browser-default custom-select" onchange="ConsultarSiExisteAsistencia();">
-                <option selected>Seleccione</option>
-                <option value="1">Turno 1</option>
-                <option value="2">Turno 2</option>
-            </select>
+
+        <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+                <label>Turno:</label>
+                <select name="TurnoGen" id="TurnoGen" class="form-control" @*onchange="ConsultarSiExisteAsistencia();"*@>
+                    <option selected>Seleccione</option>
+                    <option value="1">Turno 1</option>
+                    <option value="2">Turno 2</option>
+
+                </select>
+                <label id="mensajeturno" class="text-danger" style="display:none">Debe seleccionar un turno</label>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+                <label>Fecha:</label>
+                @{
+                    var fechaactual = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                @Html.TextBox("txtFecha", fechaactual, new { type = "date", @class = "form-control" })
+                <label id="mensajefecha" class="text-danger" style="display:none">Debe ingresar una fecha </label>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-12 text-center">
+
+            <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="ConsultaAsistencia" onclick="ConsultarSiExisteAsistencia()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="Limpiar" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+
+            @*<center>
+                    <input type="button" id="ConsultaAsistencia" value="Consultar" class="btn btn-primary" onclick="ConsultarSiExisteAsistencia();" />
+                    <input type="button" id="Limpiar" value="Limpiar" class="btn btn-info" onclick="Nuevo();" />
+                </center>*@
         </div>
 
     </div>
-    <br />
 
-    <center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiariaGeneral('@ViewBag.CodLinea','0');" style="display:none" /></center>
+    <hr />
+    <div id="spinnerCargando" hidden class="text-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
+
+
+    <div style="" class="text-center">
+        <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiariaGeneral('@ViewBag.CodLinea','0');" style="border-color:#2c3e50; display:none" type="button">
+            <img style="width:25px" src="~/Content/icons/tuerca32.png" /> Generar Asistencia
+        </button>
+        @*<center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0');" style="display:none" /></center>*@
+
+    </div>
+
+    @*<center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiariaGeneral('@ViewBag.CodLinea','0');" style="display:none" /></center>*@
     @*//}*@
     @*else
         {

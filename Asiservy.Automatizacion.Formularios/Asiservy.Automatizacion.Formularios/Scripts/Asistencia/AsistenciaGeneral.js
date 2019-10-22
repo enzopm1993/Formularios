@@ -1,4 +1,25 @@
-﻿function toDate(dStr, format) {
+﻿function Nuevo() {
+    $('#GenerarAsistencia').hide();
+    $('#TurnoGen').removeAttr('disabled');
+    $('#txtFecha').removeAttr('disabled');
+    $('#ConsultaAsistencia').removeAttr('disabled');
+    $('#TurnoGen').prop('selectedIndex', 0);
+    $('#PartialAsistencia').empty();
+
+
+    var d = new Date();
+
+    var dia = d.getDate();
+
+    var mes = (d.getMonth() + 1) < 10 ? ("0" + (d.getMonth() + 1)) : d.getMonth() + 1;
+    var anio = d.getFullYear();
+
+    var fechatotal = anio + "-" + mes + "-" + dia
+    $('#txtFecha').val(fechatotal);
+
+
+}
+function toDate(dStr, format) {
     //**
     var pieces = dStr.split(':'),
         hour, minute, second;
@@ -42,22 +63,35 @@ function buscarenTabla() {
 function ConsultarSiExisteAsistencia() {
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
-        MensajeError("Debe seleccionar un turno", false);
+        $('#mensajeturno').show();
+        return false;
     } else {
+        $('#mensajeturno').hide();
+    }
+    if ($('#txtFecha').val() == "") {
+        $('#mensajefecha').show();
+        return false;
+    } else {
+        $('#mensajefecha').hide();
+    }
+    $('#PartialAsistencia').empty();
         $('#PartialAsistencia').empty();
         $.ajax({
             //contentType: "application/json; charset=utf-8",
             url: '../Asistencia/ConsultarExistenciaAsistenciaGeneral',
             type: "POST",
             data: {
-                Turno: $('#TurnoGen').val()
+                Turno: $('#TurnoGen').val(),
+                Fecha: $('#txtFecha').val()
             },
             success: function (resultado) {
                 $('#Existe').val(resultado);
 
                 if (resultado == 0) {
                     $('#GenerarAsistencia').show();
-
+                    $('#TurnoGen').prop('disabled', 'disabled');
+                    $('#txtFecha').prop('disabled', 'disabled');
+                    $('#ConsultaAsistencia').prop('disabled', 'disabled');
                 }
                 if (resultado == 1) {
                     GenerarAsistenciaDiariaGeneral($('#CodLinea').val(), resultado);
@@ -69,10 +103,10 @@ function ConsultarSiExisteAsistencia() {
                 //MensajeError(result, false);
             }
         });
-    }
+ 
 }
 function GenerarAsistenciaDiariaGeneral(IdLinea, bandera) {
-    MostrarModalCargando();
+    $("#spinnerCargando").prop("hidden", false);
     //console.log("hola");
     var turno;
     if (bandera == 0) {
@@ -86,11 +120,12 @@ function GenerarAsistenciaDiariaGeneral(IdLinea, bandera) {
         data: {
             CodLinea: IdLinea,
             BanderaExiste: bandera,
-            Turno: turno
+            Turno: turno,
+            Fecha: $('#txtFecha').val()
         },
         success: function (resultado) {
             //MensajeCorrecto(resultado, true);
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden", true);
             $('#PartialAsistencia').html(resultado);
             $('#GenerarAsistenciaMovidos').hide();
 
@@ -183,7 +218,8 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
                 nombre: nombre,
                 Hora: $('#ControlAsistencia_' + fila + '__Hora').val(),
                 observacion: $('#ControlAsistencia_' + fila + '__Observacion').val(),
-                estado: $('#ControlAsistencia_' + fila + '__EstadoAsistencia').val()
+                estado: $('#ControlAsistencia_' + fila + '__EstadoAsistencia').val(),
+                Fecha: $('#txtFecha').val()
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);
@@ -210,7 +246,8 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
             type: 'POST',
             dataType: "json",
             data: {
-                cedula: $('#ControlAsistencia_' + fila + '__Cedula').val()
+                cedula: $('#ControlAsistencia_' + fila + '__Cedula').val(),
+                Fecha: $('#txtFecha').val()
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);

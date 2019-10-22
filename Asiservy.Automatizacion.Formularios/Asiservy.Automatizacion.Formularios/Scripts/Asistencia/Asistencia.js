@@ -128,7 +128,7 @@ function ConsultarSiExisteAsistencia() {
             }
         },
         error: function (result) {
-            Console.log(result);
+            //Console.log(result);
             //MensajeError(result, false);
         }
         });
