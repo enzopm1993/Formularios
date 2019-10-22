@@ -124,12 +124,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return clsAtributos.MsjRegistroGuardado;
             }
         }
-        public List<ControlCuchilloViewModel> ConsultaControlCuchillos()
+        public List<ControlCuchilloViewModel> ConsultaControlCuchillos(DateTime Fecha)
         {
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
-                DateTime fechaInicio=Convert.ToDateTime(DateTime.Now.ToShortDateString());
-                DateTime FechaFin=Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
+                DateTime fechaInicio=Convert.ToDateTime(Fecha.ToShortDateString());
+                DateTime FechaFin=Convert.ToDateTime(Fecha.AddDays(1).ToShortDateString());
                 List<CONTROL_CUCHILLO> controlCuchillos = db.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Fecha < FechaFin).ToList();
                 List<ControlCuchilloViewModel> ControlCuchillosViewModel = new List<ControlCuchilloViewModel>();
                 foreach (var x in controlCuchillos)

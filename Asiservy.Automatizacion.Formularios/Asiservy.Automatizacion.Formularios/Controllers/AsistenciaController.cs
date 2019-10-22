@@ -339,66 +339,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 clsDAsistencia = new clsDAsistencia();
                 var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress,Turno,Fecha);
-                clsApiUsuario = new clsApiUsuario();
-                DateTime? pdUltimaMarcacion;
-                foreach (var item in AsistenciaViewModel.ControlAsistencia)
-                {
-                    pdUltimaMarcacion = clsApiUsuario.ConsultarFechaBiometrico(item.Cedula);
-                    //pdUltimaMarcacion =Convert.ToDateTime("2019-09-18 17:05:03.367");
+               
 
-                    if (item.Turno == "1")
-                    {
-                        if (pdUltimaMarcacion != null)
-                        {
-                            if ((pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString()))
-                            {
-                                item.Bloquear = 1;
-                                item.Observacion += "No ha marcado en el biométrico";
-                            }
-                        }
-                        else
-                        {
-                            item.Bloquear = 1;
-                            item.Observacion += "No ha marcado en el biométrico";
-                        }
-
-                    }
-                    if (item.Turno == "2")
-                    {
-                        if (pdUltimaMarcacion != null)
-                        {
-                            if (pdUltimaMarcacion.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
-                            {
-                                item.Bloquear = 1;
-                                item.Observacion += "No ha marcado en el biométrico";
-                            }
-                        }
-                        else
-                        {
-                            item.Bloquear = 1;
-                            item.Observacion += "No ha marcado en el biométrico";
-                        }
-                    }
-                    //sp_ConsultaEmpleadosMovidos CambioPersonal = clsDCambioPersonal.ConsultarCambioPersonal(item.Cedula);
-
-                    //if (CambioPersonal != null)
-                    //{
-                    //    item.Bloquear = 1;
-                    //    item.Observacion += "El empleado fue movido a " + CambioPersonal.Linea;
-                    //}
-                    ClsDSolicitudPermiso = new clsDSolicitudPermiso();
-                    string MotivoSolicitud = ClsDSolicitudPermiso.ConsultaMotivoPermisoxEmpleado(item.Cedula);
-                    if (!string.IsNullOrEmpty(MotivoSolicitud))
-                    {
-                        item.Bloquear = 1;
-                        item.Observacion += " Tiene permiso: " + MotivoSolicitud;
-                    }
-
-
-                }
                 //Control de Cuchillos
                 clsDCuchillo = new clsDCuchillo();
-                List<ControlCuchilloViewModel> ControlCuchillos = clsDCuchillo.ConsultaControlCuchillos();
+                List<ControlCuchilloViewModel> ControlCuchillos = clsDCuchillo.ConsultaControlCuchillos(Fecha);
                 //List<ControlCuchilloViewModel> modelCuchillo = new List<ControlCuchilloViewModel>();
                 //modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada);
                 AsistenciaViewModel.ControlDeCuchillos = ControlCuchillos;
@@ -440,7 +385,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //Control de Cuchillos
                 clsDCuchillo = new clsDCuchillo();
                 List<ControlCuchilloViewModel> modelCuchillo = new List<ControlCuchilloViewModel>();
-                modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada,DateTime.Now);
+                modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada,Fecha);
                 AsistenciaViewModel.ControlDeCuchillos = modelCuchillo;
 
                 //**
@@ -508,13 +453,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public JsonResult GrabarAsistenciaEmpleado(string cedula, string nombre, TimeSpan Hora, string observacion, string estado)
+        public JsonResult GrabarAsistenciaEmpleado(string cedula, string nombre, TimeSpan Hora, string observacion, string estado, DateTime Fecha)
         {
             try
             {
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
-                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, Hora = Hora, Observacion = observacion, EstadoAsistencia = estado, UsuarioModificacionLog = liststring[0], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now });
+                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, Hora = Hora, Observacion = observacion, EstadoAsistencia = estado, UsuarioModificacionLog = liststring[0], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now, Fecha= Fecha});
                 return Json(Resultado, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -536,13 +481,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
-        public JsonResult CambiarAsistenciaEmpleadoFalta(string cedula)
+        public JsonResult CambiarAsistenciaEmpleadoFalta(string cedula, DateTime Fecha)
         {
             try
             {
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
-                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, EstadoAsistencia = clsAtributos.EstadoFalta, UsuarioModificacionLog = liststring[0], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now });
+                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, EstadoAsistencia = clsAtributos.EstadoFalta, UsuarioModificacionLog = liststring[0], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now, Fecha=Fecha });
             }
             catch (Exception ex)
             {

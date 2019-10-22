@@ -290,7 +290,8 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
                 nombre: nombre,
                 Hora: $('#ControlAsistencia_' + fila + '__Hora').val(),
                 observacion: $('#ControlAsistencia_' + fila + '__Observacion').val(),
-                estado: $('#ControlAsistencia_' + fila + '__EstadoAsistencia').val()
+                estado: $('#ControlAsistencia_' + fila + '__EstadoAsistencia').val(),
+                Fecha: $('#txtFecha').val()
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);
@@ -317,7 +318,8 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
             type: 'POST',
             dataType: "json",
             data: {
-                cedula: $('#ControlAsistencia_' + fila + '__Cedula').val()
+                cedula: $('#ControlAsistencia_' + fila + '__Cedula').val(),
+                Fecha: $('#txtFecha').val()
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);
