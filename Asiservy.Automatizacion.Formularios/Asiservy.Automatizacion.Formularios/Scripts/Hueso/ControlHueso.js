@@ -127,6 +127,9 @@ function SeleccionControlHueso(id, lote, orden, tipo, horainicio, horafin, obser
         $('#txtPiezas').val(0);
     }
 
+    $("#btnNuevo").prop("hidden", false);
+    $("#btnGenerar").prop("hidden", true);
+    $("#btnInactivar").prop("hidden", false);
     if (tipo==1|| tipo ==4)
     CargarControlHuesoDetalle(id);
 }
@@ -142,12 +145,7 @@ function CargarControlHuesoDetalle(id) {
             id: id         
         },
         success: function (resultado) {
-            $('#divCabecera').slideUp(300).fadeOut(1000);
-
-            //$("#divCabecera").prop("hidden", true);
-            $("#btnNuevo").prop("hidden", false);
-            $("#btnGenerar").prop("hidden", true);
-            $("#btnInactivar").prop("hidden", false);
+            $('#divCabecera').slideUp(300).fadeOut(1000);  
             var bitacora = $('#DivTableControlHueso');
             bitacora.html('');
             var bitacora = $('#DivTableControlHuesoDetalle');

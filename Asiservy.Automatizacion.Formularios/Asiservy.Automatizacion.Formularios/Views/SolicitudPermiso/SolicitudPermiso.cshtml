@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <h4>Solicitud de Permiso General</h4>
+            <h4>Solicitud de Permiso</h4>
             <label>Fecha: @DateTime.Now.ToShortDateString()</label>
         </div>
     </div>
@@ -72,7 +72,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-md-4 col-12">
                         <div class="form-group">
                             @Html.LabelFor(m => m.DescripcionCargo)
                             @Html.DropDownListFor(m => m.CodigoCargo, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "selectCargo" })
@@ -84,7 +84,7 @@
                         </div>
                 <div class="row">
 
-                    <div class="col-md-6 col-6">
+                    <div class="col-md-6 col-12">
                         <label>Empleado</label>
                         <div class="input-group">
                             @if (ViewBag.ControladorLinea != null)
@@ -106,7 +106,7 @@
                         </div>
 
                     </div>
-                    <div class="col-md-6 col-6">
+                    <div class="col-md-6 col-12">
                         <div class="form-group">
                             @Html.LabelFor(m => m.DescripcionMotivo, new { @class = "" })
                             @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "DescripcionMotivo"), "Seleccione el Motivo", new { @class = "form-control", @id = "selectMotivo" })
@@ -121,6 +121,7 @@
                     @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control" })
                 </div>
                 @Html.ValidationMessage("CustomError", "", new { @class = "input-validation-error text-danger has-error" })
+                
                 <div class="col-12 text-center">
                     <label>Fecha - Hora</label>
                     <div class="custom-control custom-switch">
@@ -146,7 +147,7 @@
                     </div>
 
                 </div>
-                <div class="row" id="DivFecha">
+                <div class="row" id="DivFecha" >
                     <div class="col-md-6 col-sm-12">
                         <label>Fecha Salida</label>
                         @Html.TextBoxFor(m => m.FechaSalida, new { @type = "date", @id = "dateSalida", @class = "form-control" })

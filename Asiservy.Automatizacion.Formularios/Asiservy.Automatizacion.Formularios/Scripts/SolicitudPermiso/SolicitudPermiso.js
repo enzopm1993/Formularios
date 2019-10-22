@@ -4,6 +4,7 @@
 
 $(document).ready(function () {
     $("#DivHora").hide();   
+    CargarAreas();
     //CargarAreas();
 });
 
@@ -41,14 +42,14 @@ function CambioHoraFecha() {
 
     if (check) {
         $("#LabelFecha").text("Hora");
-        $("#DivHora").show();
-        $("#DivFecha").hide();
+        $("#DivHora").slideUp(300).fadeIn(1000);
+        $("#DivFecha").slideUp(300).fadeOut(1000);
         FechaDesde.value = null;
         FechaHasta.value = null;
     } else {
         $('#LabelFecha').text("Fecha");
-        $("#DivHora").hide();
-        $("#DivFecha").show();       
+        $("#DivHora").slideUp(300).fadeOut(1000);
+        $("#DivFecha").slideUp(300).fadeIn(1000);    
         FechaSalidaRegreso.value = null;
         HoraDesde.value = null;
         HoraHasta.value = null;
