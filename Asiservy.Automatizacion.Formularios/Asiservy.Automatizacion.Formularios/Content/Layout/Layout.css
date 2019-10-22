@@ -1,4 +1,6 @@
-﻿
+﻿.topbar {
+    height: 3rem;
+}
 
 .navbar {
     padding: 5px;
