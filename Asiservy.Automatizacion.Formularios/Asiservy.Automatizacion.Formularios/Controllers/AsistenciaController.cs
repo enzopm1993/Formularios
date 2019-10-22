@@ -409,27 +409,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-
-                clsApiUsuario = new clsApiUsuario();
-                var ultimaMarcacionBiometrico = clsApiUsuario.ConsultarFechaBiometrico(cedula);
-                if (ultimaMarcacionBiometrico != null)
-                {
-                    if (Convert.ToDateTime(ultimaMarcacionBiometrico.Value.ToShortDateString()) < Convert.ToDateTime(DateTime.Now.ToShortDateString()))
-                    {
-                        return Json(false, JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        return Json(true, JsonRequestBehavior.AllowGet);
-                    }
-                }
-                else
-                {
-                    return Json(false, JsonRequestBehavior.AllowGet);
-                }
+                clsDGeneral = new clsDGeneral();
+                var resultado = clsDGeneral.ConsultarSiMarcoBiometrico(cedula);
+                return Json(resultado, JsonRequestBehavior.AllowGet);
                 
-
-                //return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
