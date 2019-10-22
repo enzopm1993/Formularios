@@ -10,7 +10,7 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/Login/Login.css" rel="shortcut icon" />
     <link href="~/Content/Login/Login.css" rel="stylesheet" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
     <link rel="apple-touch-icon" sizes="57x57" href="~/Content/ICO/apple-icon-57x57.png">
@@ -46,7 +46,7 @@
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
-                                    <img style="width:80%" src="~/Content/icons/user32.png" />
+                                    <img style="border-radius:20px; background:#ffffff; width:80%"  src="~/Content/icons/user32.png" />
                                 </span>
                             </div>
                             <input id="txtUsuario" type="text" class="form-control" placeholder="Usuario">
@@ -55,9 +55,9 @@
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
-                                    <i class="fas fa-key">
-                                        @*<img style="width:80%" src="~/Content/icons/clave32.png" />*@
-                                    </i>
+                                    @*<i class="fas fa-key">*@
+                                        <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/clave32.png" />
+                                    @*</i>*@
                                 </span>
                             </div>
                             <input id="txtPassword" type="password" class="form-control" placeholder="Contraseña">
@@ -68,13 +68,13 @@
                         <div class="form-group text-center">
 
                             <button title="Ingresar" class="btn btn-outline-light" id="btnIngresar" style="border-color:#2c3e50" type="button">
-                                <i class="fas fa-sign-in-alt"> Ingresar</i>
+                                <i class="fas fa-sign-in-alt" > Ingresar</i>
                             </button>
-                            <button data-toggle="tooltip" data-placement="top" title="Ingresar" class="btn btn-outline-light" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn btn-outline-light" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-broom"> Limpiar</i>
                             </button>
                             @*<input type="button" id="btnIngresar" value="Ingresar" class="btn float-right login_btn">*@
-                            <button hidden id="btnCargando" class="btn btn-warning" type="button" disabled>
+                            <button hidden id="btnCargando" class="btn btn-light" type="button" disabled>
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 Espere...
                             </button>

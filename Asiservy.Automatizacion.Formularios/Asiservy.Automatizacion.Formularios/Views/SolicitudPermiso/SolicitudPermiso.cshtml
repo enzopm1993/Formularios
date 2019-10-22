@@ -46,7 +46,8 @@
                 <div class="row">
                     @if (ViewBag.ControladorLinea != null)
                     {
-                        <div class="col-md-4 col-sm-12">
+                    <div class="col-md-4 col-6">
+                        <div class="form-group">
                             @Html.LabelFor(m => m.DescripcionLinea)
                             @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), "Seleccione la Línea", new { @onchange = "CambioLineas(this.id)", @class = "form-control", @id = "selectLinea" })
                             @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
@@ -61,26 +62,31 @@
                                 }
                             </script>
                         </div>
+                    </div>
 
-                        <div class="col-md-4 col-sm-12">
+                    <div class="col-md-4 col-6">
+                        <div class="form-group">
                             @Html.LabelFor(m => m.DescripcionArea)
                             @Html.DropDownListFor(m => m.CodigoArea, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
                             @Html.ValidationMessageFor(m => m.CodigoArea, "", new { @class = "input-validation-error text-danger has-error" })
                         </div>
+                    </div>
 
-                        <div class="col-md-4 col-sm-12">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
                             @Html.LabelFor(m => m.DescripcionCargo)
                             @Html.DropDownListFor(m => m.CodigoCargo, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "selectCargo" })
                             @Html.ValidationMessageFor(m => m.CodigoCargo, "", new { @class = "input-validation-error text-danger has-error" })
                         </div>
-                    }
+                    </div>
+                            }
 
-                </div>
+                        </div>
                 <div class="row">
 
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-6 col-6">
                         <label>Empleado</label>
-                        <div>
+                        <div class="input-group">
                             @if (ViewBag.ControladorLinea != null)
                             {
                                 @Html.TextBoxFor(m => m.NombreEmpleado, null, new { style = "width: 65%;", @readonly = "readonly" })
@@ -100,7 +106,7 @@
                         </div>
 
                     </div>
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-6 col-6">
                         <div class="form-group">
                             @Html.LabelFor(m => m.DescripcionMotivo, new { @class = "" })
                             @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "DescripcionMotivo"), "Seleccione el Motivo", new { @class = "form-control", @id = "selectMotivo" })

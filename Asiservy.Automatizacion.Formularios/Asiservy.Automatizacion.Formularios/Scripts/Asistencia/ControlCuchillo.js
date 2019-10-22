@@ -100,7 +100,14 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check,idCheck,idL
             ddFecha: $("#txtFecha").val()
         },
         success: function (resultado) {
+            if (resultado.codigo == 1) {
+                MensajeAdvertencia(resultado.descripcion)
+                $(idCheck).prop('checked', false);
+                $(idLabel).css("background", "#7b8a8b");
+               
+            }
             $(idCheck).prop('disabled', false);
+            
         },
         error: function (resultado) {
             //console.log(resultado.responseJSON);

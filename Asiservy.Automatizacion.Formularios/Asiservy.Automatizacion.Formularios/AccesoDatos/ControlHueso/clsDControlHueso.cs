@@ -124,7 +124,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                    && x.Lote == doControl.Lote
                    && x.HoraInicio == doControl.HoraInicio
                    && x.HoraFin == doControl.HoraFin
-                   && x.Fecha == FechaActual);
+                   && x.Fecha == doControl.Fecha);
                 return idControlHueso.IdControlHueso;
             }
         }   

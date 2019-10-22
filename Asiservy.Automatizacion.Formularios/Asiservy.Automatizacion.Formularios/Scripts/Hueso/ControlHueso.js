@@ -62,6 +62,8 @@ function SeleccionarTipoControl(valor) {
 }
 function NuevoControlHueso() {
     $('#btnNuevo').prop("disabled", true);
+    $("#btnNuevo").prop("hidden", true);
+
     $('#txtIdControlHueso').val(0);
     $('#txtHoraInicio').val(null);
     $('#txtHoraFin').val(null);
@@ -85,6 +87,11 @@ function NuevoControlHueso() {
     CargarControlHueso();
     $("#btnGenerar").prop("hidden", false);
     $("#btnInactivar").prop("hidden", true);
+
+
+    //$("#divCabecera").prop("hidden", false);
+    $('#divCabecera').slideUp(300).fadeIn(1000);
+
 
 }
 
@@ -135,6 +142,10 @@ function CargarControlHuesoDetalle(id) {
             id: id         
         },
         success: function (resultado) {
+            $('#divCabecera').slideUp(300).fadeOut(1000);
+
+            //$("#divCabecera").prop("hidden", true);
+            $("#btnNuevo").prop("hidden", false);
             $("#btnGenerar").prop("hidden", true);
             $("#btnInactivar").prop("hidden", false);
             var bitacora = $('#DivTableControlHueso');
@@ -172,6 +183,8 @@ function CargarControlHueso() {
             var bitacora = $('#DivTableControlHuesoDetalle');
             bitacora.html('');
             $('#btnNuevo').prop("disabled", false);
+
+
 
         },
         error: function (resultado) {

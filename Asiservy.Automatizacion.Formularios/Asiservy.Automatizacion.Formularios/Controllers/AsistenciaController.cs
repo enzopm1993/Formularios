@@ -8,6 +8,7 @@ using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.Models;
 using Asiservy.Automatizacion.Formularios.Models.Asistencia;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
@@ -940,8 +941,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 if (string.IsNullOrEmpty(dsCedula) || string.IsNullOrEmpty(dsColor) || string.IsNullOrEmpty(dsNumero) || string.IsNullOrEmpty(dsEstado))
                 {
-                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    return Json("Ningun Parametro debe estar vacio", JsonRequestBehavior.AllowGet);
+                    ClasificadorGenerico ClaRespuesta = new ClasificadorGenerico { codigo = 1, descripcion = "Ningun Parametro debe estar vacio" };
+
+                    return Json(ClaRespuesta, JsonRequestBehavior.AllowGet);
                 }
                 clsDCuchillo = new clsDCuchillo();
                 var poControlCuchillo = new CONTROL_CUCHILLO();
@@ -965,8 +967,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var respuesta = clsDCuchillo.GuardarModificarControlCuchillo(poControlCuchillo, dbCheck);
                 if (respuesta != clsAtributos.MsjRegistroGuardado)
                 {
-                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                    ClasificadorGenerico ClaRespuesta = new ClasificadorGenerico {codigo=1, descripcion=respuesta };
+                    return Json(ClaRespuesta, JsonRequestBehavior.AllowGet);
 
                 }
                 return Json(respuesta, JsonRequestBehavior.AllowGet);
