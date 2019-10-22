@@ -77,6 +77,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return Lista.ToList();
             }
         }
+        public Boolean ConsultarSiMarcoBiometrico(string cedula)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                DateTime FechaActual = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+                var resultado = db.spConsultaUltimaMarcacionBiometrico(cedula).FirstOrDefault();
+                if (resultado == null){
+                    return false;
+                }
+                if (resultado.Marcacion.Value >= FechaActual)
+                    return true;
+                else
+                    return false;
+            }
+        }
 
     }
 }
