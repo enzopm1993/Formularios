@@ -465,7 +465,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //.Where(x => x.Value.Errors.Count > 0)
                 //.Select(x => new { x.Key, x.Value.Errors })
                 //.ToArray();
-
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 string psMensajeValidarFecha = string.Empty;
                 psMensajeValidarFecha = ValidarFechas(model);
                 if(!string.IsNullOrEmpty(psMensajeValidarFecha))

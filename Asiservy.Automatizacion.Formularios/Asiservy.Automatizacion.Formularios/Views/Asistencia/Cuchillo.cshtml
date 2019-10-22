@@ -15,14 +15,14 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
 
-            <div class="offset-2 col-md-3 col-sm-12">
+            <div class="offset-md-2 col-md-3 col-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.NumeroCuchillo, htmlAttributes: new { @class = "control-label" })
                     @Html.EditorFor(model => model.NumeroCuchillo, new { htmlAttributes = new { @class = "form-control", @id = "NumeroCuchillo" } })
                     @Html.ValidationMessageFor(model => model.NumeroCuchillo, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-3 col-sm-12">
+            <div class="col-md-3 col-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.ColorCuchillo, htmlAttributes: new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.ColorCuchillo, new SelectList(ViewBag.ColorCuchillos, "Codigo", "Descripcion"), new { @class = "form-control", @id = "ColorCuchillos" })
