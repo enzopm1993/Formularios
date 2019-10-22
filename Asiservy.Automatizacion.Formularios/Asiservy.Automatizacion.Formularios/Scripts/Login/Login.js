@@ -11,10 +11,10 @@ function Nuevo() {
 
 $('#logoutli').hide();
 $("#btnIngresar").on("click", function () {
-    var URLdomain = window.location.host;
-    var URLprotocol = window.location.protocol;
-    console.log(URLdomain);
-    console.log(URLprotocol);
+    //var URLdomain = window.location.host;
+    //var URLprotocol = window.location.protocol;
+    //console.log(URLdomain);
+    //console.log(URLprotocol);
     if ($("#txtUsuario").val().trim() == "" || $("#txtPassword").val().trim() == "") {
         //$("#ModalErrorLogin2").modal("show");
         MensajeAdvertencia("  Error, Ingrese los campos requeridos");
@@ -26,7 +26,7 @@ $("#btnIngresar").on("click", function () {
     $.ajax({
         contentType: "application/json; charset=utf-8",
         type: "POST",
-        url: URLprotocol + "//" + URLdomain +"/Login/LogIn",
+        url: "../Login/LogIn",
         data: JSON.stringify({ usuario: $("#txtUsuario").val().trim(), password: $("#txtPassword").val() }),
         success: function (data) {          
             if (data == 1) {
