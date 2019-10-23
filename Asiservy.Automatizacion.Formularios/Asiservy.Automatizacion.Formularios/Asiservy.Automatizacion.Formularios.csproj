@@ -1989,6 +1989,7 @@
     <Content Include="Content\images\cuchillo01.jpg" />
     <Content Include="Content\images\cuchillo02.jpg" />
     <Content Include="Content\images\cuchillo03.jpg" />
+    <Content Include="Content\images\fondo5.jpg" />
     <Content Include="Content\images\fondo6.jpg" />
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\pez-salto.gif" />
