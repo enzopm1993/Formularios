@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "ReporteEmpleadoCargo";
+}
+
+
+<h4>Reporte Empleado Cargo</h4>
+<label>@ViewBag.Linea</label>
+<hr />
+<div class="row">
+    <div class="col-md-4 col-6">
+       
+        @{ if (ViewBag.Principal != null)
+            {
+                @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLinea" })
+            }
+            else
+            {
+                @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"),  new { @class = "form-control", @id = "selectLinea", @onchange= "CambioLineas(this.id)" })
+               
+            }
+        }
+    </div>
+    <div class="col-md-6 col-6 text-md-left text-center">
+        
+        <button data-toggle="tooltip" data-placement="top" title="Buscar" class="btn" id="" onclick="CargarEmpleadoCargo()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/ver24.png" />
+        </button>
+
+    </div>
+</div>
+
+<hr />
+
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+
+<div id="divTableEmpleadoCargo" class="table-responsive">
+
+</div>

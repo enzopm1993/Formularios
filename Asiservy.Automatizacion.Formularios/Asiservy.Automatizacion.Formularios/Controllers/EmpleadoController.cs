@@ -400,17 +400,167 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         #endregion
 
+        #region EMPLEADO CARGO
+        [Authorize]
+        public ActionResult EmpleadoCargo()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                clsDGeneral = new clsDGeneral();
+                clsDLogin = new clsDLogin();
+                //clsDClasificador = new clsDClasificador();
+                var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+                ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
+                ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
+                ViewBag.Linea = Empleado.LINEA;
+                return View();
+            }
+            catch (Exception ex)
+            {
 
-#region REPORTES
+                SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+
+        }
+        [Authorize]
+        [HttpPost]
+        public ActionResult EmpleadoCargo(EmpleadoViewModel model)
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                //Servicio de actualizar datalife
+                return Json("ok", JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+
+            }
+
+        }
+        [Authorize]
+        public ActionResult ReporteEmpleadoCargo()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                Usuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                clsDGeneral = new clsDGeneral();
+                clsDLogin = new clsDLogin();
+                //clsDClasificador = new clsDClasificador();
+                var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+              
+                var rol = clsDLogin.ConsultaRolesUsuario(Usuario[1]).FirstOrDefault(x=>x.Value == clsAtributos.RolControladorGeneral || x.Value == clsAtributos.RolSupervisorGeneral);
+                if (rol != null)
+                {
+                    ViewBag.Principal = "1";
+                   // ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro= clsAtributos.EstadoRegistroActivo});
+                    ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
+                }
+                else {
+                    ViewBag.Lineas = clsDGeneral.ConsultaLineas(Empleado.CODIGOLINEA);
+                }
+                ViewBag.Linea = Empleado.LINEA;         
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return RedirectToAction("Home","Home");
+            }
+
+        }
+
+        [Authorize]
+        public ActionResult ReporteEmpleadoCargoPartial(string Linea)
+        {
+            try
+            {
+                clsDEmpleado = new clsDEmpleado();
+                var model = clsDEmpleado.ConsultaEmpleadoCargoLinea(Linea);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
+                }
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        #endregion
+
+
+        #region REPORTES
 
         [Authorize]
         public ActionResult ReportePersonalNominaPorLinea()
         {
             try
             {
-                ViewBag.dataTableJS = "1";
-              
-
+                ViewBag.dataTableJS = "1";        
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 var model = clsDEmpleado.ConsultaPersonalNominaPorLinea();      

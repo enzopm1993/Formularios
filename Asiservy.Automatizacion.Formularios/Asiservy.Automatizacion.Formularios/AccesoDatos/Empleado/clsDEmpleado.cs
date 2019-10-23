@@ -9,6 +9,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public class clsDEmpleado
     {
+        public List<spConsultaEmpleadoCargoPorLinea> ConsultaEmpleadoCargoLinea(string Linea)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaEmpleadoCargoPorLinea(Linea).ToList();
+            }
+        }
+
         public List<spConsultaPersonalNominaPorLinea> ConsultaPersonalNominaPorLinea()
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())

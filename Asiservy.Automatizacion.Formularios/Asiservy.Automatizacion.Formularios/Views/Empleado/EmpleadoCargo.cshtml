@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "EmpleadoCargo";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<h4>Mover Empleado </h4>
+<label>@ViewBag.Linea</label>
+<hr />
+
+<div class="row">
+    <div class="col-md-4 col-12">
+        <div class="form-group">
+            @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), "Seleccione la Línea", new { @onchange = "CambioLinea(this.value)", @class = "form-control", @id = "selectLinea" })
+
+        </div>
+
+    </div>
+    <div class="col-md-4 col-12">
+        <div class="form-group">
+            @Html.DropDownList("Areas", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
+
+        </div>
+    </div>
+    <div class="col-md-4 col-12">
+        <div class="form-group">
+            @Html.DropDownList("Cargos", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "selectCargo" })
+
+        </div>
+    </div>
+
+        </div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="input-group mb-3">
+
+            <input type="text" readonly class="form-control" name="NombreEmpleado" id="NombreEmpleado" aria-label="Amount (to the nearest dollar)">
+
+            <div class="input-group-append">
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="" onclick="CargarEmpleados('CargarEmpleadoPG')" style="border-color:#2c3e50" type="button">
+                    <img style="width:80%" src="~/Content/icons/ver24.png" />
+                </button>
+            </div>
+        </div>
+        <p id="ValidaIdentificacion" hidden class="text-danger">Seleccione un Empleado</p>
+
+        @Html.Hidden("Identificacion", 0, new { @id = "Identificacion" })
+
+
+    </div>
+
+   
+    
+    
+
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4 col-12">
+        @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), "Seleccione la Línea", new { @onchange = "CambioLinea2(this.value)", @class = "form-control", @id = "selectLinea2" })
+        <p id="ValidaLinea" hidden class="text-danger">Seleccione una Linea</p>
+    </div>
+    <div class="col-md-4 col-12">
+        @Html.DropDownList("Areas", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioArea2(this.value)", @class = "form-control", @id = "selectArea2" })
+        <p id="ValidaArea" hidden class="text-danger">Seleccione un Area</p>
+    </div>
+    <div class="col-md-4 col-12">
+        @Html.DropDownList("Cargos", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "selectCargo2" })
+        <p id="ValidaCargo" hidden class="text-danger">Seleccione un Cargo</p>
+    </div>
+
+</div>
+<br />
+<div class="row">
+    <div class="col-12 text-center">
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="" onclick="GuardarCambioCargo()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/send24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="" onclick="NuevoEmpleadoCargo()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+    </div>
+</div>
+
+<div id="ModelCargarEmpleados"></div>
+<script src="~/Scripts/SolicitudPermiso/Empleado.js"></script>
+<script src="~/Scripts/General/CargarCombosLineas.js"></script>
