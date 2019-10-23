@@ -50,55 +50,79 @@
 
             Hijo = (List<ConsultaOpcionesxRolViewModel>)Session["Hijo"];
 
-            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-                <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-                    <div class="sidebar-brand-icon">
-                        <img class="imgLogoPez" src="~/Content/admin/img/logo_pez_102x102.png" alt="Asiservy" />
-                    </div>
-                    <div class="sidebar-brand-text mx-3">
-                        <img class="imgLogoAsy" src="~/Content/admin/img/logo_512x212.png" alt="Asiservy" />
-                    </div>
-                </a>
-                <!-- Divider -->
-                <hr class="sidebar-divider my-0">
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-                @if (Padre != null)
+            List<ModuloViewModel> Modulos = new List<ModuloViewModel>();
+            Modulos = (List<ModuloViewModel>)Session["Modulos"];
+
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+                <div class="sidebar-brand-icon">
+                    <img class="imgLogoPez" src="~/Content/admin/img/logo_pez_102x102.png" alt="Asiservy" />
+                </div>
+                <div class="sidebar-brand-text mx-3">
+                    <img class="imgLogoAsy" src="~/Content/admin/img/logo_512x212.png" alt="Asiservy" />
+                </div>
+            </a>
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            @if (Modulos != null)
+            {
+                foreach (var MenusModulos in Modulos)
                 {
-                    foreach (var MenusPadres in Padre)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse@(MenusPadres.IdOpcion)" aria-expanded="true" aria-controls="collapse@(MenusPadres.IdOpcion)">
-                                <i class="fas fa-fw fa-cog"></i>
-                                <span>@MenusPadres.Nombre</span>
-                            </a>
-                            <div id="collapse@(MenusPadres.IdOpcion)" class="collapse" aria-labelledby="heading@item.Codigo" data-parent="#accordionSidebar">
+                    
+                    var moduloid = MenusModulos.IdModulo + 100;
+                   
+                    <li class="nav-item" id="li12">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse@(moduloid)" aria-expanded="true" aria-controls="collapse@(moduloid)">
+                            <i class="fas fa-fw fa-cog"></i>
+                            <span>@MenusModulos.NombreModulo</span>
+                        </a>
+
+
+                        @if (Padre != null)
+                        {
+                            <div id="collapse@(moduloid)" class="collapse" aria-labelledby="heading@item.Codigo" data-parent="#li12">
                                 <div class="bg-white py-2 collapse-inner rounded">
 
-                                    @if (Hijo != null)
+                                    @foreach (var Menupadre in Padre.Where(x => x.IdModulo == MenusModulos.IdModulo))
                                     {
-                                        foreach (var MenuHijo in Hijo.Where(x => x.Padre == MenusPadres.IdOpcion))
+                                        <h6 class="collapse-header">@Menupadre.Nombre</h6>
+                                        if (Hijo != null)
                                         {
-                                            <a class="collapse-item" href="/@MenuHijo.Url">@MenuHijo.Nombre</a>
+                                            foreach (var MenuHijo in Hijo.Where(x => x.Padre == Menupadre.IdOpcion))
+                                            {
+                                                <div>
+
+                                                    <a class="collapse-item " href="/@MenuHijo.Url"><text class=""></text>@MenuHijo.Nombre</a>
+
+                                                </div>
+                                            }
+
                                         }
+                                        if (Menupadre.IdOpcion!=Padre.LastOrDefault().IdOpcion)
+                                        {
+                                            <hr />
+                                        }
+
+
                                     }
                                 </div>
                             </div>
-                        </li>
 
-                    }
+                        }
 
+                    </li>
                 }
-
-
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
-                <!-- Sidebar Toggler (Sidebar) -->
-                <div class="text-center d-none d-md-inline">
-                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                </div>
-            </ul>
+            }
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </ul>
         }
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
@@ -206,50 +230,50 @@
 
     <script src="~/Scripts/General/GeneralJS.js"></script>
     <script src="~/Scripts/Mensajes/Mensajes.js"></script>
- 
-        @if (ViewBag.dataTableJS != null)
-        {
-            <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
-            <link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-            <link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
-            <link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
-            <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
-            <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 
-            <script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-            <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
-            <script src="~/Scripts/DataTables/media/js/dataTables.jszip.min.js"></script>
-            <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
-            <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>
+    @if (ViewBag.dataTableJS != null)
+    {
+        <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+        <link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+        <link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+        <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 
-            <script src="~/Scripts/General/dataTableJS.js"></script>
-        }
+        <script src="~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+        <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
+        <script src="~/Scripts/DataTables/media/js/dataTables.jszip.min.js"></script>
+        <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
+        <script src="~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js"></script>
+
+        <script src="~/Scripts/General/dataTableJS.js"></script>
+    }
 
 
-        @if (ViewBag.JavaScrip != null)
-        {
-            string js = ViewBag.JavaScrip;
-            string url = "/Scripts/" + js + ".js";
-            var res = HttpUtility.UrlDecode(url);
-            <script src="@res"></script>
+    @if (ViewBag.JavaScrip != null)
+    {
+        string js = ViewBag.JavaScrip;
+        string url = "/Scripts/" + js + ".js";
+        var res = HttpUtility.UrlDecode(url);
+        <script src="@res"></script>
 
-        }
-       
+    }
 
-        @if (TempData["MensajeConfirmacion"] != null)
-        {
-            <script>
+
+    @if (TempData["MensajeConfirmacion"] != null)
+    {
+        <script>
               MensajeCorrecto("@TempData["MensajeConfirmacion"]",false);
-            </script>
+        </script>
 
-        }
-        else if (TempData["MensajeError"] != null)
-        {
-            <script>
+    }
+    else if (TempData["MensajeError"] != null)
+    {
+        <script>
               MensajeError("@TempData["MensajeError"]",false);
-            </script>
-        }
-   
+        </script>
+    }
 
-    </body>
+
+</body>
 </html>

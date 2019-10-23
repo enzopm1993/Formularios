@@ -32,6 +32,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var resultado = PsLogin.ConsultarRolesDeUsuario(psrolid);
                 Session["Padre"] = resultado[0];
                 Session["Hijo"] = resultado[1];
+                Session["Modulos"] = resultado[2];
+                
             }
             catch (Exception ex)
             {

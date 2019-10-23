@@ -49,10 +49,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     //                   join rn in db.OPCION on r.IdOpcion equals rn.IdOpcion
                     //                   where r.IdRol == item && rn.Clase == "P"
                     //                   select rn.Nombre).ToList();
-                    var pListPadres = db.spConsultaOpcionesPorRol(item).Where(x=>x.Clase=="P").ToList();
+                    List<spConsultaOpcionesPorRol> pListPadres = db.spConsultaOpcionesPorRol(item).Where(x=>x.Clase=="P").ToList();
                     pListPadrestotal.AddRange(pListPadres);
                 }
-                
+                List<spConsultaOpcionesPorRol> ListModulos = pListPadrestotal.Where(x => x.IdModulo != null).ToList();
                 foreach (var item in piRol)
                 {
                     //var pListHijos = (from r in db.OPCION_ROL
@@ -64,6 +64,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 }
                 List<ConsultaOpcionesxRolViewModel> pListPadresfilter = new List<ConsultaOpcionesxRolViewModel>();
                 List<ConsultaOpcionesxRolViewModel> pListHijosfilter = new List<ConsultaOpcionesxRolViewModel>();
+                List<ModuloViewModel> pListModulosFilter = new List<ModuloViewModel>();
                 pListHijosfilter = pListHijostotal.ConvertAll(x=> new ConsultaOpcionesxRolViewModel
                 {
                     IdOpcion = x.IdOpcion,
@@ -72,7 +73,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     Nombre = x.Nombre,
                     Padre = x.Padre,
                     Url = x.Url,
-                    Orden=x.Orden
+                    Orden=x.Orden,
+                    IdModulo=x.IdModulo
                 });
                 pListPadresfilter = pListPadrestotal.ConvertAll(x => new ConsultaOpcionesxRolViewModel
                 {
@@ -82,14 +84,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     Nombre = x.Nombre,
                     Padre = x.Padre,
                     Url = x.Url,
-                    Orden=x.Orden
+                    Orden=x.Orden,
+                    IdModulo=x.IdModulo
                 });
-                object[] oresultado = new object[2];
+                pListModulosFilter = ListModulos.ConvertAll(x => new ModuloViewModel
+                {
+                    IdModulo=x.IdModulo,
+                    NombreModulo=x.NombreModulo
+                });
+                object[] oresultado = new object[3];
                 //oresultado[0] = pListPadrestotal;
                 //oresultado[1] = pListHijostotal;
                 oresultado[0] = pListPadresfilter.Distinct().OrderBy(Z => Z.Orden).ToList();
                 oresultado[1] = pListHijosfilter.Distinct().OrderBy(Z => Z.Orden).ToList();
-
+                oresultado[2] = pListModulosFilter.Distinct().ToList();
                 return oresultado;
 
             }
