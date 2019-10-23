@@ -20,5 +20,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> Padre { get; set; }
         public string Url { get; set; }
         public Nullable<int> Orden { get; set; }
+        public Nullable<int> IdModulo { get; set; }
+        public string NombreModulo { get; set; }
     }
 }
