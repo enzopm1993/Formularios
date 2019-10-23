@@ -101,7 +101,7 @@
                                             }
 
                                         }
-                                        if (Menupadre.IdOpcion!=Padre.LastOrDefault().IdOpcion)
+                                        if (Menupadre.IdOpcion!= Padre.Where(x => x.IdModulo == MenusModulos.IdModulo).LastOrDefault().IdOpcion)
                                         {
                                             <hr />
                                         }
