@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaEmpleadoCargoPorLinea>
+
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombres)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Cargo)
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cedula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombres)
+                </td>   
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cargo)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/Scripts/General/dataTableJS.js"></script>
