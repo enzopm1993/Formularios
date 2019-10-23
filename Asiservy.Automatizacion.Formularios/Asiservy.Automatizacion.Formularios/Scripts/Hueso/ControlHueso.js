@@ -151,6 +151,9 @@ function CargarControlHuesoDetalle(id) {
             var bitacora = $('#DivTableControlHuesoDetalle');
             $("#spinnerCargando").prop("hidden", true);
             bitacora.html(resultado);
+            $("#btnNuevo").prop("hidden", false);
+            $("#btnGenerar").prop("hidden", true);
+            $("#btnInactivar").prop("hidden", false);
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -181,7 +184,7 @@ function CargarControlHueso() {
             var bitacora = $('#DivTableControlHuesoDetalle');
             bitacora.html('');
             $('#btnNuevo').prop("disabled", false);
-
+           
 
 
         },
