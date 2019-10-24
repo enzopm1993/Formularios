@@ -29,6 +29,8 @@
     } else {
         $('#msgerrorFechas').hide();
     }
+    $('#resultadoreporte').html('');
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: "../Asistencia/ReporteCambioPersonalPartial",
         type: "GET",
@@ -39,11 +41,13 @@
             FechaFin: $('#fechahasta').val()
         },
         success: function (resultado) {
-           
-            $('#resultadoreporte').html(resultado);
+             $("#spinnerCargando").prop("hidden", true);
+                $('#resultadoreporte').html(resultado);
             
         },
         error: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
+
             MensajeError(JSON.stringify(resultado), false);
 
         }

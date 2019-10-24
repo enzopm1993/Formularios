@@ -15,9 +15,12 @@
 
 function ConsultarReporteAuditoriaSangre() {
     if (($('#Lineas').prop('selectedIndex') == 0) || ($('#Fecha')=="")) {
-        ConsultarRptAuditoriaSangre
-        MensajeError("El campo Fecha y Línea son obligatorios", false);
+        //ConsultarRptAuditoriaSangre
+        MensajeAdvertencia("El campo Fecha y Línea son obligatorios", false);
     } else {
+        $("#spinnerCargando").prop("hidden", false);
+        $('#DivReporteSangre').html('');
+
         $('#ConsultarRptAuditoriaSangre').attr("disabled", true);
         $.ajax({
             url: "../AuditoriaSangre/ReporteAuditoriaSangrePArtial",
@@ -28,11 +31,17 @@ function ConsultarReporteAuditoriaSangre() {
                 Fecha: $('#Fecha').val()
             },
             success: function (resultado) {
-                $('#DivReporteSangre').html(resultado);
+                if (resultado == "0") {
+                    $('#DivReporteSangre').html('<div class="text-center"><h4>No Existen Registros</h4></div>');
+                } else {
+                    $('#DivReporteSangre').html(resultado);
+                }
+                $("#spinnerCargando").prop("hidden", true);
                 $('#ConsultarRptAuditoriaSangre').attr("disabled", false);
             },
             error: function (resultado) {
                 MensajeError(JSON.stringify(resultado), false);
+                $("#spinnerCargando").prop("hidden", true);
                 $('#ConsultarRptAuditoriaSangre').attr("disabled", false);
             }
         });

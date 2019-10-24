@@ -339,8 +339,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
-
+                clsDGeneral = new clsDGeneral();
+                ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
                 return View();
             }
             catch (Exception ex)
@@ -362,7 +362,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public ActionResult ReporteEmpleadoTurnoPartial(string dsTurno)
+        public ActionResult ReporteEmpleadoTurnoPartial(string dsTurno, string dsLinea)
         {
             try
             {
@@ -371,11 +371,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 Usuario = User.Identity.Name.Split('_');
                 List<spConsutaReporteEmpleadosTurnos> model = new List<spConsutaReporteEmpleadosTurnos>();
-                var empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
-                if (empleado != null)
-                {
-                    model = clsDEmpleado.ConsultaReporteEmpleadoTurno(empleado.CODIGOLINEA,dsTurno);
-                }
+               // var empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+               
+                model = clsDEmpleado.ConsultaReporteEmpleadoTurno(dsLinea, dsTurno);
+              if(!model.Any())
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
 
                 return PartialView(model);
             }
