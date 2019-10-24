@@ -2698,6 +2698,7 @@
     <Content Include="Views\Empleado\ReporteEmpleadoCargoPartial.cshtml" />
     <Content Include="Views\Empleado\EmpleadoCargo.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEditPartial.cshtml" />
+    <Content Include="Views\Asistencia\ModalHora.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -47,6 +47,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #region Asistencia
         // GET: Asistencia
+        public ActionResult ModalHora()
+        {
+            try
+            {
+                return PartialView();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
         [Authorize]
         public JsonResult ConsultarExistenciaAsistenciaGeneral(string Turno,DateTime Fecha)
         {

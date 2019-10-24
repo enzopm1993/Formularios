@@ -23,6 +23,22 @@
 //$(window).on('load', function () {
 
 //});
+function SetearHora() {
+    $.ajax({
+        //contentType: "application/json; charset=utf-8",
+        url: '../Asistencia/ModalHora',
+        type: "GET",
+        success: function (resultado) {
+            $('#modalhoraasis').empty();
+            $('#modalhoraasis').html(resultado);
+            $("#ModalHora").modal("show");
+        },
+        error: function (result) {
+            //Console.log(result);
+            //MensajeError(result, false);
+        }
+    });
+}
 function Nuevo() {
     $('#GenerarAsistencia').hide();
     $('#TurnoGen').removeAttr('disabled');
