@@ -11,7 +11,7 @@
 <h3>Distribucion del personal por linea</h3>
 <div class="">
     <div class="row">
-        <div class="col-md-4 col-6">
+        <div class="col-md-5 col-6">
             <div class="form-group">
 
                 @if (ViewBag.SupervisorGeneral != null)
@@ -31,7 +31,11 @@
                 }
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-md-5 col-6">
+            <input type="date" class="form-control" name="name" id="txtFecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <p id="validaFecha" hidden class="text-danger">Ingrese una fecha</p>
+        </div>
+        <div class="col-md-2 col-6">
 
             @*<input type="button" id="btnGuardar" class="btn btn-primary" name="name" onclick="CargarReporteDistribucion()" value="Consultar" />*@
             <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnGuardar" onclick="CargarReporteDistribucion()" style="border-color:#2c3e50" type="button">

@@ -640,15 +640,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult ReporteDistribucionPorLineaPartial(string Linea)
+        public ActionResult ReporteDistribucionPorLineaPartial(string Linea, DateTime Fecha)
         {
             try
             {
+                if(string.IsNullOrEmpty(Linea) || Fecha == null)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                    
+                }
+
                 ViewBag.dataTableJS = "1";
 
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
-                var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea);
+                var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea, Fecha);
                 return PartialView(model);
             }
             catch (Exception ex)

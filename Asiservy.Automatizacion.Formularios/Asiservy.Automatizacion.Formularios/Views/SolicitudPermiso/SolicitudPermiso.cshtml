@@ -43,9 +43,10 @@
         <div class="col-md-8 col-12 border rounded border-primary">
             @using (Html.BeginForm("SolicitudPermiso", "SolicitudPermiso"))
             {
-                <div class="row">
-                    @if (ViewBag.ControladorLinea != null)
-                    {
+            <div class="row">
+                @if (ViewBag.ControladorLinea != null)
+                {
+                    <input type="hidden" id="txtControladorLinea" value="1" />
                     <div class="col-md-4 col-6">
                         <div class="form-group">
                             @Html.LabelFor(m => m.DescripcionLinea)
@@ -54,9 +55,7 @@
 
                             <script>
 
-                                $(document).ready(function () {
-                                    CargarAreas();
-                                });
+
                                 function CambioLineas(id) {
                                     $('#' + id).val('@ViewBag.CodLinea');
                                 }
@@ -79,9 +78,13 @@
                             @Html.ValidationMessageFor(m => m.CodigoCargo, "", new { @class = "input-validation-error text-danger has-error" })
                         </div>
                     </div>
-                            }
+                }
+                else
+                {
+                    <input type="hidden" id="txtControladorLinea" value="0" />
+                }
 
-                        </div>
+            </div>
                 <div class="row">
 
                     <div class="col-md-6 col-12">

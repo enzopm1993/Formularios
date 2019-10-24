@@ -9,7 +9,7 @@
     }
 </style>
 <h3>Editar Asistencia</h3>
-
+<hr />
 <div class="">
     <div class="row">
 
@@ -28,46 +28,23 @@
         </div>
 
 
+
         <div class="col-md-12 col-sm-12 text-center">
             <div class="form-group">
-                <input class="btn btn-primary" type="button" id="btnConsultar" name="name" value="Consultar" onclick="ConsultarControlAsistencia(this.id)" />
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarControlAsistencia(this.id)" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>
+
+                @*<input class="btn btn-primary" type="button" id="btnConsultar" name="name" value="Consultar" onclick="ConsultarControlAsistencia(this.id)" />*@
             </div>
         </div>
 
 
     </div>
-
-    <div class="modal fade" id="EditarAsistenciaModal" tabindex="-1" role="dialog" data-backdrop="static"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Asistencia</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="name" value=""id="txtId" />
-
-                    <div class="form-group col-md-12">
-                        <label>Estado</label>
-                        @Html.DropDownList("SelectEstado", new SelectList(ViewBag.Estado, "Codigo", "Descripcion"), new { @class = "form-control" })
-                    </div>
-                    <div class="form-group  col-md-12">
-                        <label>Hora</label>
-                        <input type="time" name="name" value="" id="txtHora" class="form-control"/>
-                    </div>
-                    <div class="form-group  col-md-12">
-                        <label>Observacion</label>
-                        <input type="text" name="name" value="" id="txtObservacion" class="form-control"/>
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="GuardarAsistencia()">Guardar</button>
-                </div>
-            </div>
+    <hr />
+    <div id="spinnerCargando" hidden class="text-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
         </div>
     </div>
 
@@ -77,3 +54,45 @@
 </div>
 
 
+<div class="modal fade" id="EditarAsistenciaModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Asistencia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="name" value="" id="txtId" />
+
+                <div class="form-group col-md-12">
+                    <label>Estado</label>
+                    @Html.DropDownList("SelectEstado", new SelectList(ViewBag.Estado, "Codigo", "Descripcion"), new { @class = "form-control" })
+                </div>
+                <div class="form-group  col-md-12">
+                    <label>Hora</label>
+                    <input type="time" name="name" value="" id="txtHora" class="form-control" />
+                    <p id="validacionHora" hidden class="text-danger">Ingrese una hora</p>
+                </div>
+                <div class="form-group  col-md-12">
+                    <label>Observacion</label>
+                    <input type="text" name="name" value="" id="txtObservacion" class="form-control" />
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-toggle="tooltip" data-placement="top" title="Cerrar" class="btn" data-dismiss="modal" onclick="" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                </button>
+
+                <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="Nuevo" onclick="GuardarAsistencia()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/save20.png" />
+                </button>
+
+                @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarAsistencia()">Guardar</button>*@
+            </div>
+        </div>
+    </div>
+</div>

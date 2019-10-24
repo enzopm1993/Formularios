@@ -3,8 +3,9 @@
 
 
 $(document).ready(function () {
-    $("#DivHora").hide();   
-    CargarAreas();
+    $("#DivHora").hide(); 
+    if ($("#txtControladorLinea").val()=="1")
+        CargarAreas();
     //CargarAreas();
 });
 

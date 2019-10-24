@@ -1,5 +1,10 @@
 ﻿
 function GuardarAsistencia() {
+    if (!$('#txtHora').val() > 0 && $('#SelectEstado').val() != "3") {
+        $("#validacionHora").prop("hidden", false);
+        return;
+    }
+
     $('#EditarAsistenciaModal').modal('hide');
     $.ajax({
         url: "../Asistencia/ModificarAsistencia",
@@ -11,7 +16,7 @@ function GuardarAsistencia() {
             EstadoAsistencia:$('#SelectEstado').val()
         },
         success: function (resultado) {
-            //MensajeCorrecto(resultado);
+            MensajeCorrecto(resultado);
             ConsultarControlAsistencia("btnConsultar");
         },
         error: function (resultado) {
@@ -28,7 +33,7 @@ function MostarModalEditar(id,estado,hora,observacion) {
     $('#txtId').val(id);
     $('#txtHora').val(hora);
     $('#txtObservacion').val(observacion);
-
+    $("#validacionHora").prop("hidden", true);
 
     $('#EditarAsistenciaModal').modal();
 
@@ -46,7 +51,9 @@ function ConsultarControlAsistencia(id) {
         $(btnConsultar).prop("disabled", false);
     }
     else {
-        MostrarModalCargando();
+        var bitacora = $('#DivTableControlAsistencia');
+        bitacora.html('');
+        $("#spinnerCargando").prop("hidden", false);
         $.ajax({
             url: "../Asistencia/EditarAsistenciaPartial",
             type: "GET",
@@ -55,18 +62,26 @@ function ConsultarControlAsistencia(id) {
                 ddFecha: Fecha
             },
             success: function (resultado) {
-                
                 var bitacora = $('#DivTableControlAsistencia');
-                bitacora.html(resultado);
+
+                if (resultado == "0") {
+
+                    bitacora.html('<div class="text-center"><h3> No existen Registros </h3></div>');
+                }
+                else {
+                    bitacora.html(resultado);
+                }
                 $(btnConsultar).prop("disabled", false);
-                setTimeout(CerrarModalCargando,1000);
+                $("#spinnerCargando").prop("hidden", true);
+
                 
             },
             error: function (resultado) {
-                
+                var bitacora = $('#DivTableControlAsistencia');
+                bitacora.html('');
                 MensajeError(resultado, false);
                 $(btnConsultar).prop("disabled", false);
-                setTimeout(CerrarModalCargando, 1000);
+                $("#spinnerCargando").prop("hidden", true);
             }
         });
     }

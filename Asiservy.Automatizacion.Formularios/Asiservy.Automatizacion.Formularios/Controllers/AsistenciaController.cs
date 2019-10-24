@@ -502,7 +502,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                ViewBag.dataTableJS = "1";
                 clsDClasificador = new clsDClasificador();
                 clsDEmpleado = new clsDEmpleado();
                 this.ConsultaComboLineas();
@@ -536,6 +536,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 clsDAsistencia = new clsDAsistencia();
                 var model = clsDAsistencia.ConsultaControlAsistencia(dsLinea,ddFecha);
+                if(!model.Any())
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
                 return PartialView(model);
             }
             catch (Exception ex)
