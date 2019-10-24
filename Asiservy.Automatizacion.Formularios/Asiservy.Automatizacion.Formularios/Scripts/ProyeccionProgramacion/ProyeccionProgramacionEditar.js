@@ -8,9 +8,12 @@
         for (var i = 0; i < LineasSelec.length; i++) {
             if ($(this).val() == LineasSelec[i]) {
                 $(this).prop("checked", true);
-                console.log("#Label-" + $(this).val().slice(-1));
-                $("#Label-" + $(this).val().slice(-1)).removeClass("btn-dark");
-                $("#Label-" + $(this).val().slice(-1)).addClass("btn-info");
+                
+                var idlabel = $(this).val().slice(-1);
+                var numero = idlabel < 9 ? '0' + idlabel : idlabel;
+                //console.log(idlabel);
+                $('#Label-' + numero).removeClass("btn-dark");
+                $('#Label-' + numero).addClass("btn-info");
                 //PintarLinea($(this).val().slice(-1));
             }
         }
@@ -18,7 +21,7 @@
     });
 }
 function ConsultaProyProgramacion() {
-    console.log('entro');
+    //console.log('entro');
     $.ajax({
         url: "../ProyeccionProgramacion/ProyeccionProgramacionEditPartial",
         type: "POST",
