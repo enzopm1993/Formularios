@@ -2,10 +2,16 @@
 @{
     ViewBag.Title = "ReporteAuditoriaSangre";
 }
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 
 <h4>Reporte Auditoria Sangre</h4>
+<hr />
 <div class="row">
-    <div class="col-md-3 col-sm-12">
+    <div class="col-md-4 col-12">
 
         <div class="form-group">
             <label>Fecha:</label>
@@ -14,7 +20,7 @@
 
 
     </div>
-    <div class=" col-md-3 col-sm-12">
+    <div class=" col-md-4 col-12">
 
         <div class="form-group">
 
@@ -25,14 +31,26 @@
 
 
     </div>
+    <div class=" col-md-4 text-md-left text-center col-12">
+        <text class="">Acción: </text>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="ConsultarRptAuditoriaSangre" onclick="ConsultarReporteAuditoriaSangre()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+
+            @*<input type="button" value="Consultar" class="btn btn-primary" id="ConsultarRptAuditoriaSangre" onclick="ConsultarReporteAuditoriaSangre()" />*@
+        </div>
+
+    </div>
+
 </div>
 <div class="row">
-    <div class=" col-md-6 col-sm-12">
-        <center>
-            <div class="form-group">
-                <input type="button" value="Consultar" class="btn btn-primary" id="ConsultarRptAuditoriaSangre" onclick="ConsultarReporteAuditoriaSangre()" />
-            </div>
-        </center>
+
+</div>
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
     </div>
 </div>
 <div id="DivReporteSangre" class="table-responsive">

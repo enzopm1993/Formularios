@@ -2,24 +2,51 @@
 @{
     ViewBag.Title = "ReporteEmpleadoTurno";
 }
-<br />
+
 <h3>Reporte Empleado Turno</h3>
-<h4>@ViewBag.Linea</h4>
 
-<div class="">
+<hr />
+<div class="row">
+    <div class="col-md-4 col-6">
+        <div class="form-group">
+            <label>Turno</label>
+            <select id="SelectTurno" class="form-control" onchange="CargarEmpleadoTurno(this.value)">
+                <option value="0">Todos</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4 col-6">
+        <div class="form-group">
+            <label>Lineas</label>
+            @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLinea" })
+            <p id="validacionLineas" class="text-danger" hidden>Selecciones una Linea</p>
+        </div>
+    </div>
 
-    <div class="form-group">
-        <label>Turno</label>
-        <select id="SelectTurno" class="form-control" onchange="CargarEmpleadoTurno(this.value)">
-            <option value="0">Todos</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-        </select>
+    <div class="col-md-4 col-6">
+        <label>Acción</label>
+        <div class="form-group">
+
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="Consultar()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+
+
+    <hr />
+    <div id="spinnerCargando" hidden class="text-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
     </div>
 
     <div class="table-responsive" id="TableEmpleadoTurno">
 
     </div>
 
-</div>
+
 

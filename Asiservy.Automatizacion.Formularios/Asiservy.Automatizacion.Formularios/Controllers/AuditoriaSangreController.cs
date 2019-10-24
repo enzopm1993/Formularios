@@ -63,6 +63,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
                 var ReporteAuditoriaSangre = clsDAuditoriaSangre.ConsultarReporteAuditoriaSangre(CodLinea,Fecha);
+                if (!ReporteAuditoriaSangre.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                
+                }
                 return PartialView(ReporteAuditoriaSangre);
             }
             catch (Exception ex)
