@@ -1,4 +1,47 @@
-﻿function PintarLinea(id) {
+﻿function SetearValoresDeModal(LineasSelec) {
+
+    //console.log(LineasSelec.length);
+    for (var i = 0; i < LineasSelec.length; i++) {
+
+    }
+    $("input[type=checkbox]").each(function () {
+        for (var i = 0; i < LineasSelec.length; i++) {
+            if ($(this).val() == LineasSelec[i]) {
+                $(this).prop("checked", true);
+                
+                var idlabel = $(this).val().slice(-1);
+                var numero = idlabel < 9 ? '0' + idlabel : idlabel;
+                //console.log(idlabel);
+                $('#Label-' + numero).removeClass("btn-dark");
+                $('#Label-' + numero).addClass("btn-info");
+                //PintarLinea($(this).val().slice(-1));
+            }
+        }
+        //alert($(this).val());
+    });
+}
+function ConsultaProyProgramacion() {
+    //console.log('entro');
+    $.ajax({
+        url: "../ProyeccionProgramacion/ProyeccionProgramacionEditPartial",
+        type: "POST",
+        data:
+        {
+            Fecha: $('#FechaProduccion').val()
+        },
+        success: function (resultado) {
+
+            $('#DivEditarProyeccion').empty();
+            $('#DivEditarProyeccion').html(resultado);
+
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+
+        }
+    });
+}
+function PintarLinea(id) {
     if ($('#Linea-' + id).prop('checked')) {
         $("#Label-" + id).removeClass("btn-dark");
         $("#Label-" + id).addClass("btn-info");
@@ -70,15 +113,22 @@ function ActualizarProyeccion() {
     });
 }
 
-function AbrirModal(IdProyeccion) {
+function AbrirModal(IdProyeccion,Observacion,Lineas,HoraInicio,HoraFin) {
     $.ajax({
         url: "../ProyeccionProgramacion/ModalEditarProyeccion",
         type: "POST",
-        data: { IdProyeccion: IdProyeccion },
+        data: {
+            IdProyeccion: IdProyeccion,
+            Observacion: Observacion,
+            Lineas: Lineas,
+            HoraInicio: HoraInicio,
+            HoraFin: HoraFin
+        },
         success: function (resultado) {
-            
-            var m = document.getElementById("modaleditarpro");
-            m.innerHTML = resultado;
+            $('#modaleditarpro').empty();
+            $('#modaleditarpro').html(resultado);
+            //var m = document.getElementById("modaleditarpro");
+            //m.innerHTML = resultado;
             //var modal = document.getElementById("ModalError");
             $("#ModalEditarProyeccion").modal("show");
             //document.getElementById('mensajeCorrecto').innerHTML = mensaje;

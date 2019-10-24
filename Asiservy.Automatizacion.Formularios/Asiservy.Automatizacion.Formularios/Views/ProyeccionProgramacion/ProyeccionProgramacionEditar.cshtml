@@ -5,9 +5,15 @@
 
 <h4>Proyección Programación </h4>
 <br />
-@{ var Fecha = DateTime.Now.AddDays(1).ToShortDateString();}
-<b>Fecha de Proyección: </b> @Fecha
-<br /><br />
+@{var Fecha = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"); }
+<div class="row">
+    <div class="col-md-3 col-sm-6">
+        <div class="form-group">
+            <label>Fecha de Proyección</label>  @Html.TextBox("FechaProduccion", null, new { @class = "form-control input-large", type = "date", @Value = Fecha, @onchange = "ConsultaProyProgramacion()" })
+         </div>
+    </div>
+</div>
+<br />
 <div id="DivEditarProyeccion" class="table-responsive">
 
     <table class="table table-hover" id="tablaProyeccion" style="cursor: pointer">
@@ -78,7 +84,7 @@
                     <td>@item.HoraInicio</td>
                     <td>@item.HoraFin</td>
                     <td>
-                        <a href="#" onclick="AbrirModal('@item.IdProyeccion');">Editar</a>
+                        <a href="#" onclick="AbrirModal('@item.IdProyeccion','@item.Observacion','@item.Lineas','@item.HoraInicio','@item.HoraFin');">Editar</a>
                     </td>
                 </tr>
             }
@@ -87,7 +93,7 @@
 
 
 
-</div>
+</div>            
 
-<div id="modaleditarpro"></div>
-<link href="~/Content/ProyeccionProgramacionCss/ProyeccionProgramacionEditar.css" rel="stylesheet" />
+            <div id="modaleditarpro"></div>
+            <link href="~/Content/ProyeccionProgramacionCss/ProyeccionProgramacionEditar.css" rel="stylesheet" />

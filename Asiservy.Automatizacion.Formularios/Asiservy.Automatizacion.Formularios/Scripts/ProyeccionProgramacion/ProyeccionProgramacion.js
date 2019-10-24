@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
     //var fecha = new Date(); //Fecha actual
     //var mes = fecha.getMonth() + 1; //obteniendo mes
     //var dia = fecha.getDate()+1; //obteniendo dia
@@ -9,6 +10,26 @@
     //    mes = '0' + mes //agrega cero si el menor de 10
     //document.getElementById('FechaProduccion').value = ano + "-" + mes + "-" + dia;
 });
+function ConsultaProyProgramacion(){
+    $.ajax({
+        url: "../ProyeccionProgramacion/ProyeccionProgramacionPartial",
+        type: "POST",
+        data:
+        {
+            FechaProduccion: $('#FechaProduccion').val()
+        },
+        success: function (resultado) {
+          
+            $('#DivProyeccion').empty();
+            $('#DivProyeccion').html(resultado);
+           
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+
+        }
+    });
+}
 function Limpiar() {
     $('#Lote').val("");
     //$('#FechaProduccion').val("");
@@ -19,8 +40,17 @@ function Limpiar() {
     $('#Talla').prop('selectedIndex', 0);
     $('#Observacion').val("");
     $('#IdProyeccion').val("");
+    var d = new Date();
 
-    
+    var dia = d.getDate()+1;
+
+    var mes = (d.getMonth() + 1) < 10 ? ("0" + (d.getMonth() + 1)) : d.getMonth() + 1;
+    var anio = d.getFullYear();
+
+    var fechatotal = anio + "-" + mes + "-" + dia
+    $('#FechaProduccion').val(fechatotal);
+
+    ConsultaProyProgramacion();
 }
 function EditarProyeccion(IdProyeccion, Lote, Fecha, Toneladas, Destino, TipoLimpieza, Observacion, Especie, Talla) {
    // alert(Fecha);
