@@ -83,7 +83,7 @@
 
                         @if (Padre != null)
                         {
-                            <div id="collapse@(moduloid)" class="collapse" aria-labelledby="heading@item.Codigo" data-parent="#li12">
+                            <div id="collapse@(moduloid)" class="collapse" aria-labelledby="heading@item.Codigo" data-parent="#accordionSidebar">
                                 <div class="bg-white py-2 collapse-inner rounded">
 
                                     @foreach (var Menupadre in Padre.Where(x => x.IdModulo == MenusModulos.IdModulo))
@@ -105,8 +105,6 @@
                                         {
                                             <hr />
                                         }
-
-
                                     }
                                 </div>
                             </div>
