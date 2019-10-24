@@ -23,7 +23,20 @@
 //$(window).on('load', function () {
 
 //});
+function FijarHora() {
+    $("#ModalHora").modal("hide");
+    var numerofilas = ($('#TableCuchillos tr').length)-3;
+    for (var i = 0; i < numerofilas; i++) {
+        $('#ControlAsistencia_' + i + '__Hora').val
+        if ($('#ControlAsistencia_' + i + '__EstadoAsistencia').val() == "3") {
+            $('#ControlAsistencia_' + i + '__Hora').val($('#FijarHora').val());
+        }
+      
+    }
+    
+}
 function SetearHora() {
+    
     $.ajax({
         //contentType: "application/json; charset=utf-8",
         url: '../Asistencia/ModalHora',
