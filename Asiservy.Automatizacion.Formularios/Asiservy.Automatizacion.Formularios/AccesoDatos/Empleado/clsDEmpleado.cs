@@ -24,11 +24,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return db.spConsultaPersonalNominaPorLinea().ToList();
             }
         }
-        public List<spConsultaDistribucionPorLinea> spConsultaDistribucionPorLinea(string Linea)
+        public List<spConsultaDistribucionPorLinea> spConsultaDistribucionPorLinea(string Linea, DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.spConsultaDistribucionPorLinea(DateTime.Now,Linea).ToList();
+                return db.spConsultaDistribucionPorLinea(Fecha, Linea).ToList();
             }
         }
         public void GuardarModificarEmpleadoTurno(EmpleadoViewModel model)

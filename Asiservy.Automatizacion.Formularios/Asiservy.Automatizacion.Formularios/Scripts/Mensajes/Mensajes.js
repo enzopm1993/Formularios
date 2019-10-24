@@ -56,7 +56,7 @@ function MensajeCorrecto(mensaje, r) {
     $('#pMensaje').text(mensaje);
    
     
-    $(".alert").delay(1000).fadeOut(
+    $(".alert").delay(1500).fadeOut(
         "normal",
         function () {
             $(this).remove();
@@ -118,7 +118,7 @@ function MensajeAdvertencia(mensaje, r) {
         '<button type="button" class="close" data-dismiss="alert">' +
         '&times;</button><p id="pMensaje"></p></div>').hide().appendTo('#response').fadeIn(1000);
     $('#pMensaje').text(mensaje);
-    $(".alert").delay(2000).fadeOut(
+    $(".alert").delay(2500).fadeOut(
         "normal",
         function () {
             $(this).remove();
