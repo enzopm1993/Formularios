@@ -4,7 +4,7 @@
 <div style="padding-top: 10px; padding-bottom: 100px">
     @*@Html.HiddenFor(z=>z.ControlAsistencia[0].Turno)*@
     @Html.Hidden("EstadoControlCuchillo", "1")
-
+    <input type="button" onclick="SetearHora()" value="Fijar Hora" />
     <div class="table-responsive">
         <input type="text" id="busqueda" onkeyup="buscarenTabla()" placeholder="Buscar por Nombres..">
         <table class="table " id="TableCuchillos">
