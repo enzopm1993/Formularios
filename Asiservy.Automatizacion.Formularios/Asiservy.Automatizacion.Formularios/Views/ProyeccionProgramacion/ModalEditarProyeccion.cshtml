@@ -8,62 +8,83 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-          <input type="text" value="@ViewBag.IdProyeccion" id="idproyeccionmodal" hidden/>
-                <div class="modal-body">
-                    
-                    <div id="DivBodyEditar" >
-                        <div class="row">
+            <input type="text" value="@ViewBag.IdProyeccion" id="idproyeccionmodal" hidden />
+            <div class="modal-body">
+                
+                <div id="DivBodyEditar">
+                    <div class="row">
 
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label>Líneas: </label> <br />
-                                    @foreach (var item in ViewBag.Lineas)
-                                    {
-                                        <label class="btn btn-dark text-xs-center" id="Label-@item.Codigo" onclick="PintarLinea('@item.Codigo')">
-                                            @item.Descripcion
-                                            <input type="checkbox" id="Linea-@item.Codigo" value="@item.Descripcion" class="" />
-                                        </label>
-                                        @*<label>&nbsp;&nbsp; @item.Descripcion </label><input type="checkbox" id="Linea@item.Codigo" value="@item.Descripcion" class="" />*@
-                                    }
-                                    <label id="msgerrorLineas" style="display:none; color:red">Debe ingresar al menos una línea</label>
-                                </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Líneas: </label> <br />
+                                @foreach (var item in ViewBag.Lineas)
+                                {
+                                    <label class="btn btn-dark text-xs-center" id="Label-@item.Codigo" onclick="PintarLinea('@item.Codigo')">
+                                        @item.Descripcion
+                                        <input type="checkbox" id="Linea-@item.Codigo" value="@item.Descripcion" class="" />
+                                    </label>
+                                    @*<label>&nbsp;&nbsp; @item.Descripcion </label><input type="checkbox" id="Linea@item.Codigo" value="@item.Descripcion" class="" />*@
+                                }
+                                 @if (ViewBag.LineasSelec.Count != 0)
+                                 {
+                                    <script>
+                                         var array = @Html.Raw(Json.Encode(@ViewBag.LineasSelec));
+                                         SetearValoresDeModal(array);
+                                    </script>
+                                 }
+                                <label id="msgerrorLineas" style="display:none; color:red">Debe ingresar al menos una línea</label>
                             </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label>Hora Inicio: </label> <input type="time" class="form-control" id="HoraInicio" />
-                                    <label id="msgerrorHoraInicio" style="display:none; color:red">La hora de inicio no puede estar vacia</label>
-                                </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Hora Inicio: </label> <input type="time" class="form-control" id="HoraInicio" value="@ViewBag.HoraInicio"/>
+                                <label id="msgerrorHoraInicio" style="display:none; color:red">La hora de inicio no puede estar vacia</label>
                             </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label class="align-left">Hora Fin:</label><input type="time" class="form-control" id="HoraFin" />
-                                    <label id="msgerrorHoraFin" style="display:none; color:red">La hora de Fin no puede estar vacia</label>
-                                </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="align-left">Hora Fin:</label><input type="time" class="form-control" id="HoraFin" value="@ViewBag.HoraFin" />
+                                <label id="msgerrorHoraFin" style="display:none; color:red">La hora de Fin no puede estar vacia</label>
                             </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label class="align-left">Observación:</label><textarea rows="5" cols="25" id="observacionedit" class="form-control"></textarea>
-                                    @*<label id="msgerrorHoraFin" style="display:none; color:red">La hora de Fin no puede estar vacia</label>*@
-                                </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="align-left">Observación:</label><textarea rows="5" cols="25" id="observacionedit" class="form-control">@ViewBag.Obsercacion</textarea>
+                                @*<label id="msgerrorHoraFin" style="display:none; color:red">La hora de Fin no puede estar vacia</label>*@
                             </div>
-                            <div class="col-12">
-                                <div class="form-group">
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
 
-                                    <label id="msgerrorHoras" style="display:none; color:red">La hora de inicio no puede ser mayor a la hora Fin</label>
-                                </div>
+                                <label id="msgerrorHoras" style="display:none; color:red">La hora de inicio no puede ser mayor a la hora Fin</label>
                             </div>
                         </div>
                     </div>
-                       
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="ActualizarProyeccion()">Guardar</button>
-                    </div>
                 </div>
-         
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="ActualizarProyeccion()">Guardar</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 
+@*<script>
+                     SetearValoresDeModal('@ViewBag.Obsercacion','@ViewBag.HoraInicio','@ViewBag.HoraFin','');
+</script>*@
+@*<script>
+    function SetearValoresDeModal(Observacion, HoraInicio, HoraFin, LineasSelec) {
+        alert("hola");
+        console.log("hola");
+        console.log(LineasSelec);
+    }
+</script>*@
 
-
+@*ViewBag.LineasSelec = LineasProduccion;
+                ViewBag.Obsercacion = Observacion;
+                ViewBag.HoraInicio = HoraInicio;
+                ViewBag.HoraFin = HoraFin;
+                return PartialView();*@

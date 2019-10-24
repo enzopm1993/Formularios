@@ -2,6 +2,7 @@
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion;
 using Asiservy.Automatizacion.Formularios.Models.Seguridad;
+using Asiservy.Automatizacion.Formularios.Models.ProyeccionProgramacion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,7 +78,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [HttpPost]
-        public ActionResult ProyeccionProgramacionPartial(int IdProyeccionProgramacion,string Lote,DateTime? FechaProduccion,int? Toneladas,string Destino, string TipoLimpieza,string Observacion, string Especie, string Talla/*,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin*/)
+        public ActionResult ProyeccionProgramacionPartial(int? IdProyeccionProgramacion,string Lote,DateTime? FechaProduccion,int? Toneladas,string Destino, string TipoLimpieza,string Observacion, string Especie, string Talla/*,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin*/)
         {
             try
             {
@@ -88,7 +89,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                    ProyeccionProgramacion = new PROYECCION_PROGRAMACION()
                     {
 
-                        IdProyeccionProgramacion = IdProyeccionProgramacion,
+                        IdProyeccionProgramacion = Convert.ToInt32(IdProyeccionProgramacion),
                         Lote = Lote,
                         FechaProduccion = FechaProduccion,
                         Toneladas = Toneladas,
@@ -115,14 +116,47 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 //    };
                 //}
-               
+                List<ProyeccionProgramacionViewModel> Respuesta=new List<ProyeccionProgramacionViewModel>();
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
-                var Respuesta = clsDProyeccionProgramacion.GuardarActualizarProyeccionProgramacion(ProyeccionProgramacion);
+                if (!string.IsNullOrEmpty(Lote)){
+                    Respuesta = clsDProyeccionProgramacion.GuardarActualizarProyeccionProgramacion(ProyeccionProgramacion);
+
+                }
+                else
+                {
+                    Respuesta = clsDProyeccionProgramacion.ConsultarProyeccionProgramacion(FechaProduccion);
+                }
+                //var Respuesta = clsDProyeccionProgramacion.GuardarActualizarProyeccionProgramacion(ProyeccionProgramacion);
                 return PartialView(Respuesta);
             }
             catch (Exception ex)
             {
 
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public ActionResult ProyeccionProgramacionEditPartial(DateTime Fecha)
+        {
+            try
+            {
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                var resultado = clsDProyeccionProgramacion.ConsultarProyeccionProgramacion(Fecha);
+                return PartialView(resultado);
+            }
+            catch (Exception ex)
+            {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
@@ -207,7 +241,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home", "Home");
             }
         }
-        public ActionResult ModalEditarProyeccion(int IdProyeccion)
+        public ActionResult ModalEditarProyeccion(int IdProyeccion,string Observacion,string Lineas,TimeSpan HoraInicio,TimeSpan HoraFin)
         {
             try
             {
@@ -215,6 +249,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var ListLineas = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 ViewBag.IdProyeccion = IdProyeccion;
                 ViewBag.Lineas = ListLineas;
+                string[] LineasProduccion = Lineas.Split(',');
+                ViewBag.LineasSelec = LineasProduccion.ToList();
+                var a= LineasProduccion.ToList();
+                var b=a[0];
+                ViewBag.Obsercacion = Observacion;
+                ViewBag.HoraInicio = HoraInicio;
+                ViewBag.HoraFin = HoraFin;
                 return PartialView();
             }
             catch (Exception ex)
