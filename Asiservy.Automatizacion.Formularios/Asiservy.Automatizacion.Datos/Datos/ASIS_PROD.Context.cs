@@ -520,15 +520,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiaria>("sp_ConsultaAsistenciaDiaria", codLineaParameter, turnoParameter, fechaParameter);
         }
     
-        public virtual ObjectResult<spConsultaCuchilloEmpleado> spConsultaCuchilloEmpleado(string cedula)
-        {
-            var cedulaParameter = cedula != null ?
-                new ObjectParameter("cedula", cedula) :
-                new ObjectParameter("cedula", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCuchilloEmpleado>("spConsultaCuchilloEmpleado", cedulaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaLimpiadorasControlHueso> spConsultaLimpiadorasControlHueso(string linea, Nullable<System.DateTime> fecha)
         {
             var lineaParameter = linea != null ?
@@ -584,6 +575,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IDROL", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaOpcionesPorRol>("spConsultaOpcionesPorRol", iDROLParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCuchilloEmpleado> spConsultaCuchilloEmpleado(string cedula, string linea)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCuchilloEmpleado>("spConsultaCuchilloEmpleado", cedulaParameter, lineaParameter);
         }
     }
 }
