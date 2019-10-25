@@ -105,6 +105,7 @@ function SeleccionEmpleadoCuchillo(id, cedula, blanco,rojo, negro, estado, nombr
 
 function CargarEmpleadoCuchillo() {
     $("#spinnerCargando").prop("hidden", false);
+    $('#DivTableEmpleadoCuchillo').html('');
     $.ajax({
         url: "../Asistencia/CuchilloEmpleadoPartial",
         type: "GET",
