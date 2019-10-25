@@ -82,7 +82,7 @@
     function cerrarmodalempleado() {
         $('#ModalEmpleado').modal('hide');
         
-        if (sPage == "SolicitudPermiso") {
+        if (sPage == "SolicitudPermiso" || sPage == "CuchilloEmpleado") {
             $('#CargarEmpleadoPG').attr("disabled", false);
         }
         
