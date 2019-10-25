@@ -23,7 +23,26 @@
 //$(window).on('load', function () {
 
 //});
+function FijarHora() {
+    if ($('#FijarHora').val() == "") {
+        $('#msgerrorfijarhora').show();
+        return false;
+    } else {
+        $('#msgerrorfijarhora').hide();
+    }
+    $("#ModalHora").modal("hide");
+    var numerofilas = ($('#TableCuchillos tr').length)-3;
+    for (var i = 0; i <= numerofilas; i++) {
+        $('#ControlAsistencia_' + i + '__Hora').val
+        if ($('#ControlAsistencia_' + i + '__EstadoAsistencia').val() == "3") {
+            $('#ControlAsistencia_' + i + '__Hora').val($('#FijarHora').val());
+        }
+      
+    }
+    
+}
 function SetearHora() {
+    $('#btnhora').prop('disabled', 'disabled');
     $.ajax({
         //contentType: "application/json; charset=utf-8",
         url: '../Asistencia/ModalHora',
@@ -32,8 +51,10 @@ function SetearHora() {
             $('#modalhoraasis').empty();
             $('#modalhoraasis').html(resultado);
             $("#ModalHora").modal("show");
+            $('#btnhora').removeAttr('disabled');
         },
         error: function (result) {
+            $('#btnhora').removeAttr('disabled');
             //Console.log(result);
             //MensajeError(result, false);
         }
@@ -186,6 +207,7 @@ function DeshabilitarControles(fila) {
     $('#'+fila+' :input').prop("disabled", true);
 }
 function GenerarAsistenciaDiaria(IdLinea, bandera) {
+    $('#GenerarAsistencia').hide();
     $("#spinnerCargando").prop("hidden",false);
     //console.log("hola");
     var turno;
@@ -218,9 +240,10 @@ function GenerarAsistenciaDiaria(IdLinea, bandera) {
         }
         ,
         error: function (result) {
+
             console.log(result);
             $("#spinnerCargando").prop("hidden",true);
-            
+            $('#GenerarAsistencia').hide();
             MensajeError(result.responseJSON, false);
             if (bandera == 0) {
                 $('#GenerarAsistencia').prop("disabled", false);

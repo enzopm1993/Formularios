@@ -4,7 +4,10 @@
 <div style="padding-top: 10px; padding-bottom: 100px">
     @*@Html.HiddenFor(z=>z.ControlAsistencia[0].Turno)*@
     @Html.Hidden("EstadoControlCuchillo", "1")
-    <input type="button" onclick="SetearHora()" value="Fijar Hora" />
+
+    <input type=image src="~/Content/images/Time.png"  onclick="SetearHora()" id="btnhora" >
+    <br />
+
     <div class="table-responsive">
         <input type="text" id="busqueda" onkeyup="buscarenTabla()" placeholder="Buscar por Nombres..">
         <table class="table " id="TableCuchillos">
@@ -72,7 +75,7 @@
                         </td>
                         <td>
                             @*<input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />*@
-                            @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Hora, new { type = "time", @class = "form-control", @onkeyup= "GuardarPersona("+@cont+",'"+@item.NOMBRES+"','change');", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');" })
+                            @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Hora, new { type = "time", @class = "form-control", @onkeyup = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');" })
 
 
                         </td>
@@ -209,16 +212,16 @@
                             }
                         </td>
                     </tr>
-                                @*if (item.EstadoAsistencia == "3")
-                                {
-                                    var contids = cont - 1;
-                                    var IdEnviado = "ControlAsistencia_"+ contids + "__Hora";
-                                        <script>
-                                           
-                                            PushHoras('@IdEnviado');
-                                        </script>
-                                    }*@
-                                }
+                    @*if (item.EstadoAsistencia == "3")
+                        {
+                            var contids = cont - 1;
+                            var IdEnviado = "ControlAsistencia_"+ contids + "__Hora";
+                                <script>
+
+                                    PushHoras('@IdEnviado');
+                                </script>
+                            }*@
+                }
                 <tr>
             </tbody>
         </table>

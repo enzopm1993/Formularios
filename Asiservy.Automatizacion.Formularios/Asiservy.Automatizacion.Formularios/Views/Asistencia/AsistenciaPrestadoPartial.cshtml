@@ -4,7 +4,8 @@
 @*@Html.HiddenFor(z => z.ControlAsistencia[0].Turno)*@
 @Html.Hidden("EstadoControlCuchillo", "1")
 @*<div class="table-responsive">*@
-
+<input type=image src="~/Content/images/Time.png" onclick="SetearHora()" id="btnhora">
+<br />
 <input type="text" id="busqueda" onkeyup="buscarenTabla()" placeholder="Buscar por Nombres..">
 <table class="table " id="TableCuchillos">
     <thead>
