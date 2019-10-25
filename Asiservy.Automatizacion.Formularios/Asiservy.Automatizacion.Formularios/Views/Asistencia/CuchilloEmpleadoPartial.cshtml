@@ -4,7 +4,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdEmpleadoCuchillo)
+                <label>Id</label>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cedula)
@@ -13,47 +13,93 @@
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CuchilloBlanco)
+                <label>Cuchillo Blanco</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CuchilloRojo)
+                <label>Cuchillo Rojo</label>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CuchilloNegro)
+                <label>Cuchillo Negro</label>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EstadoRegistro)
+                <label>Estado</label>
             </th>
+            <th>
+                <label>Fecha Ingreso</label>
+
+            </th>
+            <th>
+                <label>Usuario Ingreso</label>
+
+            </th>
+            <th>
+                <label>Terminal Ingreso</label>
+
+            </th>
+            <th>
+                <label>Fecha Modificación</label>
+
+            </th>
+            <th>
+                <label>Usuario Modificación</label>
+
+            </th>
+            <th>
+                <label>Terminal Modificación</label>
+
+            </th>
+
 
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr onclick="SeleccionEmpleadoCuchillo('@item.IdEmpleadoCuchillo','@item.Cedula','@item.CuchilloBlanco','@item.CuchilloRojo','@item.CuchilloNegro','@item.EstadoRegistro','@item.Nombre')">
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdEmpleadoCuchillo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cedula)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CuchilloBlanco)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CuchilloRojo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CuchilloNegro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EstadoRegistro)
-                </td>
+        <tr onclick="SeleccionEmpleadoCuchillo('@item.IdEmpleadoCuchillo','@item.Cedula','@item.CuchilloBlanco','@item.CuchilloRojo','@item.CuchilloNegro','@item.EstadoRegistro','@item.Nombre')">
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEmpleadoCuchillo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CuchilloBlanco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CuchilloRojo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CuchilloNegro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoRegistro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
 
-            </tr>
+            </td>
+            </td>
+
+        </tr>
         }
     </tbody>
 </table>

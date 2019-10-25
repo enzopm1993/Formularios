@@ -1054,11 +1054,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 if (model.NumeroCuchillo == 0)
                 {
-                    ModelState.AddModelError("Numero Cuchillo", "Campo Requerido");
-                    clsDClasificador = new clsDClasificador();
-                    var ColorCuchillos = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoColorCuchillo, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-                    ViewBag.ColorCuchillos = ColorCuchillos;
-                    return View(model);
+                    return Json("1", JsonRequestBehavior.AllowGet);
+
                 }
                 clsDCuchillo = new clsDCuchillo();
                 liststring = User.Identity.Name.Split('_');
@@ -1067,8 +1064,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.UsuarioIngresoLog = liststring[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 var Respuesta = clsDCuchillo.GuardarModificarCuchillo(model);
-                SetSuccessMessage(Respuesta);
-                return RedirectToAction("Cuchillo");
+                //  SetSuccessMessage(Respuesta);
+                // return RedirectToAction("Cuchillo");
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
@@ -1092,13 +1090,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         [Authorize]
         // GET: Asistencia/Cuchillo
-        public ActionResult CuchilloPartial()
+        public ActionResult CuchilloPartial(string dsColor)
         {
             try
             {
                 clsDCuchillo = new clsDCuchillo();
                
-                var model = clsDCuchillo.ConsultarCuchillos(new CUCHILLO());
+                var model = clsDCuchillo.ConsultarCuchillos(new CUCHILLO { ColorCuchillo = dsColor });
                 return PartialView(model);
 
             }
@@ -1159,12 +1157,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 liststring = User.Identity.Name.Split('_');
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
-                if (!ModelState.IsValid)
-                {
-
-                    ConsultarCombosEmpleadoCuchillo();
-                    return View(model);
+                if (!ModelState.IsValid || (model.CuchilloBlanco == null && model.CuchilloNegro == null && model.CuchilloRojo==null))
+                {                    
+                    return Json("1",JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -1175,8 +1170,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     model.TerminalIngresoLog = Request.UserHostAddress;
                     
                     var respuesta = clsDCuchillo.GuardarModificarEmpleadoCuchillo(model);
-                    SetSuccessMessage(respuesta);
-                    return RedirectToAction("CuchilloEmpleado");
+                    return Json(respuesta, JsonRequestBehavior.AllowGet);
+
                 }
             }
             catch (Exception ex)

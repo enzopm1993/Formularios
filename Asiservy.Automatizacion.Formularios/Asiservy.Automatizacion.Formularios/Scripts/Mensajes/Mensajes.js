@@ -36,22 +36,11 @@ function MensajeCorrecto(mensaje, r) {
         $('#GuardarSolicitudDispensario').prop('readonly', true);
     }
     $('body,html').animate({ scrollTop: 0 }, 500);
-    //$.ajax({
-    //    url: "../Mensaje/Correcto",
-    //    type: "Get",
-    //    data: { reload: r },
-    //    success: function (resultado) {
-    //        var m = document.getElementById("ModalMensaje");
-    //        m.innerHTML = resultado;
-    //        //var modal = document.getElementById("ModalError");
-    //        $("#ModalCorrecto").modal("show");
-    //        document.getElementById('mensajeCorrecto').innerHTML = mensaje;
-    //           //console.log(r);
-    //    }
-    //});
+
+  
     $('#response').html('');
     $('<div class="alert alert-success">' +
-        '<button type="button" class="close" data-dismiss="alert">' +
+        '<button type="button" class="close" style="height: min-content;padding: 5px;" data-dismiss="alert">' +
         '&times;</button><p id="pMensaje"></p></div>').hide().appendTo('#response').fadeIn(1000);
     $('#pMensaje').text(mensaje);
    

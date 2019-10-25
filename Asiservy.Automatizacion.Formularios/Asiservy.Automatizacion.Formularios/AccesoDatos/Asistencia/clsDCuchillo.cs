@@ -281,13 +281,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
                 if (!string.IsNullOrEmpty(filtros.Cedula))
                 {
-                    EmpleadosCuchillos = entities.spConsultaCuchilloEmpleado(filtros.Cedula).ToList();
+                    EmpleadosCuchillos = entities.spConsultaCuchilloEmpleado(filtros.Cedula,"").ToList();
                 }
                 else
                 {
-                    EmpleadosCuchillos = entities.spConsultaCuchilloEmpleado("0").ToList();
+                    EmpleadosCuchillos = entities.spConsultaCuchilloEmpleado("0", Linea).ToList();
                 }
 
+                if (!string.IsNullOrEmpty(Linea))
+                {
+                    //EmpleadosCuchillos= EmpleadosCuchillos.Where(x=>x.linea)
+                }
 
                 List<EmpleadoCuchilloViewModel> Listado = (from c in EmpleadosCuchillos                                                
                                                  select new EmpleadoCuchilloViewModel

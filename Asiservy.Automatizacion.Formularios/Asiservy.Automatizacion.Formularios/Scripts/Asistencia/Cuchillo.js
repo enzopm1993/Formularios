@@ -22,16 +22,47 @@ function SeleccionCuchilloColor(numero, color, estado) {
     }
 }
 
+function GuardarCuchillo() {
+
+    $.ajax({
+        url: "../Asistencia/Cuchillo",
+        type: "POST",
+        data: {
+            NumeroCuchillo: $("#NumeroCuchillo").val(),
+            ColorCuchillo: $("#ColorCuchillos").val(),
+            EstadoRegistro: $("#CheckEstadoRegistro").val()
+        },
+        success: function (resultado) {           
+            if (resultado == "1") {
+                MensajeAdvertencia("Faltan Parametros");
+            }
+            else {
+                MensajeCorrecto(resultado);
+                CargarColorCuchillos();
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado, false);
+           
+        }
+    });
+}
+
 function CargarColorCuchillos() {
     $("#spinnerCargando").prop("hidden", false);
+    $('#DivColorCuchillos').html('');
     $.ajax({
         url: "../Asistencia/CuchilloPartial",
         type: "GET",
+        data: {
+            dsColor:$("#ColorCuchillos").val()
+        },
         success: function (resultado) {
-
             var bitacora = $('#DivColorCuchillos');
+                bitacora.html(resultado);
+
             $("#spinnerCargando").prop("hidden", true);
-            bitacora.html(resultado);
+          
         },
         error: function (resultado) {
             MensajeError(resultado, false);

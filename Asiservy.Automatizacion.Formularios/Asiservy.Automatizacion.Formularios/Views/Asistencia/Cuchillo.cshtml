@@ -21,16 +21,16 @@
 
             <div class="offset-md-2 col-md-3 col-4">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.NumeroCuchillo, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.NumeroCuchillo, new { htmlAttributes = new { @class = "form-control", @id = "NumeroCuchillo" } })
-                    @Html.ValidationMessageFor(model => model.NumeroCuchillo, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.ColorCuchillo, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.ColorCuchillo, new SelectList(ViewBag.ColorCuchillos, "Codigo", "Descripcion"), new { @class = "form-control", @id = "ColorCuchillos",@onchange= "CargarColorCuchillos()" })
+                    @Html.ValidationMessageFor(model => model.ColorCuchillo, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-md-3 col-8">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ColorCuchillo, htmlAttributes: new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.ColorCuchillo, new SelectList(ViewBag.ColorCuchillos, "Codigo", "Descripcion"), new { @class = "form-control", @id = "ColorCuchillos" })
-                    @Html.ValidationMessageFor(model => model.ColorCuchillo, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.NumeroCuchillo, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.NumeroCuchillo, new { htmlAttributes = new { @class = "form-control", @id = "NumeroCuchillo" } })
+                    @Html.ValidationMessageFor(model => model.NumeroCuchillo, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-md-3 col-sm-12">
@@ -46,7 +46,7 @@
         </div>
         <div class="form-group">
             <div class="text-center">
-                <button data-toggle="tooltip" data-placement="top" title="Grabar" class="btn" id="Nuevo" style="border-color:#2c3e50" type="submit">
+                <button data-toggle="tooltip" data-placement="top" title="Grabar" class="btn" id="btnGuardar" onclick="GuardarCuchillo()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/add24.png" />
                 </button>
             </div>

@@ -53,75 +53,75 @@
             List<ModuloViewModel> Modulos = new List<ModuloViewModel>();
             Modulos = (List<ModuloViewModel>)Session["Modulos"];
 
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-                <div class="sidebar-brand-icon">
-                    <img class="imgLogoPez" src="~/Content/admin/img/logo_pez_102x102.png" alt="Asiservy" />
-                </div>
-                <div class="sidebar-brand-text mx-3">
-                    <img class="imgLogoAsy" src="~/Content/admin/img/logo_512x212.png" alt="Asiservy" />
-                </div>
-            </a>
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-            @if (Modulos != null)
-            {
-                foreach (var MenusModulos in Modulos)
+            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+                    <div class="sidebar-brand-icon">
+                        <img class="imgLogoPez" src="~/Content/admin/img/logo_pez_102x102.png" alt="Asiservy" />
+                    </div>
+                    <div class="sidebar-brand-text mx-3">
+                        <img class="imgLogoAsy" src="~/Content/admin/img/logo_512x212.png" alt="Asiservy" />
+                    </div>
+                </a>
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+                @if (Modulos != null)
                 {
-                    
-                    var moduloid = MenusModulos.IdModulo + 100;
-                   
-                    <li class="nav-item" id="li12">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse@(moduloid)" aria-expanded="true" aria-controls="collapse@(moduloid)">
-                            <i class="fas fa-fw fa-cog"></i>
-                            <span>@MenusModulos.NombreModulo</span>
-                        </a>
+                    foreach (var MenusModulos in Modulos)
+                    {
+
+                        var moduloid = MenusModulos.IdModulo + 100;
+
+                        <li class="nav-item" id="li12">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse@(moduloid)" aria-expanded="true" aria-controls="collapse@(moduloid)">
+                                <i class="fas fa-fw fa-cog"></i>
+                                <span>@MenusModulos.NombreModulo</span>
+                            </a>
 
 
-                        @if (Padre != null)
-                        {
-                            <div id="collapse@(moduloid)" class="collapse" aria-labelledby="heading@item.Codigo" data-parent="#accordionSidebar">
-                                <div class="bg-white py-2 collapse-inner rounded" style="overflow-y: scroll; max-height:400px">
+                            @if (Padre != null)
+                            {
+                                <div id="collapse@(moduloid)" class="collapse" aria-labelledby="heading@item.Codigo" data-parent="#accordionSidebar">
+                                    <div class="bg-white py-2 collapse-inner rounded" style="overflow-y: scroll; max-height:400px">
 
-                                    @foreach (var Menupadre in Padre.Where(x => x.IdModulo == MenusModulos.IdModulo))
-                                    {
-                                        <h6 class="collapse-header">@Menupadre.Nombre</h6>
-                                        if (Hijo != null)
+                                        @foreach (var Menupadre in Padre.Where(x => x.IdModulo == MenusModulos.IdModulo))
                                         {
-                                            foreach (var MenuHijo in Hijo.Where(x => x.Padre == Menupadre.IdOpcion))
+                                            <h6 class="collapse-header">@Menupadre.Nombre</h6>
+                                            if (Hijo != null)
                                             {
-                                                <div>
+                                                foreach (var MenuHijo in Hijo.Where(x => x.Padre == Menupadre.IdOpcion))
+                                                {
+                                                    <div>
 
-                                                    <a class="collapse-item border-top " href="/@MenuHijo.Url"><text class=""></text>@MenuHijo.Nombre</a>
+                                                        <a class="collapse-item border-top " href="/@MenuHijo.Url"><text class=""></text>@MenuHijo.Nombre</a>
 
-                                                </div>
+                                                    </div>
+                                                }
+
                                             }
-
+                                            if (Menupadre.IdOpcion != Padre.Where(x => x.IdModulo == MenusModulos.IdModulo).LastOrDefault().IdOpcion)
+                                            {
+                                                <br />
+                                                @*<hr style="color:black;border: solid blue;" />*@
+                                            }
                                         }
-                                        if (Menupadre.IdOpcion!= Padre.Where(x => x.IdModulo == MenusModulos.IdModulo).LastOrDefault().IdOpcion)
-                                        {
-                                            <br />
-                                            @*<hr style="color:black;border: solid blue;" />*@
-                                        }
-                                    }
+                                    </div>
                                 </div>
-                            </div>
 
-                        }
+                            }
 
-                    </li>
+                        </li>
+                    }
                 }
-            }
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-        </ul>
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+                <!-- Sidebar Toggler (Sidebar) -->
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>
+            </ul>
         }
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
@@ -159,11 +159,11 @@
                     <!-- End of Topbar -->
                 }
                 <div id="ModalMensaje"></div>
+                <div id="response">
+                </div>
+                <div class="container-fluid" style="padding-top:10px">
 
-                <div class="container-fluid">
-                    <div id="response">
 
-                    </div>
 
 
                     @RenderBody()
@@ -200,6 +200,22 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
+    <style>
+        .modal {
+            position: absolute;
+            top: 10px;
+            right: 100px;
+            bottom: 0;
+            left: 0;
+            z-index: 10040;
+            overflow: auto;
+            overflow-y: auto;
+        }
+    </style>
+
+ 
+    <!-- Frame Modal Bottom -->
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

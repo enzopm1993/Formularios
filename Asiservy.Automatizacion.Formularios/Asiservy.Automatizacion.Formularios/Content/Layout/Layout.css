@@ -61,6 +61,11 @@ hr {
 }
 
 .mb-4, .my-4 {
-    margin-bottom: 0.5rem !important;
+    margin-bottom: 0.0rem !important;
 }
 
+.alert.alert-success {
+    width: 100%;
+    height: min-content;
+    padding: 5px;
+}

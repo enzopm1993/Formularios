@@ -40,14 +40,16 @@
                             @Html.Hidden("Cedula", null, new { @id = "Identificacion" })
                             <button type="button" onclick="CargarEmpleados('CargarEmpleadoPG');" id="CargarEmpleadoPG" class="">
                                 <img src="~/Content/images/buscar.png" />
-                            </button><br />
+                            </button>
+
+                            <br />
                         </div>
                     }
                     else
                     {
                         @*@Html.DropDownListFor(model => model.Cedula, new SelectList("", "CEDULA", "NOMBRES"), new { @class = "form-control" })*@
                     }
-                    @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
+                    <p id="validaCedula" class="text-danger"></p>
                 </div>
             </div>
 
@@ -55,7 +57,7 @@
                 <div class="form-group">
                     <label>Cuchillo Blanco</label>
                     @Html.DropDownListFor(model => model.CuchilloBlanco, new SelectList(ViewBag.CuchillosBlancos, "NumeroCuchillo", "NumeroCuchillo"), "Seleccione", new { @class = "form-control", @id = "SelectCuchilloBlanco" })
-                    @Html.ValidationMessageFor(model => model.CuchilloBlanco, "", new { @class = "text-danger" })
+                    <p id="validaCuchilloBlanco"></p>
                 </div>
             </div>
 
@@ -64,7 +66,7 @@
                 <div class="form-group">
                     <label>Cuchillo Rojo</label>
                     @Html.DropDownListFor(model => model.CuchilloRojo, new SelectList(ViewBag.CuchillosRojos, "NumeroCuchillo", "NumeroCuchillo"), "Seleccione", new { @class = "form-control", @id = "SelectCuchilloRojo" })
-                    @Html.ValidationMessageFor(model => model.CuchilloRojo, "", new { @class = "text-danger" })
+                    <p id="validaCuchilloRojo" class="text-danger"></p>
                 </div>
             </div>
 
@@ -72,7 +74,7 @@
                 <div class="form-group">
                     <label>Cuchillo Negro</label>
                     @Html.DropDownListFor(model => model.CuchilloNegro, new SelectList(ViewBag.CuchillosNegros, "NumeroCuchillo", "NumeroCuchillo"), "Seleccione", new { @class = "form-control", @id = "SelectCuchilloNegro" })
-                    @Html.ValidationMessageFor(model => model.CuchilloNegro, "", new { @class = "text-danger" })
+                    <p id="validaCuchilloNegro" class="text-danger"></p>
                 </div>
             </div>
 
@@ -89,10 +91,10 @@
         </div>
         <div class="form-group">
             <div class="text-center">
-                <button data-toggle="tooltip" data-placement="top" title="Grabar" class="btn" id="Nuevo" style="border-color:#2c3e50" type="submit">
+                <button data-toggle="tooltip" data-placement="top" title="Grabar" class="btn" id="btnGuardar" style="border-color:#2c3e50" type="button" onclick="GrabarCuchilloEmpleado()">
                     <img style="width:100%" src="~/Content/icons/add24.png" />
                 </button>
-                <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn"  onclick="NuevoCuchilloEmpleado()" style="border-color:#2c3e50" type="button">
+                <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnNuevo"  onclick="NuevoCuchilloEmpleado()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/clear24.png" />
                 </button>
 

@@ -12,7 +12,6 @@ namespace Asiservy.Automatizacion.Formularios.Models.Asistencia
         [Required(ErrorMessage ="Campo Requerido")]
         public string Cedula { get; set; }
         public string Nombre { get; set; }
-        [Required(ErrorMessage ="Campo Requerido")]
         public Nullable<int> CuchilloBlanco { get; set; }
         public Nullable<int> CuchilloRojo { get; set; }
         public Nullable<int> CuchilloNegro { get; set; }
