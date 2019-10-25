@@ -58,18 +58,18 @@ function check(id, color, cedula) {
     if (color == 'B') {
         label = label + "Blanco_";
         label = label + id.substring(9, 6);
-        numero = id.substring(9, 6);
-        //console.log(numero);
+        numero = id.substring(10, 7);
+        console.log(numero);
 
     } if (color == 'R') {
         label = label + "Rojo_";
         label = label + id.substring(8, 4);
-        numero = id.substring(8, 4);
+        numero = id.substring(9, 5);
 
     } if (color == 'N') {
         label = label + "Negro_";
         label = label + id.substring(9, 5);
-        numero = id.substring(9, 5);
+        numero = id.substring(10, 6);
 
     }
     //console.log(label);
