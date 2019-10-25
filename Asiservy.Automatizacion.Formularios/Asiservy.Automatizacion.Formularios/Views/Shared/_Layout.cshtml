@@ -84,7 +84,7 @@
                         @if (Padre != null)
                         {
                             <div id="collapse@(moduloid)" class="collapse" aria-labelledby="heading@item.Codigo" data-parent="#accordionSidebar">
-                                <div class="bg-white py-2 collapse-inner rounded">
+                                <div class="bg-white py-2 collapse-inner rounded" style="overflow-y: scroll; max-height:400px">
 
                                     @foreach (var Menupadre in Padre.Where(x => x.IdModulo == MenusModulos.IdModulo))
                                     {
@@ -103,7 +103,8 @@
                                         }
                                         if (Menupadre.IdOpcion!= Padre.Where(x => x.IdModulo == MenusModulos.IdModulo).LastOrDefault().IdOpcion)
                                         {
-                                            <hr style="color:black;border: 0.5px dotted   blue;" />
+                                            <br />
+                                            @*<hr style="color:black;border: solid blue;" />*@
                                         }
                                     }
                                 </div>
