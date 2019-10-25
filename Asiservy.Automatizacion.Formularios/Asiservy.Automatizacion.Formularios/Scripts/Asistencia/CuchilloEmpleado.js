@@ -30,8 +30,8 @@ function GrabarCuchilloEmpleado() {
     if (!Validar()) {
         return;
     }
-    $("#btnNuevo").prop("disabled", false);
-    $("#btnGuardar").prop("disabled", false);
+    $("#btnNuevo").prop("disabled", true);
+    $("#btnGuardar").prop("disabled", true);
     $.ajax({
         url: "../Asistencia/CuchilloEmpleado",
         type: "Post",
@@ -46,8 +46,8 @@ function GrabarCuchilloEmpleado() {
 
         },
         success: function (resultado) {
-            $("#btnNuevo").prop("disabled", true);
-            $("#btnGuardar").prop("disabled", true);
+            $("#btnNuevo").prop("disabled", false);
+            $("#btnGuardar").prop("disabled", false);
 
             if (resultado == "1") {
                 MensajeAdvertencia("Parametros Incompletos");
