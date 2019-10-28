@@ -991,7 +991,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (Empleado != null && !string.IsNullOrEmpty(dsEstado))
                 {
                     model = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(Empleado.CODIGOLINEA, dsEstado, ddFecha,true);
-                }               
+                }
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
 
                 return PartialView(model);
             }

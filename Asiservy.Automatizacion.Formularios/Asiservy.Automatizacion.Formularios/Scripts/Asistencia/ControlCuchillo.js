@@ -30,7 +30,12 @@ function CargarControlCuchillo(estado) {
         success: function (resultado) {
             var bitacora = $('#TablaControlCuchillo');
             $("#spinnerCargando").prop("hidden", true);
-            bitacora.html(resultado);
+            if (resultado == "0") {
+                bitacora.html("<div class='text-center'><h4>No se ha generado la asistencia</h4></div>");
+
+            } else {
+                bitacora.html(resultado);
+            }
 
         },
         error: function (resultado) {
@@ -58,18 +63,18 @@ function check(id, color, cedula) {
     if (color == 'B') {
         label = label + "Blanco_";
         label = label + id.substring(9, 6);
-        numero = id.substring(10, 7);
+        numero = id.substring(9, 6);
         console.log(numero);
 
     } if (color == 'R') {
         label = label + "Rojo_";
         label = label + id.substring(8, 4);
-        numero = id.substring(9, 5);
+        numero = id.substring(8, 4);
 
     } if (color == 'N') {
         label = label + "Negro_";
         label = label + id.substring(9, 5);
-        numero = id.substring(10, 6);
+        numero = id.substring(9, 5);
 
     }
     //console.log(label);

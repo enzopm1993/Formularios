@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlCuchilloViewModel>
 
 
-<table class="table" style="width:100%" id="TableControlCuchilloPartial">
+<table class="table table-bordered" style="width:100%" id="TableControlCuchilloPartial">
     <thead>
         <tr>
             <th>Id</th>
@@ -39,8 +39,8 @@
                         {
                             <div class="col-xs-2 text-xs-center">
                                 <div class="custom-control custom-switch">
-                                    @Html.CheckBox("Blanco" + x.CuchilloBlanco, x.ValidaBlanco == "1", new { @onchange = "check(this.id,'B','" + x.Cedula + "')" , @class = "custom-control-input" ,@id="Blanco_"+x.CuchilloBlanco})                                    
-                                    <label class="custom-control-label" for="Blanco_@x.CuchilloBlanco" id="LabelFecha">  @x.CuchilloBlanco</label>
+                                    @Html.CheckBox("Blanco" + x.CuchilloBlanco, x.ValidaBlanco == "1", new { @onchange = "check(this.id,'B','" + x.Cedula + "')" , @class = "custom-control-input" })                                    
+                                    <label class="custom-control-label" for=@("Blanco"+x.CuchilloBlanco) id="LabelFecha">  @x.CuchilloBlanco</label>
                                 </div>
                                 
                                 @*<label class="btn btn-dark text-xs-center" id="labelCuchilloBlanco_@x.CuchilloBlanco">
@@ -59,8 +59,8 @@
                         {
                             <div class="col-xs-2 text-xs-center">
                                 <div class="custom-control custom-switch">
-                                    @Html.CheckBox("Blanco" + x.CuchilloBlanco, false, new { @onchange = "check(this.id,'B','" + x.Cedula + "')", @disabled = "disabled", @class = "custom-control-input", @id = "Blanco_" + x.CuchilloBlanco })
-                                    <label class="custom-control-label" for="Blanco_@x.CuchilloBlanco" id="LabelFecha">  @x.CuchilloBlanco</label>
+                                    @Html.CheckBox("Blanco" + x.CuchilloBlanco, false, new { @onchange = "check(this.id,'B','" + x.Cedula + "')", @disabled = "disabled", @class = "custom-control-input" })
+                                    <label class="custom-control-label" for=@("Blanco"+x.CuchilloBlanco) id="LabelFecha">  @x.CuchilloBlanco</label>
                                 </div>
 
                                 @*<label class="btn btn-dark text-xs-center" id="labelCuchilloBlanco_@x.CuchilloBlanco">
@@ -78,8 +78,8 @@
                         {
                             <div class="col-xs-2 text-xs-center">
                                 <div class="custom-control custom-switch">
-                                    @Html.CheckBox("Rojo" + x.CuchilloRojo, x.ValidaRojo == "1", new { @onchange = "check(this.id,'R','" + x.Cedula + "')", @class = "custom-control-input", @id = "Rojo_" + x.CuchilloRojo })
-                                    <label class="custom-control-label" for="Rojo_@x.CuchilloRojo" id="LabelFecha">  @x.CuchilloRojo</label>
+                                    @Html.CheckBox("Rojo" + x.CuchilloRojo, x.ValidaRojo == "1", new { @onchange = "check(this.id,'R','" + x.Cedula + "')", @class = "custom-control-input" })
+                                    <label class="custom-control-label" for=@("Rojo"+x.CuchilloBlanco) id="LabelFecha">  @x.CuchilloRojo</label>
                                 </div>
                             </div>
                             @*if (x.ValidaRojo == "1")
@@ -93,8 +93,8 @@
                         {
                             <div class="col-xs-2 text-xs-center">
                                 <div class="custom-control custom-switch">
-                                    @Html.CheckBox("Rojo" + x.CuchilloRojo, false, new { @disabled = "disabled", @onchange = "check(this.id,'R','" + x.Cedula + "')", @class = "custom-control-input", @id = "Rojo_" + x.CuchilloRojo })
-                                    <label class="custom-control-label" for="Rojo_@x.CuchilloRojo" id="LabelFecha">  @x.CuchilloRojo</label>
+                                    @Html.CheckBox("Rojo" + x.CuchilloRojo, false, new { @disabled = "disabled", @onchange = "check(this.id,'R','" + x.Cedula + "')", @class = "custom-control-input" })
+                                    <label class="custom-control-label" for=@("Rojo"+x.CuchilloBlanco) id="LabelFecha">  @x.CuchilloRojo</label>
                                 </div>
                                 
                                 
@@ -106,8 +106,8 @@
                         {
                         <div class="col-xs-2 text-xs-center">
                             <div class="custom-control custom-switch">
-                                @Html.CheckBox("Negro" + x.CuchilloNegro, x.ValidaNegro == "1", new { @onchange = "check(this.id,'N','" + x.Cedula + "')", @class = "custom-control-input", @id = "Negro_" + x.CuchilloNegro })
-                                <label class="custom-control-label" for="Negro_@x.CuchilloNegro" id="LabelFecha">  @x.CuchilloNegro</label>
+                                @Html.CheckBox("Negro" + x.CuchilloNegro, x.ValidaNegro == "1", new { @onchange = "check(this.id,'N','" + x.Cedula + "')", @class = "custom-control-input" })
+                                <label class="custom-control-label" for=@("Negro"+x.CuchilloBlanco) id="LabelFecha">  @x.CuchilloNegro</label>
                             </div>
 
                         </div>
@@ -122,8 +122,8 @@
                         {
                         <div class="col-xs-2 text-xs-center">
                             <div class="custom-control custom-switch">
-                                @Html.CheckBox("Negro" + x.CuchilloNegro, false, new { @disabled = "disabled", @onchange = "check(this.id,'N','" + x.Cedula + "')", @class = "custom-control-input", @id = "Negro_" + x.CuchilloNegro })
-                                <label class="custom-control-label" for="Negro_@x.CuchilloNegro" id="LabelFecha">  @x.CuchilloNegro</label>
+                                @Html.CheckBox("Negro" + x.CuchilloNegro, false, new { @disabled = "disabled", @onchange = "check(this.id,'N','" + x.Cedula + "')", @class = "custom-control-input" })
+                                <label class="custom-control-label" for=@("Blanco"+x.CuchilloBlanco) id="LabelFecha">  @x.CuchilloNegro</label>
                             </div>
                             
                         </div>
