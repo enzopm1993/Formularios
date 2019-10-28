@@ -379,24 +379,24 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check) {
             dbTipo: true
         },
         success: function (resultado) {
-            //alert(resultado);
-            //if (resultado = "No es posible asignar el cuchillo, por que ya ha sido prestado")
-            //{
-            //    MensajeError(resultado, false);
-            //}
+            if (resultado.codigo == "1") {
+                MensajeAdvertencia(resultado.descripcion);
+                if (color == "B") {
+                    $('#Blanco' + cedula).prop('selectedIndex', 0);
+                }
+                if (color == "R") {
+                    $('#Rojo' + cedula).prop('selectedIndex', 0);
+                }
+                if (color == "N") {
+                    $('#Rojo' + cedula).prop('selectedIndex', 0);
+                }
+            }
+            //console.log(resultado);
         },
         error: function (resultado) {
             //console.log(resultado.responseJSON);
             MensajeError(resultado.responseJSON + "", false);
-            if (color == "B") {
-                $('#Blanco' + cedula).prop('selectedIndex',0);
-            }
-            if (color == "R") {
-                $('#Rojo' + cedula).prop('selectedIndex', 0);
-            }
-            if (color == "N") {
-                $('#Rojo' + cedula).prop('selectedIndex', 0);
-            }
+           
 
         }
     });

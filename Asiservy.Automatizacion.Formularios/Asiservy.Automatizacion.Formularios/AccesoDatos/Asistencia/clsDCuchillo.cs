@@ -177,12 +177,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return ControlCuchillosViewModel;
             }
         }
-        public List<ControlCuchilloViewModel> ConsultarEmpleadosCuchilloPorLinea(string Linea, string Estado,DateTime Fecha)
+        public List<ControlCuchilloViewModel> ConsultarEmpleadosCuchilloPorLinea(string Linea, string Estado,DateTime Fecha, bool control)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 List<ControlCuchilloViewModel> ListadoEmpleadoCuchillo = new List<ControlCuchilloViewModel>();
-                var consulta = entities.spConsutaEmpleadosCuchillos(Linea, Estado, Fecha).ToList();
+                var consulta = entities.spConsutaEmpleadosCuchillos(Linea, Estado, Fecha, control).ToList();
                 if(consulta != null)
                 {
                     foreach(var x in consulta)
