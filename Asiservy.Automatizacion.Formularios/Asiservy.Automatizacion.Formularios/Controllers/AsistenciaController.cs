@@ -392,7 +392,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //Control de Cuchillos
                 clsDCuchillo = new clsDCuchillo();
                 List<ControlCuchilloViewModel> modelCuchillo = new List<ControlCuchilloViewModel>();
-                modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada,Fecha);
+                modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada,Fecha,false);
                 AsistenciaViewModel.ControlDeCuchillos = modelCuchillo;
 
                 //**
@@ -990,7 +990,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 List<ControlCuchilloViewModel> model = new List<ControlCuchilloViewModel>();
                 if (Empleado != null && !string.IsNullOrEmpty(dsEstado))
                 {
-                    model = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(Empleado.CODIGOLINEA, dsEstado, ddFecha);
+                    model = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(Empleado.CODIGOLINEA, dsEstado, ddFecha,true);
                 }               
 
                 return PartialView(model);
