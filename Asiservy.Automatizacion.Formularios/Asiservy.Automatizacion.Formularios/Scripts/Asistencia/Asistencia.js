@@ -244,7 +244,7 @@ function GenerarAsistenciaDiaria(IdLinea, bandera) {
             console.log(result);
             $("#spinnerCargando").prop("hidden",true);
             $('#GenerarAsistencia').hide();
-            MensajeError(result.responseJSON, false);
+            MensajeError(result.responseText, false);
             if (bandera == 0) {
                 $('#GenerarAsistencia').prop("disabled", false);
             }
