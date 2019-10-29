@@ -92,10 +92,8 @@ function ActualizarProyeccion() {
             HoraInicio: $('#HoraInicio').val(),
             HoraFin: $('#HoraFin').val(),
             IdProyeccionProgramacion: $('#idproyeccionmodal').val(),
-            Observacion: $('#observacionedit').val()
-            //IdProyeccionProgramacion: idPro,
-            //Lote: $('#Lote').val(),
-            //FechaProduccion: $('#FechaProduccion').val(),
+            Observacion: $('#observacionedit').val(),
+            FechaProduccion: $('#FechaProduccion').val()
             //Toneladas: $('#Toneladas').val(),
             //Destino: $('#Destino').val(),
             //TipoLimpieza: $('#TipoLimpieza').val(),
@@ -104,6 +102,7 @@ function ActualizarProyeccion() {
         success: function (resultado) {
             //Limpiar();
             $('#DivEditarProyeccion').html(resultado);
+            
             MensajeCorrecto("Registro ingresado con éxito", false);
         },
         error: function (resultado) {

@@ -1274,8 +1274,8 @@
           <FunctionImport Name="spConsultaPersonalADondeFueronMovidos" ReturnType="Collection(ASIS_PRODModel.spConsultaPersonalADondeFueronMovidos)">
           <Parameter Name="LINEA" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaOpcionModulo" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionModulo)" />
           <EntitySet Name="PROYECCION_PROGRAMACION" EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" />
+          <FunctionImport Name="spConsultaOpcionModulo" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionModulo)" />
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -2147,16 +2147,6 @@
           <Property Type="String" Name="CODLINEAMOVIDO" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="LINEAMOVIDO" Nullable="false" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="spConsultaOpcionModulo">
-          <Property Type="Int32" Name="IdOpcion" Nullable="false" />
-          <Property Type="String" Name="Opcion" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Formulario" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="Padre" Nullable="true" />
-          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="Orden" Nullable="true" />
-          <Property Type="Int32" Name="IdModulo" Nullable="true" />
-          <Property Type="String" Name="Modulo" Nullable="false" MaxLength="20" />
-        </ComplexType>
         <EntityType Name="PROYECCION_PROGRAMACION">
           <Key>
             <PropertyRef Name="IdProyeccionProgramacion" />
@@ -2182,6 +2172,16 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="spConsultaOpcionModulo">
+          <Property Type="Int32" Name="IdOpcion" Nullable="false" />
+          <Property Type="String" Name="Opcion" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Formulario" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Padre" Nullable="true" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Orden" Nullable="true" />
+          <Property Type="Int32" Name="IdModulo" Nullable="true" />
+          <Property Type="String" Name="Modulo" Nullable="false" MaxLength="20" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3321,20 +3321,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaOpcionModulo" FunctionName="ASIS_PRODModel.Store.spConsultaOpcionModulo">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaOpcionModulo">
-                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
-                <ScalarProperty Name="Opcion" ColumnName="Opcion" />
-                <ScalarProperty Name="Formulario" ColumnName="Formulario" />
-                <ScalarProperty Name="Padre" ColumnName="Padre" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Orden" ColumnName="Orden" />
-                <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
-                <ScalarProperty Name="Modulo" ColumnName="Modulo" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="PROYECCION_PROGRAMACION">
             <EntityTypeMapping TypeName="ASIS_PRODModel.PROYECCION_PROGRAMACION">
               <MappingFragment StoreEntitySet="PROYECCION_PROGRAMACION">
@@ -3361,6 +3347,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaOpcionModulo" FunctionName="ASIS_PRODModel.Store.spConsultaOpcionModulo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaOpcionModulo">
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+                <ScalarProperty Name="Opcion" ColumnName="Opcion" />
+                <ScalarProperty Name="Formulario" ColumnName="Formulario" />
+                <ScalarProperty Name="Padre" ColumnName="Padre" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
+                <ScalarProperty Name="Modulo" ColumnName="Modulo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

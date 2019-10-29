@@ -1,6 +1,6 @@
 ﻿@model List<Asiservy.Automatizacion.Formularios.Models.ProyeccionProgramacion.ProyeccionProgramacionViewModel>
 
-<table class="table table-hover" id="tablaProyeccion" style="cursor: pointer">
+<table class="table table-hover" @*id="tablaProyeccion"*@ id="tblDataTable" style="cursor: pointer">
     <thead>
         <tr>
             <th>
@@ -15,6 +15,8 @@
             <th>
                 Tipo Limpieza
             </th>
+            <th>Especie</th>
+            <th>Talla</th>
             <th>
                 Observación
             </th>
@@ -48,6 +50,8 @@
                 <td>
                     @item.TipoLimpieza
                 </td>
+                <td>@item.Especie</td>
+                <td>@item.Talla</td>
                 <td>
                     @item.Observacion
                 </td>
@@ -61,3 +65,4 @@
         }
     </tbody>
 </table>
+<script src="~/Scripts/General/dataTableJS.js"></script>
