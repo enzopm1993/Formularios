@@ -17,6 +17,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         List<sp_ConsultaAsistenciaDiariaPersonalMovido> pListAsistenciaMovidos = null;
         spConsutaEmpleados BuscarControlador = null;
 
+        public List<spConsultaPersonalADondeFueronMovidos> ConsultaPrestadosxLinea(string codlinea)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaPersonalADondeFueronMovidos(codlinea).ToList();
+            }
+        }
         public string ModificarAsistencia(ASISTENCIA model)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
