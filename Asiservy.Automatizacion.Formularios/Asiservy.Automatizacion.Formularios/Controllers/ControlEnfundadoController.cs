@@ -1,6 +1,8 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ControlEnfundado;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDEmpleado clsDEmpleado = null;
         clsDClasificador clsDClasificador = null;
         clsDControlEnfundado clsDControlEnfundado = null;
+        clsDApiProduccion clsDApiProduccion = null;
 
         // GET: ControlEnfundado
         [Authorize]
@@ -26,12 +29,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                clsDApiProduccion = new clsDApiProduccion();
                 Usuario = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
                 clsDEmpleado = new clsDEmpleado();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
                 var EspecificacionFunda = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo=clsAtributos.CodigoGrupoFunda, EstadoRegistro= clsAtributos.EstadoRegistroActivo});
+                var Lotes = clsDApiProduccion.ConsultarLotesPorFecha(DateTime.Now);
+                ViewBag.Lotes = Lotes;
                 ViewBag.Linea = Empleado.LINEA;
                 ViewBag.EspecificacionFunda = EspecificacionFunda;
 
@@ -189,6 +194,38 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
+        public JsonResult ConsultarLotes (DateTime Fecha)
+        {
+            try
+            {
+                clsDApiProduccion = new clsDApiProduccion();
+                dynamic Lotes = clsDApiProduccion.ConsultarLotesPorFecha(Fecha);
+                List<ClasificadorGenerico> ListadoLotes = new List<ClasificadorGenerico>();
+                foreach(var x in Lotes)
+                {
+                    ListadoLotes.Add(new ClasificadorGenerico {descripcion = x.Lote });
+                }
+                return Json(ListadoLotes, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         protected void SetSuccessMessage(string message)
         {

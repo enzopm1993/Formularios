@@ -52,18 +52,70 @@ function GuardarControlEnfundado(detalle, fundas, id, IdDetalle) {
 
 }
 
+function Atras() {
+    $('#divFiltros').fadeIn("slow");
+    $('#btnGenerar').prop("hidden", false);
+    $('#btnNuevo').prop("hidden", false);
+    $('#btnAtras').prop("hidden", true);
+    CargarControlEnfundado();
+    Limpiar();
+}
+
 function Limpiar() {
-    $('#txtHora').val('00:00');
-    $('#txtFecha').val();
+    $('#txtHora').val('00:00');  
     $('#txtFundasTeoricas').val(25);
     $('#txtPeso').val('7.5');
     $('#selectEspecificacionFunda').prop('selectedIndex',0);
     $('#selectLotes').prop('selectedIndex', 0);
-    $('#divFiltros').fadeIn("slow");
-    $('#btnGenerar').prop("hidden", false);
-    CargarControlEnfundado();
+ 
+
+    $('#ValidaFecha').prop('hidden', true);
+    $("#txtFecha").css('borderColor', '#ced4da');
+    $('#ValidaHora').prop('hidden', true);
+    $("#txtHora").css('borderColor', '#ced4da');
+    $('#ValidaLote').prop('hidden', true);
+    $("#selectLotes").css('borderColor', '#ced4da');
+    if ($('#txtFecha').val() == '') {
+        $("#ValidaFecha").prop("hidden", false);
+        return;
+    }
+    //
 }
 
+function CambioFecha() {
+    if ($('#txtFecha').val() == '') {
+        $("#ValidaFecha").prop("hidden", false);
+        return;
+    }
+    $("#ValidaFecha").prop("hidden", true);
+    CargarLotes();
+    CargarControlEnfundado();
+
+}
+
+function CargarLotes() {
+    $("#selectLotes").empty();
+    $("#selectLotes").append("<option value='' >-- Seleccionar Opción--</option>");
+    $.ajax({
+        url: "../ControlEnfundado/ConsultarLotes",
+        type: "GET",
+        data: {
+            Fecha: $('#txtFecha').val(),
+        },
+        success: function (resultado) {
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#selectLotes").append("<option value='" + row.descripcion + "'>" + row.descripcion + "</option>")
+                });
+            }
+
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);       
+
+        }
+    });
+}
 
 function CargarControlEnfundado() {
     $("#spinnerCargando").prop("hidden", false);
@@ -92,6 +144,8 @@ function CargarControlEnfundado() {
 function CargarControlEnfundadoDetalle(IdControl) {
     $("#spinnerCargando").prop("hidden", false);
     $("#DivTableControl").html('');
+    $('#btnNuevo').prop("hidden", true);
+    $('#btnAtras').prop("hidden", false);
     $('#btnGenerar').prop("hidden", true);
     $('#divFiltros').fadeOut("slow");
     $.ajax({

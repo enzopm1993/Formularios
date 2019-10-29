@@ -54,7 +54,7 @@ function Nuevo() {
 function CargarOpcion(id, nombre, formulario, clase, padre,url,orden, estado,modulo) {
     //console.log(id, nombre, formulario, clase, padre, estado);
     $('#txtIdOpcion').val(id);
-    $('#txtIdModulo').val(modulo);
+   // $('#txtIdModulo').val(modulo);
     $('#txtNombre').val(nombre);
     $('#txtOrden').val(orden);
     $('#txtFormulario').val(formulario);
@@ -170,7 +170,7 @@ function CargarPadres(id) {
         type: "Get",       
         data:
         {
-            idModulo: id
+            idModulo: 0
         },
         success: function (resultado) {
             if (!$.isEmptyObject(resultado)) {

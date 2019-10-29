@@ -9,6 +9,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
     public class clsDOpcion
     {
 
+        public List<spConsultaOpcionModulo> ConsultaOpcionModulo()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.spConsultaOpcionModulo().ToList();
+            }
+        }
+
         public List<OPCION> ConsultarOpciones(OPCION filtros)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())

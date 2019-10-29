@@ -35,11 +35,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlEnfundado
             {
                 clsDEmpleado = new clsDEmpleado();
                 //List<spConsultaLimpiadorasControlHueso> detalle = new List<spConsultaLimpiadorasControlHueso>();
-                var FechaActual = DateTime.Now.Date;
+               // var FechaActual = DateTime.Now.Date;
                
                 var ControlEnfundado = entities.CONTROL_ENFUNDADO.FirstOrDefault(x =>   
                 x.Hora == doControl.Hora &&
-                x.Fecha == FechaActual
+                x.Fecha == doControl.Fecha
                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (ControlEnfundado == null)
                 {
@@ -66,7 +66,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlEnfundado
 
                 var idControlEnfundado = entities.CONTROL_ENFUNDADO.FirstOrDefault(x =>
                 x.Hora == doControl.Hora 
-                && x.Fecha >= FechaActual
+                && x.Fecha == doControl.Fecha
                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
 
                 return idControlEnfundado.IdControlEnfundado;
