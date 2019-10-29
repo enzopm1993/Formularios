@@ -207,6 +207,9 @@
     <Compile Include="Datos\spConsultaOpcionesPorRol.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaOpcionModulo.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultaPersonalADondeFueronMovidos.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
