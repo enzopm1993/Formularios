@@ -50,7 +50,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<EMPLEADO_TURNO> EMPLEADO_TURNO { get; set; }
         public virtual DbSet<EMPLEADO_ESFERO> EMPLEADO_ESFERO { get; set; }
         public virtual DbSet<CONTROL_ESFERO> CONTROL_ESFERO { get; set; }
-        public virtual DbSet<PROYECCION_PROGRAMACION> PROYECCION_PROGRAMACION { get; set; }
         public virtual DbSet<CONTROL_HUESO> CONTROL_HUESO { get; set; }
         public virtual DbSet<CONTROL_HUESO_DETALLE> CONTROL_HUESO_DETALLE { get; set; }
         public virtual DbSet<CONTROL_MIGA> CONTROL_MIGA { get; set; }
@@ -60,6 +59,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_ENFUNDADO_DETALLE> CONTROL_ENFUNDADO_DETALLE { get; set; }
         public virtual DbSet<MODULO> MODULO { get; set; }
         public virtual DbSet<BITACORA_MOVER_EMPLEADO> BITACORA_MOVER_EMPLEADO { get; set; }
+        public virtual DbSet<PROYECCION_PROGRAMACION> PROYECCION_PROGRAMACION { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
