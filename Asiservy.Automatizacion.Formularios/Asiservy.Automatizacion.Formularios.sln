@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asiservy.Automatizacion.For
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asiservy.Automatizacion.Datos", "Asiservy.Automatizacion.Datos\Asiservy.Automatizacion.Datos.csproj", "{6DE61521-D260-48AD-9419-1DA46FE9FF09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asiservy.Automatizacion.Servicios", "Asiservy.Automatizacion.Servicios\Asiservy.Automatizacion.Servicios.csproj", "{822EBB96-DF9A-466E-AD4D-87B20727486C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6DE61521-D260-48AD-9419-1DA46FE9FF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DE61521-D260-48AD-9419-1DA46FE9FF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DE61521-D260-48AD-9419-1DA46FE9FF09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{822EBB96-DF9A-466E-AD4D-87B20727486C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{822EBB96-DF9A-466E-AD4D-87B20727486C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{822EBB96-DF9A-466E-AD4D-87B20727486C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{822EBB96-DF9A-466E-AD4D-87B20727486C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

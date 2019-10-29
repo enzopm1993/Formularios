@@ -602,5 +602,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalADondeFueronMovidos>("spConsultaPersonalADondeFueronMovidos", lINEAParameter);
         }
+    
+        public virtual ObjectResult<spConsultaOpcionModulo> spConsultaOpcionModulo()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaOpcionModulo>("spConsultaOpcionModulo");
+        }
     }
 }

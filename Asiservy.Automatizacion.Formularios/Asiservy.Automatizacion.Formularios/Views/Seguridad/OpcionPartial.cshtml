@@ -8,7 +8,7 @@
             <th>
                 <label>Id</label>
             </th>
-            <th style="width:200px">
+            <th style="min-width:200px">
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
@@ -76,7 +76,18 @@
                         @Html.DisplayFor(modelItem => item.Clase)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Padre)
+                        @{ if (item.Padre != null && item.Padre>0)
+                            {
+                              <label>@Model.FirstOrDefault(x => x.IdOpcion == item.Padre).Nombre</label>
+                             
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.Padre)
+                            }
+                        }
+
+
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Url)

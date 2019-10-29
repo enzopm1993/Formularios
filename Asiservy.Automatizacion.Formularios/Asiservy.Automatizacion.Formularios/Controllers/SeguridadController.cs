@@ -281,13 +281,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDopcion = new clsDOpcion();
-                List<ClasificadorGenerico> opciones = clsDopcion.ConsultarOpciones(new OPCION {
-                    IdModulo = idModulo, Clase="P",
-                    EstadoRegistro =clsAtributos.EstadoRegistroActivo
-                }).Select(x=>new ClasificadorGenerico {
+                clsDModulo = new clsDModulo();
+               
+                List<ClasificadorGenerico> opciones = clsDopcion.ConsultaOpcionModulo().Select(x=>new ClasificadorGenerico {
                     codigo=x.IdOpcion,
-                    descripcion = x.Nombre
-                }).ToList();
+                    descripcion = x.Opcion+" ("+x.Modulo+")"
+                }).ToList();              
 
                 return Json(opciones,JsonRequestBehavior.AllowGet);
 
