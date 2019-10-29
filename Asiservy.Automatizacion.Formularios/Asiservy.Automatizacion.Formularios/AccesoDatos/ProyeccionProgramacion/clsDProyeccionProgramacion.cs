@@ -14,7 +14,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var BuscarProyeccion = db.PROYECCION_PROGRAMACION.Find(ProyeccionProgramacion.IdProyeccionProgramacion);
-                DateTime fecha = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
+                //DateTime fecha = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
+                DateTime? fecha = ProyeccionProgramacion.FechaProduccion;
                 if (BuscarProyeccion == null)
                 {
                     db.PROYECCION_PROGRAMACION.Add(ProyeccionProgramacion);
@@ -53,8 +54,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 var ListProyeccionProgramacion = (from p in db.PROYECCION_PROGRAMACION
                                                   join c in db.CLASIFICADOR on new { Codigo = p.TipoLimpieza, Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { c.Codigo, c.Grupo, c.EstadoRegistro }
                                                   join d in db.CLASIFICADOR on new { Codigo = p.Destino, Grupo = clsAtributos.CodigoGrupoDestinoProduccion,EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.Codigo, d.Grupo,d.EstadoRegistro }
-                                                  join e in db.CLASIFICADOR on new { Codigo = p.Especie, Grupo = clsAtributos.CodigoGrupoEspeciePescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { e.Codigo, e.Grupo, e.EstadoRegistro }
-                                                  join f in db.CLASIFICADOR on new { Codigo = p.Talla, Grupo = clsAtributos.CodigoGrupoTallaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { f.Codigo, f.Grupo, f.EstadoRegistro }
+                                                  //join e in db.CLASIFICADOR on new { Codigo = p.Especie, Grupo = clsAtributos.CodigoGrupoEspeciePescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { e.Codigo, e.Grupo, e.EstadoRegistro }
+                                                  //join f in db.CLASIFICADOR on new { Codigo = p.Talla, Grupo = clsAtributos.CodigoGrupoTallaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { f.Codigo, f.Grupo, f.EstadoRegistro }
                                                   where p.FechaProduccion == fecha
                                                   select new ProyeccionProgramacionViewModel
                                                   {
@@ -70,8 +71,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                                                       Lineas=p.Lineas,
                                                       HoraFin=p.HoraFin,
                                                       HoraInicio=p.HoraInicio,
-                                                      Especie=e.Descripcion,
-                                                      Talla=f.Descripcion
+                                                      Especie=p.Especie,
+                                                      Talla=p.Talla
                                                     
                                                   }).ToList();
                 return ListProyeccionProgramacion;
@@ -87,13 +88,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 DateTime fecha;
                 if (ddFecha == null)
                 {
-                    fecha =Convert.ToDateTime(DateTime.Now.ToShortDateString());
+                    fecha =Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
                     ListProyeccionProgramacion = (from p in db.PROYECCION_PROGRAMACION
                                                   join c in db.CLASIFICADOR on new { Codigo = p.TipoLimpieza, Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { c.Codigo, c.Grupo, c.EstadoRegistro }
                                                   join d in db.CLASIFICADOR on new { Codigo = p.Destino, Grupo = clsAtributos.CodigoGrupoDestinoProduccion } equals new { d.Codigo, d.Grupo }
-                                                  join e in db.CLASIFICADOR on new { Codigo = p.Especie, Grupo = clsAtributos.CodigoGrupoEspeciePescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { e.Codigo, e.Grupo, e.EstadoRegistro }
-                                                  join f in db.CLASIFICADOR on new { Codigo = p.Talla, Grupo = clsAtributos.CodigoGrupoTallaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { f.Codigo, f.Grupo, f.EstadoRegistro }
-                                                  where p.FechaCreacionLog >= fecha 
+                                                  //join e in db.CLASIFICADOR on new { Codigo = p.Especie, Grupo = clsAtributos.CodigoGrupoEspeciePescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { e.Codigo, e.Grupo, e.EstadoRegistro }
+                                                  //join f in db.CLASIFICADOR on new { Codigo = p.Talla, Grupo = clsAtributos.CodigoGrupoTallaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { f.Codigo, f.Grupo, f.EstadoRegistro }
+                                                  where p.FechaProduccion >= fecha 
                                                  
                                                   select new ProyeccionProgramacionViewModel
                                                   {
@@ -109,10 +110,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                                                       Lineas = p.Lineas,
                                                       HoraInicio = p.HoraInicio,
                                                       HoraFin = p.HoraFin,
-                                                      Especie = e.Descripcion,
-                                                      Talla = f.Descripcion,
-                                                      CodEspecie=e.Codigo,
-                                                      CodTalla=f.Codigo
+                                                      Especie = p.Especie,
+                                                      Talla = p.Talla,
+                                                      CodEspecie=p.Especie,
+                                                      CodTalla=p.Talla
 
                                                   }).ToList();
                 }
@@ -123,8 +124,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                     ListProyeccionProgramacion = (from p in db.PROYECCION_PROGRAMACION
                                                   join c in db.CLASIFICADOR on new { Codigo = p.TipoLimpieza, Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { c.Codigo, c.Grupo, c.EstadoRegistro }
                                                   join d in db.CLASIFICADOR on new { Codigo = p.Destino, Grupo = clsAtributos.CodigoGrupoDestinoProduccion } equals new { d.Codigo, d.Grupo }
-                                                  join e in db.CLASIFICADOR on new { Codigo = p.Especie, Grupo = clsAtributos.CodigoGrupoEspeciePescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { e.Codigo, e.Grupo, e.EstadoRegistro }
-                                                  join f in db.CLASIFICADOR on new { Codigo = p.Talla, Grupo = clsAtributos.CodigoGrupoTallaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { f.Codigo, f.Grupo, f.EstadoRegistro }
+                                                  //join e in db.CLASIFICADOR on new { Codigo = p.Especie, Grupo = clsAtributos.CodigoGrupoEspeciePescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { e.Codigo, e.Grupo, e.EstadoRegistro }
+                                                  //join f in db.CLASIFICADOR on new { Codigo = p.Talla, Grupo = clsAtributos.CodigoGrupoTallaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { f.Codigo, f.Grupo, f.EstadoRegistro }
                                                   where p.FechaProduccion == ddFecha
                                                   select new ProyeccionProgramacionViewModel
                                                   {
@@ -140,10 +141,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                                                       Lineas = p.Lineas,
                                                       HoraInicio = p.HoraInicio,
                                                       HoraFin = p.HoraFin,
-                                                      Especie = e.Descripcion,
-                                                      Talla = f.Descripcion,
-                                                      CodEspecie=e.Codigo,
-                                                      CodTalla=f.Codigo,
+                                                      Especie = p.Especie,
+                                                      Talla = p.Talla,
+                                                      CodEspecie=p.Especie,
+                                                      CodTalla=p.Talla,
                                                       UsuarioIngreso=p.UsuarioCreacionLog,
                                                       UsuarioModificacion=p.UsuarioModificacionLog
                                                   }).ToList();

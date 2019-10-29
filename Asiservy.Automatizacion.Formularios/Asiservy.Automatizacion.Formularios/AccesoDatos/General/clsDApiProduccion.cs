@@ -24,5 +24,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return ListaTallas;
 
         }
+        public object ConsultarEspecies()
+        {
+            var client = new RestClient("http://192.168.0.31:8870");
+            RestRequest request;
+            request = new RestRequest("/api/Produccion/Especies", Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            var ListaEspecies = JsonConvert.DeserializeObject(content);
+            return ListaEspecies;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion;
 using Asiservy.Automatizacion.Formularios.Models.Seguridad;
 using Asiservy.Automatizacion.Formularios.Models.ProyeccionProgramacion;
@@ -17,6 +18,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDError clsDError = null;
         clsDClasificador clsDClasificador = null;
         clsDProyeccionProgramacion clsDProyeccionProgramacion = null;
+        clsDApiProduccion clsDApiProduccion = null;
         string[] liststring;
 
         #region Métodos
@@ -48,16 +50,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 ViewBag.Destino = new SelectList(ListDestinoProduccion, "codigo", "descripcion");
 
-                var ListEspeciePescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoEspeciePescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                //var ListEspeciePescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoEspeciePescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                clsDApiProduccion = new clsDApiProduccion();
+                ViewBag.Especie = clsDApiProduccion.ConsultarEspecies();
+                //ViewBag.Especie = new SelectList(ListEspeciePescado, "codigo", "descripcion");
 
-                ViewBag.Especie = new SelectList(ListEspeciePescado, "codigo", "descripcion");
 
-                var ListTallaPescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoTallaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                //var ListTallaPescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoTallaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
 
-                ViewBag.Talla = new SelectList(ListTallaPescado, "codigo", "descripcion");
+                //ViewBag.Talla = new SelectList(ListTallaPescado, "codigo", "descripcion");
+
+                ViewBag.Talla = clsDApiProduccion.ConsultarTallas(null);
 
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 ViewBag.Proyeccion = clsDProyeccionProgramacion.ConsultarProyeccionProgramacion(null);
+                //ViewBag.Proyeccion = clsDProyeccionProgramacion.ConsultarProyeccionProgramacion(Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString()));
                 return View();
             }
             catch (Exception ex)

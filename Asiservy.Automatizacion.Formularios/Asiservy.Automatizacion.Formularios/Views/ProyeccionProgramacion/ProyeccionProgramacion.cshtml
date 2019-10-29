@@ -53,13 +53,17 @@
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Especie:</label>
-            @Html.DropDownList("Especie", (IEnumerable<SelectListItem>)ViewBag.Especie, "Seleccione", new { @class = "form-control" })
+            @*@Html.DropDownList("Especie", (IEnumerable<SelectListItem>)ViewBag.Especie, "Seleccione", new { @class = "form-control" })*@
+            @Html.DropDownList("Especie", new SelectList(ViewBag.Especie, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
         </div>
     </div>
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Talla:</label>
-            @Html.DropDownList("Talla", (IEnumerable<SelectListItem>)ViewBag.Talla, "Seleccione", new { @class = "form-control" })
+            @*@Html.DropDownList("Talla", (IEnumerable<SelectListItem>)ViewBag.Talla, "Seleccione", new { @class = "form-control" })*@
+            @Html.DropDownList("Talla", new SelectList(ViewBag.Talla, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            @*@Html.DropDownList("Tallas", new SelectList(ViewBag.Tallas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectTalla" })*@
+
         </div>
     </div>
 </div>
@@ -70,7 +74,7 @@
                 <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="GuardarProyeccion" onclick="IngresarProyeccionProgramacion()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/add24.png" />
                 </button>
-                <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="Limpiar()" style="border-color:#2c3e50" type="button">
+                <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="LimpiarBoton()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/clear24.png" />
                 </button>
                 @*<input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="IngresarProyeccionProgramacion()" />

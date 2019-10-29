@@ -40,6 +40,20 @@ function Limpiar() {
     $('#Talla').prop('selectedIndex', 0);
     $('#Observacion').val("");
     $('#IdProyeccion').val("");
+    //var d = new Date();
+
+    //var dia = d.getDate()+1;
+
+    //var mes = (d.getMonth() + 1) < 10 ? ("0" + (d.getMonth() + 1)) : d.getMonth() + 1;
+    //var anio = d.getFullYear();
+
+    //var fechatotal = anio + "-" + mes + "-" + dia
+    //$('#FechaProduccion').val(fechatotal);
+
+    //ConsultaProyProgramacion();
+}
+function LimpiarBoton() {
+    Limpiar();
     var d = new Date();
 
     var dia = d.getDate()+1;
@@ -51,6 +65,7 @@ function Limpiar() {
     $('#FechaProduccion').val(fechatotal);
 
     ConsultaProyProgramacion();
+
 }
 function EditarProyeccion(IdProyeccion, Lote, Fecha, Toneladas, Destino, TipoLimpieza, Observacion, Especie, Talla) {
    // alert(Fecha);
