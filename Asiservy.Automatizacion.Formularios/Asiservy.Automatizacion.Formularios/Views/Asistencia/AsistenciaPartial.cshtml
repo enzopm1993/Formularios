@@ -1,6 +1,7 @@
 ﻿@model Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaViewModel
 
-
+@Html.Partial("ModalObservacion")
+@Html.Partial("ModalHora")
 <div style="padding-top: 10px; padding-bottom: 100px">
     @*@Html.HiddenFor(z=>z.ControlAsistencia[0].Turno)*@
     @Html.Hidden("EstadoControlCuchillo", "1")
@@ -99,8 +100,17 @@
 
                             <td class="text-center">
                                 <div>
-                                    @*<input type="text" class="form-control-plaintext" id="Observacion" placeholder="Observacion">*@
-                                    @Html.TextAreaFor(x => x.ControlAsistencia[cont - 1].Observacion, new { @row = "2", @onkeyup = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');" })
+
+                                    @*@Html.TextAreaFor(x => x.ControlAsistencia[cont - 1].Observacion, new { @row = "2", @onkeyup = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');" })*@
+                                    @Html.HiddenFor(x => x.ControlAsistencia[cont - 1].Observacion, new { @onkeyup = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');" })
+                                    @{ 
+                                        var colorfa = "#01224B";
+                                        if (!string.IsNullOrEmpty(Model.ControlAsistencia[cont - 1].Observacion))
+                                        {
+                                            colorfa = "red";
+                                        }
+                                    }
+                                    <i class="fas fa-eye" style="cursor:pointer; color:@colorfa" onclick="CargarObservacion('@(cont-1)','@item.Bloquear')" data-toggle="modal" data-target="#ModalObservacion"></i>
                                 </div>
                             </td>
 
@@ -111,7 +121,7 @@
                 <option value="2">Atraso</option>
                 <option value="3">Falta</option>
             </select>*@
-                                @Html.DropDownListFor(model => model.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "", @witdh = "200px", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','combo')" })
+                                @Html.DropDownListFor(model => model.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "browser-default custom-select", @witdh = "200px", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','combo')"})
                             </td>
                             <td>
                                 <center>
@@ -173,10 +183,14 @@
                                     if (cuchillo.CuchilloRojo != 0)
                                     {
                                         <div class="col-xs-2 text-xs-center">
-                                            <label class="btn btn-dark text-xs-center" id="labelCuchilloRojo_@cuchillo.CuchilloRojo">
+                                            @*<label class="btn btn-dark text-xs-center" id="labelCuchilloRojo_@cuchillo.CuchilloRojo">
                                                 @cuchillo.CuchilloRojo
                                                 @Html.CheckBox("Rojo" + cuchillo.CuchilloRojo, cuchillo.ValidaRojo == "1", new { @onchange = "check(this.id,'R','" + cuchillo.Cedula + "')" })
-                                            </label>
+                                            </label>*@
+                                            <div class="custom-control custom-switch">
+                                                @Html.CheckBox("Rojo" + cuchillo.CuchilloRojo, cuchillo.ValidaRojo == "1", new { @onchange = "check(this.id,'R','" + cuchillo.Cedula + "')", @class = "custom-control-input" })
+                                                <label class="custom-control-label" for="@("Rojo"+cuchillo.CuchilloRojo)">@cuchillo.CuchilloRojo</label>
+                                            </div>
                                         </div>
                                         if (cuchillo.ValidaRojo == "1")
                                         {
@@ -188,10 +202,14 @@
                                     else
                                     {
                                         <div class="col-xs-2 text-xs-center">
-                                            <label class="btn btn-dark text-xs-center" id="labelCuchilloRojo_@cuchillo.CuchilloRojo">
+                                            @*<label class="btn btn-dark text-xs-center" id="labelCuchilloRojo_@cuchillo.CuchilloRojo">
                                                 @cuchillo.CuchilloRojo
                                                 @Html.CheckBox("Rojo" + cuchillo.CuchilloRojo, false, new { @disabled = "disabled" })
-                                            </label>
+                                            </label>*@
+                                            <div class="custom-control custom-switch">
+                                                @Html.CheckBox("Rojo" + cuchillo.CuchilloRojo,false, new {@class = "custom-control-input", @disabled = "disabled" })
+                                                <label class="custom-control-label" for="@("Rojo"+cuchillo.CuchilloRojo)">@cuchillo.CuchilloRojo</label>
+                                            </div>
                                         </div>
                                     }
                                 }
@@ -204,10 +222,14 @@
                                     if (cuchillo.CuchilloNegro != 0)
                                     {
                                         <div class="col-xs-2 text-xs-center">
-                                            <label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
+                                            @*<label class="btn btn-light text-xs-center" id="labelCuchilloNegro">
                                                 @cuchillo.CuchilloNegro
                                                 @Html.CheckBox("Negro" + cuchillo.CuchilloNegro, cuchillo.ValidaNegro == "1", new { @onchange = "check(this.id,'N','" + cuchillo.Cedula + "')" })
-                                            </label>
+                                            </label>*@
+                                            <div class="custom-control custom-switch">
+                                                @Html.CheckBox("Negro" + cuchillo.CuchilloNegro, cuchillo.ValidaNegro == "1", new { @onchange = "check(this.id,'N','" + cuchillo.Cedula + "')", @class = "custom-control-input" })
+                                                <label class="custom-control-label" for="@("Negro"+cuchillo.CuchilloNegro)">@cuchillo.CuchilloNegro</label>
+                                            </div>
                                         </div>
                                         if (cuchillo.ValidaNegro == "1")
                                         {
@@ -219,10 +241,14 @@
                                     else
                                     {
                                         <div class="col-xs-2 text-xs-center">
-                                            <label class="btn btn-dark text-xs-center" id="labelCuchilloNegro_@cuchillo.CuchilloNegro">
+                                            @*<label class="btn btn-dark text-xs-center" id="labelCuchilloNegro_@cuchillo.CuchilloNegro">
                                                 @cuchillo.CuchilloNegro
                                                 @Html.CheckBox("Negro" + cuchillo.CuchilloNegro, false, new { @disabled = "disabled" })
-                                            </label>
+                                            </label>*@
+                                            <div class="custom-control custom-switch">
+                                                @Html.CheckBox("Negro" + cuchillo.CuchilloNegro,false, new { @class = "custom-control-input", @disabled = "disabled" })
+                                                <label class="custom-control-label" for="@("Negro"+cuchillo.CuchilloNegro)">@cuchillo.CuchilloNegro</label>
+                                            </div>
                                         </div>
                                     }
                                 }

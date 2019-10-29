@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Asistencia";
 }
-
+@Html.Partial("ModalPrestados", ViewData["Empleados"])
 <div style="padding-top: 10px; padding-bottom: 100px">
 
     @*<h4 class="custom-control-inline">Fecha: &nbsp; @DateTime.Now.ToString("dd-MM-yyyy") </h4>*@
@@ -71,29 +71,14 @@
 
 
     <div style="" class="text-center">
-        <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0')" style="border-color:#2c3e50; display:none" type="button">
+        @*<button data-toggle="tooltip" data-placement="top" title="Generar" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0')" style="border-color:#2c3e50; display:none" type="button">
+                <img style="width:25px" src="~/Content/icons/tuerca32.png" /> Generar Asistencia
+            </button>*@
+        <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn btn-outline-info" id="GenerarAsistencia" onclick="VerificarsiHayPrestados('@ViewBag.CodLinea','0')" style="border-color:#2c3e50; display:none" type="button">
             <img style="width:25px" src="~/Content/icons/tuerca32.png" /> Generar Asistencia
         </button>
-        @*<center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0');" style="display:none" /></center>*@
 
     </div>
-    @*}
-        else
-        {*@
-    @*<select name="TurnoCons" id="TurnoCons" class="browser-default custom-select">
-                <option selected>Seleccione</option>
-                <option value="1">Turno 1</option>
-                <option value="2">Turno 2</option>
-            </select>
-            <script>
-
-                $(document).ready(function () {
-                  GenerarAsistenciaDiaria('@ViewBag.CodLinea','1');
-
-                });
-
-            </script>
-        }*@
 
 
 

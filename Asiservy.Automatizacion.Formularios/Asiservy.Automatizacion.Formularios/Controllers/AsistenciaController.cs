@@ -47,6 +47,69 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #region Asistencia
         // GET: Asistencia
+        public JsonResult VerificarPrestados(string CodLinea)
+        {
+            try
+            {
+                clsDAsistencia = new clsDAsistencia();
+                var respuesta = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea);
+                if (respuesta.Count > 0)
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public ActionResult ModalPrestados()
+        {
+            try
+            {
+                //ViewBag.Linea = CodLinea;
+                //ViewBag.bandera = bandera;
+                clsDAsistencia = new clsDAsistencia();
+                clsDEmpleado = new clsDEmpleado();
+                liststring = User.Identity.Name.Split('_');
+                string CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
+                ViewBag.ListaEmpleadosPres = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea);
+                return PartialView();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public ActionResult ModalObservacion()
+        {
+            try
+            {
+                return PartialView();
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
         public ActionResult ModalHora()
         {
             try
@@ -55,8 +118,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             catch (Exception ex)
             {
-
-                throw;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[1]
+                });
+                return RedirectToAction("Home", "Home");
             }
         }
         [Authorize]
@@ -160,6 +233,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
                 ////Asistencia.ControlAsistencia.ForEach(a=>a.Hora= hora);
 
+                //**
+                clsDAsistencia = new clsDAsistencia();
+                ViewData["Empleados"] = clsDAsistencia.ConsultaPrestadosxLinea(ViewBag.CodLinea);
+
+                //**
                 return View(/*Asistencia*/);
             }
             catch (Exception ex)

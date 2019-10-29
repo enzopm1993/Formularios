@@ -1,0 +1,67 @@
+﻿@using Asiservy.Automatizacion.Datos.Datos;
+
+<style>
+    #modalprestados > modal {
+        display: block;
+    }
+
+    #modalprestado > modal-dialog {
+        /*overflow-y: initial !important*/
+    }
+
+    #modalprestado > modal-body {
+        height: 250px;
+        overflow-y: auto;
+    }
+</style>
+@*ModalPrestadosInfo*@
+<div class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="modalprestados" data-backdrop="static">
+    <div class="modal-dialog" style="max-height:85%;  margin-top: 50px; margin-bottom:50px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Mensaje del Sistema</h5>
+            </div>
+            <div class="modal-body">
+
+                @Html.Hidden("LineaPres")
+                @Html.Hidden("banderapres")
+                
+                        <table class="table-hover table-bordered table-striped table">
+                            <thead>
+                                <tr>
+                                    <th>Cédula</th>
+                                    <th>Nombres</th>
+                                    <th>Linea</th>
+                                    <th>Movido a</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @if (ViewData["Empleados"] != null)
+                                {
+
+                                    foreach (var item in ViewData["Empleados"] as List<spConsultaPersonalADondeFueronMovidos>)
+                                    {
+                                        <tr>
+                                            <td>@item.CEDULA</td>
+                                            <td>@item.NOMBRES</td>
+                                            <td>@item.LINEA</td>
+                                            <td>@item.LINEAMOVIDO</td>
+                                        </tr>
+                                    }
+                                }
+                                    </tbody>
+                        </table>
+
+                                
+
+            </div>
+            <div class="modal-footer">
+                Existe personal prestado, ¿desea continuar?
+                <button type="button" class="btn btn-default" id="modal-btn-si" onclick="GenerarAsistenciaOk()">Si</button>
+                <button type="button" class="btn btn-primary" id="modal-btn-no" onclick="CerrarModalPrestadoInfo()">No</button>
+
+            </div>
+        </div>
+    </div>
+</div> 
