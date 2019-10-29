@@ -2,12 +2,12 @@
 @{
     ViewBag.Title = "AsistenciaGeneral";
 }
-
+@Html.Partial("ModalPrestados", ViewData["Empleados"])
 <h4>Asistencia General</h4>
-<div  padding-bottom: 100px">
+<div padding-bottom: 100px">
 
     @*<h4 class="custom-control-inline">Fecha: &nbsp; @DateTime.Now.ToString("dd-MM-yyyy") </h4>*@
-  
+
     <label>@ViewBag.Linea</label>
     @Html.Hidden("Existe")
 
@@ -81,7 +81,7 @@
 
 
     <div style="" class="text-center">
-        <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiariaGeneral('@ViewBag.CodLinea','0');" style="border-color:#2c3e50; display:none" type="button">
+        <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn btn-outline-info" id="GenerarAsistencia" onclick="VerificarsiHayPrestados('@ViewBag.CodLinea','0');" style="border-color:#2c3e50; display:none" type="button">
             <img style="width:25px" src="~/Content/icons/tuerca32.png" /> Generar Asistencia
         </button>
         @*<center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0');" style="display:none" /></center>*@
@@ -113,9 +113,9 @@
 
 </div>
 <div id="modalhoraasis"></div>
-        <div id="ModalMensaje"> </div>
+<div id="ModalMensaje"> </div>
 
-        <link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
+<link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />
 
 
 

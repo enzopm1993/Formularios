@@ -274,6 +274,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ////var Asistencia = clsDAsistencia.ObtenerAsistenciaDiaria(liststring[1]);
                 ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(liststring[1]);
                 ViewBag.CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
+
+                //**
+                clsDAsistencia = new clsDAsistencia();
+                ViewData["Empleados"] = clsDAsistencia.ConsultaPrestadosxLinea(ViewBag.CodLinea);
+
+                //**
                 return View();
             }
             catch (Exception ex)

@@ -1,5 +1,6 @@
 ﻿@model Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaGeneralViewModel
-
+@Html.Partial("ModalObservacion")
+@Html.Partial("ModalHora")
 <div style="padding-top: 10px; padding-bottom: 100px">
     @*@Html.HiddenFor(z => z.ControlAsistencia[0].Turno)*@
     @Html.Hidden("EstadoControlCuchillo", "1")
@@ -13,10 +14,11 @@
                     <th class="align-bottom" hidden></th>
                     <th class="align-bottom"></th>
                     <th class="align-bottom"><b> Personal</b></th>
+                    <th class="align-bottom"><b>Check</b> </th>
                     <th class="align-bottom"><b>Hora</b> </th>
 
                     <th class="align-bottom"><b>Observación</b> </th>
-                    <th class="align-bottom"><b>Check</b> </th>
+
                     <th class="align-bottom"><b>Estado</b> </th>
                     <th class="align-bottom"></th>
 
@@ -45,39 +47,50 @@
                             @cont
                         </td>
                         <td>
-                            @*@Html.TextBoxFor(z => z.ControlAsistencia[cont - 1].NOMBRES, new { style = "width:100%; border: 0;", @readonly = true })*@
+
                             @item.NOMBRES
 
                         </td>
+                        <td class="text-center">
+                            @*<label class="btn btn-light text-xs-center" id="LabelAsistencia-@cont">*@
+
+                            @if (item.EstadoAsistencia == "1" || item.EstadoAsistencia == "2")
+                            {
+                                <script> PintarCHeck('@cont');</script>}
+
+                            @*<input type="checkbox" autocomplete="on" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');" id="CheckAsistencia-@cont">
+                                </label>*@
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="CheckAsistencia-@cont" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');">
+                                <label class="custom-control-label" for="CheckAsistencia-@cont" id="LabelFecha"></label>
+                            </div>
+                        </td>
                         <td>
-                            @*<input class="form-control" type="time" name="name" value="@DateTime.Now.ToString("HH:mm")" />*@
+
                             @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Hora, new { type = "time", @class = "form-control", @onkeyup = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');" })
                         </td>
 
                         <td class="text-center">
                             <div>
-                                @*<input type="text" class="form-control-plaintext" id="Observacion" placeholder="Observacion">*@
-                                @Html.TextAreaFor(x => x.ControlAsistencia[cont - 1].Observacion, new { @row = "2", @onkeyup = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');" })
+
+                                @*@Html.TextAreaFor(x => x.ControlAsistencia[cont - 1].Observacion, new { @row = "2", @onkeyup = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');" })*@
+                                @Html.HiddenFor(x => x.ControlAsistencia[cont - 1].Observacion)
+
+                                @{
+                                    var colorfa = "#01224B";
+                                    if (!string.IsNullOrEmpty(Model.ControlAsistencia[cont - 1].Observacion))
+                                    {
+                                        colorfa = "red";
+                                    }
+                                }
+                                <i class="fas fa-eye" style="cursor:pointer; color:@colorfa" onclick="CargarObservacion('@(cont-1)','@item.Bloquear')" data-toggle="modal" data-target="#ModalObservacion"></i>
+
                             </div>
                         </td>
-                        <td class="text-center">
-                            <label class="btn btn-light text-xs-center" id="LabelAsistencia-@cont">
 
-                                @if (item.EstadoAsistencia == "1" || item.EstadoAsistencia == "2")
-                                {
-                                    <script> PintarCHeck('@cont');</script>}
-                                @*<input type="checkbox" autocomplete="on" onchange="fillBook(0)" id="CheckAsistencia">*@
-                                <input type="checkbox" autocomplete="on" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');" id="CheckAsistencia-@cont">
-                            </label>
-                        </td>
                         <td>
-                            @*<select class="custom-select" id="SelectEstado" onchange="CambioEstado(1)">
-                                    <option selected>Seleccione</option>
-                                    <option value="1">Presente</option>
-                                    <option value="2">Atraso</option>
-                                    <option value="3">Falta</option>
-                                </select>*@
-                            @Html.DropDownListFor(model => model.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "", @witdh = "200px", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','combo')" })
+
+                            @Html.DropDownListFor(model => model.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "browser-default custom-select", @witdh = "200px", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','combo')" })
                         </td>
                         <td>
                             <center>
@@ -91,13 +104,10 @@
 
                     </tr>
                 }
-                @*<tr>*@
+
             </tbody>
         </table>
 
-        @*<div class="text-center" style="width:100%">
-                <button type="button" class="btn btn-info" onclick="Mensaje('Registro Exitoso')">GUARDAR</button>
-            </div>*@
 
 
     </div>

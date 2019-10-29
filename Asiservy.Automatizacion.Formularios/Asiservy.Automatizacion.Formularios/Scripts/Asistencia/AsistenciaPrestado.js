@@ -1,4 +1,28 @@
-﻿function FijarHora() {
+﻿function ActualizaObservacionHide() {
+    var posiciono = $('#PosicionHide').val();
+    $('#ControlAsistencia_' + posiciono + '__Observacion').val($('#areaobservacion').val());
+    //"GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');"
+    //var posicionint =parseInt(posiciono,10) + 1;
+    //alert(parseInt(posiciono, 10));
+    GuardarPersona(parseInt(posiciono, 10) + 1, '', 'change');
+    $('#ModalObservacion').modal('hide');
+}
+function CargarObservacion(Posicion, bloquear) {
+    $('#PosicionHide').val(Posicion);
+    //console.log("ojo");
+    //console.log(Posicion);
+    //console.log($('#ControlAsistencia_' + Posicion + '__Observacion').val());
+    $('#areaobservacion').val($('#ControlAsistencia_' + Posicion + '__Observacion').val());
+    if (bloquear == 1) {
+        $('#areaobservacion').prop('disabled', 'disabled');
+        $('#GuardarObservacion').prop('disabled', 'disabled');
+    } else {
+        $('#areaobservacion').removeAttr('disabled');
+        $('#GuardarObservacion').removeAttr('disabled');
+    }
+}
+
+function FijarHora() {
     
     if ($('#FijarHora').val() == "") {
         $('#msgerrorfijarhora').show();
@@ -21,22 +45,8 @@
 }
 function SetearHora() {
     $('#btnhora').prop('disabled', 'disabled');
-    $.ajax({
-        //contentType: "application/json; charset=utf-8",
-        url: '../Asistencia/ModalHora',
-        type: "GET",
-        success: function (resultado) {
-            $('#modalhoraasis').empty();
-            $('#modalhoraasis').html(resultado);
-            $("#ModalHora").modal("show");
-            $('#btnhora').removeAttr('disabled');
-        },
-        error: function (result) {
-            $('#btnhora').removeAttr('disabled');
-            //Console.log(result);
-            //MensajeError(result, false);
-        }
-    });
+    $('#ModalHora').modal('show');
+    $('#btnhora').removeAttr('disabled');
 }
 function Nuevo() {
     $('#GenerarAsistencia').hide();
