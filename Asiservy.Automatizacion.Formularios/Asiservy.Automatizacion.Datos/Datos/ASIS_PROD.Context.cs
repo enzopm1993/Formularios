@@ -593,5 +593,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosCuchillos>("spConsutaEmpleadosCuchillos", lineaParameter, estadoParameter, fechaParameter, controlParameter);
         }
+    
+        public virtual ObjectResult<spConsultaPersonalADondeFueronMovidos> spConsultaPersonalADondeFueronMovidos(string lINEA)
+        {
+            var lINEAParameter = lINEA != null ?
+                new ObjectParameter("LINEA", lINEA) :
+                new ObjectParameter("LINEA", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalADondeFueronMovidos>("spConsultaPersonalADondeFueronMovidos", lINEAParameter);
+        }
     }
 }

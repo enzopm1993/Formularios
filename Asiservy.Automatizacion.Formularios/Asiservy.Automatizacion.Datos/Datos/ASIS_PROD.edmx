@@ -717,6 +717,9 @@
         <Function Name="spConsultaOpcionesPorRol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDROL" Type="int" Mode="In" />
         </Function>
+        <Function Name="spConsultaPersonalADondeFueronMovidos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LINEA" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spConsultaPersonalNominaPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spConsultarAuditoriaSangreDiaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spConsultarCaambioPersonalxCedula" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1267,6 +1270,9 @@
             <Parameter Name="estado" Mode="In" Type="String" />
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="control" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaPersonalADondeFueronMovidos" ReturnType="Collection(ASIS_PRODModel.spConsultaPersonalADondeFueronMovidos)">
+            <Parameter Name="LINEA" Mode="In" Type="String" />
           </FunctionImport>
           
           </EntityContainer>
@@ -2155,6 +2161,14 @@
           <Property Type="String" Name="ValidaRojo" Nullable="true" MaxLength="1" />
           <Property Type="Int32" Name="CuchilloNegro" Nullable="true" />
           <Property Type="String" Name="ValidaNegro" Nullable="true" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="spConsultaPersonalADondeFueronMovidos">
+          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CODIGOLINEA" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="LINEA" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CODLINEAMOVIDO" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="LINEAMOVIDO" Nullable="false" MaxLength="50" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3306,6 +3320,18 @@
                 <ScalarProperty Name="ValidaRojo" ColumnName="ValidaRojo" />
                 <ScalarProperty Name="CuchilloNegro" ColumnName="CuchilloNegro" />
                 <ScalarProperty Name="ValidaNegro" ColumnName="ValidaNegro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaPersonalADondeFueronMovidos" FunctionName="ASIS_PRODModel.Store.spConsultaPersonalADondeFueronMovidos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaPersonalADondeFueronMovidos">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="CODIGOLINEA" ColumnName="CODIGOLINEA" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="CODLINEAMOVIDO" ColumnName="CODLINEAMOVIDO" />
+                <ScalarProperty Name="LINEAMOVIDO" ColumnName="LINEAMOVIDO" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
