@@ -11,14 +11,31 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
+                //DateTime FechaFin = AuditoriaSangre.FechaCreacionLog.Value.AddSeconds(1);
+                //var BuscarAuditoriaSangre = db.CONTROL_AUDITORIASANGRE.Where(x => x.FechaCreacionLog>AuditoriaSangre.FechaCreacionLog && x.FechaCreacionLog<FechaFin && x.Cedula == AuditoriaSangre.Cedula).FirstOrDefault();
+                //if (BuscarAuditoriaSangre==null)
+                //{
+                //    db.CONTROL_AUDITORIASANGRE.Add(AuditoriaSangre);
+                //    db.SaveChanges();
+
+                //}
+                //else
+                //{
+                //    BuscarAuditoriaSangre.EstadoRegistro = AuditoriaSangre.EstadoRegistro;
+                //    BuscarAuditoriaSangre.FechaModificacionLog = DateTime.Now;
+                //    BuscarAuditoriaSangre.Porcentaje = AuditoriaSangre.Porcentaje;
+                //    BuscarAuditoriaSangre.TerminalModificacionLog = AuditoriaSangre.TerminalCreacionLog;
+                //    BuscarAuditoriaSangre.UsuarioModificacionLog = AuditoriaSangre.UsuarioCreacionLog;
+                //    db.SaveChanges();
+
+                //}
+                //return db.spConsultarAuditoriaSangreDiaria().ToList();
                 DateTime FechaFin = AuditoriaSangre.FechaCreacionLog.Value.AddSeconds(1);
-                var BuscarAuditoriaSangre = db.CONTROL_AUDITORIASANGRE.Where(x => x.FechaCreacionLog>AuditoriaSangre.FechaCreacionLog && x.FechaCreacionLog<FechaFin && x.Cedula == AuditoriaSangre.Cedula).FirstOrDefault();
-                if (BuscarAuditoriaSangre==null)
+                var BuscarAuditoriaSangre = db.CONTROL_AUDITORIASANGRE.Find(AuditoriaSangre.IdControlAuditoriaSangre);
+                if (BuscarAuditoriaSangre == null)
                 {
                     db.CONTROL_AUDITORIASANGRE.Add(AuditoriaSangre);
                     db.SaveChanges();
-
-                    //return db.spConsultarAuditoriaSangreDiaria().ToList();
 
                 }
                 else
@@ -31,15 +48,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre
                     db.SaveChanges();
 
                 }
-                return db.spConsultarAuditoriaSangreDiaria().ToList();
+                return db.spConsultarAuditoriaSangreDiaria(AuditoriaSangre.FechaAuditoria).ToList();
             }
                 
         }
-        public List<spConsultarAuditoriaSangreDiaria> ConsultarAuditoriaSangreDiaria()
+        public List<spConsultarAuditoriaSangreDiaria> ConsultarAuditoriaSangreDiaria(DateTime FechaProduccion)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.spConsultarAuditoriaSangreDiaria().ToList();
+                return db.spConsultarAuditoriaSangreDiaria(FechaProduccion).ToList();
             }
         }
 

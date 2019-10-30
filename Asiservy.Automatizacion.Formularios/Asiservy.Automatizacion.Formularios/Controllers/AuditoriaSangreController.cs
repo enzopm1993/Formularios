@@ -32,11 +32,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-               
+                ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
-                ViewBag.AuditoriaSangre = clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria();
+                ViewBag.AuditoriaSangre = clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria(DateTime.Now);
                 return View();
             }
             catch (Exception ex)
@@ -94,6 +94,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                
                 clsDEmpleado = new clsDEmpleado();
                 List<spConsutaEmpleadosFiltro> lista = clsDEmpleado.ConsultaEmpleadosFiltro("0", "0",clsAtributos.CargoLimpiadora);
                 return PartialView(lista);
@@ -117,22 +118,41 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         [Authorize]
         [HttpPost]
-        public ActionResult ControlAuditoriaSangrePartial(string Cedula, string Porcentaje, string fecha,string estado)
+        public ActionResult ControlAuditoriaSangrePartial(int? IdAuditoria,string Cedula, string Porcentaje, DateTime Fecha, string estado,int? change)
         {
             try
             {
-                liststring = User.Identity.Name.Split('_');
-                var hora =TimeSpan.Parse(DateTime.Now.ToString("hh:mm"));
-                DateTime Fecha;
-                Fecha = string.IsNullOrEmpty(fecha) ? DateTime.Now :Convert.ToDateTime(fecha);
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
-                
-                List<spConsultarAuditoriaSangreDiaria> ListaAuditoria = clsDAuditoriaSangre.GuardarActualizarAuditoriaSangre(new CONTROL_AUDITORIASANGRE { Cedula=Cedula,Porcentaje=Convert.ToDecimal(Porcentaje),
-                FechaCreacionLog=Fecha,EstadoRegistro=estado,TerminalCreacionLog= Request.UserHostAddress, UsuarioCreacionLog= liststring[0],
-                    Hora = hora
-                });
+                if (change != 1)
+                {
+                    int IdAuditoriaS = IdAuditoria == null ? 0 : Convert.ToInt32(IdAuditoria);
+                    liststring = User.Identity.Name.Split('_');
+                    var hora = TimeSpan.Parse(DateTime.Now.ToString("hh:mm"));
+                    //DateTime Fecha;
+                    //Fecha = string.IsNullOrEmpty(Fecha) ? DateTime.Now :Convert.ToDateTime(Fecha);
+                    DateTime FechaCreacion = DateTime.Now;
+                    
 
-                return PartialView(ListaAuditoria);
+                    List<spConsultarAuditoriaSangreDiaria> ListaAuditoria = clsDAuditoriaSangre.GuardarActualizarAuditoriaSangre(new CONTROL_AUDITORIASANGRE
+                    {
+                        Cedula = Cedula,
+                        Porcentaje = Convert.ToDecimal(Porcentaje),
+                        FechaCreacionLog = FechaCreacion,
+                        EstadoRegistro = estado,
+                        TerminalCreacionLog = Request.UserHostAddress,
+                        UsuarioCreacionLog = liststring[0],
+                        Hora = hora,
+                        FechaAuditoria = Fecha,
+                        IdControlAuditoriaSangre = IdAuditoriaS
+                    });
+
+                    return PartialView(ListaAuditoria);
+                }
+                else
+                {
+                    return PartialView(clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria(Fecha));
+                }
+                
             }
             catch (Exception ex)
             {
