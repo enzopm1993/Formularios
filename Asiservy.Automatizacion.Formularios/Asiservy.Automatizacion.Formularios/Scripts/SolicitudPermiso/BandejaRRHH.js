@@ -8,7 +8,7 @@ function FinalizarSolitudes() {
         result.push(this.id);
         i++;
     });
-    console.log(result);
+    //console.log(result);
     Finalizar(result);
 }
 function FinalizarSolicitud(valor) {
@@ -23,7 +23,7 @@ function Finalizar(result) {
     if (result.length > 0) {
         var resultado = JSON.stringify(result)
         var resultado2 = JSON.parse(resultado)
-        console.log(resultado2);
+      //  console.log(resultado2);
         $.ajax({
             url: '../SolicitudPermiso/FinalizarSolicitud',
             type: 'POST',
@@ -32,7 +32,21 @@ function Finalizar(result) {
                 diIdSolicitud: resultado2
             },
             success: function (resultado) {
-                MensajeCorrecto(resultado + "\n Solicitud Finalizada", true);
+                //console.log(resultado[0]);
+                //MensajeError(resultado[0].Mensaje);
+                var divMensaje = $("#divMensaje");
+                divMensaje.html('');
+                for (var i = 0, l = resultado.length; i < l; i++) {
+                    if (resultado[i].Respuesta) {
+                        divMensaje.append('<label>' + resultado[i].Mensaje + '</label>')
+                    } else {
+                        divMensaje.append('<label class="text-danger">' + resultado[i].Mensaje + '</label>')
+
+                    }
+                }
+                $("#ModalMensajeBandeja").modal("show");
+
+               // MensajeCorrecto(resultado + "\n Solicitud Finalizada", true);
             }
             ,
             error: function (resultado) {

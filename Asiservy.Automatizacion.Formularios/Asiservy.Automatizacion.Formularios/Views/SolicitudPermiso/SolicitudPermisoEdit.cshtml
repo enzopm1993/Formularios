@@ -168,17 +168,37 @@
                         {
                             @Html.TextBoxFor(m => Model.JustificaSolicitudes[i].IdJustificaSolicitud, new { @hidden = "hidden" })
                             @Html.TextBoxFor(m => Model.JustificaSolicitudes[i].IdSolicitudPermiso, new { @hidden = "hidden", @value = Model.IdSolicitudPermiso })
-                            <tr>
-                                <td>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @if (Model.JustificaSolicitudes[i].EnvioOnlyControl == true)
+                                        {
+                                            @Html.DropDownListFor(m => m.JustificaSolicitudes[i].CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "DescripcionMotivo", Model.JustificaSolicitudes[i].CodigoMotivo), "Seleccione", new { @class = "form-control", disabled = "disabled" })
+
+                                        }
+                                        else
+                                        {
                                             @Html.DropDownListFor(m => m.JustificaSolicitudes[i].CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "DescripcionMotivo", Model.JustificaSolicitudes[i].CodigoMotivo), "Seleccione", new { @class = "form-control" })
-                                        </div>
+
+                                        }
                                     </div>
-                                </td>
+                                </div>
+                            </td>
+                            @if (Model.JustificaSolicitudes[i].EnvioOnlyControl == true)
+                            {
+                                <td>@Html.TextBoxFor(m => m.JustificaSolicitudes[i].FechaSalida, "{0:s}", new { @class = "form-control", @type = "datetime-local", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => m.JustificaSolicitudes[i].FechaRegreso, "{0:s}", new { @class = "form-control", @type = "datetime-local", @readonly = "readonly" })</td>
+
+                            }
+                            else
+                            {
                                 <td>@Html.TextBoxFor(m => m.JustificaSolicitudes[i].FechaSalida, "{0:s}", new { @class = "form-control", @type = "datetime-local" })</td>
                                 <td>@Html.TextBoxFor(m => m.JustificaSolicitudes[i].FechaRegreso, "{0:s}", new { @class = "form-control", @type = "datetime-local" })</td>
-                            </tr>
+
+                            }
+
+                        </tr>
                         }
 
 

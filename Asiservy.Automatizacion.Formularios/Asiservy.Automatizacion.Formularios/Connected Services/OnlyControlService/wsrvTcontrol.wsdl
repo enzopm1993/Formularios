@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="verificarConexion">
+        <s:complexType />
+      </s:element>
+      <s:element name="verificarConexionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="verificarConexionResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="insertarPermiso">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="fini" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ffin" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="empeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoP" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fDia" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="hini" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="hfin" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="turno" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="obs" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="insertarPermisoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="insertarPermisoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="consultarCatalogoPermisos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="consultarCatalogoPermisosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="consultarCatalogoPermisosResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="verificarConexionSoapIn">
+    <wsdl:part name="parameters" element="tns:verificarConexion" />
+  </wsdl:message>
+  <wsdl:message name="verificarConexionSoapOut">
+    <wsdl:part name="parameters" element="tns:verificarConexionResponse" />
+  </wsdl:message>
+  <wsdl:message name="insertarPermisoSoapIn">
+    <wsdl:part name="parameters" element="tns:insertarPermiso" />
+  </wsdl:message>
+  <wsdl:message name="insertarPermisoSoapOut">
+    <wsdl:part name="parameters" element="tns:insertarPermisoResponse" />
+  </wsdl:message>
+  <wsdl:message name="consultarCatalogoPermisosSoapIn">
+    <wsdl:part name="parameters" element="tns:consultarCatalogoPermisos" />
+  </wsdl:message>
+  <wsdl:message name="consultarCatalogoPermisosSoapOut">
+    <wsdl:part name="parameters" element="tns:consultarCatalogoPermisosResponse" />
+  </wsdl:message>
+  <wsdl:portType name="wsrvTcontrolSoap">
+    <wsdl:operation name="verificarConexion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Verifica la conexión a base de datos, retorna Boolean</wsdl:documentation>
+      <wsdl:input message="tns:verificarConexionSoapIn" />
+      <wsdl:output message="tns:verificarConexionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="insertarPermiso">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Inserta registro en tabla de permisos</wsdl:documentation>
+      <wsdl:input message="tns:insertarPermisoSoapIn" />
+      <wsdl:output message="tns:insertarPermisoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="consultarCatalogoPermisos">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Consulta catalogo permisos.</wsdl:documentation>
+      <wsdl:input message="tns:consultarCatalogoPermisosSoapIn" />
+      <wsdl:output message="tns:consultarCatalogoPermisosSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="wsrvTcontrolSoap" type="tns:wsrvTcontrolSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="verificarConexion">
+      <soap:operation soapAction="http://tempuri.org/verificarConexion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertarPermiso">
+      <soap:operation soapAction="http://tempuri.org/insertarPermiso" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consultarCatalogoPermisos">
+      <soap:operation soapAction="http://tempuri.org/consultarCatalogoPermisos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsrvTcontrolSoap12" type="tns:wsrvTcontrolSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="verificarConexion">
+      <soap12:operation soapAction="http://tempuri.org/verificarConexion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertarPermiso">
+      <soap12:operation soapAction="http://tempuri.org/insertarPermiso" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consultarCatalogoPermisos">
+      <soap12:operation soapAction="http://tempuri.org/consultarCatalogoPermisos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="wsrvTcontrol">
+    <wsdl:port name="wsrvTcontrolSoap" binding="tns:wsrvTcontrolSoap">
+      <soap:address location="http://192.168.0.33/OC_wsTcontrol/wsrvTcontrol.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsrvTcontrolSoap12" binding="tns:wsrvTcontrolSoap12">
+      <soap12:address location="http://192.168.0.33/OC_wsTcontrol/wsrvTcontrol.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -181,7 +181,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                string psRespuesta = string.Empty;
+                List<RespuestaGeneral> psRespuesta = new List<RespuestaGeneral>() ;
                 if (diIdSolicitud != null && diIdSolicitud.Length > 0)
                 {
                     foreach (var psIdSolicitud in diIdSolicitud)
@@ -196,10 +196,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             string[] psIdUsuario = User.Identity.Name.Split('_');
                             model.UsuarioModificacionLog = psIdUsuario[0];
                             model.TerminalModificacionLog = Request.UserHostAddress;
-
-
-
-                            psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
+                            //psRespuesta = clsDSolicitudPermiso.EnviarSolicitudOnlyControl(model);
+                            string mensaje = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
+                            psRespuesta.Add(new RespuestaGeneral { Mensaje = mensaje, Respuesta = true });
                         }
                     }
                     return Json(psRespuesta, JsonRequestBehavior.AllowGet);

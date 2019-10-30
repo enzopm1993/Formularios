@@ -134,6 +134,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string CodigoGrupoFunda = "012";
         public static string FundaAurtion = "1";
 
-
+        //ONLY CONTROL
+        public static string keyLlaveAcceso = "Fy7VG+Fe5inU/sNNaHAnSA==";
     }
 }

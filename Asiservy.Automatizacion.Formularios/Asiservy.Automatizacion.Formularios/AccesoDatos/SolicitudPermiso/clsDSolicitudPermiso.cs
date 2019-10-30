@@ -6,9 +6,14 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Helpers;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
@@ -30,6 +35,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 poSolicitud.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
                 poSolicitud.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
                 poSolicitud.ValidaMedico = doSolicitud.ValidaMedico??poSolicitud.ValidaMedico;
+                if (doSolicitud.EnvioOnlyControl == true){
+                    poSolicitud.EnvioOnlyControl = doSolicitud.EnvioOnlyControl;
+                }
                 psMensaje = "Registro Actualizado Correctamente";
 
                 BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
@@ -428,6 +436,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     CodigoMotivo = d.CodigoMotivo,
                     FechaSalida = d.FechaSalida,
                     FechaRegreso = d.FechaRegreso,
+                    EnvioOnlyControl = d.EnvioOnlyControl,
                     UsuarioIngresoLog = d.UsuarioIngresoLog,
                     FechaIngresoLog = d.FechaIngresoLog,
                     TerminalIngresoLog = d.TerminalIngresoLog,
@@ -611,5 +620,88 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return ListaBitacora.ToList();
             }
         }
+
+
+        public List<RespuestaGeneral> EnviarSolicitudOnlyControl(SOLICITUD_PERMISO doSolicitud)
+        {
+            List<RespuestaGeneral> Respuestas = new List<RespuestaGeneral>();
+            entities = new ASIS_PRODEntities();
+            var poSolicitud = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == doSolicitud.IdSolicitudPermiso);
+            var OnlyControl = entities.spConsultaCodigoOnlyControl(poSolicitud.Identificacion).FirstOrDefault();
+            List<SOLICITUD_PERMISO> ListadoSolicitudes = new List<SOLICITUD_PERMISO>();
+            //ListadoSolicitudes.Add(new SOLICITUD_PERMISO {
+            //    FechaRegreso = poSolicitud.FechaRegreso,
+            //    FechaSalida = poSolicitud.FechaSalida,
+            //    CodigoMotivo = poSolicitud.CodigoMotivo,
+            //    IdSolicitudPermiso = poSolicitud.IdSolicitudPermiso,
+            //    Observacion = poSolicitud.Observacion
+            //});
+            foreach(var x in poSolicitud.JUSTICA_SOLICITUD)
+            {
+                if (x.FechaSalida != null && x.FechaRegreso != null && x.EnvioOnlyControl != true)
+                {
+                    ListadoSolicitudes.Add(new SOLICITUD_PERMISO
+                    {
+                        FechaRegreso = x.FechaRegreso??poSolicitud.FechaRegreso,
+                        FechaSalida = x.FechaSalida??poSolicitud.FechaSalida,
+                        CodigoMotivo = x.CodigoMotivo,
+                        IdSolicitudPermiso = x.IdJustificaSolicitud,
+                        Observacion = poSolicitud.Observacion
+                    });
+                }
+            }
+
+            StatusOnlyControl resultOnlyControl;
+            foreach (var x in ListadoSolicitudes)
+            {
+
+                using (OnlyControlService.wsrvTcontrolSoapClient service = new OnlyControlService.wsrvTcontrolSoapClient())
+                {
+                    string content = service.insertarPermiso(x.FechaSalida.Date, x.FechaRegreso.Date, OnlyControl.Codigo, x.CodigoMotivo, true, x.FechaSalida, x.FechaRegreso, 1, x.Observacion, clsAtributos.keyLlaveAcceso);
+                    //var prueba = content.codigo;
+                    resultOnlyControl = JsonConvert.DeserializeObject<StatusOnlyControl>(content);
+                }
+                if (resultOnlyControl.codigo == "0")
+                {
+                    var JustificaSolicitud = entities.JUSTICA_SOLICITUD.FirstOrDefault(y=> y.IdJustificaSolicitud==x.IdSolicitudPermiso);
+                    JustificaSolicitud.EnvioOnlyControl = true;
+                    entities.SaveChanges();
+                    Respuestas.Add(new RespuestaGeneral { Mensaje = "Secundaria: ("+x.IdSolicitudPermiso+")->"+resultOnlyControl.mensaje, Respuesta = true, Observacion = "" });
+                }
+                else
+                {
+                    Respuestas.Add(new RespuestaGeneral { Mensaje = "Secundaria: (" + x.IdSolicitudPermiso + ")->" + resultOnlyControl.mensaje, Respuesta = false, Observacion = "" });
+                }
+            }
+
+            if(!Respuestas.Any(x=> x.Respuesta==false))
+            {
+                using (OnlyControlService.wsrvTcontrolSoapClient service = new OnlyControlService.wsrvTcontrolSoapClient())
+                {
+                    string content = service.insertarPermiso(poSolicitud.FechaSalida.Date, poSolicitud.FechaRegreso.Date, OnlyControl.Codigo, poSolicitud.CodigoMotivo, true, poSolicitud.FechaSalida, poSolicitud.FechaRegreso, 1, poSolicitud.Observacion, clsAtributos.keyLlaveAcceso);
+                    //var prueba = content.codigo;
+                    resultOnlyControl = JsonConvert.DeserializeObject<StatusOnlyControl>(content);
+                }
+                if (resultOnlyControl.codigo == "0")
+                {
+                    doSolicitud.EnvioOnlyControl = true;
+                    CambioEstadoSolicitud(doSolicitud);
+                  //  entities.SaveChanges();
+                    Respuestas.Add(new RespuestaGeneral { Mensaje = "Principal: (" + poSolicitud.IdSolicitudPermiso + ")-> " + resultOnlyControl.mensaje, Respuesta = true, Observacion = "" });
+                }
+                else
+                {
+                    Respuestas.Add(new RespuestaGeneral { Mensaje = "Principal: (" + poSolicitud.IdSolicitudPermiso + ")-> " + resultOnlyControl.mensaje, Respuesta = false, Observacion = "" });
+                } 
+            }
+            else{
+                Respuestas.Add(new RespuestaGeneral { Mensaje = "Principal: (" + poSolicitud.IdSolicitudPermiso + ")-> " + "Algunas solicitudes secundarias no se enviaron", Respuesta = false, Observacion = "" });
+            }
+
+
+            return Respuestas;
+
+        }
+
     }
 } 

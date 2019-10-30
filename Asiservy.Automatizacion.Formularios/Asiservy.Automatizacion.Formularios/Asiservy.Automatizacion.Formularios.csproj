@@ -61,6 +61,8 @@
     <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -105,6 +107,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Connected Services\OnlyControlService\Asiservy.Automatizacion.Formularios.OnlyControlService.consultarCatalogoPermisosResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\OnlyControlService\Asiservy.Automatizacion.Formularios.OnlyControlService.insertarPermisoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\OnlyControlService\wsrvTcontrol.disco" />
+    <None Include="Connected Services\OnlyControlService\configuration91.svcinfo" />
+    <None Include="Connected Services\OnlyControlService\configuration.svcinfo" />
+    <None Include="Connected Services\OnlyControlService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Content\admin\css\sb-admin-2.css" />
     <Content Include="Content\admin\css\sb-admin-2.min.css" />
     <Content Include="Content\admin\img\ICO\android-icon-144x144.png" />
@@ -2416,6 +2431,7 @@
     <Content Include="Content\admin\vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="Content\admin\vendor\jquery\jquery.min.map" />
     <Content Include="Content\admin\vendor\jquery\jquery.slim.min.map" />
+    <None Include="Connected Services\OnlyControlService\wsrvTcontrol.wsdl" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\DataTables\media\js\dataTables.jszip.min.js" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
@@ -2541,6 +2557,11 @@
     <Compile Include="AccesoDatos\General\clsDLogin.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Connected Services\OnlyControlService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
@@ -2572,6 +2593,7 @@
     <Compile Include="Models\Motivo.cs" />
     <Compile Include="Models\OrdenFabricacion.cs" />
     <Compile Include="Models\ProyeccionProgramacion\ProyeccionProgramacionViewModel.cs" />
+    <Compile Include="Models\RespuestaGeneral.cs" />
     <Compile Include="Models\Seguridad\Clasificador.cs" />
     <Compile Include="Models\Seguridad\ConsultaOpcionesxRolViewModel.cs" />
     <Compile Include="Models\Seguridad\Marcacion.cs" />
@@ -2582,6 +2604,7 @@
     <Compile Include="Models\Seguridad\OpcionRolViewModel.cs" />
     <Compile Include="Models\Solicitud.cs" />
     <Compile Include="Models\SolicitudPermisoViewModel.cs" />
+    <Compile Include="Models\StatusOnlyControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2723,6 +2746,12 @@
       <Project>{6de61521-d260-48ad-9419-1da46fe9ff09}</Project>
       <Name>Asiservy.Automatizacion.Datos</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\OnlyControlService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

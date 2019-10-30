@@ -51,7 +51,7 @@
                             <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="Nuevo" onclick="Mostrar(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button data-toggle="tooltip" data-placement="top" title="Aprobar" class="btn btn-link" id="Nuevo" onclick="AprobarSolicitud(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
+                            <button data-toggle="tooltip" data-placement="top" title="Aprobar" class="btn btn-link" id="Nuevo" onclick="FinalizarSolicitud(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-check"></i>
                             </button>
                             <button data-toggle="tooltip" data-placement="top" title="Anular" class="btn btn-link" id="Nuevo" onclick="Observacion(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
@@ -110,7 +110,32 @@
         </div>
     </div>
 </div>
-<script src="~/Scripts/General/dataTableJS.js"></script>
+
+
+<div id="ModalMensajeBandeja" class="modal fade bd-example-modal-lg"      
+     tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" 
+     aria-hidden="true" data-backdrop="static">
+
+    <div class="modal-dialog modal-md">       
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Envio a Only Control</h5>
+            </div>
+            <div class="modal-body">
+                <div id="divMensaje">
+
+                </div>
+            </div>
+            <div class="modal-footer">             
+                <button type="button" class="btn btn-secondary" onclick="location.reload()" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@*<script src="~/Scripts/General/dataTableJS.js"></script>*@
 
 
 
