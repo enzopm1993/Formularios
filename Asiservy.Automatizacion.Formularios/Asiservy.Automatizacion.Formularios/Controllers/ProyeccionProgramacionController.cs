@@ -179,7 +179,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public ActionResult ProyeccionProgramacionEditarPartial(int IdProyeccionProgramacion,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin,string Observacion)
+        public ActionResult ProyeccionProgramacionEditarPartial(int IdProyeccionProgramacion,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin,string Observacion, DateTime FechaProduccion)
         {
             try
             {
@@ -195,7 +195,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         Observacion=Observacion,
                         UsuarioCreacionLog = liststring[0],
                         TerminalCreacionLog = Request.UserHostAddress,
-                        FechaCreacionLog=DateTime.Now
+                        FechaCreacionLog=DateTime.Now,
+                        FechaProduccion=FechaProduccion
                 };
                
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
@@ -248,7 +249,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home", "Home");
             }
         }
-        public ActionResult ModalEditarProyeccion(int IdProyeccion,string Observacion,string Lineas,TimeSpan HoraInicio,TimeSpan HoraFin)
+        public ActionResult ModalEditarProyeccion(int IdProyeccion,string Observacion,string Lineas,TimeSpan? HoraInicio,TimeSpan? HoraFin)
         {
             try
             {
