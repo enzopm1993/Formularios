@@ -25,6 +25,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public Nullable<bool> EnvioOnlyControl { get; set; }
     
         public virtual SOLICITUD_PERMISO SOLICITUD_PERMISO { get; set; }
     }

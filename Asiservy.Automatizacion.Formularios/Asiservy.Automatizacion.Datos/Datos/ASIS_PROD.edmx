@@ -126,6 +126,7 @@
           <Property Name="Cedula" Type="varchar" MaxLength="20" />
           <Property Name="Porcentaje" Type="decimal" Precision="4" Scale="2" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
+          <Property Name="FechaAuditoria" Type="date" />
           <Property Name="FechaCreacionLog" Type="datetime" />
           <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
@@ -376,6 +377,7 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="20" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="EnvioOnlyControl" Type="bit" />
         </EntityType>
         <EntityType Name="MODULO">
           <Key>
@@ -523,6 +525,7 @@
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="ValidaMedico" Type="bit" />
           <Property Name="NombreMedico" Type="varchar" MaxLength="50" />
+          <Property Name="EnvioOnlyControl" Type="bit" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -672,6 +675,9 @@
         </Function>
         <Function Name="spConsultaCargos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spConsultaCodigoOnlyControl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cedula" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsultaCodigosEnfermedad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="varchar" Mode="In" />
@@ -884,6 +890,7 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="SOLICITUD_PERMISO" Relationship="Self.FK__JUSTICA_S__IdSol__6A30C649" FromRole="JUSTICA_SOLICITUD" ToRole="SOLICITUD_PERMISO" />
+          <Property Name="EnvioOnlyControl" Type="Boolean" />
         </EntityType>
         <EntityType Name="NIVEL_APROBACION">
           <Key>
@@ -979,6 +986,7 @@
           <Property Name="Nivel" Type="Int32" />
           <Property Name="ValidaMedico" Type="Boolean" />
           <Property Name="NombreMedico" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EnvioOnlyControl" Type="Boolean" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -1276,6 +1284,9 @@
           </FunctionImport>
           <FunctionImport Name="spConsultaOpcionModulo" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionModulo)" />
           <EntitySet Name="PROYECCION_PROGRAMACION" EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" />
+          <FunctionImport Name="spConsultaCodigoOnlyControl" ReturnType="Collection(ASIS_PRODModel.spConsultaCodigoOnlyControl)">
+          <Parameter Name="cedula" Mode="In" Type="String" />
+          </FunctionImport>
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -1876,6 +1887,7 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Hora" Type="Time" Precision="7" />
+          <Property Name="FechaAuditoria" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="CONTROL_COCHE_LINEA">
           <Key>
@@ -2182,6 +2194,10 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="spConsultaCodigoOnlyControl">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="Codigo" Nullable="false" MaxLength="6" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2191,6 +2207,7 @@
           <EntitySetMapping Name="JUSTICA_SOLICITUD">
             <EntityTypeMapping TypeName="ASIS_PRODModel.JUSTICA_SOLICITUD">
               <MappingFragment StoreEntitySet="JUSTICA_SOLICITUD">
+                <ScalarProperty Name="EnvioOnlyControl" ColumnName="EnvioOnlyControl" />
                 <ScalarProperty Name="IdJustificaSolicitud" ColumnName="IdJustificaSolicitud" />
                 <ScalarProperty Name="IdSolicitudPermiso" ColumnName="IdSolicitudPermiso" />
                 <ScalarProperty Name="CodigoMotivo" ColumnName="CodigoMotivo" />
@@ -2271,6 +2288,7 @@
           <EntitySetMapping Name="SOLICITUD_PERMISO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.SOLICITUD_PERMISO">
               <MappingFragment StoreEntitySet="SOLICITUD_PERMISO">
+                <ScalarProperty Name="EnvioOnlyControl" ColumnName="EnvioOnlyControl" />
                 <ScalarProperty Name="NombreMedico" ColumnName="NombreMedico" />
                 <ScalarProperty Name="ValidaMedico" ColumnName="ValidaMedico" />
                 <ScalarProperty Name="Nivel" ColumnName="Nivel" />
@@ -2978,6 +2996,7 @@
           <EntitySetMapping Name="CONTROL_AUDITORIASANGRE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_AUDITORIASANGRE">
               <MappingFragment StoreEntitySet="CONTROL_AUDITORIASANGRE">
+                <ScalarProperty Name="FechaAuditoria" ColumnName="FechaAuditoria" />
                 <ScalarProperty Name="Hora" ColumnName="Hora" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
@@ -3361,6 +3380,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaCodigoOnlyControl" FunctionName="ASIS_PRODModel.Store.spConsultaCodigoOnlyControl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCodigoOnlyControl">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -25,5 +25,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public Nullable<System.TimeSpan> Hora { get; set; }
+        public Nullable<System.DateTime> FechaAuditoria { get; set; }
     }
 }

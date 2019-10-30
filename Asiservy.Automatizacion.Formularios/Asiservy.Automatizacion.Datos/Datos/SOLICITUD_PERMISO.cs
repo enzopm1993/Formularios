@@ -44,6 +44,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> Nivel { get; set; }
         public Nullable<bool> ValidaMedico { get; set; }
         public string NombreMedico { get; set; }
+        public Nullable<bool> EnvioOnlyControl { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JUSTICA_SOLICITUD> JUSTICA_SOLICITUD { get; set; }
