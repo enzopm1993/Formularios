@@ -9,8 +9,9 @@
 
 <div class="form-horizontal">
 
-    <h4>CONTROL AUDITORIA SANGRE</h4>
+    <h4>Control Auditoria Sangre</h4>
     <hr />
+    @Html.Hidden("IdAuditoriaSangre")
     @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.IdControlAuditoriaSangre, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -20,10 +21,10 @@
             </div>
         </div>*@
     @*@Html.Hidden("FechaAuditoria")*@
-    <input type="datetime" id="FechaAuditoria" hidden/>
+    @*<input type="datetime" id="FechaAuditoria" hidden/>*@
     
     <div class="row">
-        <div class="form-group col-md-3">
+        @*<div class="form-group col-md-3">
             <label class="control-label">Cédula</label>
             <div class="input-group">
                 @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -35,38 +36,71 @@
             </div>
 
 
+        </div>*@
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label class="label-control"> Fecha</label>
+                @{var Fecha = DateTime.Now.ToString("yyyy-MM-dd"); }
+                @*@Html.TextBox("FechaAuditoria",null,new { @class = "form-control input-large", @type = "date", @Value = Fecha })*@
+                <input type="date" id="FechaAuditoria" value="@Fecha" class="form-control" onchange="ConsultarAuditoriaChange()"/>
+                @*<input type="date" class="form-control"/>*@
+            </div>
         </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label class="control-label">Nombre</label>
+                @Html.HiddenFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                <div class="input-group">
 
-        <div class="form-group col-md-3">
-            @Html.LabelFor(model => model.Porcentaje, htmlAttributes: new { @class = "control-label " })
-            <div>
-                @Html.EditorFor(model => model.Porcentaje, new { htmlAttributes = new { @type = "number", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Porcentaje, "", new { @class = "text-danger" })
+                    @Html.TextBox("Nombre", null, new { @class = "form-control", @readonly = "readonly" } )
+                    @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
+                    <button type="button" onclick="CargarEmpleados('CargarEmpleadoAS');" id="CargarEmpleadoAS">
+                        <img src="~/Content/images/buscar.png" />
+                    </button><br />
+                </div>
             </div>
         </div>
 
-        <div class="form-group col-md-2">
-            @*@Html.LabelFor(model => model.EstadoRegistro, htmlAttributes: new { @class = "control-label " })*@
-            <br /><br />
-            <div>
-                @*@Html.CheckBox("Estado", new { htmlAttributes = new { @class = "form-control", @checked = true } })*@
-                <input type="checkbox" id="Estado" name="Estado" onclick="CambiarLableEstado()" checked />
-                <label id="EstadoLabel"> Activo</label>
-                @*@Html.ValidationMessageFor(model => model.Porcentaje, "", new { @class = "text-danger" })*@
-            </div>
-        </div>
-        <div class="form-group col-md-3">
-
-            @Html.Label("Agregar", htmlAttributes: new { @class = "control-label " })
-            <div>
-                <button type="button" onclick="IngresarAuditoriaSangre();" id="Agregar">
-
-                    <img src="~/Content/images/agregar1.png" style="width:30px" />
-                </button><br />
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Porcentaje, htmlAttributes: new { @class = "control-label " })
+                
+                    @Html.EditorFor(model => model.Porcentaje, new { htmlAttributes = new { @type = "number", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Porcentaje, "", new { @class = "text-danger" })
+            
             </div>
         </div>
 
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                @*<label id="EstadoLabel" class="control-label"> Activo</label>*@
+                @*<input class="form-check check-circle" type="checkbox" id="Estado" name="Estado" onclick="CambiarLableEstado()" checked />*@
+                <br />
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" id="Estado" name="Estado" onclick="CambiarLableEstado()" checked />
+                    <label class="custom-control-label" for="Estado" id="EstadoLabel">Activo</label>
+                </div>
+            </div>
+         </div>
+     </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 text-center">
+            <div class="form-group">
+                @*@Html.Label("Agregar", htmlAttributes: new { @class = "control-label " })*@
+                <div>
+                    @*<button type="button" onclick="IngresarAuditoriaSangre();" id="Agregar">
 
+                        <img src="~/Content/images/agregar1.png" style="width:30px" />
+                    </button>*@
+                    <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="Agregar" onclick="IngresarAuditoriaSangre();" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/add24.png" />
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="LimpiarBoton()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/clear24.png" />
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     @*<div class="form-group">
@@ -80,7 +114,7 @@
 </div>
 
 <div id="ControlAuditoriaSangre">
-    <table class="table table-hover" style="cursor: pointer" id="TablaAuditoriaSangre">
+    <table class="table table-hover" style="cursor: pointer" id="tblDataTable">
         <thead>
             <tr>
                 <th>
@@ -103,7 +137,7 @@
         <tbody>
             @foreach (var item in ViewBag.AuditoriaSangre)
             {
-                <tr onclick="CargarAuditoria('@item.Fecha','@item.Cedula', '@item.Porcentaje')">
+                <tr onclick="CargarAuditoria('@item.Fecha','@item.Cedula', '@item.Porcentaje','@item.Nombres','@item.IdControlAuditoriaSangre')">
                     <td>
                         @item.Cedula
                     </td>
