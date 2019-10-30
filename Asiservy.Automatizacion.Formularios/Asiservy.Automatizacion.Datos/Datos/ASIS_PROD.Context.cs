@@ -447,11 +447,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAsistencia>("spReporteAsistencia", fechaInicioParameter, fechaFinParameter, turnoParameter, lineaParameter);
         }
     
-        public virtual ObjectResult<spConsultarAuditoriaSangreDiaria> spConsultarAuditoriaSangreDiaria()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarAuditoriaSangreDiaria>("spConsultarAuditoriaSangreDiaria");
-        }
-    
         public virtual ObjectResult<spReporteAuditoriaSangre> spReporteAuditoriaSangre(string codLinea, Nullable<System.DateTime> fECHA)
         {
             var codLineaParameter = codLinea != null ?
@@ -615,6 +610,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("cedula", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCodigoOnlyControl>("spConsultaCodigoOnlyControl", cedulaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultarAuditoriaSangreDiaria> spConsultarAuditoriaSangreDiaria(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarAuditoriaSangreDiaria>("spConsultarAuditoriaSangreDiaria", fechaParameter);
         }
     }
 }

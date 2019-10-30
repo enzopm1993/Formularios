@@ -728,7 +728,9 @@
           <Parameter Name="LINEA" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsultaPersonalNominaPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="spConsultarAuditoriaSangreDiaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spConsultarAuditoriaSangreDiaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fecha" Type="date" Mode="In" />
+        </Function>
         <Function Name="spConsultarCaambioPersonalxCedula" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Cedula" Type="varchar" Mode="In" />
         </Function>
@@ -1233,7 +1235,6 @@
             <Parameter Name="Turno" Mode="In" Type="String" />
             <Parameter Name="Linea" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultarAuditoriaSangreDiaria" ReturnType="Collection(ASIS_PRODModel.spConsultarAuditoriaSangreDiaria)" />
           <FunctionImport Name="spReporteAuditoriaSangre" ReturnType="Collection(ASIS_PRODModel.spReporteAuditoriaSangre)">
             <Parameter Name="CodLinea" Mode="In" Type="String" />
             <Parameter Name="FECHA" Mode="In" Type="DateTime" />
@@ -1286,6 +1287,9 @@
           <EntitySet Name="PROYECCION_PROGRAMACION" EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" />
           <FunctionImport Name="spConsultaCodigoOnlyControl" ReturnType="Collection(ASIS_PRODModel.spConsultaCodigoOnlyControl)">
           <Parameter Name="cedula" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultarAuditoriaSangreDiaria" ReturnType="Collection(ASIS_PRODModel.spConsultarAuditoriaSangreDiaria)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           
           </EntityContainer>
@@ -2003,14 +2007,6 @@
           <Property Type="Time" Name="Hora" Nullable="true" />
           <Property Type="String" Name="EstadoAsistencia" Nullable="true" MaxLength="1" />
         </ComplexType>
-        <ComplexType Name="spConsultarAuditoriaSangreDiaria">
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
-          <Property Type="Time" Name="Hora" Nullable="true" />
-          <Property Type="Decimal" Name="Porcentaje" Nullable="true" Precision="4" Scale="2" />
-          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
-        </ComplexType>
         <ComplexType Name="spReporteAuditoriaSangre">
           <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
@@ -2197,6 +2193,15 @@
         <ComplexType Name="spConsultaCodigoOnlyControl">
           <Property Type="String" Name="Cedula" Nullable="true" MaxLength="15" />
           <Property Type="String" Name="Codigo" Nullable="false" MaxLength="6" />
+        </ComplexType>
+        <ComplexType Name="spConsultarAuditoriaSangreDiaria">
+          <Property Type="Int32" Name="IdControlAuditoriaSangre" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
+          <Property Type="Time" Name="Hora" Nullable="true" />
+          <Property Type="Decimal" Name="Porcentaje" Nullable="true" Precision="4" Scale="2" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3134,18 +3139,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultarAuditoriaSangreDiaria" FunctionName="ASIS_PRODModel.Store.spConsultarAuditoriaSangreDiaria">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarAuditoriaSangreDiaria">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spReporteAuditoriaSangre" FunctionName="ASIS_PRODModel.Store.spReporteAuditoriaSangre">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteAuditoriaSangre">
@@ -3385,6 +3378,19 @@
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCodigoOnlyControl">
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultarAuditoriaSangreDiaria" FunctionName="ASIS_PRODModel.Store.spConsultarAuditoriaSangreDiaria">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarAuditoriaSangreDiaria">
+                <ScalarProperty Name="IdControlAuditoriaSangre" ColumnName="IdControlAuditoriaSangre" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

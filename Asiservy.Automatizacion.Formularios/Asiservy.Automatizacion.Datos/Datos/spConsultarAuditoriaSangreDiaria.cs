@@ -13,6 +13,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spConsultarAuditoriaSangreDiaria
     {
+        public int IdControlAuditoriaSangre { get; set; }
         public string Cedula { get; set; }
         public string Nombres { get; set; }
         public string Linea { get; set; }
