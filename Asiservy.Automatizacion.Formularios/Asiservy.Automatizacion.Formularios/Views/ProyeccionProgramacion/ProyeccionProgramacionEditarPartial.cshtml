@@ -58,8 +58,9 @@
                 <td>@item.Lineas</td>
                 <td>@item.HoraInicio</td>
                 <td>@item.HoraFin</td>
-                <td>
-                    <a href="#" onclick="AbrirModal('@item.IdProyeccion');">Editar</a>
+                <td class="text-center">
+                    @*<a href="#" onclick="AbrirModal('@item.IdProyeccion','@item.Observacion','@item.Lineas','@item.HoraInicio','@item.HoraFin');">Editar</a>*@
+                    <i class="far fa-edit" onclick="AbrirModal('@item.IdProyeccion','@item.Observacion','@item.Lineas','@item.HoraInicio','@item.HoraFin');"></i>
                 </td>
             </tr>
         }

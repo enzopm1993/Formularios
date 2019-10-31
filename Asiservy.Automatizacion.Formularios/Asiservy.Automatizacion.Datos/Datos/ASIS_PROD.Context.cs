@@ -598,9 +598,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalADondeFueronMovidos>("spConsultaPersonalADondeFueronMovidos", lINEAParameter);
         }
     
-        public virtual ObjectResult<spConsultaOpcionModulo> spConsultaOpcionModulo()
+        public virtual ObjectResult<spConsultarAuditoriaSangreDiaria> spConsultarAuditoriaSangreDiaria(Nullable<System.DateTime> fecha)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaOpcionModulo>("spConsultaOpcionModulo");
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarAuditoriaSangreDiaria>("spConsultarAuditoriaSangreDiaria", fechaParameter);
         }
     
         public virtual ObjectResult<spConsultaCodigoOnlyControl> spConsultaCodigoOnlyControl(string cedula)
@@ -612,13 +616,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCodigoOnlyControl>("spConsultaCodigoOnlyControl", cedulaParameter);
         }
     
-        public virtual ObjectResult<spConsultarAuditoriaSangreDiaria> spConsultarAuditoriaSangreDiaria(Nullable<System.DateTime> fecha)
+        public virtual ObjectResult<spConsultaOpcionModulo> spConsultaOpcionModulo()
         {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarAuditoriaSangreDiaria>("spConsultarAuditoriaSangreDiaria", fechaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaOpcionModulo>("spConsultaOpcionModulo");
         }
     }
 }

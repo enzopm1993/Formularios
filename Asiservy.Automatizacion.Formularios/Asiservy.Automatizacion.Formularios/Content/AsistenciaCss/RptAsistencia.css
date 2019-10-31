@@ -14,7 +14,10 @@ legend {
     padding: 0 10px;
     border-bottom: none;
 }
-
+th, td {
+    white-space: nowrap;
+    padding: 0;
+}
 /*.abs-center {
     display: flex;
     align-items: center;
