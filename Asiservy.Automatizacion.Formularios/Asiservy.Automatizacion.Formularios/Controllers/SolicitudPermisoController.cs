@@ -242,7 +242,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 else if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
                 {
+                    clsDClasificador = new clsDClasificador();
                     ConsultaCombosGeneral(true);
+                    ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
+
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
 
                 }
