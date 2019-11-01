@@ -1,0 +1,131 @@
+﻿@using System.Globalization;
+@model List<Asiservy.Automatizacion.Datos.Datos.spReporteAsistencia>
+
+
+@{
+
+    var fechaInicial = (DateTime)ViewBag.FechaInicio;
+    var FechaFinal = (DateTime)ViewBag.FechaFinal;
+    CultureInfo ci = new CultureInfo("Es-Es");
+    string dia;
+    int DiaNumero;
+}
+<table class="table-bordered table-hover" id="tblDataTable" style="width:100%">
+    <thead>
+        <tr>
+            <th style="border-bottom:0"></th>
+            @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
+            {
+
+                dia = ci.DateTimeFormat.GetDayName(fechaInicial.DayOfWeek);
+                DiaNumero = fechaInicial.Day;
+                fechaInicial = fechaInicial.AddDays(1);
+
+                <th class="text-center">
+                    @(dia == "miércoles" ? dia.Substring(0, 2) : dia.Substring(0, 1))
+                </th>
+            }
+        </tr>
+        
+    </thead>
+    <tbody>
+        <tr>
+            <th style="border-top:0"></th>
+            @{fechaInicial = (DateTime)ViewBag.FechaInicio; }
+            @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
+            {
+                dia = ci.DateTimeFormat.GetDayName(fechaInicial.DayOfWeek);
+                DiaNumero = fechaInicial.Day;
+                fechaInicial = fechaInicial.AddDays(1);
+                <th class="text-center">
+                    <center>
+                        @DiaNumero
+                    </center>
+                </th>
+            }
+        </tr>
+        @{fechaInicial = (DateTime)ViewBag.FechaInicio;
+            string EstadoAsistencia;}
+        @*@for (int i = 0; fechaInicial != (FechaFinal.AddDays(2)); i++)
+        {*@
+        @foreach (var item in ViewBag.Empleados)
+        {
+            <tr>
+                <td>
+                    @item.Nombre
+                </td>
+                @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
+                {
+                    <td class="text-center">
+                        @(EstadoAsistencia = (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault())
+                    </td>
+                    fechaInicial = fechaInicial.AddDays(1);
+                }
+            </tr>
+            fechaInicial = (DateTime)ViewBag.FechaInicio;
+        }
+
+        @*fechaInicial = fechaInicial.AddDays(1);
+        }*@
+    </tbody>
+</table>
+
+<script>
+    $('#tblDataTable').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            },
+            "buttons": {
+                "pageLength": "<img style='width:100%' src='../../Content/icons/show24.png' />"
+            }
+        },
+        "ordering": false,
+        "aaSorting": [],
+        "pageLength": 10,
+        "lengthMenu": [[10, 20, -1], [10, 20, "All"]],
+        "pagingType": "full_numbers",
+        "dom": 'Bfrtip',
+        "order": [[0, "desc"], [1, "desc"]],
+        "buttons": [
+            {
+                extend: 'pageLength',
+                text: ' <img style="width:100%" src="../../Content/icons/show24.png" />',
+                titleAttr: 'Mostrar'
+            }, {
+                extend: 'copyHtml5',
+                text: ' <img style="width:100%" src="../../Content/icons/copy24.png" />',
+                titleAttr: 'Copiar'
+            },
+            {
+                extend: 'excelHtml5',
+                text: '<img style="width:100%" src="../../Content/icons/excel24.png" />',
+                titleAttr: 'Excel'
+            },
+            {
+                extend: 'print',
+                text: '<img style="width:100%" src="../../Content/icons/print24.png" />',
+                titleAttr: 'Imprimir'
+            }
+        ]
+    });
+</script>

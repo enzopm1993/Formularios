@@ -2584,6 +2584,7 @@
     <Compile Include="Models\Asistencia\ControlDeAsistenciaPrestadosViewModel.cs" />
     <Compile Include="Models\Asistencia\ControlDeAsistenciaViewModel.cs" />
     <Compile Include="Models\Asistencia\EmpleadoCuchilloViewModel.cs" />
+    <Compile Include="Models\Asistencia\EmpleadoRpt.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\ControlCocheLinea\ControlCocheLineaViewModel.cs" />
@@ -2725,6 +2726,7 @@
     <Content Include="Views\Asistencia\ModalHora.cshtml" />
     <Content Include="Views\Asistencia\ModalObservacion.cshtml" />
     <Content Include="Views\Asistencia\ModalPrestados.cshtml" />
+    <Content Include="Views\Asistencia\RptAsistenciaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

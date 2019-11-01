@@ -605,9 +605,45 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [Authorize]
         public ActionResult RptAsistencia()
         {
-            clsDGeneral = new clsDGeneral();
-            ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
-            return View();
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+                clsDGeneral = new clsDGeneral();
+                ViewBag.Lineas = new SelectList(clsDGeneral.ConsultaLineas("0"), "codigo", "descripcion");
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public ActionResult RptAsistenciaPartial(DateTime FechaInicio, DateTime FechaFin)
+        {
+            try
+            {
+                
+                ViewBag.FechaInicio = FechaInicio;
+                ViewBag.FechaFinal = FechaFin;
+                clsDAsistencia = new clsDAsistencia();
+                var resultado = clsDAsistencia.ConsultarRptAsistencia(FechaInicio,FechaFin);
+                List<EmpleadoRpt> Empleado = new List<EmpleadoRpt>();
+
+                foreach (var item in resultado)
+                {
+                    Empleado.Add(new EmpleadoRpt { Cedula = item.Cedula, Nombre = item.NOMBRES });
+                }
+                ViewBag.Empleados = Empleado.Distinct().OrderBy(z=>z.Nombre);
+                return PartialView(resultado);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
         #endregion
     

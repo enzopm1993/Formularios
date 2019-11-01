@@ -1284,12 +1284,13 @@
           <Parameter Name="LINEA" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="PROYECCION_PROGRAMACION" EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" />
+          <FunctionImport Name="spConsultarAuditoriaSangreDiaria" ReturnType="Collection(ASIS_PRODModel.spConsultarAuditoriaSangreDiaria)">
+          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
           <FunctionImport Name="spConsultaCodigoOnlyControl" ReturnType="Collection(ASIS_PRODModel.spConsultaCodigoOnlyControl)">
           <Parameter Name="cedula" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultarAuditoriaSangreDiaria" ReturnType="Collection(ASIS_PRODModel.spConsultarAuditoriaSangreDiaria)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-          </FunctionImport>
+          <FunctionImport Name="spConsultaOpcionModulo" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionModulo)" />
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -2179,10 +2180,6 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <ComplexType Name="spConsultaCodigoOnlyControl">
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="Codigo" Nullable="false" MaxLength="6" />
-        </ComplexType>
         <ComplexType Name="spConsultarAuditoriaSangreDiaria">
           <Property Type="Int32" Name="IdControlAuditoriaSangre" Nullable="false" />
           <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
@@ -2191,6 +2188,20 @@
           <Property Type="Time" Name="Hora" Nullable="true" />
           <Property Type="Decimal" Name="Porcentaje" Nullable="true" Precision="4" Scale="2" />
           <Property Type="DateTime" Name="Fecha" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spConsultaCodigoOnlyControl">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="Codigo" Nullable="false" MaxLength="6" />
+        </ComplexType>
+        <ComplexType Name="spConsultaOpcionModulo">
+          <Property Type="Int32" Name="IdOpcion" Nullable="false" />
+          <Property Type="String" Name="Opcion" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Formulario" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Padre" Nullable="true" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Orden" Nullable="true" />
+          <Property Type="Int32" Name="IdModulo" Nullable="true" />
+          <Property Type="String" Name="Modulo" Nullable="false" MaxLength="20" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3348,14 +3359,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaCodigoOnlyControl" FunctionName="ASIS_PRODModel.Store.spConsultaCodigoOnlyControl">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCodigoOnlyControl">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultarAuditoriaSangreDiaria" FunctionName="ASIS_PRODModel.Store.spConsultarAuditoriaSangreDiaria">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarAuditoriaSangreDiaria">
@@ -3366,6 +3369,28 @@
                 <ScalarProperty Name="Hora" ColumnName="Hora" />
                 <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaCodigoOnlyControl" FunctionName="ASIS_PRODModel.Store.spConsultaCodigoOnlyControl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCodigoOnlyControl">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaOpcionModulo" FunctionName="ASIS_PRODModel.Store.spConsultaOpcionModulo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaOpcionModulo">
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+                <ScalarProperty Name="Opcion" ColumnName="Opcion" />
+                <ScalarProperty Name="Formulario" ColumnName="Formulario" />
+                <ScalarProperty Name="Padre" ColumnName="Padre" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
+                <ScalarProperty Name="Modulo" ColumnName="Modulo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
