@@ -2522,7 +2522,7 @@
     <Content Include="Scripts\SolicitudPermiso\Empleado.js" />
     <Content Include="Scripts\SolicitudPermiso\ReporteSolicitud.js" />
     <Content Include="Scripts\SolicitudPermiso\SolicitudPermiso.js" />
-    <Content Include="Scripts\SolicitudPermiso\SolicitudPermisoMedico.js" />
+    <Content Include="Scripts\SolicitudPermiso\SolicitudPermisoDispensario.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />

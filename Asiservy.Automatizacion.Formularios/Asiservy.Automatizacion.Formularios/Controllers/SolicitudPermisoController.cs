@@ -597,6 +597,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ConsultaCombosMedicos(false);
                 return View();
             }
