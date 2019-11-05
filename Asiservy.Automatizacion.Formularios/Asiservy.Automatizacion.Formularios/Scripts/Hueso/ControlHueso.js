@@ -3,6 +3,14 @@ $(document).ready(function () {
    CargarControlHueso();
 });
 
+
+function Clear(id) {
+    if ($("#" + id).val() == 0) {
+        $("#" + id).val('')
+    }
+    
+}
+
 function CargarOrdenFabricacion(valor) {
     if (valor == '' || valor == null)
         return;
@@ -288,14 +296,24 @@ function checkControlHueso(id, detalle) {
     var miga = $(txtMiga).val();
     if ($(id).prop('checked')) {
         if (huesos > 0) {
+            if (miga == '') {                
+                $(txtMiga).val('0.00');              
+            }
+            if (miga > 9.9) {
+                MensajeAdvertencia2("Miga no puede ser mayor de 9.9kg", detalle)
+                $(txtMiga).val('0.00');
+                $(id).focus();
+                $(id).prop('checked', false);
+                return;
+            }
             $(label).css("background", "#28B463");
             $(txtHueso).prop("readonly", true);
             $(txtMiga).prop("readonly", true);
             GuardarControlHueso(detalle, huesos, miga, id);
         } else {
             $(id).prop('checked', false);
-            $(label).css("background", "#7b8a8b");
-            MensajeAdvertencia("Ingrese una cantidad de huesos");
+           // $(label).css("background", "#7b8a8b");
+            MensajeAdvertencia2("Ingrese una cantidad de huesos", detalle);
         }
     } else {
         $(label).css("background", "#7b8a8b");
@@ -400,3 +418,20 @@ modalConfirm(function (confirm) {
 
     }
 });
+
+function MensajeAdvertencia2(mensaje, id) {
+    $('#trMensaje-' + id).prop('hidden',false);
+    $('#trMensaje-' + id).show();
+    $('#trMensaje-' + id).prop('display ', 'block');
+    $('#divMensaje-' + id).html('');
+    $('<div class="alert alert-warning">' +
+        '<button type="button" class="close" data-dismiss="alert">' +
+        '&times;</button><p id="pMensaje-' + id + '"></p></div>').hide().appendTo('#divMensaje-' + id).fadeIn(1000);
+    $('#pMensaje-' + id).text(mensaje);
+    $('#trMensaje-' + id).delay(2500).fadeOut(
+        "normal",
+        function () {
+            //$(this).prop('hidden',true);
+        });
+
+}
