@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlHuesoDetalle>
-
+<style>
+    .table td {
+        padding: 0.0rem;
+    }
+</style>
 
 
 <table class="table">
@@ -37,10 +41,10 @@
                 @Html.TextBoxFor(modelItem => item.Nombre, new { @class = "form-control", @readonly = "readonly" })
             </td>
             <td>
-                @Html.TextBoxFor(modelItem => item.CantidadHueso, new {@type="number" ,@class = "form-control", @id="Huesos-"+item.IdDetalle })
+                @Html.TextBoxFor(modelItem => item.CantidadHueso, new {@type="number" ,@class = "form-control", @id="Huesos-"+item.IdDetalle, @onclick= "Clear(this.id)" })
             </td>
             <td>
-                @Html.TextBoxFor(modelItem => item.Miga, new { @type = "number", @class = "form-control", @id = "Miga-" + item.IdDetalle })          
+                @Html.TextBoxFor(modelItem => item.Miga, new { @type = "number", @class = "form-control", @id = "Miga-" + item.IdDetalle, @onclick = "Clear(this.id)" })          
             </td>
             <td>
                 <label class="btn btn-dark text-xs-center" id="labelCheck-@item.IdDetalle">
@@ -55,6 +59,11 @@
                         $("#labelCheck-@item.IdDetalle").css("background", "#28B463");
                     </script>
                 }
+            </td>
+        </tr>
+        <tr hidden id="trMensaje-@item.IdDetalle">
+            <td colspan="4">
+                <div id="divMensaje-@item.IdDetalle"></div>
             </td>
         </tr>
     }

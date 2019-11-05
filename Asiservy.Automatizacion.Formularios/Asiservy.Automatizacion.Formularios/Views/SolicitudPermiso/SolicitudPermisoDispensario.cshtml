@@ -4,11 +4,11 @@
 }
 
 
-<script src="~/Scripts/jquery-ui.js"></script>
-<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+@*<script src="~/Scripts/jquery-ui.js"></script>
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />*@
 
 <link href="~/Content/SolicitudPermisoCss/SolicitudPermiso.css" rel="stylesheet" />
-<script src="~/Scripts/Mensajes/Mensajes.js"></script>
+
 <style>
     input, select, textarea {
         max-width: 100%
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-             
+
                 <br />
                 <div class="form-group">
                     @foreach (var item in ViewBag.ClasificaroMedico)
@@ -116,10 +116,11 @@
                     @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control" })
                 </div>
                 @Html.ValidationMessage("CustomError", "", new { @class = "input-validation-error text-danger has-error" })
-                <div class="col-md-2 col-sm-1">
+                <div class="col-12 text-center">
+                    <label>Fecha - Hora</label>
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
-                        <label class="custom-control-label" for="switchHoraFecha" id="LabelFecha">Fecha</label>
+                        <label class="custom-control-label" for="switchHoraFecha" id="LabelFecha"></label>
                     </div>
                 </div>
                 <div class="row" id="DivHora">
@@ -153,8 +154,17 @@
                     </div>
                 </div>
                 <br />
-                <center><input type="submit" class="btn btn-info" name="name" value="Generar" id="GuardarSolicitudDispensario" /></center>
+                <div class="row">
+                    <div class=" text-center col-12">
+                        <button class="btn" id="GuardarSolicitudGeneral" onclick="" style="border-color:#2c3e50" type="submit">
+                            <img style="width:100%" src="~/Content/icons/send24.png" />
+                        </button>
+
+                    </div>
+
+                </div>
                 <br />
+
             }
         </div>
 
@@ -167,5 +177,5 @@
 <div id="ModelCargarEmpleados"></div>
 <div id="DivCargarGrupoEnfermedades"></div>
 <br /><br />
-<script src="~/Scripts/SolicitudPermisoJS/SolicitudPermisoMedico.js"></script>
-<script src="~/Scripts/SolicitudPermisoJS/Empleado.js"></script>
+
+      <script src="~/Scripts/SolicitudPermiso/Empleado.js"></script>
