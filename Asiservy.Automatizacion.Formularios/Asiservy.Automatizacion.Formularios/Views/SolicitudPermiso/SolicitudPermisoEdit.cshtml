@@ -1,5 +1,12 @@
 ﻿@model Asiservy.Automatizacion.Formularios.Models.SolicitudPermisoViewModel
 
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
 @using (Html.BeginForm("SolicitudPermisoEdit"))
 {
     @Html.AntiForgeryToken()

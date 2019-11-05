@@ -17,13 +17,7 @@
                     @Html.DisplayNameFor(model => model.DescripcionLinea)
                 </th>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.DescripcionArea)
-                </th>
-
-                <th hidden>
-                    @Html.DisplayNameFor(model => model.DescripcionCargo)
-                </th>
+             
                 <th>
                     @Html.DisplayNameFor(model => model.Identificacion)
                 </th>
@@ -33,20 +27,7 @@
 
                 <th>
                     @Html.DisplayNameFor(model => model.DescripcionMotivo)
-                </th>
-
-                <th>
-                    @Html.DisplayNameFor(model => model.FechaSalida)
-                </th>
-
-
-                <th>
-                    @Html.DisplayNameFor(model => model.FechaRegreso)
-                </th>
-
-                <th hidden>
-                    @Html.DisplayNameFor(model => model.DescripcionOrigen)
-                </th>
+                </th>          
 
 
                 <th>Acción</th>
@@ -66,13 +47,7 @@
                             @Html.DisplayFor(modelItem => item.DescripcionLinea)
                         </td>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DescripcionArea)
-                        </td>
-
-                        <td hidden>
-                            @Html.DisplayFor(modelItem => item.DescripcionCargo)
-                        </td>
+             
                         <td>
                             @Html.DisplayFor(modelItem => item.Identificacion)
                         </td>
@@ -84,23 +59,20 @@
                             @Html.DisplayFor(modelItem => item.DescripcionMotivo)
                         </td>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaSalida)
-                        </td>
+
+
+
+                    
 
                         <td>
-                            @Html.DisplayFor(modelItem => item.FechaRegreso)
-                        </td>
-
-
-
-                        <td hidden>
-                            @Html.DisplayFor(modelItem => item.DescripcionOrigen)
-                        </td>
-
-                        <td>
-                            <input type="button" onclick="Mostrar(@item.IdSolicitudPermiso)" name="name" value="Ver" class="btn btn-link" />
-                            <input type="button" onclick="ValidarMedico(@item.IdSolicitudPermiso)" name="name" value="Aprobar" class="btn btn-link" />
+                            <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn" id="" onclick="Mostrar(@item.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <button data-toggle="tooltip" data-placement="top" title="Aprobar" class="btn" id="" onclick="ValidarMedico(@item.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            @*<input type="button" onclick="Mostrar(@item.IdSolicitudPermiso)" name="name" value="Ver" class="btn btn-link" />
+                            <input type="button" onclick="ValidarMedico(@item.IdSolicitudPermiso)" name="name" value="Aprobar" class="btn btn-link" />*@
                         </td>
                     </tr>
                 }

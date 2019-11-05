@@ -511,29 +511,29 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 {
                     if (!string.IsNullOrEmpty(filtros.Identificacion))
                     {
-                        ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.Identificacion == filtros.Identificacion);
+                        ListaSolicitudes = ListaSolicitudes.Where(x => x.Identificacion == filtros.Identificacion);
                     }
                     if (!string.IsNullOrEmpty(filtros.EstadoRegistro))
                     {
-                        ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.EstadoRegistro == filtros.EstadoRegistro);
+                        ListaSolicitudes = ListaSolicitudes.Where(x => x.EstadoRegistro == filtros.EstadoRegistro);
                     }
                     if (!string.IsNullOrEmpty(filtros.EstadoSolicitud))
                     {
-                        ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == filtros.EstadoSolicitud);
+                        ListaSolicitudes = ListaSolicitudes.Where(x => x.EstadoSolicitud == filtros.EstadoSolicitud);
                     }
                     if (!string.IsNullOrEmpty(filtros.Origen))
                     {
-                        ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.Origen == filtros.Origen);
+                        ListaSolicitudes = ListaSolicitudes.Where(x => x.Origen == filtros.Origen);
                     }
                     if (filtros.ValidaMedico!=null && filtros.ValidaMedico==true)
                     {
-                        ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.ValidaMedico == filtros.ValidaMedico);
+                        ListaSolicitudes = ListaSolicitudes.Where(x => x.ValidaMedico == filtros.ValidaMedico);
                     }
                     //ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.FechaSalida >=  filtros.FechaSalida);                  
                     //ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.FechaSalida <= filtros.FechaRegreso);                   
                 }
-
-                foreach (var lista in ListaSolicitudes.ToList())
+                var ListaRecorrer = ListaSolicitudes.ToList();
+                foreach (var lista in ListaRecorrer)
                 {
                     //var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == lista.CodigoMotivo);
                     var poMotivoPermiso = ConsultarMotivos(lista.CodigoMotivo).FirstOrDefault();
