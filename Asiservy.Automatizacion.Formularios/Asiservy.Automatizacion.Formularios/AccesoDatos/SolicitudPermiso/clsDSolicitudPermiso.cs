@@ -517,6 +517,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     {
                         ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.EstadoRegistro == filtros.EstadoRegistro);
                     }
+                    if (!string.IsNullOrEmpty(filtros.EstadoSolicitud))
+                    {
+                        ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == filtros.EstadoSolicitud);
+                    }
                     if (!string.IsNullOrEmpty(filtros.Origen))
                     {
                         ListaSolicitudes = entities.SOLICITUD_PERMISO.Where(x => x.Origen == filtros.Origen);

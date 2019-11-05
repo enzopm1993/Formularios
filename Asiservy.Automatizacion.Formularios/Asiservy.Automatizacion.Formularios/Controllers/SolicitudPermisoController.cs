@@ -366,6 +366,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var model = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(new SOLICITUD_PERMISO {
                     //FechaSalida = DateTime.Now.AddMonths(-1),
                     //FechaRegreso = DateTime.Now,
+                    EstadoSolicitud= clsAtributos.EstadoSolicitudAprobado,
                     Origen = clsAtributos.SolicitudOrigenMedico,
                     ValidaMedico = true
                 });
