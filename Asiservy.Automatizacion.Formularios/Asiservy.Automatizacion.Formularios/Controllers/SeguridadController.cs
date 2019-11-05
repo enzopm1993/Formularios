@@ -488,6 +488,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {                
                 clsDUsuarioRol = new clsDUsuarioRol();
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 if (ModelState.IsValid)
                 {
                     string[] Usuario = User.Identity.Name.Split('_');
@@ -675,6 +677,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDNivelUsuario = new clsDNivelUsuario();
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 if (ModelState.IsValid)
                 {
                    
