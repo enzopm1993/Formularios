@@ -197,7 +197,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             if (FechaDesde != null)
             {
                 var FechaFin = FechaHasta != null ? FechaHasta.Value.AddDays(1) : DateTime.Now.AddDays(1);
-                Lista = Lista.Where(x => x.FechaIngresoLog.Date >= FechaDesde && x.FechaIngresoLog<= FechaFin);
+                Lista = Lista.Where(x => x.FechaIngresoLog.Date >= FechaDesde && x.FechaIngresoLog.Date<= FechaFin);
 
             }
 

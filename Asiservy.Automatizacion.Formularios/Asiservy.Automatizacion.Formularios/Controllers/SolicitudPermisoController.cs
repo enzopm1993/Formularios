@@ -239,6 +239,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     ConsultaCombosMedicos(true);
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
+                    ViewBag.Medico = "1";
                 }
                 else if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
                 {
@@ -247,13 +248,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
 
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
+                    ViewBag.Medico = "1";
 
                 }
                 else if (!string.IsNullOrEmpty(frm) && frm == "BandejaAprobacion")
                 {
+                    clsDClasificador = new clsDClasificador();
                     ConsultaCombosGeneral(true);
+                    ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
-
+                    
                 }
                 else
                 {
