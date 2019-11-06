@@ -382,6 +382,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
         }
 
+        public List<CONTROL_CUCHILLO> ConsultaControlCuchilloPrestado(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CONTROL_CUCHILLO.Where(x => x.Fecha == Fecha && x.Tipo == "P").ToList();
+
+            }
+
+        }
+
+
         public List<spConsultaReporteControlCuchillo> ConsultaControlCuchillo(DateTime Fecha, string Linea)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())

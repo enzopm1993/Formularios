@@ -1131,6 +1131,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (Empleado != null && !string.IsNullOrEmpty(dsEstado))
                 {
                     model = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(Empleado.CODIGOLINEA, dsEstado, ddFecha,true);
+                    ViewBag.ListadoCuchillosPrestado = clsDCuchillo.ConsultaControlCuchilloPrestado(ddFecha);
+
+
                 }
                 if (!model.Any())
                 {
