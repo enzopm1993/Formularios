@@ -383,6 +383,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             {           
                 var poMotivoPermiso = this.ConsultarMotivos(x.CodigoMotivo).FirstOrDefault();
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
+                var Biometrico = entities.spConsultaUltimaMarcacionBiometrico(x.Identificacion).FirstOrDefault();
               //  var fechaBiometrico = entities.spConsultaUltimaMarcacionBiometrico(x.Identificacion).FirstOrDefault();
                 ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
                 {
@@ -401,7 +402,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     FechaSalida = x.FechaSalida,
                     FechaRegreso = x.FechaRegreso,
                     EstadoSolicitud = x.EstadoSolicitud,
-                    FechaBiometrico = x.FechaBiometrico,
+                    FechaBiometrico = Biometrico.Marcacion,
                     Origen = x.Origen,
                     CodigoDiagnostico = x.CodigoDiagnostico,
                     FechaIngresoLog = x.FechaIngresoLog,

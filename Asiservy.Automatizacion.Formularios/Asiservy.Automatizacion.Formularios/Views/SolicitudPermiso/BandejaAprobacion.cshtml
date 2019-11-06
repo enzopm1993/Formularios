@@ -42,9 +42,9 @@
                 <th>Fecha Creación</th>
                 <th>Motivo</th>
                 <th>Linea</th>
-                <th>Area</th>
+                <th hidden>Area</th>
                 <th>Empleado</th>
-                <th hidden>Biométrico</th>
+                <th>Biométrico</th>
                 <th ><label  style="width:150px" >Acciones</label></th>
             </tr>
         </thead>
@@ -64,9 +64,9 @@
                         <td>@m.FechaIngresoLog</td>
                         <td>@m.DescripcionMotivo</td>
                         <td>@m.DescripcionLinea</td>
-                        <td>@m.DescripcionArea</td>
+                        <td hidden>@m.DescripcionArea</td>
                         <td>@m.NombreEmpleado</td>
-                        <td hidden>@m.FechaBiometrico</td>
+                        <td>@m.FechaBiometrico</td>
                         <td style="width:200px">
                             <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="Nuevo" onclick="Mostrar(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-search"></i>

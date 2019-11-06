@@ -413,10 +413,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                clsDEmpleado = new clsDEmpleado();
+                string[] psIdUsuario = User.Identity.Name.Split('_');
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
-
                 ValidacionControladorLinea();
                 ConsultaCombosGeneral(false);
                 return View();
@@ -594,20 +594,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             int piContrladorLinea = ValidarRolControladorLinea();
             string[] psIdUsuario = User.Identity.Name.Split('_');
+                clsDGeneral = new clsDGeneral();
             clsDEmpleado = new clsDEmpleado();
-            var Nombre = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]).FirstOrDefault();
+            clsDClasificador = new clsDClasificador();
+            var poEmpleado = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]).FirstOrDefault();
             string Cedula = psIdUsuario[1] + "";
             if (piContrladorLinea > 0)
             {
                 ViewBag.ControladorLinea = piContrladorLinea;
-                ViewBag.CodLinea = Nombre.CODIGOLINEA;
-
+                ViewBag.CodLinea = poEmpleado.CODIGOLINEA;
             }
             else
             {
-                ViewBag.NombreEmpleado = Nombre != null ? Nombre.NOMBRES : psIdUsuario[1];
+                ViewBag.NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : psIdUsuario[0];
                 ViewData["Identificacion"] = Cedula;
             }
+            ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, 0);
+
         }
 
         [Authorize]
@@ -957,6 +960,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             return piContrladorLinea;
         }
+
+
         public int ValidarRolGarita()
         {
             clsDLogin = new clsDLogin();
@@ -978,7 +983,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null).Where(x=> x.CodigoMotivo != "CP" && x.CodigoMotivo != "EP" && x.CodigoMotivo != "CH" && x.CodigoMotivo != "EH");
             else
                 ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null);
-            ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
            
         }
         public void ConsultaCombosMedicos(bool bandeja)
