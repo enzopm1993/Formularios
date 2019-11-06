@@ -3,12 +3,18 @@
 @{
     ViewBag.Title = "BandejaMedico";
 }
+<style>
+    input, select, textarea {
+        max-width: 100%
+    }
+</style>
+
 <h2>Bandeja Medico</h2>
 <br />
 <div id='result'> </div>
 
 <div class="table-responsive">
-    <table class="table" id="TableBandejaMedico">
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
         <thead>
             <tr>
                 <th>
@@ -83,10 +89,10 @@
     </table>
 </div>
 
-<div></div>
+<br />
 
-<div class="modal" tabindex="-1" role="dialog" id="ModalAprobacion" data-backdrop="static" style="padding-bottom:5%">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="ModalAprobacion" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Solicitud Permiso</h5>

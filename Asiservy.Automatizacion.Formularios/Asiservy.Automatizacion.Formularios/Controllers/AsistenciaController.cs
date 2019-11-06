@@ -24,8 +24,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDError clsDError = null;
         clsDClasificador clsDClasificador = null;
         clsDCuchillo clsDCuchillo = null;
-        clsApiUsuario clsApiUsuario=null;
-        clsDSolicitudPermiso ClsDSolicitudPermiso = null;
+        //clsApiUsuario clsApiUsuario=null;
+        //clsDSolicitudPermiso ClsDSolicitudPermiso = null;
         clsDLogin clsDLogin = null;
         #region Métodos
         protected void SetSuccessMessage(string message)
@@ -1157,6 +1157,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (Empleado != null && !string.IsNullOrEmpty(dsEstado))
                 {
                     model = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(Empleado.CODIGOLINEA, dsEstado, ddFecha,true);
+                    ViewBag.ListadoCuchillosPrestado = clsDCuchillo.ConsultaControlCuchilloPrestado(ddFecha);
+
+
                 }
                 if (!model.Any())
                 {
