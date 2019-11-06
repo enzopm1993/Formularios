@@ -1,10 +1,12 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.SolicitudPermisoViewModel>
-
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
 @{
     ViewBag.Title = "BandejaMedico";
 }
-
 <h2>Bandeja Medico</h2>
+<br />
+<div id='result'> </div>
+
 <div class="table-responsive">
     <table class="table" id="TableBandejaMedico">
         <thead>
@@ -17,7 +19,7 @@
                     @Html.DisplayNameFor(model => model.DescripcionLinea)
                 </th>
 
-             
+
                 <th>
                     @Html.DisplayNameFor(model => model.Identificacion)
                 </th>
@@ -27,7 +29,7 @@
 
                 <th>
                     @Html.DisplayNameFor(model => model.DescripcionMotivo)
-                </th>          
+                </th>
 
 
                 <th>Acción</th>
@@ -47,7 +49,7 @@
                             @Html.DisplayFor(modelItem => item.DescripcionLinea)
                         </td>
 
-             
+
                         <td>
                             @Html.DisplayFor(modelItem => item.Identificacion)
                         </td>
@@ -62,7 +64,7 @@
 
 
 
-                    
+
 
                         <td>
                             <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn" id="" onclick="Mostrar(@item.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
@@ -72,7 +74,7 @@
                                 <i class="fas fa-check"></i>
                             </button>
                             @*<input type="button" onclick="Mostrar(@item.IdSolicitudPermiso)" name="name" value="Ver" class="btn btn-link" />
-                            <input type="button" onclick="ValidarMedico(@item.IdSolicitudPermiso)" name="name" value="Aprobar" class="btn btn-link" />*@
+                                <input type="button" onclick="ValidarMedico(@item.IdSolicitudPermiso)" name="name" value="Aprobar" class="btn btn-link" />*@
                         </td>
                     </tr>
                 }
@@ -81,7 +83,7 @@
     </table>
 </div>
 
-<div ></div>
+<div></div>
 
 <div class="modal" tabindex="-1" role="dialog" id="ModalAprobacion" data-backdrop="static" style="padding-bottom:5%">
     <div class="modal-dialog modal-lg" role="document">
@@ -92,13 +94,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body"id="modal_body">
-               
+            <div class="modal-body" id="modal_body">
+
             </div>
-           
+
         </div>
     </div>
 </div>
-
-
 

@@ -201,9 +201,9 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-   
 
- 
+
+
     <!-- Frame Modal Bottom -->
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -227,6 +227,7 @@
     <!-- Bootstrap core JavaScript-->
     <script src="~/Content/admin/vendor/jquery/jquery.min.js"></script>
     <script src="~/Content/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
     <!-- Core plugin JavaScript-->
     <script src="~/Content/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
@@ -234,6 +235,8 @@
 
     <script src="~/Scripts/General/GeneralJS.js"></script>
     <script src="~/Scripts/Mensajes/Mensajes.js"></script>
+
+
 
     @if (ViewBag.dataTableJS != null)
     {
@@ -260,6 +263,7 @@
         string url = "/Scripts/" + js + ".js";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
+     
 
     }
 

@@ -1,5 +1,4 @@
 ﻿
-
 function ValidarMedico(idSolicitud) {
     console.log(idSolicitud); 
     
@@ -34,9 +33,13 @@ function Mostrar(valor) {
             frm: sPage
         },
         success: function (resultado) {
-            document.getElementById("modal_body").innerHTML = resultado;
+            //document.getElementById("modal_body").innerHTML = resultado;
+            $("#modal_body").html(resultado);
+
             document.getElementById("frmName").value = sPage;
-            $('#ModalAprobacion').modal('toggle');
+            $('#ModalAprobacion').modal('show');
+            //$('#ModalAprobacion').modal('toggle');
+            $("#CodDiagnostico").select2();
             CerrarModalCargando();
         }
         ,
