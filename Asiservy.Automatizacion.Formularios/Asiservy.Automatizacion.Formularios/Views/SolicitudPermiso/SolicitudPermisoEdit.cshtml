@@ -82,7 +82,7 @@
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1" class="control-label col-md-6">Observacion</label>
                     <div class="col-md-12">
-                        @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control", @rows = 4, @id = "exampleFormControlTextarea1" , @maxlength="500", @onkeypress="return check(event)"})
+                        @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control", @rows = 4, @id = "exampleFormControlTextarea1" , @maxlength="500", @style = "text-transform:uppercase",@onkeypress="return check(event)" })
                         @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
                     </div>
                 </div>
