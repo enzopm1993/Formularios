@@ -14,7 +14,10 @@ th, td {
 }
 
 .table td {
-    padding: 0.4rem;
+    /*padding: 0.1rem;*/
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    vertical-align:middle;
 }
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
