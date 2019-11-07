@@ -258,6 +258,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     ConsultaCombosMedicos(true);
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
                     ViewBag.Medico = "1";
+                    if (!string.IsNullOrEmpty(model.CodigoDiagnostico))
+                    {
+                        ViewBag.NombreDiagnoatico = (from d in ViewBag.CodigosEnfermedad as List<sp_GrupoEnfermedades>
+                                                    where d.Codigo == model.CodigoDiagnostico
+                                                    select d.Descripcion).FirstOrDefault();
+                    }
+                    
                 }
                 else if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
                 {
@@ -266,6 +273,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
                     ViewBag.Medico = "1";
+                    if (!string.IsNullOrEmpty(model.CodigoDiagnostico))
+                    {
+                        ViewBag.NombreDiagnoatico = (from d in ViewBag.CodigosEnfermedad as List<sp_GrupoEnfermedades>
+                                                     where d.Codigo == model.CodigoDiagnostico
+                                                     select d.Descripcion).FirstOrDefault();
+                    }
 
                 }
                 else if (!string.IsNullOrEmpty(frm) && frm == "BandejaAprobacion")
