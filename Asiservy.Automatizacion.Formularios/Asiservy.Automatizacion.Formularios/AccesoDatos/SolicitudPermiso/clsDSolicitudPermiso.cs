@@ -376,7 +376,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
             else
             {
-                ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstadoSolcitud && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.ValidaMedico!=true).ToList();
+                ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstadoSolcitud && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
 
             foreach (var x in ListaPreliminar)
@@ -405,6 +405,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     FechaBiometrico = Biometrico.Marcacion,
                     Origen = x.Origen,
                     CodigoDiagnostico = x.CodigoDiagnostico,
+                    ValidaMedico = x.ValidaMedico,
                     FechaIngresoLog = x.FechaIngresoLog,
                     UsuarioIngresoLog = x.UsuarioIngresoLog,
                     TerminalIngresoLog = x.TerminalIngresoLog,

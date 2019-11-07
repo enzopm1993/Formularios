@@ -20,7 +20,9 @@ th, td {
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: rgba(34, 60, 112, 0.70);
     color: white;
+
 }
+
 
 div.dataTables_wrapper {
     margin: 0 auto;
@@ -96,11 +98,15 @@ div.absolute1 {
     overflow-y: hidden;
 }
 
-/*#response {
-    position: ;
-    top: initial;
-    left: 20%;
-    right: 0;
-    margin: 0 auto;
-    width: 100%;
-}*/
+.iconStyle {
+    height: 30px;
+    width: 30px;
+    line-height: 1;
+    padding: 7px;
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.iconStyle:hover{
+    background:white;
+}

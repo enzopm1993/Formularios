@@ -87,7 +87,7 @@ namespace Asiservy.Automatizacion.Formularios.Models
         [DisplayName("Nombre Medico")]
         public string NombreMedico { get; set; }
 
-     
+        public Nullable<bool> ValidaMedico { get; set; }
 
         public DateTime? FechaIngresoLog { get; set; }
        

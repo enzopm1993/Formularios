@@ -32,13 +32,13 @@
 <br />
 
 <div class="table-responsive">
-    <table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <table class="table-bordered table-hover table-striped table" style="cursor: pointer" id="tblDataTable">
         <thead>
             <tr>
                 <th>
                     <label>Check</label>
                 </th>
-                <th>Solicitud</th>
+                <th>#</th>
                 <th>Fecha Creación</th>
                 <th>Motivo</th>
                 <th>Línea</th>
@@ -54,11 +54,8 @@
                 foreach (var m in Model)
                 {
                     <tr>
-                        <td>
-                            <label class="btn btn-dark text-xs-center" for="solicitud-@m.IdSolicitudPermiso">
-                                <input class="case" name="case" type="checkbox" id="solicitud-@m.IdSolicitudPermiso" />
-
-                            </label>
+                        <td class="text-center">                           
+                                <input class="check check-circle" name="case" type="checkbox" id="solicitud-@m.IdSolicitudPermiso" />                           
                         </td>
                         <td>@m.IdSolicitudPermiso</td>
                         <td>@m.FechaIngresoLog</td>
@@ -68,13 +65,14 @@
                         <td>@m.NombreEmpleado</td>
                         <td>@m.FechaBiometrico</td>
                         <td style="width:200px">
-                            <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="Nuevo" onclick="Mostrar(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
+
+                            <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn iconStyle" id="Nuevo" onclick="Mostrar(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button data-toggle="tooltip" data-placement="top" title="Aprobar" class="btn btn-link"  id="Nuevo" onclick="AprobarSolicitud(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
+                            <button data-toggle="tooltip" data-placement="top" title="Aprobar" class="btn btn-link iconStyle"  id="Nuevo" onclick="AprobarSolicitud(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-check"></i>
                             </button>
-                            <button data-toggle="tooltip" data-placement="top" title="Anular" class="btn btn-link" id="Nuevo" onclick="Observacion(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
+                            <button data-toggle="tooltip" data-placement="top" title="Anular" class="btn iconStyle" id="Nuevo" onclick="Observacion(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-times text-danger"></i>
                             </button>
                             @*<input name="chkbox" type="button" value="Ver" onclick="Mostrar(@m.IdSolicitudPermiso)" class=" btn btn-link" />
