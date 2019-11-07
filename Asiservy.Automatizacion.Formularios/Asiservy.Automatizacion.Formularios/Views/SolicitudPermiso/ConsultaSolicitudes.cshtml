@@ -40,7 +40,7 @@
             string FechaBiometrico = string.Empty;
             if (item.FechaBiometrico != null)
             {
-                FechaBiometrico = ci.DateTimeFormat.GetDayName(item.FechaBiometrico.Value.DayOfWeek)+", "+@item.FechaBiometrico.Value.ToString("dd-MM-yyyy");
+                FechaBiometrico = ci.DateTimeFormat.GetDayName(item.FechaBiometrico.Value.DayOfWeek)+", "+@item.FechaBiometrico.Value.ToString("dd-MM-yyyy HH:mm");
             }
 
             var diaSalida = ci.DateTimeFormat.GetDayName(item.FechaSalida.Value.DayOfWeek);
@@ -52,16 +52,16 @@
             <td>@item.NombreEmpleado</td>
             <td class="@estado">@item.DescripcionEstadoSolicitud</td>
             <td>@FechaBiometrico</td>
-            <td>@diaSalida, @item.FechaSalida.Value.ToString("dd-MM-yyyy")</td>
+            <td>@diaSalida, @item.FechaSalida.Value.ToString("dd-MM-yyyy HH:mm")</td>
             @if (ViewBag.Garita != null)
             {
-                <td> <input type="button" name="name" value="Marcar Salida" class="btn btn-outline-info" onclick="MarcarSalida(@item.IdSolicitudPermiso,'@item.FechaBiometrico')" /> </td>
+                <td> <input type="button" name="name" value="Marcar Salida" class="btn btn-outline-info" onclick="MarcarSalida(@item.IdSolicitudPermiso,'@item.FechaBiometrico','@item.FechaSalida')" /> </td>
             }
             else
             {
                 var diaEntrada = ci.DateTimeFormat.GetDayName(item.FechaRegreso.Value.DayOfWeek);
 
-                <td>@diaEntrada, @item.FechaRegreso.Value.ToString("dd-MM-yyyy")</td>
+                <td>@diaEntrada, @item.FechaRegreso.Value.ToString("dd-MM-yyyy HH:mm")</td>
                 <td>@item.Observacion</td>
                 <td>@item.FechaIngresoLog</td>
                 <td>@item.TerminalIngresoLog</td>
