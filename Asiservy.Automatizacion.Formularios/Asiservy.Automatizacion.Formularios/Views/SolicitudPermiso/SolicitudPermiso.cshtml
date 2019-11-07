@@ -49,7 +49,7 @@
                     <input type="hidden" id="txtControladorLinea" value="1" />
                     <div class="col-md-4 col-6">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.DescripcionLinea)
+                            <label>Línea</label>
                             @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), "Seleccione la Línea", new { @onchange = "CambioLineas(this.id)", @class = "form-control", @id = "selectLinea" })
                             @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
 
@@ -65,7 +65,7 @@
 
                     <div class="col-md-4 col-6">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.DescripcionArea)
+                            <label>Área</label>
                             @Html.DropDownListFor(m => m.CodigoArea, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
                             @Html.ValidationMessageFor(m => m.CodigoArea, "", new { @class = "input-validation-error text-danger has-error" })
                         </div>
