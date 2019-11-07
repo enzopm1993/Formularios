@@ -2609,7 +2609,6 @@
     <Compile Include="AccesoDatos\Empleado\clsDEmpleado.cs" />
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
-    <Compile Include="AccesoDatos\MessageErrrors.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDModulo.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDNivelUsuario.cs" />
