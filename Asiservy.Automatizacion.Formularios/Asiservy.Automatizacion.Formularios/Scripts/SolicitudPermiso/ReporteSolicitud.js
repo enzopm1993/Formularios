@@ -1,4 +1,9 @@
 ﻿
+$(document).ready(function () {
+    ConsultarSolicitudes();
+
+});
+
 function CambioLinea(valor) {
     $("#selectArea").empty();
     $("#selectArea").append("<option value='' >-- Seleccionar Opción--</option>");
@@ -26,17 +31,28 @@ function CambioLinea(valor) {
 }
 
 
-function MarcarSalida(IdSolicitudPermiso,fecha) {
+function MarcarSalida(IdSolicitudPermiso,fecha,fechaSalida) {
     //console.log(IdSolicitudPermiso);
-    //console.log(fecha);
+    // console.log(fecha);
+    if (fecha == "" || fecha == null ) {
+
+        MensajeAdvertencia("No ha marcado en el biometríco");
+        return;
+    }
+
     $.ajax({
         type: "POST",
         url: '../SolicitudPermiso/MarcarSalidaSolicitudPermiso',
         data: {
             IdSolicitudPermiso: IdSolicitudPermiso,
-            FechaBiometrico: fecha
+            FechaBiometrico: fecha,
+            FechaSalida: fechaSalida
         },
         success: function (Resultado) {
+            if (Resultado == "1") {
+                MensajeAdvertencia("Su hora de salida es: " + fechaSalida);
+                return;
+            }
             MensajeCorrecto(Resultado,false);
             ConsultarSolicitudes();
         },
@@ -50,7 +66,7 @@ function MarcarSalida(IdSolicitudPermiso,fecha) {
 
 function ConsultarSolicitudes() {
     $("#spinnerCargando").prop("hidden", false);
-
+    $('#RptSolicitudes').html('');
     $.ajax({
         type: "GET",
         url: '../SolicitudPermiso/ConsultaSolicitudes',

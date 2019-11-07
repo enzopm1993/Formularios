@@ -799,10 +799,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         [Authorize]
         [HttpPost]
-        public JsonResult MarcarSalidaSolicitudPermiso(int IdSolicitudPermiso, DateTime? FechaBiometrico)
+        public JsonResult MarcarSalidaSolicitudPermiso(int IdSolicitudPermiso, DateTime FechaBiometrico,DateTime FechaSalida)
         {
             try
             {
+
+                // Difference in days, hours, and minutes.
+                TimeSpan ts = FechaBiometrico - FechaSalida;
+                // Difference in days.
+                int differenceInDays = ts.Days;
+        
+                if (differenceInDays < 0 || ts.Hours < 0 ||  ts.Minutes < -9)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+
+
+
                 string[] psIdUsuario = User.Identity.Name.Split('_');
 
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
