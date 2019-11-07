@@ -51,11 +51,11 @@ function Mostrar(valor) {
     });
 }
 
-function check(e) {
+function sololetras(e) {
     tecla = (document.all) ? e.keyCode : e.which;
 
     //Tecla de retroceso para borrar, siempre la permite
-    if (tecla == 8) {
+    if (tecla == 8 || tecla==32 || tecla==13) {
         return true;
     }
 
