@@ -27,7 +27,7 @@
             }
 },
 "pageLength": 5,
-"lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+"lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
 "pagingType": "full_numbers",
 "dom": 'Bfrtip',
         "order": [[0, "desc"], [1, "desc"]],
