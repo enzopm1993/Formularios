@@ -77,6 +77,8 @@ function Observacion(valor) {
 function Mostrar(valor) {
     //console.log(valor);
     MostrarModalCargando();
+    var sPath = window.location.pathname;
+    var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
     $.ajax({
         url: '../SolicitudPermiso/SolicitudPermisoEdit',
         type: 'GET',

@@ -33,7 +33,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int RolSupervisorLinea = 2;
         public static int RolControladorLinea = 1;
         public static int RolControladorGeneral = 3;
-        public static int RolGarita = 10;
+        public static int RolGarita = 7;
 
         //Codigos de Lineas
         public static string CodLineaProduccion = "07";
@@ -136,5 +136,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //ONLY CONTROL
         public static string keyLlaveAcceso = "Fy7VG+Fe5inU/sNNaHAnSA==";
+
+        //swicth de servicios
+        public static string CodigoGrupoSwitchServices = "013";
+        public static string CodigoEnvioOnlyControl = "1";
     }
 }

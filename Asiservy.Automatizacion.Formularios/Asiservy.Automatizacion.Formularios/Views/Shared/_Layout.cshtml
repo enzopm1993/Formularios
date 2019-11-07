@@ -158,13 +158,12 @@
                     </nav>
                     <!-- End of Topbar -->
                 }
-                <div id="ModalMensaje"></div>
-                <div id="response">
-                </div>
-                <div class="container-fluid" style="padding-top:10px">
 
 
 
+                <div class="container-fluid relative1" style="padding-top:10px">
+                    <div class="absolute1" id="response">
+                    </div>
 
                     @RenderBody()
 
@@ -200,9 +199,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-
-
 
     <!-- Frame Modal Bottom -->
     <!-- Logout Modal-->
@@ -263,22 +259,25 @@
         string url = "/Scripts/" + js + ".js";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
-     
+
 
     }
 
 
     @if (TempData["MensajeConfirmacion"] != null)
     {
+        string mensaje = TempData["MensajeConfirmacion"].ToString();
+        @mensaje;
         <script>
-              MensajeCorrecto("@TempData["MensajeConfirmacion"]",false);
+            MensajeCorrecto("@mensaje", false);
+
         </script>
 
     }
     else if (TempData["MensajeError"] != null)
     {
         <script>
-              MensajeError("@TempData["MensajeError"]",false);
+              MensajeError("@TempData["MensajeError"].ToString()",false);
         </script>
     }
 

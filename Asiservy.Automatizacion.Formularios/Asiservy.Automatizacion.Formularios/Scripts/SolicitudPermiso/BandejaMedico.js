@@ -34,13 +34,13 @@ function Mostrar(valor) {
         },
         success: function (resultado) {
             //document.getElementById("modal_body").innerHTML = resultado;
+            CerrarModalCargando();
             $("#modal_body").html(resultado);
-
             document.getElementById("frmName").value = sPage;
             $('#ModalAprobacion').modal('show');
             //$('#ModalAprobacion').modal('toggle');
             $("#CodDiagnostico").select2();
-            CerrarModalCargando();
+           
         }
         ,
         error: function () {
