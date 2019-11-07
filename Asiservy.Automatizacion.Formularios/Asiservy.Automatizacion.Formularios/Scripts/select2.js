@@ -4540,7 +4540,7 @@ S2.define('select2/dropdown/attachBody',[
     if (this.options.get('dropdownAutoWidth')) {
       css.minWidth = css.width;
       css.position = 'relative';
-      css.width = 'auto';
+      css.width = '100%';
     }
 
     this.$dropdown.css(css);
@@ -5469,7 +5469,7 @@ S2.define('select2/core',[
       var elementWidth = $element.outerWidth(false);
 
       if (elementWidth <= 0) {
-        return 'auto';
+        return '100%';
       }
 
       return elementWidth + 'px';
