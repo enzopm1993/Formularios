@@ -197,6 +197,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         if (!string.IsNullOrEmpty(psIdSolicitud))
                         {
                             clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                            clsDClasificador = new clsDClasificador();
                             SOLICITUD_PERMISO model = new SOLICITUD_PERMISO();
                             model.IdSolicitudPermiso = int.Parse(psIdSolicitud);
                             model.EstadoSolicitud = clsAtributos.EstadoSolicitudRevisado;
@@ -204,9 +205,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             string[] psIdUsuario = User.Identity.Name.Split('_');
                             model.UsuarioModificacionLog = psIdUsuario[0];
                             model.TerminalModificacionLog = Request.UserHostAddress;
-                            //psRespuesta = clsDSolicitudPermiso.EnviarSolicitudOnlyControl(model);
-                            string mensaje = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
-                            psRespuesta.Add(new RespuestaGeneral { Mensaje = mensaje, Respuesta = true });
+                            var envioOnly = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoSwitchServices, Codigo = clsAtributos.CodigoEnvioOnlyControl }).FirstOrDefault();
+                            if (envioOnly.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
+                            {
+                                psRespuesta = clsDSolicitudPermiso.EnviarSolicitudOnlyControl(model);
+                            }
+                            else
+                            {
+                                string mensaje = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
+                                psRespuesta.Add(new RespuestaGeneral { Mensaje = mensaje, Respuesta = true });
+                            }
                         }
                     }
                     return Json(psRespuesta, JsonRequestBehavior.AllowGet);

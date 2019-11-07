@@ -1,50 +1,67 @@
 ﻿@model List<Asiservy.Automatizacion.Formularios.Models.SolicitudPermisoViewModel>
+@using System.Globalization;
 
+@{
+    /**/
+    CultureInfo ci = new CultureInfo("Es-Es");
+}
 
 <table class="table table-bordered table-striped " style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
-            <th>Solicitud</th>
+            <th>#</th>
             <th>Línea</th>
-            <th>Area</th>
+            <th hidden>Area</th>
             <th>Empleado</th>
             <th>Estado</th>
             <th>Biometrico</th>
+            <th> Salida</th>
+
             @if (ViewBag.Garita != null)
             {
-                <td> Acción </td>
+                <th> Acción </th>
             }
             else
             {
-                <td>Observación</td>
-                <td>Fecha Ingreso</td>
-                <td>Terminal Ingreso</td>
-                <td>Usuario Ingreso</td>
-
-
-                <td>Fecha Modificación</td>
-                <td>Terminal Modificación</td>
-                <td>Usuario Modificación</td>
+                <th>Regreso</th>
+                <th>Observación</th>
+                <th>Fecha Ingreso</th>
+                <th>Terminal Ingreso</th>
+                <th>Usuario Ingreso</th>
+                <th>Fecha Modificación</th>
+                <th>Terminal Modificación</th>
+                <th>Usuario Modificación</th>
             }
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
+            string FechaBiometrico = string.Empty;
+            if (item.FechaBiometrico != null)
+            {
+                FechaBiometrico = ci.DateTimeFormat.GetDayName(item.FechaBiometrico.Value.DayOfWeek)+", "+@item.FechaBiometrico.Value.ToString("dd-MM-yyyy");
+            }
+
+            var diaSalida = ci.DateTimeFormat.GetDayName(item.FechaSalida.Value.DayOfWeek);
             var estado = (item.EstadoSolicitud == "002" ? "text-success" : item.EstadoSolicitud == "001" ? "text-warning" : item.EstadoSolicitud == "003" ? "text-secondary" : "text-danger");
         <tr>
             <td>@item.IdSolicitudPermiso</td>
             <td>@item.DescripcionLinea</td>
-            <td>@item.DescripcionArea</td>
+            <td hidden>@item.DescripcionArea</td>
             <td>@item.NombreEmpleado</td>
             <td class="@estado">@item.DescripcionEstadoSolicitud</td>
-            <td>@item.FechaBiometrico</td>
+            <td>@FechaBiometrico</td>
+            <td>@diaSalida, @item.FechaSalida.Value.ToString("dd-MM-yyyy")</td>
             @if (ViewBag.Garita != null)
             {
                 <td> <input type="button" name="name" value="Marcar Salida" class="btn btn-outline-info" onclick="MarcarSalida(@item.IdSolicitudPermiso,'@item.FechaBiometrico')" /> </td>
             }
             else
             {
+                var diaEntrada = ci.DateTimeFormat.GetDayName(item.FechaRegreso.Value.DayOfWeek);
+
+                <td>@diaEntrada, @item.FechaRegreso.Value.ToString("dd-MM-yyyy")</td>
                 <td>@item.Observacion</td>
                 <td>@item.FechaIngresoLog</td>
                 <td>@item.TerminalIngresoLog</td>

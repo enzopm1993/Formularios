@@ -51,7 +51,7 @@ function MarcarSalida(IdSolicitudPermiso,fecha) {
 function ConsultarSolicitudes() {
     $("#spinnerCargando").prop("hidden", false);
 
-     $.ajax({
+    $.ajax({
         type: "GET",
         url: '../SolicitudPermiso/ConsultaSolicitudes',
         data: {
@@ -66,6 +66,12 @@ function ConsultarSolicitudes() {
             $('#RptSolicitudes').html(data);
             $("#spinnerCargando").prop("hidden", true);
 
+        },
+        error: function (result)
+        {
+            MensajeError(result);
+            $("#spinnerCargando").prop("hidden", true);
+            
         }
     });
 

@@ -565,6 +565,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 liststring = User.Identity.Name.Split('_');
                 CargarCombosOpcionRol();
                 if(string.IsNullOrEmpty(IdRolh))
@@ -676,6 +678,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 clsDNivelUsuario = new clsDNivelUsuario();
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
@@ -812,6 +817,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
                 liststring = User.Identity.Name.Split('_');             
                 clsDClasificador = new clsDClasificador();
                 List<Clasificador> Grupos = new List<Clasificador>();

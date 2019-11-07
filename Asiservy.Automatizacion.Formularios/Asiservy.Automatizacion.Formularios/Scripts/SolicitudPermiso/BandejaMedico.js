@@ -87,8 +87,8 @@ function Mostrar(valor) {
         },
         success: function (resultado) {
             //document.getElementById("modal_body").innerHTML = resultado;
-            $("#modal_body").html(resultado);
             CerrarModalCargando();
+            $("#modal_body").html(resultado);
             document.getElementById("frmName").value = sPage;
             $('#ModalAprobacion').modal('show');
             //$('#ModalAprobacion').modal('toggle');
