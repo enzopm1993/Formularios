@@ -458,6 +458,23 @@
           <Property Name="TerminalModificacionlog" Type="varchar" MaxLength="50" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
         </EntityType>
+        <EntityType Name="PARAMETRO">
+          <Key>
+            <PropertyRef Name="IdParametro" />
+          </Key>
+          <Property Name="IdParametro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Valor" Type="int" Nullable="false" />
+          <Property Name="Observacion" Type="varchar" MaxLength="500" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="PROYECCION_PROGRAMACION">
           <Key>
             <PropertyRef Name="IdProyeccionProgramacion" />
@@ -466,14 +483,14 @@
           <Property Name="Lote" Type="varchar" MaxLength="5" />
           <Property Name="OrdenFabricacion" Type="varchar" MaxLength="10" />
           <Property Name="Toneladas" Type="int" />
-          <Property Name="Lineas" Type="nvarchar" MaxLength="30" />
+          <Property Name="Lineas" Type="nvarchar" MaxLength="100" />
           <Property Name="HoraInicio" Type="time" Precision="7" />
           <Property Name="HoraFin" Type="time" Precision="7" />
           <Property Name="Destino" Type="varchar" MaxLength="5" />
           <Property Name="TipoLimpieza" Type="varchar" MaxLength="5" />
           <Property Name="FechaProduccion" Type="date" />
-          <Property Name="Especie" Type="varchar" MaxLength="10" />
-          <Property Name="Talla" Type="varchar" MaxLength="10" />
+          <Property Name="Especie" Type="varchar" MaxLength="100" />
+          <Property Name="Talla" Type="varchar" MaxLength="100" />
           <Property Name="Observacion" Type="varchar" MaxLength="100" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
           <Property Name="FechaCreacionLog" Type="datetime" />
@@ -707,7 +724,7 @@
           <Parameter Name="linea" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsultaDistribucionPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="fecha" Type="datetime" Mode="In" />
+          <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsultaEmpleadoCargoPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -838,6 +855,7 @@
           <EntitySet Name="NIVEL_USUARIO" EntityType="Self.NIVEL_USUARIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OPCION" EntityType="Self.OPCION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OPCION_ROL" EntityType="Self.OPCION_ROL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PARAMETRO" EntityType="Self.PARAMETRO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROYECCION_PROGRAMACION" EntityType="Self.PROYECCION_PROGRAMACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROL" EntityType="Self.ROL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SOLICITUD_PERMISO" EntityType="Self.SOLICITUD_PERMISO" Schema="dbo" store:Type="Tables" />
@@ -1291,6 +1309,7 @@
           <Parameter Name="cedula" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spConsultaOpcionModulo" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionModulo)" />
+          <EntitySet Name="PARAMETRO" EntityType="ASIS_PRODModel.PARAMETRO" />
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -2163,14 +2182,14 @@
           <Property Name="Lote" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="OrdenFabricacion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Toneladas" Type="Int32" />
-          <Property Name="Lineas" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Lineas" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="HoraInicio" Type="Time" Precision="7" />
           <Property Name="HoraFin" Type="Time" Precision="7" />
           <Property Name="Destino" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="TipoLimpieza" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="FechaProduccion" Type="DateTime" Precision="0" />
-          <Property Name="Especie" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Talla" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Especie" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Talla" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Observacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
@@ -2203,6 +2222,23 @@
           <Property Type="Int32" Name="IdModulo" Nullable="true" />
           <Property Type="String" Name="Modulo" Nullable="false" MaxLength="20" />
         </ComplexType>
+        <EntityType Name="PARAMETRO">
+          <Key>
+            <PropertyRef Name="IdParametro" />
+          </Key>
+          <Property Name="IdParametro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Valor" Type="Int32" Nullable="false" />
+          <Property Name="Observacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3394,6 +3430,24 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="PARAMETRO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.PARAMETRO">
+              <MappingFragment StoreEntitySet="PARAMETRO">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
