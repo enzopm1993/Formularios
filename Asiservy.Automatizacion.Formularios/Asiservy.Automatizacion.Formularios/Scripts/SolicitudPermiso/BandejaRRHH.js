@@ -1,4 +1,36 @@
-﻿
+﻿function mostrartabla() {
+    $('#codsenfermedad').show();
+    $('#buscarenfermedad').prop('disabled', false);
+    $('#buscarenfermedad').val("");
+    $('#CodigoDiagnostico').val("");
+    $('#buscarenfermedad').focus();
+}
+function ocultartabla(codigo, descripcion) {
+    $('#codsenfermedad').hide();
+    $('#CodigoDiagnostico').val(codigo);
+    $('#buscarenfermedad').val(descripcion);
+    $('#buscarenfermedad').prop('disabled', true);
+}
+function buscare() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("buscarenfermedad");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tbldiagnostico");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
 function FinalizarSolitudes() {
     var result = new Array();
     i = 0;
