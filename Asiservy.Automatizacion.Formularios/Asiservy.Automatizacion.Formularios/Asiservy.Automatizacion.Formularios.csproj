@@ -2575,6 +2575,7 @@
     <Content Include="Scripts\Seguridad\NivelUsuario.js" />
     <Content Include="Scripts\Seguridad\Opcion.js" />
     <Content Include="Scripts\Seguridad\OpcionRol.js" />
+    <Content Include="Scripts\Seguridad\Parametro.js" />
     <Content Include="Scripts\Seguridad\Rol.js" />
     <Content Include="Scripts\Seguridad\UsuarioRol.js" />
     <Content Include="Scripts\select2.js" />
@@ -2610,6 +2611,7 @@
     <Compile Include="AccesoDatos\Empleado\clsDEmpleado.cs" />
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
+    <Compile Include="AccesoDatos\General\clsDParametro.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDModulo.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDNivelUsuario.cs" />
@@ -2791,6 +2793,8 @@
     <Content Include="Views\Asistencia\ModalObservacion.cshtml" />
     <Content Include="Views\Asistencia\ModalPrestados.cshtml" />
     <Content Include="Views\Asistencia\RptAsistenciaPartial.cshtml" />
+    <Content Include="Views\Seguridad\Parametro.cshtml" />
+    <Content Include="Views\Seguridad\ParametroPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

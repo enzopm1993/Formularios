@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Parametro";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<h2>Parametro</h2>
+
+<div class="row">
+
+    <div class="col-md-3 col-6">
+        <div class="form-group">
+            <label>Id</label>
+            <input id="IdParametro" class="form-control" type="number" readonly name="name" value="0" />
+
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+
+        <div class="form-group">
+            <label>Código</label>
+            <input id="txtCodigo" class="form-control" type="text" maxlength="5" name="name" placeholder="Código" />
+            <p class="text-danger" id="pValidaCodigo" hidden>Ingrese un Código</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+
+        <div class="form-group">
+            <label>Descripción</label>
+            <input id="txtDescripcion" class="form-control" type="text" maxlength="20" name="name" placeholder="Descripción" />
+            <p class="text-danger" id="pValidaDescripcion" hidden>Ingrese una Descripción</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="form-group">
+            <label>Valor</label>
+            <input id="txtValor" class="form-control" type="number" maxlength="10" name="name" value="0" />
+            <p class="text-danger" id="pValidaValor" hidden>Ingrese un Valor</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+
+        <div class="form-group">
+            <label>Observación</label>
+            <input id="txtObservacion" class="form-control" type="text" maxlength="500" name="name" placeholder="Observación" />
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="custom-control custom-checkbox mb-3">
+                <br />
+                <input type="checkbox" checked class="custom-control-input" onchange="CambioEstadoRegistro(this.checked)" id="CheckEstadoRegistro" value="" />
+                <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <button data-toggle="tooltip" data-placement="top" title="Grabar" class="btn" id="Guardar" onclick="GuardarModificarParametro()" style="border-color:#2c3e50" type="button">
+        <img style="width:100%" src="~/Content/icons/save20.png" />
+    </button>
+    <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="Nuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+        <img style="width:100%" src="~/Content/icons/clear24.png" />
+    </button>
+
+</div>
+
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+
+
+<div class="table-responsive" id="divTableParametros"></div>

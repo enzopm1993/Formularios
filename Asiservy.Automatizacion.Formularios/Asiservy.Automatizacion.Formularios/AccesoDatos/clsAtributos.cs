@@ -140,5 +140,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //swicth de servicios
         public static string CodigoGrupoSwitchServices = "013";
         public static string CodigoEnvioOnlyControl = "1";
+
+
+
+        //PARAMETROS
+        public static string TiempoSalidaGarita = "001";
+
     }
 }
