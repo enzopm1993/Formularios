@@ -37,10 +37,12 @@ function MensajeCorrecto(mensaje, r) {
     }
    
   
-      $('body,html').animate({ scrollTop: 0 }, 500);  
+    $('body,html').animate({ scrollTop: 0 }, 500);  
+
+    $('#response').prop('hidden',false);
     $('#response').html('');
     $('<div class="alert alert-success">' +
-        '<button type="button" class="close" style="height: min-content;padding: 5px;" data-dismiss="alert">' +
+        '<button type="button" class="close" onclick="CerrarMensaje()" style="height: min-content;padding: 5px;" data-dismiss="alert">' +
         '&times;</button><label id="pMensaje"></label></div>').hide().appendTo('#response').fadeIn(1000);
     $('#pMensaje').html(mensaje);
    
@@ -49,22 +51,27 @@ function MensajeCorrecto(mensaje, r) {
         "normal",
         function () {
             $(this).remove();
+            $('#response').prop('hidden', true);
         });
    
 
     if (r) 
         setTimeout('location.reload()', 2500);
    
-    
+
 }
 
+function CerrarMensaje(){
+    $('#response').prop('hidden', true);
+}
 
 function MensajeError(mensaje, r) {
   
     $('body,html').animate({ scrollTop: 0 }, 500);
+    $('#response').prop('hidden', false);
     $('#response').html('');
     $('<div class="alert alert-danger">' +
-        '<button type="button" class="close" data-dismiss="alert">' +
+        '<button type="button" class="close" onclick="CerrarMensaje()" data-dismiss="alert">' +
         '&times;</button><p id="pMensaje"></p></div>').hide().appendTo('#response').fadeIn(1000);
     $('#pMensaje').html(mensaje);
     //$(".alert").delay(3000).fadeOut(
@@ -101,15 +108,17 @@ function MensajeError(mensaje, r) {
 function MensajeAdvertencia(mensaje, r) {
 
     $('body,html').animate({ scrollTop: 0 }, 500);
+    $('#response').prop('hidden', false);
     $('#response').html('');
     $('<div class="alert alert-warning">' +
-        '<button type="button" class="close" data-dismiss="alert">' +
+        '<button type="button" class="close" onclick="CerrarMensaje()" data-dismiss="alert">' +
         '&times;</button><p id="pMensaje"></p></div>').hide().appendTo('#response').fadeIn(1000);
     $('#pMensaje').html(mensaje);
     $(".alert").delay(2500).fadeOut(
         "normal",
         function () {
             $(this).remove();
+            $('#response').prop('hidden', true);
         });
     //if (r)
     //    location.reload();

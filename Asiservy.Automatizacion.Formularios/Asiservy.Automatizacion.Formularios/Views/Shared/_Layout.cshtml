@@ -125,7 +125,8 @@
         }
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column relative1">
+
             <!-- Main Content -->
             <div id="content">
                 @if (User.Identity.IsAuthenticated)
@@ -161,14 +162,15 @@
 
 
 
-                <div class="container-fluid relative1" style="padding-top:10px">
-                    <div class="absolute1" id="response">
+                    <div class="container-fluid relative1" style="padding-top:10px">
+
+                        <div class="absolute1" hidden id="response">
+                        </div>                        
+                            @RenderBody()
+                        
+
+
                     </div>
-
-                    @RenderBody()
-
-
-                </div>
                 <!-- Modal -->
                 <div class="modal" style="background-color: white;" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
