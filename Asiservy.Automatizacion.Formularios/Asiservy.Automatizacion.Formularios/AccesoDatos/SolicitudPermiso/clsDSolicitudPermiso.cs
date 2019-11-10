@@ -709,5 +709,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         }
 
+        public List<SP_PKI_SOLICITUDES> ConsultaPKI_General()
+        {
+            using(ASIS_PRODEntities db=new ASIS_PRODEntities())
+            {
+               return  db.SP_PKI_SOLICITUDES().ToList();
+            }
+        }
     }
 } 

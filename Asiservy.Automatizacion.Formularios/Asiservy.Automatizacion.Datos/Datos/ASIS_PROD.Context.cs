@@ -620,5 +620,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaOpcionModulo>("spConsultaOpcionModulo");
         }
+    
+        public virtual ObjectResult<SP_PKI_SOLICITUDES> SP_PKI_SOLICITUDES()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PKI_SOLICITUDES>("SP_PKI_SOLICITUDES");
+        }
     }
 }
