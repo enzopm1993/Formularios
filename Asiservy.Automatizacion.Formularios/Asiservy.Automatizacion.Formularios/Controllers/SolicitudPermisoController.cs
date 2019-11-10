@@ -817,12 +817,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
 
+                clsDParametro clsDParametro = new clsDParametro();
+                var poTiempo=clsDParametro.ConsultaParametros(new PARAMETRO {Codigo=clsAtributos.TiempoSalidaGarita, EstadoRegistro=clsAtributos.EstadoRegistroActivo }).FirstOrDefault();
+                int tiempo = poTiempo != null ? poTiempo.Valor : -9;     
                 // Difference in days, hours, and minutes.
                 TimeSpan ts = FechaBiometrico - FechaSalida;
                 // Difference in days.
                 int differenceInDays = ts.Days;
         
-                if (differenceInDays < 0 || ts.Hours < 0 ||  ts.Minutes < -9)
+                if (differenceInDays < 0 || ts.Hours < 0 ||  ts.Minutes < tiempo)
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }

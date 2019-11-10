@@ -45,8 +45,8 @@ function GuargarModulo() {
         $("#ValidaNombre").prop("hidden", true);
 
     }
-    var Estado = $("#CheckEstadoRegistro").val();
-    if (Estado == "true")
+    var Estado = $("#CheckEstadoRegistro").prop('checked'); 
+    if (Estado == true)
         Estado = "A";
     else
         Estado = "I";
