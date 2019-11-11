@@ -22,9 +22,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         ASIS_PRODEntities entities = null;
         clsDEmpleado clsDEmpleado = null;
         clsApiUsuario clsApiUsuario = null;
+        clsDGeneral clsDGeneral = null;
         public string CambioEstadoSolicitud(SOLICITUD_PERMISO doSolicitud)
         {
+            clsDGeneral = new clsDGeneral();
+            clsDEmpleado = new clsDEmpleado();
             string psMensaje = "No se pudo cambiar de estado a la solicitud";
+            string mensajeCorreo = string.Empty;
             entities = new ASIS_PRODEntities();
             var poSolicitud = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == doSolicitud.IdSolicitudPermiso);
             if (poSolicitud != null)
@@ -48,12 +52,38 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 poBitacora.FechaIngresoLog = DateTime.Now;
                 poBitacora.UsuarioIngresoLog = doSolicitud.UsuarioModificacionLog;
                 poBitacora.TerminalIngresoLog = doSolicitud.TerminalModificacionLog;
-                entities.BITACORA_SOLICITUD.Add(poBitacora);
-            }
-            
-
+                entities.BITACORA_SOLICITUD.Add(poBitacora);  
             entities.SaveChanges();
-            return psMensaje;
+
+                string EstadoSolictud = string.Empty;
+                if (poSolicitud.EstadoSolicitud == clsAtributos.EstadoSolicitudAprobado)
+                {
+                    EstadoSolictud = "Aprobado";
+                }else if (poSolicitud.EstadoSolicitud == clsAtributos.EstadoSolicitudAnulado)
+                {
+                    EstadoSolictud = "Anulado";
+                }
+                var poEmpleado = clsDEmpleado.ConsultaEmpleado(poSolicitud.Identificacion).FirstOrDefault();      
+                var Motivo = ConsultarMotivos(poSolicitud.CodigoMotivo).FirstOrDefault();
+                String MensajeBody = "Empleado: " + poEmpleado.NOMBRES + "\n</br>"
+                      + " Motivo:" + Motivo.DescripcionMotivo + "\n</br>"
+                      + "Fecha Salida: " + poSolicitud.FechaSalida + "\n</br>"
+                      + "Fecha Regreso: " + poSolicitud.FechaRegreso + "</br>\n Estado: " + EstadoSolictud + " </br>"
+                      + "Realizado por: " + doSolicitud.UsuarioModificacionLog + "</br>";
+                if(poSolicitud.EstadoSolicitud == clsAtributos.EstadoSolicitudAnulado)
+                {
+                    MensajeBody = MensajeBody + "Motivo: " + poSolicitud.Observacion+ "</br></br>";
+                }
+                else
+                {
+                    MensajeBody = MensajeBody + "</br>";
+                }
+
+                mensajeCorreo = clsDGeneral.EnvioCorreo("victorrcch@hotmail.com", "Solicitud Permiso",
+                MensajeBody);
+            }
+
+            return psMensaje+"--"+ mensajeCorreo;
         }
         
         public string GuargarModificarSolicitud(SOLICITUD_PERMISO doSolicitud)

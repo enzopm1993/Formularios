@@ -1,8 +1,15 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Text;
 using System.Web;
+
+
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
@@ -92,6 +99,62 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     return false;
             }
         }
+
+        public string EnvioCorreo(string destinatario, string asunto, string mensaje)
+        {
+            try
+            {
+                string Correo = System.Configuration.ConfigurationSettings.AppSettings["Correo"];
+                string Clave = System.Configuration.ConfigurationSettings.AppSettings["CorreoClave"];
+
+
+                clsDParametro clsDParametro = new clsDParametro();
+                string text = "MENSAJE DEL SISTEMA\n\n"+ mensaje;
+
+                AlternateView plainView =
+                    AlternateView.CreateAlternateViewFromString(text,
+                                            Encoding.UTF8,
+                                            MediaTypeNames.Text.Plain);
+
+
+                string html = "<H3>MENSAJE DEL SISTEMA</H3>" + mensaje+
+              "<img src='cid:imagen' />";
+                AlternateView htmlView =
+                AlternateView.CreateAlternateViewFromString(html,
+                            Encoding.UTF8,
+                            MediaTypeNames.Text.Html);
+
+                LinkedResource img = new LinkedResource(@"C:\Desarrollo\Asiservy.Automatizacion.Formularios\Asiservy.Automatizacion.Formularios\Content\images\asilogo.jpg",
+                        MediaTypeNames.Image.Jpeg);
+                img.ContentId = "imagen";
+                htmlView.LinkedResources.Add(img);
+                
+
+
+                MailMessage correo = new MailMessage(Correo, destinatario);
+                correo.Subject = asunto;
+                correo.AlternateViews.Add(htmlView);
+                correo.AlternateViews.Add(plainView);
+                
+
+
+                SmtpClient servidor = new SmtpClient("smtp.office365.com", 587);
+                NetworkCredential credenciales = new NetworkCredential(Correo, Clave);
+                servidor.Credentials = credenciales;
+                servidor.EnableSsl = true;
+                servidor.Send(correo);
+                return "Correo Enviado con Éxito";
+            }
+            catch (Exception ex)
+            {
+               return ex.Message;
+                
+            }
+         
+
+        }
+
+
 
     }
 }
