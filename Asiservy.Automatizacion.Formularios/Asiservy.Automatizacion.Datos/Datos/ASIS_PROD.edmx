@@ -682,6 +682,7 @@
         <Function Name="sp_ObtenerCuchillosSobrantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ColorCuchillo" Type="char" Mode="In" />
         </Function>
+        <Function Name="SP_PKI_SOLICITUDES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_ReporteSolicitudes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spConsultaArea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="varchar" Mode="In" />
@@ -1309,6 +1310,7 @@
           <Parameter Name="cedula" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spConsultaOpcionModulo" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionModulo)" />
+          <FunctionImport Name="SP_PKI_SOLICITUDES" ReturnType="Collection(ASIS_PRODModel.SP_PKI_SOLICITUDES)" />
           <EntitySet Name="PARAMETRO" EntityType="ASIS_PRODModel.PARAMETRO" />
           
           </EntityContainer>
@@ -2239,6 +2241,10 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="SP_PKI_SOLICITUDES">
+          <Property Type="Int32" Name="NUMERO" Nullable="true" />
+          <Property Type="String" Name="descNovedad" Nullable="false" MaxLength="30" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3427,6 +3433,14 @@
                 <ScalarProperty Name="Orden" ColumnName="Orden" />
                 <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
                 <ScalarProperty Name="Modulo" ColumnName="Modulo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PKI_SOLICITUDES" FunctionName="ASIS_PRODModel.Store.SP_PKI_SOLICITUDES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.SP_PKI_SOLICITUDES">
+                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+                <ScalarProperty Name="descNovedad" ColumnName="descNovedad" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
