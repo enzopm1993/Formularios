@@ -142,7 +142,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 NetworkCredential credenciales = new NetworkCredential(Correo, Clave);
                 servidor.Credentials = credenciales;
                 servidor.EnableSsl = true;
-                servidor.Send(correo);
+                //servidor.Send(correo);
                 return "Correo Enviado con Éxito";
             }
             catch (Exception ex)

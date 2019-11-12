@@ -55,7 +55,9 @@ function Finalizar(result) {
     if (result.length > 0) {
         var resultado = JSON.stringify(result)
         var resultado2 = JSON.parse(resultado)
-      //  console.log(resultado2);
+        //  console.log(resultado2);
+        $("#btnFinalizarEspera").prop("hidden", false);
+        $("#btnFinalizar").prop("hidden", true);
         $.ajax({
             url: '../SolicitudPermiso/FinalizarSolicitud',
             type: 'POST',
@@ -64,6 +66,8 @@ function Finalizar(result) {
                 diIdSolicitud: resultado2
             },
             success: function (resultado) {
+                $("#btnFinalizarEspera").prop("hidden", true);
+                $("#btnFinalizar").prop("hidden", false);
                 //console.log(resultado[0]);
                 //MensajeError(resultado[0].Mensaje);
                 var divMensaje = $("#divMensaje");
@@ -82,6 +86,8 @@ function Finalizar(result) {
             }
             ,
             error: function (resultado) {
+                $("#btnFinalizarEspera").prop("hidden", true);
+                $("#btnFinalizar").prop("hidden", false);
                 MensajeError(resultado.responseText, false);
             }
         });
