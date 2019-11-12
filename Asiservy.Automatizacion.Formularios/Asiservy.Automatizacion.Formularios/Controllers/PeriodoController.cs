@@ -56,7 +56,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Respuesta.Mensaje = "Ingrese una Descripcion";
                     return Json(Respuesta, JsonRequestBehavior.AllowGet);
                 }
-
+                if (model.FechaDesde > model.FechaHasta)
+                {
+                    Respuesta.Codigo = 0;
+                    Respuesta.Mensaje = "Fecha desde no puede ser mayor";
+                    return Json(Respuesta, JsonRequestBehavior.AllowGet);
+                }
                
 
                 ViewBag.dataTableJS = "1";

@@ -23,7 +23,7 @@
 
         <div class="form-group">
             <label>Descripción</label>
-            <input id="txtDescripcion" class="form-control" type="text" maxlength="5" name="name" placeholder="Ingrese una Descripción" />
+            <input id="txtDescripcion" class="form-control" type="text" maxlength="100" name="name" placeholder="Ingrese una Descripción" />
             <p class="text-danger" id="pValidaDescripcion" hidden>Ingrese una Descripción</p>
         </div>
     </div>
@@ -32,11 +32,13 @@
     <div class="col-md-5 col-6" >
         <div class="form-group">
             <label>Estado</label>
-            <select class="form-control">
+            <select id="SelectEstado" class="form-control">
                 <option value="0">Selecione</option>
                 <option value="B">Bloqueado</option>
                 <option value="A">Abierto</option>
             </select>
+            <p class="text-danger" id="pValidaEstado" hidden>Seleccione un Estado</p>
+
         </div>
         
     </div>
@@ -54,7 +56,7 @@
     </div>
     <div class="col-md-3 col-6">
         <div class="form-group">
-            <label>Valor</label>
+            <label>Fecha Hasta</label>
             <input id="txtFechaHasta" class="form-control" type="date" maxlength="10" name="name" placeholder="Ingrese Fecha Desde" />
             <p class="text-danger" id="pValidaFechaHasta" hidden>Ingrese una Fecha</p>
 
@@ -63,7 +65,7 @@
 </div>
 
 <div class="text-center">
-    <button data-toggle="tooltip" data-placement="top" title="Grabar" class="btn" id="Guardar" onclick="GuardarModificarParametro()" style="border-color:#2c3e50" type="button">
+    <button data-toggle="tooltip" data-placement="top" title="Grabar" class="btn" id="Guardar" onclick="GuardarModificarPeriodo()" style="border-color:#2c3e50" type="button">
         <img style="width:100%" src="~/Content/icons/add24.png" />
     </button>
     <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Nuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">

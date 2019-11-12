@@ -21,37 +21,46 @@ function Valida() {
     } else {
         $("#pValidaDescripcion").prop("hidden", true);
     }
-    if ($('#txtValor').val() < 0) {
-        $("#pValidaValor").prop("hidden", false);
+    if ($('#SelectEstado').val() == "0") {
+        $("#pValidaEstado").prop("hidden", false);
         bol = false;
     } else {
-        $("#pValidaValor").prop("hidden", true);
+        $("#pValidaEstado").prop("hidden", true);
+    }
+
+
+    if ($('#txtFechaDesde').val() == "") {
+        $("#pValidaFechaDesde").prop("hidden", false);
+        bol = false;
+    } else {
+        $("#pValidaFechaDesde").prop("hidden", true);
+    }
+    if ($('#txtFechaHasta').val() == "") {
+        $("#pValidaFechaHasta").prop("hidden", false);
+        bol = false;
+    } else {
+        $("#pValidaFechaHasta").prop("hidden", true);
     }
 
     return bol;
 
 }
 
-function GuardarModificarParametro() {
+function GuardarModificarPeriodo() {
 
     if (!Valida())
         return;
-    var Estado = $("#CheckEstadoRegistro").prop('checked');
-
-    if (Estado == true)
-        Estado = "A";
-    else
-        Estado = "I";
+   
     $.ajax({
-        url: "../Seguridad/Parametro",
+        url: "../Periodo/Periodo",
         type: "POST",
         data: {
-            IdParametro: $('#IdParametro').val(),
-            Codigo: $('#txtCodigo').val(),
+            IdPeriodo: $('#IdPeriodo').val(),
+            FechaDesde: $('#txtFechaDesde').val(),
             Descripcion: $('#txtDescripcion').val(),
-            Valor: $('#txtValor').val(),
-            Observacion: $('#txtObservacion').val(),
-            EstadoRegistro: Estado
+            FechaHasta: $('#txtFechaHasta').val(),
+            Estado: $('#SelectEstado').val(),
+            
 
         },
         success: function (resultado) {
@@ -59,7 +68,7 @@ function GuardarModificarParametro() {
                 MensajeAdvertencia(resultado.Mensaje);
             else {
                 MensajeCorrecto(resultado.Mensaje);
-                CargarTablaClasificadores();
+                CargarTablaPeriodo();
             }
         },
         error: function (resultado) {
@@ -75,7 +84,7 @@ function CargarTablaPeriodo() {
     $("#SpinnerCargando").prop("hidden", false);
     $('#divTableParametros').html('');
     $.ajax({
-        url: "../Periodo/Periodo",
+        url: "../Periodo/PeriodoPartial",
         type: "GET",
         success: function (resultado) {
 
@@ -93,29 +102,22 @@ function CargarTablaPeriodo() {
 }
 
 function Nuevo() {
-    $('#IdParametro').val('0');
-    $('#txtCodigo').val('');
+    $('#IdPeriodo').val('0');    
     $('#txtDescripcion').val('');
     $('#txtObservacion').val('');
-    $('#txtValor').val(0);
-    $('#CheckEstadoRegistro').prop('checked', true);
-    $('#LabelEstado').text('Activo');
-}
+    $('#SelectEstado').val(0);
+    $("#txtFechaDesde").val('');
+    $("#txtFechaHasta").val('');
 
-function SeleccionParametro(id, codigo, descripcion, valor, observacion, estado) {
+    }
 
-    $('#IdParametro').val(id);
-    $('#txtCodigo').val(codigo);
+function SeleccionPeriodo(id, descripcion, estado, FechaDesde, FechaHasta) {
+ 
+   
+    $('#IdPeriodo').val(id);
+    $('#txtFechaDesde').val(FechaDesde);
     $('#txtDescripcion').val(descripcion);
-    $('#txtObservacion').val(observacion);
-    $('#txtValor').val(valor);
-    if (estado == "A") {
-        $('#CheckEstadoRegistro').prop('checked', true);
-        $('#LabelEstado').text('Activo');
-    }
-    else {
-        $('#CheckEstadoRegistro').prop('checked', false);
-        $('#LabelEstado').text('Inactivo');
-
-    }
+    $('#txtFechaHasta').val(FechaHasta);
+    $('#SelectEstado').val(estado);
+   
 }
