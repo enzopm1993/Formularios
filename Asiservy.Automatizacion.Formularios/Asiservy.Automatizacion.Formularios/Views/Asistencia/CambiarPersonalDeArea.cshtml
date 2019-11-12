@@ -26,7 +26,7 @@
 
                 </div>
                 <div class="form-group col-sm-12 col-md-6">
-                    @Html.Label("Área:")
+                    @Html.Label("Centro de Costos:")
                     @Html.DropDownList("SelectAreaRegresar", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioAreaRegresar(this.value)", @class = "form-control" })
 
                 </div>
@@ -154,8 +154,8 @@
                         <tr>
                             <td></td>
                             <td>
-                                @Html.Label("Área:")
-                                @Html.DropDownList("SelectAreaOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioAreaOrigen(this.value)", @class = "form-control" })
+                                @Html.Label("Centro de Costos:")
+                                @Html.DropDownList("SelectAreaOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "CambioAreaOrigen(this.value)", @class = "form-control" })
 
                             </td>
                         </tr>
@@ -204,8 +204,8 @@
                         <tr>
                             <td></td>
                             <td>
-                                @Html.Label("Área:")
-                                @Html.DropDownListFor(m => m.Area, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
+                                @Html.Label("Centro de Costos:")
+                                @Html.DropDownListFor(m => m.Area, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
 
                             </td>
                         </tr>

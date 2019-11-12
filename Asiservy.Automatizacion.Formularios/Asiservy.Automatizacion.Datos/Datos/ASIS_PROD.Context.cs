@@ -40,7 +40,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<ERROR> ERROR { get; set; }
         public virtual DbSet<CLASIFICADOR> CLASIFICADOR { get; set; }
         public virtual DbSet<OPCION> OPCION { get; set; }
-        public virtual DbSet<CAMBIO_PERSONAL> CAMBIO_PERSONAL { get; set; }
         public virtual DbSet<BITACORA_CAMBIO_PERSONAL> BITACORA_CAMBIO_PERSONAL { get; set; }
         public virtual DbSet<ASISTENCIA> ASISTENCIA { get; set; }
         public virtual DbSet<CUCHILLO> CUCHILLO { get; set; }
@@ -61,6 +60,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<BITACORA_MOVER_EMPLEADO> BITACORA_MOVER_EMPLEADO { get; set; }
         public virtual DbSet<PROYECCION_PROGRAMACION> PROYECCION_PROGRAMACION { get; set; }
         public virtual DbSet<PARAMETRO> PARAMETRO { get; set; }
+        public virtual DbSet<CAMBIO_PERSONAL> CAMBIO_PERSONAL { get; set; }
         public virtual DbSet<PERIODO> PERIODO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)

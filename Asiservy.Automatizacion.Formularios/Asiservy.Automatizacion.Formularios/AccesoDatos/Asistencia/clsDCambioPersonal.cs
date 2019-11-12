@@ -82,7 +82,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             List<String> listCedulas = new List<String>();
             //CAMBIO_PERSONAL CambioPersonal;
             string psLinea = pListCambioPersonal.FirstOrDefault().CodLinea;
-            string psArea = pListCambioPersonal.FirstOrDefault().CodArea;
+            string psArea = pListCambioPersonal.FirstOrDefault().CentroCosto;
             string psusuario = pListCambioPersonal.FirstOrDefault().UsuarioIngresoLog;
             string psterminal = pListCambioPersonal.FirstOrDefault().TerminalIngresoLog;
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
@@ -126,7 +126,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             {
                                 p.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                                 p.CodLinea = psLinea;
-                                p.CodArea = psArea;
+                                p.CentroCosto = psArea;
                                 p.FechaModificacionLog = DateTime.Now;
                                 p.UsuarioModificacionLog = psusuario;
                                 p.TerminalModificacionLog = psterminal;
