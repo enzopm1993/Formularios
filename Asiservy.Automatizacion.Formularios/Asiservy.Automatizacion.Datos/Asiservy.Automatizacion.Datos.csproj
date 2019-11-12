@@ -153,6 +153,9 @@
     <Compile Include="Datos\PARAMETRO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\PERIODO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\PROYECCION_PROGRAMACION.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

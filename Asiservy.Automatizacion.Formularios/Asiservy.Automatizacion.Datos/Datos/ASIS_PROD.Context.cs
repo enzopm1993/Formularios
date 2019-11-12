@@ -61,6 +61,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<BITACORA_MOVER_EMPLEADO> BITACORA_MOVER_EMPLEADO { get; set; }
         public virtual DbSet<PROYECCION_PROGRAMACION> PROYECCION_PROGRAMACION { get; set; }
         public virtual DbSet<PARAMETRO> PARAMETRO { get; set; }
+        public virtual DbSet<PERIODO> PERIODO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -114,15 +115,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual int sp_ReporteSolicitudes()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ReporteSolicitudes");
-        }
-    
-        public virtual ObjectResult<spConsutaEmpleados> spConsutaEmpleados(string cedula)
-        {
-            var cedulaParameter = cedula != null ?
-                new ObjectParameter("cedula", cedula) :
-                new ObjectParameter("cedula", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleados>("spConsutaEmpleados", cedulaParameter);
         }
     
         public virtual ObjectResult<spConsultaArea> spConsultaArea(string codigo)
@@ -625,6 +617,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual ObjectResult<SP_PKI_SOLICITUDES> SP_PKI_SOLICITUDES()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PKI_SOLICITUDES>("SP_PKI_SOLICITUDES");
+        }
+    
+        public virtual ObjectResult<spConsutaEmpleados> spConsutaEmpleados(string cedula)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleados>("spConsutaEmpleados", cedulaParameter);
         }
     }
 }
