@@ -9,7 +9,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 {
     public class clsDParametro
     {
-        ASIS_PRODEntities entities = null;
+        
 
         public List<PARAMETRO> ConsultaParametros(PARAMETRO Filtros)
         {

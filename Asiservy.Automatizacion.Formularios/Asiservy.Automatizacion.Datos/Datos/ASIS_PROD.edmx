@@ -92,8 +92,9 @@
           <Property Name="IdCambioPersonal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Cedula" Type="varchar" MaxLength="20" />
           <Property Name="CodLinea" Type="varchar" MaxLength="30" />
-          <Property Name="CodArea" Type="varchar" MaxLength="30" />
+          <Property Name="CentroCosto" Type="varchar" MaxLength="30" />
           <Property Name="CodCargo" Type="varchar" MaxLength="30" />
+          <Property Name="Recurso" Type="varchar" MaxLength="30" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
           <Property Name="FechaIngresoLog" Type="datetime" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="20" />
@@ -1133,7 +1134,6 @@
             <End Role="OPCION" EntitySet="OPCION" />
             <End Role="OPCION_ROL" EntitySet="OPCION_ROL" />
           </AssociationSet>
-          <EntitySet Name="CAMBIO_PERSONAL" EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" />
           <EntitySet Name="BITACORA_CAMBIO_PERSONAL" EntityType="ASIS_PRODModel.BITACORA_CAMBIO_PERSONAL" />
           <FunctionImport Name="spConsutaEmpleadosFiltro" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosFiltro)">
             <Parameter Name="Area" Mode="In" Type="String" />
@@ -1312,6 +1312,7 @@
           <FunctionImport Name="spConsultaOpcionModulo" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionModulo)" />
           <FunctionImport Name="SP_PKI_SOLICITUDES" ReturnType="Collection(ASIS_PRODModel.SP_PKI_SOLICITUDES)" />
           <EntitySet Name="PARAMETRO" EntityType="ASIS_PRODModel.PARAMETRO" />
+          <EntitySet Name="CAMBIO_PERSONAL" EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" />
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -1447,23 +1448,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CAMBIO_PERSONAL">
-          <Key>
-            <PropertyRef Name="IdCambioPersonal" />
-          </Key>
-          <Property Name="IdCambioPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cedula" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CodLinea" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="CodArea" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="CodCargo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="BITACORA_CAMBIO_PERSONAL">
           <Key>
             <PropertyRef Name="IdBitacoraCambioPersonal" />
@@ -2224,6 +2208,10 @@
           <Property Type="Int32" Name="IdModulo" Nullable="true" />
           <Property Type="String" Name="Modulo" Nullable="false" MaxLength="20" />
         </ComplexType>
+        <ComplexType Name="SP_PKI_SOLICITUDES">
+          <Property Type="Int32" Name="NUMERO" Nullable="true" />
+          <Property Type="String" Name="descNovedad" Nullable="false" MaxLength="30" />
+        </ComplexType>
         <EntityType Name="PARAMETRO">
           <Key>
             <PropertyRef Name="IdParametro" />
@@ -2241,10 +2229,24 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <ComplexType Name="SP_PKI_SOLICITUDES">
-          <Property Type="Int32" Name="NUMERO" Nullable="true" />
-          <Property Type="String" Name="descNovedad" Nullable="false" MaxLength="30" />
-        </ComplexType>
+        <EntityType Name="CAMBIO_PERSONAL">
+          <Key>
+            <PropertyRef Name="IdCambioPersonal" />
+          </Key>
+          <Property Name="IdCambioPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CodLinea" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CentroCosto" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CodCargo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Recurso" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2530,24 +2532,6 @@
                 <ScalarProperty Name="Formulario" ColumnName="Formulario" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CAMBIO_PERSONAL">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CAMBIO_PERSONAL">
-              <MappingFragment StoreEntitySet="CAMBIO_PERSONAL">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
-                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
-                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="IdCambioPersonal" ColumnName="IdCambioPersonal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3459,6 +3443,25 @@
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
                 <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CAMBIO_PERSONAL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CAMBIO_PERSONAL">
+              <MappingFragment StoreEntitySet="CAMBIO_PERSONAL">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdCambioPersonal" ColumnName="IdCambioPersonal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

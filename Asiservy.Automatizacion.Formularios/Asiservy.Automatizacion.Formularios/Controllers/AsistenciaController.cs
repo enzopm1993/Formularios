@@ -979,7 +979,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             {
                                 Cedula = pscedulas,
                                 CodLinea = dlinea,
-                                CodArea = darea,
+                                CentroCosto = darea,
                                 FechaIngresoLog = DateTime.Now,
                                 UsuarioIngresoLog = liststring[0],
                                 TerminalIngresoLog = Request.UserHostAddress,
