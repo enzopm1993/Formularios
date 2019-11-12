@@ -8,6 +8,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Datos.Datos;
 using System.Net;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using System.Data.Entity.Validation;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -21,7 +22,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDLogin clsDLogin = null;
         clsDError clsDError = null;
         clsApiUsuario clsApiUsuario = null;
-
+        string[] lsUsuario;
         #region BANDEJAS
         [Authorize]
         // GET: SolicitudPermiso
@@ -37,26 +38,27 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 clsDGeneral = new clsDGeneral();
 
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-                ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(psIdUsuario[1]);
-                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente, psIdUsuario[1]);
+                lsUsuario = User.Identity.Name.Split('_');
+                ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(lsUsuario[1]);
+                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente, lsUsuario[1]);
                 return View(ListaSolicitud);
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return View();
             }
             catch (Exception ex)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
-                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
                 return View();
             }
         }
@@ -75,21 +77,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudAprobado, null);
                 return View(ListaSolicitud);
             }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return View();
+            }
             catch (Exception ex)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
-                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso =psIdUsuario[0]
-                });
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
                 return View();
             }
         }
@@ -111,33 +114,36 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             model.IdSolicitudPermiso = int.Parse(psIdSolicitud);
                             model.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;
                             model.FechaModificacionLog = DateTime.Now;
-                            string[] psIdUsuario = User.Identity.Name.Split('_');
-                            model.UsuarioModificacionLog = psIdUsuario[0];
+                            lsUsuario = User.Identity.Name.Split('_');
+                            model.UsuarioModificacionLog = lsUsuario[0];
                             model.TerminalModificacionLog = Request.UserHostAddress;
 
                             psRespuesta = clsDSolicitudPermiso.CambioEstadoSolicitud(model);
                         }
+                          
                     }
                     return Json(psRespuesta, JsonRequestBehavior.AllowGet);
                 }
                 return Json("Error, no se ha enviado ninguna solicitud", JsonRequestBehavior.AllowGet);
 
             }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
         [Authorize]
@@ -153,8 +159,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     model.Observacion = dsObservacion;
                     model.EstadoSolicitud = clsAtributos.EstadoSolicitudAnulado;
                     model.FechaModificacionLog = DateTime.Now;
-                    string[] psIdUsuario = User.Identity.Name.Split('_');
-                    model.UsuarioModificacionLog = psIdUsuario[0] + "";
+                    lsUsuario = User.Identity.Name.Split('_');
+                    model.UsuarioModificacionLog = lsUsuario[0] + "";
                     model.TerminalModificacionLog = Request.UserHostAddress;
 
 
@@ -167,21 +173,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("Error, Numero de solicitud invalida", JsonRequestBehavior.AllowGet);
                 }
             }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
         [Authorize]
@@ -202,8 +210,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             model.IdSolicitudPermiso = int.Parse(psIdSolicitud);
                             model.EstadoSolicitud = clsAtributos.EstadoSolicitudRevisado;
                             model.FechaModificacionLog = DateTime.Now;
-                            string[] psIdUsuario = User.Identity.Name.Split('_');
-                            model.UsuarioModificacionLog = psIdUsuario[0];
+                            lsUsuario = User.Identity.Name.Split('_');
+                            model.UsuarioModificacionLog = lsUsuario[0];
                             model.TerminalModificacionLog = Request.UserHostAddress;
                             var envioOnly = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoSwitchServices, Codigo = clsAtributos.CodigoEnvioOnlyControl }).FirstOrDefault();
                             if (envioOnly.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
@@ -223,22 +231,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json("Error, no se ha enviado ninguna solicitud", JsonRequestBehavior.AllowGet);
 
             }
-            catch (Exception ex)
+            catch (DbEntityValidationException e)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
         [Authorize]
@@ -301,24 +310,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 return PartialView(model);
             }
-            catch (Exception ex)
+            catch (DbEntityValidationException e)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
-                SetErrorMessage(ex.Message);
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
                 return PartialView();
             }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return PartialView();
+            }         
+            
         }
 
 
@@ -343,8 +353,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     poSolicitudPermiso.FechaSalida = doSolicitud.FechaSalida ?? poSolicitudPermiso.FechaSalida;
                     poSolicitudPermiso.FechaRegreso = doSolicitud.FechaRegreso ?? poSolicitudPermiso.FechaRegreso;
                     poSolicitudPermiso.FechaModificacionLog = DateTime.Now;
-                    string[] psIdUsuario = User.Identity.Name.Split('_');
-                    poSolicitudPermiso.UsuarioModificacionLog = psIdUsuario[0] + "";
+                    lsUsuario = User.Identity.Name.Split('_');
+                    poSolicitudPermiso.UsuarioModificacionLog = lsUsuario[0] + "";
                     poSolicitudPermiso.TerminalModificacionLog = Request.UserHostAddress;
 
                     foreach (var detalle in doSolicitud.JustificaSolicitudes)
@@ -368,26 +378,30 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 else
                     return RedirectToAction("BandejaAprobacion");
             }
-            catch (Exception ex)
+            catch (DbEntityValidationException e)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
-                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
                 if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
                     return RedirectToAction("BandejaRRHH");
                 else
                     return RedirectToAction("BandejaAprobacion");
             }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
+                    return RedirectToAction("BandejaRRHH");
+                else
+                    return RedirectToAction("BandejaAprobacion");
+            }           
 
         }
         #endregion
@@ -408,22 +422,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 });
 
                 return View(model);
-            } catch(Exception ex)
-            {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-                SetErrorMessage(ex.Message);
-                clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
-                return RedirectToAction("Home","Home");
             }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }           
         }
         #endregion
 
@@ -435,30 +452,31 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDEmpleado = new clsDEmpleado();
-                string[] psIdUsuario = User.Identity.Name.Split('_');
+                lsUsuario = User.Identity.Name.Split('_');
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ValidacionControladorLinea();
                 ConsultaCombosGeneral(false);
                 return View();
             }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
             catch (Exception ex)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
-                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
-                return RedirectToAction("Home","Home");
-            }
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }           
         }
         public JsonResult ValidarMedicoSolicitud(string diIdSolicitud)
         {
@@ -471,8 +489,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     SOLICITUD_PERMISO model = new SOLICITUD_PERMISO();
                     model.IdSolicitudPermiso = int.Parse(diIdSolicitud);                           
                     model.FechaModificacionLog = DateTime.Now;
-                    string[] psIdUsuario = User.Identity.Name.Split('_');
-                    model.UsuarioModificacionLog = psIdUsuario[0];
+                    lsUsuario = User.Identity.Name.Split('_');
+                    model.UsuarioModificacionLog = lsUsuario[0];
                     model.TerminalModificacionLog = Request.UserHostAddress;
                     model.ValidaMedico = false;
                     psRespuesta=clsDSolicitudPermiso.CambioEstadoSolicitud(model);
@@ -481,21 +499,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json("Error, no se ha enviado ninguna solicitud", JsonRequestBehavior.AllowGet);
 
             }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -505,6 +526,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                clsDGeneral = new clsDGeneral();
                 //var errors = ModelState
                 //.Where(x => x.Value.Errors.Count > 0)
                 //.Select(x => new { x.Key, x.Value.Errors })
@@ -528,8 +550,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     SOLICITUD_PERMISO solicitudPermiso = new SOLICITUD_PERMISO();
                     clsDSolicitudPermiso = new clsDSolicitudPermiso();
                     clsDEmpleado = new clsDEmpleado();
-                    string[] psIdUsuario = User.Identity.Name.Split('_');
+                    lsUsuario = User.Identity.Name.Split('_');
                     var poEmpleado = clsDEmpleado.ConsultaEmpleado(model.Identificacion).FirstOrDefault();
+                    if(poEmpleado==null)
+                    {
+                        SetErrorMessage("No existe información del empleado.");
+                        return RedirectToAction("SolicitudPermiso");
+                    }
                     solicitudPermiso.CodigoLinea = poEmpleado.CODIGOLINEA;
                     solicitudPermiso.CodigoArea = poEmpleado.CODIGOAREA;
                     solicitudPermiso.CodigoCargo = poEmpleado.CODIGOCARGO;
@@ -568,8 +595,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.CodigoDiagnostico = "";
                     solicitudPermiso.CodigoClasificador = 0;
                     solicitudPermiso.EstadoRegistro = clsAtributos.EstadoRegistroActivo;                    
-                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(psIdUsuario[1] + "");
-                    solicitudPermiso.UsuarioIngresoLog = psIdUsuario[0];
+                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(lsUsuario[1] + "");
+                    solicitudPermiso.UsuarioIngresoLog = lsUsuario[0];
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
                     solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
                     if(model.CodigoMotivo ==clsAtributos.CodigoMotivoPermisoCitaMedica)
@@ -577,10 +604,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         solicitudPermiso.ValidaMedico = true;
                         solicitudPermiso.Origen = clsAtributos.SolicitudOrigenMedico;
                     }
+                    var Motivo= clsDSolicitudPermiso.ConsultarMotivos(solicitudPermiso.CodigoMotivo).FirstOrDefault();
+
+                    string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);                    
+                    string mensajeCorreo=clsDGeneral.EnvioCorreo("victorrcch@hotmail.com", "Solicitud Permiso",
+                        "Empleado: "+ poEmpleado.NOMBRES+ "\n</br>"
+                        + " Motivo:" + Motivo.DescripcionMotivo+ "\n</br>"
+                        + "Fecha Salida: " + solicitudPermiso.FechaSalida+ "\n</br>" 
+                        + "Fecha Regreso: " + solicitudPermiso.FechaRegreso+ "</br>\n Estado: Pendiente </br></br>");
 
 
-                    string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);
-                    SetSuccessMessage(string.Format(psRespuesta));
+                    SetSuccessMessage(string.Format(psRespuesta+" -- "+ mensajeCorreo));
                 }
                 else
                 {
@@ -591,35 +625,36 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 return RedirectToAction("SolicitudPermiso");
             }
-            catch (Exception ex)
+            catch (DbEntityValidationException e)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
-                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
                 return RedirectToAction("SolicitudPermiso");
             }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("SolicitudPermiso");
+            }            
         }
 
 
         public void ValidacionControladorLinea()
         {
             int piContrladorLinea = ValidarRolControladorLinea();
-            string[] psIdUsuario = User.Identity.Name.Split('_');
+            lsUsuario = User.Identity.Name.Split('_');
                 clsDGeneral = new clsDGeneral();
             clsDEmpleado = new clsDEmpleado();
             clsDClasificador = new clsDClasificador();
-            var poEmpleado = clsDEmpleado.ConsultaEmpleado(psIdUsuario[1]).FirstOrDefault();
-            string Cedula = psIdUsuario[1] + "";
+            var poEmpleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+            string Cedula = lsUsuario[1] + "";
             if (piContrladorLinea > 0)
             {
                 ViewBag.ControladorLinea = piContrladorLinea;
@@ -627,7 +662,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
             else
             {
-                ViewBag.NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : psIdUsuario[0];
+                ViewBag.NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : lsUsuario[0];
                 ViewData["Identificacion"] = Cedula;
             }
             ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, 0);
@@ -651,22 +686,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ConsultaCombosMedicos(false);
                 return View();
             }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
             catch (Exception ex)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
-                return RedirectToAction("Home","Home");
-            }
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }          
         }
 
         [Authorize]
@@ -733,11 +770,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.CodigoDiagnostico = model.CodigoDiagnostico;
                     solicitudPermiso.CodigoClasificador = int.Parse(model.CodigoClasificador);
                     solicitudPermiso.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                    string[] psIdUsuario = User.Identity.Name.Split('_');
-                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(psIdUsuario[1] + "");
+                    lsUsuario = User.Identity.Name.Split('_');
+                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(lsUsuario[1] + "");
 
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
-                    solicitudPermiso.UsuarioIngresoLog = psIdUsuario[0] + "";
+                    solicitudPermiso.UsuarioIngresoLog = lsUsuario[0] + "";
                     solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
                     string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);
                     SetSuccessMessage(string.Format(psRespuesta));
@@ -750,23 +787,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 return RedirectToAction("SolicitudPermisoDispensario");
             }
-            catch (Exception ex)
+            catch (DbEntityValidationException e)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
-                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
                 return RedirectToAction("SolicitudPermisoDispensario");
             }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("SolicitudPermisoDispensario");
+            }           
         }
         #endregion 
 
@@ -790,24 +828,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     ViewBag.Garita = RolGarita;
                 return View();
             }
-            catch(Exception ex)
+            catch (DbEntityValidationException e)
             {
-                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
                 return RedirectToAction("Home", "Home");
             }
-           
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }    
         }
 
         [Authorize]
@@ -832,35 +870,36 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
 
 
-                string[] psIdUsuario = User.Identity.Name.Split('_');
+                lsUsuario = User.Identity.Name.Split('_');
 
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 SOLICITUD_PERMISO solicitud = new SOLICITUD_PERMISO();
                 solicitud.IdSolicitudPermiso = IdSolicitudPermiso;
                 solicitud.FechaBiometrico = FechaBiometrico;
-                solicitud.UsuarioIngresoLog = psIdUsuario[0];
+                solicitud.UsuarioIngresoLog = lsUsuario[0];
                 solicitud.FechaIngresoLog = DateTime.Now;
                 solicitud.TerminalIngresoLog = Request.UserHostAddress;
 
                 string Mensaje= clsDSolicitudPermiso.MarcarHoraSalidaSolicitudPermiso(solicitud);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch (DbEntityValidationException e)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
         public ActionResult ConsultaSolicitudes(string dsLinea, string dsArea, string dsEstado, bool dsGarita=false, DateTime? ddFechaDesde=null, DateTime? ddFechaHasta = null)
@@ -887,24 +926,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 return View();
             }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return View();
+            }
             catch (Exception ex)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
-                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
                 return View();
-
-            }
+            }        
         }
 
         [Authorize]
@@ -921,23 +960,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return PartialView(model);
 
             }
-            catch (Exception ex)
+            catch (DbEntityValidationException e)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
-                return Json(new { Failed = true, Mensaje = ex.Message }, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje1 = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(new { Failed = true, Mensaje = Mensaje1 }, JsonRequestBehavior.AllowGet);
             }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje1 = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(new { Failed = true, Mensaje = Mensaje1 }, JsonRequestBehavior.AllowGet);
+            }           
         }
         #endregion
 
@@ -988,8 +1028,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public int ValidarRolControladorLinea()
         {
             clsDLogin = new clsDLogin();
-            string[] psIdUsuario = User.Identity.Name.Split('_');
-            List<int?> roles = clsDLogin.ConsultaRolesUsuario(psIdUsuario[1]);
+            lsUsuario = User.Identity.Name.Split('_');
+            List<int?> roles = clsDLogin.ConsultaRolesUsuario(lsUsuario[1]);
             int piContrladorLinea=0;
             if (roles.Any())
             {
@@ -1002,8 +1042,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public int ValidarRolGarita()
         {
             clsDLogin = new clsDLogin();
-            string[] psIdUsuario = User.Identity.Name.Split('_');
-            List<int?> roles = clsDLogin.ConsultaRolesUsuario(psIdUsuario[1]);
+            lsUsuario = User.Identity.Name.Split('_');
+            List<int?> roles = clsDLogin.ConsultaRolesUsuario(lsUsuario[1]);
             int piGarita = 0;
             if (roles.Any())
             {
@@ -1038,8 +1078,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null).Where(x => x.CodigoMotivo == "EN");
             }
             ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
-            string[] psIdUsuario = User.Identity.Name.Split('_');
-            ViewBag.NombreMedico = clsApiUsuario.ConsultaListaUsuariosSap().FirstOrDefault(x => x.Cedula == psIdUsuario[1]).Nombre??"";
+            lsUsuario = User.Identity.Name.Split('_');
+            ViewBag.NombreMedico = clsApiUsuario.ConsultaListaUsuariosSap().FirstOrDefault(x => x.Cedula == lsUsuario[1]).Nombre??"";
             //ViewBag.Areas = clsDGeneral.ConsultaAreas("0");
             //ViewBag.Cargos = clsDGeneral.ConsultaCargos("0");
         }
@@ -1069,22 +1109,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 return PartialView(lista);
 
-            }catch(Exception ex)
+            }
+            catch (DbEntityValidationException e)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -1097,22 +1139,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             var areas = clsDGeneral.ConsultaAreas(CodLinea);
             return Json(areas, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch (DbEntityValidationException e)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = psIdUsuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -1124,23 +1167,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var areas = clsDGeneral.ConsultaCargos(CodArea);
                 return Json(areas, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch (DbEntityValidationException e)
             {
-                string[] psIdUsuario = User.Identity.Name.Split('_');
-
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR {
-                    Controlador =this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje=ex.Message,
-                    Observacion= "Metodo: "+ this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso= DateTime.Now,
-                    TerminalIngreso=Request.UserHostAddress,
-                    UsuarioIngreso=psIdUsuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
-         }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         #endregion
 
