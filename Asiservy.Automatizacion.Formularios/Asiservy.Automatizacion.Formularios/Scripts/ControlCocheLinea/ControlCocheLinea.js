@@ -31,7 +31,17 @@ function CargarControlCoche() {
         success: function (resultado) {
             var DivControl = $('#DivTableControlCoche');
             $('#spinnerCargando').prop("hidden", true);  
-            DivControl.html(resultado);
+
+            if (resultado.Codigo == 0) {
+                $("#btnGuardar").prop("hidden", true);
+                DivControl.html("<h2 class='text-center'>"+resultado.Mensaje+"<h2>");
+                MensajeAdvertencia(resultado.Mensaje);
+            } else {
+                $("#btnGuardar").prop("hidden", false);
+                DivControl.html(resultado);
+
+            }
+
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);

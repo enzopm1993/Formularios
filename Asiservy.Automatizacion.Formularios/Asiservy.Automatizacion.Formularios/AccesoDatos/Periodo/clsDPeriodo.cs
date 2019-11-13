@@ -8,22 +8,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 {
     public class clsDPeriodo
     {
-        ASIS_PRODEntities entities = null;
-
-        public bool ValidarPeriodoFechaDesde(DateTime Fecha)
+        
+        public bool ValidarPeriodoFechaDesde(DateTime ddFechaDesde, DateTime ddFechaHasta,int Id)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                bool valida = true;
-                DateTime FechaHasta = Fecha.AddDays(1).Date;
+                bool valida = false;
+               // DateTime FechaHasta = Fecha.AddDays(1).Date;
 
                 var periodo = entities.PERIODO.FirstOrDefault(x =>
-                x.FechaHasta < Fecha               
+                x.IdPeriodo!=Id && (
+                (x.FechaDesde <= ddFechaDesde
+                && x.FechaHasta >= ddFechaDesde)
+                || (x.FechaDesde <= ddFechaHasta && x.FechaHasta>=ddFechaHasta))
                 );
                 if (periodo != null)
                 {
-                    valida = false;
-                }
+                    valida = true;
+
+                }               
 
                 return valida;
             }

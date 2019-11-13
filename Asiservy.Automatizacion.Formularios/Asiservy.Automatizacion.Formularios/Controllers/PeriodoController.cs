@@ -66,7 +66,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Respuesta.Mensaje = "Fecha desde no puede ser mayor";
                     return Json(Respuesta, JsonRequestBehavior.AllowGet);
                 }
-                if (clsDPeriodo.ValidarPeriodoFechaDesde(model.FechaDesde))
+                if (clsDPeriodo.ValidarPeriodoFechaDesde(model.FechaDesde,model.FechaHasta,model.IdPeriodo))
                 {
                     Respuesta.Codigo = 0;
                     Respuesta.Mensaje = "Ya existe un periodo con ese rango de fechas";

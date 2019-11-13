@@ -336,15 +336,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         if (Linea.CODIGOLINEA == clsAtributos.CodLineaProduccion)
                         {
                             var LineasPertenece = (entities.CLASIFICADOR.Where(x=> 
-                            x.Grupo == clsAtributos.CodGrupoLineaProduccion
+                            x.Grupo == clsAtributos.CodGrupoLineasAprobarSolicitudProduccion
                             && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                            && x.Codigo!="0"
                             )).ToList();
                             if(LineasPertenece != null)
                             {
                                 foreach (var x in LineasPertenece)
                                     ListaLineas.Add(x.Codigo+"");
-                                ListaLineas.Add(clsAtributos.CodLineaProduccionEmpaque);
-                                ListaLineas.Add(clsAtributos.CodLineaProduccionRecuperadoControl);
+                                //ListaLineas.Add(clsAtributos.CodLineaProduccionEmpaque);
+                                //ListaLineas.Add(clsAtributos.CodLineaProduccionRecuperadoControl);
                             }
                         }
                         if(NivelUsuario != null) {

@@ -44,6 +44,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //ClasificadorGenerico de Lineas
         public static string CodGrupoLineaProduccion = "002";
+        public static string CodGrupoLineasAprobarSolicitudProduccion = "014";
 
         //ClasificadorGenerico de Grupo de Enfermedades
         public static string CodGrupoEnfermedadDiagnostico = "E";
