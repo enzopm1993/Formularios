@@ -742,9 +742,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     clsDEmpleado = new clsDEmpleado();
                     clsDSolicitudPermiso = new clsDSolicitudPermiso();
                     var poEmpleado = clsDEmpleado.ConsultaEmpleado(model.Identificacion).FirstOrDefault();
+                    if (poEmpleado == null)
+                    {
+                        SetErrorMessage("No existe información del empleado.");
+                        return RedirectToAction("SolicitudPermisoDispensario");
+                    }
                     solicitudPermiso.CodigoLinea = poEmpleado.CODIGOLINEA;
                     solicitudPermiso.CodigoArea = poEmpleado.CODIGOAREA;
                     solicitudPermiso.CodigoCargo = poEmpleado.CODIGOCARGO;
+                    solicitudPermiso.CodigoRecurso = poEmpleado.CODIGORECURSO;
                     solicitudPermiso.Identificacion = model.Identificacion;
                     solicitudPermiso.CodigoMotivo = model.CodigoMotivo;
                     solicitudPermiso.Observacion = model.Observacion;
