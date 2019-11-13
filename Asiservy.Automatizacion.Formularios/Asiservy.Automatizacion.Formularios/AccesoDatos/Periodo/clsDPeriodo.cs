@@ -38,12 +38,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 bool valida = true;
-                DateTime FechaHasta = Fecha.AddDays(1).Date;
+                //DateTime FechaHasta = Fecha.AddDays(1).Date;
 
                 var periodo = entities.PERIODO.FirstOrDefault(x =>
                 x.Estado == clsAtributos.PeriodoBloqueado
-                && x.FechaDesde >= Fecha
-                && x.FechaHasta < FechaHasta
+                && x.FechaDesde <= Fecha
+                && x.FechaHasta >= Fecha
                 );
 
                 if (periodo != null){

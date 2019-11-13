@@ -104,13 +104,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 RespuestaGeneral respuestaGeneral = new RespuestaGeneral(); 
                 clsDControlCocheLinea = new clsDControlCocheLinea();
-                clsDPeriodo = new clsDPeriodo();
-                if(clsDPeriodo.ValidaFechaPeriodo(Fecha))
-                {
-                    respuestaGeneral.Codigo = 0;
-                    respuestaGeneral.Mensaje = "Periodo Cerrado";
-                    return Json(respuestaGeneral,JsonRequestBehavior.AllowGet);
-                }
+                //clsDPeriodo = new clsDPeriodo();
+                //if(!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                //{
+                //    respuestaGeneral.Codigo = 0;
+                //    respuestaGeneral.Mensaje = "Periodo Cerrado";
+                //    return Json(respuestaGeneral,JsonRequestBehavior.AllowGet);
+                //}
 
                 var model = clsDControlCocheLinea.ConsultarControlCocheLinea(new Models.ControlCocheLinea.ControlCocheLineaViewModel { Fecha = Fecha });
                 return PartialView(model);
