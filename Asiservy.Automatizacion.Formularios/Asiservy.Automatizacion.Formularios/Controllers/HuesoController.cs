@@ -24,6 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDGeneral clsDGeneral = null;
         clsDLogin clsDLogin = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
+
         #region CONTROL HUESOS
         [Authorize]
         public ActionResult ControlHueso()
@@ -385,11 +386,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-        #endregion
-
-
-
-
+        #endregion                     
 
         #region REPORTE CONTROL HUESO - MIGA
         [Authorize]
@@ -547,7 +544,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
         #endregion
-
 
 
         protected void SetSuccessMessage(string message)

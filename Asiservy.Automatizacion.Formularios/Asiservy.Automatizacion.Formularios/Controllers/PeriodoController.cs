@@ -43,6 +43,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDPeriodo = new clsDPeriodo();
                 RespuestaGeneral Respuesta = new RespuestaGeneral();
                 if (string.IsNullOrEmpty(model.Descripcion))
                 {
@@ -62,12 +66,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Respuesta.Mensaje = "Fecha desde no puede ser mayor";
                     return Json(Respuesta, JsonRequestBehavior.AllowGet);
                 }
-               
+                if (clsDPeriodo.ValidarPeriodoFechaDesde(model.FechaDesde))
+                {
+                    Respuesta.Codigo = 0;
+                    Respuesta.Mensaje = "Ya existe un periodo con ese rango de fechas";
+                    return Json(Respuesta, JsonRequestBehavior.AllowGet);
+                }
 
-                ViewBag.dataTableJS = "1";
-                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-                lsUsuario = User.Identity.Name.Split('_');
-                clsDPeriodo = new clsDPeriodo();
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.FechaIngresoLog = DateTime.Now;
                 // model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;

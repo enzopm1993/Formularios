@@ -10,6 +10,48 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
     {
         ASIS_PRODEntities entities = null;
 
+        public bool ValidarPeriodoFechaDesde(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                bool valida = true;
+                DateTime FechaHasta = Fecha.AddDays(1).Date;
+
+                var periodo = entities.PERIODO.FirstOrDefault(x =>
+                x.FechaHasta < Fecha               
+                );
+                if (periodo != null)
+                {
+                    valida = false;
+                }
+
+                return valida;
+            }
+        }
+
+
+        public bool ValidaFechaPeriodo(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                bool valida = true;
+                DateTime FechaHasta = Fecha.AddDays(1).Date;
+
+                var periodo = entities.PERIODO.FirstOrDefault(x =>
+                x.Estado == clsAtributos.PeriodoBloqueado
+                && x.FechaDesde >= Fecha
+                && x.FechaHasta < FechaHasta
+                );
+
+                if (periodo != null){
+                    valida = false;
+                }
+
+                return valida;
+            }
+        }
+
+
         public List<PERIODO> ConsultaPeriodos(PERIODO Filtros)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -40,6 +82,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
                 {
                     poPeriodo.Descripcion = model.Descripcion;     
                     poPeriodo.Estado = model.Estado;
+                    poPeriodo.FechaDesde = model.FechaDesde;
+                    poPeriodo.FechaHasta = model.FechaHasta;
                     poPeriodo.FechaModificacionLog = DateTime.Now;
                     poPeriodo.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poPeriodo.TerminalModificacionLog = model.TerminalIngresoLog;

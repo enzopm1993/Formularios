@@ -143,6 +143,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string CodigoEnvioOnlyControl = "1";
 
 
+        //PERIODOS
+        public static string PeriodoBloqueado = "B";
+        public static string PeriodoAbierto = "A";
 
         //PARAMETROS
         public static string TiempoSalidaGarita = "001";

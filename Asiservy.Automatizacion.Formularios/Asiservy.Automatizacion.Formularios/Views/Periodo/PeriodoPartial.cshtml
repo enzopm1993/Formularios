@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.PERIODO>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
@@ -20,6 +18,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaHasta)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.Estado)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaIngresoLog)
@@ -62,7 +63,15 @@
                 @item.FechaHasta.ToString("dd-MM-yyyy")
                 
             </td>
+            <td>
+                @if (item.Estado == "B")
+                {
+                <label>Bloqueado</label>
+                } else {
 
+                <label>Abierto</label>
+                }
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaIngresoLog)
             </td>
