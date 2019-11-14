@@ -195,7 +195,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
                 List<spConsutaEmpleadosFiltroCambioPersonal> pListEmpleados = null;
                 //List<spConsutaEmpleadosFiltroCambioPersonal> pListEmpleadoR = new List<spConsutaEmpleadosFiltroCambioPersonal>();
-                pListEmpleados = db.spConsutaEmpleadosFiltroCambioPersonal(dsArea, dsLinea, dsCargo,psTipo).ToList();
+               // pListEmpleados = db.spConsutaEmpleadosFiltroCambioPersonal(dsArea, dsLinea, dsCargo,psTipo).ToList();
                
                 return pListEmpleados;
                 

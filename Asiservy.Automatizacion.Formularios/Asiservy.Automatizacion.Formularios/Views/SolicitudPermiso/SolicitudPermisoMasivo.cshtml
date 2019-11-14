@@ -1,0 +1,105 @@
+﻿@model Asiservy.Automatizacion.Formularios.Models.SolicitudPermisoViewModel
+
+@{
+    ViewBag.Title = "SolicitudPermisoMasivo";
+}
+<style type="text/css">
+    input, select, textarea {
+        max-width: 100%
+    }
+</style>
+<h3>Solicitud Permiso Masivo</h3>
+<hr />
+<div>
+    <div class="row">
+        <div class="col-md-4 col-12">
+            <label>Linea</label>
+            @{ if (ViewBag.Lineas != null)
+                {
+                    @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.Linea), new { @class = "form-control", @id = "txtCodLinea" })
+
+                }
+                else
+                {
+                    <input type="text" readonly class="form-control" name="name" value=" @ViewBag.Linea" />
+                    <input type="hidden" name="name" value="@ViewBag.CodLinea" id="txtCodLinea" />
+                }
+
+            }
+
+        </div>
+        <div class="col-md-4 col-12">
+            <div class="form-group">
+                @Html.LabelFor(m => m.DescripcionMotivo, new { @class = "" })
+                @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "DescripcionMotivo"), "Seleccione el Motivo", new { @class = "form-control", @id = "selectMotivo" })
+                @Html.ValidationMessageFor(m => m.CodigoMotivo, "", new { @class = "input-validation-error text-danger has-error" })
+            </div>
+        </div>
+        <div class="col-md-4 col-12">
+            <div class="form-group">
+                <label>Observación</label>
+                @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control", @maxlength = "500", @style = "text-transform:uppercase", @onkeypress = "return sololetras(event)" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-12 text-center">
+        <label>Fecha - Hora</label>
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
+            <label class="custom-control-label" for="switchHoraFecha" id="LabelFecha"></label>
+        </div>
+    </div>
+    <div class="row" id="DivHora">
+
+        <div class="col-md-4 col-sm-12">
+            <label>Fecha</label>
+            @Html.TextBoxFor(m => m.FechaSalidaEntrada, new { @type = "date", @id = "dateSalidaRegreso", @class = "form-control" })
+        </div>
+        <div class="col-md-4 col-sm-5">
+            <label>Hora Salida</label>
+            @Html.TextBoxFor(m => m.HoraSalida, new { @type = "time", @id = "timeHoraSalida", @class = "form-control" })
+            @*<input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />*@
+        </div>
+        <div class="col-md-4  col-sm-5">
+            <label>Hora Regreso</label>
+            @Html.TextBoxFor(m => m.HoraRegreso, new { @type = "time", @id = "timeHoraRegreso", @class = "form-control" })
+            @*<input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />*@
+        </div>
+
+    </div>
+    <div class="row" id="DivFecha">
+        <div class="col-md-6 col-sm-12">
+            <label>Fecha Salida</label>
+            @Html.TextBoxFor(m => m.FechaSalida, new { @type = "date", @id = "dateSalida", @class = "form-control" })
+            @*<input class="form-control" type="date" name="name" value="" id="datetimeDesde" />*@
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <label>Fecha Regreso</label>
+            @Html.TextBoxFor(m => m.FechaRegreso, new { @type = "date", @id = "dateRegreso", @class = "form-control" })
+
+        </div>
+    </div>
+    @Html.ValidationMessage("CustomError", "", new { @class = "input-validation-error text-danger has-error" })
+
+    <br />
+    <div class="row">
+        <div class=" text-center col-12">
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="Guardar()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/send24.png" />
+            </button>
+            <div id="spinnerCargando" hidden class="text-center">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <br />
+    <div class="text-center">
+        <h3 id="h3Mensaje"></h3>
+    </div>
+</div>
