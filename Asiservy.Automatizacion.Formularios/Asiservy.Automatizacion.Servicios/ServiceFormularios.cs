@@ -47,6 +47,7 @@ namespace Asiservy.Automatizacion.Servicios
                     CodigoLinea = poEmpleado.CODIGOLINEA,
                     CodigoArea = poEmpleado.CODIGOAREA,
                     CodigoCargo = poEmpleado.CODIGOCARGO,
+                    CodigoRecurso= poEmpleado.CODIGORECURSO,
                     Identificacion = Identificacion,
                     CodigoMotivo = CodigoMotivo,
                     Observacion = Observacion,
