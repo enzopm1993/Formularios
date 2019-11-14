@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asiservy.Automatizacion.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asiservy.Automatizacion.WcfService", "Asiservy.Automatizacion.WcfService\Asiservy.Automatizacion.WcfService.csproj", "{C8A17A7A-7F97-4D83-AE9F-092E460B0909}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfService1", "WcfService1\WcfService1.csproj", "{0A36ED8A-161A-480E-9A0C-741CF0890294}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{C8A17A7A-7F97-4D83-AE9F-092E460B0909}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8A17A7A-7F97-4D83-AE9F-092E460B0909}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8A17A7A-7F97-4D83-AE9F-092E460B0909}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A36ED8A-161A-480E-9A0C-741CF0890294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A36ED8A-161A-480E-9A0C-741CF0890294}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A36ED8A-161A-480E-9A0C-741CF0890294}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A36ED8A-161A-480E-9A0C-741CF0890294}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
