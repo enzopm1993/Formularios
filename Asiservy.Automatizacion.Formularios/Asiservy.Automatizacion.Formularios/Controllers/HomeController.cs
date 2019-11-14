@@ -71,6 +71,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public void Notificaciones(List<int?> Roles)
         {
             List<string> MensajesNotificaciones = new List<string>();
+            
             if (Roles.Any(x => x.Value == clsAtributos.RolAprobacionSolicitud))
             {
                 var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente, lsUsuario[1]);
@@ -88,7 +89,35 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudAprobado, lsUsuario[1]);
                 if (solicitudes.Any())
                 {
-                    string Mensaje = "Tienes " + solicitudes.Count + " solicitudes en su bandeja por revisar";
+                    string Mensaje = "Tiene " + solicitudes.Count + " solicitudes en su bandeja por revisar";
+                    //ViewBag.SolicitudPermiso = Mensaje;
+                    MensajesNotificaciones.Add(Mensaje);
+                }
+            }
+
+            if (Roles.Any(x => x.Value == clsAtributos.RolMedico))
+            {
+                var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(new SOLICITUD_PERMISO
+                {                   
+                    EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado,
+                    Origen = clsAtributos.SolicitudOrigenMedico,
+                    ValidaMedico = true
+                });
+
+                if (solicitudes.Any())
+                {
+                    string Mensaje = "Tiene " + solicitudes.Count + " solicitudes en su bandeja por revisar";
+                    //ViewBag.SolicitudPermiso = Mensaje;
+                    MensajesNotificaciones.Add(Mensaje);
+                }
+            }
+
+            if (Roles.Any(x => x.Value == clsAtributos.RolGarita))
+            {
+                var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermisoReporte(null,null,clsAtributos.EstadoSolicitudAprobado, true, DateTime.Now.Date, DateTime.Now.Date).Where(x=> x.FechaBiometrico != null).ToList();
+                if (solicitudes.Any())
+                {
+                    string Mensaje = "Tiene " + solicitudes.Count + " solicitudes en su bandeja";
                     //ViewBag.SolicitudPermiso = Mensaje;
                     MensajesNotificaciones.Add(Mensaje);
                 }

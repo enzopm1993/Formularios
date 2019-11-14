@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="Asiservy.Automatizacion.WcfService.Service1" CodeBehind="ServiceFormularios.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Asiservy.Automatizacion.WcfService.ServiceFormularios" CodeBehind="ServiceFormularios.svc.cs" %>

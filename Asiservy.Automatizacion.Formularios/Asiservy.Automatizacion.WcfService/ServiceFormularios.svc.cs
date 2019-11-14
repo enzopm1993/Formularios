@@ -11,8 +11,8 @@ using Asiservy.Automatizacion.Datos.Datos;
 
 namespace Asiservy.Automatizacion.WcfService
 {
-    // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de clase "Service1" en el código, en svc y en el archivo de configuración.
-    // NOTE: para iniciar el Cliente de prueba WCF para probar este servicio, seleccione Service1.svc o Service1.svc.cs en el Explorador de soluciones e inicie la depuración.
+    // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de clase "ServiceFormularios" en el código, en svc y en el archivo de configuración.
+    // NOTE: para iniciar el Cliente de prueba WCF para probar este servicio, seleccione ServiceFormularios.svc o ServiceFormularios.svc.cs en el Explorador de soluciones e inicie la depuración.
     public class ServiceFormularios : IServiceFormularios
     {
         public RespuestaGenerica GenerarSolicitudPermiso(string Identificacion, string CodigoMotivo, string Observacion, string UsuarioIngreso, string TerminalIngreso, DateTime FechaSalida, DateTime FechaRegreso)

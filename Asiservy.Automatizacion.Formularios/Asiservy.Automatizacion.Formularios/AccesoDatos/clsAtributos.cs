@@ -37,6 +37,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int RolGeneraPermisoCompartido = 17;
         public static int RolAprobacionSolicitud=8;
         public static int RolRRHH = 9;
+        public static int RolMedico = 6;
 
         //Codigos de Lineas
         public static string CodLineaProduccion = "07";
@@ -152,6 +153,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //PARAMETROS
         public static string TiempoSalidaGarita = "001";
+        public static string ParaMensajeUrgente = "003";
+        public static string ParaMensajeAviso = "002";
 
     }
 }
