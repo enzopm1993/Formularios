@@ -35,6 +35,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int RolControladorGeneral = 3;
         public static int RolGarita = 7;
         public static int RolGeneraPermisoCompartido = 17;
+        public static int RolAprobacionSolicitud=8;
+        public static int RolRRHH = 9;
 
         //Codigos de Lineas
         public static string CodLineaProduccion = "07";
