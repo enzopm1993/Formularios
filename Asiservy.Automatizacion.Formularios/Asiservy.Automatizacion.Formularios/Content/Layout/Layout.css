@@ -91,7 +91,7 @@ div.relative1 {
 div.absolute1 {
     position: absolute;
     width: 95%;
-    height: 100%;
+    
     z-index:10000;
   
     

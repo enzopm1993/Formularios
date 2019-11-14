@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Datos.Datos;
 using System.Data.Entity.Validation;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -14,6 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDError clsDError = null;
         clsDSolicitudPermiso clsDSolicitudPermiso = null;
         clsDEmpleado clsDEmpleado = null;
+        clsDParametro clsDParametro = null;
         string[] lsUsuario;
         protected void SetSuccessMessage(string message)
         {
@@ -70,8 +72,28 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         public void Notificaciones(List<int?> Roles)
         {
+            clsDParametro = new clsDParametro();
             List<string> MensajesNotificaciones = new List<string>();
-            
+
+            var MensajeUrgente = clsDParametro.ConsultaParametros(new PARAMETRO { Codigo = clsAtributos.ParaMensajeUrgente,
+                EstadoRegistro = clsAtributos.EstadoRegistroActivo }).FirstOrDefault();
+            if(MensajeUrgente != null)
+            {
+                ViewBag.MensajeUrgente = MensajeUrgente.Observacion;
+            }
+
+            var MensajeAviso = clsDParametro.ConsultaParametros(new PARAMETRO
+            {
+                Codigo = clsAtributos.ParaMensajeAviso,
+                EstadoRegistro = clsAtributos.EstadoRegistroActivo
+            }).FirstOrDefault();
+            if (MensajeAviso != null)
+            {
+                ViewBag.MensajeAviso = MensajeAviso.Observacion;
+            }
+
+
+
             if (Roles.Any(x => x.Value == clsAtributos.RolAprobacionSolicitud))
             {
                 var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente, lsUsuario[1]);
