@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteControlEnfundadoPorEnfundadora>
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                <label>Nombre</label>
+            </th>
+
+            @{ var ListadoHoras = Model.Select(x => x.Hora).Distinct();
+                foreach (var x in ListadoHoras)
+                {
+                    <th>
+                        @x
+                    </th>
+                }
+            }
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioModificacionLog)
+            </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var ListadoCedulas = Model.Select(x => x.Cedula).Distinct();
+        }
+        @foreach (var item in ListadoCedulas)
+        {
+            <tr>
+                <td>
+                    @item
+                </td>
+                <td>
+                    @Model.FirstOrDefault(x=>x.Cedula==item).nombre
+                </td>
+                @{
+                    var ListadoHora = Model.Where(x => x.Cedula == item).Select(x => x.Fundas).ToList();
+
+                }
+                @foreach (var x in ListadoHora)
+                {
+                    <td>
+                        @x
+                    </td>
+                }
+
+                    <td>
+                        @Model.FirstOrDefault(x => x.Cedula == item).UsuarioIngresoLog
+                    </td>
+
+                    <td>
+                        @Model.FirstOrDefault(x => x.Cedula == item).UsuarioModificacionLog
+                    </td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/Scripts/General/dataTableJS.js"></script> 

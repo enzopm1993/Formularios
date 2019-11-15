@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteControlEnfundadoPorHora>
+
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                <label>Id</label>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lote)
+            </th>
+            <th>
+                <label>Funda Teórica</label>
+            </th>
+            <th>
+                <label>Peso</label>
+            </th>
+            <th>
+                <label>Enfundadoras</label>
+            </th>
+            <th>
+                <label>Total Fundas</label>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Funda)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TerminalIngresoLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaIngresoLog)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdControlEnfundado)
+            </td>
+            <td>
+                @item.Fecha.ToShortDateString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeoricoFunda)
+            </td>
+            <td>
+                @item.PesoProducto Kg
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalEnfundadora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalFunda)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Funda)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<script src="~/Scripts/General/dataTableJS.js"></script> 

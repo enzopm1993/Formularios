@@ -107,5 +107,24 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlEnfundado
                 return result;
             }
         }
+
+        public List<spReporteControlEnfundadoPorEnfundadora> ReporteControlEnfundadoPorEnfundadora(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var result = entities.spReporteControlEnfundadoPorEnfundadora(Fecha).ToList();
+                return result;
+            }
+        }
+
+        public List<spReporteControlEnfundadoPorHora> ReporteControlEnfundadoPorHora(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var result = entities.spReporteControlEnfundadoPorHora(Fecha).ToList();
+                return result;
+            }
+        }
+
     }
 }

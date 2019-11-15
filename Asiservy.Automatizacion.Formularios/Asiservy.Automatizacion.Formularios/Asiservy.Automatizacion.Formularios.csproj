@@ -2063,6 +2063,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\ControlEnfundado\ReporteControlEnfundado.js" />
     <Content Include="Scripts\Empleado\EmpleadoCargo.js" />
     <Content Include="Scripts\Empleado\ReporteEmpleadoCargo.js" />
     <Content Include="Scripts\Hueso\ReporteAvanceDiarioPorLimpiadora.js" />
@@ -2814,6 +2815,9 @@
     <Content Include="Views\Periodo\Periodo.cshtml" />
     <Content Include="Views\Periodo\PeriodoPartial.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudPermisoMasivo.cshtml" />
+    <Content Include="Views\ControlEnfundado\ReporteControlEnfundado.cshtml" />
+    <Content Include="Views\ControlEnfundado\ReportePorEnfundadora.cshtml" />
+    <Content Include="Views\ControlEnfundado\ReportePorHora.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
