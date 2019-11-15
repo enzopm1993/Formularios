@@ -4,7 +4,8 @@ function MoverEmpleados() {
     i = 0; 
     //**
     if ($('#optcambiaremp').val() == 'prestar') {
-        if ($('#selectLinea').val() != "" && $('#selectArea').val() != "") {
+        if ($('#selectLinea').val() != "" && $('#SelectArea').val() != "" && $('#SelectRecurso').val() != "" && $('#SelectCargo').val() != ""
+            && $('#txtFechaInicio').val() != "" && $('#txtHoraInicio').val() != "") {
             $("input[type=checkbox]:checked").each(function (resultado) {
                 id = $(this).attr("id");
                 this.id = id.replace('Empleado-', '');
@@ -14,7 +15,7 @@ function MoverEmpleados() {
             //console.log(result);
             Mover(result);
         } else {
-            MensajeAdvertencia("Debe seleccionar La línea y el área a mover", false);
+            MensajeAdvertencia("Centro de Costos, Recurso, Línea,Cargo,fecha y hora son obligatorios", false);
         }
     } else {
         $("input[type=checkbox]:checked").each(function (resultado) {
@@ -38,15 +39,28 @@ function Mover(result) {
     }
     var pslinea = "";
     var psarea = "";
+    var psrecurso = "";
+    var pscargo = "";
     var resultado = JSON.stringify(result)
     var resultado2 = JSON.parse(resultado)
-    SelectLineaRegresar
+    
     if ($('#optcambiaremp').val() == 'prestar') {
-        pslinea = $('#selectLinea').val();
-            psarea = $('#selectArea').val();
+        pslinea = $('#SelectLinea').val();
+        psarea = $('#SelectArea').val();
+        psrecurso = $('#SelectRecurso').val();
+        pscargo = $('#SelectCargo').val();
+        psfecha = $('#txtFechaInicio').val();
+        pshora = $('#txtHoraInicio').val();
     } else {
+        if ($('#txtFechaFin').val() == "" && $('#txtHoraFin').val() == "") {
+            MensajeAdvertencia("Error, Debe ingresar Fecha y hora");
+            return false;
+        }
+            
         pslinea = $('#SelectLineaRegresar').val();
-            psarea = $('#SelectAreaRegresar').val();
+        psarea = $('#SelectAreaRegresar').val();
+        psfecha = $('#txtFechaFin').val();
+        pshora = $('#txtHoraFin').val();
     }
     console.log(resultado2);
     $.ajax({
@@ -57,15 +71,20 @@ function Mover(result) {
             dCedulas: resultado2,
             dlinea: pslinea,
             darea: psarea,
+            drecurso:psrecurso,
+            dcargo: pscargo,
+            dfecha: psfecha,
+            dhora: pshora,
             tipo: $('#optcambiaremp').val()
         },
         success: function (resultado) {
-            MensajeCorrecto(resultado, true);
+            MensajeCorrectoTiempo(resultado, true,10000);
 
         }
         ,
-        error: function () {
-            MensajeError("No se pudieron mover", false);
+        error: function (resultado) {
+            //MensajeError("No se pudieron mover", false);
+            MensajeError(resultado, false);
         }
     });
 }
@@ -74,18 +93,22 @@ function Mover(result) {
 function ConsultarEmpleados() {
     //ConsultarEmpleado = "ConsultarEmpleado";
   
-    if ($('#SelectLineaOrigen').val() != "") {
+    if ($('#SelectAreaOrigen').val() != "") {
         MostrarModalCargando();
         $.ajax({
             url: "../Asistencia/EmpleadosCambioPersonalPartial",
             type: "GET",
             data:
             {
-                pslinea: $('#SelectLineaOrigen').val(),
-                psarea: $('#SelectAreaOrigen').val(),
-                pscargo: $('#SelectCargoOrigen').val(),
+                //pslinea: $('#SelectLineaOrigen').val(),
+                //psarea: $('#SelectAreaOrigen').val(),
+                //pscargo: $('#SelectCargoOrigen').val(),
+                //tipo: $('#optcambiaremp').val()
+                psCentroCosto: $('#SelectAreaOrigen').val(),
+                psRecurso: $('#SelectRecursoOrigen').val(),
+                psLinea: $('#SelectLineaOrigen').val(),
+                psCargo: $('#SelectCargoOrigen').val(),
                 tipo: $('#optcambiaremp').val()
-              
             },
             success: function (data) {
                 $('#DivEmpleados').html(data);
@@ -98,7 +121,7 @@ function ConsultarEmpleados() {
         });
         $('#contempleados').show();
     } else {
-        MensajeAdvertencia("Debe seleccionar al menos la línea a consultar", false);
+        MensajeAdvertencia("Debe seleccionar al menos el centro de costos a consultar", false);
 
     }
     
@@ -107,13 +130,15 @@ function ConsultarEmpleados() {
 function ConsultarEmpleadosRegresar() {
     
     //ConsultarEmpleado = "ConsultarEmpleado";
-    if ($('#SelectLineaRegresar').val() != "") {
+    if ($('#SelectAreaRegresar').val() != "") {
         $.ajax({
             type: "GET",
             data:
-            {
+            {//string psCentroCosto, string psRecurso, string psLinea,string psCargo, string tipo
                 pslinea: $('#SelectLineaRegresar').val(),
-                psarea: $('#SelectAreaRegresar').val(),
+                psCentroCosto: $('#SelectAreaRegresar').val(),
+                psRecurso: $('#SelectRecursoRegresar').val(),
+                psCargo: $('#SelectCargoRegresar').val(),
                 tipo: $('#optcambiaremp').val()
             },
             url: '../Asistencia/EmpleadosCambioPersonalPartial',
@@ -126,7 +151,7 @@ function ConsultarEmpleadosRegresar() {
         });
         $('#contempleados').show();
     } else {
-        MensajeAdvertencia("Debe seleccionar al menos la línea a consultar", false);
+        MensajeAdvertencia("Debe seleccionar al menos el centro de costos a consultar", false);
     }
    
 }

@@ -8,7 +8,10 @@ namespace Asiservy.Automatizacion.Formularios.Models.Asistencia
     public class CambioDePersonalViewModel
     {
         public List<CAMBIO_PERSONAL> Personal { get; set; }
-        public string Linea { get; set; }
         public string Area { get; set; }
+        public string Recurso { get; set; }
+        public string Linea { get; set; }
+        public string Cargo { get; set; }
+
     }
 }

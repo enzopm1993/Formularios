@@ -8,60 +8,66 @@ using System.Net.Http;
 using System.Web.Http;
 using Asiservy.Automatizacion.Datos.Datos;
 using System.Data.Entity.Validation;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.SolicitudPermiso;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
+    [RoutePrefix("api/Solicitud")]
     public class ApiSolicitudPermisoController : ApiController
     {
         clsDError clsDError = null;
 
         [HttpPost]
-        public IHttpActionResult GenerarSolicitudPermiso(string Identificacion, string CodigoMotivo, string Observacion, string UsuarioIngreso, string TerminalIngreso, DateTime FechaSalida, DateTime FechaRegreso)
+        [Route("Generar")]
+        public IHttpActionResult PostGenerarSolicitudPermiso(ParamSolicitud parametros)
         {
             try
             {
                 RespuestaGeneral respuestaGeneral = new RespuestaGeneral();
-                if (string.IsNullOrEmpty(Identificacion) || string.IsNullOrEmpty(CodigoMotivo) || string.IsNullOrEmpty(UsuarioIngreso) || string.IsNullOrEmpty(TerminalIngreso))
+                if (string.IsNullOrEmpty(parametros.Identificacion) || string.IsNullOrEmpty(parametros.CodigoMotivo) || string.IsNullOrEmpty(parametros.UsuarioIngreso) || string.IsNullOrEmpty(parametros.TerminalIngreso))
                 {
                     //return new RespuestaGeneral { Respuesta = false, Mensaje = "Faltan Parametros" };
                     respuestaGeneral.Respuesta = false;
                     respuestaGeneral.Mensaje = "Faltan Parametros";
-                    return Json(respuestaGeneral);
 
                 }
-
-                clsDSolicitudPermiso clsDSolicitudPermiso = new clsDSolicitudPermiso();
-                clsDEmpleado clsDEmpleado = new clsDEmpleado();
-                var poEmpleado = clsDEmpleado.ConsultaEmpleado(Identificacion).FirstOrDefault();
-
-                SOLICITUD_PERMISO solicitud =
-                new SOLICITUD_PERMISO
+                else
                 {
-                    IdSolicitudPermiso = 0,
-                    CodigoLinea = poEmpleado.CODIGOLINEA,
-                    CodigoArea = poEmpleado.CODIGOAREA,
-                    CodigoCargo = poEmpleado.CODIGOCARGO,
-                    CodigoRecurso = poEmpleado.CODIGORECURSO,
-                    Identificacion = Identificacion,
-                    CodigoMotivo = CodigoMotivo,
-                    Observacion = Observacion,
-                    FechaSalida = FechaSalida,
-                    FechaRegreso = FechaRegreso,
-                    Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(Identificacion),
-                    FechaIngresoLog = DateTime.Now,
-                    UsuarioIngresoLog = UsuarioIngreso,
-                    TerminalIngresoLog = TerminalIngreso,
-                    Origen = clsAtributos.SolicitudOrigenGeneral,
-                    EstadoRegistro = clsAtributos.EstadoRegistroActivo,
-                    EstadoSolicitud = clsAtributos.EstadoSolicitudPendiente
+                    clsDSolicitudPermiso clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                    clsDEmpleado clsDEmpleado = new clsDEmpleado();
+                    var poEmpleado = clsDEmpleado.ConsultaEmpleado(parametros.Identificacion).FirstOrDefault();
 
-                };
+                    SOLICITUD_PERMISO solicitud =
+                    new SOLICITUD_PERMISO
+                    {
+                        IdSolicitudPermiso = 0,
+                        CodigoLinea = poEmpleado.CODIGOLINEA,
+                        CodigoArea = poEmpleado.CODIGOAREA,
+                        CodigoCargo = poEmpleado.CODIGOCARGO,
+                        CodigoRecurso = poEmpleado.CODIGORECURSO,
+                        Identificacion = parametros.Identificacion,
+                        CodigoMotivo = parametros.CodigoMotivo,
+                        Observacion = parametros.Observacion,
+                        FechaSalida = parametros.FechaSalida,
+                        FechaRegreso = parametros.FechaRegreso,
+                        Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(parametros.Identificacion),
+                        FechaIngresoLog = DateTime.Now,
+                        UsuarioIngresoLog = parametros.UsuarioIngreso,
+                        TerminalIngresoLog = parametros.TerminalIngreso,
+                        Origen = clsAtributos.SolicitudOrigenGeneral,
+                        EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                        EstadoSolicitud = clsAtributos.EstadoSolicitudPendiente
 
-                var mensaje = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitud);
-                //return new RespuestaGeneral { Respuesta = true, Mensaje = mensaje };
-                respuestaGeneral.Respuesta = true;
-                respuestaGeneral.Mensaje = mensaje;
+                    };
+
+                    var mensaje = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitud);
+                    //return new RespuestaGeneral { Respuesta = true, Mensaje = mensaje };
+                    respuestaGeneral.Respuesta = true;
+                    respuestaGeneral.Mensaje = mensaje;
+                  
+                }
                 return Json(respuestaGeneral);
+
             }
 
             catch (DbEntityValidationException e)
@@ -69,7 +75,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
               
-                string Mensaje = clsDError.ControlError(UsuarioIngreso, TerminalIngreso, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                string Mensaje = clsDError.ControlError(parametros.UsuarioIngreso, parametros.TerminalIngreso, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 return InternalServerError(new Exception(Mensaje));
             }
@@ -78,7 +84,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                // Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                
-                string Mensaje = clsDError.ControlError(UsuarioIngreso, TerminalIngreso , this.ControllerContext.RouteData.Values["controller"].ToString(),
+                string Mensaje = clsDError.ControlError(parametros.UsuarioIngreso, parametros.TerminalIngreso , this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 return InternalServerError(new Exception(Mensaje));
             }

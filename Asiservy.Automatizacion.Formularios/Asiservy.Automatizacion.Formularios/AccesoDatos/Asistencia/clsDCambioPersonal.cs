@@ -1,5 +1,6 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.Models.Asistencia;
+using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 {
     public class clsDCambioPersonal
     {
+        public static bool Between(DateTime entrada, DateTime fecha1, DateTime fecha2)
+        {
+            return (entrada > fecha1 && entrada < fecha2);
+        }
         public List<BitacoraCambioPersonalModelView>  ConsultarBitacoraCambioPersonal (BitacoraCambioPersonalModelView filtros)
         {
             using(ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -77,68 +82,57 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         }
 
        
-        public string GuardarCambioDePersonal(List<CAMBIO_PERSONAL> pListCambioPersonal,List<BITACORA_CAMBIO_PERSONAL> Bitacora, string tipo)
+        public string GuardarCambioDePersonal(List<CAMBIO_PERSONAL> pListCambioPersonal/*,List<BITACORA_CAMBIO_PERSONAL> Bitacora*/, string tipo)
         {
             List<String> listCedulas = new List<String>();
-            //CAMBIO_PERSONAL CambioPersonal;
-            string psLinea = pListCambioPersonal.FirstOrDefault().CodLinea;
-            string psArea = pListCambioPersonal.FirstOrDefault().CentroCosto;
+            DateTime? psfecha = pListCambioPersonal.FirstOrDefault().FechaInicio;
+            TimeSpan? psHora = pListCambioPersonal.FirstOrDefault().HoraInicio;
             string psusuario = pListCambioPersonal.FirstOrDefault().UsuarioIngresoLog;
             string psterminal = pListCambioPersonal.FirstOrDefault().TerminalIngresoLog;
+            List<RespuestaGeneral> RespuestaGeneral=new List<RespuestaGeneral>();
+            DateTime FechaActual=DateTime.Now;
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
-                int ContadorEmpleados = pListCambioPersonal.Count;
+               
                 if (tipo == "prestar")
                 {
                     foreach (var item in pListCambioPersonal.ToArray())
                     {
-                        if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.Cedula&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo))
-                        {
-                            pListCambioPersonal.Remove(item);
-                            Bitacora.Remove(Bitacora.Where(x=>x.Cedula==item.Cedula).FirstOrDefault());
-                            ContadorEmpleados--;
-                        }
-                        else if(db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.Cedula && x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo))
-                        {
-                            listCedulas.Add(item.Cedula);
-                            pListCambioPersonal.Remove(item);
-                            //CambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula).FirstOrDefault();
-                            //CambioPersonal.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                            //CambioPersonal.CodLinea = item.CodLinea;
-                            //CambioPersonal.CodArea = item.CodArea;
-                            //CambioPersonal.FechaModificacionLog = DateTime.Now;
-                            //CambioPersonal.UsuarioModificacionLog = item.UsuarioIngresoLog;
-                            //CambioPersonal.TerminalModificacionLog = item.TerminalIngresoLog;
-
+                        if (item.FechaInicio.Value.Add(item.HoraInicio.Value) < FechaActual)
+                        {//entrada > fecha1 && entrada < fecha2
+                            //var ValidacionMoverAFechasAnteriores = (from c in db.CAMBIO_PERSONAL
+                            //         where /*Between(item.FechaInicio.Value.Add(item.HoraInicio.Value), c.FechaInicio.Value.Add(c.HoraInicio.Value), c.FechaFin.Value.Add(c.HoraFin.Value))*/
+                            //         (((item.FechaInicio.Value>= c.FechaInicio.Value) &&(item.FechaInicio.Value<= c.FechaFin.Value))&&((item.HoraInicio.Value>=c.HoraInicio.Value)&&(item.HoraInicio.Value<=c.HoraFin.Value))) &&c.Vigente==false
+                            //         select c).ToList();
+                            var ValidacionMoverAFechasAnteriores = db.spConsultaCambioPersonalFecha(item.FechaInicio, item.HoraInicio).ToList();
+                            if (ValidacionMoverAFechasAnteriores.Count > 0)
+                            {
+                                RespuestaGeneral.Add(new Models.RespuestaGeneral {Codigo=1,Mensaje="no se pudo mover: "+item.Cedula+ " ,por que ya habia sido movido en la fecha indicada",Respuesta=false });
+                                pListCambioPersonal.Remove(item);
+                            }
+                            else
+                            {
+                                RespuestaGeneral.Add(new Models.RespuestaGeneral { Codigo = 0, Mensaje = "Empleado: " + item.Cedula + " ,movido con éxito", Respuesta=true });
+                            }
                         }
                     }
-                    if (ContadorEmpleados == 0)
+                    bool verificaSiTodosSeMovieron=true;
+                    string RespuestaFinal="";
+                    foreach (var item in RespuestaGeneral)
                     {
-                        return "Todos los empleados seleccionados ya habian sido movidos";
+                        RespuestaFinal =  RespuestaFinal+item.Mensaje+"\n";
+                        verificaSiTodosSeMovieron = verificaSiTodosSeMovieron && item.Respuesta;
+                    }
+                    db.CAMBIO_PERSONAL.AddRange(pListCambioPersonal);
+                    db.SaveChanges();
+                    if (verificaSiTodosSeMovieron)
+                    {
+                        return "Empleado(s) movido(s) con éxito";
                     }
                     else
                     {
-                        if (listCedulas.Count>0)
-                        {
-                            string[] CedulasArray = listCedulas.ToArray();
-                            var ActualizarCambioPersonal = db.CAMBIO_PERSONAL.Where(p => CedulasArray.Contains(p.Cedula)).ToList();
-                            ActualizarCambioPersonal.ForEach(p =>
-                            {
-                                p.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                                p.CodLinea = psLinea;
-                                p.CentroCosto = psArea;
-                                p.FechaModificacionLog = DateTime.Now;
-                                p.UsuarioModificacionLog = psusuario;
-                                p.TerminalModificacionLog = psterminal;
-                            });
-                        }
-                        if (pListCambioPersonal.Count>0)
-                        {
-                            db.CAMBIO_PERSONAL.AddRange(pListCambioPersonal);
-                        }
-                        db.BITACORA_CAMBIO_PERSONAL.AddRange(Bitacora);
-                        db.SaveChanges();
-                        return "Empleado(s) movido(s) con éxito";
+
+                        return RespuestaFinal;
                     }
                     
                 }
@@ -146,24 +140,44 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 {
                     foreach (var item in pListCambioPersonal.ToArray())
                     {
-                        listCedulas.Add(item.Cedula);
-                        //CambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula).FirstOrDefault();
-                        //CambioPersonal.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                        //CambioPersonal.FechaModificacionLog = DateTime.Now;
-                        //CambioPersonal.TerminalModificacionLog = item.TerminalIngresoLog;
-                        //CambioPersonal.UsuarioModificacionLog = item.UsuarioIngresoLog;
-                        //db.SaveChanges();
+                        listCedulas.Add(item.Cedula); 
                     }
                     string[] CedulasArray = listCedulas.ToArray();
-                    var ActualizarCambioPersonal = db.CAMBIO_PERSONAL.Where(p => CedulasArray.Contains(p.Cedula)).ToList();
-                    ActualizarCambioPersonal.ForEach(p =>
+                    var ActualizarCambioPersonal = db.CAMBIO_PERSONAL.Where(p => CedulasArray.Contains(p.Cedula)&&p.Vigente==true).ToList();
+                    //ActualizarCambioPersonal.ForEach(p =>
+                    //{
+                    //    p.FechaFin = psfecha;
+                    //    p.HoraFin = psHora;
+                    //    p.Vigente = false;
+                    //    p.FechaModificacionLog = DateTime.Now;
+                    //    p.UsuarioModificacionLog = psusuario;
+                    //    p.TerminalModificacionLog = psterminal;
+                    //});
+
+                    //***
+                    foreach (var item in ActualizarCambioPersonal)
                     {
-                        p.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                        p.FechaModificacionLog = DateTime.Now;
-                        p.UsuarioModificacionLog = psusuario;
-                        p.TerminalModificacionLog = psterminal;
-                    });
-                    db.BITACORA_CAMBIO_PERSONAL.AddRange(Bitacora);
+                        //if (Between(psfecha.Value.Add(psHora.Value), item.FechaInicio.Value.Add(item.HoraInicio.Value),))
+                        if(psfecha.Value.Add(psHora.Value)> item.FechaInicio.Value.Add(item.HoraInicio.Value))
+                        {
+                            item.FechaFin = psfecha;
+                            item.HoraFin = psHora;
+                            item.Vigente = false;
+                            item.FechaModificacionLog = DateTime.Now;
+                            item.UsuarioModificacionLog = psusuario;
+                            item.TerminalModificacionLog = psterminal;
+                        }
+                        else
+                        {
+                            item.FechaFin = item.FechaInicio;
+                            item.HoraFin = item.HoraInicio;
+                            item.Vigente = false;
+                            item.UsuarioModificacionLog = psusuario;
+                            item.TerminalModificacionLog = psterminal;
+                        }
+                        
+                    }
+                    //**
                     db.SaveChanges();
                     return "Empleado(s) regresado(s) con éxito";
                 }

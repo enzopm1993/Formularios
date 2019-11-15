@@ -182,7 +182,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return Empleados;
             }
         }
-        public List<spConsutaEmpleadosFiltroCambioPersonal> ConsultaEmpleadosFiltroCambioPersonal(string dsLinea, string dsArea, string dsCargo,string psTipo)
+        public List<spConsutaEmpleadosFiltroCambioPersonal> ConsultaEmpleadosFiltroCambioPersonal(string dsLinea, string dsArea, string dsCargo,string psRecurso,string psTipo)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -192,10 +192,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     dsArea = "0";
                 if (string.IsNullOrEmpty(dsCargo))
                     dsCargo = "0";
+                if (string.IsNullOrEmpty(psRecurso))
+                    psRecurso = "0";
+                
 
                 List<spConsutaEmpleadosFiltroCambioPersonal> pListEmpleados = null;
                 //List<spConsutaEmpleadosFiltroCambioPersonal> pListEmpleadoR = new List<spConsutaEmpleadosFiltroCambioPersonal>();
-               // pListEmpleados = db.spConsutaEmpleadosFiltroCambioPersonal(dsArea, dsLinea, dsCargo,psTipo).ToList();
+                pListEmpleados = db.spConsutaEmpleadosFiltroCambioPersonal(dsArea, dsLinea, dsCargo,psRecurso,psTipo).ToList();
                
                 return pListEmpleados;
                 

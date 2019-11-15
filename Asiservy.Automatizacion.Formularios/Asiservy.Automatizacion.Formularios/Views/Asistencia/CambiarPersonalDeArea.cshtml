@@ -2,9 +2,13 @@
 @{
     ViewBag.Title = "CambiarPersonalDeArea";
 }
-
-
-
+<style>
+    td, th {
+        padding: 0rem;
+        padding-bottom:3px;
+    }
+    
+</style>
 <div class="" style="padding-bottom:100px">
     <div class="row">
         <div class="col-md-6">
@@ -19,41 +23,35 @@
     <div id="divregresar">
         <div id="div2regresar">
             <div class="row">
-
-                <div class="form-group col-sm-12 col-md-6">
-                    @Html.Label("Línea:")
-                    @Html.DropDownList("SelectLineaRegresar", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLineaRegresar(this.value)", @class = "form-control" })
-
-                </div>
-                <div class="form-group col-sm-12 col-md-6">
+                <div class="form-group col-sm-12 col-md-3">
                     @Html.Label("Centro de Costos:")
-                    @Html.DropDownList("SelectAreaRegresar", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioAreaRegresar(this.value)", @class = "form-control" })
+                    @Html.DropDownList("SelectAreaRegresar", new SelectList(ViewBag.CentroCostos, "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "ChangeCentroCostoRegresar(this.value)", @class = "form-control" })
 
                 </div>
-                @*<div class="form-group col-sm-12 col-md-6" id="trlineao">
-                        <label for="">Línea:</label>
+                <div class="form-group col-sm-12 col-md-3">
+                    @Html.Label("Recurso:")
+                    @Html.DropDownList("SelectRecursoRegresar", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Recurso", new { @onchange = "ChangeRecursoRegresar(this.value)", @class = "form-control" })
 
-                        <select class=" form-control">
-                            <option selected>Seleccione..</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>*@
-                @*<div class="form-group col-sm-12 col-md-6">
-                        <label>Cargo:</label>
+                </div>
+                <div class="form-group col-sm-12 col-md-3">
+                    @Html.Label("Línea:")
+                    @*@Html.DropDownList("SelectLineaRegresar", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLineaRegresar(this.value)", @class = "form-control" })*@
+                    @Html.DropDownList("SelectLineaRegresar", new SelectList("", "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "ChangeLineaRegresar(this.value)", @class = "form-control" })
 
-                        <select class="form-control ">
-                            <option selected>Seleccione..</option>
-                            <option>Limpiador</option>
-                            <option>despellejador</option>
-                            <option>Miga</option>
-                            <option>Cacho</option>
-                        </select>
-                    </div>*@
+                </div>
+                <div class="form-group col-sm-12 col-md-3">
+                    @Html.Label("Cargo:")
+                    @Html.DropDownList("SelectCargoRegresar", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control" })
 
+                </div>
+                <div class="form-group col-sm-12 col-md-3">
+                    @Html.Label("Fecha:")
+                    @Html.TextBox("txtFechaFin", null, new { type = "date", @class = "form-control" })
+                </div>
+                <div class="form-group col-sm-12 col-md-3">
+                    @Html.Label("Hora:")
+                    @Html.TextBox("txtHoraFin", null, new { type = "time", @class = "form-control" })
+                </div>
             </div>
             <div class="row">
 
@@ -65,113 +63,37 @@
             </div>
 
         </div>
-
-        @*<div class="row" id="EmpleadosRegresar">
-                <div class="col">
-                    <table id="TablaEmpleadosRegresar" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <input type="checkbox" id="checkall">
-                                </th>
-                                <th>
-                                    Cédula
-                                </th>
-                                <th>
-                                    Nombre
-                                </th>
-                                <th>
-                                    Departamento Préstamo
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="checkbox" id="checked0" class="checks"></td>
-                                <td>0940203406</td>
-                                <td>Juan Maldonado</td>
-                                <td>RRHH</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" id="checked1" class="checks"></td>
-                                <td>1188888456</td>
-                                <td>Pedro Suarez</td>
-                                <td>RRHH</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" id="checked2" class="checks"></td>
-                                <td>2723626161</td>
-                                <td>Alejandro Sánchez</td>
-                                <td>Bodega</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" id="checked3" class="checks"></td>
-                                <td>3635261617</td>
-                                <td>María Perez</td>
-                                <td>Dispensario Médico</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" id="checked4" class="checks"></td>
-                                <td>1188888456</td>
-                                <td>Andrea Bejarano</td>
-                                <td> Bodega</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <br />
-                <div class="col-12">
-
-                    <br />
-                    <div id="btnRegresarEmp"><center><input type="button" value="Regresar" class="btn btn-primary" /></center></div>
-                </div>
-            </div>*@
-
-
     </div>
-
-
     <div class="row" id="divprestar">
-
-
         <div class="col-md-6 col-sm-12">
-
             <fieldset class="form-group" style="height:100%">
-
                 <legend>Origen</legend>
                 <center>
                     <table>
                         <tr>
                             <td></td>
                             <td>
-                                @Html.Label("Línea:")
-                                @Html.DropDownList("SelectLineaOrigen", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLineaOrigen(this.value)", @class = "form-control" })
-
+                                @Html.Label("Centro de Costos:")
+                                @Html.DropDownList("SelectAreaOrigen", new SelectList(ViewBag.CentroCostos, "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "ChangeCentroCostoOrigen(this.value)", @class = "form-control" })
                             </td>
                         </tr>
-
                         <tr>
                             <td></td>
                             <td>
-                                @Html.Label("Centro de Costos:")
-                                @Html.DropDownList("SelectAreaOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "CambioAreaOrigen(this.value)", @class = "form-control" })
+                                @Html.Label("Recurso:")
+                                @Html.DropDownList("SelectRecursoOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el recurso", new { @onchange = "ChangeRecursoOrigen(this.value)", @class = "form-control" })
 
                             </td>
                         </tr>
-                        @*<tr id="trlineaop">
-                                <td>Línea:</td>
-                                <td>
-                                    <select class="browser-default custom-select">
-                                        <option selected>Seleccione..</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </td>
-                            </tr>*@
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Línea:")
+                                @Html.DropDownList("SelectLineaOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "ChangeLineaOrigen(this.value)", @class = "form-control" })
+
+                            </td>
+                        </tr>
+
                         <tr>
                             <td></td>
                             <td>
@@ -196,44 +118,54 @@
                         <tr>
                             <td></td>
                             <td>
-                                @Html.Label("Línea:")
-                                @Html.DropDownListFor(m => m.Linea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "CambioLinea(this.value)", @class = "form-control", @id = "selectLinea" })
+                                @Html.Label("Centro de Costos:")
+                                @Html.DropDownListFor(m => m.Area, new SelectList(ViewBag.CentroCostos, "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "ChangeCentroCosto(this.value)", @class = "form-control", @id = "SelectArea" })
 
                             </td>
                         </tr>
                         <tr>
                             <td></td>
                             <td>
-                                @Html.Label("Centro de Costos:")
-                                @Html.DropDownListFor(m => m.Area, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
+                                @Html.Label("Recurso:")
+                                @Html.DropDownListFor(m => m.Recurso, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Recurso", new { @onchange = "ChangeRecurso(this.value)", @class = "form-control", @id = "SelectRecurso" })
 
                             </td>
                         </tr>
-                        @*<tr id="trlinea">
-                                <td>Línea:</td>
-                                <td>
-                                    <select class="browser-default custom-select">
-                                        <option selected>Seleccione..</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </td>
-                            </tr>*@
-                        @*<tr>
-                                <td>Cargo:</td>
-                                <td>
-                                    <select class="browser-default custom-select">
-                                        <option selected>Seleccione..</option>
-                                        <option>Limpiador</option>
-                                        <option>despellejador</option>
-                                        <option>Miga</option>
-                                        <option>Cacho</option>
-                                    </select>
-                                </td>
-                            </tr>*@
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Línea:")
+                                @Html.DropDownListFor(m => m.Linea, new SelectList("", "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "ChangeLinea(this.value)", @class = "form-control", @id = "SelectLinea" })
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Cargo:")
+                                @Html.DropDownListFor(m => m.Cargo, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "SelectCargo" })
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                
+                                <table cellpadding="0" border="0" cellspacing="0" width="100%">
+                                    <tr>
+                                        <td>
+                                            @Html.Label("Fecha:")
+                                            @Html.TextBox("txtFechaInicio", null, new { type = "date", @class = "form-control" })
+                                        </td>
+                                        <td>
+                                            @Html.Label("Hora:")
+                                            @Html.TextBox("txtHoraInicio", null, new { type = "time", @class = "form-control" })
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        
                         <tr>
                             <td colspan="2"></td>
                         </tr>
