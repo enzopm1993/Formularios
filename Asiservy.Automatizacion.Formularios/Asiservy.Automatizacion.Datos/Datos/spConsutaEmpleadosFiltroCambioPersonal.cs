@@ -21,5 +21,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string AREA { get; set; }
         public string CODIGOCARGO { get; set; }
         public string CARGO { get; set; }
+        public string RECURSO { get; set; }
     }
 }

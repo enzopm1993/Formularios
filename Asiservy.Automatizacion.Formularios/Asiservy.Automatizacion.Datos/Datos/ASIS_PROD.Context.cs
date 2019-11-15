@@ -436,31 +436,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAuditoriaSangre>("spReporteAuditoriaSangre", codLineaParameter, fECHAParameter);
         }
     
-        public virtual ObjectResult<spConsutaEmpleadosFiltroCambioPersonal> spConsutaEmpleadosFiltroCambioPersonal(string area, string linea, string cargo, string recurso, string tipo)
-        {
-            var areaParameter = area != null ?
-                new ObjectParameter("Area", area) :
-                new ObjectParameter("Area", typeof(string));
-    
-            var lineaParameter = linea != null ?
-                new ObjectParameter("Linea", linea) :
-                new ObjectParameter("Linea", typeof(string));
-    
-            var cargoParameter = cargo != null ?
-                new ObjectParameter("Cargo", cargo) :
-                new ObjectParameter("Cargo", typeof(string));
-    
-            var recursoParameter = recurso != null ?
-                new ObjectParameter("Recurso", recurso) :
-                new ObjectParameter("Recurso", typeof(string));
-    
-            var tipoParameter = tipo != null ?
-                new ObjectParameter("Tipo", tipo) :
-                new ObjectParameter("Tipo", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltroCambioPersonal>("spConsutaEmpleadosFiltroCambioPersonal", areaParameter, lineaParameter, cargoParameter, recursoParameter, tipoParameter);
-        }
-    
         public virtual ObjectResult<sp_ConsultaAsistenciaDiaria> sp_ConsultaAsistenciaDiaria(string codLinea, Nullable<int> turno, Nullable<System.DateTime> fecha)
         {
             var codLineaParameter = codLinea != null ?
@@ -615,6 +590,77 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleados>("spConsutaEmpleados", cedulaParameter);
         }
     
+        public virtual ObjectResult<spReporteControlEnfundadoPorEnfundadora> spReporteControlEnfundadoPorEnfundadora(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlEnfundadoPorEnfundadora>("spReporteControlEnfundadoPorEnfundadora", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spReporteControlEnfundadoPorHora> spReporteControlEnfundadoPorHora(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlEnfundadoPorHora>("spReporteControlEnfundadoPorHora", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCambioPersonalFecha> spConsultaCambioPersonalFecha(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCambioPersonalFecha>("spConsultaCambioPersonalFecha", fechaParameter, horaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCargosXRecursoLinea> spConsultaCargosXRecursoLinea(string recurso, string linea)
+        {
+            var recursoParameter = recurso != null ?
+                new ObjectParameter("Recurso", recurso) :
+                new ObjectParameter("Recurso", typeof(string));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCargosXRecursoLinea>("spConsultaCargosXRecursoLinea", recursoParameter, lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCentroCostos> spConsultaCentroCostos()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCentroCostos>("spConsultaCentroCostos");
+        }
+    
+        public virtual ObjectResult<spConsultaLineaXRecursoyCentroCosto> spConsultaLineaXRecursoyCentroCosto(string recurso, string centroCostos)
+        {
+            var recursoParameter = recurso != null ?
+                new ObjectParameter("recurso", recurso) :
+                new ObjectParameter("recurso", typeof(string));
+    
+            var centroCostosParameter = centroCostos != null ?
+                new ObjectParameter("CentroCostos", centroCostos) :
+                new ObjectParameter("CentroCostos", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaLineaXRecursoyCentroCosto>("spConsultaLineaXRecursoyCentroCosto", recursoParameter, centroCostosParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaRecurso> spConsultaRecurso(string centroCostos)
+        {
+            var centroCostosParameter = centroCostos != null ?
+                new ObjectParameter("CentroCostos", centroCostos) :
+                new ObjectParameter("CentroCostos", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaRecurso>("spConsultaRecurso", centroCostosParameter);
+        }
+    
         public virtual ObjectResult<spConsutaEmpleadosFiltro> spConsutaEmpleadosFiltro(string area, string linea, string cargo)
         {
             var areaParameter = area != null ?
@@ -632,22 +678,29 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltro>("spConsutaEmpleadosFiltro", areaParameter, lineaParameter, cargoParameter);
         }
     
-        public virtual ObjectResult<spReporteControlEnfundadoPorEnfundadora> spReporteControlEnfundadoPorEnfundadora(Nullable<System.DateTime> fecha)
+        public virtual ObjectResult<spConsutaEmpleadosFiltroCambioPersonal> spConsutaEmpleadosFiltroCambioPersonal(string area, string linea, string cargo, string recurso, string tipo)
         {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
+            var areaParameter = area != null ?
+                new ObjectParameter("Area", area) :
+                new ObjectParameter("Area", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlEnfundadoPorEnfundadora>("spReporteControlEnfundadoPorEnfundadora", fechaParameter);
-        }
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
     
-        public virtual ObjectResult<spReporteControlEnfundadoPorHora> spReporteControlEnfundadoPorHora(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
+            var cargoParameter = cargo != null ?
+                new ObjectParameter("Cargo", cargo) :
+                new ObjectParameter("Cargo", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlEnfundadoPorHora>("spReporteControlEnfundadoPorHora", fechaParameter);
+            var recursoParameter = recurso != null ?
+                new ObjectParameter("Recurso", recurso) :
+                new ObjectParameter("Recurso", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltroCambioPersonal>("spConsutaEmpleadosFiltroCambioPersonal", areaParameter, lineaParameter, cargoParameter, recursoParameter, tipoParameter);
         }
     }
 }
