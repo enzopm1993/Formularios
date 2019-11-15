@@ -34,6 +34,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int RolControladorLinea = 1;
         public static int RolControladorGeneral = 3;
         public static int RolGarita = 7;
+        public static int RolGeneraPermisoCompartido = 17;
+        public static int RolAprobacionSolicitud=8;
+        public static int RolRRHH = 9;
+        public static int RolMedico = 6;
 
         //Codigos de Lineas
         public static string CodLineaProduccion = "07";
@@ -43,6 +47,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //ClasificadorGenerico de Lineas
         public static string CodGrupoLineaProduccion = "002";
+        public static string CodGrupoLineasAprobarSolicitudProduccion = "014";
 
         //ClasificadorGenerico de Grupo de Enfermedades
         public static string CodGrupoEnfermedadDiagnostico = "E";
@@ -142,9 +147,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string CodigoEnvioOnlyControl = "1";
 
 
+        //PERIODOS
+        public static string PeriodoBloqueado = "B";
+        public static string PeriodoAbierto = "A";
 
         //PARAMETROS
         public static string TiempoSalidaGarita = "001";
+        public static string ParaMensajeUrgente = "003";
+        public static string ParaMensajeAviso = "002";
 
     }
 }

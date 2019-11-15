@@ -64,7 +64,7 @@
                         <td hidden>@m.DescripcionArea</td>
                         <td>@m.NombreEmpleado</td>
                         <td>@m.FechaBiometrico</td>
-                        <td style="width:200px">
+                        <td style="width:200px" id="tdAcciones">
 
                             <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn iconStyle" id="Nuevo" onclick="Mostrar(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-search"></i>
@@ -87,8 +87,11 @@
 </div>
 <br />
 <div class="container-fluid text-center">
-    <input type="button" class="btn btn-info" name="name" value="Aprobar" onclick="AprobarSolitudes()" />
-
+    <input type="button" class="btn btn-info" name="name" value="Aprobar" onclick="AprobarSolitudes()" id="btnAprobar" />
+    <button class="btn btn-info" type="button" disabled hidden id="btnArpobarEspera">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Espere...
+    </button>
 </div>
 
 

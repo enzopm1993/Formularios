@@ -260,7 +260,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 SolicitudPermisoViewModel model = clsDSolicitudPermiso.ConsultaSolicitudPermiso(dsSolicitud);
                 if (model.Origen == clsAtributos.SolicitudOrigenGeneral && string.IsNullOrEmpty(frm))
                 { 
-                    ConsultaCombosGeneral(false);
+                    ConsultaCombosMotivos(false);
                 }
                 else if (!string.IsNullOrEmpty(frm) && frm == "BandejaMedico")
                 {
@@ -278,7 +278,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 else if (!string.IsNullOrEmpty(frm) && frm == "BandejaRRHH")
                 {
                     clsDClasificador = new clsDClasificador();
-                    ConsultaCombosGeneral(true);
+                    ConsultaCombosMotivos(true);
                     ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
                     ViewBag.Medico = "1";
@@ -293,7 +293,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 else if (!string.IsNullOrEmpty(frm) && frm == "BandejaAprobacion")
                 {
                     clsDClasificador = new clsDClasificador();
-                    ConsultaCombosGeneral(true);
+                    ConsultaCombosMotivos(true);
                     ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
                     
@@ -444,8 +444,140 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         #endregion
 
-
         #region SOLICITUD PERMISO
+
+        [Authorize]
+        public ActionResult SolicitudPermisoMasivo()
+        {
+            try
+            {
+                clsDEmpleado = new clsDEmpleado();
+                clsDClasificador = new clsDClasificador();
+                lsUsuario = User.Identity.Name.Split('_');
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                var poEmpleado= clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                ViewBag.Linea = poEmpleado.LINEA;
+                if(poEmpleado.CODIGOLINEA == clsAtributos.CodLineaProduccion)
+                {
+                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, 0);
+                    
+                }
+                ViewBag.CodLinea = poEmpleado.CODIGOLINEA;
+                //ValidacionSolicitudPermiso();
+                ConsultaCombosMotivos(false);
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult SolicitudPermisoMasivo(SolicitudPermisoViewModel model)
+        {
+            try
+            {
+                RespuestaGeneral respuestaGeneral = new RespuestaGeneral();
+                clsDEmpleado = new clsDEmpleado();
+                clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                SOLICITUD_PERMISO solicitudPermiso = new SOLICITUD_PERMISO();
+                lsUsuario = User.Identity.Name.Split('_');
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                string psMensajeValidarFecha = string.Empty;
+                psMensajeValidarFecha = ValidarFechas(model);
+                if (!string.IsNullOrEmpty(psMensajeValidarFecha))
+                {
+                    respuestaGeneral.Codigo = 0;
+                    respuestaGeneral.Mensaje = psMensajeValidarFecha;
+                    return Json(respuestaGeneral, JsonRequestBehavior.AllowGet);
+                }
+                solicitudPermiso.CodigoLinea = model.CodigoLinea;
+                solicitudPermiso.Observacion = model.Observacion;
+                if (model.FechaSalidaEntrada == null)
+                {
+                    solicitudPermiso.FechaSalida = model.FechaSalida ?? DateTime.MinValue;
+                    solicitudPermiso.FechaRegreso = model.FechaRegreso ?? DateTime.MinValue;
+                }
+                else
+                {
+                    solicitudPermiso.FechaSalida = new DateTime(
+                        model.FechaSalidaEntrada.Value.Year
+                        , model.FechaSalidaEntrada.Value.Month
+                        , model.FechaSalidaEntrada.Value.Day
+                        , model.HoraSalida.Value.Hour
+                        , model.HoraSalida.Value.Minute
+                        , model.HoraSalida.Value.Second
+                        );
+
+                    solicitudPermiso.FechaRegreso = new DateTime(
+                        model.FechaSalidaEntrada.Value.Year
+                        , model.FechaSalidaEntrada.Value.Month
+                        , model.FechaSalidaEntrada.Value.Day
+                        , model.HoraRegreso.Value.Hour
+                        , model.HoraRegreso.Value.Minute
+                        , model.HoraRegreso.Value.Second
+                        );
+                }
+                solicitudPermiso.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;
+                //solicitudPermiso.FechaBiometrico = DateTime.Now;
+                solicitudPermiso.Origen = clsAtributos.SolicitudOrigenGeneral;
+                solicitudPermiso.CodigoDiagnostico = "";
+                solicitudPermiso.CodigoClasificador = 0;
+                solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(lsUsuario[1]);
+                solicitudPermiso.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                solicitudPermiso.UsuarioIngresoLog = lsUsuario[0];
+                solicitudPermiso.FechaIngresoLog = DateTime.Now;
+                solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
+                if (model.CodigoMotivo == clsAtributos.CodigoMotivoPermisoCitaMedica)
+                {
+                    solicitudPermiso.ValidaMedico = true;
+                    solicitudPermiso.Origen = clsAtributos.SolicitudOrigenMedico;
+                }
+                solicitudPermiso.CodigoMotivo = model.CodigoMotivo;
+                solicitudPermiso.Identificacion = lsUsuario[1];
+                clsDSolicitudPermiso.GenerarSolicitudPermisoMasivo(solicitudPermiso);
+                respuestaGeneral.Codigo = 1;
+                respuestaGeneral.Mensaje = "solicitudes Generadas con Exito";
+                return Json(respuestaGeneral, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [Authorize]
         public ActionResult SolicitudPermiso()
         {
@@ -455,8 +587,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 lsUsuario = User.Identity.Name.Split('_');
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-                ValidacionControladorLinea();
-                ConsultaCombosGeneral(false);
+                ValidacionSolicitudPermiso();
+                ConsultaCombosMotivos(false);
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -539,8 +671,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     //int piContrladorLinea = ValidarRolControladorLinea();
                     //if (piContrladorLinea > 0)
                     //    ViewBag.ControladorLinea = piContrladorLinea;
-                    ConsultaCombosGeneral(false);
-                    ValidacionControladorLinea();
+                    ConsultaCombosMotivos(false);
+                    ValidacionSolicitudPermiso();
                     ModelState.AddModelError("CustomError", psMensajeValidarFecha);
                     return View(model);
                 }         
@@ -559,6 +691,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     }
                     solicitudPermiso.CodigoLinea = poEmpleado.CODIGOLINEA;
                     solicitudPermiso.CodigoArea = poEmpleado.CODIGOAREA;
+                    solicitudPermiso.CodigoRecurso = poEmpleado.CODIGORECURSO;
                     solicitudPermiso.CodigoCargo = poEmpleado.CODIGOCARGO;
                     solicitudPermiso.Identificacion = model.Identificacion;
                     solicitudPermiso.CodigoMotivo = model.CodigoMotivo;
@@ -595,7 +728,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.CodigoDiagnostico = "";
                     solicitudPermiso.CodigoClasificador = 0;
                     solicitudPermiso.EstadoRegistro = clsAtributos.EstadoRegistroActivo;                    
-                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(lsUsuario[1] + "");
+                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(model.Identificacion);
                     solicitudPermiso.UsuarioIngresoLog = lsUsuario[0];
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
                     solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
@@ -618,8 +751,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 else
                 {
-                    ValidacionControladorLinea();
-                    ConsultaCombosGeneral(false);
+                    ValidacionSolicitudPermiso();
+                    ConsultaCombosMotivos(false);
                     return View(model);
                 }
 
@@ -646,26 +779,35 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public void ValidacionControladorLinea()
+        public void ValidacionSolicitudPermiso()
         {
-            int piContrladorLinea = ValidarRolControladorLinea();
-            lsUsuario = User.Identity.Name.Split('_');
-                clsDGeneral = new clsDGeneral();
+            clsDGeneral = new clsDGeneral();
             clsDEmpleado = new clsDEmpleado();
             clsDClasificador = new clsDClasificador();
+
+            int piContrladorLinea = ValidarRolControladorLinea();
+            int piPermisoCompartido = ValidarRolGeneraPermisoCompartido();
+            
+            lsUsuario = User.Identity.Name.Split('_');               
             var poEmpleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
             string Cedula = lsUsuario[1] + "";
-            if (piContrladorLinea > 0)
+
+            if (piPermisoCompartido > 0)
+            {
+                ViewBag.PermisoCompartido = piPermisoCompartido;
+                ViewBag.Lineas = clsDGeneral.ConsultaLineas(poEmpleado.CODIGOLINEA);
+
+            }else if (piContrladorLinea > 0)
             {
                 ViewBag.ControladorLinea = piContrladorLinea;
                 ViewBag.CodLinea = poEmpleado.CODIGOLINEA;
+                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, 0);
             }
             else
             {
                 ViewBag.NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : lsUsuario[0];
                 ViewData["Identificacion"] = Cedula;
             }
-            ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, 0);
 
         }
 
@@ -732,9 +874,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     clsDEmpleado = new clsDEmpleado();
                     clsDSolicitudPermiso = new clsDSolicitudPermiso();
                     var poEmpleado = clsDEmpleado.ConsultaEmpleado(model.Identificacion).FirstOrDefault();
+                    if (poEmpleado == null)
+                    {
+                        SetErrorMessage("No existe información del empleado.");
+                        return RedirectToAction("SolicitudPermisoDispensario");
+                    }
                     solicitudPermiso.CodigoLinea = poEmpleado.CODIGOLINEA;
                     solicitudPermiso.CodigoArea = poEmpleado.CODIGOAREA;
                     solicitudPermiso.CodigoCargo = poEmpleado.CODIGOCARGO;
+                    solicitudPermiso.CodigoRecurso = poEmpleado.CODIGORECURSO;
                     solicitudPermiso.Identificacion = model.Identificacion;
                     solicitudPermiso.CodigoMotivo = model.CodigoMotivo;
                     solicitudPermiso.Observacion = model.Observacion;
@@ -1038,6 +1186,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return piContrladorLinea;
         }
 
+        public int ValidarRolGeneraPermisoCompartido()
+        {
+            clsDLogin = new clsDLogin();
+            lsUsuario = User.Identity.Name.Split('_');
+            List<int?> roles = clsDLogin.ConsultaRolesUsuario(lsUsuario[1]);
+            int piContrladorLinea = 0;
+            if (roles.Any())
+            {
+                piContrladorLinea = roles.FirstOrDefault(x => x.Value == clsAtributos.RolGeneraPermisoCompartido) ?? 0;
+            }
+            return piContrladorLinea;
+        }
 
         public int ValidarRolGarita()
         {
@@ -1052,7 +1212,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return piGarita;
         }
 
-        public void ConsultaCombosGeneral(bool RRHH)
+        public void ConsultaCombosMotivos(bool RRHH)
         {
             clsDSolicitudPermiso = new clsDSolicitudPermiso();
             clsDGeneral = new clsDGeneral();

@@ -972,12 +972,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json(Respuesta, JsonRequestBehavior.AllowGet);
                 }
 
-                if (model.Valor<0)
-                {
-                    Respuesta.Codigo = 0;
-                    Respuesta.Mensaje = "Ingrese un Valor";
-                    return Json(Respuesta, JsonRequestBehavior.AllowGet);
-                }
+                //if (model.Valor<0)
+                //{
+                //    Respuesta.Codigo = 0;
+                //    Respuesta.Mensaje = "Ingrese un Valor";
+                //    return Json(Respuesta, JsonRequestBehavior.AllowGet);
+                //}
 
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];

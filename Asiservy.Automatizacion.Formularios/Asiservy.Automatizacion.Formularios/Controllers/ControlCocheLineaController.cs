@@ -2,6 +2,7 @@
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDControlCocheLinea clsDControlCocheLinea = null;
         clsDClasificador clsDClasificador = null;
         clsDApiProduccion clsDApiProduccion = null;
+        clsDPeriodo clsDPeriodo = null;
+
         // GET: ControlCocheLinea
         [Authorize]
         public ActionResult ControlCocheLinea()
@@ -99,7 +102,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                RespuestaGeneral respuestaGeneral = new RespuestaGeneral(); 
                 clsDControlCocheLinea = new clsDControlCocheLinea();
+                //clsDPeriodo = new clsDPeriodo();
+                //if(!clsDPeriodo.ValidaFechaPeriodo(Fecha))
+                //{
+                //    respuestaGeneral.Codigo = 0;
+                //    respuestaGeneral.Mensaje = "Periodo Cerrado";
+                //    return Json(respuestaGeneral,JsonRequestBehavior.AllowGet);
+                //}
+
                 var model = clsDControlCocheLinea.ConsultarControlCocheLinea(new Models.ControlCocheLinea.ControlCocheLineaViewModel { Fecha = Fecha });
                 return PartialView(model);
             }

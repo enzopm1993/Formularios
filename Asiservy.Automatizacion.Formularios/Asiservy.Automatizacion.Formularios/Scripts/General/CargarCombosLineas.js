@@ -223,9 +223,10 @@ function CambioLineaRegresar(valor) {
     });
 }
 function CambioArea(valor) {
-
     $("#selectCargo").empty();
     $("#selectCargo").append("<option value='' >-- Seleccionar Opción--</option>");
+    if (valor == "")
+        return;   
     $.ajax({
         url: "../SolicitudPermiso/ConsultaListadoCargos",
         type: "Get",

@@ -53,13 +53,7 @@
                             @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), "Seleccione la Línea", new { @onchange = "CambioLineas(this.id)", @class = "form-control", @id = "selectLinea" })
                             @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
 
-                            <script>
 
-
-                                @*function CambioLineas(id) {
-                                    $('#' + id).val('@ViewBag.CodLinea');
-                                }*@
-                            </script>
                         </div>
                     </div>
 
@@ -81,6 +75,11 @@
                 }
                 else
                 {
+                    if (ViewBag.PermisoCompartido != null)
+                    {
+                        @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), new { @onchange = "CambioLineas(this.id)", @class = "form-control", @id = "selectLinea", @hidden="hidden" })
+
+                    }
                     <input type="hidden" id="txtControladorLinea" value="0" />
                 }
 
@@ -90,7 +89,7 @@
                     <div class="col-md-6 col-12">
                         <label>Empleado</label>
                         <div class="input-group">
-                            @if (ViewBag.ControladorLinea != null)
+                            @if (ViewBag.ControladorLinea != null || ViewBag.PermisoCompartido !=null)
                             {
                                 @Html.TextBoxFor(m => m.NombreEmpleado, null, new { style = "width: 65%;", @readonly = "readonly" })
                                 @Html.HiddenFor(m => m.Identificacion)

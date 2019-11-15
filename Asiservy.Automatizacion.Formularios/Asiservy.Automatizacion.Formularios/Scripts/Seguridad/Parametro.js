@@ -29,12 +29,12 @@ function Valida() {
     } else {
         $("#pValidaDescripcion").prop("hidden", true);
     }
-    if ($('#txtValor').val() < 0) {
-        $("#pValidaValor").prop("hidden", false);
-        bol = false;
-    } else {
-        $("#pValidaValor").prop("hidden", true);
-    }
+    //if ($('#txtValor').val() < 0) {
+    //    $("#pValidaValor").prop("hidden", false);
+    //    bol = false;
+    //} else {
+    //    $("#pValidaValor").prop("hidden", true);
+    //}
 
     return bol;
    

@@ -196,6 +196,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
             return ListaMotivo;
         }
+
         public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermisoReporte(string dsLinea, string dsArea, string dsEstado, bool dbGarita=false, DateTime? FechaDesde = null, DateTime? FechaHasta = null)
         {
             entities = new ASIS_PRODEntities();
@@ -336,15 +337,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         if (Linea.CODIGOLINEA == clsAtributos.CodLineaProduccion)
                         {
                             var LineasPertenece = (entities.CLASIFICADOR.Where(x=> 
-                            x.Grupo == clsAtributos.CodGrupoLineaProduccion
+                            x.Grupo == clsAtributos.CodGrupoLineasAprobarSolicitudProduccion
                             && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                            && x.Codigo!="0"
                             )).ToList();
                             if(LineasPertenece != null)
                             {
                                 foreach (var x in LineasPertenece)
                                     ListaLineas.Add(x.Codigo+"");
-                                ListaLineas.Add(clsAtributos.CodLineaProduccionEmpaque);
-                                ListaLineas.Add(clsAtributos.CodLineaProduccionRecuperadoControl);
+                                //ListaLineas.Add(clsAtributos.CodLineaProduccionEmpaque);
+                                //ListaLineas.Add(clsAtributos.CodLineaProduccionRecuperadoControl);
                             }
                         }
                         if(NivelUsuario != null) {
@@ -447,6 +449,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             
             return ListaSolicitudesPermiso;
         }
+
         public SolicitudPermisoViewModel ConsultaSolicitudPermiso(string dsSolicitud)
         {
             entities = new ASIS_PRODEntities();
@@ -518,6 +521,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
            
             return ListaSolicitudesPermiso;
         }
+
         public string ConsultaMotivoPermisoxEmpleado(string cedula)
         {
             string poMotivoPermiso=string.Empty;
@@ -532,6 +536,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return poMotivoPermiso;
             }
         }
+
         public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso(SOLICITUD_PERMISO filtros)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -604,6 +609,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return ListaSolicitudesPermiso;
             }
         }
+
         public int ConsultarNivelUsuario(string dsUsuario)
         {
             int piNivel = clsAtributos.NivelEmpleado;
@@ -656,7 +662,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return ListaBitacora.ToList();
             }
         }
-
 
         public List<RespuestaGeneral> EnviarSolicitudOnlyControl(SOLICITUD_PERMISO doSolicitud)
         {
@@ -744,6 +749,53 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             using(ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
                return  db.SP_PKI_SOLICITUDES().ToList();
+            }
+        }
+
+        public void GenerarSolicitudPermisoMasivo(SOLICITUD_PERMISO model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                using (var transaction = entities.Database.BeginTransaction())
+                {
+                    string Cedula = model.Identificacion;
+                    int Nivel = model.Nivel??clsAtributos.NivelEmpleado;
+                    clsDEmpleado = new clsDEmpleado();                  
+                    var poEmpleados = clsDEmpleado.ConsultaEmpleadosFiltro(model.CodigoLinea,"0","0").ToList();
+                    foreach(var x in poEmpleados)
+                    {
+                        SOLICITUD_PERMISO sol = model;
+                        sol.CodigoArea = x.CODIGOAREA;
+                        sol.CodigoRecurso = x.CODIGORECURSO;
+                        sol.CodigoCargo = x.CODIGOCARGO;
+                        sol.Identificacion = x.CEDULA;
+                        if (sol.Identificacion == Cedula)
+                        {
+                            sol.EstadoSolicitud = clsAtributos.EstadoSolicitudPendiente;
+                            sol.Nivel = Nivel;
+                        }
+                        else
+                        {
+                            sol.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;
+                            sol.Nivel = clsAtributos.NivelEmpleado;
+                        }
+
+                        entities.SOLICITUD_PERMISO.Add(sol);
+
+                        BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
+                        poBitacora.IdSolicitud = sol.IdSolicitudPermiso;
+                        poBitacora.Cedula = sol.Identificacion;
+                        poBitacora.Observacion = sol.Observacion;
+                        poBitacora.EstadoSolicitud = sol.EstadoSolicitud;
+                        poBitacora.FechaIngresoLog = DateTime.Now;
+                        poBitacora.UsuarioIngresoLog = sol.UsuarioIngresoLog;
+                        poBitacora.TerminalIngresoLog = sol.TerminalIngresoLog;
+                        entities.BITACORA_SOLICITUD.Add(poBitacora);
+                        entities.SaveChanges();
+                    }
+                    
+                    transaction.Commit();
+                }
             }
         }
     }

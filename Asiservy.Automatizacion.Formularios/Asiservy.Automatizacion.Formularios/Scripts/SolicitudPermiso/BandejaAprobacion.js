@@ -20,7 +20,9 @@ function AprobarSolicitud(valor) {
 
 function Aprobar(result) {
     //console.log(result);
-
+    $("#tdAcciones").prop("hidden", true);
+    $("#btnAprobar").prop("hidden", true);
+    $("#btnArpobarEspera").prop("hidden", false);
     var resultado = JSON.stringify(result)
     var resultado2 = JSON.parse(resultado)
     console.log(resultado2);
@@ -32,11 +34,18 @@ function Aprobar(result) {
             diIdSolicitud: resultado2           
         },
         success: function (resultado) {
-            MensajeCorrecto(resultado + "\n Solicitud Aprobada",true);            
+            MensajeCorrecto(resultado, true);
+            $("#btnAprobar").prop("hidden", false);
+            $("#tdAcciones").prop("hidden", false);
+
+            $("#btnArpobarEspera").prop("hidden", true);
         }
         ,
         error: function () {
             MensajeError("No se ha podido obtener la información", false);
+            $("#btnAprobar").prop("hidden", false);
+    $("#tdAcciones").prop("hidden", false);
+            $("#btnArpobarEspera").prop("hidden", true);
         }
     });
 }

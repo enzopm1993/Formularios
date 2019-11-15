@@ -1,7 +1,7 @@
 ﻿
 $(document).ready(function () {
-   CargarControlHueso();
-});
+    CargarControlHueso();
+ });
 
 
 function Clear(id) {
