@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class AsistenciaController : Controller
     {
-
+        clsDPeriodo ClsDPeriodo = null;
         clsDGeneral clsDGeneral = null;
         clsDEmpleado clsDEmpleado = null;
         clsDAsistencia clsDAsistencia = null;
@@ -1004,7 +1004,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         }
                     }
                     clsDCambioPersonal = new clsDCambioPersonal();
-                    psRespuesta = clsDCambioPersonal.GuardarCambioDePersonal(pListCambioPersonal/*, pListBitacoraCambioPersonal*/, tipo);
+                    ClsDPeriodo = new clsDPeriodo();
+                    if (ClsDPeriodo.ValidaFechaPeriodo(dfecha))
+                    { 
+                        psRespuesta = clsDCambioPersonal.GuardarCambioDePersonal(pListCambioPersonal/*, pListBitacoraCambioPersonal*/, tipo);
+                    }
+                    else
+                    {
+                        psRespuesta = "No se pudo completar la acción, por que el periodo se encuentra cerrado";
+                    }
                     return Json(psRespuesta, JsonRequestBehavior.AllowGet);
                 }
                 return Json("Error, no se ha seleccionado ningún empleado", JsonRequestBehavior.AllowGet);
