@@ -3,6 +3,14 @@ $(document).ready(function () {
     CargarControlEnfundado();
 });
 
+
+function Clear(id) {
+    if ($("#" + id).val() == 0) {
+        $("#" + id).val('')
+    }
+
+}
+
 function checkControlEnfundado(id, detalle, IdControlEnfundadoDetalle) {
     id = "#" + id;
     label = "#labelCheck-" + detalle;
@@ -53,21 +61,30 @@ function GuardarControlEnfundado(detalle, fundas, id, IdDetalle) {
 }
 
 function Atras() {
-    $('#divFiltros').fadeIn("slow");
+   // $('#divFiltros').fadeIn("slow");
     $('#btnGenerar').prop("hidden", false);
     $('#btnNuevo').prop("hidden", false);
     $('#btnAtras').prop("hidden", true);
+    $('#btnInactivar').prop("hidden", true);
     CargarControlEnfundado();
     Limpiar();
 }
 
 function Limpiar() {
+    
+    $('#txtIdControl').val(0);  
     $('#txtHora').val('00:00');  
     $('#txtFundasTeoricas').val(25);
     $('#txtPeso').val('7.5');
     $('#selectEspecificacionFunda').prop('selectedIndex',0);
     $('#selectLotes').prop('selectedIndex', 0);
- 
+
+    $("#txtFecha").prop("readonly", false);
+    $("#txtHora").prop("readonly", false);
+    $("#txtFundasTeoricas").prop("readonly", false);
+    $("#txtPeso").prop("disabled", false);
+    $("#selectLotes").prop("disabled", false);
+    $("#selectEspecificacionFunda").prop("disabled", false);
 
     $('#ValidaFecha').prop('hidden', true);
     $("#txtFecha").css('borderColor', '#ced4da');
@@ -141,13 +158,29 @@ function CargarControlEnfundado() {
     });
 }
 
-function CargarControlEnfundadoDetalle(IdControl) {
+function CargarControlEnfundadoDetalle(IdControl,fecha, hora, fundasTeoricas, peso, lote) {
+    $('#txtIdControl').val(IdControl);  
+
+    $("#txtFecha").val(fecha);
+    $("#txtHora").val(hora);
+    $("#txtFundasTeoricas").val(fundasTeoricas);
+    $("#txtPeso").val(peso);
+    $("#selectLotes").val(lote);
+
+    $("#txtFecha").prop("readonly",true);
+    $("#txtHora").prop("readonly", true);
+    $("#txtFundasTeoricas").prop("readonly", true);
+    $("#txtPeso").prop("disabled", true);
+    $("#selectLotes").prop("disabled", true);
+   $("#selectEspecificacionFunda").prop("disabled", true);
+
     $("#spinnerCargando").prop("hidden", false);
     $("#DivTableControl").html('');
     $('#btnNuevo').prop("hidden", true);
     $('#btnAtras').prop("hidden", false);
+    $('#btnInactivar').prop("hidden", false);
     $('#btnGenerar').prop("hidden", true);
-    $('#divFiltros').fadeOut("slow");
+    //$('#divFiltros').fadeOut("slow");
     $.ajax({
         url: "../ControlEnfundado/ControlEnfundadoDetallePartial",
         type: "GET",
@@ -204,10 +237,10 @@ function GenerarControl() {
                 }               
                 //CargarControlEnfundado(fecha);
                 $('#btnGenerar').prop("disabled", false);
-                $('#divFiltros').fadeOut("slow");
+              //  $('#divFiltros').fadeOut("slow");
 
                 $('#btnGuardarCargando').prop("hidden", true);
-                CargarControlEnfundadoDetalle(resultado);
+                CargarControlEnfundadoDetalle(resultado, fecha, hora, FundasTeoricas, Peso, lote);
            
             },
             error: function (resultado) {
@@ -268,3 +301,71 @@ function Validar() {
     }
     return bool;
 }
+
+
+
+
+function InactivarRegistro() {
+    if ($("#txtIdControl").val() < 1) {
+        return;
+    }
+
+    $("#spinnerCargando").prop("hidden", false);
+    $('#DivTableControl').html('');
+    
+    $.ajax({
+        url: "../ControlEnfundado/InactivarControlEnfundado",
+        type: "GET",
+        data: {
+            IdControl: $("#txtIdControl").val()
+        },
+
+        success: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
+            if (resultado.Codigo == 0) {
+                MensajeAdvertencia(resultado.Mensaje);
+            } else {
+
+                MensajeCorrecto(resultado.Mensaje);           
+            }
+            $('#btnNuevo').prop("disabled", false);
+            $('#btnInactivar').prop("disabled", false);
+            Atras();
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargando").prop("hidden", true);
+            $('#btnNuevo').prop("disabled", false);
+            $('#btnInactivar').prop("disabled", false);
+
+
+
+        }
+    });
+
+}
+
+var modalConfirm = function (callback) {
+
+    $("#btnInactivar").on("click", function () {
+        $("#mi-modal").modal('show');
+    });
+
+    $("#modal-btn-si").on("click", function () {
+        callback(true);
+        $("#mi-modal").modal('hide');
+    });
+
+    $("#modal-btn-no").on("click", function () {
+        callback(false);
+        $("#mi-modal").modal('hide');
+    });
+};
+
+modalConfirm(function (confirm) {
+    if (confirm) {
+        //Acciones si el usuario confirma
+        InactivarRegistro();
+
+    }
+});

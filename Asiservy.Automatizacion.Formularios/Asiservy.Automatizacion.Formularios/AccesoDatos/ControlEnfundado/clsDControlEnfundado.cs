@@ -73,6 +73,24 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlEnfundado
             }
         }
 
+
+        public void InactivarControlEnfundado(CONTROL_ENFUNDADO model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var control = entities.CONTROL_ENFUNDADO.FirstOrDefault(x => x.IdControlEnfundado == model.IdControlEnfundado);
+                if (control != null)
+                {
+                    control.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    control.UsuarioModificacionLog = model.UsuarioModificacionLog;
+                    control.TerminalModificacionLog = model.TerminalModificacionLog;
+                    control.FechaModificacionLog = model.FechaModificacionLog;
+                    entities.SaveChanges();
+                }
+            }
+
+        }
+
         public List<spConsultaControlEnfundadoDetalle> ConsultaControlEnfundadoDetalle(int id)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())

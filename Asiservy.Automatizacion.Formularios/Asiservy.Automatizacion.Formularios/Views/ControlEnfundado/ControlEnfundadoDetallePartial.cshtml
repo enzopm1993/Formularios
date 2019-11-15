@@ -29,7 +29,7 @@
                     @Html.DisplayFor(modelItem => item.Nombre)
                 </td>
                 <td>
-                    <input type="number" id="Fundas-@item.Cedula" class="form-control" name="name" value="@item.Fundas" />
+                    <input type="number" id="Fundas-@item.Cedula" class="form-control" name="name" value="@item.Fundas", onclick="Clear(this.id)" />
                 </td>
                 <td class="text-left">
                     <div class="custom-control custom-switch">

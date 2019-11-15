@@ -5,6 +5,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -71,21 +72,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var model = clsDControlEnfundado.ConsultaControlEnfundado(Fecha);
                 return PartialView(model);
             }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                Usuario = User.Identity.Name.Split('_');
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = Usuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -99,21 +102,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var model = clsDControlEnfundado.ConsultaControlEnfundadoDetalle(Id);
                 return PartialView(model);
             }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                Usuario = User.Identity.Name.Split('_');
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = Usuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -134,21 +139,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 int id = clsDControlEnfundado.GenerarControlHueso(model);
                 return Json(id, JsonRequestBehavior.AllowGet);
             }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                Usuario = User.Identity.Name.Split('_');
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = Usuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -174,23 +181,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 return Json(respuesta, JsonRequestBehavior.AllowGet);
             }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
-
-                //SetErrorMessage(ex.Message);
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                Usuario = User.Identity.Name.Split('_');
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = Usuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -207,22 +214,70 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 return Json(ListadoLotes, JsonRequestBehavior.AllowGet);
             }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
-
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                Usuario = User.Identity.Name.Split('_');
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public JsonResult InactivarControlEnfundado(int IdControl)
+        {
+            try
+            {
+                RespuestaGeneral respuestaGeneral = new RespuestaGeneral();
+                clsDControlEnfundado = new clsDControlEnfundado();
+                Usuario = User.Identity.Name.Split('_');
+                if (IdControl>0){
+                    CONTROL_ENFUNDADO model = new CONTROL_ENFUNDADO();
+                    model.IdControlEnfundado = IdControl;
+                    model.FechaModificacionLog = DateTime.Now;
+                    model.UsuarioModificacionLog = Usuario[0];
+                    model.TerminalModificacionLog = Request.UserHostAddress;
+
+                    clsDControlEnfundado.InactivarControlEnfundado(model);
+                    respuestaGeneral.Codigo = 1;
+                    respuestaGeneral.Mensaje = "Registro Elimminado con Éxito";
+                    return Json(respuestaGeneral, JsonRequestBehavior.AllowGet);
+                }
+                else
                 {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = Usuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                    respuestaGeneral.Codigo = 0;
+                    respuestaGeneral.Mensaje = "No ha seleccionado ningun Control de Enfundado";
+                    return Json(respuestaGeneral, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
 

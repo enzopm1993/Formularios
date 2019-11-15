@@ -13,6 +13,7 @@
 <hr />
 <div id="divFiltros">
     <div class="row">
+        <input type="hidden" name="name" id="txtIdControl" value="0" />
         <div class="col-md-3 col-6">
             <div class="form-group">
                 <label id="labelFecha">Fecha</label>
@@ -71,8 +72,12 @@
         <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnNuevo" onclick="Limpiar()" style="border-color:#2c3e50" type="button">
             <img style="width:100%" src="~/Content/icons/clear24.png" />
         </button>
+
         <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
             <img style="width:100%" src="~/Content/icons/atras24.png" />
+        </button>
+        <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnInactivar" onclick="InactivarControl()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/cancel24.png" />
         </button>
 
     </div>
@@ -85,4 +90,22 @@
 </div>
 <div id="DivTableControl" class="table-responsive">
 
+</div>
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Control de Enfundado</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-btn-no">No</button>
+            </div>
+        </div>
+    </div>
 </div>

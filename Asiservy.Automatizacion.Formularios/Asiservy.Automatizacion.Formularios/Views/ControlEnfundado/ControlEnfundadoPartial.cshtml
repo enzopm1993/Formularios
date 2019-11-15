@@ -30,7 +30,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr onclick="CargarControlEnfundadoDetalle('@item.IdControlEnfundado')">
+            <tr onclick="CargarControlEnfundadoDetalle('@item.IdControlEnfundado','@item.Fecha.ToString("yyyy-MM-dd")','@item.Hora','@item.TeoricoFunda','@item.PesoProducto','@item.Lote')">
                 <td>
                     @Html.DisplayFor(modelItem => item.IdControlEnfundado)
                 </td>
