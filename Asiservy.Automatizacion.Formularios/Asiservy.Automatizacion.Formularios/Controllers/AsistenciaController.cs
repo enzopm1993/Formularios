@@ -783,9 +783,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                clsDGeneral = new clsDGeneral();
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                ConsultaComboLineas();
+                ViewBag.CentroCostos = clsDGeneral.ConsultaCentroCostos();
             }
             catch (Exception ex)
             {
@@ -924,7 +925,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult EmpleadosCambioPersonalPartial(string pslinea, string psarea, string pscargo, string tipo)
+        public ActionResult EmpleadosCambioPersonalPartial(string psCentroCosto, string psRecurso, string psLinea,string psCargo, string tipo)
         {
             try
             {
@@ -932,12 +933,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 if (tipo == "prestar")
                 {
-                    ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(pslinea, psarea, pscargo, clsAtributos.TipoPrestar);
+                    ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(psLinea, psCentroCosto, psCargo, psRecurso, clsAtributos.TipoPrestar);
 
                 }
                 else
                 {
-                    ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(pslinea, psarea, pscargo, clsAtributos.TipoRegresar);
+                    ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(psLinea, psCentroCosto, psCargo, psRecurso, clsAtributos.TipoRegresar);
                     ViewBag.ADondeFuePrestado = clsDEmpleado.ConsultarDondeFueMovido(ListaEmpleados);
                 }
                 return PartialView(ListaEmpleados);
@@ -961,12 +962,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [Authorize]
-        public JsonResult MoverEmpleados(string[] dCedulas, string dlinea, string darea, string tipo)
+        public JsonResult MoverEmpleados(string[] dCedulas, string dlinea, string darea,string drecurso,string dcargo,DateTime dfecha,TimeSpan dhora, string tipo)
         {
             try
             {
                 List<CAMBIO_PERSONAL> pListCambioPersonal = new List<CAMBIO_PERSONAL>();
-                List<BITACORA_CAMBIO_PERSONAL> pListBitacoraCambioPersonal = new List<BITACORA_CAMBIO_PERSONAL>();
+                //List<BITACORA_CAMBIO_PERSONAL> pListBitacoraCambioPersonal = new List<BITACORA_CAMBIO_PERSONAL>();
                 liststring = User.Identity.Name.Split('_');
                 string psRespuesta = string.Empty;
                 if (dCedulas != null && dCedulas.Length > 0)
@@ -980,25 +981,30 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                                 Cedula = pscedulas,
                                 CodLinea = dlinea,
                                 CentroCosto = darea,
+                                Recurso = drecurso,
+                                CodCargo = dcargo,
+                                FechaInicio = dfecha,
+                                HoraInicio = dhora,
+                                Vigente = true,
                                 FechaIngresoLog = DateTime.Now,
                                 UsuarioIngresoLog = liststring[0],
                                 TerminalIngresoLog = Request.UserHostAddress,
                                 EstadoRegistro = "A"
                             });
-                            pListBitacoraCambioPersonal.Add(new BITACORA_CAMBIO_PERSONAL
-                            {
-                                Cedula = pscedulas,
-                                Tipo = tipo == "prestar" ? "P" : "R",
-                                CodLinea = dlinea,
-                                CodArea = darea,
-                                FechaIngresoLog = DateTime.Now,
-                                UsuarioIngresoLog = liststring[0],
-                                TerminalIngresoLog = Request.UserHostAddress,
-                            });
+                            //pListBitacoraCambioPersonal.Add(new BITACORA_CAMBIO_PERSONAL
+                            //{
+                            //    Cedula = pscedulas,
+                            //    Tipo = tipo == "prestar" ? "P" : "R",
+                            //    CodLinea = dlinea,
+                            //    CodArea = darea,
+                            //    FechaIngresoLog = DateTime.Now,
+                            //    UsuarioIngresoLog = liststring[0],
+                            //    TerminalIngresoLog = Request.UserHostAddress,
+                            //});
                         }
                     }
                     clsDCambioPersonal = new clsDCambioPersonal();
-                    psRespuesta = clsDCambioPersonal.GuardarCambioDePersonal(pListCambioPersonal, pListBitacoraCambioPersonal, tipo);
+                    psRespuesta = clsDCambioPersonal.GuardarCambioDePersonal(pListCambioPersonal/*, pListBitacoraCambioPersonal*/, tipo);
                     return Json(psRespuesta, JsonRequestBehavior.AllowGet);
                 }
                 return Json("Error, no se ha seleccionado ningún empleado", JsonRequestBehavior.AllowGet);
@@ -1604,9 +1610,81 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             return View();
         }
-       
-      
+
+
         #region METODOS GENERICOS
+        public JsonResult ConsultaListadoCargosxRecursoyLinea(string CodRecurso, string CodLinea)
+        {
+            try
+            {
+                clsDGeneral = new clsDGeneral();
+                var recursos = clsDGeneral.ConsultaCargosxRecursoyLinea(CodRecurso, CodLinea);
+                return Json(recursos, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult ConsultaListadoLineas(string CodCentroCostos,string CodRecurso)
+        {
+            try
+            {
+                clsDGeneral = new clsDGeneral();
+                var recursos = clsDGeneral.ConsultaLineasxCCyRecurso(CodCentroCostos, CodRecurso);
+                return Json(recursos, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult ConsultaListadoRecursos(string CodCentroCostos)
+        {
+            try
+            {
+                clsDGeneral = new clsDGeneral();
+                var recursos = clsDGeneral.ConsultaRecursos(CodCentroCostos);
+                return Json(recursos, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
         public JsonResult ConsultaListadoAreas(string CodLinea)
         {
             try

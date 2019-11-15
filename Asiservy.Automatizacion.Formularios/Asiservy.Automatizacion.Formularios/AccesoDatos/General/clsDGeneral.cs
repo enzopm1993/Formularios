@@ -46,6 +46,36 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
             
         }
+        public List<spConsultaRecurso> ConsultaRecursos(string dsCodigo)
+        {
+
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaRecurso(dsCodigo).ToList();
+
+            }
+
+        }
+        public List<spConsultaCargosXRecursoLinea> ConsultaCargosxRecursoyLinea(string dsCodigoRecurso, string dsLinea)
+        {
+
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaCargosXRecursoLinea(dsCodigoRecurso, dsLinea).ToList();
+
+            }
+
+        }
+        public List<spConsultaLineaXRecursoyCentroCosto> ConsultaLineasxCCyRecurso(string dsCodigoCC,string dsCodigoRecurso)
+        {
+
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaLineaXRecursoyCentroCosto(dsCodigoRecurso, dsCodigoCC).ToList();
+
+            }
+
+        }
         public List<spConsultaLinea> ConsultaLineas(string dsCodigo)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -53,7 +83,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return entities.spConsultaLinea(dsCodigo).ToList();
             }
         }
-
+        public List<spConsultaCentroCostos> ConsultaCentroCostos()
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaCentroCostos().ToList();
+            }
+        }
         public String ConsultarLineaUsuario(string Identificacion)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())

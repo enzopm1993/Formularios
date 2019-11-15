@@ -27,7 +27,40 @@ function MensajeCloseReload() {
     
     location.reload();
 }
+//**
+function MensajeCorrectoTiempo(mensaje, r, tiempo) {
+    if (sPage = 'SolicitudPermiso') {
+        $('#GuardarSolicitudGeneral').prop('readonly', true);
+    }
+    if (sPage = 'SolicitudPermisoDispensario') {
+        $('#GuardarSolicitudDispensario').prop('readonly', true);
+    }
 
+
+    $('body,html').animate({ scrollTop: 0 }, 500);
+
+    $('#response').prop('hidden', false);
+    $('#response').html('');
+    $('<div class="alert alert-success">' +
+        '<button type="button" class="close" onclick="CerrarMensaje()" style="height: min-content;padding: 5px;" data-dismiss="alert">' +
+        '&times;</button><label id="pMensaje"></label></div>').hide().appendTo('#response').fadeIn(1000);
+    $('#pMensaje').html(mensaje);
+
+
+    $(".alert").delay(tiempo).fadeOut(
+        "normal",
+        function () {
+            $(this).remove();
+            $('#response').prop('hidden', true);
+        });
+
+
+    if (r)
+        setTimeout('location.reload()', tiempo+500);
+
+
+}
+//**
 function MensajeCorrecto(mensaje, r) {
     if (sPage = 'SolicitudPermiso') {
         $('#GuardarSolicitudGeneral').prop('readonly', true);
