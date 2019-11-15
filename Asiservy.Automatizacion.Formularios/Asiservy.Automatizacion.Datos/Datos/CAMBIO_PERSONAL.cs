@@ -32,5 +32,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.TimeSpan> HoraInicio { get; set; }
         public Nullable<System.TimeSpan> HoraFin { get; set; }
         public Nullable<bool> Vigente { get; set; }
+        public Nullable<bool> Asistencia { get; set; }
     }
 }
