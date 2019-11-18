@@ -752,8 +752,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
 
-        public void GenerarSolicitudPermisoMasivo(SOLICITUD_PERMISO model, List<string> Cedulas)
+        public int GenerarSolicitudPermisoMasivo(SOLICITUD_PERMISO model, List<string> Cedulas)
         {
+            int Cantidad = 0;
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 using (var transaction = entities.Database.BeginTransaction())
@@ -791,9 +792,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         poBitacora.TerminalIngresoLog = sol.TerminalIngresoLog;
                         entities.BITACORA_SOLICITUD.Add(poBitacora);
                         entities.SaveChanges();
+                        Cantidad++;
                     }
                     
                     transaction.Commit();
+                    return Cantidad;
                 }
             }
         }
