@@ -16,7 +16,7 @@
             <label>Linea</label>
             @{ if (ViewBag.Lineas != null)
                 {
-                    @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.Linea), new { @class = "form-control", @id = "txtCodLinea" })
+                    @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), new { @class = "form-control", @id = "txtCodLinea", @onchange = "CargarEmpleados(this.value)" })
 
                 }
                 else
@@ -32,7 +32,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.DescripcionMotivo, new { @class = "" })
                 @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "DescripcionMotivo"), "Seleccione el Motivo", new { @class = "form-control", @id = "selectMotivo" })
-                @Html.ValidationMessageFor(m => m.CodigoMotivo, "", new { @class = "input-validation-error text-danger has-error" })
+                <p hidden class="text-danger" id="ValidaMotivo">Seleccione un motivo</p>
             </div>
         </div>
         <div class="col-md-4 col-12">
@@ -43,7 +43,22 @@
         </div>
 
     </div>
+    <div id="spinnerCargando" hidden class="text-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-12">
+            <div id="DivTblEmpleados">
+
+            </div>
+            <p hidden class="text-danger" id="ValidaEmpleado">Seleccione al menos un empleado</p>
+
+        </div>
+    </div>
+    <br />
     <div class="col-12 text-center">
         <label>Fecha - Hora</label>
         <div class="custom-control custom-switch">
@@ -51,6 +66,7 @@
             <label class="custom-control-label" for="switchHoraFecha" id="LabelFecha"></label>
         </div>
     </div>
+
     <div class="row" id="DivHora">
 
         <div class="col-md-4 col-sm-12">
@@ -69,6 +85,7 @@
         </div>
 
     </div>
+
     <div class="row" id="DivFecha">
         <div class="col-md-6 col-sm-12">
             <label>Fecha Salida</label>
@@ -80,8 +97,10 @@
             @Html.TextBoxFor(m => m.FechaRegreso, new { @type = "date", @id = "dateRegreso", @class = "form-control" })
 
         </div>
+        
+
     </div>
-    @Html.ValidationMessage("CustomError", "", new { @class = "input-validation-error text-danger has-error" })
+    <p hidden class="text-danger" id="ValidaFecha">Ingrese un rango de fecha</p>
 
     <br />
     <div class="row">
