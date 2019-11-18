@@ -590,24 +590,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleados>("spConsutaEmpleados", cedulaParameter);
         }
     
-        public virtual ObjectResult<spReporteControlEnfundadoPorEnfundadora> spReporteControlEnfundadoPorEnfundadora(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlEnfundadoPorEnfundadora>("spReporteControlEnfundadoPorEnfundadora", fechaParameter);
-        }
-    
-        public virtual ObjectResult<spReporteControlEnfundadoPorHora> spReporteControlEnfundadoPorHora(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlEnfundadoPorHora>("spReporteControlEnfundadoPorHora", fechaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaCambioPersonalFecha> spConsultaCambioPersonalFecha(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
         {
             var fechaParameter = fecha.HasValue ?
@@ -701,6 +683,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Tipo", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosFiltroCambioPersonal>("spConsutaEmpleadosFiltroCambioPersonal", areaParameter, lineaParameter, cargoParameter, recursoParameter, tipoParameter);
+        }
+    
+        public virtual ObjectResult<spReporteControlEnfundadoPorEnfundadora> spReporteControlEnfundadoPorEnfundadora(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlEnfundadoPorEnfundadora>("spReporteControlEnfundadoPorEnfundadora", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spReporteControlEnfundadoPorHora> spReporteControlEnfundadoPorHora(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlEnfundadoPorHora>("spReporteControlEnfundadoPorHora", fechaParameter);
         }
     }
 }

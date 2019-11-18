@@ -1347,15 +1347,8 @@
           <FunctionImport Name="SP_PKI_SOLICITUDES" ReturnType="Collection(ASIS_PRODModel.SP_PKI_SOLICITUDES)" />
           <EntitySet Name="PARAMETRO" EntityType="ASIS_PRODModel.PARAMETRO" />
           <EntitySet Name="CAMBIO_PERSONAL" EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" />
-          <EntitySet Name="PERIODO" EntityType="ASIS_PRODModel.PERIODO" />
           <FunctionImport Name="spConsutaEmpleados" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleados)">
           <Parameter Name="cedula" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spReporteControlEnfundadoPorEnfundadora" ReturnType="Collection(ASIS_PRODModel.spReporteControlEnfundadoPorEnfundadora)">
-          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="spReporteControlEnfundadoPorHora" ReturnType="Collection(ASIS_PRODModel.spReporteControlEnfundadoPorHora)">
-          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spConsultaCambioPersonalFecha" ReturnType="Collection(ASIS_PRODModel.spConsultaCambioPersonalFecha)">
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
@@ -1371,7 +1364,7 @@
             <Parameter Name="CentroCostos" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spConsultaRecurso" ReturnType="Collection(ASIS_PRODModel.spConsultaRecurso)">
-            <Parameter Name="CentroCostos" Mode="In" Type="String" />
+          <Parameter Name="CentroCostos" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spConsutaEmpleadosFiltro" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosFiltro)">
             <Parameter Name="Area" Mode="In" Type="String" />
@@ -1384,6 +1377,13 @@
             <Parameter Name="Cargo" Mode="In" Type="String" />
             <Parameter Name="Recurso" Mode="In" Type="String" />
             <Parameter Name="Tipo" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="PERIODO" EntityType="ASIS_PRODModel.PERIODO" />
+          <FunctionImport Name="spReporteControlEnfundadoPorEnfundadora" ReturnType="Collection(ASIS_PRODModel.spReporteControlEnfundadoPorEnfundadora)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spReporteControlEnfundadoPorHora" ReturnType="Collection(ASIS_PRODModel.spReporteControlEnfundadoPorHora)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           
           </EntityContainer>
@@ -2293,22 +2293,6 @@
           <Property Name="Vigente" Type="Boolean" />
           <Property Name="Asistencia" Type="Boolean" />
         </EntityType>
-        <EntityType Name="PERIODO">
-          <Key>
-            <PropertyRef Name="IdPeriodo" />
-          </Key>
-          <Property Name="IdPeriodo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="FechaDesde" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="FechaHasta" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <ComplexType Name="spConsutaEmpleados">
           <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
@@ -2321,34 +2305,6 @@
           <Property Type="String" Name="CARGO" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="TIPCONTRATO" Nullable="true" MaxLength="15" />
           <Property Type="String" Name="CODIGORECURSO" Nullable="true" MaxLength="7" />
-        </ComplexType>
-        <ComplexType Name="spReporteControlEnfundadoPorEnfundadora">
-          <Property Type="Int32" Name="IdControlEnfundado" Nullable="false" />
-          <Property Type="Time" Name="Hora" Nullable="false" />
-          <Property Type="Int32" Name="IdControlEnfundadoDetalle" Nullable="false" />
-          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
-          <Property Type="String" Name="nombre" Nullable="true" MaxLength="80" />
-          <Property Type="Int32" Name="Fundas" Nullable="false" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="spReporteControlEnfundadoPorHora">
-          <Property Type="Int32" Name="IdControlEnfundado" Nullable="false" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="Time" Name="Hora" Nullable="false" />
-          <Property Type="String" Name="Lote" Nullable="false" MaxLength="10" />
-          <Property Type="Int32" Name="TeoricoFunda" Nullable="false" />
-          <Property Type="Decimal" Name="PesoProducto" Nullable="false" Precision="4" Scale="2" />
-          <Property Type="String" Name="Funda" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="TotalEnfundadora" Nullable="true" />
-          <Property Type="Int32" Name="TotalFunda" Nullable="true" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
         </ComplexType>
         <ComplexType Name="spConsultaCambioPersonalFecha">
           <Property Type="Int32" Name="IdCambioPersonal" Nullable="false" />
@@ -2408,6 +2364,50 @@
           <Property Type="String" Name="CODIGOCARGO" Nullable="false" MaxLength="8" />
           <Property Type="String" Name="CARGO" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="RECURSO" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <EntityType Name="PERIODO">
+          <Key>
+            <PropertyRef Name="IdPeriodo" />
+          </Key>
+          <Property Name="IdPeriodo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FechaDesde" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaHasta" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="spReporteControlEnfundadoPorEnfundadora">
+          <Property Type="Int32" Name="IdControlEnfundado" Nullable="false" />
+          <Property Type="Time" Name="Hora" Nullable="false" />
+          <Property Type="Int32" Name="IdControlEnfundadoDetalle" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="nombre" Nullable="true" MaxLength="80" />
+          <Property Type="Int32" Name="Fundas" Nullable="false" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spReporteControlEnfundadoPorHora">
+          <Property Type="Int32" Name="IdControlEnfundado" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="Time" Name="Hora" Nullable="false" />
+          <Property Type="String" Name="Lote" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="TeoricoFunda" Nullable="false" />
+          <Property Type="Decimal" Name="PesoProducto" Nullable="false" Precision="4" Scale="2" />
+          <Property Type="String" Name="Funda" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TotalEnfundadora" Nullable="true" />
+          <Property Type="Int32" Name="TotalFunda" Nullable="true" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3590,23 +3590,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PERIODO">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.PERIODO">
-              <MappingFragment StoreEntitySet="PERIODO">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="FechaHasta" ColumnName="FechaHasta" />
-                <ScalarProperty Name="FechaDesde" ColumnName="FechaDesde" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="IdPeriodo" ColumnName="IdPeriodo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spConsutaEmpleados" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleados">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleados">
@@ -3621,42 +3604,6 @@
                 <ScalarProperty Name="CARGO" ColumnName="CARGO" />
                 <ScalarProperty Name="TIPCONTRATO" ColumnName="TIPCONTRATO" />
                 <ScalarProperty Name="CODIGORECURSO" ColumnName="CODIGORECURSO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spReporteControlEnfundadoPorEnfundadora" FunctionName="ASIS_PRODModel.Store.spReporteControlEnfundadoPorEnfundadora">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteControlEnfundadoPorEnfundadora">
-                <ScalarProperty Name="IdControlEnfundado" ColumnName="IdControlEnfundado" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="IdControlEnfundadoDetalle" ColumnName="IdControlEnfundadoDetalle" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="Fundas" ColumnName="Fundas" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spReporteControlEnfundadoPorHora" FunctionName="ASIS_PRODModel.Store.spReporteControlEnfundadoPorHora">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteControlEnfundadoPorHora">
-                <ScalarProperty Name="IdControlEnfundado" ColumnName="IdControlEnfundado" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="TeoricoFunda" ColumnName="TeoricoFunda" />
-                <ScalarProperty Name="PesoProducto" ColumnName="PesoProducto" />
-                <ScalarProperty Name="Funda" ColumnName="Funda" />
-                <ScalarProperty Name="TotalEnfundadora" ColumnName="TotalEnfundadora" />
-                <ScalarProperty Name="TotalFunda" ColumnName="TotalFunda" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -3744,6 +3691,59 @@
                 <ScalarProperty Name="CODIGOCARGO" ColumnName="CODIGOCARGO" />
                 <ScalarProperty Name="CARGO" ColumnName="CARGO" />
                 <ScalarProperty Name="RECURSO" ColumnName="RECURSO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="PERIODO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.PERIODO">
+              <MappingFragment StoreEntitySet="PERIODO">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="FechaHasta" ColumnName="FechaHasta" />
+                <ScalarProperty Name="FechaDesde" ColumnName="FechaDesde" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdPeriodo" ColumnName="IdPeriodo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spReporteControlEnfundadoPorEnfundadora" FunctionName="ASIS_PRODModel.Store.spReporteControlEnfundadoPorEnfundadora">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteControlEnfundadoPorEnfundadora">
+                <ScalarProperty Name="IdControlEnfundado" ColumnName="IdControlEnfundado" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="IdControlEnfundadoDetalle" ColumnName="IdControlEnfundadoDetalle" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="Fundas" ColumnName="Fundas" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spReporteControlEnfundadoPorHora" FunctionName="ASIS_PRODModel.Store.spReporteControlEnfundadoPorHora">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteControlEnfundadoPorHora">
+                <ScalarProperty Name="IdControlEnfundado" ColumnName="IdControlEnfundado" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="TeoricoFunda" ColumnName="TeoricoFunda" />
+                <ScalarProperty Name="PesoProducto" ColumnName="PesoProducto" />
+                <ScalarProperty Name="Funda" ColumnName="Funda" />
+                <ScalarProperty Name="TotalEnfundadora" ColumnName="TotalEnfundadora" />
+                <ScalarProperty Name="TotalFunda" ColumnName="TotalFunda" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
