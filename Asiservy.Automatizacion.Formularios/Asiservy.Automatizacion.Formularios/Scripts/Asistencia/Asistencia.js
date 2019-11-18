@@ -94,6 +94,7 @@ function Nuevo() {
     $('#GenerarAsistencia').hide();
     $('#TurnoGen').removeAttr('disabled');
     $('#txtFecha').removeAttr('disabled');
+    $('#cmbControl').removeAttr('disabled'); 
     $('#ConsultaAsistencia').removeAttr('disabled');
     $('#TurnoGen').prop('selectedIndex', 0);
     $('#PartialAsistencia').empty();
@@ -169,6 +170,11 @@ function ConsultarSiExisteAsistencia() {
         $('#mensajefecha').hide();
     }
     $('#PartialAsistencia').empty();
+    $('#TurnoGen').prop("disabled", true);
+    $('#txtFecha').prop("disabled", true);
+    $('#cmbControl').prop("disabled", true);
+    
+
     $.ajax({
         //contentType: "application/json; charset=utf-8",
         url: '../Asistencia/ConsultarExistenciaAsistencia',
