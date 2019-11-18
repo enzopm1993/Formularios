@@ -541,7 +541,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 solicitudPermiso.Origen = clsAtributos.SolicitudOrigenGeneral;
                 solicitudPermiso.CodigoDiagnostico = "";
                 solicitudPermiso.CodigoClasificador = 0;
-                solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(lsUsuario[1]);
+               
                 solicitudPermiso.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 solicitudPermiso.UsuarioIngresoLog = lsUsuario[0];
                 solicitudPermiso.FechaIngresoLog = DateTime.Now;
