@@ -840,6 +840,9 @@
           <Parameter Name="LINEA" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsultaPersonalNominaPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spConsultaProyeccionProgramacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyeccion" Type="int" Mode="In" />
+        </Function>
         <Function Name="spConsultarAuditoriaSangreDiaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="date" Mode="In" />
         </Function>
@@ -1454,6 +1457,9 @@
             <End Role="PROYECCION_PROGRAMACION" EntitySet="PROYECCION_PROGRAMACION" />
             <End Role="PROYECCION_PROGRAMACION_DETALLE" EntitySet="PROYECCION_PROGRAMACION_DETALLE" />
           </AssociationSet>
+          <FunctionImport Name="spConsultaProyeccionProgramacion" ReturnType="Collection(ASIS_PRODModel.spConsultaProyeccionProgramacion)">
+            <Parameter Name="IdProyeccion" Mode="In" Type="Int32" />
+          </FunctionImport>
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -2537,6 +2543,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spConsultaProyeccionProgramacion">
+          <Property Type="Int32" Name="IdProyeccionProgramacionDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdProyeccionProgramacion" Nullable="false" />
+          <Property Type="String" Name="Lote" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="OrdenFabricacion" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="Toneladas" Nullable="true" />
+          <Property Type="String" Name="Lineas" Nullable="true" MaxLength="100" />
+          <Property Type="Time" Name="HoraProcesoInicio" Nullable="true" />
+          <Property Type="Time" Name="HoraProcesoFin" Nullable="true" />
+          <Property Type="String" Name="CodDestino" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Destino" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodTipoLimpieza" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="TipoLimpieza" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Especie" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Talla" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TemperaturaFinal" Nullable="true" />
+          <Property Type="Time" Name="HoraCoccionInicio" Nullable="true" />
+          <Property Type="Time" Name="HoraCoccionFin" Nullable="true" />
+          <Property Type="Int32" Name="TotalCoches" Nullable="true" />
+          <Property Type="Int32" Name="Cocina" Nullable="true" />
+          <Property Type="Time" Name="HoraEviceradoInicio" Nullable="true" />
+          <Property Type="Time" Name="HoraEviceradoFin" Nullable="true" />
+          <Property Type="Time" Name="HoraDescongeladoInicio" Nullable="true" />
+          <Property Type="Time" Name="HoraDescongeladoFin" Nullable="true" />
+          <Property Type="Time" Name="Requerimiento" Nullable="true" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3922,6 +3961,43 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaProyeccionProgramacion" FunctionName="ASIS_PRODModel.Store.spConsultaProyeccionProgramacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaProyeccionProgramacion">
+                <ScalarProperty Name="IdProyeccionProgramacionDetalle" ColumnName="IdProyeccionProgramacionDetalle" />
+                <ScalarProperty Name="IdProyeccionProgramacion" ColumnName="IdProyeccionProgramacion" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Toneladas" ColumnName="Toneladas" />
+                <ScalarProperty Name="Lineas" ColumnName="Lineas" />
+                <ScalarProperty Name="HoraProcesoInicio" ColumnName="HoraProcesoInicio" />
+                <ScalarProperty Name="HoraProcesoFin" ColumnName="HoraProcesoFin" />
+                <ScalarProperty Name="CodDestino" ColumnName="CodDestino" />
+                <ScalarProperty Name="Destino" ColumnName="Destino" />
+                <ScalarProperty Name="CodTipoLimpieza" ColumnName="CodTipoLimpieza" />
+                <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="TemperaturaFinal" ColumnName="TemperaturaFinal" />
+                <ScalarProperty Name="HoraCoccionInicio" ColumnName="HoraCoccionInicio" />
+                <ScalarProperty Name="HoraCoccionFin" ColumnName="HoraCoccionFin" />
+                <ScalarProperty Name="TotalCoches" ColumnName="TotalCoches" />
+                <ScalarProperty Name="Cocina" ColumnName="Cocina" />
+                <ScalarProperty Name="HoraEviceradoInicio" ColumnName="HoraEviceradoInicio" />
+                <ScalarProperty Name="HoraEviceradoFin" ColumnName="HoraEviceradoFin" />
+                <ScalarProperty Name="HoraDescongeladoInicio" ColumnName="HoraDescongeladoInicio" />
+                <ScalarProperty Name="HoraDescongeladoFin" ColumnName="HoraDescongeladoFin" />
+                <ScalarProperty Name="Requerimiento" ColumnName="Requerimiento" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
