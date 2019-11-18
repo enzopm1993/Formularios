@@ -162,15 +162,15 @@
 
 
 
-                    <div class="container-fluid relative1" style="padding-top:10px">
+                <div class="container-fluid relative1" style="padding-top:10px">
 
-                        <div class="absolute1" hidden id="response">
-                        </div>                        
-                            @RenderBody()
-                        
-
-
+                    <div class="absolute1" hidden id="response">
                     </div>
+                    @RenderBody()
+
+
+
+                </div>
                 <!-- Modal -->
                 <div class="modal" style="background-color: white;" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -234,7 +234,66 @@
     <script src="~/Scripts/General/GeneralJS.js"></script>
     <script src="~/Scripts/Mensajes/Mensajes.js"></script>
 
-
+    <script>
+        var config = {
+            baseUrl : '@Url.Content("~/")',
+            opcionesDT: {
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+                    "buttons": {
+                        "pageLength": "<img style='width:100%' src='../../Content/icons/show24.png' />"
+                    }
+                },
+                "pageLength": 5,
+                "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                "pagingType": "full_numbers",
+                "dom": 'Bfrtip',
+                "order": [[0, "desc"], [1, "desc"]],
+                "buttons": [
+                    {
+                        extend: 'pageLength',
+                        text: ' <img style="width:100%" src="../../Content/icons/show24.png" />',
+                        titleAttr: 'Mostrar'
+                    }, {
+                        extend: 'copyHtml5',
+                        text: ' <img style="width:100%" src="../../Content/icons/copy24.png" />',
+                        titleAttr: 'Copiar'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: '<img style="width:100%" src="../../Content/icons/excel24.png" />',
+                        titleAttr: 'Excel'
+                    },
+                    {
+                        extend: 'print',
+                        text: '<img style="width:100%" src="../../Content/icons/print24.png" />',
+                        titleAttr: 'Imprimir'
+                    }
+                ]
+            }
+        }
+    </script>
 
     @if (ViewBag.dataTableJS != null)
     {
@@ -261,7 +320,6 @@
         string url = "/Scripts/" + js + ".js";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
-
 
     }
 

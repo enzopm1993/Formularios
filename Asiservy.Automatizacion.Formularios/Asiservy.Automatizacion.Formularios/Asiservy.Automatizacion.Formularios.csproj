@@ -2574,6 +2574,7 @@
     <Content Include="Scripts\Login\Login.js" />
     <Content Include="Scripts\Mensajes\Mensajes.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Nomina\EmpleadosClientes.js" />
     <Content Include="Scripts\Periodo\Periodo.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
@@ -2821,6 +2822,7 @@
     <Content Include="Views\ControlEnfundado\ReportePorEnfundadora.cshtml" />
     <Content Include="Views\ControlEnfundado\ReportePorHora.cshtml" />
     <Content Include="Views\Nomina\EmpleadosClientes.cshtml" />
+    <Content Include="Views\Nomina\ListaEmpleadosPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
