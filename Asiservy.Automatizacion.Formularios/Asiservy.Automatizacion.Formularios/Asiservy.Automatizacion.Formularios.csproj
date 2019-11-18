@@ -2780,17 +2780,11 @@
     <Content Include="Views\Hueso\ReporteAvanceDiarioPorLimpiadoraPartial.cshtml" />
     <Content Include="Views\AuditoriaSangre\ReporteAuditoriaSangre.cshtml" />
     <Content Include="Views\AuditoriaSangre\ReporteAuditoriaSangrePArtial.cshtml" />
-    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacion.cshtml" />
     <Content Include="Views\Empleado\ReportePersonalNominaPorLinea.cshtml" />
     <Content Include="Views\Empleado\ReporteDistribucionPorLinea.cshtml" />
     <Content Include="Views\Empleado\ReporteDistribucionPorLineaPartial.cshtml" />
     <Content Include="Views\Asistencia\ReporteControlCuchillo.cshtml" />
     <Content Include="Views\Asistencia\ReporteControlCuchilloPartial.cshtml" />
-    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionPartial.cshtml" />
-    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEditar.cshtml" />
-    <Content Include="Views\ProyeccionProgramacion\ModalEditarProyeccion.cshtml" />
-    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEditarPartial.cshtml" />
-    <Content Include="Views\ProyeccionProgramacion\ReporteProyeccionProgramacion.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ReporteProyeccionProgramacionPartial.cshtml" />
     <Content Include="Views\Asistencia\ReporteCambioPersonal.cshtml" />
     <Content Include="Views\Asistencia\ReporteCambioPersonalPartial.cshtml" />
@@ -2807,7 +2801,6 @@
     <Content Include="Views\Empleado\ReporteEmpleadoCargo.cshtml" />
     <Content Include="Views\Empleado\ReporteEmpleadoCargoPartial.cshtml" />
     <Content Include="Views\Empleado\EmpleadoCargo.cshtml" />
-    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionEditPartial.cshtml" />
     <Content Include="Views\Asistencia\ModalHora.cshtml" />
     <Content Include="Views\Asistencia\ModalObservacion.cshtml" />
     <Content Include="Views\Asistencia\ModalPrestados.cshtml" />
@@ -2822,6 +2815,8 @@
     <Content Include="Views\ControlEnfundado\ReportePorHora.cshtml" />
     <Content Include="Views\Nomina\EmpleadosClientes.cshtml" />
     <Content Include="Views\Empleado\EmpleadosMasivoPartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ModalEditarProyeccion.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacion.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
