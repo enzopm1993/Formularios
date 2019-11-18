@@ -96,14 +96,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
-                var model = clsDProyeccionProgramacion.ConsultaProyeccionProgramacion(IdProgramacion);
+                var model = clsDProyeccionProgramacion.ConsultaProyeccionProgramacionDetalle(IdProgramacion);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
-                }
-                ViewBag.Ingreso = "";
-                ViewBag.EditaProduccion = "";
-                ViewBag.EditaPreparacion = "";
+                }               
+               
                 return PartialView(model);
             }
             catch (DbEntityValidationException e)
@@ -170,6 +168,42 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 var Genera= clsDProyeccionProgramacion.GenerarProyeccionProgramacion(model);
                 return Json(Genera, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult GuardarModificarProyeccionProgramacionDetalle(PROYECCION_PROGRAMACION_DETALLE model)
+        {
+            try
+            {
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                lsUsuario = User.Identity.Name.Split('_');
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.FechaIngresoLog = DateTime.Now;              
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+
+
+
+                clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model,1);
+                return Json("", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

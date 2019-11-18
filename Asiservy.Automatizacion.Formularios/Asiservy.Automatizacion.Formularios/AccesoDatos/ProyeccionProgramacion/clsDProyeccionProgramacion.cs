@@ -10,7 +10,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
     public class clsDProyeccionProgramacion
     {
 
-        public List<spConsultaProyeccionProgramacion> ConsultaProyeccionProgramacion (int Id)
+        public List<spConsultaProyeccionProgramacion> ConsultaProyeccionProgramacionDetalle (int Id)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -21,6 +21,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
             }
         }
 
+        public PROYECCION_PROGRAMACION ConsultaProyeccionProgramacion(int Id)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {               
+                var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x=> x.IdProyeccionProgramacion == Id);
+                return proyeccion;
+            }
+        }
         public int ValidarProyeccionProgramacion(DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -130,7 +138,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 }
                 else
                 {
-                    db.PROYECCION_PROGRAMACION_DETALLE.Add(detalle);
+                    db.PROYECCION_PROGRAMACION_DETALLE.Add(model);
                 }
                 db.SaveChanges();
             }

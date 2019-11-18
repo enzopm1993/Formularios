@@ -10,6 +10,7 @@
 
 <div class="row">
     @Html.Hidden("IdProyeccion")
+    @Html.Hidden("IdProyeccionDetalle", 0)
     @{var Fecha = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"); }
     <div class="col-md-2 col-sm-6">
         <div class="form-group">
@@ -28,7 +29,7 @@
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Toneladas:</label>
-            <input type="number" class="form-control" name="name" value=""  id="txtTonelada"/>
+            <input type="number" class="form-control" name="name" value="" id="txtTonelada" />
             <p class="text-danger" hidden id="ValidaTonelada">Ingrese una cantidad</p>
 
         </div>
@@ -50,7 +51,7 @@
     <div class="col-md-5 col-sm-6">
         <div class="form-group">
             <label>Observación:</label>
-            <input type="text" class="form-control" maxlength="100" name="name" value=""  id="txtObservacion"/>
+            <input type="text" class="form-control" maxlength="100" name="name" value="" id="txtObservacion" />
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
@@ -58,7 +59,7 @@
             <label>Especie:</label>
             @*@Html.DropDownList("txtEspecie", (IEnumerable<SelectListItem>
                 )ViewBag.Especie, "Seleccione", new { @class = "form-control" })*@
-                @Html.DropDownList("Especie", new SelectList(ViewBag.Especie, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            @Html.DropDownList("txtEspecie", new SelectList(ViewBag.Especie, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
             <p class="text-danger" hidden id="ValidaEspecie">Seleccione una especie</p>
         </div>
     </div>
@@ -67,8 +68,8 @@
             <label>Talla:</label>
             @*@Html.DropDownList("txtTalla", (IEnumerable<SelectListItem>
                 )ViewBag.Talla, "Seleccione", new { @class = "form-control" })*@
-                @Html.DropDownList("Talla", new SelectList(ViewBag.Talla, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
-                @*@Html.DropDownList("Tallas", new SelectList(ViewBag.Tallas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectTalla" })*@
+            @Html.DropDownList("txtTalla", new SelectList(ViewBag.Talla, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            @*@Html.DropDownList("Tallas", new SelectList(ViewBag.Tallas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectTalla" })*@
             <p class="text-danger" hidden id="ValidaTalla">Seleccione una talla</p>
 
         </div>
@@ -78,14 +79,14 @@
     <div class="col-12 text-center">
         <br />
         <div class="form-group" id="DivButtons">
-            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="GuardarProyeccion" onclick="IngresarProyeccionProgramacion()" style="border-color:#2c3e50" type="button">
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="GuardarProyeccion" onclick="GuardarProyeccionDetalle()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/add24.png" />
             </button>
-            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="LimpiarBoton()" style="border-color:#2c3e50" type="button">
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="Limpiar()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/clear24.png" />
             </button>
             @*<input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="IngresarProyeccionProgramacion()" />
-            <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
+                <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
         </div>
 
         <button hidden id="btnGenerarProyecion" onclick="GenerarProyeccionProgramacion()" type="button" class="btn btn-outline-success">Generar</button>
@@ -103,8 +104,14 @@
     </div>
 </div>
 
+<div class="text-center" id="DivMensaje"></div>
 <div id="DivProyeccion" class="table-responsive">
 
+
+</div>
+<br />
+<div class="text-center">
+    <button type="button" class="btn btn-outline-danger">Eliminar</button>
 
 </div>
 

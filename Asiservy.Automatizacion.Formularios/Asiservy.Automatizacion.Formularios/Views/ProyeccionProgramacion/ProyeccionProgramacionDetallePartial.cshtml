@@ -1,13 +1,10 @@
-﻿
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProyeccionProgramacion>
+
+
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdProyeccionProgramacionDetalle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdProyeccionProgramacion)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Lote)
             </th>
@@ -17,24 +14,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Toneladas)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Lineas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HoraProcesoInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HoraProcesoFin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CodDestino)
-            </th>
+          
             <th>
                 @Html.DisplayNameFor(model => model.Destino)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CodTipoLimpieza)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.TipoLimpieza)
             </th>
@@ -44,79 +28,91 @@
             <th>
                 @Html.DisplayNameFor(model => model.Talla)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TemperaturaFinal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HoraCoccionInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HoraCoccionFin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalCoches)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cocina)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HoraEviceradoInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HoraEviceradoFin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HoraDescongeladoInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HoraDescongeladoFin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Requerimiento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Observacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstadoRegistro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaIngresoLog)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaModificacionLog)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UsuarioModificacionLog)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TerminalModificacionLog)
-            </th>
+
+            @if (ViewBag.EditaProduccion != null)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Lineas)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoraProcesoInicio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoraProcesoFin)
+                </th>
+            }
+
+            @if (ViewBag.EditaPreparacion!=null)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.TemperaturaFinal)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoraCoccionInicio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoraCoccionFin)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalCoches)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cocina)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoraEviceradoInicio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoraEviceradoFin)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoraDescongeladoInicio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoraDescongeladoFin)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Requerimiento)
+                </th>
+             }
+                <th>
+                    @Html.DisplayNameFor(model => model.Observacion)
+                </th>
+        
         </tr>
 
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdProyeccionProgramacionDetalle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdProyeccionProgramacion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lote)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Toneladas)
-                </td>
+            
+        <tr onclick="SeleccionarProyeccionProgramacion('@item.IdProyeccionProgramacion','@item.IdProyeccionProgramacionDetalle','@item.Lote','@item.OrdenFabricacion','@item.Toneladas','@item.CodDestino','@item.CodTipoLimpieza','@item.Observacion','@item.Especie','@item.Talla')">           
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Toneladas)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Destino)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoLimpieza)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Especie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Talla)
+            </td>
+
+            @if (ViewBag.EditaProduccion != null)
+            {
                 <td>
                     @Html.DisplayFor(modelItem => item.Lineas)
                 </td>
@@ -126,24 +122,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.HoraProcesoFin)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CodDestino)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Destino)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CodTipoLimpieza)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoLimpieza)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Especie)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Talla)
-                </td>
+            }
+            @if (ViewBag.EditaPreparacion != null)
+            {
                 <td>
                     @Html.DisplayFor(modelItem => item.TemperaturaFinal)
                 </td>
@@ -174,29 +155,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Requerimiento)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EstadoRegistro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
-                </td>
-          
-            </tr>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+
+
+        </tr>
         }
     </tbody>
 </table>

@@ -33,8 +33,61 @@ function Validar() {
         $("#ValidaDestino").prop("hidden", true);
     }
 
+    if ($("#txtTipoLimpieza").val() == "") {
+        $("#ValidaLimpieza").prop("hidden", false);
+        valida = false;
+    } else {
+        $("#ValidaLimpieza").prop("hidden", true);
+    }
+
+    if ($("#txtEspecie").val() == "") {
+        $("#ValidaEspecie").prop("hidden", false);
+        valida = false;
+    } else {
+        $("#ValidaEspecie").prop("hidden", true);
+    }
+    if ($("#txtTalla").val() == "") {
+        $("#ValidaTalla").prop("hidden", false);
+        valida = false;
+    } else {
+        $("#ValidaTalla").prop("hidden", true);
+    }
 
     return valida;
+}
+
+function GuardarProyeccionDetalle() {
+    if (!Validar()) {
+        return;
+    }
+    $.ajax({
+        url: "../ProyeccionProgramacion/GuardarModificarProyeccionProgramacionDetalle",
+        type: "GET",
+        data:
+        {
+            IdProyeccionProgramacion: $('#IdProyeccion').val(),
+            IdProyeccionProgramacionDetalle: $('#IdProyeccionDetalle').val(),
+            Lote: $("#txtLote").val(),
+            Toneladas: $("#txtTonelada").val(),
+            OrdenFabricacion: "",
+            Destino: $("#txtDestino").val(),
+            TipoLimpieza: $("#txtTipoLimpieza").val(),
+            Especie: $("#txtEspecie").val(),
+            Talla: $("#txtTalla").val(),
+            Observacion: $("#txtObservacion").val()
+
+        },
+        success: function (resultado) {           
+                CargarProyeccionProgramacion();
+            Limpiar();
+            MensajeCorrecto(resultado);
+
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+        }
+    });
+
 }
 
 function GenerarProyeccionProgramacion() {  
@@ -47,12 +100,12 @@ function GenerarProyeccionProgramacion() {
         data:
         {
             IdProyeccionProgramacion: $('#IdProyeccion').val(),
-            Fecha: $('#txtFechaProduccion').val()
+            FechaProduccion: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
             if (resultado > 0) {
                 $("#IdProyeccion").val(resultado);
-                CargarProyeccionProgramacion();
+                GuardarProyeccionDetalle();
             }
          
         },
@@ -66,6 +119,7 @@ function ValidaProyeccion() {
     if ($('#txtFechaProduccion').val() == "") {
         return;
     }
+    $("#DivProyeccion").html("");
     $.ajax({
         url: "../ProyeccionProgramacion/ValidarProyeccionProgramacion",
         type: "GET",
@@ -84,7 +138,7 @@ function ValidaProyeccion() {
                 $("#DivButtons").prop("hidden", true);
                 $("#btnGenerarProyecion").prop("hidden", false);
                 $("#IdProyeccion").val(0);
-
+                $("#DivMensaje").html("<h3 class'text-center'> No éxisten registros </h3> ");
             }
         },
         error: function (resultado) {
@@ -106,10 +160,11 @@ function CargarProyeccionProgramacion() {
         },
         success: function (resultado) {
             if (resultado == 0) {
-                $("#DivProyeccion").html("<h3 class'text-center'> No existen registros </h3> ");
+                $("#DivMensaje").html("<h3 class'text-center'> No existen registros </h3> ");
 
             } else {
                 $("#DivProyeccion").html(resultado);
+                $('#tblDataTable').DataTable(config.opcionesDT);
             }
             $("#spinnerCargando").prop("hidden", true);
 
@@ -121,6 +176,44 @@ function CargarProyeccionProgramacion() {
         }
     });
 }
+function Limpiar() {
+    $('#txtLote').val("");
+    //$('#FechaProduccion').val("");
+    $('#txtTonelada').val("");
+    $('#txtDestino').prop('selectedIndex', 0);
+    $('#txtTipoLimpieza').prop('selectedIndex', 0);
+    $('#txtEspecie').prop('selectedIndex', 0);
+    $('#txtTalla').prop('selectedIndex', 0);
+    $('#Observacion').val("");
+    $('#IdProyeccion').val(0);
+    $('#IdProyeccionDetalle').val(0);
+    //var d = new Date();
+
+    //var dia = d.getDate()+1;
+
+    //var mes = (d.getMonth() + 1) < 10 ? ("0" + (d.getMonth() + 1)) : d.getMonth() + 1;
+    //var anio = d.getFullYear();
+
+    //var fechatotal = anio + "-" + mes + "-" + dia
+    //$('#FechaProduccion').val(fechatotal);
+
+    //ConsultaProyProgramacion();
+}
+
+function SeleccionarProyeccionProgramacion(id,idDetalle,lote,orden,toneladas,destino,limpieza,observacion,especie,talla) {
+    $('#txtLote').val(lote);
+    //$('#FechaProduccion').val("");
+    $('#txtTonelada').val(toneladas);
+    $('#txtDestino').val(destino);
+    $('#txtTipoLimpieza').val(limpieza);
+    $('#txtEspecie').val(especie);
+    $('#txtTalla').val(talla);
+    $('#Observacion').val(observacion);
+    $('#IdProyeccion').val(id);
+    $('#IdProyeccionDetalle').val(idDetalle);
+}
+
+
 
 //function ConsultaProyProgramacion(){
 //    $.ajax({
@@ -142,28 +235,7 @@ function CargarProyeccionProgramacion() {
 //        }
 //    });
 //}
-//function Limpiar() {
-//    $('#Lote').val("");
-//    //$('#FechaProduccion').val("");
-//    $('#Toneladas').val("");
-//    $('#Destino').prop('selectedIndex', 0);
-//    $('#TipoLimpieza').prop('selectedIndex', 0);
-//    $('#Especie').prop('selectedIndex', 0);
-//    $('#Talla').prop('selectedIndex', 0);
-//    $('#Observacion').val("");
-//    $('#IdProyeccion').val("");
-//    //var d = new Date();
 
-//    //var dia = d.getDate()+1;
-
-//    //var mes = (d.getMonth() + 1) < 10 ? ("0" + (d.getMonth() + 1)) : d.getMonth() + 1;
-//    //var anio = d.getFullYear();
-
-//    //var fechatotal = anio + "-" + mes + "-" + dia
-//    //$('#FechaProduccion').val(fechatotal);
-
-//    //ConsultaProyProgramacion();
-//}
 //function LimpiarBoton() {
 //    Limpiar();
 //    var d = new Date();
