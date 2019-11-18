@@ -10,18 +10,16 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class spConsultarEmpleadosxTurno
+    public partial class BITACORA_PROYECCION
     {
-        public string CEDULA { get; set; }
-        public string NOMBRES { get; set; }
-        public string CODIGOLINEA { get; set; }
-        public string LINEA { get; set; }
-        public string CODIGOAREA { get; set; }
-        public string AREA { get; set; }
-        public string CODIGOCARGO { get; set; }
-        public string CARGO { get; set; }
-        public string TURNO { get; set; }
-        public string RECURSO { get; set; }
+        public int IdBitacoraProyeccion { get; set; }
+        public int IdProyeccionProgramacion { get; set; }
+        public string Observacion { get; set; }
+        public string EstadoRegistro { get; set; }
+        public System.DateTime FechaIngresoLog { get; set; }
+        public string UsuarioIngresoLog { get; set; }
+        public string TerminalIngresoLog { get; set; }
     }
 }

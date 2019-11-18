@@ -4,6 +4,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.Empleado;
 using Asiservy.Automatizacion.Formularios.Models.Empleado;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -571,7 +572,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
 
                 SetErrorMessage(ex.Message);
-                Usuario = User.Identity.Name.Split('_');
+                Usuario   = User.Identity.Name.Split('_');
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
@@ -677,8 +678,44 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-       
+
         #endregion
+
+
+        [Authorize]
+        public ActionResult EmpleadosMasivoPartial(string Linea)
+        {
+            try
+            {
+                clsDEmpleado = new clsDEmpleado();
+                var model = clsDEmpleado.ConsultaEmpleadosFiltro(Linea, "0", "0");
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+
+                return PartialView(model);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                Usuario  = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario [0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                Usuario  = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario [0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
 
         protected void SetSuccessMessage(string message)

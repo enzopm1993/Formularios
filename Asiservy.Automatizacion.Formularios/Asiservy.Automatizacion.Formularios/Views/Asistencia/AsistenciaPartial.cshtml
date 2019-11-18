@@ -24,11 +24,11 @@
 
                     <th class="align-bottom" rowspan="2"><b>Estado</b> </th>
                     <th class="align-bottom" rowspan="2"></th>
-                    <th class="align-middle" colspan="3"><b>Cuchillos</b> </th>
+                    <th class="align-middle" colspan="3" id="cabcuchillos"><b>Cuchillos</b> </th>
                 </tr>
 
 
-                <tr>
+                <tr id="cabimgcuchillos">
                     <th>
                         <div class="text-center">
 
@@ -132,7 +132,7 @@
                                 </center>
                             </td>
 
-                            <td class="text-center align-content-center">
+                            <td class="text-center align-content-center" id="contcuchilloblanco">
                                 @{ var cuchillo = (from c in Model.ControlDeCuchillos
                                                     where c.Cedula == item.Cedula
                                                     select c).FirstOrDefault();}
@@ -176,7 +176,7 @@
                                     }
                                 }
                             </td>
-                            <td class="text-center">
+                            <td class="text-center" id="contcuchillorojo">
 
                                 @if (cuchillo != null)
                                 {
@@ -215,7 +215,7 @@
                                 }
 
                             </td>
-                            <td class="text-center">
+                            <td class="text-center" id="contcuchillonegro">
 
                                 @if (cuchillo != null)
                                 {
@@ -282,3 +282,14 @@
     <script src="~/Scripts/Mensajes/Mensajes.js"></script>
     <script src="~/Scripts/AsistenciaJS/Asistencia.js"></script>*@
 
+<script>
+    $(document).ready(function () {
+        if ($('#cmbControl').val() == "S") {
+            $('#cabcuchillos').hide();
+            $('#cabimgcuchillos').hide();
+            $('#contcuchilloblanco').hide();
+            $('#contcuchillorojo').hide();
+            $('#contcuchillonegro').hide();
+        }
+    });
+</script>
