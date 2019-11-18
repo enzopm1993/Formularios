@@ -58,10 +58,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_ENFUNDADO_DETALLE> CONTROL_ENFUNDADO_DETALLE { get; set; }
         public virtual DbSet<MODULO> MODULO { get; set; }
         public virtual DbSet<BITACORA_MOVER_EMPLEADO> BITACORA_MOVER_EMPLEADO { get; set; }
-        public virtual DbSet<PROYECCION_PROGRAMACION> PROYECCION_PROGRAMACION { get; set; }
         public virtual DbSet<PARAMETRO> PARAMETRO { get; set; }
         public virtual DbSet<CAMBIO_PERSONAL> CAMBIO_PERSONAL { get; set; }
         public virtual DbSet<PERIODO> PERIODO { get; set; }
+        public virtual DbSet<BITACORA_PROYECCION> BITACORA_PROYECCION { get; set; }
+        public virtual DbSet<PROYECCION_PROGRAMACION> PROYECCION_PROGRAMACION { get; set; }
+        public virtual DbSet<PROYECCION_PROGRAMACION_DETALLE> PROYECCION_PROGRAMACION_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

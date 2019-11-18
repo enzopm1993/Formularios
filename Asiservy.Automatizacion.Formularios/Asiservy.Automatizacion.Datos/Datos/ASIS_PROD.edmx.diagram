@@ -44,10 +44,13 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MODULO" Width="1.5" PointX="5.375" PointY="17.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_MOVER_EMPLEADO" Width="1.5" PointX="7.375" PointY="17.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" Width="1.5" PointX="16.375" PointY="6.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PARAMETRO" Width="1.5" PointX="18.375" PointY="6.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" Width="1.5" PointX="20.375" PointY="12.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PERIODO" Width="1.5" PointX="9.375" PointY="19.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_PROYECCION" Width="1.5" PointX="11.75" PointY="19.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" Width="1.5" PointX="0.75" PointY="22.625" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION_DETALLE" Width="1.5" PointX="3" PointY="22.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_PROYECCION_PROGRAMACION_DETALLE_PROYECCION_PROGRAMACION" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
