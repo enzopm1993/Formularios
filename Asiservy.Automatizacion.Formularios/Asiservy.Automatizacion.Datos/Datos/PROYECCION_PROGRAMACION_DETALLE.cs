@@ -20,12 +20,22 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string OrdenFabricacion { get; set; }
         public Nullable<int> Toneladas { get; set; }
         public string Lineas { get; set; }
-        public Nullable<System.TimeSpan> HoraInicio { get; set; }
-        public Nullable<System.TimeSpan> HoraFin { get; set; }
+        public Nullable<System.TimeSpan> HoraProcesoInicio { get; set; }
+        public Nullable<System.TimeSpan> HoraProcesoFin { get; set; }
         public string Destino { get; set; }
         public string TipoLimpieza { get; set; }
         public string Especie { get; set; }
         public string Talla { get; set; }
+        public Nullable<int> TemperaturaFinal { get; set; }
+        public Nullable<System.TimeSpan> HoraCoccionInicio { get; set; }
+        public Nullable<System.TimeSpan> HoraCoccionFin { get; set; }
+        public Nullable<int> TotalCoches { get; set; }
+        public Nullable<int> Cocina { get; set; }
+        public Nullable<System.TimeSpan> HoraEviceradoInicio { get; set; }
+        public Nullable<System.TimeSpan> HoraEviceradoFin { get; set; }
+        public Nullable<System.TimeSpan> HoraDescongeladoInicio { get; set; }
+        public Nullable<System.TimeSpan> HoraDescongeladoFin { get; set; }
+        public Nullable<System.TimeSpan> Requerimiento { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }

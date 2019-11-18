@@ -543,12 +543,22 @@
           <Property Name="OrdenFabricacion" Type="varchar" MaxLength="10" />
           <Property Name="Toneladas" Type="int" />
           <Property Name="Lineas" Type="nvarchar" MaxLength="100" />
-          <Property Name="HoraInicio" Type="time" Precision="7" />
-          <Property Name="HoraFin" Type="time" Precision="7" />
+          <Property Name="HoraProcesoInicio" Type="time" Precision="7" />
+          <Property Name="HoraProcesoFin" Type="time" Precision="7" />
           <Property Name="Destino" Type="varchar" MaxLength="5" />
           <Property Name="TipoLimpieza" Type="varchar" MaxLength="5" />
           <Property Name="Especie" Type="varchar" MaxLength="100" />
           <Property Name="Talla" Type="varchar" MaxLength="100" />
+          <Property Name="TemperaturaFinal" Type="int" />
+          <Property Name="HoraCoccionInicio" Type="time" Precision="7" />
+          <Property Name="HoraCoccionFin" Type="time" Precision="7" />
+          <Property Name="TotalCoches" Type="int" />
+          <Property Name="Cocina" Type="int" />
+          <Property Name="HoraEviceradoInicio" Type="time" Precision="7" />
+          <Property Name="HoraEviceradoFin" Type="time" Precision="7" />
+          <Property Name="HoraDescongeladoInicio" Type="time" Precision="7" />
+          <Property Name="HoraDescongeladoFin" Type="time" Precision="7" />
+          <Property Name="Requerimiento" Type="time" Precision="7" />
           <Property Name="Observacion" Type="varchar" MaxLength="100" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
@@ -2489,12 +2499,22 @@
           <Property Name="OrdenFabricacion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Toneladas" Type="Int32" />
           <Property Name="Lineas" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="HoraInicio" Type="Time" Precision="7" />
-          <Property Name="HoraFin" Type="Time" Precision="7" />
+          <Property Name="HoraProcesoInicio" Type="Time" Precision="7" />
+          <Property Name="HoraProcesoFin" Type="Time" Precision="7" />
           <Property Name="Destino" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="TipoLimpieza" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Especie" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Talla" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TemperaturaFinal" Type="Int32" />
+          <Property Name="HoraCoccionInicio" Type="Time" Precision="7" />
+          <Property Name="HoraCoccionFin" Type="Time" Precision="7" />
+          <Property Name="TotalCoches" Type="Int32" />
+          <Property Name="Cocina" Type="Int32" />
+          <Property Name="HoraEviceradoInicio" Type="Time" Precision="7" />
+          <Property Name="HoraEviceradoFin" Type="Time" Precision="7" />
+          <Property Name="HoraDescongeladoInicio" Type="Time" Precision="7" />
+          <Property Name="HoraDescongeladoFin" Type="Time" Precision="7" />
+          <Property Name="Requerimiento" Type="Time" Precision="7" />
           <Property Name="Observacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
@@ -3877,12 +3897,22 @@
                 <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
                 <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Requerimiento" ColumnName="Requerimiento" />
+                <ScalarProperty Name="HoraDescongeladoFin" ColumnName="HoraDescongeladoFin" />
+                <ScalarProperty Name="HoraDescongeladoInicio" ColumnName="HoraDescongeladoInicio" />
+                <ScalarProperty Name="HoraEviceradoFin" ColumnName="HoraEviceradoFin" />
+                <ScalarProperty Name="HoraEviceradoInicio" ColumnName="HoraEviceradoInicio" />
+                <ScalarProperty Name="Cocina" ColumnName="Cocina" />
+                <ScalarProperty Name="TotalCoches" ColumnName="TotalCoches" />
+                <ScalarProperty Name="HoraCoccionFin" ColumnName="HoraCoccionFin" />
+                <ScalarProperty Name="HoraCoccionInicio" ColumnName="HoraCoccionInicio" />
+                <ScalarProperty Name="TemperaturaFinal" ColumnName="TemperaturaFinal" />
                 <ScalarProperty Name="Talla" ColumnName="Talla" />
                 <ScalarProperty Name="Especie" ColumnName="Especie" />
                 <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
                 <ScalarProperty Name="Destino" ColumnName="Destino" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraProcesoFin" ColumnName="HoraProcesoFin" />
+                <ScalarProperty Name="HoraProcesoInicio" ColumnName="HoraProcesoInicio" />
                 <ScalarProperty Name="Lineas" ColumnName="Lineas" />
                 <ScalarProperty Name="Toneladas" ColumnName="Toneladas" />
                 <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
