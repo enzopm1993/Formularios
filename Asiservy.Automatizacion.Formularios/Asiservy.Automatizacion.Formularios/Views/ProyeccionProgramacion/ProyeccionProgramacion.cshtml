@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "ProyeccionProgramacion";
 }
 <style>
@@ -15,53 +14,62 @@
     <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Lote:</label>
-            <input type="text" class="form-control" name="name" value="" />
+            <input type="text" class="form-control" name="name" value="" id="txtLote" />
+            <p class="text-danger" hidden id="ValidaLote">Ingrese el lote</p>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Fecha:</label>
-            <input type="date" class="form-control" name="name" value="@Fecha"  id="txtFechaProduccion" />
+            <input type="date" class="form-control" name="name" value="@Fecha" id="txtFechaProduccion" onchange="ValidaProyeccion()" />
+            <p class="text-danger" hidden id="ValidaFecha">Ingrese una fecha</p>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Toneladas:</label>
-            <input type="number" class="form-control" name="name" value="" />
+            <input type="number" class="form-control" name="name" value=""  id="txtTonelada"/>
+            <p class="text-danger" hidden id="ValidaTonelada">Ingrese una cantidad</p>
 
         </div>
     </div>
     <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Destino:</label>
-            @Html.DropDownList("Destino", (IEnumerable<SelectListItem>)ViewBag.Destino, "Seleccione", new { @class = "form-control" })
+            @Html.DropDownList("txtDestino", (IEnumerable<SelectListItem>)ViewBag.Destino, "Seleccione", new { @class = "form-control" })
+            <p class="text-danger" hidden id="ValidaDestino">Seleccione el destino</p>
         </div>
     </div>
     <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Tipo Limpieza:</label>
-            @Html.DropDownList("TipoLimpieza", (IEnumerable<SelectListItem>)ViewBag.TipoLimpieza, "Seleccione", new { @class = "form-control" })
+            @Html.DropDownList("txtTipoLimpieza", (IEnumerable<SelectListItem>)ViewBag.TipoLimpieza, "Seleccione", new { @class = "form-control" })
+            <p class="text-danger" hidden id="ValidaLimpieza">Seleccione el tipo de limpieza</p>
         </div>
     </div>
     <div class="col-md-5 col-sm-6">
         <div class="form-group">
             <label>Observación:</label>
-            <input type="text" class="form-control" maxlength="100" name="name" value="" />
+            <input type="text" class="form-control" maxlength="100" name="name" value=""  id="txtObservacion"/>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Especie:</label>
-            @*@Html.DropDownList("Especie", (IEnumerable<SelectListItem>)ViewBag.Especie, "Seleccione", new { @class = "form-control" })*@
-            @Html.DropDownList("Especie", new SelectList(ViewBag.Especie, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            @*@Html.DropDownList("txtEspecie", (IEnumerable<SelectListItem>
+                )ViewBag.Especie, "Seleccione", new { @class = "form-control" })*@
+                @Html.DropDownList("Especie", new SelectList(ViewBag.Especie, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            <p class="text-danger" hidden id="ValidaEspecie">Seleccione una especie</p>
         </div>
     </div>
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Talla:</label>
-            @*@Html.DropDownList("Talla", (IEnumerable<SelectListItem>)ViewBag.Talla, "Seleccione", new { @class = "form-control" })*@
-            @Html.DropDownList("Talla", new SelectList(ViewBag.Talla, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
-            @*@Html.DropDownList("Tallas", new SelectList(ViewBag.Tallas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectTalla" })*@
+            @*@Html.DropDownList("txtTalla", (IEnumerable<SelectListItem>
+                )ViewBag.Talla, "Seleccione", new { @class = "form-control" })*@
+                @Html.DropDownList("Talla", new SelectList(ViewBag.Talla, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                @*@Html.DropDownList("Tallas", new SelectList(ViewBag.Tallas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectTalla" })*@
+            <p class="text-danger" hidden id="ValidaTalla">Seleccione una talla</p>
 
         </div>
     </div>
@@ -80,7 +88,7 @@
             <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
         </div>
 
-        <button hidden id="btnGenerarProyecion" type="button" class="btn btn-outline-success">Generar</button>
+        <button hidden id="btnGenerarProyecion" onclick="GenerarProyeccionProgramacion()" type="button" class="btn btn-outline-success">Generar</button>
 
 
     </div>
@@ -88,9 +96,16 @@
 
 </div>
 
-<div id="DivProyeccion">
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
 
-  
+<div id="DivProyeccion" class="table-responsive">
+
+
 </div>
 
 

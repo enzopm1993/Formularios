@@ -3,12 +3,69 @@ $(document).ready(function () {
     ValidaProyeccion();
 });
 
+function Validar() {
+    var valida = true;
+    if ($("#txtLote").val() == "") {
+        $("#ValidaLote").prop("hidden", false);
+        valida = false;
+    } else {
+        $("#ValidaLote").prop("hidden", true);
+    }
+
+    if ($("#txtFechaProduccion").val() == "") {
+        $("#ValidaFecha").prop("hidden", false);
+        valida = false;
+    } else {
+        $("#ValidaFecha").prop("hidden", true);
+    }
+
+    if ($("#txtTonelada").val() == "") {
+        $("#ValidaTonelada").prop("hidden", false);
+        valida = false;
+    } else {
+        $("#ValidaTonelada").prop("hidden", true);
+    }
+
+    if ($("#txtDestino").val() == "") {
+        $("#ValidaDestino").prop("hidden", false);
+        valida = false;
+    } else {
+        $("#ValidaDestino").prop("hidden", true);
+    }
+
+
+    return valida;
+}
+
+function GenerarProyeccionProgramacion() {  
+    if (!Validar()) {
+        return;
+    }
+    $.ajax({
+        url: "../ProyeccionProgramacion/GenerarProyeccionProgramacion",
+        type: "GET",
+        data:
+        {
+            IdProyeccionProgramacion: $('#IdProyeccion').val(),
+            Fecha: $('#txtFechaProduccion').val()
+        },
+        success: function (resultado) {
+            if (resultado > 0) {
+                $("#IdProyeccion").val(resultado);
+                CargarProyeccionProgramacion();
+            }
+         
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+        }
+    });
+}
 
 function ValidaProyeccion() {
     if ($('#txtFechaProduccion').val() == "") {
         return;
     }
-
     $.ajax({
         url: "../ProyeccionProgramacion/ValidarProyeccionProgramacion",
         type: "GET",
@@ -21,9 +78,13 @@ function ValidaProyeccion() {
             if (resultado > 0) {
                 $("#DivButtons").prop("hidden", false);
                 $("#btnGenerarProyecion").prop("hidden", true);
+                $("#IdProyeccion").val(resultado);
+                CargarProyeccionProgramacion();
             } else {
                 $("#DivButtons").prop("hidden", true);
                 $("#btnGenerarProyecion").prop("hidden", false);
+                $("#IdProyeccion").val(0);
+
             }
         },
         error: function (resultado) {
@@ -33,7 +94,33 @@ function ValidaProyeccion() {
     });
 }
 
+function CargarProyeccionProgramacion() {
 
+    $("#spinnerCargando").prop("hidden", false);
+    $.ajax({
+        url: "../ProyeccionProgramacion/ProyeccionProgramacionDetallePartial",
+        type: "GET",
+        data:
+        {
+            IdProgramacion: $('#IdProyeccion').val()
+        },
+        success: function (resultado) {
+            if (resultado == 0) {
+                $("#DivProyeccion").html("<h3 class'text-center'> No existen registros </h3> ");
+
+            } else {
+                $("#DivProyeccion").html(resultado);
+            }
+            $("#spinnerCargando").prop("hidden", true);
+
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+            $("#spinnerCargando").prop("hidden", true);
+
+        }
+    });
+}
 
 //function ConsultaProyProgramacion(){
 //    $.ajax({

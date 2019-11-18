@@ -9,6 +9,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
 
     public class clsDProyeccionProgramacion
     {
+
+        public List<spConsultaProyeccionProgramacion> ConsultaProyeccionProgramacion (int Id)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+
+                List<spConsultaProyeccionProgramacion> Listado = new List<spConsultaProyeccionProgramacion>();
+                Listado = db.spConsultaProyeccionProgramacion(Id).ToList();
+                return Listado;
+            }
+        }
+
         public int ValidarProyeccionProgramacion(DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -26,7 +38,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
         }
 
 
-        public void GenerarProyeccionProgramacion(PROYECCION_PROGRAMACION model)
+        public int GenerarProyeccionProgramacion(PROYECCION_PROGRAMACION model)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -35,6 +47,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 {
                     db.PROYECCION_PROGRAMACION.Add(model);
                     db.SaveChanges();
+                    return db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == model.FechaProduccion && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).IdProyeccionProgramacion;
+                }
+                else
+                {
+                    return proyeccion.IdProyeccionProgramacion;
                 }
             }
         }
@@ -67,6 +84,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 }
             }
         }
+
+        
 
         public void GuardarModificarProyeccionProgramacionDetalle(PROYECCION_PROGRAMACION_DETALLE model, int proceso)
         {

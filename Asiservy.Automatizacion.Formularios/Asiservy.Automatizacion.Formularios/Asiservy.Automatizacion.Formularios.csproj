@@ -2817,6 +2817,7 @@
     <Content Include="Views\Empleado\EmpleadosMasivoPartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ModalEditarProyeccion.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacion.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
