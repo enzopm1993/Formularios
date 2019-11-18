@@ -9,19 +9,88 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
 
     public class clsDProyeccionProgramacion
     {
-        public void GenerarProyeccionProgramacion(DateTime Fecha)
+        public int ValidarProyeccionProgramacion(PROYECCION_PROGRAMACION model)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-
-
+                var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == model.FechaProduccion && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (proyeccion != null)
+                {
+                    return proyeccion.IdProyeccionProgramacion;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 
 
+        public void GenerarProyeccionProgramacion(PROYECCION_PROGRAMACION model)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x=> x.FechaProduccion == model.FechaProduccion && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if(proyeccion == null)
+                {
+                    db.PROYECCION_PROGRAMACION.Add(model);
+                    db.SaveChanges();
+                }
+            }
+        }
 
 
+        public void EditarProyeccionProgramacion(DateTime Fecha, bool? Ingreso, bool? EditaProduccion, bool? EditaPreparacion, bool?Finaliza)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (proyeccion != null)
+                {
+                    if (Ingreso != null)
+                    {
+                        proyeccion.IngresoPreparacion = Ingreso?? proyeccion.IngresoPreparacion;
+                    }
+                    if (EditaProduccion != null)
+                    {
+                        proyeccion.EditaProduccion = EditaProduccion ?? proyeccion.EditaProduccion;
+                    }
+                    if (EditaPreparacion != null)
+                    {
+                        proyeccion.EditarPreparacion = EditaPreparacion ?? proyeccion.EditarPreparacion;
+                    }
+                    if (Finaliza != null)
+                    {
+                        proyeccion.Finaliza = Finaliza ?? proyeccion.Finaliza;
+                    }
+                    db.SaveChanges();
+                }
+            }
+        }
 
+        public void GuardarModificarProyeccionProgramacionDetalle(PROYECCION_PROGRAMACION_DETALLE model)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                //var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.IdProyeccionProgramacion==model.IdProyeccionProgramacion);
+                var detalle = db.PROYECCION_PROGRAMACION_DETALLE.FirstOrDefault(x => x.IdProyeccionProgramacionDetalle == model.IdProyeccionProgramacionDetalle);
+                if (detalle != null)
+                {
+                    detalle.Lote = model.Lote;
+                    detalle.Observacion = model.Observacion;
+                    detalle.OrdenFabricacion = model.OrdenFabricacion;
+                    detalle.Lineas = model.Lineas;
+                    detalle.HoraProcesoInicio = model.HoraProcesoInicio;
+                    detalle.HoraProcesoFin = model.HoraProcesoFin;
+                    detalle.Toneladas = model.Toneladas;
+                    detalle.Destino = model.Destino;
+                    detalle.TipoLimpieza = model.TipoLimpieza;
+                    detalle.Especie = model.Especie;
+                    //detalle.
+                }
+            }
+
+        }
 
 
         //public List<ProyeccionProgramacionViewModel> GuardarActualizarProyeccionProgramacion(PROYECCION_PROGRAMACION ProyeccionProgramacion)
