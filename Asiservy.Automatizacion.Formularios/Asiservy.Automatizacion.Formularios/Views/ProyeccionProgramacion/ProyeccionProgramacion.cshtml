@@ -1,4 +1,4 @@
-﻿@model Asiservy.Automatizacion.Datos.Datos.PROYECCION_PROGRAMACION
+﻿
 @{
     ViewBag.Title = "ProyeccionProgramacion";
 }
@@ -15,19 +15,19 @@
     <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Lote:</label>
-            @Html.TextBoxFor(m => m.Lote, new { @class = "form-control" })
+            <input type="text" class="form-control" name="name" value="" />
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Fecha:</label>
-            @Html.TextBoxFor(m => m.FechaProduccion, new { @class = "form-control input-large", type = "date", @Value = Fecha, @onchange="ConsultaProyProgramacion()" })
+            <input type="date" class="form-control" name="name" value="@Fecha"  id="txtFechaProduccion" />
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Toneladas:</label>
-            @Html.TextBoxFor(m => m.Toneladas, new { @class = "form-control" })
+            <input type="number" class="form-control" name="name" value="" />
 
         </div>
     </div>
@@ -46,7 +46,7 @@
     <div class="col-md-5 col-sm-6">
         <div class="form-group">
             <label>Observación:</label>
-            @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control" })
+            <input type="text" class="form-control" maxlength="100" name="name" value="" />
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
@@ -67,19 +67,22 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12 col-sm-12">
-        <center>
-            <div class="form-group">
-                <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="GuardarProyeccion" onclick="IngresarProyeccionProgramacion()" style="border-color:#2c3e50" type="button">
-                    <img style="width:100%" src="~/Content/icons/add24.png" />
-                </button>
-                <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="LimpiarBoton()" style="border-color:#2c3e50" type="button">
-                    <img style="width:100%" src="~/Content/icons/clear24.png" />
-                </button>
-                @*<input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="IngresarProyeccionProgramacion()" />
-                <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
-            </div>
-        </center>
+    <div class="col-12 text-center">
+        <br />
+        <div class="form-group" id="DivButtons">
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="GuardarProyeccion" onclick="IngresarProyeccionProgramacion()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="LimpiarBoton()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+            @*<input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="IngresarProyeccionProgramacion()" />
+            <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
+        </div>
+
+        <button hidden id="btnGenerarProyecion" type="button" class="btn btn-outline-success">Generar</button>
+
+
     </div>
 
 
@@ -87,61 +90,7 @@
 
 <div id="DivProyeccion">
 
-    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
-        <thead>
-            <tr>
-                <th>
-                    Lote
-                </th>
-                <th>
-                    Toneladas
-                </th>
-                <th>
-                    Destino
-                </th>
-                <th>
-                    Tipo Limpieza
-                </th>
-                <th>
-                    Especie
-                </th>
-                <th>
-                    Talla
-                </th>
-                <th>
-                    Observación
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in ViewBag.Proyeccion)
-            {
-                <tr onclick="EditarProyeccion('@item.IdProyeccion','@item.Lote','@item.FechaProduccion','@item.Tonelada','@item.CodDestino','@item.IdTipoLimpieza','@item.Observacion','@item.CodEspecie','@item.CodTalla');">
-                    <td>
-                        @item.Lote
-                    </td>
-                    <td>
-                        @item.Tonelada
-                    </td>
-                    <td>
-                        @item.Destino
-                    </td>
-                    <td>
-                        @item.TipoLimpieza
-                    </td>
-                    <td>
-                        @item.Especie
-                    </td>
-                    <td>
-                        @item.Talla
-                    </td>
-                    <td>
-                        @item.Observacion
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+  
 </div>
 
 
