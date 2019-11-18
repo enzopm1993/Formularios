@@ -752,7 +752,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
 
-        public void GenerarSolicitudPermisoMasivo(SOLICITUD_PERMISO model)
+        public void GenerarSolicitudPermisoMasivo(SOLICITUD_PERMISO model, List<string> Cedulas)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -761,15 +761,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     string Cedula = model.Identificacion;
                     int Nivel = model.Nivel??clsAtributos.NivelEmpleado;
                     clsDEmpleado = new clsDEmpleado();                  
-                    var poEmpleados = clsDEmpleado.ConsultaEmpleadosFiltro(model.CodigoLinea,"0","0").ToList();
-                    foreach(var x in poEmpleados)
+                    
+                    foreach(var x in Cedulas)
                     {
+                        var poEmpleados = clsDEmpleado.ConsultaEmpleado(x).FirstOrDefault();
                         SOLICITUD_PERMISO sol = model;
-                        sol.Nivel = ConsultarNivelUsuario(x.CEDULA);
-                        sol.CodigoArea = x.CODIGOAREA;
-                        sol.CodigoRecurso = x.CODIGORECURSO;
-                        sol.CodigoCargo = x.CODIGOCARGO;
-                        sol.Identificacion = x.CEDULA;
+                        sol.Nivel = ConsultarNivelUsuario(x);
+                        sol.CodigoArea = poEmpleados.CODIGOAREA;
+                        sol.CodigoRecurso = poEmpleados.CODIGORECURSO;
+                        sol.CodigoCargo = poEmpleados.CODIGOCARGO;
+                        sol.Identificacion = x;
                         if (sol.Nivel == clsAtributos.NivelEmpleado)
                         {
                             sol.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;                            

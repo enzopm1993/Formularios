@@ -3,8 +3,51 @@
 
 $(document).ready(function () {
     $("#DivHora").hide();
-   
+    CargarEmpleados($("#txtCodLinea").val());
 });
+
+function SeleccionarTodos(check) {  
+    $("input[type=checkbox]").each(function (resultado) {
+        id = $(this).attr("id");
+        if (id !="switchHoraFecha")
+        {
+            $("#" + this.id).prop('checked', check);
+        }
+    });
+}
+
+
+function CargarEmpleados(linea) {
+
+    $("#spinnerCargando").prop("hidden", false);
+    if (linea == "" || linea == null) {
+        return;
+    }
+
+    $.ajax({
+        url: "../Empleado/EmpleadosMasivoPartial",
+        type: "Get",
+        data: {
+            Linea: linea
+        },
+        success: function (resultado) {
+            if (resultado == 0) {
+                MensajeAdvertencia("No Existen Empleados para esta Linea");
+            } else {
+                
+                $("#spinnerCargando").prop("hidden", true);
+                $("#DivTblEmpleados").html(resultado);
+            }
+        },
+        error: function (resultado) {
+            //console.log(resultado);
+            $("#spinnerCargando").prop("hidden", true);
+            $("#btnGuardar").prop("hidden", false);
+            MensajeError(resultado.responseText, false);
+        }
+    });
+
+}
 
 function CambioHoraFecha() {
     var HoraDesde = document.getElementById("timeHoraSalida");
@@ -33,6 +76,7 @@ function CambioHoraFecha() {
 
 
 function Guardar() {
+    var result = new Array();
     var CodigoMotivo = $("#selectMotivo").val();
     var Observacion = $("#Observacion").val();
     var FechaSalidaEntrada = $("#dateSalidaRegreso").val();
@@ -42,6 +86,30 @@ function Guardar() {
     var FechaRegreso = $("#dateRegreso").val();
     var CodLinea = $("#txtCodLinea").val();
 
+    if ($("#selectMotivo").val() == "") {
+        $("#ValidaMotivo").prop("hidden", false);
+        return;
+    } else {
+        $("#ValidaMotivo").prop("hidden", true);
+    } 
+
+    $("input[type=checkbox]:checked").each(function (resultado) {
+        id = $(this).attr("id");
+        this.id = id.replace('Empleado-', '');
+        if (id != "Empleado") {
+            result.push(this.id);
+        }
+    });
+       
+    if (result.length == 0) {
+        $("#ValidaEmpleado").prop("hidden", false);
+        return;
+    } else {
+        $("#ValidaEmpleado").prop("hidden", true);
+    }
+
+
+   // console.log(result);
     $("#spinnerCargando").prop("hidden", false);
     $("#btnGuardar").prop("hidden", true);
     $.ajax({
@@ -55,16 +123,17 @@ function Guardar() {
             HoraRegreso: HoraRegreso,
             FechaSalida: FechaSalida,
             FechaRegreso: FechaRegreso,
-            CodigoLinea: CodLinea
+            CodigoLinea: CodLinea,
+            Cedulas: result
         },
         success: function (resultado) {
             if (resultado.Codigo == 0) {
                 MensajeAdvertencia(resultado.Mensaje);
             } else {
-                MensajeCorrecto(resultado.Mensaje)
-                $("#spinnerCargando").prop("hidden", true);
+                MensajeCorrecto(resultado.Mensaje)               
                 $("#h3Mensaje").html(resultado.Mensaje);
             }
+            $("#spinnerCargando").prop("hidden", true);
         },
         error: function (resultado) {
             //console.log(resultado);

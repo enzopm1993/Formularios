@@ -2819,6 +2819,7 @@
     <Content Include="Views\ControlEnfundado\ReporteControlEnfundado.cshtml" />
     <Content Include="Views\ControlEnfundado\ReportePorEnfundadora.cshtml" />
     <Content Include="Views\ControlEnfundado\ReportePorHora.cshtml" />
+    <Content Include="Views\Empleado\EmpleadosMasivoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

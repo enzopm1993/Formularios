@@ -446,6 +446,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #region SOLICITUD PERMISO
 
+        
         [Authorize]
         public ActionResult SolicitudPermisoMasivo()
         {
@@ -454,7 +455,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 clsDClasificador = new clsDClasificador();
                 lsUsuario = User.Identity.Name.Split('_');
-                ViewBag.dataTableJS = "1";
+                ViewBag.dataTableJS2 = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 var poEmpleado= clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 ViewBag.Linea = poEmpleado.LINEA;
@@ -490,7 +491,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult SolicitudPermisoMasivo(SolicitudPermisoViewModel model)
+        public ActionResult SolicitudPermisoMasivo(SolicitudPermisoViewModel model, List<string> Cedulas)
         {
             try
             {
@@ -503,6 +504,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 string psMensajeValidarFecha = string.Empty;
                 psMensajeValidarFecha = ValidarFechas(model);
+                if (!Cedulas.Any())
+                {
+                    respuestaGeneral.Codigo = 0;
+                    respuestaGeneral.Mensaje = "Debe seleccionar al menos un empleado";
+                    return Json(respuestaGeneral, JsonRequestBehavior.AllowGet);
+                }
+
                 if (!string.IsNullOrEmpty(psMensajeValidarFecha))
                 {
                     respuestaGeneral.Codigo = 0;
@@ -553,7 +561,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 solicitudPermiso.CodigoMotivo = model.CodigoMotivo;
                 solicitudPermiso.Identificacion = lsUsuario[1];
-                clsDSolicitudPermiso.GenerarSolicitudPermisoMasivo(solicitudPermiso);
+                clsDSolicitudPermiso.GenerarSolicitudPermisoMasivo(solicitudPermiso, Cedulas);
                 respuestaGeneral.Codigo = 1;
                 respuestaGeneral.Mensaje = "solicitudes Generadas con Exito";
                 return Json(respuestaGeneral, JsonRequestBehavior.AllowGet);

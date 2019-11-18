@@ -162,15 +162,15 @@
 
 
 
-                    <div class="container-fluid relative1" style="padding-top:10px">
+                <div class="container-fluid relative1" style="padding-top:10px">
 
-                        <div class="absolute1" hidden id="response">
-                        </div>                        
-                            @RenderBody()
-                        
-
-
+                    <div class="absolute1" hidden id="response">
                     </div>
+                    @RenderBody()
+
+
+
+                </div>
                 <!-- Modal -->
                 <div class="modal" style="background-color: white;" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -253,7 +253,17 @@
 
         <script src="~/Scripts/General/dataTableJS.js"></script>
     }
+    @if (ViewBag.dataTableJS2 != null)
+    {
+        <link href="~/Content/DataTables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+        <link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+        <link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+        <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>   
 
+     
+    }
 
     @if (ViewBag.JavaScrip != null)
     {
