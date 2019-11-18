@@ -765,21 +765,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     foreach(var x in poEmpleados)
                     {
                         SOLICITUD_PERMISO sol = model;
+                        sol.Nivel = ConsultarNivelUsuario(x.CEDULA);
                         sol.CodigoArea = x.CODIGOAREA;
                         sol.CodigoRecurso = x.CODIGORECURSO;
                         sol.CodigoCargo = x.CODIGOCARGO;
                         sol.Identificacion = x.CEDULA;
-                        if (sol.Identificacion == Cedula)
+                        if (sol.Nivel == clsAtributos.NivelEmpleado)
                         {
-                            sol.EstadoSolicitud = clsAtributos.EstadoSolicitudPendiente;
-                            sol.Nivel = Nivel;
+                            sol.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;                            
                         }
                         else
                         {
-                            sol.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;
-                            sol.Nivel = clsAtributos.NivelEmpleado;
+                            sol.EstadoSolicitud = clsAtributos.EstadoSolicitudPendiente;                           
                         }
-
                         entities.SOLICITUD_PERMISO.Add(sol);
 
                         BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
