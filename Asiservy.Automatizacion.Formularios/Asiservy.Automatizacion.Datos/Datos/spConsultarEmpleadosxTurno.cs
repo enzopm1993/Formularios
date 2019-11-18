@@ -22,5 +22,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CODIGOCARGO { get; set; }
         public string CARGO { get; set; }
         public string TURNO { get; set; }
+        public string RECURSO { get; set; }
     }
 }
