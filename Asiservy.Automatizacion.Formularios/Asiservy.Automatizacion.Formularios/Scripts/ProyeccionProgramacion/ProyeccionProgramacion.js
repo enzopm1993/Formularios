@@ -78,7 +78,7 @@ function GuardarProyeccionDetalle() {
 
         },
         success: function (resultado) {           
-                CargarProyeccionProgramacion();
+            CargarProyeccionProgramacion();
             Limpiar();
             MensajeCorrecto(resultado);
 
@@ -106,6 +106,12 @@ function GenerarProyeccionProgramacion() {
             if (resultado > 0) {
                 $("#IdProyeccion").val(resultado);
                 GuardarProyeccionDetalle();
+                $("#DivMensaje").html("");
+                $("#DivButtons").prop("hidden", false);
+                $("#btnGenerarProyecion").prop("hidden", true);
+                $("#btnEliminar").prop("hidden", false);
+                $("#btnFinalizar").prop("hidden", false);
+
             }
          
         },
@@ -128,18 +134,35 @@ function ValidaProyeccion() {
             Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
-          //  console.log(resultado);
-            if (resultado > 0) {
-                $("#DivButtons").prop("hidden", false);
-                $("#btnGenerarProyecion").prop("hidden", true);
-                $("#IdProyeccion").val(resultado);
-                CargarProyeccionProgramacion();
-            } else {
+
+            $("#btnEliminar").prop("hidden", true);  
+            $("#btnFinalizar").prop("hidden", true);  
+            $("#btnHabilitar").prop("hidden", true);  
+            $("#DivMensaje").html("");
+            if (resultado.Codigo == 0) //no se existen registros
+            {
                 $("#DivButtons").prop("hidden", true);
                 $("#btnGenerarProyecion").prop("hidden", false);
                 $("#IdProyeccion").val(0);
-                $("#DivMensaje").html("<h3 class'text-center'> No éxisten registros </h3> ");
-            }
+                $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
+
+            } else if (resultado.Codigo == 1) //proyeccion se encuentra en estado finalzado
+            {               
+                $("#DivButtons").prop("hidden", true);
+                $("#btnGenerarProyecion").prop("hidden", true);
+                $("#IdProyeccion").val(resultado.Observacion);
+                MensajeAdvertencia(resultado.Mensaje);
+                $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
+                $("#btnHabilitar").prop("hidden", false);               
+                CargarProyeccionProgramacion();
+            } else {
+                $("#DivButtons").prop("hidden", false);
+                $("#btnGenerarProyecion").prop("hidden", true);
+                $("#IdProyeccion").val(resultado.Observacion);
+                $("#btnEliminar").prop("hidden", false);
+                $("#btnFinalizar").prop("hidden", false);
+                CargarProyeccionProgramacion();
+            }            
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);
@@ -160,11 +183,11 @@ function CargarProyeccionProgramacion() {
         },
         success: function (resultado) {
             if (resultado == 0) {
-                $("#DivMensaje").html("<h3 class'text-center'> No existen registros </h3> ");
-
+                $("#DivMensaje").html("<h3 class'text-center'> No existen registros </h3> ");              
             } else {
                 $("#DivProyeccion").html(resultado);
                 $('#tblDataTable').DataTable(config.opcionesDT);
+                
             }
             $("#spinnerCargando").prop("hidden", true);
 
@@ -185,7 +208,7 @@ function Limpiar() {
     $('#txtEspecie').prop('selectedIndex', 0);
     $('#txtTalla').prop('selectedIndex', 0);
     $('#Observacion').val("");
-    $('#IdProyeccion').val(0);
+   // $('#IdProyeccion').val(0);
     $('#IdProyeccionDetalle').val(0);
     //var d = new Date();
 
@@ -213,7 +236,96 @@ function SeleccionarProyeccionProgramacion(id,idDetalle,lote,orden,toneladas,des
     $('#IdProyeccionDetalle').val(idDetalle);
 }
 
+function InactivarRegistro(){
+    $.ajax({
+        url: "../ProyeccionProgramacion/InactivarProyeccionProgramacionDetalle",
+        type: "GET",
+        data:
+        {
+            id: $('#IdProyeccion').val()
+        },
+        success: function (resultado) {
+            Limpiar();
+            ValidaProyeccion();
+            MensajeCorrecto(resultado);
 
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+            $("#spinnerCargando").prop("hidden", true);
+
+        }
+    });
+}
+
+
+function FinalizarProyeccionProgramacion() {
+    $.ajax({
+        url: "../ProyeccionProgramacion/FinalizarIngresoProyeccionProgramacion",
+        type: "GET",
+        data:
+        {
+            id: $('#IdProyeccion').val()
+        },
+        success: function (resultado) {
+            Limpiar();
+            ValidaProyeccion();
+            MensajeCorrecto(resultado);
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+            $("#spinnerCargando").prop("hidden", true);
+
+        }
+    });
+}
+
+function HabilitarProyeccionProgramacion() {
+    $.ajax({
+        url: "../ProyeccionProgramacion/HabilitarIngresoProyeccionProgramacion",
+        type: "GET",
+        data:
+        {
+            id: $('#IdProyeccion').val()
+        },
+        success: function (resultado) {
+            Limpiar();
+            ValidaProyeccion();
+            MensajeCorrecto(resultado);
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+            $("#spinnerCargando").prop("hidden", true);
+
+        }
+    });
+}
+
+var modalConfirm = function (callback) {
+
+    $("#btnEliminar").on("click", function () {
+        $("#mi-modal").modal('show');
+    });
+
+    $("#modal-btn-si").on("click", function () {
+        callback(true);
+        $("#mi-modal").modal('hide');
+    });
+
+    $("#modal-btn-no").on("click", function () {
+        callback(false);
+        $("#mi-modal").modal('hide');
+    });
+};
+
+
+modalConfirm(function (confirm) {
+    if (confirm) {
+        //Acciones si el usuario confirma
+        InactivarRegistro();
+
+    }
+});
 
 //function ConsultaProyProgramacion(){
 //    $.ajax({

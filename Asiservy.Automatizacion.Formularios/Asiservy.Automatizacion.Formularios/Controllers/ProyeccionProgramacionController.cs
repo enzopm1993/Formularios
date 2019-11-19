@@ -11,6 +11,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity.Validation;
+using Asiservy.Automatizacion.Formularios.Models;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -128,9 +129,33 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                RespuestaGeneral respuesta = new RespuestaGeneral();
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 int idProyeccion = clsDProyeccionProgramacion.ValidarProyeccionProgramacion(Fecha);
-                return Json(idProyeccion, JsonRequestBehavior.AllowGet);
+                if(idProyeccion>0)
+                {
+                    var pro = clsDProyeccionProgramacion.ConsultaProyeccionProgramacion(idProyeccion);
+                    if (!pro.IngresoPreparacion)
+                    {
+                        respuesta.Codigo = 1;
+                        respuesta.Mensaje = "Control se encuentra finalizado";
+                        respuesta.Observacion= idProyeccion + "";
+                    }
+                    else
+                    {
+                        respuesta.Codigo = 2;
+                        respuesta.Observacion = idProyeccion + "";
+
+                    }
+                }
+                else
+                {
+                    respuesta.Codigo = 0;
+                    respuesta.Mensaje = "No existen registros";
+                }
+
+
+                return Json(respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -160,7 +185,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 lsUsuario = User.Identity.Name.Split('_');
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
-                model.EditarPreparacion = true;
+                model.IngresoPreparacion = true; 
+                model.EditarPreparacion = false;
                 model.EditaProduccion = false;
                 model.Finaliza = false;
                 model.TerminalIngresoLog = Request.UserHostAddress;
@@ -199,11 +225,102 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.FechaIngresoLog = DateTime.Now;              
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-
-
-
                 clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model,1);
-                return Json("", JsonRequestBehavior.AllowGet);
+                return Json("Registro guardado correctamente", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult InactivarProyeccionProgramacionDetalle(int id)
+        {
+            try
+            {
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                lsUsuario = User.Identity.Name.Split('_');
+                PROYECCION_PROGRAMACION model = new PROYECCION_PROGRAMACION();
+                model.IdProyeccionProgramacion = id;               
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                clsDProyeccionProgramacion.InactivarProyeccionProgramacion(model);
+                return Json("Registro ha sido eliminado con éxito.", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public JsonResult FinalizarIngresoProyeccionProgramacion(int id)
+        {
+            try
+            {
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDProyeccionProgramacion.EditarProyeccionProgramacion(id,false,true,null,null,lsUsuario[0],Request.UserHostAddress);               
+                return Json("Registro modificado con éxito.", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public JsonResult HabilitarIngresoProyeccionProgramacion(int id)
+        {
+            try
+            {
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDProyeccionProgramacion.EditarProyeccionProgramacion(id, true, false, null, null, lsUsuario[0], Request.UserHostAddress);
+                return Json("Registro modificado con éxito.", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

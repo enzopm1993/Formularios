@@ -51,7 +51,7 @@
     <div class="col-md-5 col-sm-6">
         <div class="form-group">
             <label>Observación:</label>
-            <input type="text" class="form-control" maxlength="100" name="name" value="" id="txtObservacion" />
+            <input type="text" style="text-transform:uppercase" onkeypress="return sololetras(event)" class="form-control" maxlength="100" name="name" value="" id="txtObservacion" />
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
@@ -111,9 +111,26 @@
 </div>
 <br />
 <div class="text-center">
-    <button type="button" class="btn btn-outline-danger">Eliminar</button>
-
+    <button type="button" hidden id="btnEliminar" class="btn btn-outline-danger">Eliminar</button>
+    <button type="button" hidden id="btnFinalizar" onclick="FinalizarProyeccionProgramacion()" class="btn btn-outline-primary">Finalizar</button>
+    <button type="button" hidden id="btnHabilitar" onclick="HabilitarProyeccionProgramacion()" class="btn btn-outline-success">Habilitar</button>
+    <br />
+    <br />
 </div>
 
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Control de Hueso</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="~/Scripts/General/dataTableJS.js"></script>

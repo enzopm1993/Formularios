@@ -65,29 +65,48 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
         }
 
 
-        public void EditarProyeccionProgramacion(DateTime Fecha, bool? Ingreso, bool? EditaProduccion, bool? EditaPreparacion, bool?Finaliza)
+        public void EditarProyeccionProgramacion(int idProyeccion, bool? Ingreso, bool? EditaProduccion, bool? EditaPreparacion, bool?Finaliza, string usuario, string terminal)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                BITACORA_PROYECCION bitacora = new BITACORA_PROYECCION();
+                var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.IdProyeccionProgramacion == idProyeccion);
                 if (proyeccion != null)
                 {
                     if (Ingreso != null)
-                    {
+                    {                        
                         proyeccion.IngresoPreparacion = Ingreso?? proyeccion.IngresoPreparacion;
+                        bitacora.Observacion +=proyeccion.IngresoPreparacion ? "Ingreso Activo- ":"Ingreso Finalizado- "; 
                     }
                     if (EditaProduccion != null)
                     {
                         proyeccion.EditaProduccion = EditaProduccion ?? proyeccion.EditaProduccion;
+                        bitacora.Observacion += proyeccion.EditaProduccion ? "Edita Produccion Activo- " : "Edita Produccion Finalizado- ";
+
                     }
                     if (EditaPreparacion != null)
                     {
                         proyeccion.EditarPreparacion = EditaPreparacion ?? proyeccion.EditarPreparacion;
+                        bitacora.Observacion += proyeccion.EditarPreparacion ? "Edita Preparacion Activo- " : "Edita Preparacion Finalizado- ";
+
                     }
                     if (Finaliza != null)
                     {
                         proyeccion.Finaliza = Finaliza ?? proyeccion.Finaliza;
+                        bitacora.Observacion += proyeccion.IngresoPreparacion ? "Proyeccion Activo " : "Proyeccion Finalizada ";
+
                     }
+                    proyeccion.UsuarioModificacionLog = usuario;
+                    proyeccion.TerminalModificacionLog = terminal;
+                    proyeccion.FechaModificacionLog = DateTime.Now;
+
+                    bitacora.IdProyeccionProgramacion = proyeccion.IdProyeccionProgramacion;
+                    bitacora.UsuarioIngresoLog = usuario;
+                    bitacora.TerminalIngresoLog = terminal;
+                    bitacora.FechaIngresoLog = DateTime.Now;
+                    bitacora.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+
+                    db.BITACORA_PROYECCION.Add(bitacora);
                     db.SaveChanges();
                 }
             }
@@ -143,6 +162,33 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 db.SaveChanges();
             }
 
+        }
+
+        public void InactivarProyeccionProgramacion (PROYECCION_PROGRAMACION model)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.IdProyeccionProgramacion == model.IdProyeccionProgramacion);
+                if (proyeccion != null)
+                {
+                    BITACORA_PROYECCION bitacora = new BITACORA_PROYECCION();
+                    proyeccion.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    proyeccion.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    proyeccion.TerminalModificacionLog = model.TerminalIngresoLog;
+                    proyeccion.FechaModificacionLog = DateTime.Now;
+
+                    bitacora.Observacion = "Inactivar Proyeccion";
+                    bitacora.IdProyeccionProgramacion = proyeccion.IdProyeccionProgramacion;
+                    bitacora.UsuarioIngresoLog = model.UsuarioIngresoLog; 
+                    bitacora.TerminalIngresoLog = model.TerminalIngresoLog; 
+                    bitacora.FechaIngresoLog = DateTime.Now;
+                    bitacora.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+
+                    db.BITACORA_PROYECCION.Add(bitacora);
+
+                    db.SaveChanges();
+                }
+            }
         }
 
     }
