@@ -62,7 +62,7 @@ function GuardarProyeccionDetalle() {
     }
     $.ajax({
         url: "../ProyeccionProgramacion/GuardarModificarProyeccionProgramacionDetalle",
-        type: "GET",
+        type: "Post",
         data:
         {
             IdProyeccionProgramacion: $('#IdProyeccion').val(),
@@ -74,7 +74,8 @@ function GuardarProyeccionDetalle() {
             TipoLimpieza: $("#txtTipoLimpieza").val(),
             Especie: $("#txtEspecie").val(),
             Talla: $("#txtTalla").val(),
-            Observacion: $("#txtObservacion").val()
+            Observacion: $("#txtObservacion").val(),
+            proceso:1
 
         },
         success: function (resultado) {           
@@ -265,7 +266,8 @@ function FinalizarProyeccionProgramacion() {
         type: "GET",
         data:
         {
-            id: $('#IdProyeccion').val()
+            id: $('#IdProyeccion').val(),
+            proceso:1
         },
         success: function (resultado) {
             Limpiar();
@@ -286,7 +288,8 @@ function HabilitarProyeccionProgramacion() {
         type: "GET",
         data:
         {
-            id: $('#IdProyeccion').val()
+            id: $('#IdProyeccion').val(),
+            proceso:1
         },
         success: function (resultado) {
             Limpiar();

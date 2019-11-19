@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "EditarProyeccionProgramacionProduccion";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<h3>Proyección Programación</h3>
+<br />
+<input type="hidden" id="IdProyeccion" name="name" value="0" />
+<input type="hidden" id="txtValidaEditar" name="name" value="1" />
+@{var Fecha = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"); }
+<div class="row">
+    <div class="col-4">
+        <input type="date" id="txtFechaProduccion" class="form-control" name="name" value="@Fecha" onchange="ValidaProyeccion()" />
+    </div>
+
+</div>
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+
+<div class="text-center" id="DivMensaje">
+
+</div>
+<div class="table-responsive" id="DivTableProyecion">
+
+</div>
+
+<br />
+<div class="text-center">
+    <button type="button" hidden id="btnFinalizar" onclick="FinalizarProyeccionProgramacion()" class="btn btn-outline-primary">Finalizar</button>
+    <button type="button" hidden id="btnHabilitar" onclick="HabilitarProyeccionProgramacion()" class="btn btn-outline-success">Habilitar</button>
+    <br />
+    <br />
+</div>
+
+@Html.Partial("ModalEditarProyeccion")
+
+

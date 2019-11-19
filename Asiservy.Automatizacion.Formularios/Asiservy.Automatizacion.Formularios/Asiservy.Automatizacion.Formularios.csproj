@@ -2580,6 +2580,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEditar.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ReporteProyeccionProgramacion.js" />
@@ -2820,6 +2821,7 @@
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacion.cshtml" />
     <Content Include="Views\Nomina\ListaEmpleadosPartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionDetallePartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

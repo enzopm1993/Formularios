@@ -34,6 +34,93 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         #endregion
 
+        [Authorize]
+        public ActionResult EditarProyeccionProgramacionProduccion()
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                
+                var ListLineas = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                ViewBag.Lineas = ListLineas;               
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        public JsonResult ValidarProyeccionProgramacionProduccion(DateTime Fecha)
+        {
+            try
+            {
+                RespuestaGeneral respuesta = new RespuestaGeneral();
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                int idProyeccion = clsDProyeccionProgramacion.ValidarProyeccionProgramacion(Fecha);
+                if (idProyeccion > 0)
+                {
+                    var pro = clsDProyeccionProgramacion.ConsultaProyeccionProgramacion(idProyeccion);
+                    if (!pro.EditaProduccion && pro.IngresoPreparacion)
+                    {
+                        respuesta.Codigo = 3;
+                        respuesta.Mensaje = "Control está siendo editado";
+                        respuesta.Observacion = idProyeccion + "";
+                    }
+                    else if (!pro.EditaProduccion && pro.EditarPreparacion)
+                    {
+                        respuesta.Codigo = 1;
+                        respuesta.Mensaje = "Control ha sido finalizado";
+                        respuesta.Observacion = idProyeccion + "";
+                    }
+                    else
+                    {
+                        respuesta.Codigo = 2;
+                        respuesta.Observacion = idProyeccion + "";
+                    }
+                }
+                else
+                {
+                    respuesta.Codigo = 0;
+                    respuesta.Mensaje = "No existen registros";
+                }
+                return Json(respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         // GET: ProyeccionProgramacion
         [Authorize]
         public ActionResult ProyeccionProgramacion()
@@ -42,32 +129,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
-
                 clsDClasificador = new clsDClasificador();
                 var ListLimpiezaPescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-
                 ViewBag.TipoLimpieza = new SelectList(ListLimpiezaPescado, "codigo", "descripcion");
-
                 var ListDestinoProduccion = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoDestinoProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-
                 ViewBag.Destino = new SelectList(ListDestinoProduccion, "codigo", "descripcion");
-
-                //var ListEspeciePescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoEspeciePescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 clsDApiProduccion = new clsDApiProduccion();
                 ViewBag.Especie = clsDApiProduccion.ConsultarEspecies();
-                //ViewBag.Especie = new SelectList(ListEspeciePescado, "codigo", "descripcion");
-
-
-                //var ListTallaPescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoTallaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-
-                //ViewBag.Talla = new SelectList(ListTallaPescado, "codigo", "descripcion");
-
                 ViewBag.Talla = clsDApiProduccion.ConsultarTallas(null);
-
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
-               // ViewBag.Proyeccion = clsDProyeccionProgramacion.ConsultarProyeccionProgramacion(null);
-                //ViewBag.Proyeccion = clsDProyeccionProgramacion.ConsultarProyeccionProgramacion(Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString()));
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -75,7 +145,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDError = new clsDError();
                 lsUsuario = User.Identity.Name.Split('_');
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
                 return RedirectToAction("Home","Home");
             }
@@ -87,12 +157,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
                 return RedirectToAction("Home", "Home");
-
             }
         }
 
         
-        public ActionResult ProyeccionProgramacionDetallePartial(int IdProgramacion)
+        public ActionResult ProyeccionProgramacionDetallePartial(int IdProgramacion, int? proceso)
         {
             try
             {
@@ -102,6 +171,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }               
+                if(proceso!=null && proceso == 1)
+                {
+                    ViewBag.EditaProduccion = "1";
+                }
                
                 return PartialView(model);
             }
@@ -145,7 +218,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     {
                         respuesta.Codigo = 2;
                         respuesta.Observacion = idProyeccion + "";
-
                     }
                 }
                 else
@@ -153,8 +225,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     respuesta.Codigo = 0;
                     respuesta.Mensaje = "No existen registros";
                 }
-
-
                 return Json(respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -191,7 +261,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.Finaliza = false;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-
                 var Genera= clsDProyeccionProgramacion.GenerarProyeccionProgramacion(model);
                 return Json(Genera, JsonRequestBehavior.AllowGet);
             }
@@ -215,7 +284,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public JsonResult GuardarModificarProyeccionProgramacionDetalle(PROYECCION_PROGRAMACION_DETALLE model)
+        [HttpPost]
+        public JsonResult GuardarModificarProyeccionProgramacionDetalle(PROYECCION_PROGRAMACION_DETALLE model, int? proceso)
         {
             try
             {
@@ -225,7 +295,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.FechaIngresoLog = DateTime.Now;              
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model,1);
+                if (proceso != null && proceso == 2)
+                {
+                    clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 2);
+                }
+                else
+                {
+                    clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 1);
+                }
                 return Json("Registro guardado correctamente", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -283,13 +360,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public JsonResult FinalizarIngresoProyeccionProgramacion(int id)
+        public JsonResult FinalizarIngresoProyeccionProgramacion(int id,int proceso)
         {
             try
             {
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 lsUsuario = User.Identity.Name.Split('_');
-                clsDProyeccionProgramacion.EditarProyeccionProgramacion(id,false,true,null,null,lsUsuario[0],Request.UserHostAddress);               
+                if (proceso == 1)
+                {
+                    clsDProyeccionProgramacion.EditarProyeccionProgramacion(id,false,true,false,null,lsUsuario[0],Request.UserHostAddress);
+                }
+                if (proceso == 2)
+                {
+                    clsDProyeccionProgramacion.EditarProyeccionProgramacion(id,null,false,true,null,lsUsuario[0],Request.UserHostAddress);
+                }
                 return Json("Registro modificado con éxito.", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -313,13 +397,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public JsonResult HabilitarIngresoProyeccionProgramacion(int id)
+        public JsonResult HabilitarIngresoProyeccionProgramacion(int id, int proceso)
         {
             try
             {
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 lsUsuario = User.Identity.Name.Split('_');
-                clsDProyeccionProgramacion.EditarProyeccionProgramacion(id, true, false, null, null, lsUsuario[0], Request.UserHostAddress);
+                if (proceso == 1)
+                {
+                    clsDProyeccionProgramacion.EditarProyeccionProgramacion(id, true, false, false, null, lsUsuario[0], Request.UserHostAddress);
+                }
+                if (proceso == 2)
+                {
+                    clsDProyeccionProgramacion.EditarProyeccionProgramacion(id, null, true, false, null, lsUsuario[0], Request.UserHostAddress);
+                }
                 return Json("Registro modificado con éxito.", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
