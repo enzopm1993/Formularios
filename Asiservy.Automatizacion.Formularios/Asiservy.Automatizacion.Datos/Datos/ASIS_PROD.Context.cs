@@ -64,6 +64,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<PROYECCION_PROGRAMACION> PROYECCION_PROGRAMACION { get; set; }
         public virtual DbSet<PROYECCION_PROGRAMACION_DETALLE> PROYECCION_PROGRAMACION_DETALLE { get; set; }
         public virtual DbSet<ASISTENCIA> ASISTENCIA { get; set; }
+        public virtual DbSet<MANTENIMIENTO_PREPARACION> MANTENIMIENTO_PREPARACION { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

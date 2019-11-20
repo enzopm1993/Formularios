@@ -111,10 +111,8 @@
           <Property Name="CentroCosto" Type="varchar" MaxLength="30" />
           <Property Name="CodCargo" Type="varchar" MaxLength="30" />
           <Property Name="Recurso" Type="varchar" MaxLength="30" />
-          <Property Name="FechaInicio" Type="date" />
-          <Property Name="FechaFin" Type="date" />
+          <Property Name="Fecha" Type="date" />
           <Property Name="HoraInicio" Type="time" Precision="7" />
-          <Property Name="HoraFin" Type="time" Precision="7" />
           <Property Name="Vigente" Type="bit" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
           <Property Name="FechaIngresoLog" Type="datetime" />
@@ -123,7 +121,6 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="20" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
-          <Property Name="Asistencia" Type="bit" />
         </EntityType>
         <EntityType Name="CLASIFICADOR">
           <Key>
@@ -401,6 +398,23 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="20" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="EnvioOnlyControl" Type="bit" />
+        </EntityType>
+        <EntityType Name="MANTENIMIENTO_PREPARACION">
+          <Key>
+            <PropertyRef Name="IdMantenimientoPreparacion" />
+          </Key>
+          <Property Name="IdMantenimientoPreparacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Talla" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="HorasDescongelado" Type="time" Precision="7" Nullable="false" />
+          <Property Name="HorasCoccion" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Observacion" Type="varchar" MaxLength="250" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="MODULO">
           <Key>
@@ -959,6 +973,7 @@
           <EntitySet Name="ERROR" EntityType="Self.ERROR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTADO_SOLICITUD" EntityType="Self.ESTADO_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JUSTICA_SOLICITUD" EntityType="Self.JUSTICA_SOLICITUD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MANTENIMIENTO_PREPARACION" EntityType="Self.MANTENIMIENTO_PREPARACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MODULO" EntityType="Self.MODULO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NIVEL_APROBACION" EntityType="Self.NIVEL_APROBACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NIVEL_USUARIO" EntityType="Self.NIVEL_USUARIO" Schema="dbo" store:Type="Tables" />
@@ -1458,8 +1473,9 @@
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spConsultaProyeccionProgramacion" ReturnType="Collection(ASIS_PRODModel.spConsultaProyeccionProgramacion)">
-            <Parameter Name="IdProyeccion" Mode="In" Type="Int32" />
+          <Parameter Name="IdProyeccion" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="MANTENIMIENTO_PREPARACION" EntityType="ASIS_PRODModel.MANTENIMIENTO_PREPARACION" />
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -2292,6 +2308,7 @@
           <Property Name="HoraFin" Type="Time" Precision="7" />
           <Property Name="Vigente" Type="Boolean" />
           <Property Name="Asistencia" Type="Boolean" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
         </EntityType>
         <ComplexType Name="spConsutaEmpleados">
           <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
@@ -2581,6 +2598,23 @@
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <EntityType Name="MANTENIMIENTO_PREPARACION">
+          <Key>
+            <PropertyRef Name="IdMantenimientoPreparacion" />
+          </Key>
+          <Property Name="IdMantenimientoPreparacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Talla" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HorasDescongelado" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="HorasCoccion" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3655,12 +3689,9 @@
 		    <EntitySetMapping Name="CAMBIO_PERSONAL">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CAMBIO_PERSONAL">
               <MappingFragment StoreEntitySet="CAMBIO_PERSONAL">
-                <ScalarProperty Name="Asistencia" ColumnName="Asistencia" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Vigente" ColumnName="Vigente" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
                 <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
-                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
@@ -4008,6 +4039,24 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="MANTENIMIENTO_PREPARACION">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.MANTENIMIENTO_PREPARACION">
+              <MappingFragment StoreEntitySet="MANTENIMIENTO_PREPARACION">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="HorasCoccion" ColumnName="HorasCoccion" />
+                <ScalarProperty Name="HorasDescongelado" ColumnName="HorasDescongelado" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="IdMantenimientoPreparacion" ColumnName="IdMantenimientoPreparacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
