@@ -20,6 +20,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CentroCosto { get; set; }
         public string CodCargo { get; set; }
         public string Recurso { get; set; }
+        public Nullable<System.DateTime> Fecha { get; set; }
+        public Nullable<System.TimeSpan> HoraInicio { get; set; }
+        public Nullable<bool> Vigente { get; set; }
         public string EstadoRegistro { get; set; }
         public Nullable<System.DateTime> FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -27,12 +30,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<System.DateTime> FechaInicio { get; set; }
-        public Nullable<System.DateTime> FechaFin { get; set; }
-        public Nullable<System.TimeSpan> HoraInicio { get; set; }
-        public Nullable<System.TimeSpan> HoraFin { get; set; }
-        public Nullable<bool> Vigente { get; set; }
-        public Nullable<bool> Asistencia { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
     }
 }
