@@ -2574,12 +2574,17 @@
     <Content Include="Scripts\Login\Login.js" />
     <Content Include="Scripts\Mensajes\Mensajes.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\Nomina\EmpleadosClientes.js" />
     <Content Include="Scripts\Periodo\Periodo.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEditar.js" />
@@ -2822,6 +2827,7 @@
     <Content Include="Views\Nomina\ListaEmpleadosPartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionDetallePartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

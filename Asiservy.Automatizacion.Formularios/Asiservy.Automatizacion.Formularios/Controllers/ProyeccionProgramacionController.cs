@@ -21,6 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDClasificador clsDClasificador = null;
         clsDProyeccionProgramacion clsDProyeccionProgramacion = null;
         clsDApiProduccion clsDApiProduccion = null;
+        clsDGeneral clsDGeneral = null;
         string[] lsUsuario;
 
         #region Métodos
@@ -34,6 +35,116 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         #endregion
 
+        [Authorize]
+        public ActionResult EditarProyeccionProgramacionPreparacion()
+        {
+            try
+            {
+                clsDClasificador = new clsDClasificador();
+             
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                TimeSpan tiempo1 = new TimeSpan(0, 0, 0);
+                TimeSpan tiempo2 = new TimeSpan(24, 0, 0);
+                TimeSpan incremento = new TimeSpan(0, 15, 0);
+                List<string> Horas = new List<string>();
+                while (tiempo1 < tiempo2)
+                {
+                    string Hora;
+                    string Minuto;
+                    if (tiempo1.Hours < 10)                    
+                        Hora = "0" + tiempo1.Hours;                 
+                    else
+                        Hora = tiempo1.Hours+"";
+                    if (tiempo1.Minutes < 10)
+                        Minuto = "0" + tiempo1.Minutes;
+                    else
+                        Minuto = tiempo1.Minutes + "";
+                    Horas.Add(Hora + ":" + Minuto);
+                    tiempo1 = tiempo1.Add(incremento);
+                }
+                ViewBag.horas = Horas;
+
+                ViewBag.Cocinas= clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoCocinas, 0);
+
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public JsonResult ValidarProyeccionProgramacionPreparacion(DateTime Fecha)
+        {
+            try
+            {
+                RespuestaGeneral respuesta = new RespuestaGeneral();
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                int idProyeccion = clsDProyeccionProgramacion.ValidarProyeccionProgramacion(Fecha);
+                if (idProyeccion > 0)
+                {
+                    var pro = clsDProyeccionProgramacion.ConsultaProyeccionProgramacion(idProyeccion);
+                    if (!pro.EditarPreparacion && pro.EditaProduccion)
+                    {
+                        respuesta.Codigo = 3;
+                        respuesta.Mensaje = "Control está siendo editado";
+                        respuesta.Observacion = idProyeccion + "";
+                    }
+                    //else if (!pro.EditaProduccion && pro.EditarPreparacion)
+                    //{
+                    //    respuesta.Codigo = 1;
+                    //    respuesta.Mensaje = "Control ha sido finalizado";
+                    //    respuesta.Observacion = idProyeccion + "";
+                    //}
+                    else
+                    {
+                        respuesta.Codigo = 2;
+                        respuesta.Observacion = idProyeccion + "";
+                    }
+                }
+                else
+                {
+                    respuesta.Codigo = 0;
+                    respuesta.Mensaje = "No existen registros";
+                }
+                return Json(respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        #region EDITAR PRODUCCION
         [Authorize]
         public ActionResult EditarProyeccionProgramacionProduccion()
         {
@@ -120,7 +231,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
 
+        #region INGRESO PROGRAMACION
         // GET: ProyeccionProgramacion
         [Authorize]
         public ActionResult ProyeccionProgramacion()
@@ -171,11 +284,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }               
-                if(proceso!=null && proceso == 1)
+                if(proceso!=null && proceso == 2)
                 {
-                    ViewBag.EditaProduccion = "1";
+                    ViewBag.EditaProduccion = "2";
                 }
-               
+                if (proceso != null && proceso == 3)
+                {
+                    clsDGeneral = new clsDGeneral();
+                    var ListadoPreparacion = clsDGeneral.ConsultarMantenimientoPreparacion();
+                    ViewBag.EditaPreparacion = "3";
+                    ViewBag.ListadoEnfriado = ListadoPreparacion.Select(x => new { x.Talla, x.HorasDescongelado });
+                    ViewBag.ListadoCoccion = ListadoPreparacion.Select(x => new { x.Talla, x.HorasCoccion });
+                   
+
+
+                }
                 return PartialView(model);
             }
             catch (DbEntityValidationException e)
@@ -283,6 +406,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
 
         [HttpPost]
         public JsonResult GuardarModificarProyeccionProgramacionDetalle(PROYECCION_PROGRAMACION_DETALLE model, int? proceso)
@@ -298,6 +422,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (proceso != null && proceso == 2)
                 {
                     clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 2);
+                }
+                if (proceso != null && proceso == 3)
+                {
+                    clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 3);
                 }
                 else
                 {

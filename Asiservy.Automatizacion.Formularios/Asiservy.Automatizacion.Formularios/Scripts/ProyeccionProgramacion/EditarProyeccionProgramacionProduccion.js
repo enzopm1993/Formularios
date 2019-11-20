@@ -77,7 +77,7 @@ function CargarProyeccionProgramacion() {
         data:
         {
             IdProgramacion: $('#IdProyeccion').val(),
-            proceso:1
+            proceso:2
         },
         success: function (resultado) {
             if (resultado == 0) {

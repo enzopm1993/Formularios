@@ -156,5 +156,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string ParaMensajeUrgente = "003";
         public static string ParaMensajeAviso = "002";
 
+
+        //CLASIFICADOR COCINA
+        public static string CodigoGrupoCocinas = "015";
+
     }
 }

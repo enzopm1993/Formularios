@@ -186,8 +186,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                return ex.Message;
                 
             }
-         
+        }
 
+
+        public List<MANTENIMIENTO_PREPARACION> ConsultarMantenimientoPreparacion()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {               
+                return entities.MANTENIMIENTO_PREPARACION.ToList();
+            }
         }
 
 
