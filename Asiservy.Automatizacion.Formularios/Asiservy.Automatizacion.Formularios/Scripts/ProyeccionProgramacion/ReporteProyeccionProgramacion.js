@@ -1,4 +1,8 @@
 ﻿
+$(document).ready(function () {
+    CargarReporte();
+    
+});
 
 function CargarReporte() {
 
@@ -6,19 +10,23 @@ function CargarReporte() {
         MensajeAdvertencia("Ingrese una fecha");
         return;
     }
-    MostrarModalCargando();
 
+    $("#spinnerCargando").prop("hidden", false);
+    $('#DivTableReporteProyeccion').html('');
     $.ajax({
         url: "../ProyeccionProgramacion/ReporteProyeccionProgramacionPartial",
         type: "GET",
         data: { Fecha: $('#txtFecha').val() },
         success: function (resultado) {     
             $('#DivTableReporteProyeccion').html(resultado);
-            CerrarModalCargando();
+            $("#spinnerCargando").prop("hidden", true);
+            $('#tblDataTable').DataTable(config.opcionesDT);
+            config.opcionesDT.pageLength = 15;
         },
         error: function (resultado) {
             MensajeError(resultado.responseText);
-            CerrarModalCargando(); 
+            $("#spinnerCargando").prop("hidden", true);
+
         }
     });
 }

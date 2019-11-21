@@ -20,6 +20,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 return Listado;
             }
         }
+        public List<spConsultaProyeccionProgramacion> ConsultaProyeccionProgramacionReporte(DateTime fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var pro = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == fecha);
+
+                List<spConsultaProyeccionProgramacion> Listado = new List<spConsultaProyeccionProgramacion>();
+                if(pro!=null)
+                    Listado = db.spConsultaProyeccionProgramacion(pro.IdProyeccionProgramacion).ToList();
+                return Listado;
+            }
+        }
 
         public PROYECCION_PROGRAMACION ConsultaProyeccionProgramacion(int Id)
         {

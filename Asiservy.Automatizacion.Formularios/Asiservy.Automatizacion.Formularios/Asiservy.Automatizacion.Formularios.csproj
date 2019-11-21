@@ -2831,6 +2831,7 @@
     <Content Include="Views\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacionPartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ReporteProyeccionProgramacion.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
