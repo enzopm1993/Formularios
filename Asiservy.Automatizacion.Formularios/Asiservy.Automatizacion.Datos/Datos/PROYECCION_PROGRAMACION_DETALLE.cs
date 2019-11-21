@@ -30,7 +30,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.TimeSpan> HoraCoccionInicio { get; set; }
         public Nullable<System.TimeSpan> HoraCoccionFin { get; set; }
         public Nullable<int> TotalCoches { get; set; }
-        public Nullable<int> Cocina { get; set; }
+        public string Cocina { get; set; }
         public Nullable<System.TimeSpan> HoraEviceradoInicio { get; set; }
         public Nullable<System.TimeSpan> HoraEviceradoFin { get; set; }
         public Nullable<System.TimeSpan> HoraDescongeladoInicio { get; set; }
