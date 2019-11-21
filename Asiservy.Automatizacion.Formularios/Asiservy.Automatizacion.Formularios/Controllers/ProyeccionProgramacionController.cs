@@ -430,7 +430,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     else if (pro.EditarPreparacion)
                     {
                         respuesta.Codigo = 2;
-                        respuesta.Mensaje = "Control se encuentra editando en preparación";
+                        respuesta.Mensaje = "Control está siendo editado en preparación";
                         respuesta.Observacion = idProyeccion + "";
                     }
                 }

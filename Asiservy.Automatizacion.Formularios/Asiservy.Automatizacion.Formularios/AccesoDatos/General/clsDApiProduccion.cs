@@ -47,5 +47,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             var ListaEspecies = JsonConvert.DeserializeObject(content);
             return ListaEspecies;
         }
+
+
+        public object ConsultarBarcos()
+        {
+            var client = new RestClient("http://192.168.0.31:8870");
+            RestRequest request;
+            request = new RestRequest("/api/Produccion/Barcos", Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            var Lista = JsonConvert.DeserializeObject(content);
+            return Lista;
+        }
     }
 }

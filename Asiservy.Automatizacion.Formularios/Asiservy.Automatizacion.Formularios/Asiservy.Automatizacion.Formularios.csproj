@@ -2066,6 +2066,7 @@
     <Content Include="Scripts\ControlEnfundado\ReporteControlEnfundado.js" />
     <Content Include="Scripts\Empleado\EmpleadoCargo.js" />
     <Content Include="Scripts\Empleado\ReporteEmpleadoCargo.js" />
+    <Content Include="Scripts\GenerarDatosServicio\GenerarDatosServicio.js" />
     <Content Include="Scripts\Hueso\ReporteAvanceDiarioPorLimpiadora.js" />
     <Content Include="Scripts\ControlCocheLinea\ControlCocheLinea.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteControlCocheLinea.js" />
@@ -2633,6 +2634,7 @@
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\General\clsDParametro.cs" />
+    <Compile Include="AccesoDatos\GenerarDatosServicio\clsDGenerarDatosServicio.cs" />
     <Compile Include="AccesoDatos\Periodo\clsDPeriodo.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDModulo.cs" />
@@ -2658,6 +2660,7 @@
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
     <Compile Include="Controllers\ControlEnfundadoController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
+    <Compile Include="Controllers\GenerarDatosServicioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HuesoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -2832,6 +2835,7 @@
     <Content Include="Views\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacionPartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ReporteProyeccionProgramacion.cshtml" />
+    <Content Include="Views\GenerarDatosServicio\GenerarDatosServicio.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

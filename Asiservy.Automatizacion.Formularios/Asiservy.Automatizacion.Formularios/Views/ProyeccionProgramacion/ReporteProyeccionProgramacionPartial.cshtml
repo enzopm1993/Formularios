@@ -17,6 +17,12 @@
                 @Html.DisplayNameFor(model => model.Lote)
             </th>
             <th>
+                <label>Barco</label>
+            </th>
+            <th>
+                <label>Marea</label>
+            </th>
+            <th>
                 <label>Orden</label>
             </th>
             <th>
@@ -75,7 +81,9 @@
             </th>
             <th>
                 <label>Descongelado Fin</label>
-
+            </th>
+            <th>
+                <label>Receta</label>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Requerimiento)
@@ -84,20 +92,18 @@
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaIngresoLog)
+                <label>Fecha Ingreso</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
-            </th>
+                <label>Usario Ingreso</label>
+            </th> 
             <th>
-                @Html.DisplayNameFor(model => model.FechaModificacionLog)
-            </th>
+                <label>Fecha Modificacion</label>
+            </th>            
             <th>
-                @Html.DisplayNameFor(model => model.UsuarioModificacionLog)
+                <label>Usuario Modificacion</label>
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TerminalModificacionLog)
-            </th>
+          
 
         </tr>
     </thead>
@@ -106,205 +112,241 @@
             TimeSpan timespan;
             DateTime time;
             string displayTime;
+            int i = 1;
+            int totalKilos = 0;
+            int totalCoches = 0;
         }
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdProyeccionProgramacionDetalle)
-                </td>
+        <tr>
+            <td>
+                @i
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lote)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Toneladas)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lineas)
-                </td>
-                <td>
-                    @{ 
-                        if (item.HoraProcesoInicio != null)
-                        {
-                            timespan = item.HoraProcesoInicio ?? new TimeSpan();
-                            time = DateTime.Today.Add(timespan);
-                            displayTime = time.ToString("hh:mm tt");
-                        }
-                        else
-                        {
-                            displayTime = "";
-                        }
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Barco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Toneladas)
+                @{
+                    totalKilos = totalKilos + item.Toneladas??0;
+                 }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lineas)
+            </td>
+            <td>
+                @{
+                    if (item.HoraProcesoInicio != null)
+                    {
+                        timespan = item.HoraProcesoInicio ?? new TimeSpan();
+                        time = DateTime.Today.Add(timespan);
+                        displayTime = time.ToString("hh:mm tt");
                     }
-                    <label>@displayTime</label>
-                    @*@Html.DisplayFor(modelItem => item.HoraProcesoInicio)*@
-                </td>
-                <td>
-                    @{
-                        if (item.HoraProcesoFin != null)
-                        {
-                            timespan = item.HoraProcesoFin ?? new TimeSpan();
-                            time = DateTime.Today.Add(timespan);
-                            displayTime = time.ToString("hh:mm tt");
-                        }
-                        else
-                        {
-                            displayTime = "";
-                        }
+                    else
+                    {
+                        displayTime = "";
                     }
-                    <label>@displayTime</label>
-                </td>
+                }
+                <label>@displayTime</label>
+                @*@Html.DisplayFor(modelItem => item.HoraProcesoInicio)*@
+            </td>
+            <td>
+                @{
+                    if (item.HoraProcesoFin != null)
+                    {
+                        timespan = item.HoraProcesoFin ?? new TimeSpan();
+                        time = DateTime.Today.Add(timespan);
+                        displayTime = time.ToString("hh:mm tt");
+                    }
+                    else
+                    {
+                        displayTime = "";
+                    }
+                }
+                <label>@displayTime</label>
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Destino)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Destino)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoLimpieza)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Especie)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Talla)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TemperaturaFinal)
-                </td>
-                <td>
-                    @{
-                        if (item.HoraCoccionInicio != null)
-                        {
-                            timespan = item.HoraCoccionInicio ?? new TimeSpan();
-                            time = DateTime.Today.Add(timespan);
-                            displayTime = time.ToString("hh:mm tt");
-                        }
-                        else
-                        {
-                            displayTime = "";
-                        }
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoLimpieza)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Especie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Talla)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TemperaturaFinal)
+            </td>
+            <td>
+                @{
+                    if (item.HoraCoccionInicio != null)
+                    {
+                        timespan = item.HoraCoccionInicio ?? new TimeSpan();
+                        time = DateTime.Today.Add(timespan);
+                        displayTime = time.ToString("hh:mm tt");
                     }
-                    <label>@displayTime</label>
-                </td>
-                <td>
-                    @{
-                        if (item.HoraCoccionFin != null)
-                        {
-                            timespan = item.HoraCoccionFin ?? new TimeSpan();
-                            time = DateTime.Today.Add(timespan);
-                            displayTime = time.ToString("hh:mm tt");
-                        }
-                        else
-                        {
-                            displayTime = "";
-                        }
+                    else
+                    {
+                        displayTime = "";
                     }
-                    <label>@displayTime</label>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalCoches)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cocina)
-                </td>
-                <td>
-                    @{
-                        if (item.HoraEviceradoInicio != null)
-                        {
-                            timespan = item.HoraEviceradoInicio ?? new TimeSpan();
-                            time = DateTime.Today.Add(timespan);
-                            displayTime = time.ToString("hh:mm tt");
-                        }
-                        else
-                        {
-                            displayTime = "";
-                        }
+                }
+                <label>@displayTime</label>
+            </td>
+            <td>
+                @{
+                    if (item.HoraCoccionFin != null)
+                    {
+                        timespan = item.HoraCoccionFin ?? new TimeSpan();
+                        time = DateTime.Today.Add(timespan);
+                        displayTime = time.ToString("hh:mm tt");
                     }
-                    <label>@displayTime</label>
-                </td>
-                <td>
-                    @{
-                        if (item.HoraEviceradoFin != null)
-                        {
-                            timespan = item.HoraEviceradoFin ?? new TimeSpan();
-                            time = DateTime.Today.Add(timespan);
-                            displayTime = time.ToString("hh:mm tt");
-                        }
-                        else
-                        {
-                            displayTime = "";
-                        }
+                    else
+                    {
+                        displayTime = "";
                     }
-                    <label>@displayTime</label>
-                </td>
-                <td>
-                    @{
-                        if (item.HoraDescongeladoInicio != null)
-                        {
-                            timespan = item.HoraDescongeladoInicio ?? new TimeSpan();
-                            time = DateTime.Today.Add(timespan);
-                            displayTime = time.ToString("hh:mm tt");
-                        }
-                        else
-                        {
-                            displayTime = "";
-                        }
+                }
+                <label>@displayTime</label>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCoches)
+                @{
+                    totalCoches = totalCoches + item.TotalCoches ?? 0;
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cocina)
+            </td>
+            <td>
+                @{
+                    if (item.HoraEviceradoInicio != null)
+                    {
+                        timespan = item.HoraEviceradoInicio ?? new TimeSpan();
+                        time = DateTime.Today.Add(timespan);
+                        displayTime = time.ToString("hh:mm tt");
                     }
-                    <label>@displayTime</label>
-                </td>
-                <td>
-                    @{
-                        if (item.HoraDescongeladoFin != null)
-                        {
-                            timespan = item.HoraDescongeladoFin ?? new TimeSpan();
-                            time = DateTime.Today.Add(timespan);
-                            displayTime = time.ToString("hh:mm tt");
-                        }
-                        else
-                        {
-                            displayTime = "";
-                        }
+                    else
+                    {
+                        displayTime = "";
                     }
-                    <label>@displayTime</label>
-                </td>
-                <td>
-                    @{
-                        if (item.Requerimiento != null)
-                        {
-                            timespan = item.Requerimiento ?? new TimeSpan();
-                            time = DateTime.Today.Add(timespan);
-                            displayTime = time.ToString("hh:mm tt");
-                        }
-                        else
-                        {
-                            displayTime = "";
-                        }
+                }
+                <label>@displayTime</label>
+            </td>
+            <td>
+                @{
+                    if (item.HoraEviceradoFin != null)
+                    {
+                        timespan = item.HoraEviceradoFin ?? new TimeSpan();
+                        time = DateTime.Today.Add(timespan);
+                        displayTime = time.ToString("hh:mm tt");
                     }
-                    <label>@displayTime</label>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacion)
-                </td>
+                    else
+                    {
+                        displayTime = "";
+                    }
+                }
+                <label>@displayTime</label>
+            </td>
+            <td>
+                @{
+                    if (item.HoraDescongeladoInicio != null)
+                    {
+                        timespan = item.HoraDescongeladoInicio ?? new TimeSpan();
+                        time = DateTime.Today.Add(timespan);
+                        displayTime = time.ToString("hh:mm tt");
+                    }
+                    else
+                    {
+                        displayTime = "";
+                    }
+                }
+                <label>@displayTime</label>
+            </td>
+            <td>
+                @{
+                    if (item.HoraDescongeladoFin != null)
+                    {
+                        timespan = item.HoraDescongeladoFin ?? new TimeSpan();
+                        time = DateTime.Today.Add(timespan);
+                        displayTime = time.ToString("hh:mm tt");
+                    }
+                    else
+                    {
+                        displayTime = "";
+                    }
+                }
+                <label>@displayTime</label>
+            </td>
+            <td>
+                @{
+                    if (item.Requerimiento != null)
+                    {
+                        timespan = item.Requerimiento ?? new TimeSpan();
+                        time = DateTime.Today.Add(timespan);
+                        displayTime = time.ToString("hh:mm tt");
+                    }
+                    else
+                    {
+                        displayTime = "";
+                    }
+                }
+                <label>@displayTime</label>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecetaRoceado)
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
-                </td>
-            </tr>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+            </td>
+        </tr>
+            i++;
         }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>@totalKilos KG</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>@totalCoches</td>
+        </tr>
+
     </tbody>
 </table>
