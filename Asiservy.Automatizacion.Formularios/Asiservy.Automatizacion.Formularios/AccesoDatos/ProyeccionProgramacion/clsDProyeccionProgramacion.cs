@@ -29,6 +29,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 return proyeccion;
             }
         }
+        public List<PROYECCION_PROGRAMACION> ConsultaProyeccionProgramacion(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                fechaHasta = fechaHasta.AddDays(1);
+                var proyeccion = db.PROYECCION_PROGRAMACION.Where(x =>
+                x.FechaProduccion >= fechaDesde
+                && x.FechaProduccion < fechaHasta).ToList();
+
+                return proyeccion;
+            }
+        }
         public int ValidarProyeccionProgramacion(DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -65,7 +77,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
         }
 
 
-        public void EditarProyeccionProgramacion(int idProyeccion, bool? Ingreso, bool? EditaProduccion, bool? EditaPreparacion, bool?Finaliza, string usuario, string terminal)
+        public void EditarProyeccionProgramacion(int idProyeccion, bool? Ingreso, bool? EditaProduccion, bool? EditaPreparacion, bool?Finaliza, string usuario, string terminal, string Observacion=null)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -93,6 +105,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                     if (Finaliza != null)
                     {
                         proyeccion.Finaliza = Finaliza ?? proyeccion.Finaliza;
+                        proyeccion.Observacion = Observacion;
                         bitacora.Observacion += proyeccion.IngresoPreparacion ? "Proyeccion Activo " : "Proyeccion Finalizada ";
 
                     }
@@ -124,8 +137,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 {
                     if (proceso == 1)
                     {
-                        detalle.Lote = model.Lote;
-                        detalle.Observacion = model.Observacion;
+                        detalle.Lote = model.Lote.ToUpper();
+                        detalle.Observacion = model.Observacion!=null?model.Observacion.ToUpper():"";
                         detalle.OrdenFabricacion = model.OrdenFabricacion;  
                         detalle.Toneladas = model.Toneladas;
                         detalle.Destino = model.Destino;
@@ -137,7 +150,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                         detalle.Lineas = model.Lineas;
                         detalle.HoraProcesoInicio = model.HoraProcesoInicio;
                         detalle.HoraProcesoFin = model.HoraProcesoFin;
-                        detalle.Observacion = model.Observacion;
+                        detalle.Observacion = model.Observacion != null ? model.Observacion.ToUpper() : "";
                     }
                     if (proceso == 3)
                     {
@@ -147,7 +160,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                         detalle.HoraDescongeladoFin = model.HoraDescongeladoFin;
                         detalle.HoraCoccionInicio = model.HoraCoccionInicio;
                         detalle.HoraCoccionFin = model.HoraCoccionFin;
-                        detalle.Observacion = model.Observacion;
+                        detalle.Cocina = model.Cocina;
+                        detalle.Requerimiento = model.Requerimiento;
+                        detalle.TotalCoches = model.TotalCoches;
+                        detalle.TemperaturaFinal = model.TemperaturaFinal;
+                        detalle.Observacion = model.Observacion != null ? model.Observacion.ToUpper() : "";
 
                     }
 

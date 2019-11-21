@@ -1,6 +1,7 @@
 ﻿
 $(document).ready(function () {
     ValidaProyeccion();
+    CargarOrdenFabricacion();
 });
 
 function Validar() {
@@ -67,14 +68,14 @@ function GuardarProyeccionDetalle() {
         {
             IdProyeccionProgramacion: $('#IdProyeccion').val(),
             IdProyeccionProgramacionDetalle: $('#IdProyeccionDetalle').val(),
-            Lote: $("#txtLote").val(),
+            Lote: $("#txtLote").val().toUpperCase(),
             Toneladas: $("#txtTonelada").val(),
-            OrdenFabricacion: "",
             Destino: $("#txtDestino").val(),
             TipoLimpieza: $("#txtTipoLimpieza").val(),
             Especie: $("#txtEspecie").val(),
             Talla: $("#txtTalla").val(),
             Observacion: $("#txtObservacion").val(),
+            OrdenFabricacion: $("#SelectOrdenFabricacion").val(),
             proceso:1
 
         },
@@ -126,6 +127,7 @@ function ValidaProyeccion() {
     if ($('#txtFechaProduccion').val() == "") {
         return;
     }
+    CargarOrdenFabricacion();
     $("#DivProyeccion").html("");
     $.ajax({
         url: "../ProyeccionProgramacion/ValidarProyeccionProgramacion",
@@ -147,16 +149,25 @@ function ValidaProyeccion() {
                 $("#IdProyeccion").val(0);
                 $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
 
-            } else if (resultado.Codigo == 1) //proyeccion se encuentra en estado finalzado
-            {               
+            } else if (resultado.Codigo == 4) //proyeccion se encuentra en finalizado
+            {
                 $("#DivButtons").prop("hidden", true);
                 $("#btnGenerarProyecion").prop("hidden", true);
                 $("#IdProyeccion").val(resultado.Observacion);
-                MensajeAdvertencia(resultado.Mensaje);
+              //  MensajeAdvertencia(resultado.Mensaje);
                 $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
-                $("#btnHabilitar").prop("hidden", false);               
+                $("#btnHabilitar").prop("hidden", true);
                 CargarProyeccionProgramacion();
-            } else {
+            } else if (resultado.Codigo == 2) //proyeccion se encuentra en estado editando
+            {
+                $("#DivButtons").prop("hidden", true);
+                $("#btnGenerarProyecion").prop("hidden", true);
+                $("#IdProyeccion").val(resultado.Observacion);
+               // MensajeAdvertencia(resultado.Mensaje);
+                $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
+                $("#btnHabilitar").prop("hidden", false);
+                CargarProyeccionProgramacion();
+            } else if (resultado.Codigo == 1) {
                 $("#DivButtons").prop("hidden", false);
                 $("#btnGenerarProyecion").prop("hidden", true);
                 $("#IdProyeccion").val(resultado.Observacion);
@@ -232,9 +243,10 @@ function SeleccionarProyeccionProgramacion(id,idDetalle,lote,orden,toneladas,des
     $('#txtTipoLimpieza').val(limpieza);
     $('#txtEspecie').val(especie);
     $('#txtTalla').val(talla);
-    $('#Observacion').val(observacion);
+    $('#txtObservacion').val(observacion);
     $('#IdProyeccion').val(id);
     $('#IdProyeccionDetalle').val(idDetalle);
+    $("#SelectOrdenFabricacion").val(orden);
 }
 
 function InactivarRegistro(){
@@ -329,6 +341,34 @@ modalConfirm(function (confirm) {
 
     }
 });
+
+
+function CargarOrdenFabricacion() {
+    valor = $("#txtFechaProduccion").val();
+    if (valor == '' || valor == null)
+        return;
+    $("#SelectOrdenFabricacion").empty();
+    $("#SelectOrdenFabricacion").append("<option value='' >-- Seleccionar Opción--</option>");
+    $.ajax({
+        url: "../Hueso/ConsultarOrdenesFabricacion",
+        type: "GET",
+        data: {
+            Fecha: valor
+        },
+        success: function (resultado) {
+
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#SelectOrdenFabricacion").append("<option value='" + row.Orden + "'>" + row.Orden + "</option>")
+                });
+            }
+            CargarControlHueso();
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
 
 //function ConsultaProyProgramacion(){
 //    $.ajax({

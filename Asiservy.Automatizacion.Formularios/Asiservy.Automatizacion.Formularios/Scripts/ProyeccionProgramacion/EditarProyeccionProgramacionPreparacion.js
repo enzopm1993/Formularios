@@ -31,23 +31,12 @@ function ValidaProyeccion() {
                 $("#txtValidaEditar").val("1");
 
             }
-            //else if (resultado.Codigo == 1) //proyeccion se encuentra en estado finalzado
-            //{
-            //    $("#DivButtons").prop("hidden", true);
-            //    $("#btnGenerarProyecion").prop("hidden", true);
-            //    $("#IdProyeccion").val(resultado.Observacion);
-            //    MensajeAdvertencia(resultado.Mensaje);
-            //    $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
-            //    $("#btnHabilitar").prop("hidden", false);
-            //    $("#txtValidaEditar").val("0");
-            //    CargarProyeccionProgramacion();
-            //}
-            else if (resultado.Codigo == 3) //Esta siendo Editado
-            {
+            else if (resultado.Codigo == 2 || resultado.Codigo == 4) //Esta siendo Editado o ha sido finalizado
+            { 
                 $("#DivButtons").prop("hidden", true);
                 $("#btnGenerarProyecion").prop("hidden", true);
                 $("#IdProyeccion").val(resultado.Observacion);
-                MensajeAdvertencia(resultado.Mensaje);
+               // MensajeAdvertencia(resultado.Mensaje);
                 $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
                 $("#txtValidaEditar").val("0");
                 CargarProyeccionProgramacion();
@@ -123,7 +112,6 @@ function validaCocina() {
     } else {
         $("#btnCocina").css('color', '#858796');  
         return true;
-
     }
 }
 
@@ -160,9 +148,12 @@ function GuardarProyeccionDetalle() {
     var cocinas = "";
     $("input[type=checkbox]").each(function () {
         if ($(this).prop('checked')) {
-            cocinas = cocinas + this.value;
+            cocinas = cocinas + this.value+",";
         }
-    });  
+    });
+    console.log(cocinas);
+    cocinas = cocinas.slice(0, -1);
+    console.log(cocinas);
 
     $.ajax({
         url: "../ProyeccionProgramacion/GuardarModificarProyeccionProgramacionDetalle",
@@ -174,7 +165,7 @@ function GuardarProyeccionDetalle() {
             HoraCoccionInicio: $('#txtHoraCoccionInicio').val(),
             HoraCoccionFin: $('#txtHoraCoccionFin').val(),
             TotalCoches: $('#txtCoches').val(),
-            //Cocina: $('#IdProyeccion').val(),
+            Cocina: cocinas,
             HoraEviceradoInicio: $('#txtHoraEviceradoInicio').val(),
             HoraEviceradoFin: $('#txtHoraEviceradoFin').val(),
             HoraDescongeladoInicio: $('#txtHoraDescongeladoInicio').val(),
@@ -203,6 +194,18 @@ function GuardarProyeccionDetalle() {
 function SeleccionarProyeccionProgramacion(model, ListaEnfriado, ListaCoccion) {
  
     if ($("#txtValidaEditar").val() == "1") {
+        limpiarModal();
+        console.log(model.Cocina);
+
+        if (model.Cocina != null && model.Cocina!='') {
+            cocinas = model.Cocina;
+            cocinas = cocinas.split(',');
+            $("input[type=checkbox]").each(function () {
+                if (cocinas.some(x => x == $(this).val())) {
+                    $(this).prop('checked', true);
+                }
+            });
+        }
     var enfriado = "00:00:00";
     var coccion = "00:00:00";
     $.each(ListaEnfriado, function (i, item) {
@@ -218,7 +221,7 @@ function SeleccionarProyeccionProgramacion(model, ListaEnfriado, ListaCoccion) {
 
         timeEnfriado = enfriado.split(/:/);
         timeCoccion = coccion.split(/:/);
-        limpiarModal();
+        
         var coccionfin = CalculoHora(model.HoraProcesoInicio, enfriado);
         var coccioninicio = CalculoHora(coccionfin, coccion);
         $("#txtHoraEnfriado").val(timeEnfriado[0] + ":" + timeEnfriado[1]);
@@ -294,7 +297,13 @@ function limpiarModal() {
     $("#txtRequerimiento").val();
     $("#txtHoraRequerimiento").val('00:00');
     $("#txtHoraRequerimiento").css('border-color', '#d1d3e2');
-    $("#txtObservacion").val('');         
+    $("#txtObservacion").val('');       
+    $("input[type=checkbox]").each(function () {
+        if ($(this).prop('checked')) {
+            $(this).prop('checked', false);
+        }
+    });
+
 }
 function CalculoHora(hora1, hora2) {
     // var horasdiferencia = (new Date("1970-1-1 " + hora2) - new Date("1970-1-1 " + hora1)) / 1000 / 60 / 60;    

@@ -2586,6 +2586,7 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEditar.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ReporteProyeccionProgramacion.js" />
@@ -2828,6 +2829,8 @@
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionDetallePartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacionPartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

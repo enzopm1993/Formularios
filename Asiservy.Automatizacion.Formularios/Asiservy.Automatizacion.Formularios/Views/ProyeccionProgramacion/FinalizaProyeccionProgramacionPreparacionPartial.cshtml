@@ -1,0 +1,174 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.PROYECCION_PROGRAMACION>
+@using System.Globalization;
+
+@{
+    /**/
+    CultureInfo ci = new CultureInfo("Es-Es");
+}
+<style>
+    .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
+        background-color: rgba(22, 22, 252, 0.8);
+    }
+</style>
+<table class="table-bordered table-hover table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                <label>Id</label>
+            </th>
+            <th>
+                <label>Fecha Producción</label>
+            </th>
+            <th>
+                <label>Ingreso Preparación</label>
+            </th>
+            <th>
+                <label>Edita Producción</label>
+            </th>
+            <th>
+                <label>Edita Preparacón</label>
+            </th>
+            <th style="min-width:300px">
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+            <th>
+                <label>Finaliza</label>
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FechaIngresoLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TerminalIngresoLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaModificacionLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioModificacionLog)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TerminalModificacionLog)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProyeccionProgramacion)
+                </td>
+                <td>
+                    @{
+                        var dia = ci.DateTimeFormat.GetDayName(item.FechaProduccion.DayOfWeek);
+                        string fecha = dia+", "+@item.FechaProduccion.ToShortDateString();
+                    }
+                    <label>@fecha</label>
+                </td>
+                <td class="text-center">
+                    @if (item.IngresoPreparacion)
+                    {
+
+                        <div class="custom-control custom-checkbox">
+                            <input disabled type="checkbox" checked class="custom-control-input" id=@("IngresoPreparacion"+item.IdProyeccionProgramacion)>
+                            <label style="background-color:green" class="custom-control-label" for=@("IngresoPreparacion"+item.IdProyeccionProgramacion)></label>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input disabled type="checkbox" class="custom-control-input" id=@("IngresoPreparacion"+item.IdProyeccionProgramacion)>
+                            <label class="custom-control-label" for=@("IngresoPreparacion"+item.IdProyeccionProgramacion)></label>
+                        </div>
+                    }
+                </td>
+
+                <td class="text-center">
+                    @if (item.EditaProduccion)
+                    {
+
+                        <div class="custom-control custom-checkbox">
+                            <input disabled type="checkbox" checked class="custom-control-input" id=@("EditaProduccion"+item.IdProyeccionProgramacion)>
+                            <label style="background-color:green" class="custom-control-label" for=@("EditaProduccion"+item.IdProyeccionProgramacion)></label>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input disabled type="checkbox" class="custom-control-input" id=@("EditaProduccion"+item.IdProyeccionProgramacion)>
+                            <label class="custom-control-label" for=@("EditaProduccion"+item.IdProyeccionProgramacion)></label>
+                        </div>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.EditarPreparacion)
+                    {
+
+                        <div  class="custom-control custom-checkbox">
+                            <input disabled type="checkbox" checked class="custom-control-input" id=@("ckeck"+item.IdProyeccionProgramacion)>
+                            <label style="background-color:green" class="custom-control-label" for=@("ckeck"+item.IdProyeccionProgramacion)></label>
+                        </div>
+                        
+                    }
+                    else
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input disabled type="checkbox" class="custom-control-input" id=@("ckeck"+item.IdProyeccionProgramacion)>
+                            <label class="custom-control-label" for=@("ckeck"+item.IdProyeccionProgramacion)></label>
+                        </div>
+                    }
+                </td>
+
+                <td>
+                    @if (item.EstadoRegistro == "A" && item.EditarPreparacion)
+                    {
+                        <input type="text" style="text-transform:uppercase" id=@("txtObservacion" + item.IdProyeccionProgramacion) maxlength="100" class="form-control" name="name" value="@item.Observacion" />
+                    }
+                    else
+                    {
+                        <input type="text" disabled style="text-transform:uppercase" id=@("txtObservacion" + item.IdProyeccionProgramacion) class="form-control" name="name" value="@item.Observacion" />
+
+                    }
+                </td>
+                <td>
+                    @if (item.EstadoRegistro == "A" && (item.EditarPreparacion|| item.Finaliza))
+                    {
+                    <div class="col-xs-2 text-xs-center">
+                        <div class="custom-control custom-switch">
+                            @Html.CheckBox("proyeccion" + item.IdProyeccionProgramacion, item.Finaliza, new { @onchange = "check(this.id,'"+item.IdProyeccionProgramacion+"')", @class = "custom-control-input" })
+                            <label class="custom-control-label" for=@("proyeccion" + item.IdProyeccionProgramacion) id="LabelFecha"></label>
+                        </div>
+                      
+                    </div>
+                    }
+                </td>               
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

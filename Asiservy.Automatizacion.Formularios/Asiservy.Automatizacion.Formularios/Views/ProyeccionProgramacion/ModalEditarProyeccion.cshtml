@@ -21,7 +21,7 @@
                                 {
                                     <label class="btn btn-dark text-xs-center" id="Label-@item.Codigo">
                                         @item.Descripcion
-                                        <input type="checkbox" id="Linea-@item.Codigo" value="@item.Descripcion" class="" />
+                                        <input type="checkbox" id="Linea-@item.Codigo" value="@item.Descripcion" class="" onclick="PintarLinea(this.id,'Label-@item.Codigo')" />
                                     </label>
                                 }                             
                                 <label id="msgerrorLineas" hidden class="text-danger">Debe ingresar al menos una línea</label>
@@ -43,7 +43,7 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label class="align-left">Observación:</label><textarea rows="5" cols="25" id="observacionedit" class="form-control"></textarea>
+                                <label class="align-left">Observación:</label><textarea style = "text-transform:uppercase" rows="5" cols="25" id="observacionedit" class="form-control"></textarea>
                                 @*<label id="msgerrorHoraFin" style="display:none; color:red">La hora de Fin no puede estar vacia</label>*@
                             </div>
                         </div>

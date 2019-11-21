@@ -30,22 +30,22 @@ function ValidaProyeccion() {
                 $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
                 $("#txtValidaEditar").val("1");
 
-            } else if (resultado.Codigo == 1) //proyeccion se encuentra en estado finalzado
+            } else if (resultado.Codigo == 4) //proyeccion se encuentra en estado finalzado
             {
                 $("#DivButtons").prop("hidden", true);
                 $("#btnGenerarProyecion").prop("hidden", true);
                 $("#IdProyeccion").val(resultado.Observacion);
-                MensajeAdvertencia(resultado.Mensaje);
+                //MensajeAdvertencia(resultado.Mensaje);
                 $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
-                $("#btnHabilitar").prop("hidden", false);
+                $("#btnHabilitar").prop("hidden", true);
                 $("#txtValidaEditar").val("0");                
                 CargarProyeccionProgramacion();
-            } else if (resultado.Codigo == 3) //Esta siendo Editado
+            } else if (resultado.Codigo == 2) //Esta siendo Editado
             {
                 $("#DivButtons").prop("hidden", true);
                 $("#btnGenerarProyecion").prop("hidden", true);
                 $("#IdProyeccion").val(resultado.Observacion);
-                MensajeAdvertencia(resultado.Mensaje);
+               // MensajeAdvertencia(resultado.Mensaje);
                 $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");               
                 $("#txtValidaEditar").val("0");
                 CargarProyeccionProgramacion();
@@ -112,8 +112,11 @@ function SeleccionarProyeccionProgramacion( idDetalle,lineas,horainicio,horafin,
         var ArrayLineas = lineas.split(",");
         $("#form input").each(function () {
             if (ArrayLineas.some(x => x == this.value)) {
-                this.checked = true;
+                this.checked = true;                
             }
+            label = this.id.split("-");
+            idLabel = "Label-" + label[1];
+            PintarLinea(this.id, idLabel);
         }) 
 
     }
@@ -244,4 +247,14 @@ function HabilitarProyeccionProgramacion() {
 
         }
     });
+}
+
+
+function PintarLinea(id, idLabel) {
+    if ($("#" + id).prop("checked")) {
+        $("#" + idLabel).css("background", "#00FF00");
+    } else {
+        $("#" + idLabel).css("background", "#5a5c69");
+
+    }
 }

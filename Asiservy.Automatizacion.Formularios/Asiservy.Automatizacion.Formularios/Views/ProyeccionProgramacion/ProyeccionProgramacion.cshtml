@@ -12,18 +12,28 @@
     @Html.Hidden("IdProyeccion")
     @Html.Hidden("IdProyeccionDetalle", 0)
     @{var Fecha = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"); }
-    <div class="col-md-2 col-sm-6">
-        <div class="form-group">
-            <label>Lote:</label>
-            <input type="text" class="form-control" name="name" value="" id="txtLote" />
-            <p class="text-danger" hidden id="ValidaLote">Ingrese el lote</p>
-        </div>
-    </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Fecha:</label>
             <input type="date" class="form-control" name="name" value="@Fecha" id="txtFechaProduccion" onchange="ValidaProyeccion()" />
             <p class="text-danger" hidden id="ValidaFecha">Ingrese una fecha</p>
+        </div>
+    </div>
+    <div class="col-md-1 col-sm-6">
+        <div class="form-group">
+            <label>Lote:</label>
+            <input type="text" style="text-transform:uppercase" class="form-control" name="name" value="" id="txtLote" />
+            <p class="text-danger" hidden id="ValidaLote">Ingrese el lote</p>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+        <div class="form-group">
+            <label>Orden:</label>
+            <select id="SelectOrdenFabricacion" , class="form-control">
+                <option value="0">Seleccione</option>
+            </select>
+            <p class="text-danger" hidden id="ValidaOrden">Ingrese el lote</p>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
@@ -41,20 +51,16 @@
             <p class="text-danger" hidden id="ValidaDestino">Seleccione el destino</p>
         </div>
     </div>
-    <div class="col-md-2 col-sm-6">
+
+    <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Tipo Limpieza:</label>
             @Html.DropDownList("txtTipoLimpieza", (IEnumerable<SelectListItem>)ViewBag.TipoLimpieza, "Seleccione", new { @class = "form-control" })
             <p class="text-danger" hidden id="ValidaLimpieza">Seleccione el tipo de limpieza</p>
         </div>
     </div>
-    <div class="col-md-5 col-sm-6">
-        <div class="form-group">
-            <label>Observación:</label>
-            <input type="text" style="text-transform:uppercase" onkeypress="return sololetras(event)" class="form-control" maxlength="100" name="name" value="" id="txtObservacion" />
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-6">
+
+    <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Especie:</label>
             @*@Html.DropDownList("txtEspecie", (IEnumerable<SelectListItem>
@@ -74,7 +80,15 @@
 
         </div>
     </div>
+
+    <div class="col-12">
+        <div class="form-group">
+            <label>Observación:</label>
+            <input type="text" style="text-transform:uppercase" onkeypress="return sololetras(event)" class="form-control" maxlength="100" name="name" value="" id="txtObservacion" />
+        </div>
+    </div>
 </div>
+
 <div class="row">
     <div class="col-12 text-center">
         <br />
@@ -104,7 +118,7 @@
     </div>
 </div>
 
-<div class="text-center" id="DivMensaje"></div>
+<div class="text-center" style="color:#e4ac13" id="DivMensaje"></div>
 <div id="DivProyeccion" class="table-responsive">
 
 
