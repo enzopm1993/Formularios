@@ -47,12 +47,21 @@ function Validar() {
     } else {
         $("#ValidaEspecie").prop("hidden", true);
     }
+    if ($("#SelectOrdenFabricacion").val() == "") {
+        $("#ValidaOrden").prop("hidden", false);
+        valida = false;
+    } else {
+        $("#ValidaOrden").prop("hidden", true);
+    }
+
     if ($("#txtTalla").val() == "") {
         $("#ValidaTalla").prop("hidden", false);
         valida = false;
     } else {
         $("#ValidaTalla").prop("hidden", true);
     }
+    
+
 
     return valida;
 }
@@ -129,6 +138,7 @@ function ValidaProyeccion() {
     }
     CargarOrdenFabricacion();
     $("#DivProyeccion").html("");
+    $("#DivMensaje").html("");
     $.ajax({
         url: "../ProyeccionProgramacion/ValidarProyeccionProgramacion",
         type: "GET",
@@ -140,8 +150,8 @@ function ValidaProyeccion() {
 
             $("#btnEliminar").prop("hidden", true);  
             $("#btnFinalizar").prop("hidden", true);  
-            $("#btnHabilitar").prop("hidden", true);  
-            $("#DivMensaje").html("");
+            $("#btnHabilitar").prop("hidden", true);            
+        
             if (resultado.Codigo == 0) //no se existen registros
             {
                 $("#DivButtons").prop("hidden", true);
@@ -198,6 +208,7 @@ function CargarProyeccionProgramacion() {
                 $("#DivMensaje").html("<h3 class'text-center'> No existen registros </h3> ");              
             } else {
                 $("#DivProyeccion").html(resultado);
+                config.opcionesDT.pageLength = 10;
                 $('#tblDataTable').DataTable(config.opcionesDT);
                 
             }
@@ -219,6 +230,8 @@ function Limpiar() {
     $('#txtTipoLimpieza').prop('selectedIndex', 0);
     $('#txtEspecie').prop('selectedIndex', 0);
     $('#txtTalla').prop('selectedIndex', 0);
+    $('#SelectOrdenFabricacion').prop('selectedIndex', 0);
+    
     $('#Observacion').val("");
    // $('#IdProyeccion').val(0);
     $('#IdProyeccionDetalle').val(0);
@@ -362,7 +375,7 @@ function CargarOrdenFabricacion() {
                     $("#SelectOrdenFabricacion").append("<option value='" + row.Orden + "'>" + row.Orden + "</option>")
                 });
             }
-            CargarControlHueso();
+            //CargarControlHueso();
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);

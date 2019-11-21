@@ -8,7 +8,8 @@ function ValidaProyeccion() {
     if ($('#txtFechaProduccion').val() == "") {
         return;
     }
-    $("#DivTableProyecion").html("");
+    $("#DivTablePreparacion").html('');
+    $("#DivMensaje").html("");
     $.ajax({
         url: "../ProyeccionProgramacion/ValidarProyeccionProgramacionPreparacion",
         type: "GET",
@@ -20,8 +21,8 @@ function ValidaProyeccion() {
 
             $("#btnEliminar").prop("hidden", true);
             $("#btnFinalizar").prop("hidden", true);
-            $("#btnHabilitar").prop("hidden", true);
-            $("#DivMensaje").html("");
+            $("#btnHabilitar").prop("hidden", true);           
+           
             if (resultado.Codigo == 0) //no se existen registros
             {
                 $("#DivButtons").prop("hidden", true);
@@ -62,6 +63,7 @@ function ValidaProyeccion() {
 function CargarProyeccionProgramacion() {
 
     $("#spinnerCargando").prop("hidden", false);
+   
     $.ajax({
         url: "../ProyeccionProgramacion/ProyeccionProgramacionDetallePartial",
         type: "GET",
@@ -75,6 +77,7 @@ function CargarProyeccionProgramacion() {
                 $("#DivMensaje").html("<h3 class'text-center'> No existen registros </h3> ");
             } else {
                 $("#DivTablePreparacion").html(resultado);
+                config.opcionesDT.pageLength = 10;
                 $('#tblDataTable').DataTable(config.opcionesDT);
 
             }
@@ -151,9 +154,9 @@ function GuardarProyeccionDetalle() {
             cocinas = cocinas + this.value+",";
         }
     });
-    console.log(cocinas);
-    cocinas = cocinas.slice(0, -1);
-    console.log(cocinas);
+    //console.log(cocinas);
+    //cocinas = cocinas.slice(0, -1);
+    //console.log(cocinas);
 
     $.ajax({
         url: "../ProyeccionProgramacion/GuardarModificarProyeccionProgramacionDetalle",

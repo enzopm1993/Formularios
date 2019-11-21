@@ -983,7 +983,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                                 CentroCosto = darea,
                                 Recurso = drecurso,
                                 CodCargo = dcargo,
-                                FechaInicio = dfecha,
+                              //  FechaInicio = dfecha,
                                 HoraInicio = dhora,
                                 Vigente = true,
                                 FechaIngresoLog = DateTime.Now,
@@ -1007,7 +1007,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     ClsDPeriodo = new clsDPeriodo();
                     if (ClsDPeriodo.ValidaFechaPeriodo(dfecha))
                     { 
-                        psRespuesta = clsDCambioPersonal.GuardarCambioDePersonal(pListCambioPersonal/*, pListBitacoraCambioPersonal*/, tipo);
+                       // psRespuesta = clsDCambioPersonal.GuardarCambioDePersonal(pListCambioPersonal/*, pListBitacoraCambioPersonal*/, tipo);
                     }
                     else
                     {

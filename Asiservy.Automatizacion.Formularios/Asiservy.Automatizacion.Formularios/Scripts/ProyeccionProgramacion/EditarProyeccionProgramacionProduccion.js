@@ -8,7 +8,8 @@ function ValidaProyeccion() {
     if ($('#txtFechaProduccion').val() == "") {
         return;
     }
-    $("#DivTableProyecion").html("");
+    $("#DivTablePreparacion").html('');
+    $("#DivMensaje").html("");
     $.ajax({
         url: "../ProyeccionProgramacion/ValidarProyeccionProgramacionProduccion",
         type: "GET",
@@ -21,7 +22,8 @@ function ValidaProyeccion() {
             $("#btnEliminar").prop("hidden", true);
             $("#btnFinalizar").prop("hidden", true);
             $("#btnHabilitar").prop("hidden", true);
-            $("#DivMensaje").html("");
+            $("#DivTablePreparacion").html('');
+           // $("#DivMensaje").html("");
             if (resultado.Codigo == 0) //no se existen registros
             {
                 $("#DivButtons").prop("hidden", true);
