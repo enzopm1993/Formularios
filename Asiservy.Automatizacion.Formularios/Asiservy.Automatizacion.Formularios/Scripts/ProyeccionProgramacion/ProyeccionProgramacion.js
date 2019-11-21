@@ -60,7 +60,24 @@ function Validar() {
     } else {
         $("#ValidaTalla").prop("hidden", true);
     }
-    
+
+    if ($("#txtMarea").val() == "") {
+        $("#ValidaMarea").prop("hidden", false);
+        valida = false;
+    } else {
+        $("#ValidaMarea").prop("hidden", true);
+    }
+
+
+    if ($("#txtBarco").val() == "") {
+        $("#ValidaBarco").prop("hidden", false);
+        valida = false;
+    } else {
+        $("#ValidaBarco").prop("hidden", true);
+    }
+
+
+  
 
 
     return valida;
@@ -85,6 +102,8 @@ function GuardarProyeccionDetalle() {
             Talla: $("#txtTalla").val(),
             Observacion: $("#txtObservacion").val(),
             OrdenFabricacion: $("#SelectOrdenFabricacion").val(),
+            Marea: $("#txtMarea").val(),
+            Barco: $("#txtBarco").val(),
             proceso:1
 
         },
@@ -231,7 +250,8 @@ function Limpiar() {
     $('#txtEspecie').prop('selectedIndex', 0);
     $('#txtTalla').prop('selectedIndex', 0);
     $('#SelectOrdenFabricacion').prop('selectedIndex', 0);
-    
+    $("#txtMarea").prop('selectedIndex', 0);
+    $("#txtBarco").prop('selectedIndex', 0);
     $('#Observacion').val("");
    // $('#IdProyeccion').val(0);
     $('#IdProyeccionDetalle').val(0);
@@ -248,18 +268,20 @@ function Limpiar() {
     //ConsultaProyProgramacion();
 }
 
-function SeleccionarProyeccionProgramacion(id,idDetalle,lote,orden,toneladas,destino,limpieza,observacion,especie,talla) {
-    $('#txtLote').val(lote);
+function SeleccionarProyeccionProgramacion(model) {
+    $('#txtLote').val(model.Lote);
     //$('#FechaProduccion').val("");
-    $('#txtTonelada').val(toneladas);
-    $('#txtDestino').val(destino);
-    $('#txtTipoLimpieza').val(limpieza);
-    $('#txtEspecie').val(especie);
-    $('#txtTalla').val(talla);
-    $('#txtObservacion').val(observacion);
-    $('#IdProyeccion').val(id);
-    $('#IdProyeccionDetalle').val(idDetalle);
-    $("#SelectOrdenFabricacion").val(orden);
+    $('#txtTonelada').val(model.Toneladas);
+    $('#txtDestino').val(model.CodDestino);
+    $('#txtTipoLimpieza').val(model.CodTipoLimpieza);
+    $('#txtEspecie').val(model.Especie);
+    $('#txtTalla').val(model.Talla);
+    $('#txtObservacion').val(model.Observacion);
+    $('#IdProyeccion').val(model.IdProyeccionProgramacion);
+    $('#IdProyeccionDetalle').val(model.IdProyeccionProgramacionDetalle);
+    $("#SelectOrdenFabricacion").val(model.OrdenFabricacion);
+    $("#txtMarea").val(model.CodMarea);
+    $("#txtBarco").val(model.CodBarco);
 }
 
 function InactivarRegistro(){

@@ -80,8 +80,17 @@
 
         </div>
     </div>
-
-    <div class="col-12">
+    <div class="col-3">
+        <label>Barco</label>
+        @Html.DropDownList("txtBarco", new SelectList(ViewBag.Barco, "Codigo", "Nombre"), "Seleccione", new { @class = "form-control" })
+        <p class="text-danger" hidden id="ValidaBarco">Seleccione una barco</p>
+    </div>
+    <div class="col-2">
+        <label>Marea</label>
+        @Html.DropDownList("txtMarea", new SelectList(ViewBag.Marea, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+        <p class="text-danger" hidden id="ValidaMarea">Seleccione una marea</p>
+    </div>
+    <div class="col-7">
         <div class="form-group">
             <label>Observación:</label>
             <input type="text" style="text-transform:uppercase" onkeypress="return sololetras(event)" class="form-control" maxlength="100" name="name" value="" id="txtObservacion" />

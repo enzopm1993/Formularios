@@ -9,16 +9,22 @@
                 @Html.DisplayNameFor(model => model.Lote)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Barco)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Marea)
+            </th>
+            <th>
                 <label>Orden</label>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Toneladas)
             </th>
-          
+
             <th>
                 @Html.DisplayNameFor(model => model.Destino)
             </th>
-           
+
             <th>
                 <label>Limpieza</label>
             </th>
@@ -42,7 +48,7 @@
                 </th>
             }
 
-            @if (ViewBag.EditaPreparacion!=null)
+            @if (ViewBag.EditaPreparacion != null)
             {
                 <th>
                     <label>Temperatura</label>
@@ -59,6 +65,9 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Cocina)
+                </th>
+                 <th>
+                     <label>Receta</label>
                 </th>
                 <th>
                     <label>Evicerado Inicio</label>
@@ -77,13 +86,12 @@
                 </th>
                 <th>
                     <label>Requerimiento </label>
+                </th>
+            }
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
 
-                </th>
-             }
-                <th>
-                    @Html.DisplayNameFor(model => model.Observacion)
-                </th>
-        
         </tr>
 
     </thead>
@@ -105,86 +113,96 @@
                     string json = JsonConvert.SerializeObject(item);                    
                     @:<tr onclick="SeleccionarProyeccionProgramacion(@json,@enfriado,@coccion)">
                 }
-                else
-                {
-                    @:<tr onclick="SeleccionarProyeccionProgramacion('@item.IdProyeccionProgramacion','@item.IdProyeccionProgramacionDetalle','@item.Lote','@item.OrdenFabricacion','@item.Toneladas','@item.CodDestino','@item.CodTipoLimpieza','@item.Observacion','@item.Especie','@item.Talla')">
-                }
+                 else
+                 {
+                    string json = JsonConvert.SerializeObject(item);
+                    @:<tr onclick="SeleccionarProyeccionProgramacion(@json)">
+}
+<td>
+    @Html.DisplayFor(modelItem => item.Lote)
+</td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lote)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Toneladas)
-                </td>
+<td>
+    @Html.DisplayFor(modelItem => item.Barco)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => item.Marea)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => item.Toneladas)
+</td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Destino)
-                </td>
+<td>
+    @Html.DisplayFor(modelItem => item.Destino)
+</td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoLimpieza)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Especie)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Talla)
-                </td>
+<td>
+    @Html.DisplayFor(modelItem => item.TipoLimpieza)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => item.Especie)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => item.Talla)
+</td>
 
-                if (ViewBag.EditaProduccion != null || ViewBag.EditaPreparacion != null)
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Lineas)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoraProcesoInicio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoraProcesoFin)
-                    </td>
-                }
-                if (ViewBag.EditaPreparacion != null)
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TemperaturaFinal)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoraCoccionInicio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoraCoccionFin)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TotalCoches)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cocina)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoraEviceradoInicio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoraEviceradoFin)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoraDescongeladoInicio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoraDescongeladoFin)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Requerimiento)
-                    </td>
-                }
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacion)
-                </td>
+if (ViewBag.EditaProduccion != null || ViewBag.EditaPreparacion != null)
+{
+    <td>
+        @Html.DisplayFor(modelItem => item.Lineas)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HoraProcesoInicio)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HoraProcesoFin)
+    </td>
+}
+if (ViewBag.EditaPreparacion != null)
+{
+    <td>
+        @Html.DisplayFor(modelItem => item.TemperaturaFinal)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HoraCoccionInicio)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HoraCoccionFin)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TotalCoches)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Cocina)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.RecetaRoceado)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HoraEviceradoInicio)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HoraEviceradoFin)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HoraDescongeladoInicio)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HoraDescongeladoFin)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Requerimiento)
+    </td>
+}
+<td>
+    @Html.DisplayFor(modelItem => item.Observacion)
+</td>
 
 
-            @:</tr>
+@:</tr>
         }
     </tbody>
 </table>

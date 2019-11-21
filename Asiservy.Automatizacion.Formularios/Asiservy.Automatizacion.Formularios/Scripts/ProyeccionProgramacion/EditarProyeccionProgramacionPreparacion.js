@@ -138,8 +138,13 @@ function Validar() {
         valida = false;
     if (!validaHora("#txtHoraRequerimiento"))
         valida = false;
+    if (!validaHora("#txtReceta"))
+        valida = false;
+
     if (!validaCocina())
         valida = false;
+
+    
    
     return valida;   
 }
@@ -175,6 +180,7 @@ function GuardarProyeccionDetalle() {
             HoraDescongeladoFin: $('#txtHoraDescongeladoFin').val(),
             Requerimiento: $('#txtHoraRequerimiento').val(),
             Observacion: $('#txtObservacion').val(),
+            RecetaRoceado: $('#txtReceta').val(),            
             proceso: 3
         },
         success: function (resultado) {
@@ -244,7 +250,7 @@ function SeleccionarProyeccionProgramacion(model, ListaEnfriado, ListaCoccion) {
         $("#txtPeso").val(model.Toneladas);      
         $("#txtEspecie").val(model.Especie);      
         $("#txtTalla").val(model.Talla);      
-            
+        $('#txtReceta').val(model.CodRecetaRoceado);
         if (model.HoraCoccionInicio != null) {
             $("#txtHoraCoccionInicio").val(model.HoraCoccionInicio);   
         } else {
@@ -300,7 +306,9 @@ function limpiarModal() {
     $("#txtRequerimiento").val();
     $("#txtHoraRequerimiento").val('00:00');
     $("#txtHoraRequerimiento").css('border-color', '#d1d3e2');
-    $("#txtObservacion").val('');       
+    $("#txtObservacion").val('');
+    $('#txtReceta').prop("selectIndex",0);
+
     $("input[type=checkbox]").each(function () {
         if ($(this).prop('checked')) {
             $(this).prop('checked', false);

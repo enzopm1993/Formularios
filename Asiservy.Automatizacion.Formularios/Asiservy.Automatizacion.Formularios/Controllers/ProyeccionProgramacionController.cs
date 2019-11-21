@@ -110,7 +110,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 clsDClasificador = new clsDClasificador();
-             
+                var ListRecetas = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoRecetaRoceado, 0);
+                ViewBag.Receta = ListRecetas;
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 TimeSpan tiempo1 = new TimeSpan(0, 0, 0);
@@ -325,10 +326,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var ListLimpiezaPescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 ViewBag.TipoLimpieza = new SelectList(ListLimpiezaPescado, "codigo", "descripcion");
                 var ListDestinoProduccion = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoDestinoProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                var ListMareas = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoMarea,0);
+                ViewBag.Marea = ListMareas;
                 ViewBag.Destino = new SelectList(ListDestinoProduccion, "codigo", "descripcion");
                 ViewBag.Especie = clsDApiProduccion.ConsultarEspecies();
                 ViewBag.Talla = clsDApiProduccion.ConsultarTallas(null);
                 ViewBag.OrdenFabricacion = clsDApiProduccion.ConsultarLotesPorFecha(DateTime.Now);
+                ViewBag.Barco = clsDApiProduccion.ConsultarBarcos();
 
                 return View();
             }

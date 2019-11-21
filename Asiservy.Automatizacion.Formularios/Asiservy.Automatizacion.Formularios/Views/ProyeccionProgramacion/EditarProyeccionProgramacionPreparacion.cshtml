@@ -49,13 +49,13 @@
             <div class="modal-body">
                 <div id="DivBodyEditar">
                     <div class="row">
-                        <div class="col-2">
+                        <div class="col-1">
                             <div class="form-group" id="form">
                                 <label>Lote</label>
                                 <input type="text" disabled id="txtLote" class="form-control" name="name" value="" />
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group" id="form">
                                 <label>Lineas</label>
                                 <input type="text" disabled id="txtLineas" class="form-control" name="name" value="" />
@@ -73,6 +73,12 @@
                                 <input type="time" disabled id="txtHoraProcesoFin" class="form-control" name="name" value="" />
                             </div>
                         </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label>Peso</label>
+                                <input type="text" disabled id="txtPeso" class="form-control" name="name" value="" />
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-4">
@@ -87,12 +93,7 @@
                                 <input type="text" disabled id="txtTalla" class="form-control" name="name" value="" />
                             </div>
                         </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label>Peso</label>
-                                <input type="text" disabled id="txtPeso" class="form-control" name="name" value="" />
-                            </div>
-                        </div>
+                       
                         <div class="col-1">
                             <div class="form-group" id="form">
                                 <div class="dropdown checkbox-menu allow-focus">
@@ -115,6 +116,14 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-3">
+                            <div class="form-group" id="form">
+                                <label>Receta</label>
+                                @Html.DropDownList("txtReceta", new SelectList(ViewBag.Receta, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                            </div>
+                        </div>
+
                     </div>
 
                         <div class="row">

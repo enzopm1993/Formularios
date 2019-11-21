@@ -113,8 +113,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //Clasificador Grupo Especie pescado
         public static string CodigoGrupoEspeciePescado= "009";
 
-        //Clasificador rupo Talla de pescado
+        //Clasificador Grupo Talla de pescado
         public static string CodigoGrupoTallaPescado = "010";
+
+        //Clasificador Grupo Marea
+        public static string CodigoGrupoMarea = "016";
+
+        //Clasificador Grupo Receta
+        public static string CodigoGrupoRecetaRoceado = "017";
 
         //Tallas de pescado
         public static string Talla35="001";

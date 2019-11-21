@@ -156,6 +156,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                         detalle.Destino = model.Destino;
                         detalle.TipoLimpieza = model.TipoLimpieza;
                         detalle.Especie = model.Especie;
+                        detalle.Barco = model.Barco;
+                        detalle.Marea = model.Marea;
                     }
                     if (proceso == 2)
                     {
@@ -177,6 +179,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                         detalle.TotalCoches = model.TotalCoches;
                         detalle.TemperaturaFinal = model.TemperaturaFinal;
                         detalle.Observacion = model.Observacion != null ? model.Observacion.ToUpper() : "";
+                        detalle.RecetaRoceado = model.RecetaRoceado;
 
                     }
 
