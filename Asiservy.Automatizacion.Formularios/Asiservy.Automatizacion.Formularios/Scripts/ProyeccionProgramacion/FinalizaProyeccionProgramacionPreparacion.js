@@ -82,9 +82,8 @@ function CargarProyecciones() {
         },
         success: function (resultado) {
             $('#spinnerCargando').prop("hidden", true);
-
             if (resultado == '0') {
-                $("#divMensaje").html('<h3 class="text-warning">'+resultado+'</h3>');
+                $("#divMensaje").html('<h3 class="text-warning"> No existén registros</h3>');
             } else {
                 $("#divTableProyeccion").html(resultado);
                 config.opcionesDT.pageLength = 10;
