@@ -69,6 +69,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ASIS_PROD.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Datos\BARCO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\BITACORA_CAMBIO_PERSONAL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

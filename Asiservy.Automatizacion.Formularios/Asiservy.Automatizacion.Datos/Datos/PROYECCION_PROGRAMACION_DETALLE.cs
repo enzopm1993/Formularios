@@ -44,6 +44,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public string Barco { get; set; }
+        public Nullable<int> Marea { get; set; }
+        public string RecetaRoceado { get; set; }
     
         public virtual PROYECCION_PROGRAMACION PROYECCION_PROGRAMACION { get; set; }
     }
