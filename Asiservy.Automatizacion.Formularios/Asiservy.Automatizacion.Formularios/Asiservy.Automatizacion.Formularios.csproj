@@ -2042,6 +2042,7 @@
     <Content Include="Content\SolicitudPermisoCss\SolicitudPermiso.css" />
     <Content Include="Content\SolicitudPermisoCss\SolicitudPermisoMedico.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\App\SolicitudesPendientes.js" />
     <Content Include="Scripts\Asistencia\Asistencia.js" />
     <Content Include="Scripts\Asistencia\AsistenciaGeneral.js" />
     <Content Include="Scripts\Asistencia\AsistenciaPrestado.js" />
@@ -2609,6 +2610,8 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccesoDatos\App\InfoCambioDatos.cs" />
+    <Compile Include="AccesoDatos\App\SolicitudesPendientes.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCuchillo.cs" />
@@ -2646,6 +2649,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ApiSolicitudPermisoController.cs" />
+    <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
@@ -2819,6 +2823,7 @@
     <Content Include="Views\ProyeccionProgramacion\ModalEditarProyeccion.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacion.cshtml" />
     <Content Include="Views\Nomina\ListaEmpleadosPartial.cshtml" />
+    <Content Include="Views\App\SolicitudesPendientes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
