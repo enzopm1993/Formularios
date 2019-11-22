@@ -50,9 +50,9 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.ASISTENCIA" Width="1.5" PointX="20.375" PointY="6.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MANTENIMIENTO_PREPARACION" Width="1.5" PointX="21.375" PointY="18.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" Width="1.5" PointX="18.375" PointY="12.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION_DETALLE" Width="1.5" PointX="3" PointY="22.25" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_PROYECCION_PROGRAMACION_DETALLE_PROYECCION_PROGRAMACION" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BARCO" Width="1.5" PointX="3.375" PointY="13.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION_DETALLE" Width="1.5" PointX="3" PointY="21.875" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_PROYECCION_PROGRAMACION_DETALLE_PROYECCION_PROGRAMACION" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -28,15 +28,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Especie { get; set; }
         public string Talla { get; set; }
         public Nullable<int> TemperaturaFinal { get; set; }
-        public Nullable<System.TimeSpan> HoraCoccionInicio { get; set; }
-        public Nullable<System.TimeSpan> HoraCoccionFin { get; set; }
+        public Nullable<System.DateTime> HoraCoccionInicio { get; set; }
+        public Nullable<System.DateTime> HoraCoccionFin { get; set; }
         public Nullable<int> TotalCoches { get; set; }
         public string Cocina { get; set; }
-        public Nullable<System.TimeSpan> HoraEviceradoInicio { get; set; }
-        public Nullable<System.TimeSpan> HoraEviceradoFin { get; set; }
-        public Nullable<System.TimeSpan> HoraDescongeladoInicio { get; set; }
-        public Nullable<System.TimeSpan> HoraDescongeladoFin { get; set; }
-        public Nullable<System.TimeSpan> Requerimiento { get; set; }
+        public Nullable<System.DateTime> HoraEviceradoInicio { get; set; }
+        public Nullable<System.DateTime> HoraEviceradoFin { get; set; }
+        public Nullable<System.DateTime> HoraDescongeladoInicio { get; set; }
+        public Nullable<System.DateTime> HoraDescongeladoFin { get; set; }
+        public Nullable<System.DateTime> Requerimiento { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
