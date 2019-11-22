@@ -12,17 +12,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CAMBIO_PERSONAL
+    public partial class MANTENIMIENTO_PREPARACION
     {
-        public int IdCambioPersonal { get; set; }
-        public string Cedula { get; set; }
-        public string CodLinea { get; set; }
-        public string CentroCosto { get; set; }
-        public string CodCargo { get; set; }
-        public string Recurso { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
-        public Nullable<System.TimeSpan> HoraInicio { get; set; }
-        public Nullable<bool> Vigente { get; set; }
+        public int IdMantenimientoPreparacion { get; set; }
+        public string Talla { get; set; }
+        public System.TimeSpan HorasDescongelado { get; set; }
+        public System.TimeSpan HorasCoccion { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public Nullable<System.DateTime> FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "ProyeccionProgramacion";
 }
 <style>
@@ -11,57 +10,67 @@
 
 <div class="row">
     @Html.Hidden("IdProyeccion")
+    @Html.Hidden("IdProyeccionDetalle", 0)
     @{var Fecha = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"); }
     <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Lote:</label>
-            <input type="text" class="form-control" name="name" value="" />
+            <input type="text" class="form-control" name="name" value="" id="txtLote" />
+            <p class="text-danger" hidden id="ValidaLote">Ingrese el lote</p>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Fecha:</label>
-            <input type="date" class="form-control" name="name" value="@Fecha"  id="txtFechaProduccion" />
+            <input type="date" class="form-control" name="name" value="@Fecha" id="txtFechaProduccion" onchange="ValidaProyeccion()" />
+            <p class="text-danger" hidden id="ValidaFecha">Ingrese una fecha</p>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Toneladas:</label>
-            <input type="number" class="form-control" name="name" value="" />
+            <input type="number" class="form-control" name="name" value="" id="txtTonelada" />
+            <p class="text-danger" hidden id="ValidaTonelada">Ingrese una cantidad</p>
 
         </div>
     </div>
     <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Destino:</label>
-            @Html.DropDownList("Destino", (IEnumerable<SelectListItem>)ViewBag.Destino, "Seleccione", new { @class = "form-control" })
+            @Html.DropDownList("txtDestino", (IEnumerable<SelectListItem>)ViewBag.Destino, "Seleccione", new { @class = "form-control" })
+            <p class="text-danger" hidden id="ValidaDestino">Seleccione el destino</p>
         </div>
     </div>
     <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Tipo Limpieza:</label>
-            @Html.DropDownList("TipoLimpieza", (IEnumerable<SelectListItem>)ViewBag.TipoLimpieza, "Seleccione", new { @class = "form-control" })
+            @Html.DropDownList("txtTipoLimpieza", (IEnumerable<SelectListItem>)ViewBag.TipoLimpieza, "Seleccione", new { @class = "form-control" })
+            <p class="text-danger" hidden id="ValidaLimpieza">Seleccione el tipo de limpieza</p>
         </div>
     </div>
     <div class="col-md-5 col-sm-6">
         <div class="form-group">
             <label>Observación:</label>
-            <input type="text" class="form-control" maxlength="100" name="name" value="" />
+            <input type="text" style="text-transform:uppercase" onkeypress="return sololetras(event)" class="form-control" maxlength="100" name="name" value="" id="txtObservacion" />
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Especie:</label>
-            @*@Html.DropDownList("Especie", (IEnumerable<SelectListItem>)ViewBag.Especie, "Seleccione", new { @class = "form-control" })*@
-            @Html.DropDownList("Especie", new SelectList(ViewBag.Especie, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            @*@Html.DropDownList("txtEspecie", (IEnumerable<SelectListItem>
+                )ViewBag.Especie, "Seleccione", new { @class = "form-control" })*@
+            @Html.DropDownList("txtEspecie", new SelectList(ViewBag.Especie, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            <p class="text-danger" hidden id="ValidaEspecie">Seleccione una especie</p>
         </div>
     </div>
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Talla:</label>
-            @*@Html.DropDownList("Talla", (IEnumerable<SelectListItem>)ViewBag.Talla, "Seleccione", new { @class = "form-control" })*@
-            @Html.DropDownList("Talla", new SelectList(ViewBag.Talla, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            @*@Html.DropDownList("txtTalla", (IEnumerable<SelectListItem>
+                )ViewBag.Talla, "Seleccione", new { @class = "form-control" })*@
+            @Html.DropDownList("txtTalla", new SelectList(ViewBag.Talla, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
             @*@Html.DropDownList("Tallas", new SelectList(ViewBag.Tallas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectTalla" })*@
+            <p class="text-danger" hidden id="ValidaTalla">Seleccione una talla</p>
 
         </div>
     </div>
@@ -70,17 +79,17 @@
     <div class="col-12 text-center">
         <br />
         <div class="form-group" id="DivButtons">
-            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="GuardarProyeccion" onclick="IngresarProyeccionProgramacion()" style="border-color:#2c3e50" type="button">
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="GuardarProyeccion" onclick="GuardarProyeccionDetalle()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/add24.png" />
             </button>
-            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="LimpiarBoton()" style="border-color:#2c3e50" type="button">
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="Limpiar()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/clear24.png" />
             </button>
             @*<input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="IngresarProyeccionProgramacion()" />
-            <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
+                <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
         </div>
 
-        <button hidden id="btnGenerarProyecion" type="button" class="btn btn-outline-success">Generar</button>
+        <button hidden id="btnGenerarProyecion" onclick="GenerarProyeccionProgramacion()" type="button" class="btn btn-outline-success">Generar</button>
 
 
     </div>
@@ -88,10 +97,40 @@
 
 </div>
 
-<div id="DivProyeccion">
-
-  
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
 </div>
 
+<div class="text-center" id="DivMensaje"></div>
+<div id="DivProyeccion" class="table-responsive">
+
+
+</div>
+<br />
+<div class="text-center">
+    <button type="button" hidden id="btnEliminar" class="btn btn-outline-danger">Eliminar</button>
+    <button type="button" hidden id="btnFinalizar" onclick="FinalizarProyeccionProgramacion()" class="btn btn-outline-primary">Finalizar</button>
+    <button type="button" hidden id="btnHabilitar" onclick="HabilitarProyeccionProgramacion()" class="btn btn-outline-success">Habilitar</button>
+    <br />
+    <br />
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Control de Hueso</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="~/Scripts/General/dataTableJS.js"></script>

@@ -1,0 +1,190 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProyeccionProgramacion>
+@using Newtonsoft.Json;
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Lote)
+            </th>
+            <th>
+                <label>Orden</label>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Toneladas)
+            </th>
+          
+            <th>
+                @Html.DisplayNameFor(model => model.Destino)
+            </th>
+           
+            <th>
+                <label>Limpieza</label>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Especie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Talla)
+            </th>
+
+            @if (ViewBag.EditaProduccion != null || ViewBag.EditaPreparacion != null)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Lineas)
+                </th>
+                <th>
+                    <label>Proceso Inicio</label>
+                </th>
+                <th>
+                    <label>Proceso Fin</label>
+                </th>
+            }
+
+            @if (ViewBag.EditaPreparacion!=null)
+            {
+                <th>
+                    <label>Temperatura</label>
+                </th>
+                <th>
+                    <label>Coccion Inicio</label>
+                </th>
+                <th>
+                    <label>Coccion Fin</label>
+
+                </th>
+                <th>
+                    <label>Coches</label>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cocina)
+                </th>
+                <th>
+                    <label>Evicerado Inicio</label>
+                </th>
+                <th>
+                    <label>Evicerado Fin</label>
+
+                </th>
+                <th>
+                    <label>Descongelado Inicio</label>
+
+                </th>
+                <th>
+                    <label>Descongelado Fin</label>
+
+                </th>
+                <th>
+                    <label>Requerimiento </label>
+
+                </th>
+             }
+                <th>
+                    @Html.DisplayNameFor(model => model.Observacion)
+                </th>
+        
+        </tr>
+
+    </thead>
+    <tbody>
+        @{
+            string enfriado = JsonConvert.SerializeObject(ViewBag.ListadoEnfriado);
+            string coccion = JsonConvert.SerializeObject(ViewBag.ListadoCoccion);
+         }
+        @foreach (var item in Model)
+        {
+
+                if (ViewBag.EditaProduccion != null)
+                {
+                    @:<tr onclick="SeleccionarProyeccionProgramacion('@item.IdProyeccionProgramacionDetalle','@item.Lineas','@item.HoraProcesoInicio','@item.HoraProcesoFin','@item.Observacion')">
+
+                }
+                else if (ViewBag.EditaPreparacion != null)
+                {
+                    string json = JsonConvert.SerializeObject(item);                    
+                    @:<tr onclick="SeleccionarProyeccionProgramacion(@json,@enfriado,@coccion)">
+                }
+                else
+                {
+                    @:<tr onclick="SeleccionarProyeccionProgramacion('@item.IdProyeccionProgramacion','@item.IdProyeccionProgramacionDetalle','@item.Lote','@item.OrdenFabricacion','@item.Toneladas','@item.CodDestino','@item.CodTipoLimpieza','@item.Observacion','@item.Especie','@item.Talla')">
+                }
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lote)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Toneladas)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Destino)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoLimpieza)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Especie)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Talla)
+                </td>
+
+                if (ViewBag.EditaProduccion != null || ViewBag.EditaPreparacion != null)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lineas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoraProcesoInicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoraProcesoFin)
+                    </td>
+                }
+                if (ViewBag.EditaPreparacion != null)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TemperaturaFinal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoraCoccionInicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoraCoccionFin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalCoches)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cocina)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoraEviceradoInicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoraEviceradoFin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoraDescongeladoInicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoraDescongeladoFin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Requerimiento)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+
+
+            @:</tr>
+        }
+    </tbody>
+</table>
