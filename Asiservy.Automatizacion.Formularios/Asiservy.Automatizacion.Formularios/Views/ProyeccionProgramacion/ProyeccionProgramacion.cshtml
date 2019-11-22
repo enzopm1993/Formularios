@@ -108,8 +108,11 @@
             <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="Limpiar()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/clear24.png" />
             </button>
+            <button data-toggle="tooltip" hidden data-placement="top" title="Eliminar" class="btn" id="btnEliminarDetalle" onclick="" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
             @*<input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="IngresarProyeccionProgramacion()" />
-                <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
+        <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
         </div>
 
         <button hidden id="btnGenerarProyecion" onclick="GenerarProyeccionProgramacion()" type="button" class="btn btn-outline-success">Generar</button>
@@ -145,6 +148,7 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
+                <input type="hidden" id="txtEliminar" name="name" value="" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Eliminar Proyeccón de la Programación</h4>
             </div>

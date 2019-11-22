@@ -77,7 +77,7 @@ function CargarProyeccionProgramacion() {
                 $("#DivMensaje").html("<h3 class'text-center'> No existen registros </h3> ");
             } else {
                 $("#DivTablePreparacion").html(resultado);
-                config.opcionesDT.pageLength = 10;
+                config.opcionesDT.pageLength = 50;
                 $('#tblDataTable').DataTable(config.opcionesDT);
 
             }
@@ -160,7 +160,7 @@ function GuardarProyeccionDetalle() {
         }
     });
     //console.log(cocinas);
-    //cocinas = cocinas.slice(0, -1);
+    cocinas = cocinas.slice(0, -1);
     //console.log(cocinas);
 
     $.ajax({
@@ -203,9 +203,7 @@ function GuardarProyeccionDetalle() {
 function SeleccionarProyeccionProgramacion(model, ListaEnfriado, ListaCoccion) {
  
     if ($("#txtValidaEditar").val() == "1") {
-        limpiarModal();
-        console.log(model.Cocina);
-
+        limpiarModal();      
         if (model.Cocina != null && model.Cocina!='') {
             cocinas = model.Cocina;
             cocinas = cocinas.split(',');
@@ -229,10 +227,36 @@ function SeleccionarProyeccionProgramacion(model, ListaEnfriado, ListaCoccion) {
         });
 
         timeEnfriado = enfriado.split(/:/);
-        timeCoccion = coccion.split(/:/);
-        
-        var coccionfin = CalculoHora(model.HoraProcesoInicio, enfriado);
-        var coccioninicio = CalculoHora(coccionfin, coccion);
+        timeCoccion = coccion.split(/:/);     
+
+        if (model.HoraCoccionInicio != null) {
+            var HoraCoccionInicio = moment(model.HoraCoccionInicio).format("HH:mm");
+            var FechaCoccionInicio = moment(model.HoraCoccionInicio).format("YYYY-MM-DD HH:mm");          
+        } else {
+            var coccionInicio = CalculoHora(model.HoraProcesoInicio, enfriado);            
+            var HoraCoccionInicio = moment(coccionInicio).format("HH:mm");
+            var FechaCoccionInicio = moment(coccionInicio).format("YYYY-MM-DD HH:mm");         
+        }       
+        $("#txtHoraCoccionInicio").val(HoraCoccionInicio);
+        $("#txtFechaCoccionInicio").val(FechaCoccionInicio);
+        console.log($("#txtHoraCoccionInicio").val());
+        console.log($("#txtFechaCoccionInicio").val());
+
+        if (model.HoraCoccionFin != null) {
+            var FechaCoccionFin = moment(model.HoraCoccionFin).format("HH:mm");
+            var HoraCoccionFin = moment(model.HoraCoccionFin).format("YYYY-MM-DD HH:mm");           
+        } else {
+            var coccionFin = CalculoHora(model.HoraCoccionFin, coccion);    
+            var HoraCoccionFin = moment(coccionFin).format("HH:mm");
+            var FechaCoccionFin = moment(coccionFin).format("YYYY-MM-DD HH:mm");           
+        }
+        $("#txtHoraCoccionFin").val(HoraCoccionFin);
+        $("#txtFechaCoccionFin").val(FechaCoccionFin);
+        console.log(HoraCoccionFin);
+        console.log(FechaCoccionFin);
+        console.log($("#txtHoraCoccionFin").val());
+        console.log($("#txtFechaCoccionFin").val());
+
         $("#txtHoraEnfriado").val(timeEnfriado[0] + ":" + timeEnfriado[1]);
         $("#selectHoraEnfriado").val(timeEnfriado[0] + ":" + timeEnfriado[1]);
         $("#txtHoraCoccion").val(timeCoccion[0] + ":" + timeCoccion[1]);
@@ -251,16 +275,7 @@ function SeleccionarProyeccionProgramacion(model, ListaEnfriado, ListaCoccion) {
         $("#txtEspecie").val(model.Especie);      
         $("#txtTalla").val(model.Talla);      
         $('#txtReceta').val(model.CodRecetaRoceado);
-        if (model.HoraCoccionInicio != null) {
-            $("#txtHoraCoccionInicio").val(model.HoraCoccionInicio);   
-        } else {
-            $("#txtHoraCoccionInicio").val(coccioninicio);
-        }
-        if (model.HoraCoccionFin != null) {
-            $("#txtHoraCoccionFin").val(model.HoraCoccionFin);    
-        } else {
-            $("#txtHoraCoccionFin").val(coccionfin);      
-        }
+    
         $("#txtHoraEviceradoInicio").val(model.HoraEviceradoInicio);      
         $("#txtHoraEviceradoFin").val(model.HoraEviceradoFin);      
         $("#txtHoraDescongeladoInicio").val(model.HoraDescongeladoInicio);      
@@ -327,7 +342,7 @@ function CalculoHora(hora1, hora2) {
     var fecha = fecha1.subtract(time2[0], 'hours');
     fecha = fecha.subtract(time2[1], 'minutes');
     var Tiempo = fecha.format("HH:mm");
-    return Tiempo;
+    return fecha;
 }
 
 function CalcularEnfriadoCoccion() {

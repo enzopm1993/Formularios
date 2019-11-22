@@ -227,7 +227,7 @@ function CargarProyeccionProgramacion() {
                 $("#DivMensaje").html("<h3 class'text-center'> No existen registros </h3> ");              
             } else {
                 $("#DivProyeccion").html(resultado);
-                config.opcionesDT.pageLength = 10;
+                config.opcionesDT.pageLength = 50;
                 $('#tblDataTable').DataTable(config.opcionesDT);
                 
             }
@@ -242,8 +242,7 @@ function CargarProyeccionProgramacion() {
     });
 }
 function Limpiar() {
-    $('#txtLote').val("");
-    //$('#FechaProduccion').val("");
+    $('#txtLote').val("");  
     $('#txtTonelada').val("");
     $('#txtDestino').prop('selectedIndex', 0);
     $('#txtTipoLimpieza').prop('selectedIndex', 0);
@@ -252,20 +251,11 @@ function Limpiar() {
     $('#SelectOrdenFabricacion').prop('selectedIndex', 0);
     $("#txtMarea").prop('selectedIndex', 0);
     $("#txtBarco").prop('selectedIndex', 0);
-    $('#Observacion').val("");
-   // $('#IdProyeccion').val(0);
+    $('#Observacion').val("");   
     $('#IdProyeccionDetalle').val(0);
-    //var d = new Date();
+    $("#btnEliminarDetalle").prop("hidden", true);
+    $('#txtObservacion').val('');
 
-    //var dia = d.getDate()+1;
-
-    //var mes = (d.getMonth() + 1) < 10 ? ("0" + (d.getMonth() + 1)) : d.getMonth() + 1;
-    //var anio = d.getFullYear();
-
-    //var fechatotal = anio + "-" + mes + "-" + dia
-    //$('#FechaProduccion').val(fechatotal);
-
-    //ConsultaProyProgramacion();
 }
 
 function SeleccionarProyeccionProgramacion(model) {
@@ -282,6 +272,8 @@ function SeleccionarProyeccionProgramacion(model) {
     $("#SelectOrdenFabricacion").val(model.OrdenFabricacion);
     $("#txtMarea").val(model.CodMarea);
     $("#txtBarco").val(model.CodBarco);
+    $("#btnEliminarDetalle").prop("hidden",false);
+    
 }
 
 function InactivarRegistro(){
@@ -351,31 +343,65 @@ function HabilitarProyeccionProgramacion() {
     });
 }
 
-var modalConfirm = function (callback) {
+function InactivarDetalle() {
+    $.ajax({
+        url: "../ProyeccionProgramacion/EliminarProyeccionProgramacionDetalle",
+        type: "GET",
+        data:
+        {
+            id: $('#IdProyeccionDetalle').val()  
+        },
+        success: function (resultado) {
+            CargarProyeccionProgramacion();
+            Limpiar();
+            MensajeCorrecto(resultado);
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);          
 
-    $("#btnEliminar").on("click", function () {
+        }
+    });
+}
+
+
+
+  $("#btnEliminarDetalle").on("click", function () {
+        var texto = "¿Está seguro de eliminar el lote: " + $("#txtLote").val()+"?";
+      $("#myModalLabel").html(texto);
+      $("#txtEliminar").val(1);
         $("#mi-modal").modal('show');
     });
 
-    $("#modal-btn-si").on("click", function () {
-        callback(true);
-        $("#mi-modal").modal('hide');
-    });
 
-    $("#modal-btn-no").on("click", function () {
-        callback(false);
-        $("#mi-modal").modal('hide');
-    });
-};
-
-
-modalConfirm(function (confirm) {
-    if (confirm) {
-        //Acciones si el usuario confirma
-        InactivarRegistro();
-
-    }
+$("#btnEliminarDetalle").on("click", function () {
+    var texto = "¿Está seguro de eliminar el lote: " + $("#txtLote").val() + "?";
+    $("#myModalLabel").html(texto);
+    $("#txtEliminar").val(1);
+    $("#mi-modal").modal('show');
 });
+
+$("#btnEliminar").on("click", function () {
+    var texto = "¿Está seguro de eliminar toda la proyección?";
+    $("#myModalLabel").html(texto);
+    $("#txtEliminar").val(0);
+    $("#mi-modal").modal('show');
+});
+
+$("#modal-btn-si").on("click", function () {
+    if ($("#txtEliminar").val() == 1) {       
+        InactivarDetalle();
+    } else{
+        InactivarRegistro();
+    }
+        $("#mi-modal").modal('hide');
+});
+
+$("#modal-btn-no").on("click", function () {   
+    $("#txtEliminar").val('');
+    $("#mi-modal").modal('hide');
+ });
+
+
 
 
 function CargarOrdenFabricacion() {

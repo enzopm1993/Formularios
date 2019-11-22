@@ -26,34 +26,40 @@ function ValidaProyeccion() {
            // $("#DivMensaje").html("");
             if (resultado.Codigo == 0) //no se existen registros
             {
-                $("#DivButtons").prop("hidden", true);
-                $("#btnGenerarProyecion").prop("hidden", false);
+                $("#DivButtons").prop("hidden", true);                
                 $("#IdProyeccion").val(0);
                 $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
                 $("#txtValidaEditar").val("1");
 
             } else if (resultado.Codigo == 4) //proyeccion se encuentra en estado finalzado
             {
-                $("#DivButtons").prop("hidden", true);
-                $("#btnGenerarProyecion").prop("hidden", true);
+                $("#DivButtons").prop("hidden", true);              
                 $("#IdProyeccion").val(resultado.Observacion);
                 //MensajeAdvertencia(resultado.Mensaje);
                 $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
                 $("#btnHabilitar").prop("hidden", true);
                 $("#txtValidaEditar").val("0");                
                 CargarProyeccionProgramacion();
-            } else if (resultado.Codigo == 2) //Esta siendo Editado
+            } else if (resultado.Codigo == 2) //Esta siendo ingresado por preparacion
             {
-                $("#DivButtons").prop("hidden", true);
-                $("#btnGenerarProyecion").prop("hidden", true);
+                $("#DivButtons").prop("hidden", true);                
                 $("#IdProyeccion").val(resultado.Observacion);
                // MensajeAdvertencia(resultado.Mensaje);
                 $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");               
                 $("#txtValidaEditar").val("0");
                 CargarProyeccionProgramacion();
+            } else if (resultado.Codigo == 3) //Esta siendo Editado por preparacion
+            {
+                $("#DivButtons").prop("hidden", true);               
+                $("#IdProyeccion").val(resultado.Observacion);
+                // MensajeAdvertencia(resultado.Mensaje);
+                $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
+                $("#txtValidaEditar").val("0");
+                $("#btnHabilitar").prop("hidden", false);
+
+                CargarProyeccionProgramacion();
             } else {
-                $("#DivButtons").prop("hidden", false);
-                $("#btnGenerarProyecion").prop("hidden", true);
+                $("#DivButtons").prop("hidden", false);               
                 $("#IdProyeccion").val(resultado.Observacion);
                 $("#btnEliminar").prop("hidden", false);
                 $("#btnFinalizar").prop("hidden", false);
@@ -86,6 +92,7 @@ function CargarProyeccionProgramacion() {
                 $("#DivMensaje").html("<h3 class'text-center'> No existen registros </h3> ");
             } else {
                 $("#DivTableProyecion").html(resultado);
+                config.opcionesDT.pageLength = 50;
                 $('#tblDataTable').DataTable(config.opcionesDT);
 
             }
@@ -100,18 +107,22 @@ function CargarProyeccionProgramacion() {
     });
 }
 
-function SeleccionarProyeccionProgramacion( idDetalle,lineas,horainicio,horafin,observacion)
+function SeleccionarProyeccionProgramacion(model)
 {
     if ($("#txtValidaEditar").val() == "1") {
         limpiarModal();
         $("#ModalEditarProyeccion").modal("show");
-        $("#txtIdProgramacion").val(idDetalle);
-        $("#txtHoraInicio").val(horainicio);
-        $("#txtHoraFin").val(horafin);
-        $("#observacionedit").val(observacion);
+        $("#txtIdProgramacion").val(model.IdProyeccionProgramacionDetalle);
+        $("#txtHoraInicio").val(model.HoraProcesoInicio);
+        $("#txtHoraFin").val(model.HoraProcesoFin);
+        $("#observacionedit").val(model.Observacion);
+        $("#txtLote").val(model.Lote);
+        $("#txtPeso").val(model.Toneladas);
+        $("#txtDestino").val(model.Destino);
         $("#btnGuardar").prop("disabled", false);
 
-        var ArrayLineas = lineas.split(",");
+        var ArrayLineas = model.Lineas.split(",");
+    //    console.log(ArrayLineas);
         $("#form input").each(function () {
             if (ArrayLineas.some(x => x == this.value)) {
                 this.checked = true;                
@@ -254,7 +265,7 @@ function HabilitarProyeccionProgramacion() {
 
 function PintarLinea(id, idLabel) {
     if ($("#" + id).prop("checked")) {
-        $("#" + idLabel).css("background", "#00FF00");
+        $("#" + idLabel).css("background", "#4682B4");
     } else {
         $("#" + idLabel).css("background", "#5a5c69");
 

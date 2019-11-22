@@ -9,6 +9,89 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
 
     public class clsDProyeccionProgramacion
     {
+        public string  validarCocinas(PROYECCION_PROGRAMACION_DETALLE model)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                string valida = "";
+                string[] cocinas = model.Cocina.Split(',');
+                DateTime FechaDesdeModel = DateTime.Now; ;
+                DateTime FechaHastaModel = DateTime.Now; ;
+                TimeSpan timeModel = new TimeSpan(23, 59, 59);
+                //if (model.HoraCoccionInicio < timeModel)
+                //{
+                //    FechaDesdeModel.AddDays(-1);
+                //    FechaDesdeModel.Add(model.HoraCoccionInicio ?? new TimeSpan());
+                //}
+                //else
+                //{
+                //    FechaDesdeModel.Add(model.HoraCoccionInicio ?? new TimeSpan());
+                //}
+
+                //if (model.HoraDescongeladoFin < timeModel)
+                //{
+                //    FechaHastaModel.AddDays(-1);
+                //    FechaHastaModel.Add(model.HoraDescongeladoFin ?? new TimeSpan());
+                //}
+                //else
+                //{
+                //    FechaHastaModel.Add(model.HoraDescongeladoFin ?? new TimeSpan());
+                //}
+
+
+
+                var detalle = db.PROYECCION_PROGRAMACION_DETALLE.FirstOrDefault(x => x.IdProyeccionProgramacionDetalle == model.IdProyeccionProgramacionDetalle);
+                var pro = db.PROYECCION_PROGRAMACION_DETALLE.Where(x =>
+                x.IdProyeccionProgramacion == detalle.IdProyeccionProgramacion
+                && x.IdProyeccionProgramacionDetalle != model.IdProyeccionProgramacionDetalle
+                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo                
+                //&&((x.HoraCoccionInicio<= model.HoraCoccionInicio && x.HoraCoccionFin>= model.HoraCoccionInicio)
+                //|| (x.HoraCoccionInicio >= model.HoraCoccionFin && x.HoraCoccionFin <= model.HoraCoccionFin))
+                ).ToList();
+                if (pro != null)
+                {
+
+                    foreach(var x in pro)
+                    {
+                        DateTime FechaDesde = DateTime.Now; ;
+                        DateTime FechaHasta = DateTime.Now; ;
+                        TimeSpan time = new TimeSpan(0, 0, 0);
+                        //if (x.HoraCoccionInicio < time)
+                        //{
+                        //    FechaDesde.AddDays(-1);
+                        //    FechaDesde.Add(x.HoraCoccionInicio??new TimeSpan());
+                        //}
+                        //else
+                        //{
+                        //    FechaDesde.Add(x.HoraCoccionInicio ?? new TimeSpan());
+                        //}
+
+                        //if (x.HoraDescongeladoFin < time)
+                        //{
+                        //    FechaHasta.AddDays(-1);
+                        //    FechaHasta.Add(x.HoraDescongeladoFin ?? new TimeSpan());
+                        //}
+                        //else
+                        //{
+                        //    FechaHasta.Add(x.HoraDescongeladoFin ?? new TimeSpan());
+                        //}
+
+                        if((FechaDesde< FechaDesdeModel&& FechaHasta >= FechaDesde)||(FechaDesde >= FechaHastaModel && FechaHasta < FechaHastaModel))
+                        {
+                            string[] y = x.Cocina.Split(',');
+                            int coincidencias = y.Intersect(cocinas).Count();
+                            if (coincidencias > 0)
+                            {
+                                valida = x.Lote;
+                                return valida;
+                            }
+                        }
+                    }
+                }
+                return valida;
+            }
+        }
+
 
         public List<spConsultaProyeccionProgramacion> ConsultaProyeccionProgramacionDetalle (int Id)
         {
@@ -30,6 +113,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 if(pro!=null)
                     Listado = db.spConsultaProyeccionProgramacion(pro.IdProyeccionProgramacion).ToList();
                 return Listado;
+            }
+        }
+
+        public string EliminarProyeccionProgramacionDetalle(PROYECCION_PROGRAMACION_DETALLE model)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var proyeccion = db.PROYECCION_PROGRAMACION_DETALLE.FirstOrDefault(x => x.IdProyeccionProgramacionDetalle == model.IdProyeccionProgramacionDetalle);
+
+                if (proyeccion != null)
+                {
+                    proyeccion.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    proyeccion.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    proyeccion.TerminalModificacionLog = model.TerminalIngresoLog;
+                    proyeccion.FechaModificacionLog = DateTime.Now;
+                    db.SaveChanges();
+                }
+                return proyeccion.Lote;
+
+                
             }
         }
 

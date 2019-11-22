@@ -21,7 +21,8 @@ function CargarReporte() {
             $('#DivTableReporteProyeccion').html(resultado);
             $("#spinnerCargando").prop("hidden", true);
             $('#tblDataTable').DataTable(config.opcionesDT);
-            config.opcionesDT.pageLength = 15;
+            config.opcionesDT.pageLength = 50;
+
         },
         error: function (resultado) {
             MensajeError(resultado.responseText);

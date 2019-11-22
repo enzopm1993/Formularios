@@ -145,7 +145,7 @@
                 @Html.DisplayFor(modelItem => item.Lineas)
             </td>
             <td>
-                @{
+                @*@{
                     if (item.HoraProcesoInicio != null)
                     {
                         timespan = item.HoraProcesoInicio ?? new TimeSpan();
@@ -157,11 +157,11 @@
                         displayTime = "";
                     }
                 }
-                <label>@displayTime</label>
-                @*@Html.DisplayFor(modelItem => item.HoraProcesoInicio)*@
+                <label>@displayTime</label>*@
+                @Html.DisplayFor(modelItem => item.HoraProcesoInicio)
             </td>
             <td>
-                @{
+                @*@{
                     if (item.HoraProcesoFin != null)
                     {
                         timespan = item.HoraProcesoFin ?? new TimeSpan();
@@ -173,7 +173,9 @@
                         displayTime = "";
                     }
                 }
-                <label>@displayTime</label>
+                <label>@displayTime</label>*@
+                @Html.DisplayFor(modelItem => item.HoraProcesoFin)
+
             </td>
 
             <td>
@@ -193,7 +195,7 @@
                 @Html.DisplayFor(modelItem => item.TemperaturaFinal)
             </td>
             <td>
-                @{
+                @*@{
                     if (item.HoraCoccionInicio != null)
                     {
                         timespan = item.HoraCoccionInicio ?? new TimeSpan();
@@ -205,10 +207,12 @@
                         displayTime = "";
                     }
                 }
-                <label>@displayTime</label>
+                <label>@displayTime</label>*@
+                @Html.DisplayFor(modelItem => item.HoraCoccionInicio)
+
             </td>
             <td>
-                @{
+                @*@{
                     if (item.HoraCoccionFin != null)
                     {
                         timespan = item.HoraCoccionFin ?? new TimeSpan();
@@ -220,7 +224,9 @@
                         displayTime = "";
                     }
                 }
-                <label>@displayTime</label>
+                <label>@displayTime</label>*@
+                @Html.DisplayFor(modelItem => item.HoraCoccionFin)
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TotalCoches)
@@ -232,7 +238,7 @@
                 @Html.DisplayFor(modelItem => item.Cocina)
             </td>
             <td>
-                @{
+                @*@{
                     if (item.HoraEviceradoInicio != null)
                     {
                         timespan = item.HoraEviceradoInicio ?? new TimeSpan();
@@ -244,10 +250,12 @@
                         displayTime = "";
                     }
                 }
-                <label>@displayTime</label>
+                <label>@displayTime</label>*@
+                @Html.DisplayFor(modelItem => item.HoraEviceradoInicio)
+
             </td>
             <td>
-                @{
+                @*@{
                     if (item.HoraEviceradoFin != null)
                     {
                         timespan = item.HoraEviceradoFin ?? new TimeSpan();
@@ -259,10 +267,12 @@
                         displayTime = "";
                     }
                 }
-                <label>@displayTime</label>
+                <label>@displayTime</label>*@
+                @Html.DisplayFor(modelItem => item.HoraEviceradoFin)
+
             </td>
             <td>
-                @{
+                @*@{
                     if (item.HoraDescongeladoInicio != null)
                     {
                         timespan = item.HoraDescongeladoInicio ?? new TimeSpan();
@@ -274,10 +284,12 @@
                         displayTime = "";
                     }
                 }
-                <label>@displayTime</label>
+                <label>@displayTime</label>*@
+                @Html.DisplayFor(modelItem => item.HoraDescongeladoInicio)
+
             </td>
             <td>
-                @{
+                @*@{
                     if (item.HoraDescongeladoFin != null)
                     {
                         timespan = item.HoraDescongeladoFin ?? new TimeSpan();
@@ -289,10 +301,12 @@
                         displayTime = "";
                     }
                 }
-                <label>@displayTime</label>
+                <label>@displayTime</label>*@
+                @Html.DisplayFor(modelItem => item.HoraDescongeladoFin)
+
             </td>
             <td>
-                @{
+                @*@{
                     if (item.Requerimiento != null)
                     {
                         timespan = item.Requerimiento ?? new TimeSpan();
@@ -304,7 +318,9 @@
                         displayTime = "";
                     }
                 }
-                <label>@displayTime</label>
+                <label>@displayTime</label>*@
+                @Html.DisplayFor(modelItem => item.Requerimiento)
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Observacion)

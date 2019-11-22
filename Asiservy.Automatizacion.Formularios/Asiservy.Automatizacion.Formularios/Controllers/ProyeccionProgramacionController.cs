@@ -270,12 +270,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         respuesta.Mensaje = "Control se encuentra finalizado";
                         respuesta.Observacion = idProyeccion + "";
                     }
-                    else if (pro.IngresoPreparacion || pro.EditarPreparacion)
+                    else if (pro.IngresoPreparacion )
                     {
                         respuesta.Codigo = 2;
-                        respuesta.Mensaje = "Control se encuentra en preparación";
+                        respuesta.Mensaje = "Control esta siendo ingresado";
                         respuesta.Observacion = idProyeccion + "";
-                    }                   
+                    }
+                    else if (pro.EditarPreparacion)
+                    {
+                        respuesta.Codigo = 3;
+                        respuesta.Mensaje = "Control esta siendo editado por preparación";
+                        respuesta.Observacion = idProyeccion + "";
+                    }
                     else
                     {
                         respuesta.Codigo = 1;
@@ -501,6 +507,40 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult EliminarProyeccionProgramacionDetalle(int id)
+        {
+            try
+            {
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                lsUsuario = User.Identity.Name.Split('_');
+                PROYECCION_PROGRAMACION_DETALLE model= new PROYECCION_PROGRAMACION_DETALLE();
+                model.IdProyeccionProgramacionDetalle = id;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                string Lote =clsDProyeccionProgramacion.EliminarProyeccionProgramacionDetalle(model);
+                return Json("Se elimino correctamente el lote: "+ Lote, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         #endregion
 
 
@@ -517,14 +557,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.UsuarioIngresoLog = lsUsuario[0];                
                 if (proceso != null && proceso == 2)
                 {
-                    clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 2);
+                    clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 2); //editar desde producción
                 }else if (proceso != null && proceso == 3)
                 {
-                    clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 3);
+                    clsDProyeccionProgramacion.validarCocinas(model);
+                    clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 3); //Editar Proyección de la programación en preparación
                 }
                 else
                 {
-                    clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 1);
+                    clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 1); //Ingreso de la programación
                 }
                 return Json("Registro guardado correctamente", JsonRequestBehavior.AllowGet);
             }
