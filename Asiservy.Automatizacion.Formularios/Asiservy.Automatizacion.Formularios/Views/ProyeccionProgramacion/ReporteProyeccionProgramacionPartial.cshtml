@@ -138,7 +138,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Toneladas)
                 @{
-                    totalKilos = totalKilos + item.Toneladas??0;
+                    totalKilos = totalKilos + item.Toneladas ?? 0;
                  }
             </td>
             <td>
@@ -196,37 +196,46 @@
             </td>
             <td>
                 @*@{
-                    if (item.HoraCoccionInicio != null)
-                    {
-                        timespan = item.HoraCoccionInicio ?? new TimeSpan();
-                        time = DateTime.Today.Add(timespan);
-                        displayTime = time.ToString("hh:mm tt");
-                    }
-                    else
-                    {
-                        displayTime = "";
-                    }
+            if (item.HoraCoccionInicio != null)
+            {
+                timespan = item.HoraCoccionInicio ?? new TimeSpan();
+                time = DateTime.Today.Add(timespan);
+                displayTime = time.ToString("hh:mm tt");
+            }
+            else
+            {
+                displayTime = "";
+            }
+        }
+        <label>@displayTime</label>*@
+                @{
+                    string HoraCoccionInicio=item.HoraCoccionInicio != null ? item.HoraCoccionInicio.Value.ToString("dd-MM-yyyy HH:mm") : "";
                 }
-                <label>@displayTime</label>*@
-                @Html.DisplayFor(modelItem => item.HoraCoccionInicio)
+                <label>@HoraCoccionInicio</label>
+
 
             </td>
+
             <td>
                 @*@{
-                    if (item.HoraCoccionFin != null)
-                    {
-                        timespan = item.HoraCoccionFin ?? new TimeSpan();
-                        time = DateTime.Today.Add(timespan);
-                        displayTime = time.ToString("hh:mm tt");
-                    }
-                    else
-                    {
-                        displayTime = "";
-                    }
-                }
-                <label>@displayTime</label>*@
-                @Html.DisplayFor(modelItem => item.HoraCoccionFin)
+            if (item.HoraCoccionFin != null)
+            {
+                timespan = item.HoraCoccionFin ?? new TimeSpan();
+                time = DateTime.Today.Add(timespan);
+                displayTime = time.ToString("hh:mm tt");
+            }
+            else
+            {
+                displayTime = "";
+            }
+        }
+        <label>@displayTime</label>*@
 
+                
+                @{
+                    string HoraCoccionFin = item.HoraCoccionFin != null ? item.HoraCoccionFin.Value.ToString("dd-MM-yyyy HH:mm") : "";
+                }
+                <label>@HoraCoccionFin</label>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TotalCoches)
@@ -239,88 +248,109 @@
             </td>
             <td>
                 @*@{
-                    if (item.HoraEviceradoInicio != null)
-                    {
-                        timespan = item.HoraEviceradoInicio ?? new TimeSpan();
-                        time = DateTime.Today.Add(timespan);
-                        displayTime = time.ToString("hh:mm tt");
-                    }
-                    else
-                    {
-                        displayTime = "";
-                    }
-                }
-                <label>@displayTime</label>*@
-                @Html.DisplayFor(modelItem => item.HoraEviceradoInicio)
+            if (item.HoraEviceradoInicio != null)
+            {
+                timespan = item.HoraEviceradoInicio ?? new TimeSpan();
+                time = DateTime.Today.Add(timespan);
+                displayTime = time.ToString("hh:mm tt");
+            }
+            else
+            {
+                displayTime = "";
+            }
+        }
+        <label>@displayTime</label>*@
 
+            
+                @{
+                    string HoraEviceradoInicio = item.HoraEviceradoInicio != null ? item.HoraEviceradoInicio.Value.ToString("dd-MM-yyyy HH:mm") : "";
+                }
+                <label>@HoraEviceradoInicio</label>
             </td>
             <td>
                 @*@{
-                    if (item.HoraEviceradoFin != null)
-                    {
-                        timespan = item.HoraEviceradoFin ?? new TimeSpan();
-                        time = DateTime.Today.Add(timespan);
-                        displayTime = time.ToString("hh:mm tt");
-                    }
-                    else
-                    {
-                        displayTime = "";
-                    }
-                }
-                <label>@displayTime</label>*@
-                @Html.DisplayFor(modelItem => item.HoraEviceradoFin)
+            if (item.HoraEviceradoFin != null)
+            {
+                timespan = item.HoraEviceradoFin ?? new TimeSpan();
+                time = DateTime.Today.Add(timespan);
+                displayTime = time.ToString("hh:mm tt");
+            }
+            else
+            {
+                displayTime = "";
+            }
+        }
+        <label>@displayTime</label>*@
 
+                
+                @{
+                    string HoraEviceradoFin = item.HoraEviceradoFin != null ? item.HoraEviceradoFin.Value.ToString("dd-MM-yyyy HH:mm") : "";
+                }
+                <label>@HoraEviceradoFin</label>
             </td>
             <td>
                 @*@{
-                    if (item.HoraDescongeladoInicio != null)
-                    {
-                        timespan = item.HoraDescongeladoInicio ?? new TimeSpan();
-                        time = DateTime.Today.Add(timespan);
-                        displayTime = time.ToString("hh:mm tt");
-                    }
-                    else
-                    {
-                        displayTime = "";
-                    }
-                }
-                <label>@displayTime</label>*@
-                @Html.DisplayFor(modelItem => item.HoraDescongeladoInicio)
+            if (item.HoraDescongeladoInicio != null)
+            {
+                timespan = item.HoraDescongeladoInicio ?? new TimeSpan();
+                time = DateTime.Today.Add(timespan);
+                displayTime = time.ToString("hh:mm tt");
+            }
+            else
+            {
+                displayTime = "";
+            }
+        }
+        <label>@displayTime</label>*@
 
+              
+                @{
+                    string HoraDescongeladoInicio = item.HoraDescongeladoInicio != null ? item.HoraDescongeladoInicio.Value.ToString("dd-MM-yyyy HH:mm") : "";
+                }
+                <label>@HoraDescongeladoInicio</label>
             </td>
             <td>
                 @*@{
-                    if (item.HoraDescongeladoFin != null)
-                    {
-                        timespan = item.HoraDescongeladoFin ?? new TimeSpan();
-                        time = DateTime.Today.Add(timespan);
-                        displayTime = time.ToString("hh:mm tt");
-                    }
-                    else
-                    {
-                        displayTime = "";
-                    }
-                }
-                <label>@displayTime</label>*@
-                @Html.DisplayFor(modelItem => item.HoraDescongeladoFin)
+            if (item.HoraDescongeladoFin != null)
+            {
+                timespan = item.HoraDescongeladoFin ?? new TimeSpan();
+                time = DateTime.Today.Add(timespan);
+                displayTime = time.ToString("hh:mm tt");
+            }
+            else
+            {
+                displayTime = "";
+            }
+        }
+        <label>@displayTime</label>*@
 
+                
+                @{
+                    string HoraDescongeladoFin = item.HoraDescongeladoFin != null ? item.HoraDescongeladoFin.Value.ToString("dd-MM-yyyy HH:mm") : "";
+                }
+                <label>@HoraDescongeladoFin</label>
             </td>
             <td>
                 @*@{
-                    if (item.Requerimiento != null)
-                    {
-                        timespan = item.Requerimiento ?? new TimeSpan();
-                        time = DateTime.Today.Add(timespan);
-                        displayTime = time.ToString("hh:mm tt");
-                    }
-                    else
-                    {
-                        displayTime = "";
-                    }
-                }
-                <label>@displayTime</label>*@
-                @Html.DisplayFor(modelItem => item.Requerimiento)
+            if (item.Requerimiento != null)
+            {
+                timespan = item.Requerimiento ?? new TimeSpan();
+                time = DateTime.Today.Add(timespan);
+                displayTime = time.ToString("hh:mm tt");
+            }
+            else
+            {
+                displayTime = "";
+            }
+        }
+        <label>@displayTime</label>*@
 
+
+
+                @{
+                    string Requerimiento = item.Requerimiento != null ? item.Requerimiento.Value.ToString("dd-MM-yyyy HH:mm") : "";
+                }
+                <label>@Requerimiento</label>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Observacion)

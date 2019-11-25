@@ -32,12 +32,21 @@ function ValidaProyeccion() {
                 $("#txtValidaEditar").val("1");
 
             }
-            else if (resultado.Codigo == 2 || resultado.Codigo == 4) //Esta siendo Editado o ha sido finalizado
+            else if (resultado.Codigo == 2 || resultado.Codigo == 4) //Esta siendo Editado o ha sido cerrado
             { 
                 $("#DivButtons").prop("hidden", true);
                 $("#btnGenerarProyecion").prop("hidden", true);
                 $("#IdProyeccion").val(resultado.Observacion);
                // MensajeAdvertencia(resultado.Mensaje);
+                $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
+                $("#txtValidaEditar").val("0");
+                CargarProyeccionProgramacion();
+            } else if (resultado.Codigo ==3) //ha sido finalizado
+            {
+                $("#DivButtons").prop("hidden", true);
+                $("#btnGenerarProyecion").prop("hidden", true);
+                $("#IdProyeccion").val(resultado.Observacion);
+                $("#btnHabilitar").prop("hidden", false);      
                 $("#DivMensaje").html("<h3 class'text-center'>" + resultado.Mensaje + " </h3> ");
                 $("#txtValidaEditar").val("0");
                 CargarProyeccionProgramacion();
@@ -124,25 +133,32 @@ function Validar() {
         valida = false;
     if (!validaHora("#txtCoches"))
         valida = false;
-    if (!validaHora("#txtHoraCoccionInicio"))
+    if (!validaHora("#txtFechaCoccionInicio"))
         valida = false;
-    if (!validaHora("#txtHoraCoccionFin"))
+    if (!validaHora("#txtFechaCoccionFin"))
         valida = false;
-    if (!validaHora("#txtHoraEviceradoInicio"))
+    if (!validaHora("#txtFechaEviceradoInicio"))
         valida = false;
-    if (!validaHora("#txtHoraEviceradoFin"))
+    if (!validaHora("#txtFechaEviceradoFin"))
         valida = false;
-    if (!validaHora("#txtHoraDescongeladoInicio"))
+    if (!validaHora("#txtFechaDescongeladoInicio"))
         valida = false;
-    if (!validaHora("#txtHoraDescongeladoFin"))
+    if (!validaHora("#txtFechaDescongeladoFin"))
         valida = false;
-    if (!validaHora("#txtHoraRequerimiento"))
+    if (!validaHora("#txtFechaRequerimiento"))
         valida = false;
     if (!validaHora("#txtReceta"))
         valida = false;
 
     if (!validaCocina())
         valida = false;
+
+    if ($("#txtLote").val() == '') {
+        valida = false;
+        $("#txtLote").css('border-color', '#DC143C');
+    } else {
+        $("#txtLote").css('border-color', '#858796');  
+    }
 
     
    
@@ -158,10 +174,9 @@ function GuardarProyeccionDetalle() {
         if ($(this).prop('checked')) {
             cocinas = cocinas + this.value+",";
         }
-    });
-    //console.log(cocinas);
+    });   
     cocinas = cocinas.slice(0, -1);
-    //console.log(cocinas);
+   
 
     $.ajax({
         url: "../ProyeccionProgramacion/GuardarModificarProyeccionProgramacionDetalle",
@@ -170,20 +185,52 @@ function GuardarProyeccionDetalle() {
         {
             IdProyeccionProgramacionDetalle: $('#txtIdProgramacion').val(),
             TemperaturaFinal: $('#txtTemperatura').val(),
-            HoraCoccionInicio: $('#txtHoraCoccionInicio').val(),
-            HoraCoccionFin: $('#txtHoraCoccionFin').val(),
+            HoraCoccionInicio: $('#txtFechaCoccionInicio').val(),
+            HoraCoccionFin: $('#txtFechaCoccionFin').val(),
             TotalCoches: $('#txtCoches').val(),
             Cocina: cocinas,
-            HoraEviceradoInicio: $('#txtHoraEviceradoInicio').val(),
-            HoraEviceradoFin: $('#txtHoraEviceradoFin').val(),
-            HoraDescongeladoInicio: $('#txtHoraDescongeladoInicio').val(),
-            HoraDescongeladoFin: $('#txtHoraDescongeladoFin').val(),
-            Requerimiento: $('#txtHoraRequerimiento').val(),
+            HoraEviceradoInicio: $('#txtFechaEviceradoInicio').val(),
+            HoraEviceradoFin: $('#txtFechaEviceradoFin').val(),
+            HoraDescongeladoInicio: $('#txtFechaDescongeladoInicio').val(),
+            HoraDescongeladoFin: $('#txtFechaDescongeladoFin').val(),
+            Requerimiento: $('#txtFechaRequerimiento').val(),
             Observacion: $('#txtObservacion').val(),
             RecetaRoceado: $('#txtReceta').val(),            
+            Lote: $("#txtLote").val(),
             proceso: 3
         },
         success: function (resultado) {
+           console.log(resultado);
+            if (resultado.Codigo == 1) {
+                $("#validaCocina").prop("hidden", false);
+                $("#validaCocina").text(resultado.Mensaje);
+                $("#btnCocina").css('color', '#DC143C'); 
+                return;
+            }
+            if (resultado.Codigo == 2) {
+                $("#validaCocina").prop("hidden", false);
+                $("#txtFechaCoccionInicio").css('border-color', '#DC143C');
+                $("#txtFechaCoccionFin").css('border-color', '#DC143C');
+                 $("#validaCocina").text(resultado.Mensaje);
+               
+                return;
+            }
+            if (resultado.Codigo == 3) {
+                $("#txtFechaEviceradoInicio").css('border-color', '#DC143C');
+                $("#txtFechaEviceradoFin").css('border-color', '#DC143C');
+                $("#validaCocina").prop("hidden", false);
+                $("#validaCocina").text(resultado.Mensaje);
+             
+                return;
+            }
+            if (resultado.Codigo == 4) {
+                $("#txtFechaDescongeladoInicio").css('border-color', '#DC143C');
+                $("#txtFechaDescongeladoFin").css('border-color', '#DC143C');
+                $("#validaCocina").prop("hidden", false);
+                $("#validaCocina").text(resultado.Mensaje);
+               
+                return;
+            }
             $("#ModalEditarProyeccion").modal("hide");
             CargarProyeccionProgramacion();
             MensajeCorrecto(resultado);
@@ -229,33 +276,24 @@ function SeleccionarProyeccionProgramacion(model, ListaEnfriado, ListaCoccion) {
         timeEnfriado = enfriado.split(/:/);
         timeCoccion = coccion.split(/:/);     
 
-        if (model.HoraCoccionInicio != null) {
-            var HoraCoccionInicio = moment(model.HoraCoccionInicio).format("HH:mm");
-            var FechaCoccionInicio = moment(model.HoraCoccionInicio).format("YYYY-MM-DD HH:mm");          
-        } else {
-            var coccionInicio = CalculoHora(model.HoraProcesoInicio, enfriado);            
-            var HoraCoccionInicio = moment(coccionInicio).format("HH:mm");
-            var FechaCoccionInicio = moment(coccionInicio).format("YYYY-MM-DD HH:mm");         
-        }       
-        $("#txtHoraCoccionInicio").val(HoraCoccionInicio);
-        $("#txtFechaCoccionInicio").val(FechaCoccionInicio);
-        console.log($("#txtHoraCoccionInicio").val());
-        console.log($("#txtFechaCoccionInicio").val());
-
         if (model.HoraCoccionFin != null) {
-            var FechaCoccionFin = moment(model.HoraCoccionFin).format("HH:mm");
-            var HoraCoccionFin = moment(model.HoraCoccionFin).format("YYYY-MM-DD HH:mm");           
+            var FechaCoccionFin = moment(model.HoraCoccionFin).format("YYYY-MM-DDTHH:mm");
         } else {
-            var coccionFin = CalculoHora(model.HoraCoccionFin, coccion);    
-            var HoraCoccionFin = moment(coccionFin).format("HH:mm");
-            var FechaCoccionFin = moment(coccionFin).format("YYYY-MM-DD HH:mm");           
+            var coccionFin = CalculoHora(model.HoraProcesoInicio, enfriado);
+            var FechaCoccionFin = moment(coccionFin).format("YYYY-MM-DDTHH:mm");
         }
-        $("#txtHoraCoccionFin").val(HoraCoccionFin);
         $("#txtFechaCoccionFin").val(FechaCoccionFin);
-        console.log(HoraCoccionFin);
-        console.log(FechaCoccionFin);
-        console.log($("#txtHoraCoccionFin").val());
-        console.log($("#txtFechaCoccionFin").val());
+
+        if (model.HoraCoccionInicio != null) {
+            var FechaCoccionInicio = moment(model.HoraCoccionInicio).format("YYYY-MM-DDTHH:mm");          
+        } else {
+            var coccionInicio = fechaCalculoHora(FechaCoccionFin, moment(model.HoraCoccionFin).format("HH:mm"), coccion);
+            var FechaCoccionInicio = moment(coccionInicio).format('YYYY-MM-DDTHH:mm')        
+        }       
+        $("#txtFechaCoccionInicio").val(FechaCoccionInicio);  
+    
+        
+        $("#txtFechaProd").val($("#txtFechaProduccion").val());
 
         $("#txtHoraEnfriado").val(timeEnfriado[0] + ":" + timeEnfriado[1]);
         $("#selectHoraEnfriado").val(timeEnfriado[0] + ":" + timeEnfriado[1]);
@@ -268,24 +306,22 @@ function SeleccionarProyeccionProgramacion(model, ListaEnfriado, ListaCoccion) {
         $("#txtHoraProcesoInicio").val(model.HoraProcesoInicio);      
         $("#txtHoraProcesoFin").val(model.HoraProcesoFin);            
         $("#txtTemperatura").val(model.TemperaturaFinal);      
-      //  $("#txtCoccion").val(model.HoraProcesoFin);      
         $("#txtCoches").val(model.TotalCoches);      
         $("#txtCocina").val(model.Cocina);      
         $("#txtPeso").val(model.Toneladas);      
         $("#txtEspecie").val(model.Especie);      
         $("#txtTalla").val(model.Talla);      
         $('#txtReceta').val(model.CodRecetaRoceado);
-    
-        $("#txtHoraEviceradoInicio").val(model.HoraEviceradoInicio);      
-        $("#txtHoraEviceradoFin").val(model.HoraEviceradoFin);      
-        $("#txtHoraDescongeladoInicio").val(model.HoraDescongeladoInicio);      
-        $("#txtHoraDescongeladoFin").val(model.HoraDescongeladoFin);      
-        $("#txtRequerimiento").val(model.Requerimiento);      
-       // $("#txtHoraRequerimiento").val(model.Requerimiento);      
-        $("#txtObservacion").val(model.Observacion);      
+        
+        $("#txtFechaEviceradoInicio").val(moment(model.HoraEviceradoInicio).format("YYYY-MM-DDTHH:mm"));
+        $("#txtFechaEviceradoFin").val(moment(model.HoraEviceradoFin).format("YYYY-MM-DDTHH:mm"));      
 
-        $("#btnGuardar").prop("disabled", false);
-       
+        $("#txtFechaDescongeladoInicio").val(moment(model.HoraDescongeladoInicio).format("YYYY-MM-DDTHH:mm"));
+        $("#txtFechaDescongeladoFin").val(moment(model.HoraDescongeladoFin).format("YYYY-MM-DDTHH:mm"));           
+      
+        $("#txtFechaRequerimiento").val(model.Requerimiento);      
+        $("#txtObservacion").val(model.Observacion);      
+        $("#btnGuardar").prop("disabled", false);     
 
     }
 }
@@ -305,25 +341,28 @@ function limpiarModal() {
     $("#txtPeso").val(0);
     $("#txtEspecie").val('');
     $("#txtTalla").val('');
-    $("#txtHoraCoccionInicio").val('00:00');
-    $("#txtHoraCoccionInicio").css('border-color', '#d1d3e2');
-    $("#txtHoraCoccionFin").val('00:00');
-    $("#txtHoraCoccionFin").css('border-color', '#d1d3e2');
-    $("#txtHoraEviceradoInicio").val('00:00');
-    $("#txtHoraEviceradoInicio").css('border-color', '#d1d3e2');
-    $("#txtHoraEviceradoFin").val('00:00');
-    $("#txtHoraEviceradoFin").css('border-color', '#d1d3e2');
-    $("#txtHoraDescongeladoInicio").val('00:00');
-    $("#txtHoraDescongeladoInicio").css('border-color', '#d1d3e2');
-    $("#txtHoraDescongeladoFin").val('00:00');
-    $("#txtHoraDescongeladoFin").css('border-color', '#d1d3e2');
-    $("#txtRequerimiento").val(0);
+    $("#txtFechaCoccionInicio").val('00:00');
+    $("#txtFechaCoccionInicio").css('border-color', '#d1d3e2');
+    $("#txtFechaCoccionFin").val('00:00');
+    $("#txtFechaCoccionFin").css('border-color', '#d1d3e2');
+    $("#txtFechaEviceradoInicio").val('00:00');
+    $("#txtFechaEviceradoInicio").css('border-color', '#d1d3e2');
+    $("#txtFechaEviceradoFin").val('00:00');
+    $("#txtFechaEviceradoFin").css('border-color', '#d1d3e2');
+    $("#txtFechaDescongeladoInicio").val('00:00');
+    $("#txtFechaDescongeladoInicio").css('border-color', '#d1d3e2');
+    $("#txtFechaDescongeladoFin").val('00:00');
+    $("#txtFechaDescongeladoFin").css('border-color', '#d1d3e2');
     $("#txtRequerimiento").val();
-    $("#txtHoraRequerimiento").val('00:00');
-    $("#txtHoraRequerimiento").css('border-color', '#d1d3e2');
+    $("#txtFechaRequerimiento").val('00:00');
+    $("#txtFechaRequerimiento").css('border-color', '#d1d3e2');
+    $("#txtLote").val('');
+    $("#txtLote").css('border-color', '#d1d3e2');
     $("#txtObservacion").val('');
     $('#txtReceta').prop("selectIndex",0);
-
+    $("#txtReceta").css('border-color', '#d1d3e2');
+    $("#btnCocina").css('color', '#858796');  
+    $("#validaCocina").prop("hidden", true);
     $("input[type=checkbox]").each(function () {
         if ($(this).prop('checked')) {
             $(this).prop('checked', false);
@@ -331,34 +370,53 @@ function limpiarModal() {
     });
 
 }
-function CalculoHora(hora1, hora2) {
-    // var horasdiferencia = (new Date("1970-1-1 " + hora2) - new Date("1970-1-1 " + hora1)) / 1000 / 60 / 60;    
+function CalculoHora(hora1, hora2) {       
     time1 = hora1.split(/:/);
-    time2 = hora2.split(/:/);
-    var fecha1 = new moment();
-    var fecha2 = new moment();
-    fecha1.set({ hour: time1[0], minute: time1[1], second: 0, millisecond: 0 });
-    fecha2.set({ hour: time2[0], minute: time2[1], second: 0, millisecond: 0 });
+    time2 = hora2.split(/:/);  
+    var fecha1 = new moment($("#txtFechaProduccion").val());    
+    fecha1.set({ hour: time1[0], minute: time1[1], second: 0, millisecond: 0 });   
     var fecha = fecha1.subtract(time2[0], 'hours');
-    fecha = fecha.subtract(time2[1], 'minutes');
-    var Tiempo = fecha.format("HH:mm");
+    fecha = fecha.subtract(time2[1], 'minutes');   
     return fecha;
 }
+
+function fechaCalculoHora(fecha,hora1, hora2) {
+
+   // console.log(fecha);
+    time1 = hora1.split(/:/);
+    time2 = hora2.split(/:/);
+  
+    if (fecha != '') {
+        var fecha1 = new moment(fecha);
+    } else {
+        var fecha1 = new moment($("#txtFechaProduccion").val());
+    }
+    fecha1.set({ hour: time1[0], minute: time1[1], second: 0, millisecond: 0 });
+    var fecha = fecha1.subtract(time2[0], 'hours');
+    fecha = fecha.subtract(time2[1], 'minutes');
+    return fecha;
+}
+
 
 function CalcularEnfriadoCoccion() {
     var enfriado = $("#txtHoraEnfriado").val();
     var coccion = $("#txtHoraCoccion").val();
     if (enfriado != '') {
         var tiempo = CalculoHora($("#txtHoraProcesoInicio").val(), enfriado);
-        $("#txtHoraCoccionFin").val(tiempo);
+        $("#txtFechaCoccionFin").val(moment(tiempo).format("YYYY-MM-DDTHH:mm"));          
         if (coccion != '') {
-            var tiempococcion = CalculoHora($("#txtHoraCoccionFin").val(), coccion);
-            $("#txtHoraCoccionInicio").val(tiempococcion);
+            var FechaCoccionFinal = moment($("#txtFechaCoccionFin").val()).format("YYYY-MM-DDTHH:mm");
+            var HoraCoccionFinal = moment($("#txtFechaCoccionFin").val()).format("HH:mm");           
+            var tiempococcion = fechaCalculoHora(FechaCoccionFinal, HoraCoccionFinal, coccion);
+    //        $("#txtFechaCoccionInicio").val(moment(tiempococcion).format("HH:mm"));
+          //  console.log(tiempococcion);
+            $("#txtFechaCoccionInicio").val(moment(tiempococcion).format("YYYY-MM-DDTHH:mm"));
         }
     } else {
-        $("#txtHoraCoccionFin").val('');
+    //    $("#txtFechaCoccionFin").val('');
+        $("#txtFechaCoccionInicio").val('');
     }
-    CalcularDescongeladoInicio();
+    CalcularDescongeladoFin();
 }
 
 function CambiarHoraEnfriado(valor) {
@@ -371,41 +429,101 @@ function CambiarHoraCoccion(valor) {
 }
 
 
+function CalcularEviceradoFin() {
+
+}
+
+
 function CalcularDescongeladoFin() {
-    eviceradoinicio = $("#txtHoraEviceradoInicio").val();
-    if (eviceradoinicio != '') {
-        $("#txtHoraDescongeladoFin").val(eviceradoinicio);        
+  //  console.log($("#txtFechaEviceradoInicio").val());
+    if ($("#txtFechaEviceradoInicio").val() == '') {
+        $("#txtFechaEviceradoInicio").val('');
+        console.log("borrar");
+        return;
+    }   
+  //  eviceradoinicio = $("#txtFechaEviceradoInicio").val();
+    Fechaeviceradoinicio = $("#txtFechaEviceradoInicio").val();
+    if (Fechaeviceradoinicio != '') {
+      //  $("#txtFechaDescongeladoFin").val(eviceradoinicio);        
+        $("#txtFechaDescongeladoFin").val(Fechaeviceradoinicio);  
+        CalcularDescongeladoInicio();
     } else {
-        $("#txtHoraDescongeladoFin").val('');
+     //   $("#txtFechaDescongeladoFin").val('');
+        $("#txtFechaDescongeladoFin").val('');
     }
-    CalcularDescongeladoInicio();
 }
 
 
 function CalcularDescongeladoInicio() {
-    var descongeladofin = $("#txtHoraDescongeladoFin").val();
+    var descongeladofin = $("#txtFechaDescongeladoFin").val();
     var enfriado = $("#txtHoraEnfriado").val();
     if (descongeladofin != '' && enfriado != '') {
-        var tiempo = CalculoHora(descongeladofin, enfriado);
-        $("#txtHoraDescongeladoInicio").val(tiempo);
+        var FechaDesconFinal = moment(descongeladofin).format("YYYY-MM-DDTHH:mm");
+        var HoraDesconFinal = moment(descongeladofin).format("HH:mm");    
+        var tiempo = fechaCalculoHora(FechaDesconFinal, HoraDesconFinal, enfriado);
+       
+        $("#txtFechaDescongeladoInicio").val(moment(tiempo).format("YYYY-MM-DDTHH:mm"));
         CalcularRequerimiento();
-    } else {
-        $("#txtHoraDescongeladoInicio").val('');
+    } else {    
+        $("#txtFechaDescongeladoInicio").val('');
     }
 }
 
 function CalcularRequerimiento() {
     var minutos = $("#txtRequerimiento").val();
-    var descongeladoinicio = $("#txtHoraDescongeladoInicio").val();
+    var descongeladoinicio = moment($("#txtFechaDescongeladoInicio").val()).format("HH:mm");  
     if (minutos > 0 && descongeladoinicio != '') {
         time1 = descongeladoinicio.split(/:/);
-        var fecha1 = new moment();
-        fecha1.set({ hour: time1[0], minute: time1[1], second: 0, millisecond: 0 });
-        //var fecha = fecha1.subtract(time2[0], 'hours');
-        var fecha = fecha1.subtract(minutos, 'minutes');
-        var Tiempo = fecha.format("HH:mm");
-        $("#txtHoraRequerimiento").val(Tiempo);
+        var fecha1 = new moment($("#txtFechaDescongeladoInicio").val());
+        fecha1.set({ hour: time1[0], minute: time1[1], second: 0, millisecond: 0 });       
+        var fecha = fecha1.subtract(minutos, 'minutes');           
+        $("#txtFechaRequerimiento").val(moment(fecha).format("YYYY-MM-DDTHH:mm"));
     } else {
-        $("#txtHoraRequerimiento").val('');
+        $("#txtFechaRequerimiento").val('');
+     
     }
 }
+
+
+function FinalizarProyeccionProgramacion() {
+    $.ajax({
+        url: "../ProyeccionProgramacion/FinalizarIngresoProyeccionProgramacion",
+        type: "GET",
+        data:
+        {
+            id: $('#IdProyeccion').val(),
+            proceso: 3
+        },
+        success: function (resultado) {
+            ValidaProyeccion();
+            MensajeCorrecto(resultado);
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+            $("#spinnerCargando").prop("hidden", true);
+
+        }
+    });
+}
+
+function HabilitarProyeccionProgramacion() {
+    $.ajax({
+        url: "../ProyeccionProgramacion/HabilitarIngresoProyeccionProgramacion",
+        type: "GET",
+        data:
+        {
+            id: $('#IdProyeccion').val(),
+            proceso: 3
+        },
+        success: function (resultado) {
+            ValidaProyeccion();
+            MensajeCorrecto(resultado);
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+            $("#spinnerCargando").prop("hidden", true);
+
+        }
+    });
+}
+
