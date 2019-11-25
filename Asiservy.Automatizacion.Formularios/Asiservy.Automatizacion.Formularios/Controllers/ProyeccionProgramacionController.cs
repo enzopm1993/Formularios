@@ -172,7 +172,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     if (pro.Finaliza)
                     {
                         respuesta.Codigo = 4;
-                        respuesta.Mensaje = "Control se encuentra finalizado";
+                        respuesta.Mensaje = "Proyección se encuentra cerrada";
                         respuesta.Observacion = idProyeccion + "";
                     }
                     else if (pro.IngresoPreparacion)
@@ -185,6 +185,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     {
                         respuesta.Codigo = 2;
                         respuesta.Mensaje = "Control se encuentra en producción";
+                        respuesta.Observacion = idProyeccion + "";
+                    }
+                    else if (!pro.EditarPreparacion)
+                    {
+                        respuesta.Codigo = 3;
+                        respuesta.Mensaje = "Control se encuentra en finalizado";
                         respuesta.Observacion = idProyeccion + "";
                     }
                     else
@@ -267,7 +273,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     if (pro.Finaliza)
                     {
                         respuesta.Codigo = 4;
-                        respuesta.Mensaje = "Control se encuentra finalizado";
+                        respuesta.Mensaje = "Proyección se encuentra cerrada";
                         respuesta.Observacion = idProyeccion + "";
                     }
                     else if (pro.IngresoPreparacion )
@@ -423,7 +429,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     if (pro.Finaliza)
                     {
                         respuesta.Codigo = 4; 
-                        respuesta.Mensaje = "Control se encuentra finalizado";
+                        respuesta.Mensaje = "Proyección se encuentra cerrada";
                         respuesta.Observacion = idProyeccion + "";          
                     }
                     else if (pro.IngresoPreparacion)
@@ -552,16 +558,50 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 lsUsuario = User.Identity.Name.Split('_');
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                model.FechaIngresoLog = DateTime.Now;              
+                model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
-                model.UsuarioIngresoLog = lsUsuario[0];                
+                model.UsuarioIngresoLog = lsUsuario[0];
                 if (proceso != null && proceso == 2)
                 {
                     clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 2); //editar desde producción
-                }else if (proceso != null && proceso == 3)
+                }
+                else if (proceso != null && proceso == 3)
                 {
-                    clsDProyeccionProgramacion.validarCocinas(model);
-                    clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 3); //Editar Proyección de la programación en preparación
+                    RespuestaGeneral respuesta = new RespuestaGeneral();
+                    if (model.HoraCoccionInicio > model.HoraCoccionFin)
+                    {
+                        respuesta.Codigo = 2;
+                        respuesta.Mensaje= "Fecha de inicio de cocción no puede ser menor a la fecha fin";
+                        return Json(respuesta, JsonRequestBehavior.AllowGet);
+                    }
+                    if (model.HoraEviceradoInicio > model.HoraEviceradoFin)
+                    {
+                        respuesta.Codigo = 3;
+                        respuesta.Mensaje= "Fecha de inicio de evicerado no puede ser menor a la fecha fin";
+                        return Json(respuesta, JsonRequestBehavior.AllowGet);
+                    }
+                    if (model.HoraDescongeladoInicio > model.HoraDescongeladoFin)
+                    {
+                        respuesta.Codigo = 4;
+                        respuesta.Mensaje= "Fecha de inicio de descongelado no puede ser menor a la fecha fin";
+                        return Json(respuesta, JsonRequestBehavior.AllowGet);
+                    }
+
+
+                    string mensaje = clsDProyeccionProgramacion.validarCocinas(model);
+                    if (string.IsNullOrEmpty(mensaje))
+                    {
+                        clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 3); //Editar Proyección de la programación en preparación
+                    }
+                    else
+                    {
+                       
+                        respuesta.Codigo = 1;
+                        string[] resp = mensaje.Split('-');
+                        respuesta.Mensaje ="Cocina: "+ resp[1] + ", está siendo utilizado por el lote: "+ resp[0];
+                        return Json(respuesta, JsonRequestBehavior.AllowGet);
+                    }
+
                 }
                 else
                 {
@@ -638,6 +678,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     clsDProyeccionProgramacion.EditarProyeccionProgramacion(id,null,false,true,null,lsUsuario[0],Request.UserHostAddress);
                 }
+                if (proceso == 3)
+                {
+                    clsDProyeccionProgramacion.EditarProyeccionProgramacion(id, null, null, false, null, lsUsuario[0], Request.UserHostAddress);
+                }
                 if (proceso == 4)
                 {
                     clsDProyeccionProgramacion.EditarProyeccionProgramacion(id, null, null, false, true, lsUsuario[0], Request.UserHostAddress,Observacion);
@@ -678,6 +722,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (proceso == 2)
                 {
                     clsDProyeccionProgramacion.EditarProyeccionProgramacion(id, null, true, false, null, lsUsuario[0], Request.UserHostAddress);
+                }
+                if (proceso == 3)
+                {
+                    clsDProyeccionProgramacion.EditarProyeccionProgramacion(id, null, null, true, null, lsUsuario[0], Request.UserHostAddress);
                 }
                 if (proceso == 4)
                 {

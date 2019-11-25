@@ -138,7 +138,7 @@
                     }
                 </td>
                 <td>
-                    @if (item.EstadoRegistro == "A" && (item.EditarPreparacion|| item.Finaliza))
+                    @if (item.EstadoRegistro == "A" && ((!item.EditarPreparacion && !item.IngresoPreparacion && !item.EditaProduccion)|| item.Finaliza))
                     {
                     <div class="col-xs-2 text-xs-center">
                         <div class="custom-control custom-switch">

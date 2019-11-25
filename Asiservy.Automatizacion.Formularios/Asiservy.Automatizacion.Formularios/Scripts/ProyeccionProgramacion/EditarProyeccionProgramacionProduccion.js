@@ -141,6 +141,9 @@ function limpiarModal()
         if (this.checked) {
             this.checked = false;
         }
+        label = this.id.split("-");
+        idLabel = "Label-" + label[1];
+        $("#" + idLabel).css("background", "#5a5c69");
     }) 
     $("#txtIdProgramacion").val("0");
     $("#txtHoraInicio").val("");
