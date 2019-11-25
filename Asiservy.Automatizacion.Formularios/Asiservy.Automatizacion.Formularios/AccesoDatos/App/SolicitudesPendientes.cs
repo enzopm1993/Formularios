@@ -14,5 +14,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.App
         public int idTipo { get; set; }
         public string TipoSolicitud { get; set; }
         public string FechaSolicitud { get; set; }
+        public int idCertificado { get; set; }
     }
 }

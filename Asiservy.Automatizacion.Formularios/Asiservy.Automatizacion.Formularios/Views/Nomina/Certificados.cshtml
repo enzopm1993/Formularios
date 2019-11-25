@@ -1,0 +1,93 @@
+﻿@model Asiservy.Automatizacion.Formularios.AccesoDatos.App.ModeloVistaCertificados
+<style>
+    input, select, textarea {
+        max-width: 100%;
+        ;
+    }
+
+    label#LabeltxtCheckPlantilla {
+        margin-right: 30px;
+    }
+
+    .asignaEtiqueta {
+        padding: 8px;
+        margin-right: 5px;
+    }
+
+    .lista_tags {
+        margin-bottom: 5px;
+    }
+
+    #btnGuardaCrea, #btnCancela, #btnVistaPrevia {
+        display: none;
+    }
+
+    .blockCertificado {
+        margin-bottom: 3px;
+    }
+    .itemCertificado {
+        padding: 5px 7px;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Certificados Aplicativo</h6>
+                <div id="certificadosLoadAjax" class="cargandoAjax fa-2x"> <i class="fas fa-spinner fa-pulse"></i> </div>
+            </div>
+            <div class="card-body">
+                <div id="resultsCertificados">
+                    @foreach (var item in Model.Certificados)
+                    {
+                        <div class="list-group listaRelative blockCertificado">
+                            <a href="#" data-id="@item.Id" id="link_certificado_@item.Id" class="list-group-item list-group-item-action itemCertificado">@item.Descripcion</a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <a class="btn btn-sm btn-primary" id="btnNuevo" href="#"><i class="fas fa-plus-circle"></i> Nuevo certificado</a>
+                <a class="btn btn-sm btn-success" id="btnGuardaCrea" data-desde="I" href="#"><i class="fas fa-save"></i> Guardar</a>
+                <a class="btn btn-sm btn-danger" id="btnCancela" data-desde="I" href="#"><i class="fas fa-times"></i> Cancelar</a>
+                <a class="btn btn-sm btn-info" id="btnVistaPrevia" data-desde="I" href="#"><i class="fas fa-file-pdf"></i> Vista previa</a>
+            </div>
+            <div class="card-body">
+                <input type="hidden" id="idCertificado" value="0" />
+                <div class="form-group">
+                    <label for="txtDescripcionCert">Descripción</label>
+                    <input class="form-control" id="txtDescripcionCert" type="text" placeholder="Descripción del certificado" />
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox mb-3 d-inline-block">
+                        <input type="checkbox" class="custom-control-input" id="txtCheckPlantilla" checked>
+                        <label class="custom-control-label" for="txtCheckPlantilla" id="LabeltxtCheckPlantilla" >Con plantilla </label>
+                    </div>
+                    <div class="custom-control custom-checkbox mb-3  d-inline-block" >
+                        <input type="checkbox" class="custom-control-input" id="txtCheckEstado" checked>
+                        <label class="custom-control-label" for="txtCheckEstado" id="LabeltxtCheckEstado" > Activo</label>
+                    </div>
+                </div>
+                <div class="form-group" id="bloquePlantilla">
+                    <label for="txtPlantilla">Plantilla a usar</label>
+                    <ul class="nav nav-pills lista_tags">
+                        @foreach (var tag in Model.TagsPlantilla)
+                        {                           
+                            <li class="nav-item"><a href="#" class="badge-info badge asignaEtiqueta" data-tag="@tag.Codigo">@tag.Descripcion</a></li>
+                        }
+                    </ul>
+
+                    <textarea id="txtPlantilla" class="form-control" rows="20"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
           
             ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-            var client = new RestClient("http://192.168.0.31:8870");
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
             var request = new RestRequest("/api/Admin/SolicitudesPendientes", Method.GET);
             IRestResponse response = client.Execute(request);
             var content = response.Content;
@@ -34,7 +35,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         public ActionResult InfoSolicitudDatos(int id)
         {
-            var client = new RestClient("http://192.168.0.31:8003");
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
             var request = new RestRequest("/api/Admin/InfoDatos/"+id.ToString(), Method.GET);
             IRestResponse response = client.Execute(request);
             var content = response.Content;
@@ -50,12 +51,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //EJECUTAR WS DATALIFE
             }
 
-            var client = new RestClient("http://192.168.0.31:8003");
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
             var request = new RestRequest("/api/Admin/ActualizaEstadoSolicitud", Method.POST);
             request.AddParameter("id", parametros.id);
             request.AddParameter("estado", parametros.estado);
             request.AddParameter("observacion", parametros.observacion);
             request.AddParameter("username", parametros.username);
+            request.AddParameter("tipo", parametros.tipo);
             IRestResponse response = client.Execute(request);
             var content = response.Content;
             var datos = JsonConvert.DeserializeObject<ClsKeyValue>(content);
@@ -70,6 +72,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public string estado { get; set; }
         public string observacion { get; set; }
         public string username { get; set; }
+        public string tipo { get; set; }
     }
     public class ClsKeyValue
     {
