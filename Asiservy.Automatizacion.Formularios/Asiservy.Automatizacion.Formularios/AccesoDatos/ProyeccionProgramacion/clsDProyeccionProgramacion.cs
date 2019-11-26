@@ -103,6 +103,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 return proyeccion;
             }
         }
+
+        public PROYECCION_PROGRAMACION ConsultaProyeccionProgramacion()
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {                
+                var proyeccion = db.PROYECCION_PROGRAMACION.Where(x =>
+                x.EstadoRegistro==clsAtributos.EstadoRegistroActivo
+                && x.EditaProduccion == true).FirstOrDefault();
+                return proyeccion;
+            }
+        }
+
         public int ValidarProyeccionProgramacion(DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())

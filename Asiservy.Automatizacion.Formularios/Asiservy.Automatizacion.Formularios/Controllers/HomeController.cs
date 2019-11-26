@@ -7,15 +7,21 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Datos.Datos;
 using System.Data.Entity.Validation;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion;
+using System.Globalization;
+using Asiservy.Automatizacion.Formularios.Models;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class HomeController : Controller
     {
+       
+        CultureInfo ci = new CultureInfo("Es-Es");
         clsDError clsDError = null;
         clsDSolicitudPermiso clsDSolicitudPermiso = null;
         clsDEmpleado clsDEmpleado = null;
         clsDParametro clsDParametro = null;
+        clsDProyeccionProgramacion clsDProyeccionProgramacion = null;
         string[] lsUsuario;
         protected void SetSuccessMessage(string message)
         {
@@ -73,7 +79,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public void Notificaciones(List<int?> Roles)
         {
             clsDParametro = new clsDParametro();
-            List<string> MensajesNotificaciones = new List<string>();
+             
+            List<RespuestaGeneral> MensajesNotificaciones = new List<RespuestaGeneral>();
 
             var MensajeUrgente = clsDParametro.ConsultaParametros(new PARAMETRO { Codigo = clsAtributos.ParaMensajeUrgente,
                 EstadoRegistro = clsAtributos.EstadoRegistroActivo }).FirstOrDefault();
@@ -99,9 +106,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente, lsUsuario[1]);
                 if (solicitudes.Any())
                 {
+                     string enlace = "/SolicitudPermiso/BandejaAprobacion";
                     string Mensaje = "Tienes " + solicitudes.Count + " solicitudes en su bandeja por aprobar";
                     // ViewBag.SolicitudPermiso = Mensaje;
-                    MensajesNotificaciones.Add(Mensaje);
+                    MensajesNotificaciones.Add(new RespuestaGeneral
+                    {
+                        Mensaje = Mensaje,
+                        Observacion = enlace
+                    });
 
                 }
             }
@@ -111,9 +123,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudAprobado, lsUsuario[1]);
                 if (solicitudes.Any())
                 {
+                     string enlace = "/SolicitudPermiso/BandejaRRHH";
                     string Mensaje = "Tiene " + solicitudes.Count + " solicitudes en su bandeja por revisar";
                     //ViewBag.SolicitudPermiso = Mensaje;
-                    MensajesNotificaciones.Add(Mensaje);
+                    MensajesNotificaciones.Add(new RespuestaGeneral
+                    {
+                        Mensaje = Mensaje,
+                        Observacion = enlace
+                    });
                 }
             }
 
@@ -128,9 +145,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 if (solicitudes.Any())
                 {
+                     string enlace = "/SolicitudPermiso/BandejaMedico";
                     string Mensaje = "Tiene " + solicitudes.Count + " solicitudes en su bandeja por revisar";
                     //ViewBag.SolicitudPermiso = Mensaje;
-                    MensajesNotificaciones.Add(Mensaje);
+                    MensajesNotificaciones.Add(new RespuestaGeneral
+                    {
+                        Mensaje = Mensaje,
+                        Observacion = enlace
+                    });
                 }
             }
 
@@ -139,11 +161,40 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermisoReporte(null,null,clsAtributos.EstadoSolicitudAprobado, true, DateTime.Now.Date, DateTime.Now.Date).Where(x=> x.FechaBiometrico != null).ToList();
                 if (solicitudes.Any())
                 {
+                     string enlace = "/SolicitudPermiso/ReporteSolicitud";
                     string Mensaje = "Tiene " + solicitudes.Count + " solicitudes en su bandeja";
                     //ViewBag.SolicitudPermiso = Mensaje;
-                    MensajesNotificaciones.Add(Mensaje);
+                    MensajesNotificaciones.Add(new RespuestaGeneral
+                    {
+                        Mensaje = Mensaje,
+                        Observacion = enlace
+                    });
                 }
             }
+
+            if (Roles.Any(x => x.Value == clsAtributos.RolControladorGeneral))
+            {
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+
+                var programaciones = clsDProyeccionProgramacion.ConsultaProyeccionProgramacion();
+                if(programaciones!= null && programaciones.EditaProduccion)
+                {
+
+                    string dia = ci.DateTimeFormat.GetDayName(programaciones.FechaProduccion.DayOfWeek);
+
+                     // < a class="collapse-item border-top " href="/@MenuHijo.Url"><text class=""></text>@MenuHijo.Nombre</a>
+                     string enlace = "/ProyeccionProgramacion/EditarProyeccionProgramacionProduccion";
+                    string Mensaje = "Tiene la proyección de la programación pendiente de finalizar del dia: "+ dia +", "+ programaciones.FechaProduccion.ToString("dd-MM-yyyy");
+                  
+                    MensajesNotificaciones.Add(new RespuestaGeneral {
+                        Mensaje = Mensaje,
+                        Observacion = enlace
+                    });
+                }
+            }
+
+
+
 
             if (MensajesNotificaciones.Any())
             {

@@ -43,7 +43,7 @@
                 foreach (var mensaje in ViewBag.MensajesNotificaciones)
                 {
                     <div class="alert alert-warning    alert-dismissible fade show" role="alert">
-                        <strong>Bienvenido!</strong> @mensaje
+                        <strong>Alerta!</strong><a href=@mensaje.Observacion> @mensaje.Mensaje </a> 
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -51,6 +51,7 @@
                 }
 
             }
+            
 
             if (ViewBag.MensajeAviso != null)
             {

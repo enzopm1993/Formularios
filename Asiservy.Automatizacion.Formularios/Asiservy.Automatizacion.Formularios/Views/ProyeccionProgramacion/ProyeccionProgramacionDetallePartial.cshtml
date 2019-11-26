@@ -10,15 +10,15 @@
             </th>
             @if (ViewBag.EditaProduccion == null)
             {
-            <th>
-                @Html.DisplayNameFor(model => model.Barco)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Marea)
-            </th>
-            <th>
-                <label>Orden</label>
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Barco)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Marea)
+                </th>
+                <th>
+                    <label>Orden</label>
+                </th>
             }
             <th>
                 <label>KG</label>
@@ -69,8 +69,8 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Cocina)
                 </th>
-                 <th>
-                     <label>Receta</label>
+                <th>
+                    <label>Receta</label>
                 </th>
                 <th>
                     <label>Evicerado Inicio</label>
@@ -102,20 +102,25 @@
         @{
             string enfriado = JsonConvert.SerializeObject(ViewBag.ListadoEnfriado);
             string coccion = JsonConvert.SerializeObject(ViewBag.ListadoCoccion);
+           
+            int i = 1;
+            int totalKilos = 0;
+            int totalCoches = 0;
         }
         @foreach (var item in Model)
         {
 
-                if (ViewBag.EditaProduccion != null)
-                {
-                    string json = JsonConvert.SerializeObject(item);
-                    @:<tr onclick="SeleccionarProyeccionProgramacion(@json)">
+            if (ViewBag.EditaProduccion != null)
+            {
+                string json = JsonConvert.SerializeObject(item);
+                @:<tr onclick="SeleccionarProyeccionProgramacion(@json)">
+
 
                 }
                 else if (ViewBag.EditaPreparacion != null)
                 {
                     string json = JsonConvert.SerializeObject(item);
-                    @:<tr onclick="SeleccionarProyeccionProgramacion(@json,@enfriado,@coccion)">
+                    @: <tr onclick="SeleccionarProyeccionProgramacion(@json,@enfriado,@coccion)">
                 }
                 else
                 {
@@ -136,10 +141,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.OrdenFabricacion)
                     </td>
-                 }
-                <td>
-                    @Html.DisplayFor(modelItem => item.Toneladas)
-                </td>
+                }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Toneladas)
+                        @{
+                            totalKilos = totalKilos + item.Toneladas ?? 0;
+                        }
+                    </td>
 
                 <td>
                     @Html.DisplayFor(modelItem => item.Destino)
@@ -180,6 +188,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TotalCoches)
+                        @{
+                            totalCoches = totalCoches + (item.TotalCoches ?? 0);
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Cocina)
@@ -209,6 +220,47 @@
 
 
             @:</tr>
-        }
+             i++;
+                            }
     </tbody>
+    <tfoot>
+        <tr>
+            @if (ViewBag.EditaProduccion == null)
+            {
+                <td style="display: none;"></td>
+                <td colspan="2"><b>Total</b></td>
+                <td></td>
+            }
+            <td></td>
+            <td><b> @totalKilos KG</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            @if (ViewBag.EditaProduccion != null || ViewBag.EditaPreparacion != null)
+            {
+                <td></td>
+                <td></td>
+                <td></td>
+            }
+            @if (ViewBag.EditaPreparacion != null)
+            {
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              
+                <td><b>@totalCoches</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              
+            }
+
+        </tr>
+
+    </tfoot>
 </table>
