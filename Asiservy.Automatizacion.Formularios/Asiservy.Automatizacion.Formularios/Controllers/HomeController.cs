@@ -79,7 +79,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public void Notificaciones(List<int?> Roles)
         {
             clsDParametro = new clsDParametro();
-             
+            clsDSolicitudPermiso = new clsDSolicitudPermiso();
             List<RespuestaGeneral> MensajesNotificaciones = new List<RespuestaGeneral>();
 
             var MensajeUrgente = clsDParametro.ConsultaParametros(new PARAMETRO { Codigo = clsAtributos.ParaMensajeUrgente,
@@ -103,11 +103,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             if (Roles.Any(x => x.Value == clsAtributos.RolAprobacionSolicitud))
             {
-                var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente, lsUsuario[1]);
-                if (solicitudes.Any())
+                var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermisoNotificaciones(clsAtributos.EstadoSolicitudPendiente, lsUsuario[1]);
+                if (solicitudes>0)
                 {
                      string enlace = "/SolicitudPermiso/BandejaAprobacion";
-                    string Mensaje = "Tienes " + solicitudes.Count + " solicitudes en su bandeja por aprobar";
+                    string Mensaje = "Tienes " + solicitudes + " solicitudes en su bandeja por aprobar";
                     // ViewBag.SolicitudPermiso = Mensaje;
                     MensajesNotificaciones.Add(new RespuestaGeneral
                     {
@@ -120,11 +120,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             if (Roles.Any(x => x.Value == clsAtributos.RolRRHH))
             {
-                var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudAprobado, lsUsuario[1]);
-                if (solicitudes.Any())
+                var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermisoNotificaciones(clsAtributos.EstadoSolicitudAprobado, lsUsuario[1]);
+                if (solicitudes>0)
                 {
                      string enlace = "/SolicitudPermiso/BandejaRRHH";
-                    string Mensaje = "Tiene " + solicitudes.Count + " solicitudes en su bandeja por revisar";
+                    string Mensaje = "Tiene " + solicitudes + " solicitudes en su bandeja por revisar";
                     //ViewBag.SolicitudPermiso = Mensaje;
                     MensajesNotificaciones.Add(new RespuestaGeneral
                     {
