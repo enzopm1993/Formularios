@@ -240,7 +240,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TotalCoches)
                 @{
-                    totalCoches = totalCoches + item.TotalCoches ?? 0;
+                    totalCoches = totalCoches + (item.TotalCoches ?? 0);
                 }
             </td>
             <td>

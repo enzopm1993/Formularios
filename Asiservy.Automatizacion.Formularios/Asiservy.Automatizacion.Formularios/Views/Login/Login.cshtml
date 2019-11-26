@@ -32,10 +32,11 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-    <div id="response">
+    
+    <div class="container relative1">
+        <div class="absolute1" hidden id="response">
+        </div>
 
-    </div>
-    <div class="container">
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
@@ -46,7 +47,7 @@
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
-                                    <img style="border-radius:20px; background:#ffffff; width:80%"  src="~/Content/icons/user32.png" />
+                                    <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/user32.png" />
                                 </span>
                             </div>
                             <input id="txtUsuario" type="text" class="form-control" placeholder="Usuario">
@@ -56,15 +57,15 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
                                     @*<i class="fas fa-key">*@
-                                        <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/clave32.png" />
+                                    <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/clave32.png" />
                                     @*</i>*@
                                 </span>
                             </div>
                             <input id="txtPassword" type="password" class="form-control" placeholder="Contraseña">
                         </div>
                         @*<div class="row align-items-center remember">
-                                <input type="checkbox">Remember Me
-                            </div>*@
+                            <input type="checkbox">Remember Me
+                        </div>*@
                         <div class="form-group text-center">
                             <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn btn-outline-light" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-broom"> Limpiar</i>

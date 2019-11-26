@@ -84,3 +84,16 @@ input, select, textarea {
 h3 {
     font-family: "Comic Sans MS", cursive, sans-serif;
 }
+
+
+div.relative1 {
+    position: relative;
+    width: 100%;
+    /*height: 100%;*/
+}
+
+div.absolute1 {
+    position: absolute;
+    width: 95%;
+    z-index: 10000;
+}
