@@ -3,7 +3,11 @@
 @{
     ViewBag.Title = "ControlAuditoriaSangre";
 }
-
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 
 @Html.AntiForgeryToken()
 
@@ -12,47 +16,38 @@
     <h4>Control Auditoria Sangre</h4>
     <hr />
     @Html.Hidden("IdAuditoriaSangre")
-    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdControlAuditoriaSangre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdControlAuditoriaSangre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdControlAuditoriaSangre, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-    @*@Html.Hidden("FechaAuditoria")*@
-    @*<input type="datetime" id="FechaAuditoria" hidden/>*@
-    
+
     <div class="row">
-        @*<div class="form-group col-md-3">
-            <label class="control-label">Cédula</label>
-            <div class="input-group">
-                @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
 
-                @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
-                <button type="button" onclick="CargarEmpleados('CargarEmpleadoAS');" id="CargarEmpleadoAS">
-                    <img src="~/Content/images/buscar.png" />
-                </button><br />
-            </div>
-
-
-        </div>*@
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label class="label-control"> Fecha</label>
                 @{var Fecha = DateTime.Now.ToString("yyyy-MM-dd"); }
                 @*@Html.TextBox("FechaAuditoria",null,new { @class = "form-control input-large", @type = "date", @Value = Fecha })*@
-                <input type="date" id="FechaAuditoria" value="@Fecha" class="form-control" onchange="ConsultarAuditoriaChange()"/>
+                <input type="date" id="FechaAuditoria" value="@Fecha" class="form-control" onchange="ConsultarAuditoriaChange()" />
                 @*<input type="date" class="form-control"/>*@
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-6">
+            <div class="form-group">
+                <label class="label-control"> Hora</label>
+                @{var Hora = DateTime.Now.ToString("HH:mm"); }
+                <input type="time" id="HoraAuditoria" value="@Hora" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-6">
+            <div class="form-group">
+                <label class="control-label">Tipo</label>
+                @Html.DropDownList("TipoAuditoria", new SelectList(ViewBag.TipoAuditoria, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label class="control-label">Nombre</label>
                 @Html.HiddenFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                <div class="input-group">
+                <div id="" class="input-group">
 
-                    @Html.TextBox("Nombre", null, new { @class = "form-control", @readonly = "readonly" } )
+                    @Html.TextBox("Nombre", null, new { @class = "form-control", @readonly = "readonly" })
                     @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
                     <button type="button" onclick="CargarEmpleados('CargarEmpleadoAS');" id="CargarEmpleadoAS">
                         <img src="~/Content/images/buscar.png" />
@@ -61,102 +56,98 @@
             </div>
         </div>
 
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-2 col-sm-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.Porcentaje, htmlAttributes: new { @class = "control-label " })
-                
-                    @Html.EditorFor(model => model.Porcentaje, new { htmlAttributes = new { @type = "number", @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Porcentaje, "", new { @class = "text-danger" })
-            
+
+                @Html.EditorFor(model => model.Porcentaje, new { htmlAttributes = new { @type = "number", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Porcentaje, "", new { @class = "text-danger" })
+
             </div>
         </div>
 
-        <div class="col-md-3 col-sm-6">
+    </div>
+
+    <div class="row">
+        <div class="col-12">
             <div class="form-group">
-                @*<label id="EstadoLabel" class="control-label"> Activo</label>*@
-                @*<input class="form-check check-circle" type="checkbox" id="Estado" name="Estado" onclick="CambiarLableEstado()" checked />*@
-                <br />
-                <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" type="checkbox" id="Estado" name="Estado" onclick="CambiarLableEstado()" checked />
-                    <label class="custom-control-label" for="Estado" id="EstadoLabel">Activo</label>
-                </div>
+                <label>Observación</label>
+                <input type="text" id="txtObservacion" class="form-control" style="text-transform:uppercase" maxlength="250" name="name" value="" />
             </div>
-         </div>
-     </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-12 col-sm-12 text-center">
             <div class="form-group">
-                @*@Html.Label("Agregar", htmlAttributes: new { @class = "control-label " })*@
-                <div>
-                    @*<button type="button" onclick="IngresarAuditoriaSangre();" id="Agregar">
-
-                        <img src="~/Content/images/agregar1.png" style="width:30px" />
-                    </button>*@
+                <div id="divBtns">
                     <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="Agregar" onclick="IngresarAuditoriaSangre();" style="border-color:#2c3e50" type="button">
-                        <img style="width:100%" src="~/Content/icons/add24.png" />
+                        <img style="width:100%" src="~/Content/icons/save20.png" />
                     </button>
                     <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="LimpiarBoton()" style="border-color:#2c3e50" type="button">
-                    <img style="width:100%" src="~/Content/icons/clear24.png" />
+                        <img style="width:100%" src="~/Content/icons/clear24.png" />
+                    </button>
+                    <button data-toggle="tooltip" hidden data-placement="top" title="Eliminar" class="btn" id="btnEliminarDetalle" onclick="Observacion()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/cancel24.png" />
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    @*<div class="form-group">
-            <div class="col-md-offset-2 col-md-3">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>*@
+
 </div>
 <div id="ModelCargarEmpleados">
-
+</div>
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+<div id="ControlAuditoriaSangre" class="table-responsive">
 </div>
 
-<div id="ControlAuditoriaSangre">
-    <table class="table table-hover" style="cursor: pointer" id="tblDataTable">
-        <thead>
-            <tr>
-                <th>
-                    Cédula
-                </th>
-                <th>
-                    Nombres
-                </th>
-                <th>
-                    Línea
-                </th>
-                <th>
-                    Hora
-                </th>
-                <th>
-                    Porcentaje
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in ViewBag.AuditoriaSangre)
-            {
-                <tr onclick="CargarAuditoria('@item.Fecha','@item.Cedula', '@item.Porcentaje','@item.Nombres','@item.IdControlAuditoriaSangre')">
-                    <td>
-                        @item.Cedula
-                    </td>
-                    <td>
-                        @item.Nombres
-                    </td>
-                    <td>
-                        @item.Linea
-                    </td>
-                    <td>
-                        @item.Hora
-                    </td>
-                    <td>
-                        @item.Porcentaje
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminar" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Audiroría de Sangre</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-btn-no">No</button>
+            </div>
+        </div>
+    </div>
 </div>
 
+
+<!-- MODAL PARA INGRESO DE OBSERVACION -->
+<div class="modal fade" id="ModalObservacion" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Ingrese motivo</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <textarea class="form-control" rows="5" id="txtObservaccionEliminacion"></textarea>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="InactivarDetalle()">Aceptar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 

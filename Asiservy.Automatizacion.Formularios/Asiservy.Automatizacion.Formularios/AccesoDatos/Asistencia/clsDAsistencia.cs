@@ -21,7 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.spConsultaPersonalADondeFueronMovidos(codlinea).ToList();
+                return db.spConsultaPersonalADondeFueronMovidos(codlinea,null,null).ToList();
             }
         }
         public string ModificarAsistencia(ASISTENCIA model)
@@ -143,7 +143,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 {
 
                     //List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", CodLinea, "0").Where(x => x.CODIGOCARGO != "221").ToList();
-                    List<spConsultarEmpleadosxTurno> ListaEmpleados = db.spConsultarEmpleadosxTurno(CodLinea, turno).ToList();
+                    List<spConsultarEmpleadosxTurno> ListaEmpleados = null;//db.spConsultarEmpleadosxTurno(CodLinea, turno).ToList();
                     ControlAsistencia = new List<ASISTENCIA>();
                     foreach (var item in ListaEmpleados)
                     {
@@ -200,7 +200,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 {
 
                     //List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", CodLinea, "0").Where(x => x.CODIGOCARGO != "221").ToList();
-                    List<spConsultarEmpleadosxTurno> ListaEmpleados = db.spConsultarEmpleadosxTurno(CodLinea, turno).ToList();
+                    List<spConsultarEmpleadosxTurno> ListaEmpleados = null;// db.spConsultarEmpleadosxTurno(CodLinea, turno).ToList();
                     ControlAsistencia = new List<ASISTENCIA>();
                     foreach (var item in ListaEmpleados)
                     {

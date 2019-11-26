@@ -166,6 +166,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //CLASIFICADOR COCINA
         public static string CodigoGrupoCocinas = "015";
 
+        //CLASIFICADOR AUDITORIA
+        public static string CodigoGrupoAuditoria = "018";
+
 
         public static string BASE_URL_WS = "http://192.168.0.31:8870";
 

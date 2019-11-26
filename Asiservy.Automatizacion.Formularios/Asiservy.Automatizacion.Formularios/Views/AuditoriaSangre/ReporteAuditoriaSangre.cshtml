@@ -20,18 +20,24 @@
 
 
     </div>
-    <div class=" col-md-4 col-12">
+    <div class="col-md-3 col-12">
+        <div class="form-group">
+            <label>Tipo</label>
+            @Html.DropDownList("TipoAuditoria", new SelectList(ViewBag.TipoAuditoria, "Codigo", "Descripcion"), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class=" col-md-3 col-12">
 
         <div class="form-group">
 
             <label>Línea:</label>
-            @Html.DropDownList("Lineas", (IEnumerable<SelectListItem>)ViewBag.Lineas, "Selecione", new { @class = "form-control" })
+            @Html.DropDownList("Lineas", (IEnumerable<SelectListItem>)ViewBag.Lineas, "Todos", new { @class = "form-control" })
 
         </div>
 
 
     </div>
-    <div class=" col-md-4 text-md-left text-center col-12">
+    <div class=" col-md-2 text-md-left text-center col-12">
         <text class="">Acción: </text>
         <div class="form-group">
             <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="ConsultarRptAuditoriaSangre" onclick="ConsultarReporteAuditoriaSangre()" style="border-color:#2c3e50" type="button">

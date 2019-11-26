@@ -1,8 +1,11 @@
 ﻿@model List<Asiservy.Automatizacion.Datos.Datos.spConsultarAuditoriaSangreDiaria>
-
+@using Newtonsoft.Json;
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
+            <th>
+                Hora
+            </th>
             <th>
                 Cédula
             </th>
@@ -12,37 +15,52 @@
             <th>
                 Línea
             </th>
-            <th>
-                Hora
-            </th>
+
             <th>
                 Porcentaje
+            </th>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Observación
             </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr onclick="CargarAuditoria('@item.Fecha','@item.Cedula', '@item.Porcentaje','@item.Nombres','@item.IdControlAuditoriaSangre')">
-                
-                <td>
-                    @item.Cedula
-                </td>
-                <td>
-                    @item.Nombres
-                </td>
-                <td>
-                    @item.Linea
-                </td>
-                <td>
-                    @item.Hora
-                </td>
-                <td>
-                    @item.Porcentaje
-                </td>
-            </tr>
+            string json = JsonConvert.SerializeObject(item);
+        <tr onclick="CargarAuditoria(@json)">
+            <td>
+
+                @item.Hora
+            </td>
+            <td>
+                @item.Cedula
+            </td>
+            <td>
+                @item.Nombres
+            </td>
+            <td>
+                @item.Linea
+            </td>
+
+            <td>
+                @item.Porcentaje% &nbsp;
+                @if (item.Porcentaje > 1)
+                {
+                    <i class="fas fa-arrow-circle-up" style="background:#ff0000; border-radius:10px"></i>
+                }
+            </td>
+            <td>
+                @item.TipoAuditoria
+            </td>
+            <td>
+                @item.Observacion
+            </td>
+        </tr>
         }
     </tbody>
 </table>
 
-<script src="~/Scripts/General/dataTableJS.js"></script>

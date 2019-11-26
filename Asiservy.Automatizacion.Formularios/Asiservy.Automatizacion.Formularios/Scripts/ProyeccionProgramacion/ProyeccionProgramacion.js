@@ -365,13 +365,6 @@ function InactivarDetalle() {
 
 
 
-  $("#btnEliminarDetalle").on("click", function () {
-        var texto = "¿Está seguro de eliminar el lote: " + $("#txtLote").val()+"?";
-      $("#myModalLabel").html(texto);
-      $("#txtEliminar").val(1);
-        $("#mi-modal").modal('show');
-    });
-
 
 $("#btnEliminarDetalle").on("click", function () {
     var texto = "¿Está seguro de eliminar el lote: " + $("#txtLote").val() + "?";
