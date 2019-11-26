@@ -242,7 +242,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                         detalle.TemperaturaFinal = model.TemperaturaFinal;
                         detalle.Observacion = model.Observacion != null ? model.Observacion.ToUpper() : "";
                         detalle.RecetaRoceado = model.RecetaRoceado;
-
+                        detalle.Lote = model.Lote;
                     }
 
                     detalle.UsuarioModificacionLog = model.UsuarioIngresoLog;
