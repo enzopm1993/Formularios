@@ -858,6 +858,13 @@
         <Function Name="spConsultaEmpleadoCargoPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Linea" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsultaEmpleadosPersonalPrestadoFiltro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fecha" Type="date" Mode="In" />
+          <Parameter Name="Hora" Type="time" Mode="In" />
+          <Parameter Name="Area" Type="varchar" Mode="In" />
+          <Parameter Name="Linea" Type="varchar" Mode="In" />
+          <Parameter Name="Cargo" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spConsultaLimpiadorasControlHueso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="linea" Type="varchar" Mode="In" />
           <Parameter Name="fecha" Type="date" Mode="In" />
@@ -1510,6 +1517,13 @@
             <Parameter Name="CodLinea" Mode="In" Type="String" />
             <Parameter Name="FECHA" Mode="In" Type="DateTime" />
             <Parameter Name="Tipo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaEmpleadosPersonalPrestadoFiltro" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadosPersonalPrestadoFiltro)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Hora" Mode="In" Type="Time" />
+            <Parameter Name="Area" Mode="In" Type="String" />
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Cargo" Mode="In" Type="String" />
           </FunctionImport>
           
           </EntityContainer>
@@ -2679,6 +2693,17 @@
           <Property Type="Int32" Name="Veces" Nullable="true" />
           <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="8000" />
+        </ComplexType>
+        <ComplexType Name="spConsultaEmpleadosPersonalPrestadoFiltro">
+          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CODIGOLINEA" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="LINEA" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CODIGOAREA" Nullable="true" MaxLength="7" />
+          <Property Type="String" Name="AREA" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CODIGOCARGO" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="CARGO" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="CODIGORECURSO" Nullable="false" MaxLength="10" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4154,6 +4179,21 @@
                 <ScalarProperty Name="Veces" ColumnName="Veces" />
                 <ScalarProperty Name="Linea" ColumnName="Linea" />
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaEmpleadosPersonalPrestadoFiltro" FunctionName="ASIS_PRODModel.Store.spConsultaEmpleadosPersonalPrestadoFiltro">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEmpleadosPersonalPrestadoFiltro">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="CODIGOLINEA" ColumnName="CODIGOLINEA" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="CODIGOAREA" ColumnName="CODIGOAREA" />
+                <ScalarProperty Name="AREA" ColumnName="AREA" />
+                <ScalarProperty Name="CODIGOCARGO" ColumnName="CODIGOCARGO" />
+                <ScalarProperty Name="CARGO" ColumnName="CARGO" />
+                <ScalarProperty Name="CODIGORECURSO" ColumnName="CODIGORECURSO" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

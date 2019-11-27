@@ -735,5 +735,30 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAuditoriaSangre>("spReporteAuditoriaSangre", codLineaParameter, fECHAParameter, tipoParameter);
         }
+    
+        public virtual ObjectResult<spConsultaEmpleadosPersonalPrestadoFiltro> spConsultaEmpleadosPersonalPrestadoFiltro(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, string area, string linea, string cargo)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            var areaParameter = area != null ?
+                new ObjectParameter("Area", area) :
+                new ObjectParameter("Area", typeof(string));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            var cargoParameter = cargo != null ?
+                new ObjectParameter("Cargo", cargo) :
+                new ObjectParameter("Cargo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaEmpleadosPersonalPrestadoFiltro>("spConsultaEmpleadosPersonalPrestadoFiltro", fechaParameter, horaParameter, areaParameter, lineaParameter, cargoParameter);
+        }
     }
 }
