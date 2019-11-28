@@ -2121,6 +2121,9 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\ControlEnfundado\ReporteControlEnfundado.js" />
+    <Content Include="Scripts\ControlMaterialQuebradizo\AsignaMaterialesLinea.js" />
+    <Content Include="Scripts\ControlMaterialQuebradizo\ControlMaterialQuebradizo.js" />
+    <Content Include="Scripts\ControlMaterialQuebradizo\MantenimientoMaterialQuebradizo.js" />
     <Content Include="Scripts\Empleado\EmpleadoCargo.js" />
     <Content Include="Scripts\Empleado\ReporteEmpleadoCargo.js" />
     <Content Include="Scripts\GenerarDatosServicio\GenerarDatosServicio.js" />
@@ -2688,6 +2691,7 @@
     <Compile Include="AccesoDatos\ControlCocheLinea\clsDControlCocheLinea.cs" />
     <Compile Include="AccesoDatos\ControlEnfundado\clsDControlEnfundado.cs" />
     <Compile Include="AccesoDatos\ControlHueso\clsDControlHueso.cs" />
+    <Compile Include="AccesoDatos\ControlMaterialQuebradizo\clsDControlMaterialQuebradizo.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDControlMiga.cs" />
     <Compile Include="AccesoDatos\AuditoriaSangre\clsDAuditoriaSangre.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
@@ -2726,6 +2730,7 @@
     <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
     <Compile Include="Controllers\ControlEnfundadoController.cs" />
+    <Compile Include="Controllers\ControlMaterialQuebradizoController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -2905,6 +2910,11 @@
     <Content Include="Views\ProyeccionProgramacion\ReporteProyeccionProgramacion.cshtml" />
     <Content Include="Views\GenerarDatosServicio\GenerarDatosServicio.cshtml" />
     <Content Include="Views\Nomina\Certificados.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\MantenimientoMaterialQuebradizo.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\MantenimientoMaterialQuebradizoPartial.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\AsignaMaterialesLinea.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\AsignaMaterialesLineaPartial.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\ControlMaterialQuebradizo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

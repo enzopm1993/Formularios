@@ -69,7 +69,35 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-
+        public ActionResult GenerarMaterialQuebradizo()
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                MATERIAL_QUEBRADIZO barco = new MATERIAL_QUEBRADIZO { UsuarioIngresoLog = lsUsuario[0], TerminalIngresoLog = Request.UserHostAddress };
+                clsDGenerarDatosServicio = new clsDGenerarDatosServicio();
+                clsDGenerarDatosServicio.GenerarMaterialQuebradizo(barco);
+                return Json("Materiales generados con éxito.", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         #region Métodos
         protected void SetSuccessMessage(string message)
