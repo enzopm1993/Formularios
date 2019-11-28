@@ -199,7 +199,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     else if (!pro.EditarPreparacion)
                     {
                         respuesta.Codigo = 3;
-                        respuesta.Mensaje = "Control se encuentra en finalizado";
+                        respuesta.Mensaje = "Control se encuentra en finalizada";
                         respuesta.Observacion = idProyeccion + "";
                     }
                     else
@@ -293,18 +293,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     else if (pro.IngresoPreparacion )
                     {
                         respuesta.Codigo = 2;
-                        respuesta.Mensaje = "Control esta siendo ingresado";
+                        respuesta.Mensaje = "Proeycción esta siendo ingresado en preparación";
                         respuesta.Observacion = idProyeccion + "";
                     }
                     else if (pro.EditarPreparacion)
                     {
                         respuesta.Codigo = 3;
-                        respuesta.Mensaje = "Control esta siendo editado por preparación";
+                        respuesta.Mensaje = "Proeycción esta siendo editado por preparación";
+                        respuesta.Observacion = idProyeccion + "";
+                    }
+                    else if(pro.EditaProduccion)
+                    {
+                        respuesta.Codigo = 1;
                         respuesta.Observacion = idProyeccion + "";
                     }
                     else
                     {
-                        respuesta.Codigo = 1;
+                        respuesta.Codigo = 4;
+                        respuesta.Mensaje = "Proyección se encuentra finalizada";
                         respuesta.Observacion = idProyeccion + "";
                     }
                 }
@@ -464,13 +470,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     else if (pro.EditaProduccion)
                     {
                         respuesta.Codigo = 2;
-                        respuesta.Mensaje = "Control se encuentra en producción";
+                        respuesta.Mensaje = "Proyección se encuentra en producción";
                         respuesta.Observacion= idProyeccion + "";
                     }
                     else if (pro.EditarPreparacion)
                     {
                         respuesta.Codigo = 2;
-                        respuesta.Mensaje = "Control está siendo editado en preparación";
+                        respuesta.Mensaje = "Proyección está siendo editado en preparación";
+                        respuesta.Observacion = idProyeccion + "";
+                    }
+                    else
+                    {
+                        respuesta.Codigo = 4;
+                        respuesta.Mensaje = "Proyección se encuentra finalizada";
                         respuesta.Observacion = idProyeccion + "";
                     }
                 }
