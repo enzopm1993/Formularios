@@ -155,7 +155,9 @@ function ValidaProyeccion() {
     if ($('#txtFechaProduccion').val() == "") {
         return;
     }
+    $('#txtFechaOrden').val($('#txtFechaProduccion').val());    
     CargarOrdenFabricacion();
+    Limpiar();
     $("#DivProyeccion").html("");
     $("#DivMensaje").html("");
     $.ajax({
