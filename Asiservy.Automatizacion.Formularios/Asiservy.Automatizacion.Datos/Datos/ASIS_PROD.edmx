@@ -861,9 +861,7 @@
         <Function Name="spConsultaEmpleadosPersonalPrestadoFiltro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="date" Mode="In" />
           <Parameter Name="Hora" Type="time" Mode="In" />
-          <Parameter Name="Area" Type="varchar" Mode="In" />
           <Parameter Name="Linea" Type="varchar" Mode="In" />
-          <Parameter Name="Cargo" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsultaLimpiadorasControlHueso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="linea" Type="varchar" Mode="In" />
@@ -1521,9 +1519,7 @@
           <FunctionImport Name="spConsultaEmpleadosPersonalPrestadoFiltro" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadosPersonalPrestadoFiltro)">
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Hora" Mode="In" Type="Time" />
-            <Parameter Name="Area" Mode="In" Type="String" />
             <Parameter Name="Linea" Mode="In" Type="String" />
-            <Parameter Name="Cargo" Mode="In" Type="String" />
           </FunctionImport>
           
           </EntityContainer>
