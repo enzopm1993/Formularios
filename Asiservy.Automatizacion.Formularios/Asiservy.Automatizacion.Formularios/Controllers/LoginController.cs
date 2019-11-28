@@ -55,8 +55,7 @@ namespace ProyectoWeb.Controllers
         public JsonResult LogIn(string usuario, string password)
         {
             try
-            {
-                
+            {                
                 clsApiUsuario poUsuario = new clsApiUsuario();
                 string psCodigoUsuario = poUsuario.ConsultaUsuarioEspecificoSap(usuario, password);
                 //clsDLogin clsDLogin = new clsDLogin();
@@ -64,10 +63,7 @@ namespace ProyectoWeb.Controllers
                 if (!string.IsNullOrEmpty(psCodigoUsuario))
                 {
                     FormsAuthentication.SetAuthCookie(usuario+"_"+psCodigoUsuario, false);
-
-                    
                     return Json(1);
-
                 }
 
                 else

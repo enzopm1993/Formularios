@@ -107,7 +107,10 @@ function GuardarProyeccionDetalle() {
             proceso:1
 
         },
-        success: function (resultado) {           
+        success: function (resultado) {         
+            if (resultado == "101") {
+                window.location.reload();
+            }
             CargarProyeccionProgramacion();
             Limpiar();
             MensajeCorrecto(resultado);
@@ -133,6 +136,9 @@ function GenerarProyeccionProgramacion() {
             FechaProduccion: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (resultado > 0) {
                 $("#IdProyeccion").val(resultado);
                 GuardarProyeccionDetalle();
@@ -166,6 +172,9 @@ function ValidaProyeccion() {
             Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
 
             $("#btnEliminar").prop("hidden", true);  
             $("#btnFinalizar").prop("hidden", true);  
@@ -285,6 +294,9 @@ function InactivarRegistro(){
             id: $('#IdProyeccion').val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             Limpiar();
             ValidaProyeccion();
             MensajeCorrecto(resultado);
@@ -309,6 +321,9 @@ function FinalizarProyeccionProgramacion() {
             proceso:1
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             Limpiar();
             ValidaProyeccion();
             MensajeCorrecto(resultado);
@@ -331,6 +346,9 @@ function HabilitarProyeccionProgramacion() {
             proceso:1
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             Limpiar();
             ValidaProyeccion();
             MensajeCorrecto(resultado);
@@ -352,6 +370,9 @@ function InactivarDetalle() {
             id: $('#IdProyeccionDetalle').val()  
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             CargarProyeccionProgramacion();
             Limpiar();
             MensajeCorrecto(resultado);
@@ -410,6 +431,9 @@ function CargarOrdenFabricacion() {
             Fecha: valor
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
 
             if (!$.isEmptyObject(resultado)) {
                 $.each(resultado, function (create, row) {

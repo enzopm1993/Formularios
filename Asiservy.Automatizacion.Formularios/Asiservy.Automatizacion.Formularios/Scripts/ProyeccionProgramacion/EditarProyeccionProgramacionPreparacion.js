@@ -18,7 +18,9 @@ function ValidaProyeccion() {
             Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
-
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $("#btnEliminar").prop("hidden", true);
             $("#btnFinalizar").prop("hidden", true);
             $("#btnHabilitar").prop("hidden", true);           
@@ -82,6 +84,9 @@ function CargarProyeccionProgramacion() {
             proceso: 3
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (resultado == 0) {
                 $("#DivMensaje").html("<h3 class'text-center'> No existen registros </h3> ");
             } else {
@@ -200,7 +205,10 @@ function GuardarProyeccionDetalle() {
             proceso: 3
         },
         success: function (resultado) {
-           console.log(resultado);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+         //  console.log(resultado);
             if (resultado.Codigo == 1) {
                 $("#validaCocina").prop("hidden", false);
                 $("#validaCocina").text(resultado.Mensaje);

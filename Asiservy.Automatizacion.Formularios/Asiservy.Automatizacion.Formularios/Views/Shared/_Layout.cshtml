@@ -163,15 +163,18 @@
 
 
 
-                <div class="container-fluid relative1" style="padding-top:10px">
+                    <div class="container-fluid relative1" style="padding-top:10px">
 
-                    <div class="absolute1" hidden id="response">
+                        <div class="absolute1" hidden id="response">
+                        </div>
+                        <span id="TimeLeft"></span>
+
+
+                        @RenderBody()
+
+
+
                     </div>
-                    @RenderBody()
-
-
-
-                </div>
                 <!-- Modal -->
                 <div class="modal" style="background-color: white;" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -237,6 +240,40 @@
     <script src="~/Scripts/Mensajes/Mensajes.js"></script>
 
     <script>
+
+
+        var iStart = 0;
+        var iMinute = 2 //Obtengo el tiempo de session permitida
+        function showTimer() {
+            iStart = 60;
+            iMinute -= 1
+            lessMinutes();
+        }
+        function lessMinutes() {
+            //Busco mi elemento que uso para mostrar los minutos que le quedan (minutos y segundos)
+            obj = document.getElementById('TimeLeft');
+            if (iStart == 0) {
+                iStart = 60
+                iMinute -= 1;
+            }
+            iStart = iStart - 1;
+
+            //Si minuto y segundo = 0 ya expiró la sesion
+            if (iMinute == 0 && iStart == 0) {
+                alert("Su sesion ha expirado, sera redireccionado a la página principal");
+                window.location.href = '<%= Request.ApplicationPath %>' + '/login.aspx';
+            }
+
+            if (iStart < 10)
+                obj.innerText = iMinute.toString() + ':0' + iStart.toString();
+            else
+                obj.innerText = iMinute.toString() + ':' + iStart.toString();
+
+            //actualizo mi método cada segundo 
+            window.setTimeout("lessMinutes();", 1000)
+        }
+
+
         var config = {
             wsUrl: 'http://192.168.0.31:8870',
             baseUrl : '@Url.Content("~/")',

@@ -19,7 +19,9 @@ function ValidaProyeccion() {
             Fecha: $('#txtFechaProduccion').val()
         },
         success: function (resultado) {
-
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $("#btnEliminar").prop("hidden", true);
             $("#btnFinalizar").prop("hidden", true);
             $("#btnHabilitar").prop("hidden", true);
@@ -89,6 +91,9 @@ function CargarProyeccionProgramacion() {
             proceso:2
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (resultado == 0) {
                 $("#DivMensaje").html("<h3 class'text-center'> No existen registros </h3> ");
             } else {
@@ -184,6 +189,9 @@ function GuardarProyeccionDetalle() {
 
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $("#ModalEditarProyeccion").modal("hide");
             CargarProyeccionProgramacion();
             MensajeCorrecto(resultado);
@@ -233,7 +241,10 @@ function FinalizarProyeccionProgramacion() {
             id: $('#IdProyeccion').val(),
             proceso:2
         },
-        success: function (resultado) {          
+        success: function (resultado) {     
+            if (resultado == "101") {
+                window.location.reload();
+            }
             ValidaProyeccion();
             MensajeCorrecto(resultado);
         },
@@ -254,7 +265,10 @@ function HabilitarProyeccionProgramacion() {
             id: $('#IdProyeccion').val(),
             proceso:2
         },
-        success: function (resultado) {            
+        success: function (resultado) {        
+            if (resultado == "101") {
+                window.location.reload();
+            }
             ValidaProyeccion();
             MensajeCorrecto(resultado);
         },

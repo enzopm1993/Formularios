@@ -54,7 +54,9 @@ function FinalizaHabilitaProyeccion(idCheck, idProyeccion, url) {
             Observacion: $("#txtObservacion" + idProyeccion).val()
         },
         success: function (resultado) {         
-
+            if (resultado == "101") {
+                window.location.reload();
+            }
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -81,6 +83,9 @@ function CargarProyecciones() {
             fechaHasta: FechaHasta
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $('#spinnerCargando').prop("hidden", true);
             if (resultado == '0') {
                 $("#divMensaje").html('<h3 class="text-warning"> No existén registros</h3>');

@@ -24,14 +24,11 @@ function CerrarModalCargando() {
 }
 
 
-
     window.onload = function () {
         if (typeof history.pushState === "function") {
         history.pushState("jibberish", null, null);
     window.onpopstate = function () {
         history.pushState('newjibberish', null, null);
-    // Handle the back (or forward) buttons here
-    // Will NOT handle refresh, use onbeforeunload for this.
     };
 }
         else {
@@ -39,11 +36,7 @@ function CerrarModalCargando() {
             window.onhashchange = function () {
                 if (!ignoreHashChange) {
         ignoreHashChange = true;
-    window.location.hash = Math.random();
-    // Detect and redirect change here
-    // Works in older FF and IE9
-    // * it does mess with your hash symbol (anchor?) pound sign
-    // delimiter on the end of the URL
+    window.location.hash = Math.random();   
 }
                 else {
         ignoreHashChange = false;
@@ -51,3 +44,4 @@ function CerrarModalCargando() {
 };
 }
 }
+

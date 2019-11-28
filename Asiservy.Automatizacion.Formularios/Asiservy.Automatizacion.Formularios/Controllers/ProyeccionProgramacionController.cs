@@ -68,12 +68,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-
-        [Authorize]
         public ActionResult FinalizaProyeccionProgramacionPreparacionPartial(DateTime fechaDesde, DateTime fechaHasta)
         {
             try
-            {                
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 var model = clsDProyeccionProgramacion.ConsultaProyeccionProgramacion(fechaDesde, fechaHasta);
                 if (!model.Any())
@@ -163,6 +167,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 RespuestaGeneral respuesta = new RespuestaGeneral();
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 int idProyeccion = clsDProyeccionProgramacion.ValidarProyeccionProgramacion(Fecha);
@@ -264,6 +273,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 RespuestaGeneral respuesta = new RespuestaGeneral();
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 int idProyeccion = clsDProyeccionProgramacion.ValidarProyeccionProgramacion(Fecha);
@@ -373,6 +387,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 var model = clsDProyeccionProgramacion.ConsultaProyeccionProgramacionDetalle(IdProgramacion);
                 if (!model.Any())
@@ -420,6 +439,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 RespuestaGeneral respuesta = new RespuestaGeneral();
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 int idProyeccion = clsDProyeccionProgramacion.ValidarProyeccionProgramacion(Fecha);
@@ -481,8 +505,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.IngresoPreparacion = true; 
@@ -518,8 +546,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 PROYECCION_PROGRAMACION_DETALLE model= new PROYECCION_PROGRAMACION_DETALLE();
                 model.IdProyeccionProgramacionDetalle = id;
                 model.UsuarioIngresoLog = lsUsuario[0];
@@ -555,8 +587,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
@@ -633,8 +669,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 PROYECCION_PROGRAMACION model = new PROYECCION_PROGRAMACION();
                 model.IdProyeccionProgramacion = id;               
                 model.FechaIngresoLog = DateTime.Now;
@@ -663,13 +703,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-
         public JsonResult FinalizarIngresoProyeccionProgramacion(int id,int proceso, string Observacion)
         {
             try
             {
-                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 if (proceso == 1)
                 {
                     clsDProyeccionProgramacion.EditarProyeccionProgramacion(id,false,true,false,null,lsUsuario[0],Request.UserHostAddress);
@@ -713,8 +756,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 if (proceso == 1)
                 {
                     clsDProyeccionProgramacion.EditarProyeccionProgramacion(id, true, false, false, null, lsUsuario[0], Request.UserHostAddress);
@@ -791,6 +838,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
                 var modal = clsDProyeccionProgramacion.ConsultaProyeccionProgramacionReporte(Fecha);
                 return PartialView(modal);

@@ -18,6 +18,9 @@ function CargarReporte() {
         type: "GET",
         data: { Fecha: $('#txtFecha').val() },
         success: function (resultado) {     
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $('#DivTableReporteProyeccion').html(resultado);
             $("#spinnerCargando").prop("hidden", true);
             $('#tblDataTable').DataTable(config.opcionesDT);
