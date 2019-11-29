@@ -38,7 +38,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDClasificador = new clsDClasificador();
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
                 ViewBag.TipoAuditoria = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAuditoria, 0);
+                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, 0);
                 ViewBag.AuditoriaSangre = clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria(DateTime.Now);
+                
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -69,8 +71,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var ReporteAuditoriaSangre = clsDAuditoriaSangre.ConsultarReporteAuditoriaSangre(CodLinea,Fecha, Tipo);
                 if (!ReporteAuditoriaSangre.Any())
                 {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                
+                    return Json("0", JsonRequestBehavior.AllowGet);                
                 }
                 return PartialView(ReporteAuditoriaSangre);
             }
@@ -94,13 +95,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
      
-        public ActionResult EmpleadoBuscar()
+        public ActionResult EmpleadoBuscar(DateTime Fecha, TimeSpan Hora,string dsLinea)
         {
             try
-            {
-                
+            {                
                 clsDEmpleado = new clsDEmpleado();
-                List<spConsutaEmpleadosFiltro> lista = clsDEmpleado.ConsultaEmpleadosFiltro("0", "0",clsAtributos.CargoLimpiadora);
+                List<spConsultaEmpleadosPersonalPrestadoFiltro> lista = clsDEmpleado.ConsultaEmpleadosCambioPersonalFiltro(Fecha,Hora,dsLinea, "0","0");
                 return PartialView(lista);
 
             }

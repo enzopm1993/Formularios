@@ -54,5 +54,50 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.GenerarDatosServicio
 
             //return Lista;
         }
+
+        public void GenerarMaterialQuebradizo(MATERIAL_QUEBRADIZO model)
+        {
+            var client = new RestClient("http://192.168.0.31:8870");
+            RestRequest request;
+            request = new RestRequest("/api/Produccion/MaterialesProceso", Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            dynamic Lista = JsonConvert.DeserializeObject(content);
+
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                foreach (var x in Lista)
+                {
+                    MATERIAL_QUEBRADIZO material = new MATERIAL_QUEBRADIZO
+                    {
+                        Codigo = x.Codigo,
+                        Descripcion = x.Descripcion,                      
+                        EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                        UsuarioIngresoLog = model.UsuarioIngresoLog,
+                        TerminalIngresoLog = model.TerminalIngresoLog,
+                        FechaIngresoLog = DateTime.Now
+                    };
+                    var poMaterial = entities.MATERIAL_QUEBRADIZO.FirstOrDefault(y => y.Codigo == material.Codigo);
+                    if (poMaterial != null)
+                    {
+
+                        string nombre = material.Descripcion.Substring(0, material.Descripcion.Length>30 ? 30 : material.Descripcion.Length);
+                        poMaterial.Nombre = poMaterial.Nombre==null ? nombre : poMaterial.Nombre;
+                        poMaterial.Descripcion = material.Descripcion;
+                        poMaterial.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                        poMaterial.FechaModificacionLog = DateTime.Now;
+                        poMaterial.TerminalModificacionLog = model.TerminalIngresoLog;
+                    }
+                    else
+                    {
+                        entities.MATERIAL_QUEBRADIZO.Add(material);
+                    }
+                    entities.SaveChanges();
+                }
+
+            }
+
+            //return Lista;
+        }
     }
 }

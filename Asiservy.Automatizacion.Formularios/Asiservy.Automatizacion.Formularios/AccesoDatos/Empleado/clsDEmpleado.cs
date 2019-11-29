@@ -149,6 +149,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
 
+        public List<spConsultaEmpleadosPersonalPrestadoFiltro> ConsultaEmpleadosCambioPersonalFiltro(DateTime Fecha, TimeSpan Hora, string dsLinea, string dsArea, string dsCargo)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+
+                List<spConsultaEmpleadosPersonalPrestadoFiltro> pListEmpleados = null;
+                if (string.IsNullOrEmpty(dsLinea))
+                    dsLinea = "0";
+                if (string.IsNullOrEmpty(dsArea))
+                    dsArea = "0";
+                if (string.IsNullOrEmpty(dsCargo))
+                    dsCargo = "0";
+
+                pListEmpleados = db.spConsultaEmpleadosPersonalPrestadoFiltro(Fecha,Hora, dsLinea).ToList();
+                return pListEmpleados;
+            }
+        }
+
+
         public List<spConsutaEmpleadosFiltro> ConsultaEmpleadosFiltro(string dsLinea, string dsArea, string dsCargo)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())

@@ -127,7 +127,7 @@
                 </td>
 
                 <td>
-                    @if (item.EstadoRegistro == "A" && item.EditarPreparacion)
+                    @if (item.EstadoRegistro == "A" && !item.EditarPreparacion && !item.EditaProduccion && !item.IngresoPreparacion)
                     {
                         <input type="text" style="text-transform:uppercase" id=@("txtObservacion" + item.IdProyeccionProgramacion) maxlength="100" class="form-control" name="name" value="@item.Observacion" />
                     }

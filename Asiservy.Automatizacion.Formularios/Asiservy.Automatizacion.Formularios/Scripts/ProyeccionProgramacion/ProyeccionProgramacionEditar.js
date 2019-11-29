@@ -30,7 +30,9 @@ function ConsultaProyProgramacion() {
             Fecha: $('#FechaProduccion').val()
         },
         success: function (resultado) {
-
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $('#DivEditarProyeccion').empty();
             $('#DivEditarProyeccion').html(resultado);
 
@@ -100,6 +102,9 @@ function ActualizarProyeccion() {
             //Observacion: $('#Observacion').val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             //Limpiar();
             $('#DivEditarProyeccion').html(resultado);
             
@@ -124,6 +129,9 @@ function AbrirModal(IdProyeccion,Observacion,Lineas,HoraInicio,HoraFin) {
             HoraFin: HoraFin
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $('#modaleditarpro').empty();
             $('#modaleditarpro').html(resultado);
             //var m = document.getElementById("modaleditarpro");

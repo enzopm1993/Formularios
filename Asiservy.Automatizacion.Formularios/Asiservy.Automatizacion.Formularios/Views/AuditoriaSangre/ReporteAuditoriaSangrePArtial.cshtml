@@ -15,7 +15,9 @@
             <th>
                 Veces
             </th>
-
+            <th>
+                Observación
+            </th>
         </tr>
 
     </thead>
@@ -23,20 +25,23 @@
         @foreach (var item in Model)
         {
             var color = item.Veces == 1 ? "transparent" : item.Veces == 2 ? "#F7F266" : "#F9866E";
-            <tr style="background-color:@color">
-                <td>
-                    @item.Cedula
-                </td>
-                <td>
-                    @item.NOMBRES
-                </td>
-                <td>
-                    @item.Linea
-                </td>
-                <td>
-                    @item.Veces
-                </td>
-            </tr>
+        <tr style="background-color:@color">
+            <td>
+                @item.Cedula
+            </td>
+            <td>
+                @item.NOMBRES
+            </td>
+            <td>
+                @item.Linea
+            </td>
+            <td>
+                @item.Veces
+            </td>
+            <td>
+                @item.Observacion
+            </td>
+        </tr>
 
         }
     </tbody>

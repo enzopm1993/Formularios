@@ -1,7 +1,24 @@
 ﻿
 $(document).ready(function () {
     ConsultarAuditoriaChange();
+
+    function changeColor() {
+        var dt = new Date();
+        var hora = dt.getHours();
+        var minutos = dt.getMinutes();
+        if (hora < 10) {
+            hora = "0" + hora;
+        }
+        if (minutos < 10) {
+            minutos = "0" + minutos;
+        }
+        var time = hora + ":" + minutos;//+ ":" + dt.getSeconds();   
+        $("#HoraAuditoria").val(time);
+    }
+    setInterval(changeColor, 300000);
 });
+
+
 
 function LimpiarBoton() {
     $('#Cedula').val("");
@@ -41,17 +58,45 @@ function ConsultarAuditoriaChange() {
         }
     });
 }
-function CargarEmpleados(formulario) {   
-    if ($('#selectLinea').val() != '') {
+
+function ValidarEmpleado() {
+    var valida = true;
+    if ($("#FechaAuditoria").val() == "") {
+        $("#FechaAuditoria").css("border-color", "#DC143C");
+        valida = false;
+    } else {
+        $("#FechaAuditoria").css('border-color', '#d1d3e2');
+    }
+    if ($("#HoraAuditoria").val() == "") {
+        $("#HoraAuditoria").css("border-color", "#DC143C");
+        valida = false;
+    } else {
+        $("#HoraAuditoria").css("border-color", "#d1d3e2");
+    }
+    if ($("#Lineas").val() == "") {
+        $("#Lineas").css("border-color", "#DC143C");
+        valida = false;
+    } else {
+        $("#Lineas").css("border-color", "#d1d3e2");
+    }
+
+    return valida;
+}
+
+function CargarEmpleados(formulario) {     
+
+    if (!ValidarEmpleado()) {
+        return;
+    }
         $('#' + formulario).attr("disabled", true);
         $.ajax({
             url: "../AuditoriaSangre/EmpleadoBuscar",
             type: "Get",
             data:
             {
-                dsLinea: $('#selectLinea').val(),
-                dsArea: $('#selectArea').val(),
-                dsCargo: $('#selectCargo').val()
+                Fecha: $("#FechaAuditoria").val(),
+                Hora: $("#HoraAuditoria").val(),
+                dsLinea: $('#Lineas').val()              
             },
             success: function (resultado) {
                 $('#ModelCargarEmpleados').html(resultado);
@@ -63,9 +108,7 @@ function CargarEmpleados(formulario) {
                 $('#' + formulario).remove("disabled");
             }
         });
-    } else {
-        MensajeAdvertencia("Seleccione una LINEA", false)
-    }
+  
 }
 
 function Validar() {
