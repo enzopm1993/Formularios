@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="actualizarDatosEmpleados">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cedula" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="compania" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="direccion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barrio" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telefono" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numsoc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailjefe" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="actualizarDatosEmpleadosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="actualizarDatosEmpleadosResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="actualizarCodigosEmpleados">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cedula" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="compania" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigoDepartamento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigoCargo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigoSubarea" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigoArea" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="actualizarCodigosEmpleadosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="actualizarCodigosEmpleadosResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="actualizarDatosEmpleadosSoapIn">
+    <wsdl:part name="parameters" element="tns:actualizarDatosEmpleados" />
+  </wsdl:message>
+  <wsdl:message name="actualizarDatosEmpleadosSoapOut">
+    <wsdl:part name="parameters" element="tns:actualizarDatosEmpleadosResponse" />
+  </wsdl:message>
+  <wsdl:message name="actualizarCodigosEmpleadosSoapIn">
+    <wsdl:part name="parameters" element="tns:actualizarCodigosEmpleados" />
+  </wsdl:message>
+  <wsdl:message name="actualizarCodigosEmpleadosSoapOut">
+    <wsdl:part name="parameters" element="tns:actualizarCodigosEmpleadosResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServicioAsiservySoap">
+    <wsdl:operation name="actualizarDatosEmpleados">
+      <wsdl:input message="tns:actualizarDatosEmpleadosSoapIn" />
+      <wsdl:output message="tns:actualizarDatosEmpleadosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="actualizarCodigosEmpleados">
+      <wsdl:input message="tns:actualizarCodigosEmpleadosSoapIn" />
+      <wsdl:output message="tns:actualizarCodigosEmpleadosSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServicioAsiservySoap" type="tns:ServicioAsiservySoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="actualizarDatosEmpleados">
+      <soap:operation soapAction="http://tempuri.org/actualizarDatosEmpleados" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="actualizarCodigosEmpleados">
+      <soap:operation soapAction="http://tempuri.org/actualizarCodigosEmpleados" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServicioAsiservySoap12" type="tns:ServicioAsiservySoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="actualizarDatosEmpleados">
+      <soap12:operation soapAction="http://tempuri.org/actualizarDatosEmpleados" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="actualizarCodigosEmpleados">
+      <soap12:operation soapAction="http://tempuri.org/actualizarCodigosEmpleados" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServicioAsiservy">
+    <wsdl:port name="ServicioAsiservySoap" binding="tns:ServicioAsiservySoap">
+      <soap:address location="http://192.168.0.10/DLServicioAsiservy/Asiservy/ServicioAsiservy.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServicioAsiservySoap12" binding="tns:ServicioAsiservySoap12">
+      <soap12:address location="http://192.168.0.10/DLServicioAsiservy/Asiservy/ServicioAsiservy.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

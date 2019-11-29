@@ -46,11 +46,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [HttpPost]
         public ActionResult ActualizaEstadoSolicitud(ParamCambioEstado parametros)
         {
-            if (parametros.estado == "A")
-            {
-                //EJECUTAR WS DATALIFE
-            }
-
+           
             var client = new RestClient(clsAtributos.BASE_URL_WS);
             var request = new RestRequest("/api/Admin/ActualizaEstadoSolicitud", Method.POST);
             request.AddParameter("id", parametros.id);

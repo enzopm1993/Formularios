@@ -85,7 +85,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [HttpPost]
-        public ActionResult ProcesaCertificado(ParamCerticado parametros)
+        public ActionResult ProcesaCertificado(ParamCertificado parametros)
         {
            
             var client = new RestClient(clsAtributos.BASE_URL_WS);
@@ -102,6 +102,45 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             var datos = JsonConvert.DeserializeObject<ClsKeyValue>(content);
             return Json(datos, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult ActualizaInformacionDataLife(ParamCambioDatos parametros)
+        {
+            parametros.compania = "1";
+            ClsKeyValue obReturn = new ClsKeyValue();
+            using ( DataLifeService.ServicioAsiservySoapClient servicio = new DataLifeService.ServicioAsiservySoapClient())
+            {
+                var content = servicio.actualizarDatosEmpleados(parametros.cedula, parametros.compania, parametros.direccion, parametros.barrio, parametros.telefono, parametros.celular, parametros.correoPersonal);
+                var dt = content.Tables[0];
+                var codigoReturn = dt.Rows[0]["iRetCode"].ToString();
+                var msgReturn = dt.Rows[0]["sErrMsg"].ToString();
+                obReturn.Descripcion = msgReturn;
+                obReturn.Codigo = codigoReturn;
+                if (codigoReturn =="0")
+                {
+                    var client = new RestClient(clsAtributos.BASE_URL_WS);
+                    var request = new RestRequest("/api/Admin/ActualizaEstadoSolicitud", Method.POST);
+                    request.AddParameter("id", parametros.id_solicitud);
+                    request.AddParameter("estado", "A");
+                    request.AddParameter("observacion", "");
+                    request.AddParameter("username", parametros.username);
+                    request.AddParameter("tipo", "datos");
+                    IRestResponse response = client.Execute(request);
+                    var content2 = response.Content;
+                    var datos = JsonConvert.DeserializeObject<ClsKeyValue>(content2);
+                    obReturn.Codigo = "1";                  
+                }
+                else
+                {
+                    obReturn.Codigo = "0";
+                    obReturn.Descripcion = msgReturn;
+                }
+                return Json(obReturn, JsonRequestBehavior.AllowGet);
+            }          
+          
+        }
+
+
 
         [HttpPost]
         public ActionResult ObtenerCertificado(int id)
@@ -176,7 +215,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public bool EXISTE_SAP { get; set; }
     }
 
-    public class ParamCerticado
+    public class ParamCertificado
     {
         public int Id { get; set; }
         public string Descripcion { get; set; }
@@ -185,5 +224,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public string Plantilla { get; set; }
         public string usuario { get; set; }
         public string Opcion { get; set; }
+    }
+    public class ParamCambioDatos
+    {
+        public string cedula { get; set; }
+        public string compania { get; set; }
+        public string direccion { get; set; }
+        public string barrio { get; set; }
+        public string telefono { get; set; }
+        public string celular { get; set; }
+        public string correoPersonal { get; set; }
+        public int id_solicitud { get; set; }
+        public string username { get; set; }
     }
 }

@@ -7,7 +7,7 @@
         if ($(this).attr("tipoSolicitud") == 'datos') {
             limpiarCampos();
             var id_solicitud = $(this).attr("idTipo");
-            
+            var cedula_user = $(this).data("cedula");
             $("#cargaDatos_datos_" + id_solicitud).hide();
             $("#procesando_datos_" + id_solicitud).show();
             $(".cargaDatos").attr('href', "javascript:void(0)");
@@ -23,7 +23,7 @@
                     $("#txtTelefono").val(resultado.telefono);
                     $("#txtCelular").val(resultado.celular);
                     $("#txtCorreo").val(resultado.correo);
-
+                    $("#txtCedula").val(cedula_user);
                     if (resultado.cambia_direccion) {
                         $("#txtDireccion").addClass('datoCambia');
                     } else {
@@ -125,9 +125,36 @@
 
         return false;
     });
-
+  
     $("#sincronizarDL").click(function () {
-        cambiarEstadoSolicitud("A","","datos", $("#txtCodigoSolicitud").val());
+
+        $.ajax({
+            dataType: "json",
+            url: "../Nomina/ActualizaInformacionDataLife",
+            type: "POST",
+            data: {
+                cedula: $("#txtCedula").val(),
+                compania: 1,
+                direccion: $("#txtDireccion").val(),
+                barrio: $("#txtBarrio").val(),
+                telefono: $("#txtTelefono").val(),
+                celular: $("#txtCelular").val(),
+                correoPersonal: $("#txtCorreo").val(),
+                id_solicitud: $("#txtCodigoSolicitud").val(),
+                username: $("#usernameLogin").val()
+            },
+            success: function (resultado) {
+                if (resultado.Codigo == "1") {
+                    alert("Registro actualizado con éxito");
+                    window.location.reload(false);
+                } else {
+                    alert(resultado.Descripcion);
+                }
+            },
+            error: function (resultado) {
+                MensajeError(resultado.statusText, false);
+            }
+        });
         return false;
     });
     $("#generarPDF").click(function () {
