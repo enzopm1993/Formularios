@@ -33,6 +33,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return View(solicitudes);
         }
 
+        public ActionResult Sugerencias()
+        {
+
+            ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
+            var request = new RestRequest("/api/Admin/Sugerencias", Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            var sugerencias = JsonConvert.DeserializeObject<List<AccesoDatos.App.Sugerencias>>(content);
+
+
+            return View(sugerencias);
+        }
+
+
         public ActionResult InfoSolicitudDatos(int id)
         {
             var client = new RestClient(clsAtributos.BASE_URL_WS);
