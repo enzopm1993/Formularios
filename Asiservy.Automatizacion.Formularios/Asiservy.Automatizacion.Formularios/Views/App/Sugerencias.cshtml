@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.AccesoDatos.App.Sugerencias>
+@{
+    ViewBag.Title = "Buzón de sugerencias";
+}
+<style>
+    input.form-control, select.form-control, textarea.form-control {
+        max-width: 100%;
+    }
+
+    .datoCambia {
+        background-color: #c6ffc6;
+        border-color: green;
+        color: black;
+    }
+
+    .procesa_loader {
+        display: none;
+    }
+
+    a.cargaDatos {
+        font-size: 11px;
+    }
+    #txtContentCertificado table{
+        margin: 0 auto;
+    }
+    div#TipoCertificado {
+        font-size: 20px;
+    }
+    label#tituloTipo {
+        font-weight: bold;
+        margin-right: 5px;
+    }
+    div#ContenidoCertificado h6 {
+        font-weight: bold;
+    }
+</style>
+<h4>Buzón de sugerencias</h4>
+<hr />
+<br />
+<div id="DivTableEmpleadosDatos" class="table-responsive">
+
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th>
+                    <label>Comentario</label>
+
+                </th>
+                <th>
+                    <label>Fecha</label>
+                </th>
+
+                <th>
+                    <label>Estado</label>
+
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comentario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estado)
+                    </td>
+                    <td>                       
+                        <a class="badge badge-primary cargaDatos" data-comentario="@item.Comentario" data-fecha="@item.Fecha" href="#">Ver sugerencia</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+
+
+<div class="modal fade" id="ModalSugerencia" tabindex="-1" role="dialog" aria-labelledby="ModalSugerencia" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fechaSugerencia"></h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">               
+                <div id="txtContentSugerencia"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

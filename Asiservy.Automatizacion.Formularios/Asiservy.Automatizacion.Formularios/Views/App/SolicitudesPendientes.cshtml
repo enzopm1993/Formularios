@@ -88,7 +88,7 @@
                     </td>
                     <td>
                         <div class="procesa_loader" id="procesando_@(item.TipoCode+"_"+item.idTipo)"> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></div>
-                        <a class="badge badge-primary cargaDatos" data-tiposolicitud="@item.TipoSolicitud" id="cargaDatos_@(item.TipoCode+"_"+item.idTipo)" data-idcertificado="@item.idCertificado" idTipo="@item.idTipo" tipoSolicitud="@item.TipoCode" href="#">Ver solicitud</a>
+                        <a class="badge badge-primary cargaDatos" data-cedula="@item.Cedula" data-tiposolicitud="@item.TipoSolicitud" id="cargaDatos_@(item.TipoCode+"_"+item.idTipo)" data-idcertificado="@item.idCertificado" idTipo="@item.idTipo" tipoSolicitud="@item.TipoCode" href="#">Ver solicitud</a>
                     </td>
                 </tr>
             }
@@ -108,6 +108,7 @@
             </div>
             <div class="modal-body">
                 <input id="txtCodigoSolicitud" type="hidden" />
+                <input id="txtCedula" type="hidden" />
                 <div class="form-group">
                     <label for="txtDireccion">Dirección</label>
                     <input type="text" class="form-control campoSolicitud" id="txtDireccion" value="" />
@@ -132,7 +133,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
-                <a class="btn btn-danger" id="rechazarSolicitud" href="#">Rechazar camnbios</a>
+                <a class="btn btn-danger" id="rechazarSolicitud" href="#">Rechazar cambios</a>
                 <a class="btn btn-success" id="sincronizarDL" href="#">Sincronizar con DataLife</a>
             </div>
         </div>
