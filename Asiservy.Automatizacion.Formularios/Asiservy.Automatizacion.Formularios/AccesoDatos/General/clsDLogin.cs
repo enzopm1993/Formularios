@@ -16,8 +16,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             {
                 string psCodigoUsuario = db.spConsultarUsuario(psusuario, psclave).FirstOrDefault();
                 return psCodigoUsuario;
+            }            
+        }
+
+        public bool ValidarUsuarioRol(string IdUsuario, int rol)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var existe = entities.USUARIO_ROL.Any(x => x.IdUsuario == IdUsuario &&
+                x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
+                x.IdRol == rol
+                );
+                return existe;             
             }
-            
         }
 
         public List<int?> ConsultaRolesUsuario(string dsIdUsuario)

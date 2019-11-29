@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlMaterialQuebradizoDetalle>
+
+
+<table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>          
+            <th>
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Material)
+            </th>
+            <th>
+                <label>Total</label>
+            </th>
+            <th>
+                <label>Buen Estado</label>
+            </th>
+            <th>
+                <label>Observación</label>
+            </th>   
+            <th>
+                Acción
+            </th>
+          
+        </tr>
+    </thead>
+    <tbody>
+        @{ int i = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                  @i
+                </td>
+              
+                <td>
+                    @Html.DisplayFor(modelItem => item.Material)
+                </td>
+                <td>
+                    @if (item.TotalMaterial > 0)
+                    {
+                        <input type="number" disabled min="0" id="txtTotal-@item.IdControlMaterialDetalle" class="form-control" name="name" value="@item.TotalMaterial" onclick="clearMaterial(this.id)" />
+                    }
+                    else
+                    {
+                        <input type="number" min="0" id="txtTotal-@item.IdControlMaterialDetalle" class="form-control" name="name" value="@item.TotalMaterial" onclick="clearMaterial(this.id)" />
+                    }
+                </td>
+                <td>
+                    @if (item.TotalMaterial > 0)
+                    {
+                        <input type="number" disabled min="0" id="txtBuenEstado-@item.IdControlMaterialDetalle" class="form-control" name="name" value="@item.BuenEstado" onclick="clearMaterial(this.id)" />
+                    }
+                    else
+                    {
+                        <input type="number"  min="0" id="txtBuenEstado-@item.IdControlMaterialDetalle" class="form-control" name="name" value="@item.BuenEstado" onclick="clearMaterial(this.id)" />
+                    }
+                </td>
+                <td>
+                    @if (item.TotalMaterial > 0)
+                    {
+                        <input type="text" disabled id="txtObservacion-@item.IdControlMaterialDetalle" class="form-control" name="name" value="@item.Observacion" />
+                    }
+                    else
+                    {
+                        <input type="text"  id="txtObservacion-@item.IdControlMaterialDetalle" class="form-control" name="name" value="@item.Observacion" />
+                    }
+                </td>             
+                <td>
+                    <div class="col-xs-2 text-xs-center">
+                        <div class="custom-control custom-switch">
+                            @Html.CheckBox("material" + item.IdControlMaterialDetalle, item.TotalMaterial>0, new { @onchange = "check('" + item.IdControlMaterialDetalle + "')", @class = "custom-control-input" })
+                            <label class="custom-control-label" for=@("material" + item.IdControlMaterialDetalle) id="LabelFecha"></label>
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>

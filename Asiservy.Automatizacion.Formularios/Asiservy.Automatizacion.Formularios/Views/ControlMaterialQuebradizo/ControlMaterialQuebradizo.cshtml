@@ -1,6 +1,8 @@
 ﻿
 @{
-    ViewBag.Title = "ControlMaterialQuebradizo";
+                /**/
+
+                ViewBag.Title = "ControlMaterialQuebradizo";
 }
 <style>
     input, select, textarea {
@@ -9,6 +11,7 @@
 </style>
 <h3>Control de materiales quebradizo</h3>
 @{DateTime Fecha = DateTime.Now;}
+<input type="hidden" name="name" id="txtIdControl" value="" />
 <div class="row">
     <div class="offset-sm-2 col-md-4 col-6">
         <label>Linea</label>
@@ -17,13 +20,23 @@
 
     <div class="col-md-4 col-6">
         <label>Fecha</label>
-        <input type="date" class="form-control" id="txtFechaControl" name="name" value="@Fecha.ToString("yyyy-MM-dd")" />
+        <input type="date" class="form-control" id="txtFechaControl" name="name" value="@Fecha.ToString("yyyy-MM-dd")" onchange="ValidaMaterialQuebradizo()" />
     </div>
 </div>
 <br />
 <div class="row">
     <div class="col-12 text-center">
-        <input id="btnGenerar" type="button" class="btn btn-outline-success" name="name" value="Generar" onclick="GenerarControlMaterial()" />
+        @*<input id="btnGenerar" hidden type="button" class="btn btn-outline-success" name="name" value="Generar" onclick="GenerarControlMaterialQuebradizo()" />*@
+        @*  <input id="btnEliminar" hidden type="button" class="btn btn-outline-danger" name="name" value="Eliminar" onclick="EliminarControlMaterialQuebradizo()" />*@
+        <button data-toggle="tooltip" hidden data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="GenerarControlMaterialQuebradizo()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/add24.png" />
+        </button>
+        <button data-toggle="tooltip" hidden data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/cancel24.png" />
+        </button>
+        <button data-toggle="tooltip" hidden data-placement="top" title="Observación" class="btn" id="btnObservacion" onclick="ModalObservacion()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/add24-2.png" />
+        </button>
     </div>
 </div>
 
@@ -34,6 +47,48 @@
     </div>
 </div>
 
+<div class="text-center" id="DivMensaje">
+
+</div>
 <div id="divTablaControlDetalle" class="table-responsive">
 
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalObservacion">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminar" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Observación</h4>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" rows="5" id="txtObservacionMaterial"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" id="modal-obs-si">Guardar</button>
+                <button type="button" class="btn btn-outline-dark" id="modal-obs-no">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminar" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Control de Material Quebradizo</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-btn-no">No</button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -2124,6 +2124,7 @@
     <Content Include="Scripts\ControlMaterialQuebradizo\AsignaMaterialesLinea.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\ControlMaterialQuebradizo.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\MantenimientoMaterialQuebradizo.js" />
+    <Content Include="Scripts\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizo.js" />
     <Content Include="Scripts\Empleado\EmpleadoCargo.js" />
     <Content Include="Scripts\Empleado\ReporteEmpleadoCargo.js" />
     <Content Include="Scripts\GenerarDatosServicio\GenerarDatosServicio.js" />
@@ -2915,6 +2916,9 @@
     <Content Include="Views\ControlMaterialQuebradizo\AsignaMaterialesLinea.cshtml" />
     <Content Include="Views\ControlMaterialQuebradizo\AsignaMaterialesLineaPartial.cshtml" />
     <Content Include="Views\ControlMaterialQuebradizo\ControlMaterialQuebradizo.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\ControlMaterialQuebradizoPartial.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizo.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
