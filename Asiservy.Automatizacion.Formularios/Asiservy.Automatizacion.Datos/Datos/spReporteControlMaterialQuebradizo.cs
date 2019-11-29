@@ -10,19 +10,18 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class CONTROL_MATERIAL
+    public partial class spReporteControlMaterialQuebradizo
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CONTROL_MATERIAL()
-        {
-            this.CONTROL_MATERIAL_DETALLE = new HashSet<CONTROL_MATERIAL_DETALLE>();
-        }
-    
-        public int IdControlMaterial { get; set; }
         public System.DateTime Fecha { get; set; }
+        public string ObservacionControl { get; set; }
         public string Linea { get; set; }
+        public string Material { get; set; }
+        public int IdControlMaterialDetalle { get; set; }
+        public int IdControlMaterial { get; set; }
+        public string CodigoMaterial { get; set; }
+        public int TotalMaterial { get; set; }
+        public int BuenEstado { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -31,8 +30,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CONTROL_MATERIAL_DETALLE> CONTROL_MATERIAL_DETALLE { get; set; }
     }
 }

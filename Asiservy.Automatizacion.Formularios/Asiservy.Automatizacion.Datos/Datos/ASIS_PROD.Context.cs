@@ -66,10 +66,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CAMBIO_PERSONAL> CAMBIO_PERSONAL { get; set; }
         public virtual DbSet<BARCO> BARCO { get; set; }
         public virtual DbSet<PROYECCION_PROGRAMACION_DETALLE> PROYECCION_PROGRAMACION_DETALLE { get; set; }
-        public virtual DbSet<CONTROL_MATERIAL> CONTROL_MATERIAL { get; set; }
-        public virtual DbSet<CONTROL_MATERIAL_DETALLE> CONTROL_MATERIAL_DETALLE { get; set; }
         public virtual DbSet<MATERIAL_LINEA> MATERIAL_LINEA { get; set; }
         public virtual DbSet<MATERIAL_QUEBRADIZO> MATERIAL_QUEBRADIZO { get; set; }
+        public virtual DbSet<CONTROL_MATERIAL> CONTROL_MATERIAL { get; set; }
+        public virtual DbSet<CONTROL_MATERIAL_DETALLE> CONTROL_MATERIAL_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -773,6 +773,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("idControl", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlMaterialQuebradizoDetalle>("spConsultaControlMaterialQuebradizoDetalle", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spReporteControlMaterialQuebradizo> spReporteControlMaterialQuebradizo(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, string linea)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("FechaDesde", fechaDesde) :
+                new ObjectParameter("FechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("FechaHasta", fechaHasta) :
+                new ObjectParameter("FechaHasta", typeof(System.DateTime));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlMaterialQuebradizo>("spReporteControlMaterialQuebradizo", fechaDesdeParameter, fechaHastaParameter, lineaParameter);
         }
     }
 }
