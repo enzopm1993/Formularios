@@ -24,6 +24,7 @@
                 <th hidden></th>
                 <th>Total</th>
                 <th>Buen Estado</th>
+                <th>Dado de Baja</th>
                 <th>Observación</th>
             }
         </tr>
@@ -48,6 +49,9 @@
                 <th hidden></th>
                 <td>@Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).TotalMaterial</td>
                 <td>@Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).BuenEstado</td>
+                <td>@{var baja= Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).DadoBaja ?? 0;}
+                    @baja
+                </td>
                 <td>@Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).Observacion</td>
             }
         </tr>

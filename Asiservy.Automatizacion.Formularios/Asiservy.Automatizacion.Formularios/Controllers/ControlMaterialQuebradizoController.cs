@@ -348,6 +348,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     model.TotalMaterial = 0;
                     model.BuenEstado = 0;
+                    model.DadoBaja = 0;
                 }
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];

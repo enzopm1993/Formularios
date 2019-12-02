@@ -167,31 +167,44 @@ function EliminarControlMaterialQuebradizo() {
 function ValidarDetalle(id) {
     var total = "#txtTotal-" + id;
     var buenEstado = "#txtBuenEstado-" + id;   
+    var dadoBaja = "#txtDadoBaja-" + id;
+
     var valida = true;
+
     if ($(total).val() > 0) {
         $(total).css("border-color", "#d1d3e2");
     } else {
         $(total).css("border-color", "#DC143C");//#d1d3e2
         valida = false;
     }
-    if ($(buenEstado).val() > 0) {
-        $(buenEstado).css("border-color", "#d1d3e2");
-    } else {
-        $(buenEstado).css("border-color", "#DC143C");//#d1d3e2
-        valida = false;
-    }
+
+    //if ($(buenEstado).val() > 0) {
+    //    $(buenEstado).css("border-color", "#d1d3e2");a
+    //} else {
+    //    $(buenEstado).css("border-color", "#DC143C");//#d1d3e2
+    //    valida = false;
+    //}
 
     var valortotal =  $(total).val();
     var valorestado = $(buenEstado).val();
+    var valorDadoBaja = $(dadoBaja).val();
     if (parseInt(valorestado) > parseInt(valortotal)) {
         MensajeAdvertencia("Material en buen estado no puede ser mayor que el total");
         $(buenEstado).css("border-color", "#DC143C");
         valida = false;
     } else {
         $(buenEstado).css("border-color", "#d1d3e2");
-
     }
 
+
+    if (parseInt(valorDadoBaja) > parseInt(valortotal)) {
+        MensajeAdvertencia("Material en dado de baja no puede ser mayor que el total");
+
+        $(valorDadoBaja).css("border-color", "#DC143C");
+        valida = false;
+    } else {
+        $(valorDadoBaja).css("border-color", "#d1d3e2");
+    }
 
 
     return valida;
@@ -206,6 +219,7 @@ function check(id) {
     var total = "#txtTotal-" + id;
     var buenEstado = "#txtBuenEstado-" + id;
     var observacion = "#txtObservacion-" + id;
+    var dadoBaja = "#txtDadoBaja-" + id;
 
     if ($("#material" + id).prop("checked")) {
         var estado = "A";
@@ -222,6 +236,7 @@ function check(id) {
             TotalMaterial: $(total).val(),
             BuenEstado: $(buenEstado).val(),
             Observacion: $(observacion).val(),
+            DadoBaja: $(dadoBaja).val(),
             EstadoRegistro: estado
 
         },
@@ -233,10 +248,12 @@ function check(id) {
                 $(total).prop("disabled", true);
                 $(buenEstado).prop("disabled", true);
                 $(observacion).prop("disabled", true);
+                $(dadoBaja).prop("disabled", true);
             } else {
                  $(total).prop("disabled", false);
                 $(buenEstado).prop("disabled", false);
                 $(observacion).prop("disabled", false);
+                $(dadoBaja).prop("disabled", false);
             }
             
         },

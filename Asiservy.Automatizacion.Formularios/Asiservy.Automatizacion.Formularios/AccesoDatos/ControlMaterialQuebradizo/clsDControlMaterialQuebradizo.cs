@@ -81,6 +81,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlMaterialQuebrad
                 {
                     detalle.TotalMaterial = model.TotalMaterial;
                     detalle.BuenEstado = model.BuenEstado;
+                    detalle.DadoBaja = model.DadoBaja;
                     detalle.Observacion = model.Observacion;
 
                     entities.SaveChanges();
