@@ -293,13 +293,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     else if (pro.IngresoPreparacion )
                     {
                         respuesta.Codigo = 2;
-                        respuesta.Mensaje = "Proeycción esta siendo ingresado en preparación";
+                        respuesta.Mensaje = "Proyección esta siendo ingresado en preparación";
                         respuesta.Observacion = idProyeccion + "";
                     }
                     else if (pro.EditarPreparacion)
                     {
                         respuesta.Codigo = 3;
-                        respuesta.Mensaje = "Proeycción esta siendo editado por preparación";
+                        respuesta.Mensaje = "Proyección esta siendo editado por preparación";
                         respuesta.Observacion = idProyeccion + "";
                     }
                     else if(pro.EditaProduccion)
