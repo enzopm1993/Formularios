@@ -339,6 +339,7 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="DadoBaja" Type="int" />
         </EntityType>
         <EntityType Name="CONTROL_MIGA">
           <Key>
@@ -1622,15 +1623,15 @@
           <FunctionImport Name="spConsultaAsignaMaterialesLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaAsignaMaterialesLinea)">
           <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaControlMaterialQuebradizoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlMaterialQuebradizoDetalle)">
-          <Parameter Name="idControl" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="CONTROL_MATERIAL" EntityType="ASIS_PRODModel.CONTROL_MATERIAL" />
           <EntitySet Name="CONTROL_MATERIAL_DETALLE" EntityType="ASIS_PRODModel.CONTROL_MATERIAL_DETALLE" />
           <AssociationSet Name="FK_CONTROL_MATERIAL_DETALLE_CONTROL_MATERIAL" Association="ASIS_PRODModel.FK_CONTROL_MATERIAL_DETALLE_CONTROL_MATERIAL">
             <End Role="CONTROL_MATERIAL" EntitySet="CONTROL_MATERIAL" />
             <End Role="CONTROL_MATERIAL_DETALLE" EntitySet="CONTROL_MATERIAL_DETALLE" />
           </AssociationSet>
+          <FunctionImport Name="spConsultaControlMaterialQuebradizoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlMaterialQuebradizoDetalle)">
+          <Parameter Name="idControl" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="spReporteControlMaterialQuebradizo" ReturnType="Collection(ASIS_PRODModel.spReporteControlMaterialQuebradizo)">
             <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
@@ -2861,22 +2862,6 @@
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="spConsultaControlMaterialQuebradizoDetalle">
-          <Property Type="Int32" Name="IdControlMaterialDetalle" Nullable="false" />
-          <Property Type="Int32" Name="IdControlMaterial" Nullable="false" />
-          <Property Type="String" Name="CodigoMaterial" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="Material" Nullable="true" MaxLength="30" />
-          <Property Type="Int32" Name="TotalMaterial" Nullable="false" />
-          <Property Type="Int32" Name="BuenEstado" Nullable="false" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <EntityType Name="CONTROL_MATERIAL">
           <Key>
             <PropertyRef Name="IdControlMaterial" />
@@ -2912,6 +2897,7 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CONTROL_MATERIAL" Relationship="ASIS_PRODModel.FK_CONTROL_MATERIAL_DETALLE_CONTROL_MATERIAL" FromRole="CONTROL_MATERIAL_DETALLE" ToRole="CONTROL_MATERIAL" />
+          <Property Name="DadoBaja" Type="Int32" />
         </EntityType>
         <Association Name="FK_CONTROL_MATERIAL_DETALLE_CONTROL_MATERIAL">
           <End Type="ASIS_PRODModel.CONTROL_MATERIAL" Role="CONTROL_MATERIAL" Multiplicity="1" />
@@ -2925,6 +2911,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spConsultaControlMaterialQuebradizoDetalle">
+          <Property Type="Int32" Name="IdControlMaterialDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdControlMaterial" Nullable="false" />
+          <Property Type="String" Name="CodigoMaterial" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Material" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="TotalMaterial" Nullable="false" />
+          <Property Type="Int32" Name="BuenEstado" Nullable="false" />
+          <Property Type="Int32" Name="DadoBaja" Nullable="true" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+        </ComplexType>
         <ComplexType Name="spReporteControlMaterialQuebradizo">
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
           <Property Type="String" Name="ObservacionControl" Nullable="true" MaxLength="500" />
@@ -2943,6 +2946,7 @@
           <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="DadoBaja" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4487,26 +4491,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaControlMaterialQuebradizoDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaControlMaterialQuebradizoDetalle">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlMaterialQuebradizoDetalle">
-                <ScalarProperty Name="IdControlMaterialDetalle" ColumnName="IdControlMaterialDetalle" />
-                <ScalarProperty Name="IdControlMaterial" ColumnName="IdControlMaterial" />
-                <ScalarProperty Name="CodigoMaterial" ColumnName="CodigoMaterial" />
-                <ScalarProperty Name="Material" ColumnName="Material" />
-                <ScalarProperty Name="TotalMaterial" ColumnName="TotalMaterial" />
-                <ScalarProperty Name="BuenEstado" ColumnName="BuenEstado" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CONTROL_MATERIAL">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_MATERIAL">
               <MappingFragment StoreEntitySet="CONTROL_MATERIAL">
@@ -4527,6 +4511,7 @@
           <EntitySetMapping Name="CONTROL_MATERIAL_DETALLE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_MATERIAL_DETALLE">
               <MappingFragment StoreEntitySet="CONTROL_MATERIAL_DETALLE">
+                <ScalarProperty Name="DadoBaja" ColumnName="DadoBaja" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
@@ -4543,6 +4528,27 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlMaterialQuebradizoDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaControlMaterialQuebradizoDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlMaterialQuebradizoDetalle">
+                <ScalarProperty Name="IdControlMaterialDetalle" ColumnName="IdControlMaterialDetalle" />
+                <ScalarProperty Name="IdControlMaterial" ColumnName="IdControlMaterial" />
+                <ScalarProperty Name="CodigoMaterial" ColumnName="CodigoMaterial" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="TotalMaterial" ColumnName="TotalMaterial" />
+                <ScalarProperty Name="BuenEstado" ColumnName="BuenEstado" />
+                <ScalarProperty Name="DadoBaja" ColumnName="DadoBaja" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spReporteControlMaterialQuebradizo" FunctionName="ASIS_PRODModel.Store.spReporteControlMaterialQuebradizo">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteControlMaterialQuebradizo">
@@ -4563,6 +4569,7 @@
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="DadoBaja" ColumnName="DadoBaja" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
