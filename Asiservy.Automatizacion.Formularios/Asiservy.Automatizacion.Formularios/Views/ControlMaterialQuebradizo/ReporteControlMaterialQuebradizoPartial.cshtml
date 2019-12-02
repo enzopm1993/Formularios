@@ -9,7 +9,7 @@
             <th rowspan="2">Materiales</th>
             @foreach (var x in ListadoFechas)
             {
-                <th colspan="3">Fecha: @x.Fecha.ToString("yyyy-MM-dd")</th>
+                <th colspan="4">@x.Fecha.ToString("yyyy-MM-dd")</th>
 
             }
             <th hidden></th>
@@ -34,7 +34,7 @@
             var ListadoMateriales = Model.Select(x => new { x.CodigoMaterial, x.Material }).Distinct();
             var Listado = Model.OrderBy(x => x.Fecha);
             var ListadoObservaciones = Model.Select(x => new { x.Fecha,x.ObservacionControl}).Distinct();
-            int count = ListadoFechas.Count()*4;
+            int count = ListadoFechas.Count()*5;
 
         }
         @{ foreach (var m in ListadoMateriales)

@@ -73,11 +73,11 @@
             <td>
                 @if (item.TotalMaterial > 0)
                 {
-                    <input type="text" disabled id="txtObservacion-@item.IdControlMaterialDetalle" class="form-control" name="name" value="@item.Observacion" />
+                    <input type="text" disabled id="txtObservacion-@item.IdControlMaterialDetalle" maxlength="100" class="form-control" name="name" value="@item.Observacion" />
                 }
                 else
                 {
-                    <input type="text" id="txtObservacion-@item.IdControlMaterialDetalle" class="form-control" name="name" value="@item.Observacion" />
+                    <input type="text" id="txtObservacion-@item.IdControlMaterialDetalle" maxlength="100" class="form-control" name="name" value="@item.Observacion" />
                 }
             </td>
 
