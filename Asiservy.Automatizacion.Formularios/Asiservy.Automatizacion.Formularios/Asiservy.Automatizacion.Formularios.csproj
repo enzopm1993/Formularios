@@ -1967,6 +1967,7 @@
     <Content Include="Content\gijgo\modular\timepicker.min.css" />
     <Content Include="Content\gijgo\modular\tree.css" />
     <Content Include="Content\gijgo\modular\tree.min.css" />
+    <Content Include="Content\icons\add24-2.png" />
     <Content Include="Content\icons\add24.png" />
     <Content Include="Content\icons\aprobar24.png" />
     <Content Include="Content\icons\atras24.png" />
@@ -1977,10 +1978,12 @@
     <Content Include="Content\icons\excel24.png" />
     <Content Include="Content\icons\justificar24.png" />
     <Content Include="Content\icons\limpiar32.png" />
+    <Content Include="Content\icons\login.png" />
     <Content Include="Content\icons\print24.png" />
     <Content Include="Content\icons\puerta32.png" />
     <Content Include="Content\icons\save20.png" />
     <Content Include="Content\icons\send24.png" />
+    <Content Include="Content\icons\show24-2.png" />
     <Content Include="Content\icons\show24.png" />
     <Content Include="Content\icons\tuerca32.png" />
     <Content Include="Content\icons\user32.png" />

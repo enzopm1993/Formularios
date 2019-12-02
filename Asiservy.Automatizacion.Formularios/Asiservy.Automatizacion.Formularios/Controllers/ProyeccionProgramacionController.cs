@@ -636,19 +636,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     }
 
 
-                    string mensaje = clsDProyeccionProgramacion.validarCocinas(model);
-                    if (string.IsNullOrEmpty(mensaje))
-                    {
+                    //string mensaje = clsDProyeccionProgramacion.validarCocinas(model);
+                    //if (string.IsNullOrEmpty(mensaje))
+                    //{
                         clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 3); //Editar Proyección de la programación en preparación
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                        
-                        respuesta.Codigo = 1;
-                        string[] resp = mensaje.Split('-');
-                        respuesta.Mensaje ="Cocina: "+ resp[1] + ", está siendo utilizado por el lote: "+ resp[0];
-                        return Json(respuesta, JsonRequestBehavior.AllowGet);
-                    }
+                    //    respuesta.Codigo = 1;
+                    //    string[] resp = mensaje.Split('-');
+                    //    respuesta.Mensaje ="Cocina: "+ resp[1] + ", está siendo utilizado por el lote: "+ resp[0];
+                    //    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                    //}
 
                 }
                 else

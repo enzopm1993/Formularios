@@ -32,7 +32,17 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-    
+    <style>
+        .btn-link:hover {
+            color: #ffd800 !important;
+        }
+
+        .btn-link {
+            font-weight: 400;
+            color: aliceblue;
+            text-decoration: none;
+        }
+    </style>
     <div class="container relative1">
         <div class="absolute1" hidden id="response">
         </div>
@@ -64,8 +74,8 @@
                             <input id="txtPassword" type="password" class="form-control" placeholder="Contraseña">
                         </div>
                         @*<div class="row align-items-center remember">
-                            <input type="checkbox">Remember Me
-                        </div>*@
+                                <input type="checkbox">Remember Me
+                            </div>*@
                         <div class="form-group text-center">
                             <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn btn-outline-light" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-broom"> Limpiar</i>
@@ -80,11 +90,61 @@
                                 Espere...
                             </button>
                         </div>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <input type="button" onclick="CambioClave()" class="btn btn-link" value="Cambio de Clave" />
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="card-footer text-center">
 
                     <img style="width:70%" src="~/Content/images/logo1.png" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="ModalCambioClave" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background:#2C3E50" >
+                    <h5 class="modal-title text-white" id="exampleModalLabel" >Cambio de clave <img src="~/Content/icons/login.png"  alt="Alternate Text" /> </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Clave Actual</label>
+                                <input class="form-control" type="password" id="txtClaveActual" name="name" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Nueva Clave</label>
+                                <input class="form-control" type="password" id="txtClaveNueva" name="name" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Confirmar Clave</label>
+                                <input class="form-control" type="password" id="txtClaveNuevaConfirmar" name="name" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" >
+                    @*<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cerrar</button>
+                    <button type="button" onclick="CambiarClave()" class="btn btn-outline-primary">Guardar</button>*@
+                    <h5 class="text-danger">Nueva opción, pronto estará lista!!</h5>
                 </div>
             </div>
         </div>

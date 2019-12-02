@@ -4,6 +4,50 @@
     }
 });
 
+function CambioClave() {
+    LimpiarModalCambioClave();
+    $("#ModalCambioClave").modal("show");
+}
+
+function Validar() {
+    var valida = true;
+    if ($("#txtClaveActual").val() == '') {
+        $("#txtClaveActual").css("border-color", "#f71d06");
+        valida = false;
+    } else {
+        $("#txtClaveActual").css("border-color", "#ced4da");
+    }
+    if ($("#txtClaveNueva").val() == '') {
+        $("#txtClaveNueva").css("border-color", "#f71d06");
+        valida = false;
+    } else {
+        $("#txtClaveNueva").css("border-color", "#ced4da");
+    }
+    if ($("#txtClaveNuevaConfirmar").val() == '') {
+        $("#txtClaveNuevaConfirmar").css("border-color", "#f71d06");
+        valida = false;
+    } else {
+        $("#txtClaveNuevaConfirmar").css("border-color", "#ced4da");
+    }
+    return valida;
+}
+
+function LimpiarModalCambioClave() {
+    $("#txtClaveActual").css("border-color", "#ced4da");
+    $("#txtClaveNueva").css("border-color", "#ced4da");
+    $("#txtClaveNuevaConfirmar").css("border-color", "#ced4da");
+    $("#txtClaveActual").val('');
+    $("#txtClaveNueva").val('');
+    $("#txtClaveNuevaConfirmar").val('');
+}
+
+function CambiarClave() {
+    if (!Validar()) {
+        return;
+    }
+}
+
+
 function Nuevo() {
     $("#txtUsuario").val('');
     $("#txtPassword").val('');

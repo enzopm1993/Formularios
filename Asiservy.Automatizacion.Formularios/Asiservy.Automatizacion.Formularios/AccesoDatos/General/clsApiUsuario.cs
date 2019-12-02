@@ -1,4 +1,5 @@
-﻿using Asiservy.Automatizacion.Formularios.Models.Seguridad;
+﻿using Asiservy.Automatizacion.Formularios.Models;
+using Asiservy.Automatizacion.Formularios.Models.Seguridad;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -81,6 +82,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             var content = response.Content;
             var ListMacracaciones = JsonConvert.DeserializeObject<List<Marcacion>>(content);
             return (List<Marcacion>)ListMacracaciones;
+        }
+
+        public RespuestaGeneral CambiarClaveLogin(string Usuario, string Clave)
+        {
+            var client = new RestClient("http://192.168.0.31:8870");
+            var request = new RestRequest("/api/Empleado/ActualizarPerfil", Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            var respuesta = JsonConvert.DeserializeObject<RespuestaGeneral>(content);
+            return respuesta;
         }
 
     }
