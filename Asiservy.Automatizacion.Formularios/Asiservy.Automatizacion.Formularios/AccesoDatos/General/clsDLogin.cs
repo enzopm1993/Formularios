@@ -42,6 +42,28 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
 
+        public bool ValidarPermisoOpcion(string dsUsuario, string dsopcion)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+
+                var model = (from u in entities.USUARIO_ROL
+                             join or in entities.OPCION_ROL on u.IdRol equals or.IdRol
+                             join op in entities.OPCION on or.IdOpcion equals op.IdOpcion
+                             where u.IdUsuario == dsUsuario 
+                             && u.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                             && or.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                             && op.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                             && op.Formulario == dsopcion select u).FirstOrDefault();
+                if (model != null)
+                    return true;
+                else
+                    return false;
+
+
+            }
+        }
+
         public Object[] ConsultarRolesDeUsuario(string psrolid)
         {
             using (Asiservy.Automatizacion.Datos.Datos.ASIS_PRODEntities db = new Asiservy.Automatizacion.Datos.Datos.ASIS_PRODEntities())

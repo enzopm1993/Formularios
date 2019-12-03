@@ -60,7 +60,7 @@
                                     <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/user32.png" />
                                 </span>
                             </div>
-                            <input id="txtUsuario" type="text" class="form-control" placeholder="Usuario">
+                            <input id="txtUsuario" style="text-transform:uppercase" onkeypress = "return sololetras(event)" type="text" class="form-control" placeholder="Usuario">
 
                         </div>
                         <div class="input-group form-group">
@@ -90,11 +90,7 @@
                                 Espere...
                             </button>
                         </div>
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <input type="button" onclick="CambioClave()" class="btn btn-link" value="Cambio de Clave" />
-                            </div>
-                        </div>
+                       
                     </form>
                 </div>
                 <div class="card-footer text-center">
@@ -106,49 +102,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="ModalCambioClave" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background:#2C3E50" >
-                    <h5 class="modal-title text-white" id="exampleModalLabel" >Cambio de clave <img src="~/Content/icons/login.png"  alt="Alternate Text" /> </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>Clave Actual</label>
-                                <input class="form-control" type="password" id="txtClaveActual" name="name" value="" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>Nueva Clave</label>
-                                <input class="form-control" type="password" id="txtClaveNueva" name="name" value="" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>Confirmar Clave</label>
-                                <input class="form-control" type="password" id="txtClaveNuevaConfirmar" name="name" value="" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer" >
-                    @*<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cerrar</button>
-                    <button type="button" onclick="CambiarClave()" class="btn btn-outline-primary">Guardar</button>*@
-                    <h5 class="text-danger">Nueva opción, pronto estará lista!!</h5>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 </body>
 </html>
 

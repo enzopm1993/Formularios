@@ -2031,6 +2031,7 @@
     <Content Include="Content\images\fondo5.jpg" />
     <Content Include="Content\images\fondo6.jpg" />
     <Content Include="Content\images\logo1.png" />
+    <Content Include="Content\images\pageError.png" />
     <Content Include="Content\images\pez-salto.gif" />
     <Content Include="Content\images\pez.gif" />
     <Content Include="Content\images\pez.png" />
@@ -2939,6 +2940,7 @@
     <Content Include="Views\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizo.cshtml" />
     <Content Include="Views\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizoPartial.cshtml" />
     <Content Include="Views\App\Sugerencias.cshtml" />
+    <Content Include="Views\Home\HomeError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

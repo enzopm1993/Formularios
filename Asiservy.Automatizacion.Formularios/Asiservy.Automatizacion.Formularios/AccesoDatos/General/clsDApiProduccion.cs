@@ -3,6 +3,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
@@ -19,6 +20,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             else
              request = new RestRequest("/api/Produccion/Tallas/"+Talla+"/", Method.GET);
             IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
             var content = response.Content;
             var ListaTallas = JsonConvert.DeserializeObject(content);
             return ListaTallas;
@@ -32,6 +37,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             RestRequest request;          
             request = new RestRequest("/api/Produccion/LotesPorFecha/" + Fecha.Year+"-"+Fecha.Month+"-"+Fecha.Day+ "/", Method.GET);
             IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
             var content = response.Content;
             var ListaLotes = JsonConvert.DeserializeObject(content);
             return ListaLotes;
@@ -43,6 +52,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             RestRequest request;
             request = new RestRequest("/api/Produccion/Especies", Method.GET);
             IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
             var content = response.Content;
             var ListaEspecies = JsonConvert.DeserializeObject(content);
             return ListaEspecies;
@@ -56,6 +69,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             request = new RestRequest("/api/Produccion/Barcos", Method.GET);
             IRestResponse response = client.Execute(request);
             var content = response.Content;
+            if(response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
             var Lista = JsonConvert.DeserializeObject(content);
             return Lista;
         }

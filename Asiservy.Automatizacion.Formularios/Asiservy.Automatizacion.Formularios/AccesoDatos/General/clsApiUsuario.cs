@@ -5,6 +5,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
@@ -18,6 +19,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 
             var request = new RestRequest("/api/Usuarios", Method.GET);
             IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+                return null;
             var content = response.Content;
             var ListaUsuarios = JsonConvert.DeserializeObject(content);
             return ListaUsuarios;
@@ -29,6 +32,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             var client = new RestClient("http://192.168.0.31:8870");
             var request = new RestRequest("/api/Usuarios", Method.GET);
             IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+                return null;
             var content = response.Content;
             var ListaUsuarios = JsonConvert.DeserializeObject<List<Usuario>>(content);
             return (List<Usuario>)ListaUsuarios;
@@ -43,6 +48,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             request.AddParameter("usuario", usuario);
             request.AddParameter("clave", clave);
             IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+                return null;
             dynamic content = response.Content;
             if (string.IsNullOrEmpty(content))
                 throw new Exception("no se pudo establecer conexión con el servicio");
@@ -63,6 +70,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             var client = new RestClient("http://192.168.0.31:8870");
             var request = new RestRequest("/api/Marcaciones/"+ Identificacion, Method.GET);
             IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+                return null;
             var content = response.Content;
             dynamic Result = JsonConvert.DeserializeObject(content);
             if (Result != null && Result.Count>0)
@@ -79,16 +88,37 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             var client = new RestClient("http://192.168.0.31:8870");
             var request = new RestRequest("/api/Marcaciones/" + pdFecha.ToString("yyyy-MM-dd"), Method.GET);
             IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+                return null;
             var content = response.Content;
             var ListMacracaciones = JsonConvert.DeserializeObject<List<Marcacion>>(content);
             return (List<Marcacion>)ListMacracaciones;
         }
 
-        public RespuestaGeneral CambiarClaveLogin(string Usuario, string Clave)
+        public RespuestaGeneral CambiarClaveLogin(string dsUsuario,string dsClaveActual, string dsClave)
         {
             var client = new RestClient("http://192.168.0.31:8870");
-            var request = new RestRequest("/api/Empleado/ActualizarPerfil", Method.GET);
+            var request = new RestRequest("/api/Empleado/ActualizarPerfil", Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddJsonBody(new
+            {
+                cambiarNombre=0,
+                NombreMuestra="",
+                Usuario= dsUsuario,
+                ClaveActual= dsClaveActual,
+                CambioClave=1,
+                NuevaClave= dsClave
+            });
+
+            //request.AddParameter("cambiarNombre", 0);
+            //request.AddParameter("NombreMuestra", "");
+            //request.AddParameter("Usuario", Usuario);
+            //request.AddParameter("ClaveActual", ClaveActual);
+            //request.AddParameter("CambioClave", 1);
+            //request.AddParameter("NuevaClave", Clave);
             IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+                return null;
             var content = response.Content;
             var respuesta = JsonConvert.DeserializeObject<RespuestaGeneral>(content);
             return respuesta;

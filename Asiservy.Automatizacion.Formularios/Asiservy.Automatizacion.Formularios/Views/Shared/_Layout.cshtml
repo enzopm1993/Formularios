@@ -149,7 +149,11 @@
                                     <img class="img-profile rounded-circle" src="~/Content/admin/img/user.png">
                                 </a>
                                 <!-- Dropdown - User Information -->
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">                                   
+                                    <a class="dropdown-item" onclick="CambioClave()"  href="#">
+                                        <i class="fas fa-key  fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Cambio de Clave
+                                    </a>
                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Cerrar sesión
@@ -163,18 +167,18 @@
 
 
 
-                    <div class="container-fluid relative1" style="padding-top:10px">
+                <div class="container-fluid relative1" style="padding-top:10px">
 
-                        <div class="absolute1" hidden id="response">
-                        </div>
-                        <span id="TimeLeft"></span>
-
-
-                        @RenderBody()
-
-
-
+                    <div class="absolute1" hidden id="response">
                     </div>
+                    <span id="TimeLeft"></span>
+
+
+                    @RenderBody()
+
+
+
+                </div>
                 <!-- Modal -->
                 <div class="modal" style="background-color: white;" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -225,7 +229,60 @@
             </div>
         </div>
     </div>
-
+    <div class="modal fade" id="ModalCambioClave" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background:#2C3E50">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">Cambio de clave <img src="~/Content/icons/login.png" alt="Alternate Text" /> </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Usuario</label>
+                                <input class="form-control" readonly type="text" id="txtUsuario2" name="name" value="@User.Identity.Name.Split('_')[0]" />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Clave Actual</label>
+                                <input class="form-control" type="password" id="txtClaveActual" name="name" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Nueva Clave</label>
+                                <input class="form-control" type="password" id="txtClaveNueva" name="name" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Confirmar Clave</label>
+                                @*<input class="form-control" onkeypress="" type="password" id="txtClaveNuevaConfirmar" name="name" value="" />*@
+                                <input class="form-control" onkeypress="CambiarClave(event)" type="password" id="txtClaveNuevaConfirmar" name="name" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnCerrarModal" class="btn btn-outline-dark" data-dismiss="modal">Cerrar</button>
+                    <button type="button" id="btnGuardarCambioClave" onclick="CambiarClave(null)" class="btn btn-outline-primary">Guardar</button>
+                    <button hidden id="btnCargando" class="btn btn-light" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Espere...
+                    </button>
+                    @*<h5 class="text-danger">Nueva opción, pronto estará lista!!</h5>*@
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Bootstrap core JavaScript-->
     <script src="~/Content/admin/vendor/jquery/jquery.min.js"></script>
     <script src="~/Content/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -240,39 +297,56 @@
     <script src="~/Scripts/Mensajes/Mensajes.js"></script>
 
     <script>
+        //var iStart = 0;
+        //var iMinute = 2 //Obtengo el tiempo de session permitida
+        //function showTimer() {
+        //    iStart = 60;
+        //    iMinute -= 1
+        //    lessMinutes();
+        //}
+        //function lessMinutes() {
+        //    //Busco mi elemento que uso para mostrar los minutos que le quedan (minutos y segundos)
+        //    obj = document.getElementById('TimeLeft');
+        //    if (iStart == 0) {
+        //        iStart = 60
+        //        iMinute -= 1;
+        //    }
+        //    iStart = iStart - 1;
+
+        //    //Si minuto y segundo = 0 ya expiró la sesion
+        //    if (iMinute == 0 && iStart == 0) {
+        //        alert("Su sesion ha expirado, sera redireccionado a la página principal");
+        //        window.location.href = '<%= Request.ApplicationPath %>' + '/login.aspx';
+        //    }
+        //    if (iStart < 10)
+        //        obj.innerText = iMinute.toString() + ':0' + iStart.toString();
+        //    else
+        //        obj.innerText = iMinute.toString() + ':' + iStart.toString();
+        //    //actualizo mi método cada segundo
+        //    window.setTimeout("lessMinutes();", 1000)
+        //}
 
 
-        var iStart = 0;
-        var iMinute = 2 //Obtengo el tiempo de session permitida
-        function showTimer() {
-            iStart = 60;
-            iMinute -= 1
-            lessMinutes();
-        }
-        function lessMinutes() {
-            //Busco mi elemento que uso para mostrar los minutos que le quedan (minutos y segundos)
-            obj = document.getElementById('TimeLeft');
-            if (iStart == 0) {
-                iStart = 60
-                iMinute -= 1;
+        var urlOpcion = '@ViewBag.JavaScrip';
+        urlOpcion = urlOpcion.split("/");
+        $.ajax({
+            url: "../Login/ValidarOpcionUsuario",
+            type: "GET",
+            data:
+            {
+                Usuario: '@User.Identity.Name.Split('_')[1]',
+                Opcion: urlOpcion[1]
+            },
+            success: function (resultado) {
+                if (resultado == false) {
+                    var url = "../Home/HomeError?Msg=NO TIENE PERMISOS A ESTA PAGINA";
+                    window.location.href = url;
+                }
+            },
+            error: function (resultado) {
+                MensajeError(JSON.stringify(resultado), false);
             }
-            iStart = iStart - 1;
-
-            //Si minuto y segundo = 0 ya expiró la sesion
-            if (iMinute == 0 && iStart == 0) {
-                alert("Su sesion ha expirado, sera redireccionado a la página principal");
-                window.location.href = '<%= Request.ApplicationPath %>' + '/login.aspx';
-            }
-
-            if (iStart < 10)
-                obj.innerText = iMinute.toString() + ':0' + iStart.toString();
-            else
-                obj.innerText = iMinute.toString() + ':' + iStart.toString();
-
-            //actualizo mi método cada segundo 
-            window.setTimeout("lessMinutes();", 1000)
-        }
-
+        });
 
         var config = {
             wsUrl: 'http://192.168.0.31:8870',
@@ -333,7 +407,7 @@
                 ]
             }
         }
-       
+
     </script>
 
     @if (ViewBag.dataTableJS != null)
