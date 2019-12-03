@@ -16,12 +16,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         clsDCambioPersonal clsdCambioPersonal = null;
         List<sp_ConsultaAsistenciaDiariaPersonalMovido> pListAsistenciaMovidos = null;
         spConsutaEmpleados BuscarControlador = null;
+        clsDEmpleado ClsdEmpleado = null;
 
-        public List<spConsultaPersonalADondeFueronMovidos> ConsultaPrestadosxLinea(string codlinea)
+        public List<spConsultaAsistenciaFinalizar> ConsultarAsistenciaFinalizar(DateTime Fecha, string CodLinea)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.spConsultaPersonalADondeFueronMovidos(codlinea).ToList();
+                return db.spConsultaAsistenciaFinalizar(Fecha, CodLinea).ToList();
+            }
+        }
+        public List<spConsultaPersonalADondeFueronMovidos> ConsultaPrestadosxLinea(string codlinea, DateTime? Fecha, TimeSpan? Hora)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaPersonalADondeFueronMovidos(codlinea, Fecha,Hora).ToList();
             }
         }
         public string ModificarAsistencia(ASISTENCIA model)
@@ -143,7 +151,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 {
 
                     //List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", CodLinea, "0").Where(x => x.CODIGOCARGO != "221").ToList();
-                    List<spConsultarEmpleadosxTurno> ListaEmpleados = db.spConsultarEmpleadosxTurno(CodLinea, turno).ToList();
+                    List<spConsultarEmpleadosxTurno> ListaEmpleados = db.spConsultarEmpleadosxTurno(CodLinea, turno, null, null).ToList();//corregir parametros null mandar fecha y hora
                     ControlAsistencia = new List<ASISTENCIA>();
                     foreach (var item in ListaEmpleados)
                     {
@@ -187,7 +195,45 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return ControlAsistenciaGeneralViewModel;
             }
         }
-        public ControlDeAsistenciaViewModel ObtenerAsistenciaDiaria(string CodLinea, int BanderaExiste, string usuario, string terminal,string turno, DateTime Fecha)
+        public string InactivarEmpleadosCambioPersonal(string[] ArrayCedulas)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                List<MOVIMIENTO_PERSONAL_DIARIO> BuscarMovimientoPersonalDiario;
+                List<string> NoSePudoInactivar=new List<string>();
+                //Desactivo los registros en CAMBIO_PERSONAL
+                var BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x => ArrayCedulas.Contains(x.Cedula)).ToList();
+                
+                foreach (var item in BuscarCambioPersonal)
+                {
+                    //verifico que no se haya generado asistencia para poder desactivar el registro en cambio de personal
+                    BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.FechaInicio == item.Fecha&&x.HoraInicio<item.HoraInicio).ToList();
+                    if (BuscarMovimientoPersonalDiario.Count==0)
+                    {
+                        item.EstadoRegistro = "I";
+                    }
+                    else
+                    {
+                        NoSePudoInactivar.Add(item.Cedula+"No se pudo inactivar por que la asistencia ya habia sido generada");
+                    }
+                }
+                //Desactivo todos los registros en MOVIMIENTO_PERSONAL_DIARIO
+                
+                db.SaveChanges();
+                if (NoSePudoInactivar.Count==0)
+                return "Empleado(s) Inactivados con éxito";
+                else
+                {
+                    string mensaje = string.Empty;
+                    foreach (var item in NoSePudoInactivar)
+                    {
+                        mensaje += item+ "\n";
+                    }
+                    return mensaje;
+                }
+            }
+        }
+        public ControlDeAsistenciaViewModel ObtenerAsistenciaDiaria(string CodLinea, int BanderaExiste, string usuario, string terminal,string turno, DateTime Fecha, TimeSpan HoraServidor)
         {
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
@@ -200,7 +246,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 {
 
                     //List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", CodLinea, "0").Where(x => x.CODIGOCARGO != "221").ToList();
-                    List<spConsultarEmpleadosxTurno> ListaEmpleados = db.spConsultarEmpleadosxTurno(CodLinea, turno).ToList();
+                    List<spConsultarEmpleadosxTurno> ListaEmpleados = db.spConsultarEmpleadosxTurno(CodLinea, turno,Fecha,HoraServidor).ToList();
                     ControlAsistencia = new List<ASISTENCIA>();
                     foreach (var item in ListaEmpleados)
                     {
@@ -215,7 +261,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     foreach (var item in pListAsistencia)
                     {
                         item.Hora = item.EstadoAsistencia == clsAtributos.EstadoFalta ? TimeSpan.Parse(DateTime.Now.ToString("HH:mm")) : item.Hora;
-                        item.HoraSalida = item.EstadoAsistencia == clsAtributos.EstadoFalta ? TimeSpan.Parse(DateTime.Now.ToString("HH:mm")) : item.Hora;
+                        //item.HoraSalida = item.HoraSalida == null ? TimeSpan.Parse(DateTime.Now.ToString("HH:mm")) : item.HoraSalida;
                     }
                     ControlAsistenciaViewModel = new ControlDeAsistenciaViewModel
                     {
@@ -229,6 +275,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     foreach (var item in pListAsistencia)
                     {
                         item.Hora = item.EstadoAsistencia == clsAtributos.EstadoFalta ? TimeSpan.Parse(DateTime.Now.ToString("HH:mm")) : item.Hora;
+                        //item.HoraSalida = item.HoraSalida == null ? TimeSpan.Parse(DateTime.Now.ToString("HH:mm")) : item.HoraSalida;
                     }
                     ControlAsistenciaViewModel = new ControlDeAsistenciaViewModel
                     {
@@ -319,26 +366,281 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return ControlDeAsistenciaPrestadosViewModel;
             }
         }
+        public string GuardarAsistenciaSalida(string Cedula, DateTime Fecha, TimeSpan Hora, string Tipo)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                if (Tipo== "MarcarSalida")
+                {
+                    MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonal = db.MOVIMIENTO_PERSONAL_DIARIO.Where(z => z.Cedula == Cedula && z.FechaInicio == Fecha && z.HoraFin == null).FirstOrDefault();
+                    ASISTENCIA BuscarAsistencia = db.ASISTENCIA.Where(a => a.Cedula == Cedula && a.Fecha == Fecha).FirstOrDefault();
+                    if (BuscarMovimientoPersonal != null)
+                    {
+                        BuscarMovimientoPersonal.HoraFin = Hora;
+                        BuscarMovimientoPersonal.FechaFin = Fecha;
+                    }
+                    if (BuscarAsistencia != null)
+                    {
+                        BuscarAsistencia.HoraSalida = Hora;
+                    }
+                }
+                else
+                {
+                    MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonal = db.MOVIMIENTO_PERSONAL_DIARIO.Where(z => z.Cedula == Cedula && z.FechaInicio == Fecha && z.HoraFin != null).FirstOrDefault();
+                    ASISTENCIA BuscarAsistencia = db.ASISTENCIA.Where(a => a.Cedula == Cedula && a.Fecha == Fecha).FirstOrDefault();
+                    if (BuscarMovimientoPersonal != null)
+                    {
+                        BuscarMovimientoPersonal.HoraFin = null;
+                        BuscarMovimientoPersonal.FechaFin = null;
+                    }
+                    if (BuscarAsistencia != null)
+                    {
+                        BuscarAsistencia.HoraSalida = null;
+                    }
+                }
 
+                db.SaveChanges();
+                return "Asistencia salida ingresada";
+            }
+        }
         public string ActualizarAsistencia(ASISTENCIA psAsistencia)
         {
-            using(ASIS_PRODEntities db =new  ASIS_PRODEntities())
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                DateTime Fechainicio =Convert.ToDateTime(psAsistencia.Fecha.Value.ToShortDateString());
+                DateTime Fechainicio = Convert.ToDateTime(psAsistencia.Fecha.Value.ToShortDateString());
                 DateTime FechaFin = Convert.ToDateTime(psAsistencia.Fecha.Value.AddDays(1).ToShortDateString());
                 var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == psAsistencia.Cedula && (x.Fecha >= Fechainicio && x.Fecha < FechaFin)).FirstOrDefault();
                 BuscarEnAsistencia.EstadoAsistencia = psAsistencia.EstadoAsistencia;
                 if (!string.IsNullOrEmpty(psAsistencia.Observacion))
-                BuscarEnAsistencia.Observacion = psAsistencia.Observacion;
+                    BuscarEnAsistencia.Observacion = psAsistencia.Observacion;
                 if (psAsistencia.Hora != null)
-                BuscarEnAsistencia.Hora = psAsistencia.Hora;
+                    BuscarEnAsistencia.Hora = psAsistencia.Hora;
                 BuscarEnAsistencia.FechaModificacionLog = psAsistencia.FechaModificacionLog;
                 BuscarEnAsistencia.UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
                 BuscarEnAsistencia.TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                
+                //**ingresar en MOVIMIENTO_PERSONAL_DIARIO  (entrada > fecha1 && entrada < fecha2)
+                if (psAsistencia.EstadoAsistencia == clsAtributos.EstadoFalta)//si en asistencia, despues de haberle dado asistencia le cambian el estado a falta
+                {
+                    //var BuscarMovimientoPersonalActivo= (from m in db.MOVIMIENTO_PERSONAL_DIARIO
+                    //                                     where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                    //                                     select m).FirstOrDefault();
+
+                    //traigo el último registro ingresado en MOVIMIENTO_PERSONAL con la fecha indicada
+
+                    //var BuscarMovimientoPersonalActivo = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
+                    //                                      where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                    //                                      orderby m.IdCambioPersonal descending
+                    //                                      select m).FirstOrDefault();
+
+                    //Busco en MOVIMIENTO
+                    var BuscarMovimientoPersonalActivo = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
+                                                          where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                          select m).ToList();
+                    if (BuscarMovimientoPersonalActivo.Count>0 /*!= null*/)
+                    {
+                        foreach (var item in BuscarMovimientoPersonalActivo)
+                        {
+                            item.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                            item.UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                            item.FechaModificacionLog = DateTime.Now;
+                            item.TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                        }
+                        //BuscarMovimientoPersonalActivo.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    }
+
+                }
+                else
+                {
+                    //**
+                    //Si se Marca "Asistencia Presente" a un empleado, entonces genero un nuevo registro en MOVIMIENTO_PERSONAL_DIARIO
+                    List<MOVIMIENTO_PERSONAL_DIARIO> NuevoMovimientoPersonalAsistencia = new List<MOVIMIENTO_PERSONAL_DIARIO>();
+                    //debo buscar si el registro ya existe pero esta  inactivado
+                    //---i
+                    var BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula==psAsistencia.Cedula&&x.FechaInicio == psAsistencia.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).ToList();
+                    int NumeroRegistros = BuscarMovimientoPersonalDiario.Count;
+                    //--f
+                    //--i
+                    if (NumeroRegistros >= 1)
+                    {
+                        BuscarMovimientoPersonalDiario[0].EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                        BuscarMovimientoPersonalDiario[0].FechaInicio = psAsistencia.Fecha;
+                        BuscarMovimientoPersonalDiario[0].HoraInicio = psAsistencia.Hora;
+                        BuscarMovimientoPersonalDiario[0].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                        BuscarMovimientoPersonalDiario[0].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                        BuscarMovimientoPersonalDiario[0].FechaModificacionLog = DateTime.Now;
+                    }
+                    //--f
+                    else
+                    {
+                        NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                        {
+                            Cedula = psAsistencia.Cedula,
+                            CodLinea = psAsistencia.Linea,
+                            CentroCosto = psAsistencia.CentroCostos,
+                            CodCargo = psAsistencia.Cargo,
+                            Recurso = psAsistencia.Recurso,
+                            FechaInicio = psAsistencia.Fecha,
+                            HoraInicio = psAsistencia.Hora,
+                            Asistencia = true,
+                            EstadoRegistro = psAsistencia.EstadoRegistro,
+                            FechaIngresoLog = psAsistencia.FechaModificacionLog,
+                            TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
+                            UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog
+                        });
+                    }
+                    //db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                    //{
+                    //    Cedula = psAsistencia.Cedula,
+                    //    CodLinea = psAsistencia.Linea,
+                    //    CentroCosto = psAsistencia.CentroCostos,
+                    //    CodCargo = psAsistencia.Cargo,
+                    //    Recurso = psAsistencia.Recurso,
+                    //    FechaInicio = psAsistencia.Fecha,
+                    //    HoraInicio = psAsistencia.Hora,
+                    //    Asistencia = true,
+                    //    EstadoRegistro = psAsistencia.EstadoRegistro,
+                    //    FechaIngresoLog = psAsistencia.FechaModificacionLog,
+                    //    TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
+                    //    UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog
+                    //});
+                    //db.SaveChanges();
+
+                    //Busco en CAMBIO_PERSONAL donde la fecha de inicio sea igual a la fecha de la asistencia
+                    CAMBIO_PERSONAL BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo /*&& x.HoraInicio > psAsistencia.Hora*/).FirstOrDefault();
+                    ClsdEmpleado = new clsDEmpleado();
+                    spConsultaEspecificaEmpleadosxCedula BuscarEmpleadoDataL;
+                    if (BuscarCambioPersonal != null )//si encuentra que el empleado fue movido en esa fecha
+                    {
+                        if (BuscarCambioPersonal.HoraInicio != null)//verifico que no haya sido movido a inicio de jornada
+                        {
+                            if(BuscarCambioPersonal.HoraInicio > psAsistencia.Hora)//verifico que la HoraInicio que fue movido sea mayor a la hora de la asistencia
+                            {
+                                //actualizo la horaFin y FechaFin del primer registro en MOVIMIENTO_PERSONAL_DIARIO
+                                NuevoMovimientoPersonalAsistencia[0].FechaFin = BuscarCambioPersonal.Fecha;
+                                NuevoMovimientoPersonalAsistencia[0].HoraFin = BuscarCambioPersonal.HoraInicio;
+                                NuevoMovimientoPersonalAsistencia[0].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                NuevoMovimientoPersonalAsistencia[0].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                NuevoMovimientoPersonalAsistencia[0].FechaModificacionLog = DateTime.Now;
+
+                                //genero un nuevo registro con fecha y hora de inicio a donde fue movido el empleado
+                                if (NumeroRegistros >= 2)
+                                {
+                                    BuscarMovimientoPersonalDiario[1].CodLinea = BuscarCambioPersonal.CodLinea;
+                                    BuscarMovimientoPersonalDiario[1].CentroCosto = BuscarCambioPersonal.CentroCosto;
+                                    BuscarMovimientoPersonalDiario[1].CodCargo = BuscarCambioPersonal.CodCargo;
+                                    BuscarMovimientoPersonalDiario[1].Recurso = BuscarCambioPersonal.Recurso;
+                                    BuscarMovimientoPersonalDiario[1].EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                                    BuscarMovimientoPersonalDiario[1].FechaInicio = BuscarCambioPersonal.Fecha;
+                                    BuscarMovimientoPersonalDiario[1].HoraInicio = BuscarCambioPersonal.HoraInicio;
+                                    BuscarMovimientoPersonalDiario[1].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                    BuscarMovimientoPersonalDiario[1].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                    BuscarMovimientoPersonalDiario[1].FechaModificacionLog = DateTime.Now;
+                                }
+                                else
+                                {
+                                    NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                                    {
+                                        Cedula = BuscarCambioPersonal.Cedula,
+                                        CodLinea = BuscarCambioPersonal.CodLinea,
+                                        CentroCosto = BuscarCambioPersonal.CentroCosto,
+                                        CodCargo = BuscarCambioPersonal.CodCargo,
+                                        Recurso = BuscarCambioPersonal.Recurso,
+                                        FechaInicio = BuscarCambioPersonal.Fecha,
+                                        HoraInicio = BuscarCambioPersonal.HoraInicio,
+                                        EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                                        Asistencia = false,
+                                        TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
+                                        UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog,
+                                        FechaIngresoLog = DateTime.Now
+                                    });
+                                }
+                                
+
+                            }
+                        }
+                        //pregunto si el empleado que fue movido tiene fecha de regreso a donde pertenece igual a la fecha que se marco asistencia
+                        if (BuscarCambioPersonal.FechaFin!=null&& BuscarCambioPersonal.Horafin!=null &&psAsistencia.Fecha== BuscarCambioPersonal.Fecha)
+                        {
+                            //consulto linea,cargo,recurso y centro de costo donde el empleado pertenece en DataLife
+                            BuscarEmpleadoDataL = ClsdEmpleado.ConsultarEmpleadoxCedula(psAsistencia.Cedula);
+                            //modifico el 2do registro en MOVIMIENTO_PERSONAL_DIARIO para actualizar Fecha fin y hora fin
+                            NuevoMovimientoPersonalAsistencia[1].FechaFin = BuscarCambioPersonal.FechaFin;
+                            NuevoMovimientoPersonalAsistencia[1].HoraFin = BuscarCambioPersonal.Horafin;
+                            NuevoMovimientoPersonalAsistencia[1].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                            NuevoMovimientoPersonalAsistencia[1].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                            NuevoMovimientoPersonalAsistencia[1].FechaModificacionLog = DateTime.Now;
+                            //genero un nuevo registro para el retorno a la linea donde pertenece el empleado con fechainicio y hora inicio igual a la fecha de retorno
+                            if (NumeroRegistros >= 3)
+                            {
+                                BuscarMovimientoPersonalDiario[2].CodLinea = BuscarEmpleadoDataL.LINEA;
+                                BuscarMovimientoPersonalDiario[2].CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS;
+                                BuscarMovimientoPersonalDiario[2].CodCargo = BuscarEmpleadoDataL.CARGO;
+                                BuscarMovimientoPersonalDiario[2].Recurso = BuscarEmpleadoDataL.RECURSO;
+                                BuscarMovimientoPersonalDiario[2].EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                                BuscarMovimientoPersonalDiario[2].FechaInicio = BuscarCambioPersonal.FechaFin;
+                                BuscarMovimientoPersonalDiario[2].HoraInicio = BuscarCambioPersonal.Horafin;
+                                BuscarMovimientoPersonalDiario[2].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                BuscarMovimientoPersonalDiario[2].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                BuscarMovimientoPersonalDiario[2].FechaModificacionLog = DateTime.Now;
+                            }
+                            else
+                            {
+                                NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                                {
+                                    Cedula = psAsistencia.Cedula,
+                                    CodLinea = BuscarEmpleadoDataL.LINEA,
+                                    CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS,
+                                    CodCargo = BuscarEmpleadoDataL.CARGO,
+                                    Recurso = BuscarEmpleadoDataL.RECURSO,
+                                    FechaInicio = BuscarCambioPersonal.FechaFin,
+                                    HoraInicio = BuscarCambioPersonal.Horafin,
+                                    EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                                    Asistencia = false,
+                                    TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
+                                    UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog,
+                                    FechaIngresoLog = DateTime.Now
+                                });
+                            }
+                            
+                        }
+                    }
+                    db.MOVIMIENTO_PERSONAL_DIARIO.AddRange(NuevoMovimientoPersonalAsistencia);
+                    //**
+
+                    //var BuscarMovimientoPersonalDiario = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
+                    //                                      where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroInactivo
+                    //                                      select m).FirstOrDefault();
+                    //if (BuscarMovimientoPersonalDiario != null)
+                    //{
+                    //    BuscarMovimientoPersonalDiario.HoraInicio = psAsistencia.Hora;
+                    //    BuscarMovimientoPersonalDiario.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                    //}
+                    //else
+                    //{
+                    //    db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                    //    {
+                    //        Cedula = psAsistencia.Cedula,
+                    //        CodLinea = psAsistencia.Linea,
+                    //        CentroCosto = psAsistencia.CentroCostos,
+                    //        CodCargo = psAsistencia.Cargo,
+                    //        Recurso = psAsistencia.Recurso,
+                    //        FechaInicio = psAsistencia.Fecha,
+                    //        HoraInicio = psAsistencia.Hora,
+                    //        Asistencia = true,
+                    //        EstadoRegistro = psAsistencia.EstadoRegistro,
+                    //        FechaIngresoLog = psAsistencia.FechaModificacionLog,
+                    //        TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
+                    //        UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog
+                    //    });
+                    //}
+                }
+                
+                //**
                 db.SaveChanges();
                 return "Registro actualizado con éxito";
             }
-            
+
         }
 
         public List<spReporteAsistencia> ConsultarRptAsistencia(DateTime FechaInicio, DateTime FechaFin)

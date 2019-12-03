@@ -12,7 +12,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CAMBIO_PERSONAL
+    public partial class MOVIMIENTO_PERSONAL_DIARIO
     {
         public int IdCambioPersonal { get; set; }
         public string Cedula { get; set; }
@@ -20,8 +20,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CentroCosto { get; set; }
         public string CodCargo { get; set; }
         public string Recurso { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
+        public Nullable<System.DateTime> FechaInicio { get; set; }
+        public Nullable<System.DateTime> FechaFin { get; set; }
         public Nullable<System.TimeSpan> HoraInicio { get; set; }
+        public Nullable<System.TimeSpan> HoraFin { get; set; }
         public Nullable<bool> Vigente { get; set; }
         public string EstadoRegistro { get; set; }
         public Nullable<System.DateTime> FechaIngresoLog { get; set; }
@@ -30,7 +32,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<System.DateTime> FechaFin { get; set; }
-        public Nullable<System.TimeSpan> Horafin { get; set; }
+        public Nullable<bool> Asistencia { get; set; }
     }
 }

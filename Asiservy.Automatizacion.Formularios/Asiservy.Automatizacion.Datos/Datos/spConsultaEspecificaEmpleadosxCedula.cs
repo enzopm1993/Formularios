@@ -11,10 +11,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsultarCaambioPersonalxCedula
+    public partial class spConsultaEspecificaEmpleadosxCedula
     {
-        public string CEDULA { get; set; }
         public string LINEA { get; set; }
-        public Nullable<System.DateTime> FECHAMOVIDO { get; set; }
+        public string RECURSO { get; set; }
+        public string CENTRO_COSTOS { get; set; }
+        public string CARGO { get; set; }
     }
 }

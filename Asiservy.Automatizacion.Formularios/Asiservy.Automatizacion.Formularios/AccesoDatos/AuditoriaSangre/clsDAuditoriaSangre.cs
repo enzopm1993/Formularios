@@ -64,7 +64,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre
         {
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
-                return db.spReporteAuditoriaSangre(CodLinea,Fecha).ToList();
+                return db.spReporteAuditoriaSangre(CodLinea,Fecha,null).ToList();
             }
         }
     }
