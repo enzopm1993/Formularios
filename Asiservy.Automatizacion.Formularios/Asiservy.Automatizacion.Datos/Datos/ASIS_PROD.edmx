@@ -1545,9 +1545,6 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultarCaambioPersonalxCedula" ReturnType="Collection(ASIS_PRODModel.spConsultarCaambioPersonalxCedula)">
-          <Parameter Name="Cedula" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="CONTROL_HUESO" EntityType="ASIS_PRODModel.CONTROL_HUESO" />
           <EntitySet Name="CONTROL_HUESO_DETALLE" EntityType="ASIS_PRODModel.CONTROL_HUESO_DETALLE" />
           <AssociationSet Name="FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" Association="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO">
@@ -1740,6 +1737,9 @@
             <Parameter Name="codLinea" Mode="In" Type="String" />
             <Parameter Name="Turno" Mode="In" Type="Int32" />
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultarCaambioPersonalxCedula" ReturnType="Collection(ASIS_PRODModel.spConsultarCaambioPersonalxCedula)">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
           </FunctionImport>
           
           </EntityContainer>
@@ -2163,10 +2163,6 @@
           <Property Type="String" Name="SVRojo" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="SCNegro" Nullable="true" />
           <Property Type="String" Name="SVNegro" Nullable="false" MaxLength="1" />
-        </ComplexType>
-        <ComplexType Name="spConsultarCaambioPersonalxCedula">
-          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="LINEA" Nullable="false" MaxLength="50" />
         </ComplexType>
         <EntityType Name="CONTROL_HUESO">
           <Key>
@@ -3145,6 +3141,11 @@
           <Property Type="String" Name="Recurso" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="Cargo" Nullable="true" MaxLength="30" />
         </ComplexType>
+        <ComplexType Name="spConsultarCaambioPersonalxCedula">
+          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="LINEA" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FECHAMOVIDO" Nullable="true" Precision="23" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3779,14 +3780,6 @@
                 <ScalarProperty Name="SVRojo" ColumnName="SVRojo" />
                 <ScalarProperty Name="SCNegro" ColumnName="SCNegro" />
                 <ScalarProperty Name="SVNegro" ColumnName="SVNegro" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultarCaambioPersonalxCedula" FunctionName="ASIS_PRODModel.Store.spConsultarCaambioPersonalxCedula">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarCaambioPersonalxCedula">
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -4857,6 +4850,15 @@
                 <ScalarProperty Name="CentroCostos" ColumnName="CentroCostos" />
                 <ScalarProperty Name="Recurso" ColumnName="Recurso" />
                 <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultarCaambioPersonalxCedula" FunctionName="ASIS_PRODModel.Store.spConsultarCaambioPersonalxCedula">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarCaambioPersonalxCedula">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="FECHAMOVIDO" ColumnName="FECHAMOVIDO" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
