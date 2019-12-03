@@ -12,26 +12,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class MOVIMIENTO_PERSONAL_DIARIO
+    public partial class CONTROL_COCHE_AUTOCLAVE
     {
-        public int IdCambioPersonal { get; set; }
-        public string Cedula { get; set; }
-        public string CodLinea { get; set; }
-        public string CentroCosto { get; set; }
-        public string CodCargo { get; set; }
-        public string Recurso { get; set; }
-        public Nullable<System.DateTime> FechaInicio { get; set; }
-        public Nullable<System.DateTime> FechaFin { get; set; }
-        public Nullable<System.TimeSpan> HoraInicio { get; set; }
-        public Nullable<System.TimeSpan> HoraFin { get; set; }
-        public Nullable<bool> Vigente { get; set; }
+        public int IdControlCoche { get; set; }
+        public int IdControlAutoclave { get; set; }
+        public string Tarjeta { get; set; }
+        public System.TimeSpan HoraInicio { get; set; }
+        public string Coche { get; set; }
+        public string LineaProduccion { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
-        public Nullable<System.DateTime> FechaIngresoLog { get; set; }
+        public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public string TerminalIngresoLog { get; set; }
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<bool> Asistencia { get; set; }
+    
+        public virtual CONTROL_AUTOCLAVE CONTROL_AUTOCLAVE { get; set; }
     }
 }

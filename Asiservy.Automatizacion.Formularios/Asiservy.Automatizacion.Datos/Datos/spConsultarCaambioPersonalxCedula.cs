@@ -15,6 +15,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public string CEDULA { get; set; }
         public string LINEA { get; set; }
-        public Nullable<System.DateTime> FECHAMOVIDO { get; set; }
     }
 }
