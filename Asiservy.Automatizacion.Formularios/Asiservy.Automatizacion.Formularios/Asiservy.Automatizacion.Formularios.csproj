@@ -117,12 +117,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\DataLifeService\ServicioAsiservy.disco" />
+    <None Include="Connected Services\DataLifeService\configuration91.svcinfo" />
+    <None Include="Connected Services\DataLifeService\configuration.svcinfo" />
+    <None Include="Connected Services\DataLifeService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Connected Services\OnlyControlService\Asiservy.Automatizacion.Formularios.OnlyControlService.consultarCatalogoPermisosResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Connected Services\OnlyControlService\Asiservy.Automatizacion.Formularios.OnlyControlService.insertarPermisoResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <None Include="Connected Services\DataLifeService\ServicioAsiservy.wsdl" />
     <None Include="Connected Services\OnlyControlService\wsrvTcontrol.disco" />
     <None Include="Connected Services\OnlyControlService\configuration91.svcinfo" />
     <None Include="Connected Services\OnlyControlService\configuration.svcinfo" />
@@ -1959,6 +1967,7 @@
     <Content Include="Content\gijgo\modular\timepicker.min.css" />
     <Content Include="Content\gijgo\modular\tree.css" />
     <Content Include="Content\gijgo\modular\tree.min.css" />
+    <Content Include="Content\icons\add24-2.png" />
     <Content Include="Content\icons\add24.png" />
     <Content Include="Content\icons\aprobar24.png" />
     <Content Include="Content\icons\atras24.png" />
@@ -1969,10 +1978,12 @@
     <Content Include="Content\icons\excel24.png" />
     <Content Include="Content\icons\justificar24.png" />
     <Content Include="Content\icons\limpiar32.png" />
+    <Content Include="Content\icons\login.png" />
     <Content Include="Content\icons\print24.png" />
     <Content Include="Content\icons\puerta32.png" />
     <Content Include="Content\icons\save20.png" />
     <Content Include="Content\icons\send24.png" />
+    <Content Include="Content\icons\show24-2.png" />
     <Content Include="Content\icons\show24.png" />
     <Content Include="Content\icons\tuerca32.png" />
     <Content Include="Content\icons\user32.png" />
@@ -2020,6 +2031,7 @@
     <Content Include="Content\images\fondo5.jpg" />
     <Content Include="Content\images\fondo6.jpg" />
     <Content Include="Content\images\logo1.png" />
+    <Content Include="Content\images\pageError.png" />
     <Content Include="Content\images\pez-salto.gif" />
     <Content Include="Content\images\pez.gif" />
     <Content Include="Content\images\pez.png" />
@@ -2041,7 +2053,65 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\SolicitudPermisoCss\SolicitudPermiso.css" />
     <Content Include="Content\SolicitudPermisoCss\SolicitudPermisoMedico.css" />
+    <Content Include="Content\summernote\dist\lang\summernote-ar-AR.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-bg-BG.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-ca-ES.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-cs-CZ.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-da-DK.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-de-DE.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-el-GR.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-es-ES.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-es-EU.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-fa-IR.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-fi-FI.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-fr-FR.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-gl-ES.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-he-IL.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-hr-HR.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-hu-HU.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-id-ID.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-it-IT.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-ja-JP.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-ko-KR.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-lt-LT.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-lt-LV.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-mn-MN.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-nb-NO.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-nl-NL.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-pl-PL.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-pt-BR.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-pt-PT.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-ro-RO.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-ru-RU.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-sk-SK.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-sl-SI.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-sr-RS-Latin.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-sr-RS.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-sv-SE.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-ta-IN.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-th-TH.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-tr-TR.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-uk-UA.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-uz-UZ.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-vi-VN.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-zh-CN.js" />
+    <Content Include="Content\summernote\dist\lang\summernote-zh-TW.js" />
+    <Content Include="Content\summernote\dist\plugin\databasic\summernote-ext-databasic.css" />
+    <Content Include="Content\summernote\dist\plugin\databasic\summernote-ext-databasic.js" />
+    <Content Include="Content\summernote\dist\plugin\hello\summernote-ext-hello.js" />
+    <Content Include="Content\summernote\dist\plugin\specialchars\summernote-ext-specialchars.js" />
+    <Content Include="Content\summernote\dist\summernote-bs4.css" />
+    <Content Include="Content\summernote\dist\summernote-bs4.js" />
+    <Content Include="Content\summernote\dist\summernote-bs4.min.js" />
+    <Content Include="Content\summernote\dist\summernote-lite.css" />
+    <Content Include="Content\summernote\dist\summernote-lite.js" />
+    <Content Include="Content\summernote\dist\summernote-lite.min.js" />
+    <Content Include="Content\summernote\dist\summernote.css" />
+    <Content Include="Content\summernote\dist\summernote.js" />
+    <Content Include="Content\summernote\dist\summernote.min.js" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\App\SolicitudesPendientes.js" />
+    <Content Include="Scripts\App\Sugerencias.js" />
     <Content Include="Scripts\Asistencia\Asistencia.js" />
     <Content Include="Scripts\Asistencia\AsistenciaFinalizar.js" />
     <Content Include="Scripts\Asistencia\AsistenciaGeneral.js" />
@@ -2065,8 +2135,13 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\ControlEnfundado\ReporteControlEnfundado.js" />
+    <Content Include="Scripts\ControlMaterialQuebradizo\AsignaMaterialesLinea.js" />
+    <Content Include="Scripts\ControlMaterialQuebradizo\ControlMaterialQuebradizo.js" />
+    <Content Include="Scripts\ControlMaterialQuebradizo\MantenimientoMaterialQuebradizo.js" />
+    <Content Include="Scripts\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizo.js" />
     <Content Include="Scripts\Empleado\EmpleadoCargo.js" />
     <Content Include="Scripts\Empleado\ReporteEmpleadoCargo.js" />
+    <Content Include="Scripts\GenerarDatosServicio\GenerarDatosServicio.js" />
     <Content Include="Scripts\Hueso\ReporteAvanceDiarioPorLimpiadora.js" />
     <Content Include="Scripts\ControlCocheLinea\ControlCocheLinea.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteControlCocheLinea.js" />
@@ -2447,6 +2522,10 @@
     <Content Include="Content\admin\vendor\jquery\jquery.min.map" />
     <Content Include="Content\admin\vendor\jquery\jquery.slim.min.map" />
     <None Include="Connected Services\OnlyControlService\wsrvTcontrol.wsdl" />
+    <Content Include="Content\summernote\dist\font\summernote.eot" />
+    <Content Include="Content\summernote\dist\font\summernote.ttf" />
+    <Content Include="Content\summernote\dist\font\summernote.woff" />
+    <Content Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\DataTables\media\js\dataTables.jszip.min.js" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
@@ -2575,11 +2654,20 @@
     <Content Include="Scripts\Login\Login.js" />
     <Content Include="Scripts\Mensajes\Mensajes.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\Nomina\Certificados.js" />
+    <Content Include="Scripts\Nomina\EmpleadosClientes.js" />
     <Content Include="Scripts\Periodo\Periodo.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.js" />
+    <Content Include="Scripts\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEditar.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ReporteProyeccionProgramacion.js" />
@@ -2609,12 +2697,18 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccesoDatos\App\Certificados.cs" />
+    <Compile Include="AccesoDatos\App\InfoCambioDatos.cs" />
+    <Compile Include="AccesoDatos\App\ModeloVistaCertificados.cs" />
+    <Compile Include="AccesoDatos\App\SolicitudesPendientes.cs" />
+    <Compile Include="AccesoDatos\App\Sugerencias.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCuchillo.cs" />
     <Compile Include="AccesoDatos\ControlCocheLinea\clsDControlCocheLinea.cs" />
     <Compile Include="AccesoDatos\ControlEnfundado\clsDControlEnfundado.cs" />
     <Compile Include="AccesoDatos\ControlHueso\clsDControlHueso.cs" />
+    <Compile Include="AccesoDatos\ControlMaterialQuebradizo\clsDControlMaterialQuebradizo.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDControlMiga.cs" />
     <Compile Include="AccesoDatos\AuditoriaSangre\clsDAuditoriaSangre.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
@@ -2626,6 +2720,7 @@
     <Compile Include="AccesoDatos\General\clsDError.cs" />
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\General\clsDParametro.cs" />
+    <Compile Include="AccesoDatos\GenerarDatosServicio\clsDGenerarDatosServicio.cs" />
     <Compile Include="AccesoDatos\Periodo\clsDPeriodo.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDModulo.cs" />
@@ -2640,17 +2735,26 @@
     <Compile Include="AccesoDatos\SolicitudPermiso\ParamSolicitud.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Connected Services\DataLifeService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\OnlyControlService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ApiSolicitudPermisoController.cs" />
+    <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
+    <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
     <Compile Include="Controllers\ControlEnfundadoController.cs" />
+    <Compile Include="Controllers\ControlMaterialQuebradizoController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
+    <Compile Include="Controllers\GenerarDatosServicioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HuesoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -2818,6 +2922,26 @@
     <Content Include="Views\Empleado\EmpleadosMasivoPartial.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ModalEditarProyeccion.cshtml" />
     <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacion.cshtml" />
+    <Content Include="Views\Nomina\ListaEmpleadosPartial.cshtml" />
+    <Content Include="Views\App\SolicitudesPendientes.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ProyeccionProgramacionDetallePartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacionPartial.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.cshtml" />
+    <Content Include="Views\ProyeccionProgramacion\ReporteProyeccionProgramacion.cshtml" />
+    <Content Include="Views\GenerarDatosServicio\GenerarDatosServicio.cshtml" />
+    <Content Include="Views\Nomina\Certificados.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\MantenimientoMaterialQuebradizo.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\MantenimientoMaterialQuebradizoPartial.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\AsignaMaterialesLinea.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\AsignaMaterialesLineaPartial.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\ControlMaterialQuebradizo.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\ControlMaterialQuebradizoPartial.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizo.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizoPartial.cshtml" />
+    <Content Include="Views\App\Sugerencias.cshtml" />
+    <Content Include="Views\Home\HomeError.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaFinalizar.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaFinalizarPartial.cshtml" />
     <None Include="Web.Debug.config">
@@ -2829,6 +2953,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Comunicados\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
@@ -2846,6 +2971,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\DataLifeService\" />
     <WCFMetadataStorage Include="Connected Services\OnlyControlService\" />
   </ItemGroup>
   <PropertyGroup>

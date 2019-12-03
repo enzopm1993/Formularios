@@ -1,97 +1,288 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.ProyeccionProgramacion.ProyeccionProgramacionViewModel>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProyeccionProgramacion>
 
+@using System.Globalization;
+
+@{
+    /**/
+    CultureInfo ci = new CultureInfo("Es-Es");
+}
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
-
     <thead>
         <tr>
+            <th>
+                <label></label>
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Lote)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaProduccion)
+                <label>Barco</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tonelada)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.Destino)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.TipoLimpieza)
+                <label>Marea</label>
             </th>
             <th>
-                Especie
+                <label>Orden</label>
             </th>
             <th>
-                Talla
-            </th>
-            <th>
-                Observación
+                <label>Kilos</label>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Lineas)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HoraInicio)
+                <label>Proceso Inicio</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HoraFin)
+                <label>Proceso Fin</label>
+
             </th>
             <th>
-                Usuario Ingreso
+                @Html.DisplayNameFor(model => model.Destino)
             </th>
-            <th> Usuario Modificación</th>
+
+            <th>
+                <label>Limpieza</label>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Especie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Talla)
+            </th>
+            <th>
+                <label>Temperatura</label>
+            </th>
+            <th>
+                <label>Cooción Inicio</label>
+            </th>
+            <th>
+                <label>Cooción Fin</label>
+
+            </th>
+            <th>
+                <label>Coches</label>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cocina)
+            </th>
+            <th>
+                <label>Evicerado Inicio</label>
+
+            </th>
+            <th>
+                <label>Evicerado Fin</label>
+
+            </th>
+            <th>
+                <label>Descongelado Inicio</label>
+
+            </th>
+            <th>
+                <label>Descongelado Fin</label>
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Requerimiento)
+            </th>
+            <th>
+                <label>Receta</label>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+            <th>
+                <label>Fecha Ingreso</label>
+            </th>
+            <th>
+                <label>Usario Ingreso</label>
+            </th>
+            <th>
+                <label>Fecha Modificacion</label>
+            </th>
+            <th>
+                <label>Usuario Modificacion</label>
+            </th>
+
+
         </tr>
     </thead>
     <tbody>
+        @{ 
+            TimeSpan timespan;
+            DateTime time;
+            string displayTime;
+            int i = 1;
+            int totalKilos = 0;
+            int totalCoches = 0;
+        }
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lote)
-                </td>
-                <td>
-                    @item.FechaProduccion.Value.ToString("dd-MM-yyyy")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tonelada)
-                </td>
+        <tr>
+            <td>
+                @i
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Destino)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Barco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Toneladas)
+                @{
+                    totalKilos = totalKilos + item.Toneladas ?? 0;
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lineas)
+            </td>
+            <td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoLimpieza)
-                </td>
-                <td>
-                    @item.Especie
-                </td>
-                <td>
-                    @item.Talla
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lineas)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HoraInicio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HoraFin)
-                </td>
-                <td>
-                    @item.UsuarioIngreso
-                </td>
-                <td> @item.UsuarioModificacion</td>
-            </tr>
+                @Html.DisplayFor(modelItem => item.HoraProcesoInicio)
+            </td>
+            <td>
+
+                @Html.DisplayFor(modelItem => item.HoraProcesoFin)
+
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Destino)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoLimpieza)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Especie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Talla)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TemperaturaFinal)
+            </td>
+            <td>
+                @{
+                    string HoraCoccionInicio = item.HoraCoccionInicio != null ? item.HoraCoccionInicio.Value.ToString("HH:mm") : "";
+                }
+                <label>@HoraCoccionInicio</label>
+            </td>
+
+            <td>
+                @{
+                    string HoraCoccionFin = item.HoraCoccionFin != null ? item.HoraCoccionFin.Value.ToString("HH:mm") : "";
+                }
+                <label>@HoraCoccionFin</label>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCoches)
+                @{
+                    totalCoches = totalCoches + (item.TotalCoches ?? 0);
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cocina)
+            </td>
+            <td>
+
+                @{
+                    string HoraEviceradoInicio = item.HoraEviceradoInicio != null ? item.HoraEviceradoInicio.Value.ToString("HH:mm") : "";
+                }
+                <label>@HoraEviceradoInicio</label>
+            </td>
+            <td>
+
+
+                @{
+                    string HoraEviceradoFin = item.HoraEviceradoFin != null ? item.HoraEviceradoFin.Value.ToString("HH:mm") : "";
+                }
+                <label>@HoraEviceradoFin</label>
+            </td>
+            <td>
+
+                @{
+                    string HoraDescongeladoInicio = item.HoraDescongeladoInicio != null ? item.HoraDescongeladoInicio.Value.ToString("HH:mm") : "";
+                }
+                <label>@HoraDescongeladoInicio</label>
+            </td>
+            <td>
+                @{
+                    string HoraDescongeladoFin = item.HoraDescongeladoFin != null ? item.HoraDescongeladoFin.Value.ToString("HH:mm") : "";
+                }
+                <label>@HoraDescongeladoFin</label>
+            </td>
+            <td>
+                @{
+                    string Requerimiento = item.Requerimiento != null ? item.Requerimiento.Value.ToString("HH:mm") : "";
+                }
+                <label>@Requerimiento</label>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecetaRoceado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+            </td>
+        </tr>
+            i++;
         }
+      
     </tbody>
-</table>
+    <tfoot>
+        <tr>
+            <td style="display: none;"></td>
+            <td colspan="2"><b>Total</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b> @totalKilos KG</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>@totalCoches</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
 
-    <script src="~/Scripts/General/dataTableJS.js"></script> 
+        </tr>
+
+    </tfoot>
+</table>

@@ -64,6 +64,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CAMBIO_PERSONAL> CAMBIO_PERSONAL { get; set; }
         public virtual DbSet<MOVIMIENTO_PERSONAL_DIARIO> MOVIMIENTO_PERSONAL_DIARIO { get; set; }
         public virtual DbSet<PROYECCION_PROGRAMACION> PROYECCION_PROGRAMACION { get; set; }
+        public virtual DbSet<ASISTENCIA> ASISTENCIA { get; set; }
+        public virtual DbSet<MANTENIMIENTO_PREPARACION> MANTENIMIENTO_PREPARACION { get; set; }
+        public virtual DbSet<CAMBIO_PERSONAL> CAMBIO_PERSONAL { get; set; }
+        public virtual DbSet<BARCO> BARCO { get; set; }
+        public virtual DbSet<PROYECCION_PROGRAMACION_DETALLE> PROYECCION_PROGRAMACION_DETALLE { get; set; }
+        public virtual DbSet<MATERIAL_LINEA> MATERIAL_LINEA { get; set; }
+        public virtual DbSet<MATERIAL_QUEBRADIZO> MATERIAL_QUEBRADIZO { get; set; }
+        public virtual DbSet<CONTROL_MATERIAL> CONTROL_MATERIAL { get; set; }
+        public virtual DbSet<CONTROL_MATERIAL_DETALLE> CONTROL_MATERIAL_DETALLE { get; set; }
         public virtual DbSet<PROYECCION_PROGRAMACION_DETALLE> PROYECCION_PROGRAMACION_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
@@ -706,7 +715,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Hora", hora) :
                 new ObjectParameter("Hora", typeof(System.TimeSpan));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalADondeFueronMovidos>("spConsultaPersonalADondeFueronMovidos", lINEAParameter, fechaParameter, horaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarEmpleadosxTurno>("spConsultarEmpleadosxTurno", codLineaParameter, turnoParameter);
         }
     
         public virtual ObjectResult<spConsultarEmpleadosxTurno> spConsultarEmpleadosxTurno(string codLinea, string turno, Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
@@ -746,6 +755,93 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Cedula", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaEspecificaEmpleadosxCedula>("spConsultaEspecificaEmpleadosxCedula", cedulaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaProyeccionProgramacion> spConsultaProyeccionProgramacion(Nullable<int> idProyeccion)
+        {
+            var idProyeccionParameter = idProyeccion.HasValue ?
+                new ObjectParameter("IdProyeccion", idProyeccion) :
+                new ObjectParameter("IdProyeccion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProyeccionProgramacion>("spConsultaProyeccionProgramacion", idProyeccionParameter);
+        }
+    
+        public virtual ObjectResult<spConsultarAuditoriaSangreDiaria> spConsultarAuditoriaSangreDiaria(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarAuditoriaSangreDiaria>("spConsultarAuditoriaSangreDiaria", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spReporteAuditoriaSangre> spReporteAuditoriaSangre(string codLinea, Nullable<System.DateTime> fECHA, string tipo)
+        {
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("CodLinea", codLinea) :
+                new ObjectParameter("CodLinea", typeof(string));
+    
+            var fECHAParameter = fECHA.HasValue ?
+                new ObjectParameter("FECHA", fECHA) :
+                new ObjectParameter("FECHA", typeof(System.DateTime));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAuditoriaSangre>("spReporteAuditoriaSangre", codLineaParameter, fECHAParameter, tipoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaEmpleadosPersonalPrestadoFiltro> spConsultaEmpleadosPersonalPrestadoFiltro(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, string linea)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaEmpleadosPersonalPrestadoFiltro>("spConsultaEmpleadosPersonalPrestadoFiltro", fechaParameter, horaParameter, lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaAsignaMaterialesLinea> spConsultaAsignaMaterialesLinea(string linea)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaAsignaMaterialesLinea>("spConsultaAsignaMaterialesLinea", lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlMaterialQuebradizoDetalle> spConsultaControlMaterialQuebradizoDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("idControl", idControl) :
+                new ObjectParameter("idControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlMaterialQuebradizoDetalle>("spConsultaControlMaterialQuebradizoDetalle", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spReporteControlMaterialQuebradizo> spReporteControlMaterialQuebradizo(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, string linea)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("FechaDesde", fechaDesde) :
+                new ObjectParameter("FechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("FechaHasta", fechaHasta) :
+                new ObjectParameter("FechaHasta", typeof(System.DateTime));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlMaterialQuebradizo>("spReporteControlMaterialQuebradizo", fechaDesdeParameter, fechaHastaParameter, lineaParameter);
         }
     }
 }

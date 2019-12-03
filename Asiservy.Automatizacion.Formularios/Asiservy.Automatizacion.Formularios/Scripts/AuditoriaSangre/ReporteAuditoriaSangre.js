@@ -8,16 +8,18 @@
     if (mes < 10)
         mes = '0' + mes //agrega cero si el menor de 10
     document.getElementById('Fecha').value = ano + "-" + mes + "-" + dia;
-
+    ConsultarReporteAuditoriaSangre();
 
 
 });
 
 function ConsultarReporteAuditoriaSangre() {
-    if (($('#Lineas').prop('selectedIndex') == 0) || ($('#Fecha')=="")) {
-        //ConsultarRptAuditoriaSangre
-        MensajeAdvertencia("El campo Fecha y Línea son obligatorios", false);
+    if ($('#Fecha').val() == "") {       
+        $("#Fecha").css("border-color", "#DC143C");
+        return;
     } else {
+        $("#Fecha").css('border-color', '#d1d3e2');
+
         $("#spinnerCargando").prop("hidden", false);
         $('#DivReporteSangre').html('');
 
@@ -28,16 +30,22 @@ function ConsultarReporteAuditoriaSangre() {
             data:
             {
                 CodLinea: $('#Lineas').val(),
-                Fecha: $('#Fecha').val()
+                Fecha: $('#Fecha').val(),
+                Tipo: $("#TipoAuditoria").val()
             },
             success: function (resultado) {
                 if (resultado == "0") {
                     $('#DivReporteSangre').html('<div class="text-center"><h4>No Existen Registros</h4></div>');
                 } else {
                     $('#DivReporteSangre').html(resultado);
+                    
+                    config.opcionesDT.pageLength = 15;
+                    config.opcionesDT.order = [[1, "asc"]];
+                    $('#tblDataTable').DataTable(config.opcionesDT);
                 }
                 $("#spinnerCargando").prop("hidden", true);
                 $('#ConsultarRptAuditoriaSangre').attr("disabled", false);
+
             },
             error: function (resultado) {
                 MensajeError(JSON.stringify(resultado), false);

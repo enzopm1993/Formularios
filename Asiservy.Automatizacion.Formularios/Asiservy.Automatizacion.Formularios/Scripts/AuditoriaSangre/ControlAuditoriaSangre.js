@@ -1,47 +1,102 @@
-﻿function LimpiarBoton() {
+﻿
+$(document).ready(function () {
+    ConsultarAuditoriaChange();
+
+    function changeColor() {
+        var dt = new Date();
+        var hora = dt.getHours();
+        var minutos = dt.getMinutes();
+        if (hora < 10) {
+            hora = "0" + hora;
+        }
+        if (minutos < 10) {
+            minutos = "0" + minutos;
+        }
+        var time = hora + ":" + minutos;//+ ":" + dt.getSeconds();   
+        $("#HoraAuditoria").val(time);
+    }
+    setInterval(changeColor, 300000);
+});
+
+
+
+function LimpiarBoton() {
     $('#Cedula').val("");
     $('#Porcentaje').val("");
     $('#Nombre').val("");
+    $('#txtObservacion').val("");
     $('#IdAuditoriaSangre').val("");
-
+    $("#btnEliminarDetalle").prop("hidden", true);
+    $("#TipoAuditoria").prop("selectedIndex", 0);
+    
+    
 }
 function ConsultarAuditoriaChange() {
+    if ($('#FechaAuditoria').val() == "") {
+        return;
+    }
+    $('#ControlAuditoriaSangre').html('');
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: "../AuditoriaSangre/ControlAuditoriaSangrePartial",
-        type: "POST",
+        type: "GET",
         data:
         {
-            Fecha: $('#FechaAuditoria').val(),
-            change: 1
+            Fecha: $('#FechaAuditoria').val()         
         },
         success: function (resultado) {
-            $('#Cedula').val("");
-            $('#Porcentaje').val("");
-            $('#Nombre').val("");
-            $('#IdAuditoriaSangre').val("");
+            LimpiarBoton();          
             $('#ControlAuditoriaSangre').html(resultado);
-            //MensajeCorrecto("Registro ingresado con éxito", false);
+            config.opcionesDT.pageLength = 20;
+            config.opcionesDT.order = [[1, "asc"]];
+            $('#tblDataTable').DataTable(config.opcionesDT);
+            $("#spinnerCargando").prop("hidden", true);
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);
-
+            $("#spinnerCargando").prop("hidden", true);
         }
     });
 }
-function CargarEmpleados(formulario) {
-    //console.log($('#selectLinea').val());   
-    //console.log($('#selectArea').val());   
-    //console.log($('#selectCargo').val());  
-    if ($('#selectLinea').val() != '') {
+
+function ValidarEmpleado() {
+    var valida = true;
+    if ($("#FechaAuditoria").val() == "") {
+        $("#FechaAuditoria").css("border-color", "#DC143C");
+        valida = false;
+    } else {
+        $("#FechaAuditoria").css('border-color', '#d1d3e2');
+    }
+    if ($("#HoraAuditoria").val() == "") {
+        $("#HoraAuditoria").css("border-color", "#DC143C");
+        valida = false;
+    } else {
+        $("#HoraAuditoria").css("border-color", "#d1d3e2");
+    }
+    if ($("#Lineas").val() == "") {
+        $("#Lineas").css("border-color", "#DC143C");
+        valida = false;
+    } else {
+        $("#Lineas").css("border-color", "#d1d3e2");
+    }
+
+    return valida;
+}
+
+function CargarEmpleados(formulario) {     
+
+    if (!ValidarEmpleado()) {
+        return;
+    }
         $('#' + formulario).attr("disabled", true);
         $.ajax({
             url: "../AuditoriaSangre/EmpleadoBuscar",
             type: "Get",
             data:
             {
-                dsLinea: $('#selectLinea').val(),
-                dsArea: $('#selectArea').val(),
-                dsCargo: $('#selectCargo').val()
+                Fecha: $("#FechaAuditoria").val(),
+                Hora: $("#HoraAuditoria").val(),
+                dsLinea: $('#Lineas').val()              
             },
             success: function (resultado) {
                 $('#ModelCargarEmpleados').html(resultado);
@@ -53,21 +108,54 @@ function CargarEmpleados(formulario) {
                 $('#' + formulario).remove("disabled");
             }
         });
-    } else {
-        MensajeAdvertencia("Seleccione una LINEA", false)
-    }
+  
 }
-function IngresarAuditoriaSangre() {
-    var estado;
-    if ($('#Estado').prop('checked')) {
-        estado = "A";
+
+function Validar() {
+    var valida = true;
+    if ($("#FechaAuditoria").val() == "") {
+        $("#FechaAuditoria").css("border-color", "#DC143C");
+        valida=false;
     } else {
-        estado = "I";
+        $("#FechaAuditoria").css('border-color', '#d1d3e2');
     }
-    if ($('#Cedula').val() == "" || $('#Porcentaje').val() == "") {
-        MensajeError("Los campos Cédula y Porcentaje son obligatorios", false);
+    if ($("#HoraAuditoria").val() == "") {
+        $("#HoraAuditoria").css("border-color", "#DC143C");
+        valida = false;
     } else {
-        
+        $("#HoraAuditoria").css("border-color", "#d1d3e2");
+    }
+    if ($("#Cedula").val() == "") {
+        $("#Nombre").css("border-color", "#DC143C");
+        valida = false;
+    } else {
+        $("#Nombre").css("border-color", "#d1d3e2");
+    }
+    if ($("#Porcentaje").val() == "") {
+        $("#Porcentaje").css("border-color", "#DC143C");
+        valida = false;
+    } else {
+        $("#Porcentaje").css("border-color", "#d1d3e2");
+    }
+
+    if ($("#TipoAuditoria").val() == "") {
+        $("#TipoAuditoria").css("border-color", "#DC143C");
+        valida = false;
+    } else {
+        $("#TipoAuditoria").css("border-color", "#d1d3e2");
+    }
+
+    return valida;
+}
+
+function IngresarAuditoriaSangre() {
+
+    if (!Validar()) {
+        return;
+    }
+    
+    $("#Agregar").prop("disabled", true);
+    
         $.ajax({
             url: "../AuditoriaSangre/ControlAuditoriaSangrePartial",
             type: "POST",
@@ -77,42 +165,76 @@ function IngresarAuditoriaSangre() {
                 Cedula: $('#Cedula').val(),
                 Porcentaje: $('#Porcentaje').val(),
                 Fecha: $('#FechaAuditoria').val(),
-                Estado: estado
+                Hora: $('#HoraAuditoria').val(),
+                TipoAuditoria: $("#TipoAuditoria").val(),
+                Estado: 'A',
+                Observacion:$("#txtObservacion").val()
             },
             success: function (resultado) {
-                $('#Cedula').val("");
-                $('#Porcentaje').val("");
-                $('#Nombre').val("");
-                $('#IdAuditoriaSangre').val("");
-                $('#ControlAuditoriaSangre').html(resultado);
+                LimpiarBoton();             
+                $("#btnEliminarDetalle").prop("hidden", true);        
                 MensajeCorrecto("Registro ingresado con éxito", false);
+    
+                $("#Agregar").prop("disabled", false);
+                ConsultarAuditoriaChange();
             },
             error: function (resultado) {
                 MensajeError(JSON.stringify(resultado), false);
+          
+                $("#Agregar").prop("disabled", false);
 
             }
         });
+    //}   
+}
+
+function InactivarDetalle() {
+    if ($("#txtObservaccionEliminacion").val() =='') {
+        $("#txtObservaccionEliminacion").css("border-color", "#DC143C");
+        return;
     }
-    
+    $('#ModalObservacion').modal("hide");
+    $.ajax({
+        url: "../AuditoriaSangre/ControlAuditoriaSangrePartial",
+        type: "POST",
+        data:
+        {
+            IdAuditoria: $('#IdAuditoriaSangre').val(),
+            Cedula: $('#Cedula').val(),
+            Porcentaje: $('#Porcentaje').val(),
+            Fecha: $('#FechaAuditoria').val(),
+            Hora: $('#HoraAuditoria').val(),
+            Estado: "I"
+        },
+        success: function (resultado) {
+            LimpiarBoton();
+           // $('#ControlAuditoriaSangre').html(resultado);
+            MensajeCorrecto("Registro ingresado con éxito", false);
+            ConsultarAuditoriaChange();
+        },
+        error: function (resultado) {
+            MensajeError(JSON.stringify(resultado), false);
+
+        }
+    });
 
 }
-function CambiarLableEstado() {
-    if ($('#Estado').prop('checked')) {
-        //console.log("checked");
-        $('#EstadoLabel').text("Activo");
-    } else {
-        //console.log("No checked");
-        $('#EstadoLabel').text("Inactivo");
-    }
+
+
+function CargarAuditoria(model) { 
+    $('#IdAuditoriaSangre').val(model.IdControlAuditoriaSangre);
+    $('#Nombre').val(model.Nombres);   
+    $('#Cedula').val(model.Cedula);
+    $('#Porcentaje').val(model.Porcentaje);    
+    $('#TipoAuditoria').val(model.Tipo);    
+    $("#btnEliminarDetalle").prop("hidden", false);
+    $("#txtObservacion").val(model.Observacion);
 }
-//CargarAuditoria('@item.Fecha', '@item.Cedula', '@item.Porcentaje')
-function CargarAuditoria(fecha, cedula, porcentaje, nombres, idauditoriasangre) {
-    $('#IdAuditoriaSangre').val(idauditoriasangre);
-    $('#Nombre').val(nombres);
-    //$('#FechaAuditoria').val(fecha);
-    $('#Cedula').val(cedula);
-    $('#Porcentaje').val(porcentaje);
-    
-    $('#Estado').prop('checked', true)
-    $('#EstadoLabel').text("Activo");
+
+
+function Observacion() {
+    // console.log(valor);
+    $("#txtObservaccionEliminacion").val(""); 
+    $("#txtObservaccionEliminacion").css("border-color", "#d1d3e2");
+    $('#ModalObservacion').modal("show");
 }

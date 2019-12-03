@@ -32,10 +32,21 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-    <div id="response">
+    <style>
+        .btn-link:hover {
+            color: #ffd800 !important;
+        }
 
-    </div>
-    <div class="container">
+        .btn-link {
+            font-weight: 400;
+            color: aliceblue;
+            text-decoration: none;
+        }
+    </style>
+    <div class="container relative1">
+        <div class="absolute1" hidden id="response">
+        </div>
+
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
@@ -46,17 +57,17 @@
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
-                                    <img style="border-radius:20px; background:#ffffff; width:80%"  src="~/Content/icons/user32.png" />
+                                    <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/user32.png" />
                                 </span>
                             </div>
-                            <input id="txtUsuario" type="text" class="form-control" placeholder="Usuario">
+                            <input id="txtUsuario" style="text-transform:uppercase" onkeypress = "return sololetras(event)" type="text" class="form-control" placeholder="Usuario">
 
                         </div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
                                     @*<i class="fas fa-key">*@
-                                        <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/clave32.png" />
+                                    <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/clave32.png" />
                                     @*</i>*@
                                 </span>
                             </div>
@@ -79,6 +90,7 @@
                                 Espere...
                             </button>
                         </div>
+                       
                     </form>
                 </div>
                 <div class="card-footer text-center">
@@ -88,6 +100,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+   
 </body>
 </html>
 

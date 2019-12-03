@@ -16,5 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Cedula { get; set; }
         public string NOMBRES { get; set; }
         public Nullable<int> Veces { get; set; }
+        public string Linea { get; set; }
+        public string Observacion { get; set; }
     }
 }

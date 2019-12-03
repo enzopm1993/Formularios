@@ -4,6 +4,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre;
 using Asiservy.Automatizacion.Formularios.Models.Seguridad;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -16,7 +17,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDEmpleado clsDEmpleado = null;
         clsDError clsDError = null;
         clsDClasificador clsDClasificador = null;
-        string[] liststring;
+        string[] lsUsuario;
         clsDAuditoriaSangre clsDAuditoriaSangre = null;
         protected void SetSuccessMessage(string message)
         {
@@ -34,141 +35,176 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                clsDClasificador = new clsDClasificador();
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
+                ViewBag.TipoAuditoria = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAuditoria, 0);
+                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, 0);
                 ViewBag.AuditoriaSangre = clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria(DateTime.Now);
+                
                 return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home","Home");
             }
             catch (Exception ex)
             {
-
-                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
-                });
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
                 return RedirectToAction("Home", "Home");
             }
         }
         [Authorize]
-        public ActionResult ReporteAuditoriaSangrePArtial(string CodLinea, DateTime Fecha)
+        public ActionResult ReporteAuditoriaSangrePArtial(string CodLinea, DateTime Fecha, string Tipo)
         {
             try
             {
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
-                var ReporteAuditoriaSangre = clsDAuditoriaSangre.ConsultarReporteAuditoriaSangre(CodLinea,Fecha);
+                var ReporteAuditoriaSangre = clsDAuditoriaSangre.ConsultarReporteAuditoriaSangre(CodLinea,Fecha, Tipo);
                 if (!ReporteAuditoriaSangre.Any())
                 {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                
+                    return Json("0", JsonRequestBehavior.AllowGet);                
                 }
                 return PartialView(ReporteAuditoriaSangre);
             }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        //public ActionResult ControlAuditoriaSangrePartial()
-        //{
-        //    return PartialView();
-        //}
-        public ActionResult EmpleadoBuscar()
+     
+        public ActionResult EmpleadoBuscar(DateTime Fecha, TimeSpan Hora,string dsLinea)
         {
             try
-            {
-                
+            {                
                 clsDEmpleado = new clsDEmpleado();
-                List<spConsutaEmpleadosFiltro> lista = clsDEmpleado.ConsultaEmpleadosFiltro("0", "0",clsAtributos.CargoLimpiadora);
+                List<spConsultaEmpleadosPersonalPrestadoFiltro> lista = clsDEmpleado.ConsultaEmpleadosCambioPersonalFiltro(Fecha,Hora,dsLinea, "0","0");
                 return PartialView(lista);
 
             }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [Authorize]
+        public ActionResult ControlAuditoriaSangrePartial( DateTime Fecha)
+        {
+            try
+            {
+                clsDAuditoriaSangre = new clsDAuditoriaSangre();       
+                return PartialView(clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria(Fecha));  
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [Authorize]
         [HttpPost]
-        public ActionResult ControlAuditoriaSangrePartial(int? IdAuditoria,string Cedula, string Porcentaje, DateTime Fecha, string estado,int? change)
+        public ActionResult ControlAuditoriaSangrePartial(int? IdAuditoria,string Cedula, string Porcentaje, DateTime Fecha,TimeSpan Hora, string estado,string TipoAuditoria,string Observacion)
         {
             try
             {
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
-                if (change != 1)
-                {
+                clsDEmpleado = new clsDEmpleado();
+             
                     int IdAuditoriaS = IdAuditoria == null ? 0 : Convert.ToInt32(IdAuditoria);
-                    liststring = User.Identity.Name.Split('_');
-                    var hora = TimeSpan.Parse(DateTime.Now.ToString("hh:mm"));
-                    //DateTime Fecha;
-                    //Fecha = string.IsNullOrEmpty(Fecha) ? DateTime.Now :Convert.ToDateTime(Fecha);
+                    lsUsuario = User.Identity.Name.Split('_');
                     DateTime FechaCreacion = DateTime.Now;
-                    
+                    var Linea = clsDEmpleado.ConsultaEmpleado(Cedula).FirstOrDefault();
 
-                    List<spConsultarAuditoriaSangreDiaria> ListaAuditoria = clsDAuditoriaSangre.GuardarActualizarAuditoriaSangre(new CONTROL_AUDITORIASANGRE
+                    clsDAuditoriaSangre.GuardarActualizarAuditoriaSangre(new CONTROL_AUDITORIASANGRE
                     {
                         Cedula = Cedula,
                         Porcentaje = Convert.ToDecimal(Porcentaje),
                         FechaCreacionLog = FechaCreacion,
                         EstadoRegistro = estado,
                         TerminalCreacionLog = Request.UserHostAddress,
-                        UsuarioCreacionLog = liststring[0],
-                        Hora = hora,
+                        UsuarioCreacionLog = lsUsuario[0],
+                        Hora = Hora,
                         FechaAuditoria = Fecha,
-                        IdControlAuditoriaSangre = IdAuditoriaS
+                        IdControlAuditoriaSangre = IdAuditoriaS,
+                        Linea= Linea.CODIGOLINEA,
+                        TipoAuditoria= TipoAuditoria,
+                        Observacion= Observacion
                     });
 
-                    return PartialView(ListaAuditoria);
-                }
-                else
-                {
-                    return PartialView(clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria(Fecha));
-                }
-                
+                   return Json("Registro Éxitoso", JsonRequestBehavior.AllowGet);
+
+
+
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
         [Authorize]
@@ -181,24 +217,28 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 clsDClasificador = new clsDClasificador();
                 var ListLineas= clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-                
+
+                ViewBag.TipoAuditoria = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAuditoria, 0);
                 ViewBag.Lineas = new SelectList(ListLineas, "codigo", "descripcion");
                 return View();
             }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
             catch (Exception ex)
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = "sistemas"
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
             }
         }
     }

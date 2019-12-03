@@ -561,9 +561,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 solicitudPermiso.CodigoMotivo = model.CodigoMotivo;
                 solicitudPermiso.Identificacion = lsUsuario[1];
-                clsDSolicitudPermiso.GenerarSolicitudPermisoMasivo(solicitudPermiso, Cedulas);
+                int Cantidad= clsDSolicitudPermiso.GenerarSolicitudPermisoMasivo(solicitudPermiso, Cedulas);
                 respuestaGeneral.Codigo = 1;
-                respuestaGeneral.Mensaje = "solicitudes Generadas con Exito";
+                respuestaGeneral.Mensaje = Cantidad+" Solicitudes generadas con éxito.";
                 return Json(respuestaGeneral, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

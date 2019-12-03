@@ -1,0 +1,290 @@
+﻿
+@{
+    ViewBag.Title = "EditarProyeccionProgramacionPreparacion";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<h3>Editar Proyección Programación</h3>
+
+<br />
+<input type="hidden" id="IdProyeccion" name="name" value="0" />
+<input type="hidden" id="txtValidaEditar" name="name" value="1" />
+@{var Fecha = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"); }
+<div class="row">
+    <div class="col-4">
+        <input type="date" id="txtFechaProduccion" class="form-control" name="name" value="@Fecha" onchange="ValidaProyeccion()" />
+    </div>
+
+</div>
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+
+<div class="text-center" style="color:#e4ac13" id="DivMensaje">
+
+</div>
+<div class="table-responsive" id="DivTablePreparacion">
+
+</div>
+
+<br />
+<div class="text-center">
+    <button type="button" hidden id="btnFinalizar" onclick="FinalizarProyeccionProgramacion()" class="btn btn-outline-primary">Finalizar</button>
+    <button type="button" hidden id="btnHabilitar" onclick="HabilitarProyeccionProgramacion()" class="btn btn-outline-success">Habilitar</button>
+    <br />
+    <br />
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalEditarProyeccion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" data-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Editar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div id="DivBodyEditar">
+                    <div class="row">
+                        <div class="col-1">
+                            <div class="form-group" id="form">
+                                <label>Lote</label>
+                                <input type="text"  style="text-transform:uppercase" id="txtLote" class="form-control" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group" id="form">
+                                <label>Lineas</label>
+                                <input type="text" disabled id="txtLineas" class="form-control" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group" id="form">
+                                <label>Fecha</label>
+                                <input type="date" disabled id="txtFechaProd" class="form-control" name="name" value="" />
+                            </div>
+                        </div>   <div class="col-2">
+                            <div class="form-group" id="form">
+                                <label>Proceso Inicio</label>
+                                <input type="time" disabled id="txtHoraProcesoInicio" class="form-control" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group" id="form">
+                                <label>Proceso Fin</label>
+                                <input type="time" disabled id="txtHoraProcesoFin" class="form-control" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Peso</label>
+                                <input type="text" disabled id="txtPeso" class="form-control" name="name" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group" id="form">
+                                <label>Especie</label>
+                                <input type="text" disabled id="txtEspecie" class="form-control" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group" id="form">
+                                <label>Talla</label>
+                                <input type="text" disabled id="txtTalla" class="form-control" name="name" value="" />
+                            </div>
+                        </div>
+
+                        <div class="col-1">
+                            <div class="form-group" id="form">
+                                <div class="dropdown checkbox-menu allow-focus">
+                                    <label>Cocina</label> <br />
+                                    <div class="button-group">
+                                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><i id="btnCocina" class="fas fa-dumpster-fire"></i></button>
+                                        <ul class="dropdown-menu" style="min-width:8rem">
+                                            @{
+                                                if (ViewBag.Cocinas != null)
+                                                {
+                                                    foreach (var x in ViewBag.Cocinas)
+                                                    {
+                                                        <li><input type="checkbox" value="@x.Codigo" />&nbsp;Cocina @x.Descripcion</li>
+                                                    }
+                                                }
+                                            }
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="form-group" id="form">
+                                <label>Receta</label>
+                                @Html.DropDownList("txtReceta", new SelectList(ViewBag.Receta, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="text-center">
+                        <p id="validaCocina" hidden class="text-danger"></p>
+                    </div>
+                    <div class="row">
+                        <input type="hidden" name="name" id="txtIdProgramacion" value="0" />
+                        <div class="col-3">
+                            <label>Enfriado</label>
+                            <div class="">
+                                <input hidden type="text" disabled style="background-color:transparent" class="form-control" id="txtHoraEnfriado">
+                                <select class="form-control" id="selectHoraEnfriado" onchange="CambiarHoraEnfriado(this.value)">
+                                    @{if (ViewBag.Horas != null)
+                                        {
+                                            foreach (var x in ViewBag.Horas)
+                                            {
+                                                <option value="@x">@x</option>
+                                            }
+                                        }
+
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group" id="form">
+                                <label>Temperatura</label>
+                                <input type="number" min="0" id="txtTemperatura" class="form-control" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group" id="form">
+                                <label>Coccion</label>
+                                <div class="">
+                                    <input hidden type="text" class="form-control" id="txtHoraCoccion">
+                                    <select class="form-control" id="selectHoraCoccion" onchange="CambiarHoraCoccion(this.value)">
+                                        @{if (ViewBag.Horas != null)
+                                            {
+                                                foreach (var x in ViewBag.Horas)
+                                                {
+                                                    <option value="@x">@x</option>
+                                                }
+                                            }
+
+
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group" id="form">
+                                <label>Coches</label>
+                                <input type="number" min="0" style="text-transform:uppercase" onkeypress="return sololetras(event)" id="txtCoches" class="form-control" name="name" value="" />
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="row">
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Coccion Inicio</label>
+                                @* <input type="time" id="txtHoraCoccionInicio" class="form-control" name="name" value="" />*@
+                                <input type="datetime-local" id="txtFechaCoccionInicio" class="form-control" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Coccion Fin</label>
+                                @*   <input readonly type="time" id="txtHoraCoccionFin" class="form-control" name="name" value="" />*@
+                                <input type="datetime-local" id="txtFechaCoccionFin" class="form-control" name="name" value="" />
+
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Evicerado Inicio</label>
+                                @*<input type="time" id="txtHoraEviceradoInicio" class="form-control" name="name" value="" onchange="CalcularDescongeladoFin()" />*@
+                                <input type="datetime-local" id="txtFechaEviceradoInicio" class="form-control" onchange="CalcularDescongeladoFin()" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Evicerado Fin</label>
+                                @*  <input type="time" id="txtHoraEviceradoFin" class="form-control" name="name" value="" />*@
+                                <input type="datetime-local" id="txtFechaEviceradoFin" class="form-control" name="name" value="" />
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Descongelado Inicio</label>
+                                @*  <input type="time" id="txtHoraDescongeladoInicio" class="form-control" name="name" value="" />*@
+                                <input type="datetime-local" id="txtFechaDescongeladoInicio" class="form-control" name="name" value="" />
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Descongelado Fin</label>
+                                @*  <input type="time" id="txtHoraDescongeladoFin" class="form-control" name="name" value="" />*@
+                                <input type="datetime-local" id="txtFechaDescongeladoFin" class="form-control" name="name" value="" />
+
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Requerimiento(min)</label>
+                                <input type="number" style="text-transform:uppercase" onkeypress="return sololetras(event)" id="txtRequerimiento" min="0" class="form-control" name="name" value="" onchange="CalcularRequerimiento()" />
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Requerimiento</label>
+                                @*  <input type="time" id="txtHoraRequerimiento" class="form-control" name="name" value="" />*@
+                                <input type="datetime-local" id="txtFechaRequerimiento" class="form-control" name="name" value="" />
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="align-left">Observación:</label>
+                                <textarea rows="3" cols="25" id="txtObservacion" style="text-transform:uppercase" class="form-control"></textarea>
+                                @*<label id="msgerrorHoraFin" style="display:none; color:red">La hora de Fin no puede estar vacia</label>*@
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="btnGuardar" onclick="GuardarProyeccionDetalle()">Guardar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

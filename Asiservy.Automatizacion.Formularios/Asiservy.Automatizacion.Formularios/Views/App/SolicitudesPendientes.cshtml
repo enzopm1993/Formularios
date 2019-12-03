@@ -1,0 +1,171 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.AccesoDatos.App.SolicitudesPendientes>
+@{
+    ViewBag.Title = "SolicitudesPendientes";
+}
+<style>
+    input.form-control, select.form-control, textarea.form-control {
+        max-width: 100%;
+    }
+
+    .datoCambia {
+        background-color: #c6ffc6;
+        border-color: green;
+        color: black;
+    }
+
+    .procesa_loader {
+        display: none;
+    }
+
+    a.cargaDatos {
+        font-size: 11px;
+    }
+    #txtContentCertificado table{
+        margin: 0 auto;
+    }
+    div#TipoCertificado {
+        font-size: 20px;
+    }
+    label#tituloTipo {
+        font-weight: bold;
+        margin-right: 5px;
+    }
+    div#ContenidoCertificado h6 {
+        font-weight: bold;
+    }
+</style>
+<h4>Solicitudes Pendientes Aplicativo RRHH</h4>
+<hr />
+<br />
+<div id="DivTableEmpleadosDatos" class="table-responsive">
+
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th>
+                    <label>Nombres</label>
+
+                </th>
+                <th>
+                    <label>Cédula</label>
+                </th>
+
+                <th>
+                    <label>Departamento</label>
+
+                </th>
+
+                <th>
+                    <label>TipoSolicitud</label>
+
+                </th>
+                <th>
+                    <label>FechaSolicitud</label>
+
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NOMBRES)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cedula)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DEPARTAMENTO)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoSolicitud)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaSolicitud)
+                    </td>
+                    <td>
+                        <div class="procesa_loader" id="procesando_@(item.TipoCode+"_"+item.idTipo)"> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></div>
+                        <a class="badge badge-primary cargaDatos" data-cedula="@item.Cedula" data-tiposolicitud="@item.TipoSolicitud" id="cargaDatos_@(item.TipoCode+"_"+item.idTipo)" data-idcertificado="@item.idCertificado" idTipo="@item.idTipo" tipoSolicitud="@item.TipoCode" href="#">Ver solicitud</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+<div class="modal fade" id="DatosEmpleado" tabindex="-1" role="dialog" aria-labelledby="DatosEmpleado" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Actualización de datos</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="txtCodigoSolicitud" type="hidden" />
+                <input id="txtCedula" type="hidden" />
+                <div class="form-group">
+                    <label for="txtDireccion">Dirección</label>
+                    <input type="text" class="form-control campoSolicitud" id="txtDireccion" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="txtBarrio">Barrio</label>
+                    <input type="text" class="form-control campoSolicitud" id="txtBarrio" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="txtTelefono">Teléfono</label>
+                    <input type="text" class="form-control campoSolicitud" id="txtTelefono" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="txtCelular">Celular</label>
+                    <input type="text" class="form-control campoSolicitud" id="txtCelular" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="txtCorreo">Correo</label>
+                    <input type="text" class="form-control campoSolicitud" id="txtCorreo" value="" />
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+                <a class="btn btn-danger" id="rechazarSolicitud" href="#">Rechazar cambios</a>
+                <a class="btn btn-success" id="sincronizarDL" href="#">Sincronizar con DataLife</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="CertificadoEmpleado" tabindex="-1" role="dialog" aria-labelledby="CertificadoEmpleado" aria-hidden="true">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Solicitud de certificado</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="txtCodigoSolicitudCert" type="hidden" />
+                <div id="TipoCertificado">
+                    <label id="tituloTipo">Tipo de certificado: </label><span id="txtCertifiadoSolicita"></span>              
+                </div>
+                <div id="ContenidoCertificado">
+                    <h6>Contenido del certificado</h6>
+                    <div id="txtContentCertificado"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+                <a class="btn btn-success" id="generarPDF" href=""><i class="fas fa-file-pdf"></i> Ver PDF</a>
+                <a class="btn btn-success" id="certificadoListo" href="#"><i class="fas fa-check"></i> Certificado listo</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteControlMaterialQuebradizo>
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        @{
+            var ListadoFechas = Model.Select(x => new { x.Fecha }).Distinct().OrderBy(x => x.Fecha);
+        }
+        <tr>
+            <th rowspan="2">Materiales</th>
+            @foreach (var x in ListadoFechas)
+            {
+                <th colspan="4">@x.Fecha.ToString("yyyy-MM-dd")</th>
+
+            }
+            <th hidden></th>
+            <th hidden></th>
+
+        </tr>
+        <tr>
+            @foreach (var x in ListadoFechas)
+            {
+                <th hidden></th>
+                <th hidden></th>
+                <th hidden></th>
+                <th>Total</th>
+                <th>Buen Estado</th>
+                <th>Dado de Baja</th>
+                <th>Observación</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var ListadoMateriales = Model.Select(x => new { x.CodigoMaterial, x.Material }).Distinct();
+            var Listado = Model.OrderBy(x => x.Fecha);
+            var ListadoObservaciones = Model.Select(x => new { x.Fecha,x.ObservacionControl}).Distinct();
+            int count = ListadoFechas.Count()*5;
+
+        }
+        @{ foreach (var m in ListadoMateriales)
+            {
+        <tr>
+            <td>@m.Material</td>
+
+            @foreach (var f in ListadoFechas)
+            {
+                <th hidden></th>
+                <th hidden></th>
+                <th hidden></th>
+                <td>@Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).TotalMaterial</td>
+                <td>@Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).BuenEstado</td>
+                <td>@{var baja= Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).DadoBaja ?? 0;}
+                    @baja
+                </td>
+                <td>@Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).Observacion</td>
+            }
+        </tr>
+
+                }
+            }
+    </tbody>
+    <tfoot>
+        @foreach (var x in ListadoObservaciones)
+        {
+            if (!string.IsNullOrEmpty(x.ObservacionControl))
+            {
+            <tr>           
+                <td colspan="@count.ToString()">@x.Fecha.ToString("yyyy-MM-dd"): @x.ObservacionControl</td>                 
+
+            </tr>
+            }
+         }
+    </tfoot>
+
+</table>

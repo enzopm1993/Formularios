@@ -20,5 +20,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.TimeSpan> Hora { get; set; }
         public Nullable<decimal> Porcentaje { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
+        public string Tipo { get; set; }
+        public string TipoAuditoria { get; set; }
+        public string Observacion { get; set; }
     }
 }

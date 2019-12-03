@@ -16,8 +16,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             {
                 string psCodigoUsuario = db.spConsultarUsuario(psusuario, psclave).FirstOrDefault();
                 return psCodigoUsuario;
+            }            
+        }
+
+        public bool ValidarUsuarioRol(string IdUsuario, int rol)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var existe = entities.USUARIO_ROL.Any(x => x.IdUsuario == IdUsuario &&
+                x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
+                x.IdRol == rol
+                );
+                return existe;             
             }
-            
         }
 
         public List<int?> ConsultaRolesUsuario(string dsIdUsuario)
@@ -27,6 +38,28 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             {
                 var poRoles = entities.USUARIO_ROL.Where(x => x.IdUsuario == dsIdUsuario && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).Select(x => x.IdRol).ToList();
                 return poRoles;
+
+            }
+        }
+
+        public bool ValidarPermisoOpcion(string dsUsuario, string dsopcion)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+
+                var model = (from u in entities.USUARIO_ROL
+                             join or in entities.OPCION_ROL on u.IdRol equals or.IdRol
+                             join op in entities.OPCION on or.IdOpcion equals op.IdOpcion
+                             where u.IdUsuario == dsUsuario 
+                             && u.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                             && or.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                             && op.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                             && op.Formulario == dsopcion select u).FirstOrDefault();
+                if (model != null)
+                    return true;
+                else
+                    return false;
+
 
             }
         }

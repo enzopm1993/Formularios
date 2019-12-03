@@ -38,6 +38,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int RolAprobacionSolicitud=8;
         public static int RolRRHH = 9;
         public static int RolMedico = 6;
+        public static int AsistenteProduccion = 16;
 
         //Codigos de Lineas
         public static string CodLineaProduccion = "07";
@@ -113,8 +114,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //Clasificador Grupo Especie pescado
         public static string CodigoGrupoEspeciePescado= "009";
 
-        //Clasificador rupo Talla de pescado
+        //Clasificador Grupo Talla de pescado
         public static string CodigoGrupoTallaPescado = "010";
+
+        //Clasificador Grupo Marea
+        public static string CodigoGrupoMarea = "016";
+
+        //Clasificador Grupo Receta
+        public static string CodigoGrupoRecetaRoceado = "017";
 
         //Tallas de pescado
         public static string Talla35="001";
@@ -155,6 +162,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string TiempoSalidaGarita = "001";
         public static string ParaMensajeUrgente = "003";
         public static string ParaMensajeAviso = "002";
+
+
+        //CLASIFICADOR COCINA
+        public static string CodigoGrupoCocinas = "015";
+
+        //CLASIFICADOR AUDITORIA
+        public static string CodigoGrupoAuditoria = "018";
+
+
+        public static string BASE_URL_WS = "http://192.168.0.31:8870";
 
     }
 }

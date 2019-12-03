@@ -145,10 +145,15 @@
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name.Split('_')[0]</span>
+                                    <input type="hidden" id="usernameLogin" value="@User.Identity.Name.Split('_')[0]" />
                                     <img class="img-profile rounded-circle" src="~/Content/admin/img/user.png">
                                 </a>
                                 <!-- Dropdown - User Information -->
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">                                   
+                                    <a class="dropdown-item" onclick="CambioClave()"  href="#">
+                                        <i class="fas fa-key  fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Cambio de Clave
+                                    </a>
                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Cerrar sesión
@@ -166,6 +171,9 @@
 
                     <div class="absolute1" hidden id="response">
                     </div>
+                    <span id="TimeLeft"></span>
+
+
                     @RenderBody()
 
 
@@ -221,11 +229,65 @@
             </div>
         </div>
     </div>
-
+    <div class="modal fade" id="ModalCambioClave" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background:#2C3E50">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">Cambio de clave <img src="~/Content/icons/login.png" alt="Alternate Text" /> </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Usuario</label>
+                                <input class="form-control" readonly type="text" id="txtUsuario2" name="name" value="@User.Identity.Name.Split('_')[0]" />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Clave Actual</label>
+                                <input class="form-control" type="password" id="txtClaveActual" name="name" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Nueva Clave</label>
+                                <input class="form-control" type="password" id="txtClaveNueva" name="name" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Confirmar Clave</label>
+                                @*<input class="form-control" onkeypress="" type="password" id="txtClaveNuevaConfirmar" name="name" value="" />*@
+                                <input class="form-control" onkeypress="CambiarClave(event)" type="password" id="txtClaveNuevaConfirmar" name="name" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnCerrarModal" class="btn btn-outline-dark" data-dismiss="modal">Cerrar</button>
+                    <button type="button" id="btnGuardarCambioClave" onclick="CambiarClave(null)" class="btn btn-outline-primary">Guardar</button>
+                    <button hidden id="btnCargando" class="btn btn-light" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Espere...
+                    </button>
+                    @*<h5 class="text-danger">Nueva opción, pronto estará lista!!</h5>*@
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Bootstrap core JavaScript-->
     <script src="~/Content/admin/vendor/jquery/jquery.min.js"></script>
     <script src="~/Content/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+    <script src="~/Scripts/moment.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="~/Content/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
@@ -234,7 +296,119 @@
     <script src="~/Scripts/General/GeneralJS.js"></script>
     <script src="~/Scripts/Mensajes/Mensajes.js"></script>
 
+    <script>
+        //var iStart = 0;
+        //var iMinute = 2 //Obtengo el tiempo de session permitida
+        //function showTimer() {
+        //    iStart = 60;
+        //    iMinute -= 1
+        //    lessMinutes();
+        //}
+        //function lessMinutes() {
+        //    //Busco mi elemento que uso para mostrar los minutos que le quedan (minutos y segundos)
+        //    obj = document.getElementById('TimeLeft');
+        //    if (iStart == 0) {
+        //        iStart = 60
+        //        iMinute -= 1;
+        //    }
+        //    iStart = iStart - 1;
 
+        //    //Si minuto y segundo = 0 ya expiró la sesion
+        //    if (iMinute == 0 && iStart == 0) {
+        //        alert("Su sesion ha expirado, sera redireccionado a la página principal");
+        //        window.location.href = '<%= Request.ApplicationPath %>' + '/login.aspx';
+        //    }
+        //    if (iStart < 10)
+        //        obj.innerText = iMinute.toString() + ':0' + iStart.toString();
+        //    else
+        //        obj.innerText = iMinute.toString() + ':' + iStart.toString();
+        //    //actualizo mi método cada segundo
+        //    window.setTimeout("lessMinutes();", 1000)
+        //}
+
+
+        var urlOpcion = '@ViewBag.JavaScrip';
+        urlOpcion = urlOpcion.split("/");
+        $.ajax({
+            url: "../Login/ValidarOpcionUsuario",
+            type: "GET",
+            data:
+            {
+                Usuario: '@User.Identity.Name.Split('_')[1]',
+                Opcion: urlOpcion[1]
+            },
+            success: function (resultado) {
+                if (resultado == false) {
+                    var url = "../Home/HomeError?Msg=NO TIENE PERMISOS A ESTA PÁGINA";
+                    window.location.href = url;
+                }
+            },
+            error: function (resultado) {
+                MensajeError(JSON.stringify(resultado), false);
+            }
+        });
+
+        var config = {
+            wsUrl: 'http://192.168.0.31:8870',
+            baseUrl: '@Url.Content("~/")',
+            opcionesDT: {
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+                    "buttons": {
+                        "pageLength": "<img style='width:100%' src='../../Content/icons/show24.png' />"
+                    }
+                },
+                "pageLength": 5,
+                "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                "pagingType": "full_numbers",
+                "dom": 'Bfrtip',
+                "order": [[0, "desc"], [1, "desc"]],
+                "buttons": [
+                    {
+                        extend: 'pageLength',
+                        text: ' <img style="width:100%" src="../../Content/icons/show24.png" />',
+                        titleAttr: 'Mostrar'
+                    }, {
+                        extend: 'copyHtml5',
+                        text: ' <img style="width:100%" src="../../Content/icons/copy24.png" />',
+                        titleAttr: 'Copiar'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: '<img style="width:100%" src="../../Content/icons/excel24.png" />',
+                        titleAttr: 'Excel'
+                    },
+                    {
+                        extend: 'print',
+                        text: '<img style="width:100%" src="../../Content/icons/print24.png" />',
+                        titleAttr: 'Imprimir'
+                    }
+                ]
+            }
+        }
+
+    </script>
 
     @if (ViewBag.dataTableJS != null)
     {
@@ -260,9 +434,16 @@
         <link href="~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
         <link href="~/Content/DataTables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
         <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
-        <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>   
+        <script src="~/Scripts/DataTables/media/js/dataTables.bootstrap4.min.js"></script>
 
-     
+
+    }
+
+    @if (ViewBag.summernote == "1")
+    {
+        <link href="~/Content/summernote/dist/summernote.css" rel="stylesheet" />
+        <script src="~/Content/summernote/dist/summernote.js"></script>
+        <script src="~/Content/summernote/dist/lang/summernote-es-ES.js"></script>
     }
 
     @if (ViewBag.JavaScrip != null)
@@ -272,8 +453,9 @@
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
 
-
     }
+
+
 
 
     @if (TempData["MensajeConfirmacion"] != null)
