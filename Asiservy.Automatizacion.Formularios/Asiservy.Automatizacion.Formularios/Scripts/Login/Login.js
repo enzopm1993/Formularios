@@ -4,6 +4,7 @@
     }
 });
 
+
 function Nuevo() {
     $("#txtUsuario").val('');
     $("#txtPassword").val('');
@@ -37,7 +38,6 @@ $("#btnIngresar").on("click", function () {
 
                 if (returnUrl == "") {
                     window.location.href = "../Home/Home";
-
                 }
                 else {
                     window.location.href = returnUrl;

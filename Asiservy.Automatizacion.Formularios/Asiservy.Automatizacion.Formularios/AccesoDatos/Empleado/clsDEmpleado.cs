@@ -185,16 +185,27 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return pListEmpleados;
             }
         }
-        public List<spConsutaEmpleadosFiltroCambioPersonal> ConsultarDondeFueMovido(List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados)
+        public spConsultaEspecificaEmpleadosxCedula ConsultarEmpleadoxCedula(string Cedula)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                List<spConsutaEmpleadosFiltroCambioPersonal> Empleados = new List<spConsutaEmpleadosFiltroCambioPersonal>();
+                spConsultaEspecificaEmpleadosxCedula BuscarEmpleaado = db.spConsultaEspecificaEmpleadosxCedula(Cedula).FirstOrDefault();
+                return BuscarEmpleaado;
+            }
+        }
+        public List<spConsultarCaambioPersonalxCedula> ConsultarDondeFueMovido(List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                //List<spConsutaEmpleadosFiltroCambioPersonal> Empleados = new List<spConsutaEmpleadosFiltroCambioPersonal>();
+                List<spConsultarCaambioPersonalxCedula> Empleados = new List<spConsultarCaambioPersonalxCedula>();
+                
                 spConsultarCaambioPersonalxCedula consultarempleado = null;
                 foreach (var item in ListEmpleados)
                 {
                      consultarempleado = db.spConsultarCaambioPersonalxCedula(item.CEDULA).FirstOrDefault();
-                     Empleados.Add(new spConsutaEmpleadosFiltroCambioPersonal { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA });
+                    //Empleados.Add(new spConsutaEmpleadosFiltroCambioPersonal { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA });
+                    Empleados.Add(new spConsultarCaambioPersonalxCedula { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA, FECHAMOVIDO= consultarempleado.FECHAMOVIDO});
 
                 }
 
@@ -222,43 +233,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return pListEmpleados;
                 
             }
-            //using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-            //{
-            //    if (string.IsNullOrEmpty(dsLinea))
-            //        dsLinea = "0";
-            //    if (string.IsNullOrEmpty(dsArea))
-            //        dsArea = "0";
-            //    if (string.IsNullOrEmpty(dsCargo))
-            //        dsCargo = "0";
-
-            //    List<spConsutaEmpleadosFiltro> pListEmpleados = null;
-            //    List<spConsutaEmpleadosFiltro> pListEmpleadoR = new List<spConsutaEmpleadosFiltro>();
-            //    pListEmpleados = db.spConsutaEmpleadosFiltro(dsArea, dsLinea, dsCargo).ToList();
-            //    if (psTipo == clsAtributos.TipoPrestar)
-            //    {
-            //        foreach (var item in pListEmpleados.ToArray())
-            //        {
-            //            if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.CEDULA&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo))
-            //            {
-            //                pListEmpleados.Remove(item);
-            //            }
-            //        }
-            //        return pListEmpleados;
-            //    }
-            //    else
-            //    {
-            //        foreach (var item in pListEmpleados)
-            //        {
-            //            if (db.CAMBIO_PERSONAL.Any(x => x.Cedula == item.CEDULA&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo))
-            //            {
-            //                pListEmpleadoR.Add(item);
-            //            }
-            //        }
-            //        return pListEmpleadoR;
-            //    }
-
-
-            //}
+            
         }
         public List<spConsutaEmpleados> ConsultaEmpleado(string dsCedula)
         {

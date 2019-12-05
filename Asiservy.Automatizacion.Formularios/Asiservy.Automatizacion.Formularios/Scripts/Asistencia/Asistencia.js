@@ -61,15 +61,15 @@ function FijarHora() {
         $('#msgerrorfijarhora').hide();
     }
     $("#ModalHora").modal("hide");
-    var numerofilas = ($('#TableCuchillos tr').length)-3;
+    var numerofilas = ($('#TableCuchillos tr').length) - 3;
     for (var i = 0; i <= numerofilas; i++) {
         $('#ControlAsistencia_' + i + '__Hora').val
         if ($('#ControlAsistencia_' + i + '__EstadoAsistencia').val() == "3") {
             $('#ControlAsistencia_' + i + '__Hora').val($('#FijarHora').val());
         }
-      
+
     }
-    
+
 }
 function SetearHora() {
     $('#btnhora').prop('disabled', 'disabled');
@@ -86,7 +86,7 @@ function SetearHora() {
     //    },
     //    error: function (result) {
     //        $('#btnhora').removeAttr('disabled');
-          
+
     //    }
     //});
 }
@@ -94,39 +94,38 @@ function Nuevo() {
     $('#GenerarAsistencia').hide();
     $('#TurnoGen').removeAttr('disabled');
     $('#txtFecha').removeAttr('disabled');
-    $('#cmbControl').removeAttr('disabled'); 
     $('#ConsultaAsistencia').removeAttr('disabled');
     $('#TurnoGen').prop('selectedIndex', 0);
     $('#PartialAsistencia').empty();
-    
+
 
     var d = new Date();
 
     var dia = d.getDate();
-  
-    var mes = (d.getMonth() + 1) < 10?("0" + (d.getMonth() + 1)) : d.getMonth() + 1;
+
+    var mes = (d.getMonth() + 1) < 10 ? ("0" + (d.getMonth() + 1)) : d.getMonth() + 1;
     var anio = d.getFullYear();
 
     var fechatotal = anio + "-" + mes + "-" + dia
     $('#txtFecha').val(fechatotal);
-    
-    
+
+
 }
 function toDate(dStr, format) {
     //**
     var pieces = dStr.split(':'),
-    hour, minute, second;
+        hour, minute, second;
 
-   
-        hour = parseInt(pieces[0], 10);
-        minute = parseInt(pieces[1], 10);
-        //second = parseInt(pieces[2], 10);
-  
-   
+
+    hour = parseInt(pieces[0], 10);
+    minute = parseInt(pieces[1], 10);
+    //second = parseInt(pieces[2], 10);
+
+
     var fecha = new Date(2019, 10, 12, hour, minute);
     //alert(fecha);
     //**
-   
+
     if (format == "h:m") {
         return fecha;
     } else
@@ -155,9 +154,10 @@ function buscarenTabla() {
 }
 
 function ConsultarSiExisteAsistencia() {
-    
+
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
+        $('#horaservidor').hide();
         $('#mensajeturno').show();
         return false;
     } else {
@@ -170,11 +170,6 @@ function ConsultarSiExisteAsistencia() {
         $('#mensajefecha').hide();
     }
     $('#PartialAsistencia').empty();
-    $('#TurnoGen').prop("disabled", true);
-    $('#txtFecha').prop("disabled", true);
-    $('#cmbControl').prop("disabled", true);
-    
-
     $.ajax({
         //contentType: "application/json; charset=utf-8",
         url: '../Asistencia/ConsultarExistenciaAsistencia',
@@ -186,17 +181,17 @@ function ConsultarSiExisteAsistencia() {
         success: function (resultado) {
             $('#Existe').val(resultado);
 
-            if (resultado == 0)
-            {
+            if (resultado == 0) {
                 $('#GenerarAsistencia').show();
+                $('#horaservidor').show();
                 $('#TurnoGen').prop('disabled', 'disabled');
                 $('#txtFecha').prop('disabled', 'disabled');
                 $('#ConsultaAsistencia').prop('disabled', 'disabled');
-                
+
             }
-            if (resultado == 1)
-            {
+            if (resultado == 1) {
                 GenerarAsistenciaDiaria($('#CodLinea').val(), resultado);
+                $('#horaservidor').hide();
                 $('#GenerarAsistencia').hide();
             }
         },
@@ -204,8 +199,8 @@ function ConsultarSiExisteAsistencia() {
             //Console.log(result);
             //MensajeError(result, false);
         }
-        });
-   
+    });
+
 }
 function ConsultarBiometrico(fila, cedula) {
     //alert("hola");
@@ -218,15 +213,14 @@ function ConsultarBiometrico(fila, cedula) {
             Cedula: cedula
         },
         success: function (resultado) {
-            if (resultado)
-            {
+            if (resultado) {
                 $("#" + fila).css("background", "transparent");
                 $('#' + fila + ' :input').prop("disabled", false);
                 $('#actualizar-' + fila).hide();
-                $('#ControlAsistencia_'+indice+'__Observacion').val("");
-                
+                $('#ControlAsistencia_' + indice + '__Observacion').val("");
+
             }
-            
+
         }
         ,
         error: function (result) {
@@ -240,22 +234,27 @@ function PintarCHeck(fila) {
     $("#CheckAsistencia-" + fila).prop('checked', true);
 }
 function DeshabilitarControles(fila) {
-    $('#'+fila+' :input').prop("disabled", true);
+    $('#' + fila + ' :input').prop("disabled", true);
 }
 function VerificarsiHayPrestados(IdLinea, bandera) {
     $('#LineaPres').val(IdLinea);
     $('#banderapres').val(bandera);
     $.ajax({
-        url: '../Asistencia/VerificarPrestados',
+        //url: '../Asistencia/VerificarPrestados',
+        url: '../Asistencia/ModalPrestados',
         type: 'GET',
         data: {
-            CodLinea: IdLinea
+            //CodLinea: IdLinea,
             //BanderaExiste: bandera,
             //Turno: turno,
-            //Fecha: $('#txtFecha').val()
+            Fecha: $('#txtFecha').val(),
+            Hora: $('#horaservidor').val()
+
         },
         success: function (resultado) {
-            if (resultado) {
+            $('#divmodalprestados').html(resultado);
+            
+            if ($('#txtPrestado').val()=='true') {
                 $('#modalprestados').modal("show");
                 $('#LineaPres').val(IdLinea);
                 $('#banderapres').val(bandera);
@@ -263,7 +262,15 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
             } else {
                 GenerarAsistenciaDiaria(IdLinea, bandera);
             }
-            
+            //if (resultado) {
+            //    $('#modalprestados').modal("show");
+            //    $('#LineaPres').val(IdLinea);
+            //    $('#banderapres').val(bandera);
+
+            //} else {
+            //    GenerarAsistenciaDiaria(IdLinea, bandera);
+            //}
+
         }
         ,
         error: function (result) {
@@ -274,15 +281,16 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
 function GenerarAsistenciaDiaria(IdLinea, bandera)//genera asistencia diaria si no has sido generada
 {
     $('#GenerarAsistencia').hide();
-    $("#spinnerCargando").prop("hidden",false);
+    $('#horaservidor').hide();
+    $("#spinnerCargando").prop("hidden", false);
 
     var turno;
     if (bandera == 0) {
         $('#GenerarAsistencia').prop("disabled", true);
-        
+
     }
     turno = $('#TurnoGen').val();
-    
+
     $.ajax({
         url: '../Asistencia/AsistenciaPartial',
         type: 'POST',
@@ -290,14 +298,15 @@ function GenerarAsistenciaDiaria(IdLinea, bandera)//genera asistencia diaria si 
             CodLinea: IdLinea,
             BanderaExiste: bandera,
             Turno: turno,
-            Fecha: $('#txtFecha').val()
+            Fecha: $('#txtFecha').val(),
+            HoraServidor: $('#horaservidor').val()
         },
         success: function (resultado) {
-            
-            $("#spinnerCargando").prop("hidden",true);
+
+            $("#spinnerCargando").prop("hidden", true);
             $('#PartialAsistencia').html(resultado);
             $('#GenerarAsistencia').hide();
-           
+
             if (bandera == 0) {
                 $('#GenerarAsistencia').prop("disabled", false);
             }
@@ -306,7 +315,7 @@ function GenerarAsistenciaDiaria(IdLinea, bandera)//genera asistencia diaria si 
         error: function (result) {
 
             console.log(result);
-            $("#spinnerCargando").prop("hidden",true);
+            $("#spinnerCargando").prop("hidden", true);
             $('#GenerarAsistencia').hide();
             MensajeError(result.responseText, false);
             if (bandera == 0) {
@@ -315,8 +324,8 @@ function GenerarAsistenciaDiaria(IdLinea, bandera)//genera asistencia diaria si 
         }
     });
 }
-//guardar con check
-function GuardarPersona(fila, nombre, ComboOCheck) {
+//guardar con check '@item.CentroCostos','@item.Recurso','@item.Linea','@item.Cargo'
+function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea, Cargo) {
     //**
     //console.log('change');
     console.log(fila);
@@ -331,17 +340,15 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
     var hora = toDate($('#ControlAsistencia_' + valor + '__Hora').val(), "h:m");
     //alert(hora);  LabelAsistencia-
     //** 
-   
-    if (ComboOCheck != 'change')
-    { 
-    //**
-    $('#CheckAsistencia-' + indice).prop("disabled", true);
-    $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", true);
-    //**
+
+    if (ComboOCheck != 'change') {
+        //**
+        $('#CheckAsistencia-' + indice).prop("disabled", true);
+        $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", true);
+        //**
     }
     //**
-    if (ComboOCheck == 'check')
-    {
+    if (ComboOCheck == 'check') {
         if ($('#TurnoGen').val() == '1') {
             if (hora > toDate("07:00", "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('2');
@@ -351,39 +358,34 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
             }
         }
         if ($('#TurnoGen').val() == '2') {
-                if (hora > toDate("07:00", "h:m")) {
-                    $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('2');
-                }
-                if (hora <= toDate("07:00", "h:m")) {
-                    $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('1');
-                }
-         }
+            if (hora > toDate("07:00", "h:m")) {
+                $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('2');
+            }
+            if (hora <= toDate("07:00", "h:m")) {
+                $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('1');
+            }
+        }
     }
-    if (ComboOCheck == 'combo')
-    {
-        if ($('#ControlAsistencia_' + valor + '__EstadoAsistencia').val() == '3')
-        {
+    if (ComboOCheck == 'combo') {
+        if ($('#ControlAsistencia_' + valor + '__EstadoAsistencia').val() == '3') {
             $("#LabelAsistencia-" + fila).css("background", "transparent");
             $("#CheckAsistencia-" + fila).prop('checked', false);
-        } else
-        {
+        } else {
             PintarCHeck(fila);
         }
-        
+
     }
     //***
-    if (ComboOCheck == 'change' && $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val()!='3')//para saber si se dispara el evento onchange de hora u observacion
+    if (ComboOCheck == 'change' && $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val() != '3')//para saber si se dispara el evento onchange de hora u observacion
     {
         $("#CheckAsistencia-" + fila).prop('checked', false);
     }
-    
-    if (ComboOCheck == 'change' && $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val() == '3')
-    {
+
+    if (ComboOCheck == 'change' && $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val() == '3') {
         banderaChangesinCheck = true;
     }
     //**
-    if ($('#CheckAsistencia-' + fila).prop('checked'))
-    {
+    if ($('#CheckAsistencia-' + fila).prop('checked')) {
         $("#LabelAsistencia-" + fila).css("background", "green");
         fila -= 1;
         $.ajax({
@@ -397,7 +399,11 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
                 Hora: $('#ControlAsistencia_' + fila + '__Hora').val(),
                 observacion: $('#ControlAsistencia_' + fila + '__Observacion').val(),
                 estado: $('#ControlAsistencia_' + fila + '__EstadoAsistencia').val(),
-                Fecha: $('#txtFecha').val()
+                Fecha: $('#txtFecha').val(),
+                CentroCostos: CentroCostos,
+                Recurso: Recurso,
+                Linea: Linea,
+                Cargo: Cargo
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);
@@ -411,10 +417,10 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
                 $("#LabelAsistencia-" + indice).css("background", "transparent");
-                $("#CheckAsistencia-" + indice  ).prop('checked', false);
+                $("#CheckAsistencia-" + indice).prop('checked', false);
             }
         });
-    } else if (($('#CheckAsistencia-' + fila).prop('checked') == false) && banderaChangesinCheck==false) {
+    } else if (($('#CheckAsistencia-' + fila).prop('checked') == false) && banderaChangesinCheck == false) {
         //alert($('#ControlAsistencia_' + fila + '__Cedula').val());
         $("#LabelAsistencia-" + fila).css("background", "transparent");
         fila -= 1;
@@ -441,7 +447,7 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
             }
         });
     }
-    
+
 }
 
 //Bloqueo de el chceck de cuchillos negros
@@ -464,12 +470,12 @@ function fillBook(valor) {
     var desLabelAsistencia = "LabelAsistencia";
     var desObservacion = "Observacion"
     if (valor != 0) {
-        desSelectEstado +=  valor;
+        desSelectEstado += valor;
         desCheckAsistencia += valor;
         desLabelAsistencia += valor;
         desObservacion += valor;
     }
-   // console.log(desCheckAsistencia);
+    // console.log(desCheckAsistencia);
     var SelectEstado = document.getElementById(desSelectEstado);
     var chexkAsistencia = document.getElementById(desCheckAsistencia).checked;
     var label = document.getElementById(desLabelAsistencia);
@@ -481,7 +487,7 @@ function fillBook(valor) {
         if (Hora >= 10) {
             SelectEstado.selectedIndex = 2;
             label.style.backgroundColor = "yellow";
-            observacion.value = "Ingreso: "+Hora.toString() + ":" + Minuto.toString() + " AM ";
+            observacion.value = "Ingreso: " + Hora.toString() + ":" + Minuto.toString() + " AM ";
         } else {
             SelectEstado.selectedIndex = 1;
             label.style.backgroundColor = "greenyellow";
@@ -524,7 +530,7 @@ function CambioEstado(valor) {
         var Hora = new Date().getHours();
         var Minuto = new Date().getMinutes();
         observacion.value = "Ingreso: " + Hora.toString() + ":" + Minuto.toString() + " AM ";
-        LimpiarBloquearCheckCuchillo(valor,false);
+        LimpiarBloquearCheckCuchillo(valor, false);
 
     }
     if (SelectEstado == 3) {
@@ -537,7 +543,7 @@ function CambioEstado(valor) {
 }
 
 //bloquea o desbloquea los check de cuchillos dependiendo de los parametros
-function LimpiarBloquearCheckCuchillo(valor,bool) {
+function LimpiarBloquearCheckCuchillo(valor, bool) {
     var desCheckCuchilloRojo = "CheckCuchilloRojo";
     var desCheckCuchilloBlanco = "CheckCuchilloBlanco";
     var desCheckCuchilloNegro = "CheckCuchilloNegro";
@@ -545,7 +551,7 @@ function LimpiarBloquearCheckCuchillo(valor,bool) {
     var desLabelCuchilloRojo = "labelCuchilloRojo";
     var desLabelCuchilloBlanco = "labelCuchilloBlanco";
     var desLabelCuchilloNegro = "labelCuchilloNegro";
-    if (valor > "1" ) {
+    if (valor > "1") {
         desCheckCuchilloRojo += valor;
         desCheckCuchilloBlanco += valor;
         desCheckCuchilloNegro += valor;
@@ -563,14 +569,14 @@ function LimpiarBloquearCheckCuchillo(valor,bool) {
 
     label1.style.background = "#ccc";
     label2.style.background = "#ccc";
-   // label3.style.background = "#ccc";
+    // label3.style.background = "#ccc";
     //console.log(desLabelCuchilloBlanco);
     //console.log(label1);
     //console.log(label2);
     //console.log(label3);
     if (bool) {
         cuchilloRojo.checked = !bool;
-     //   cuchilloNegro.checked = !bool;
+        //   cuchilloNegro.checked = !bool;
         cuchilloBlanco.checked = !bool;
     }
     cuchilloRojo.disabled = bool;

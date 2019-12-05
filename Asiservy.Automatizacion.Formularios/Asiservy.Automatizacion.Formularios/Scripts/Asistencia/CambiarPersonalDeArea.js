@@ -1,11 +1,22 @@
-﻿//mover empleados
+﻿function SetearHoraInicio() {
+    if ($('#horaswitch').prop('checked')) {
+        $('#txtHoraInicio').show();
+        $('#labelhora').text("");
+    } else {
+        $('#txtHoraInicio').hide();
+        $('#labelhora').text("Inicio Jornada");
+        $('#txtHoraInicio').val("");
+    }
+    
+}
+//mover empleados
 function MoverEmpleados() {
     var result = new Array();
     i = 0; 
     //**
     if ($('#optcambiaremp').val() == 'prestar') {
         if ($('#selectLinea').val() != "" && $('#SelectArea').val() != "" && $('#SelectRecurso').val() != "" && $('#SelectCargo').val() != ""
-            && $('#txtFechaInicio').val() != "" && $('#txtHoraInicio').val() != "") {
+            && $('#txtFechaInicio').val() != "" && (($('#horaswitch').prop('checked')==false) || ($('#txtHoraInicio').val()!=""))) {
             $("input[type=checkbox]:checked").each(function (resultado) {
                 id = $(this).attr("id");
                 this.id = id.replace('Empleado-', '');
@@ -30,7 +41,44 @@ function MoverEmpleados() {
     //**
     
 }
+//**************funcion para inactivar un empleado movido
+function InactivarCambioPersonal() {
+    var result = new Array();
+    i = 0; 
+    $("input[type=checkbox]:checked").each(function (resultado) {
+        id = $(this).attr("id");
+        this.id = id.replace('Empleado-', '');
+        result.push(this.id);
+        i++;
+    });
+    InactivarRegistroMovidos(result);
+}
+function InactivarRegistroMovidos(result) {
+    if (result.length == 0) {
+        MensajeAdvertencia("Error, no se ha seleccionado ningún empleado");
+        return false;
+    }
+    var resultado = JSON.stringify(result)
+    var resultado2 = JSON.parse(resultado)
+    $.ajax({
+        url: '../Asistencia/InactivarEmpleadoCambioPersonal',
+        type: 'POST',
+        dataType: "json",
+        data: {
+            dCedulas: resultado2
+        },
+        success: function (resultado) {
+            MensajeCorrectoTiempo(resultado, true, 10000);
 
+        }
+        ,
+        error: function (resultado) {
+            //MensajeError("No se pudieron mover", false);
+            MensajeError(resultado, false);
+        }
+    });
+}
+//********************
 function Mover(result) {
     //console.log(result);
     if (result.length  == 0) {
@@ -41,9 +89,9 @@ function Mover(result) {
     var psarea = "";
     var psrecurso = "";
     var pscargo = "";
-    var resultado = JSON.stringify(result)
-    var resultado2 = JSON.parse(resultado)
-    
+    var resultado = JSON.stringify(result);
+    var resultado2 = JSON.parse(resultado);
+
     if ($('#optcambiaremp').val() == 'prestar') {
         pslinea = $('#SelectLinea').val();
         psarea = $('#SelectArea').val();
@@ -146,6 +194,9 @@ function ConsultarEmpleadosRegresar() {
                 $('#DivEmpleados').html(data);
                 $('#btnGuardarCambioEmp').show();
                 $('#Guardar').val('Regresar Empleados');
+                //**modificacion cambio personal boton inactivar 
+                $('#btnInactivar').show();
+                //**
                 $('#Guardar').show();
             }
         });
@@ -247,7 +298,8 @@ $('#optcambiaremp').change(function () {
         $('#EmpleadosRegresar').hide();
         $('#divprestar').hide();
         $('#divregresar').hide();
-    }
+        }
+    $('#btnInactivar').hide();
 });
 $('#ConsultarEmpleadosRegresar').click(function () {
     $('#contempleados').show();

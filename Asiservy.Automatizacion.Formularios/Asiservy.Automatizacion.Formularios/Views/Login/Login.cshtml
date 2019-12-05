@@ -32,7 +32,17 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-    
+    <style>
+        .btn-link:hover {
+            color: #ffd800 !important;
+        }
+
+        .btn-link {
+            font-weight: 400;
+            color: aliceblue;
+            text-decoration: none;
+        }
+    </style>
     <div class="container relative1">
         <div class="absolute1" hidden id="response">
         </div>
@@ -50,7 +60,7 @@
                                     <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/user32.png" />
                                 </span>
                             </div>
-                            <input id="txtUsuario" type="text" class="form-control" placeholder="Usuario">
+                            <input id="txtUsuario" style="text-transform:uppercase" onkeypress = "return sololetras(event)" type="text" class="form-control" placeholder="Usuario">
 
                         </div>
                         <div class="input-group form-group">
@@ -64,8 +74,8 @@
                             <input id="txtPassword" type="password" class="form-control" placeholder="Contraseña">
                         </div>
                         @*<div class="row align-items-center remember">
-                            <input type="checkbox">Remember Me
-                        </div>*@
+                                <input type="checkbox">Remember Me
+                            </div>*@
                         <div class="form-group text-center">
                             <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn btn-outline-light" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-broom"> Limpiar</i>
@@ -80,6 +90,7 @@
                                 Espere...
                             </button>
                         </div>
+                       
                     </form>
                 </div>
                 <div class="card-footer text-center">
@@ -89,6 +100,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+   
 </body>
 </html>
 

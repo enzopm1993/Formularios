@@ -12,13 +12,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CONTROL_MATERIAL_DETALLE
+    public partial class CONTROL_COCHE_AUTOCLAVE
     {
-        public int IdControlMaterialDetalle { get; set; }
-        public int IdControlMaterial { get; set; }
-        public string CodigoMaterial { get; set; }
-        public int TotalMaterial { get; set; }
-        public int BuenEstado { get; set; }
+        public int IdControlCoche { get; set; }
+        public int IdControlAutoclave { get; set; }
+        public string Tarjeta { get; set; }
+        public System.TimeSpan HoraInicio { get; set; }
+        public string Coche { get; set; }
+        public string LineaProduccion { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -27,8 +28,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<int> DadoBaja { get; set; }
     
-        public virtual CONTROL_MATERIAL CONTROL_MATERIAL { get; set; }
+        public virtual CONTROL_AUTOCLAVE CONTROL_AUTOCLAVE { get; set; }
     }
 }

@@ -48,7 +48,16 @@
     <div class="col-md-2 col-sm-6">
         <div class="form-group">
             <label>Destino:</label>
-            @Html.DropDownList("txtDestino", (IEnumerable<SelectListItem>)ViewBag.Destino, "Seleccione", new { @class = "form-control" })
+            @if (ViewBag.Destino != null)
+            {
+                @Html.DropDownList("txtDestino", (IEnumerable<SelectListItem>)ViewBag.Destino, "Seleccione", new { @class = "form-control" })
+            }
+            else
+            {
+            <select disabled class="form-control">
+                <option value="value">Servicio Caido</option>
+            </select>
+            }
             <p class="text-danger" hidden id="ValidaDestino">Seleccione el destino</p>
         </div>
     </div>
@@ -64,18 +73,38 @@
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Especie:</label>
+            @if (ViewBag.Especie != null)
+            {
+                @Html.DropDownList("txtEspecie", new SelectList(ViewBag.Especie, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            }
+            else
+            {
+                <select disabled class="form-control">
+                    <option value="value">Servicio Caido</option>
+                </select>
+            }
             @*@Html.DropDownList("txtEspecie", (IEnumerable<SelectListItem>
-                )ViewBag.Especie, "Seleccione", new { @class = "form-control" })*@
-            @Html.DropDownList("txtEspecie", new SelectList(ViewBag.Especie, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+        )ViewBag.Especie, "Seleccione", new { @class = "form-control" })*@
+
             <p class="text-danger" hidden id="ValidaEspecie">Seleccione una especie</p>
         </div>
     </div>
     <div class="col-md-4 col-sm-6">
         <div class="form-group">
             <label>Talla:</label>
+            @if (ViewBag.Talla != null)
+            {
+                @Html.DropDownList("txtTalla", new SelectList(ViewBag.Talla, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            }
+            else
+            {
+                <select disabled class="form-control">
+                    <option value="value">Servicio Caido</option>
+                </select>
+            }
             @*@Html.DropDownList("txtTalla", (IEnumerable<SelectListItem>
-                )ViewBag.Talla, "Seleccione", new { @class = "form-control" })*@
-            @Html.DropDownList("txtTalla", new SelectList(ViewBag.Talla, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+        )ViewBag.Talla, "Seleccione", new { @class = "form-control" })*@
+
             @*@Html.DropDownList("Tallas", new SelectList(ViewBag.Tallas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectTalla" })*@
             <p class="text-danger" hidden id="ValidaTalla">Seleccione una talla</p>
 
@@ -83,7 +112,17 @@
     </div>
     <div class="col-3">
         <label>Barco</label>
-        @Html.DropDownList("txtBarco", new SelectList(ViewBag.Barco, "Codigo", "Nombre"), "Seleccione", new { @class = "form-control" })
+        @if (ViewBag.Barco != null)
+        {
+            @Html.DropDownList("txtBarco", new SelectList(ViewBag.Barco, "Codigo", "Nombre"), "Seleccione", new { @class = "form-control" })
+        }
+        else
+        {
+            <select disabled class="form-control">
+                <option value="value">Servicio Caido</option>
+            </select>
+        }
+
         <p class="text-danger" hidden id="ValidaBarco">Seleccione una barco</p>
     </div>
     <div class="col-2">

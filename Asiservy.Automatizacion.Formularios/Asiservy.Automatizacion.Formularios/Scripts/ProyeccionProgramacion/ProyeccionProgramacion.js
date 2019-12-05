@@ -444,7 +444,7 @@ function CargarOrdenFabricacion() {
     $("#SelectOrdenFabricacion").empty();
     $("#SelectOrdenFabricacion").append("<option value='' >-- Seleccionar Opción--</option>");
     $.ajax({
-        url: "../Hueso/ConsultarOrdenesFabricacion",
+        url: "../ProyeccionProgramacion/ConsultarOrdenesFabricacion",
         type: "GET",
         data: {
             Fecha: valor

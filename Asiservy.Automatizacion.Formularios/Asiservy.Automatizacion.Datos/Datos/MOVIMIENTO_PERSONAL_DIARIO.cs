@@ -12,23 +12,26 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CONTROL_MATERIAL_DETALLE
+    public partial class MOVIMIENTO_PERSONAL_DIARIO
     {
-        public int IdControlMaterialDetalle { get; set; }
-        public int IdControlMaterial { get; set; }
-        public string CodigoMaterial { get; set; }
-        public int TotalMaterial { get; set; }
-        public int BuenEstado { get; set; }
-        public string Observacion { get; set; }
+        public int IdCambioPersonal { get; set; }
+        public string Cedula { get; set; }
+        public string CodLinea { get; set; }
+        public string CentroCosto { get; set; }
+        public string CodCargo { get; set; }
+        public string Recurso { get; set; }
+        public Nullable<System.DateTime> FechaInicio { get; set; }
+        public Nullable<System.DateTime> FechaFin { get; set; }
+        public Nullable<System.TimeSpan> HoraInicio { get; set; }
+        public Nullable<System.TimeSpan> HoraFin { get; set; }
+        public Nullable<bool> Vigente { get; set; }
         public string EstadoRegistro { get; set; }
-        public System.DateTime FechaIngresoLog { get; set; }
+        public Nullable<System.DateTime> FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public string TerminalIngresoLog { get; set; }
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<int> DadoBaja { get; set; }
-    
-        public virtual CONTROL_MATERIAL CONTROL_MATERIAL { get; set; }
+        public Nullable<bool> Asistencia { get; set; }
     }
 }

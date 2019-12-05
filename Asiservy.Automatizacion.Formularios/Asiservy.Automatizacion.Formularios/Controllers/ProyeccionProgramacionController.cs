@@ -293,13 +293,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     else if (pro.IngresoPreparacion )
                     {
                         respuesta.Codigo = 2;
-                        respuesta.Mensaje = "Proeycción esta siendo ingresado en preparación";
+                        respuesta.Mensaje = "Proyección esta siendo ingresado en preparación";
                         respuesta.Observacion = idProyeccion + "";
                     }
                     else if (pro.EditarPreparacion)
                     {
                         respuesta.Codigo = 3;
-                        respuesta.Mensaje = "Proeycción esta siendo editado por preparación";
+                        respuesta.Mensaje = "Proyección esta siendo editado por preparación";
                         respuesta.Observacion = idProyeccion + "";
                     }
                     else if(pro.EditaProduccion)
@@ -353,7 +353,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDClasificador = new clsDClasificador();
                 clsDApiProduccion = new clsDApiProduccion();
-                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                //clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
 
                 var ListLimpiezaPescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 ViewBag.TipoLimpieza = new SelectList(ListLimpiezaPescado, "codigo", "descripcion");
@@ -636,19 +636,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     }
 
 
-                    string mensaje = clsDProyeccionProgramacion.validarCocinas(model);
-                    if (string.IsNullOrEmpty(mensaje))
-                    {
+                    //string mensaje = clsDProyeccionProgramacion.validarCocinas(model);
+                    //if (string.IsNullOrEmpty(mensaje))
+                    //{
                         clsDProyeccionProgramacion.GuardarModificarProyeccionProgramacionDetalle(model, 3); //Editar Proyección de la programación en preparación
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                        
-                        respuesta.Codigo = 1;
-                        string[] resp = mensaje.Split('-');
-                        respuesta.Mensaje ="Cocina: "+ resp[1] + ", está siendo utilizado por el lote: "+ resp[0];
-                        return Json(respuesta, JsonRequestBehavior.AllowGet);
-                    }
+                    //    respuesta.Codigo = 1;
+                    //    string[] resp = mensaje.Split('-');
+                    //    respuesta.Mensaje ="Cocina: "+ resp[1] + ", está siendo utilizado por el lote: "+ resp[0];
+                    //    return Json(respuesta, JsonRequestBehavior.AllowGet);
+                    //}
 
                 }
                 else
@@ -874,6 +874,40 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     UsuarioIngreso = "sistemas"
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public JsonResult ConsultarOrdenesFabricacion(DateTime Fecha)
+        {
+            try
+            {
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                dynamic result = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProduccion(Fecha);
+                List<OrdenFabricacion> Listado = new List<OrdenFabricacion>();
+                foreach (var x in result)
+                {
+                    Listado.Add(new OrdenFabricacion { Orden = x.OrdenFabricacion });
+                }
+                return Json(Listado, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
 

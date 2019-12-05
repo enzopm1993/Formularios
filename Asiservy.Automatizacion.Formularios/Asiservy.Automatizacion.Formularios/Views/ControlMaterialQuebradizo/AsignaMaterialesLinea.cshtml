@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-md-4 col-6">
         <label>Linea</label>
-        @Html.DropDownList("selectLineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control",@onchange= "CargarAsignaciones()" })
+        @Html.DropDownList("selectLineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), new { @class = "form-control",@onchange= "CargarAsignaciones()" })
     </div>
 
     <div class="col-md-4 col-6">

@@ -19,6 +19,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Material { get; set; }
         public int TotalMaterial { get; set; }
         public int BuenEstado { get; set; }
+        public Nullable<int> DadoBaja { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }

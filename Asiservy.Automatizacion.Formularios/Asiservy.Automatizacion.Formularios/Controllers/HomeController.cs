@@ -72,8 +72,38 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 SetErrorMessage(Mensaje);
                 return View();
             }
+        }
 
-
+        [Authorize]
+        public ActionResult HomeError(string Msg)
+        {
+            try
+            {
+                if(string.IsNullOrEmpty(Msg))
+                {
+                    Msg = "ha ocurrido un error, Comuniquese con sistemas!!";
+                }
+                ViewBag.Mensaje = Msg;
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return View();
+            }
         }
 
         public void Notificaciones(List<int?> Roles)

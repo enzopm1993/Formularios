@@ -1,6 +1,9 @@
 ﻿
 
 
+$(document).ready(function () {
+    CargarAsignaciones();
+});
 
 
 function CargarAsignaciones() {

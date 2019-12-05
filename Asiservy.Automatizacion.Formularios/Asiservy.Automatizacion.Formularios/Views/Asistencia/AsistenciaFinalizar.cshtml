@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "AsistenciaFinalizar";
+}
+<style>
+    input, select, textarea {
+         max-width: 100%; 
+    }
+</style>
+<h4>Asistencia Salida</h4>
+@ViewBag.Linea
+<div class="row">
+    <div class="col-md-4 col-sm-4">
+        <div class="form-group">
+            <label>Fecha:</label>
+            @{
+                var fechaactual = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            <div class="input-group">
+                @Html.TextBox("txtFecha", fechaactual, new { type = "date", @class = "form-control" })
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn btn-sm" id="ConsultaAsistencia" onclick="ConsultarAsistenciaSalida('@ViewBag.CodLinea')" style="border-color:#2c3e50" type="button">
+                    <img style="width:80%; height:80%" src="~/Content/icons/ver24.png" />
+                </button>
+            </div>
+            <label id="mensajefecha" class="text-danger" style="display:none">Debe ingresar una fecha </label>
+        </div>
+    </div>
+</div>
+<div id="PartialAsistenciaFin">
+
+</div>
+
+<link href="~/Content/AsistenciaCss/Asistencia.css" rel="stylesheet" />

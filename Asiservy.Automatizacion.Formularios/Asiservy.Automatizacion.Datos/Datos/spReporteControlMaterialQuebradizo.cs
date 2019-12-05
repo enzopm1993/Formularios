@@ -10,10 +10,13 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class CONTROL_MATERIAL_DETALLE
+    public partial class spReporteControlMaterialQuebradizo
     {
+        public System.DateTime Fecha { get; set; }
+        public string ObservacionControl { get; set; }
+        public string Linea { get; set; }
+        public string Material { get; set; }
         public int IdControlMaterialDetalle { get; set; }
         public int IdControlMaterial { get; set; }
         public string CodigoMaterial { get; set; }
@@ -28,7 +31,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public Nullable<int> DadoBaja { get; set; }
-    
-        public virtual CONTROL_MATERIAL CONTROL_MATERIAL { get; set; }
     }
 }

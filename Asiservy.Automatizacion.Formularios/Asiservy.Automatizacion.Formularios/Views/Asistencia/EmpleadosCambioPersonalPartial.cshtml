@@ -10,6 +10,7 @@
             @if (ViewBag.ADondeFuePrestado != null)
             {
                 <th>Movido a</th>
+                <th>Fecha Movido</th>
             }
             <th>Línea</th>
             <th>Área</th>
@@ -24,17 +25,25 @@
                 <td>@item.CEDULA</td>
                 <td>@item.NOMBRES</td>
                 @{string LineaMovido = "";
+                    DateTime? fechaMovido=null;
                     if (ViewBag.ADondeFuePrestado != null)
                     {
-                        List<spConsutaEmpleadosFiltroCambioPersonal> listEmpleados = ViewBag.ADondeFuePrestado;
+                        //List<spConsutaEmpleadosFiltroCambioPersonal> listEmpleados = ViewBag.ADondeFuePrestado;
+                        List<spConsultarCaambioPersonalxCedula> listEmpleados = ViewBag.ADondeFuePrestado;
+
                         LineaMovido = (from e in listEmpleados
                                        where e.CEDULA == item.CEDULA
                                        select e.LINEA).FirstOrDefault();
+                        fechaMovido = (from e in listEmpleados
+                                      where e.CEDULA == item.CEDULA
+                                      select e.FECHAMOVIDO).FirstOrDefault();
                     }
                 }
                 @if (ViewBag.ADondeFuePrestado != null)
                 {
                     <td>@LineaMovido</td>
+                
+                    <td>@fechaMovido.Value.ToString("dd/MM/yyyy HH:mm:ss")</td>
                 }
                 <td>@item.LINEA</td>
                 <td>@item.AREA</td>

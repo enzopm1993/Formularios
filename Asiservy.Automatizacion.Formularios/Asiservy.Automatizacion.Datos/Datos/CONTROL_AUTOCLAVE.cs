@@ -12,14 +12,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CONTROL_MATERIAL_DETALLE
+    public partial class CONTROL_AUTOCLAVE
     {
-        public int IdControlMaterialDetalle { get; set; }
-        public int IdControlMaterial { get; set; }
-        public string CodigoMaterial { get; set; }
-        public int TotalMaterial { get; set; }
-        public int BuenEstado { get; set; }
-        public string Observacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CONTROL_AUTOCLAVE()
+        {
+            this.CONTROL_COCHE_AUTOCLAVE = new HashSet<CONTROL_COCHE_AUTOCLAVE>();
+        }
+    
+        public int IdControlAutoclave { get; set; }
+        public string OrdenFabricacion { get; set; }
+        public string CodigoProducto { get; set; }
+        public string Producto { get; set; }
+        public string Tipo { get; set; }
+        public string Formato { get; set; }
+        public string Autoclave { get; set; }
+        public string Esterelizado { get; set; }
+        public System.DateTime Fecha { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -27,8 +36,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<int> DadoBaja { get; set; }
     
-        public virtual CONTROL_MATERIAL CONTROL_MATERIAL { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CONTROL_COCHE_AUTOCLAVE> CONTROL_COCHE_AUTOCLAVE { get; set; }
     }
 }

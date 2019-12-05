@@ -11,5 +11,6 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public bool Respuesta { get; set; }
         public string Mensaje { get; set; }
         public string Observacion { get; set; }
+        public string Descripcion { get; set; }
     }
 }

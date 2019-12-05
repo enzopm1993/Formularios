@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "ReporteControlMaterialQuebradizo";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<h3>Reporte material quebradizo</h3>
+@{
+    DateTime FechaDesde = DateTime.Now.AddDays(-7);
+    DateTime FechaHasta = DateTime.Now;
+}
+<input type="hidden" name="name" id="txtIdControl" value="" />
+<div class="row">
+    <div class="col-md-4 col-2">
+        <label>Linea</label>
+        @if (ViewBag.AsistenteProduccion != null)
+        {
+            @Html.DropDownList("selectLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+        }
+        else
+        {
+            @Html.DropDownList("selectLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), new { @class = "form-control" })
+
+        }
+    </div>
+
+    <div class="col-md-4 col-5">
+        <label>Fecha Desde</label>
+        <input type="date" class="form-control" id="txtFechaDesde" name="name" value="@FechaDesde.ToString("yyyy-MM-dd")" onchange="" />
+    </div>
+    <div class="col-md-4 col-5">
+        <label>Fecha Hasta</label>
+        <input type="date" class="form-control" id="txtFechaHasta" name="name" value="@FechaHasta.ToString("yyyy-MM-dd")" onchange="" />
+    </div>
+</div>
+<br />
+
+<div class="row">
+    <div class="col-12 text-center">
+        <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarReporteControlMaterial()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/ver24.png" />
+        </button>
+
+    </div>
+</div>
+
+
+
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+
+<div class="text-center" id="DivMensaje">
+
+</div>
+<div id="divTablaControlDetalle" class="table-responsive">
+
+</div>
+
+
+
+
+
+

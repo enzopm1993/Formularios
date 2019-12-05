@@ -1968,6 +1968,7 @@
     <Content Include="Content\gijgo\modular\timepicker.min.css" />
     <Content Include="Content\gijgo\modular\tree.css" />
     <Content Include="Content\gijgo\modular\tree.min.css" />
+    <Content Include="Content\icons\add24-2.png" />
     <Content Include="Content\icons\add24.png" />
     <Content Include="Content\icons\aprobar24.png" />
     <Content Include="Content\icons\atras24.png" />
@@ -1978,10 +1979,12 @@
     <Content Include="Content\icons\excel24.png" />
     <Content Include="Content\icons\justificar24.png" />
     <Content Include="Content\icons\limpiar32.png" />
+    <Content Include="Content\icons\login.png" />
     <Content Include="Content\icons\print24.png" />
     <Content Include="Content\icons\puerta32.png" />
     <Content Include="Content\icons\save20.png" />
     <Content Include="Content\icons\send24.png" />
+    <Content Include="Content\icons\show24-2.png" />
     <Content Include="Content\icons\show24.png" />
     <Content Include="Content\icons\tuerca32.png" />
     <Content Include="Content\icons\user32.png" />
@@ -2023,12 +2026,13 @@
     <Content Include="Content\images\buscar.png" />
     <Content Include="Content\images\cargando1.gif" />
     <Content Include="Content\images\cargando2.gif" />
-    <Content Include="Content\images\cuchillo01.jpg" />
-    <Content Include="Content\images\cuchillo02.jpg" />
-    <Content Include="Content\images\cuchillo03.jpg" />
+    <Content Include="Content\images\cuchillo01.png" />
+    <Content Include="Content\images\cuchillo02.png" />
+    <Content Include="Content\images\cuchillo03.png" />
     <Content Include="Content\images\fondo5.jpg" />
     <Content Include="Content\images\fondo6.jpg" />
     <Content Include="Content\images\logo1.png" />
+    <Content Include="Content\images\pageError.png" />
     <Content Include="Content\images\pez-salto.gif" />
     <Content Include="Content\images\pez.gif" />
     <Content Include="Content\images\pez.png" />
@@ -2111,6 +2115,7 @@
     <Content Include="Scripts\App\SolicitudesPendientes.js" />
     <Content Include="Scripts\App\Sugerencias.js" />
     <Content Include="Scripts\Asistencia\Asistencia.js" />
+    <Content Include="Scripts\Asistencia\AsistenciaFinalizar.js" />
     <Content Include="Scripts\Asistencia\AsistenciaGeneral.js" />
     <Content Include="Scripts\Asistencia\AsistenciaPrestado.js" />
     <Content Include="Scripts\Asistencia\BitacoraCambioPersonal.js" />
@@ -2137,6 +2142,7 @@
     <Content Include="Scripts\ControlMaterialQuebradizo\MantenimientoMaterialQuebradizo.js" />
     <Content Include="Scripts\DateRangePicker\daterangepicker.js" />
     <Content Include="Scripts\DateRangePicker\moment.min.js" />
+    <Content Include="Scripts\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizo.js" />
     <Content Include="Scripts\Empleado\EmpleadoCargo.js" />
     <Content Include="Scripts\Empleado\ReporteEmpleadoCargo.js" />
     <Content Include="Scripts\GenerarDatosServicio\GenerarDatosServicio.js" />
@@ -2937,8 +2943,14 @@
     <Content Include="Views\ControlMaterialQuebradizo\AsignaMaterialesLinea.cshtml" />
     <Content Include="Views\ControlMaterialQuebradizo\AsignaMaterialesLineaPartial.cshtml" />
     <Content Include="Views\ControlMaterialQuebradizo\ControlMaterialQuebradizo.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\ControlMaterialQuebradizoPartial.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizo.cshtml" />
+    <Content Include="Views\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizoPartial.cshtml" />
     <Content Include="Views\App\Sugerencias.cshtml" />
     <Content Include="Views\App\Comunicados.cshtml" />
+    <Content Include="Views\Home\HomeError.cshtml" />
+    <Content Include="Views\Asistencia\AsistenciaFinalizar.cshtml" />
+    <Content Include="Views\Asistencia\AsistenciaFinalizarPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
