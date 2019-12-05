@@ -199,13 +199,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             {
                 //List<spConsutaEmpleadosFiltroCambioPersonal> Empleados = new List<spConsutaEmpleadosFiltroCambioPersonal>();
                 List<spConsultarCaambioPersonalxCedula> Empleados = new List<spConsultarCaambioPersonalxCedula>();
-                
+
                 spConsultarCaambioPersonalxCedula consultarempleado = null;
                 foreach (var item in ListEmpleados)
                 {
-                     consultarempleado = db.spConsultarCaambioPersonalxCedula(item.CEDULA).FirstOrDefault();
+                    consultarempleado = db.spConsultarCaambioPersonalxCedula(item.CEDULA).FirstOrDefault();
                     //Empleados.Add(new spConsutaEmpleadosFiltroCambioPersonal { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA });
-                    Empleados.Add(new spConsultarCaambioPersonalxCedula { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA, FECHAMOVIDO= consultarempleado.FECHAMOVIDO});
+                    Empleados.Add(new spConsultarCaambioPersonalxCedula { CEDULA = consultarempleado.CEDULA, LINEA = consultarempleado.LINEA, FECHAMOVIDO = consultarempleado.FECHAMOVIDO });
 
                 }
 
