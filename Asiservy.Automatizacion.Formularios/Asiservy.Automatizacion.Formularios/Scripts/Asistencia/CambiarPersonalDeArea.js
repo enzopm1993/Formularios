@@ -191,13 +191,16 @@ function ConsultarEmpleadosRegresar() {
             },
             url: '../Asistencia/EmpleadosCambioPersonalPartial',
             success: function (data) {
+                
                 $('#DivEmpleados').html(data);
+               
                 $('#btnGuardarCambioEmp').show();
                 $('#Guardar').val('Regresar Empleados');
                 //**modificacion cambio personal boton inactivar 
                 $('#btnInactivar').show();
                 //**
                 $('#Guardar').show();
+                $('#inputsregresar').show();
             }
         });
         $('#contempleados').show();
@@ -279,6 +282,7 @@ $('#comboarea').change(function () {
 }); 
 $('#optcambiaremp').change(function () {
     if ($(this).val() == 'prestar') {
+        $('#inputsregresar').hide();
         $('#Guardar').hide();
         $('#DivEmpleados').empty();
         $('#divprestar').show();
@@ -293,6 +297,7 @@ $('#optcambiaremp').change(function () {
         $('#divregresar').show();
     }else
         {
+            $('#inputsregresar').hide();
             $('#DivEmpleados').empty();
             $('#contempleados').hide();
         $('#EmpleadosRegresar').hide();
