@@ -12,14 +12,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CONTROL_COCHE_AUTOCLAVE
+    public partial class CONTROL_HORA_MAQUINA_DETALLE
     {
-        public int IdControlCoche { get; set; }
-        public int IdControlAutoclave { get; set; }
-        public string Tarjeta { get; set; }
-        public System.TimeSpan HoraInicio { get; set; }
-        public string Coche { get; set; }
-        public string LineaProduccion { get; set; }
+        public int IdControlHoraMaquinaDetalle { get; set; }
+        public int IdControlHoraMaquina { get; set; }
+        public int Autoclave { get; set; }
+        public Nullable<System.DateTime> FechaInicio { get; set; }
+        public Nullable<System.DateTime> FechaFin { get; set; }
+        public Nullable<System.TimeSpan> TotalHoras { get; set; }
+        public int TotalCoches { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -29,6 +30,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CONTROL_AUTOCLAVE CONTROL_AUTOCLAVE { get; set; }
+        public virtual CONTROL_HORA_MAQUINA CONTROL_HORA_MAQUINA { get; set; }
     }
 }

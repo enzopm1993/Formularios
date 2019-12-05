@@ -12,22 +12,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CONTROL_AUTOCLAVE
+    public partial class CONTROL_HORA_MAQUINA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CONTROL_AUTOCLAVE()
+        public CONTROL_HORA_MAQUINA()
         {
-            this.CONTROL_COCHE_AUTOCLAVE = new HashSet<CONTROL_COCHE_AUTOCLAVE>();
+            this.CONTROL_HORA_MAQUINA_DETALLE = new HashSet<CONTROL_HORA_MAQUINA_DETALLE>();
         }
     
-        public int IdControlAutoclave { get; set; }
+        public int IdControlHoraMaquina { get; set; }
         public string OrdenFabricacion { get; set; }
+        public string OrdenVenta { get; set; }
+        public string Turno { get; set; }
+        public string Cliente { get; set; }
+        public string LineaNegocio { get; set; }
         public string CodigoProducto { get; set; }
         public string Producto { get; set; }
-        public string Tipo { get; set; }
-        public string Formato { get; set; }
-        public string Autoclave { get; set; }
-        public string Esterelizado { get; set; }
+        public int PesoNeto { get; set; }
         public System.DateTime Fecha { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -38,6 +39,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CONTROL_COCHE_AUTOCLAVE> CONTROL_COCHE_AUTOCLAVE { get; set; }
+        public virtual ICollection<CONTROL_HORA_MAQUINA_DETALLE> CONTROL_HORA_MAQUINA_DETALLE { get; set; }
     }
 }
