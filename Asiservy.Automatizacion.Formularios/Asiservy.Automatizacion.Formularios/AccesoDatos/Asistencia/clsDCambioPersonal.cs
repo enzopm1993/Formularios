@@ -271,11 +271,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         }
                         //verifica si esta en movimiento: personal: diario
                         MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonalDiario;
+                        clsDEmpleado ClsdEmpleado = new clsDEmpleado();
+                        spConsultaEspecificaEmpleadosxCedula BuscarEmpleadoDataL;
                         //List<MOVIMIENTO_PERSONAL_DIARIO> ListMovimientopersonalDiario = new List<MOVIMIENTO_PERSONAL_DIARIO>();
                         foreach (var item in listCedulas.ToArray())
                         {
                             BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula == item && x.FechaInicio == psfecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo /*&& !x.Asistencia.Value*/).OrderByDescending(x => x.IdCambioPersonal).FirstOrDefault();
-
+                            BuscarEmpleadoDataL = ClsdEmpleado.ConsultarEmpleadoxCedula(item);
                             if (BuscarMovimientoPersonalDiario != null)
                             {
                                 //modifico el registro de asistencia, lo actualizo con fecha y hora fin
@@ -288,10 +290,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                 db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO
                                 {
                                     Cedula = item,
-                                    CodLinea = BuscarMovimientoPersonalDiario.CodLinea,//le pongo la linea, recurso, cargo y centro de costo del registro que encontro en Movimiento personal por que esta regresando a donde pertenecia
-                                    CentroCosto = BuscarMovimientoPersonalDiario.CentroCosto,
-                                    CodCargo = BuscarMovimientoPersonalDiario.CodCargo,
-                                    Recurso = BuscarMovimientoPersonalDiario.Recurso,
+                                    CodLinea = BuscarEmpleadoDataL.LINEA,//le pongo la linea, recurso, cargo y centro de costo del registro que encontro en Movimiento personal por que esta regresando a donde pertenecia
+                                    CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS,
+                                    CodCargo = BuscarEmpleadoDataL.CARGO,
+                                    Recurso = BuscarEmpleadoDataL.RECURSO,
                                     FechaInicio = psfecha,
                                     HoraInicio = psHora,
                                     EstadoRegistro = clsAtributos.EstadoRegistroActivo,
