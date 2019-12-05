@@ -1,27 +1,24 @@
-﻿
-$(document).ready(function () {
+﻿$(document).ready(function () {
     CargarReporte();
-    
-});
 
+});
 function CargarReporte() {
 
-    if ($('#txtFecha').val() == "") {
-        MensajeAdvertencia("Ingrese una fecha");
+    if ($('#txtFecha').val() == "") {        
         return;
     }
 
     $("#spinnerCargando").prop("hidden", false);
-    $('#DivTableReporteProyeccion').html('');
+    $('#DivTableReporte').html('');
     $.ajax({
-        url: "../ProyeccionProgramacion/ReporteProyeccionProgramacionPartial",
+        url: "../ControlHoraMaquina/ReporteControlHoraMaquinaPartial",
         type: "GET",
         data: { Fecha: $('#txtFecha').val() },
-        success: function (resultado) {     
+        success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            $('#DivTableReporteProyeccion').html(resultado);
+            $('#DivTableReporte').html(resultado);
             $("#spinnerCargando").prop("hidden", true);
             config.opcionesDT.pageLength = 50;
             $('#tblDataTable').DataTable(config.opcionesDT);
@@ -34,4 +31,3 @@ function CargarReporte() {
         }
     });
 }
-

@@ -120,6 +120,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         #endregion
 
+
         #region CONTROL DE MATERIAL QUEBRADIZO
         [Authorize]
         public ActionResult ControlMaterialQuebradizo()
@@ -414,8 +415,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         #endregion
 
-
-
+        
         #region ASIGNA MATERIALES A LA LINEA
         [Authorize]
         public ActionResult AsignaMaterialesLinea()
@@ -529,8 +529,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         #endregion
 
-
-
+        
         #region MANTENIMIENTO DE MATERIAL
         [Authorize]
         public ActionResult MantenimientoMaterialQuebradizo()
