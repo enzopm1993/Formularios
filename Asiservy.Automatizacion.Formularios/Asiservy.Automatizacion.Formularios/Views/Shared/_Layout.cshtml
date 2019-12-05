@@ -446,6 +446,12 @@
         <script src="~/Content/summernote/dist/lang/summernote-es-ES.js"></script>
     }
 
+    @if (ViewBag.DateRangePicker == "1")
+    {
+        <link href="~/Content/DateRangePicker/daterangepicker.css" rel="stylesheet" />
+        <script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+    }
+
     @if (ViewBag.JavaScrip != null)
     {
         string js = ViewBag.JavaScrip;
