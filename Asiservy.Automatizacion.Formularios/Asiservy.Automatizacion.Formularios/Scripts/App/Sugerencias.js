@@ -3,7 +3,6 @@
 
     $(".cargaDatos").click(function () {
 
-
         var comentario = $(this).data("comentario");
         var fecha = $(this).data("fecha");
         $("#fechaSugerencia").html("Fecha de envío: " + fecha);

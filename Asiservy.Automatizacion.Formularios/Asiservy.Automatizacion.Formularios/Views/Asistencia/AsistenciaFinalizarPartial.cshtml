@@ -1,0 +1,66 @@
+﻿@model List<Asiservy.Automatizacion.Datos.Datos.spConsultaAsistenciaFinalizar>
+@Html.Partial("ModalHora")
+<div style="padding-top: 10px; padding-bottom: 100px">
+    @*@Html.HiddenFor(z => z.ControlAsistencia[0].Turno)*@
+    <input type=image src="~/Content/images/Time.png" onclick="SetearHora()" id="btnhora">
+    <br />
+    <div class="table-responsive">
+        <input type="text" id="busqueda" onkeyup="buscarenTabla()" placeholder="Buscar por Nombres..">
+        <table class="table " id="TableCuchillos">
+            <thead>
+                <tr class="text-center">
+                    <th class="align-bottom" hidden></th>
+                    <th class="align-bottom"></th>
+                    <th class="align-bottom"><b> Personal</b></th>
+                    <th class="align-bottom"><b>Check</b> </th>
+                    <th class="align-bottom"><b>Hora</b> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int cont = 0;
+                }
+                @foreach (var item in Model)
+                {
+                    cont++;
+                    
+                    <tr  id="@cont">
+                        <td hidden>
+                            @Html.TextBoxFor(x => x[cont - 1].CEDULA)
+                        </td>
+
+                        <td>
+                            @cont
+                        </td>
+                        <td>
+
+                            @item.NOMBRES
+
+                        </td>
+                        <td class="text-center">
+                            @if (item.HoraSalida!= null)
+                            {
+                                <script> CheckSalida('@cont');</script>
+                            }
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="CheckSalida-@cont" onchange="GuardarSalida(@(cont-1),'@item.CEDULA');">
+                                <label class="custom-control-label" for="CheckSalida-@cont" id="LabelFecha"></label>
+                            </div>
+                        </td>
+                        <td>
+                            @if (item.HoraSalida == null)
+                            {
+                                var hora = DateTime.Now.ToString("HH:mm");
+                                @Html.TextBoxFor(x => x[cont - 1].HoraSalida, new { @Id = "txtHorasalida" + (cont - 1).ToString(), type = "time", @class = "form-control", @onkeyup = "GuardarSalida(" + @cont + ",'" + @item.NOMBRES + "','change');", @onchange = "GuardarSalida(" + @cont + ",'" + @item.NOMBRES + "','change');", @Value = hora })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(x => x[cont - 1].HoraSalida, new { @Id = "txtHorasalida" + (cont - 1).ToString(), type = "time", @class = "form-control", @onkeyup = "GuardarSalida(" + @cont + ",'" + @item.NOMBRES + "','change');", @onchange = "GuardarSalida(" + @cont + ",'" + @item.NOMBRES + "','change');" })
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

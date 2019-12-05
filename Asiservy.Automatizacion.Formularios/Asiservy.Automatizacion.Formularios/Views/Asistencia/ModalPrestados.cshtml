@@ -25,6 +25,7 @@
 
                 @Html.Hidden("LineaPres")
                 @Html.Hidden("banderapres")
+                <input type="hidden" value="@ViewBag.Prestado" id="txtPrestado"/>
                 
                         <table class="table-hover table-bordered table-striped table">
                             <thead>
@@ -35,12 +36,14 @@
                                     <th>Movido a</th>
                                 </tr>
                             </thead>
-
+                            
                             <tbody>
-                                @if (ViewData["Empleados"] != null)
+                                @*@if (ViewData["Empleados"] != null)*@
+                                @if (ViewBag.ListaEmpleadosPres != null)
                                 {
 
-                                    foreach (var item in ViewData["Empleados"] as List<spConsultaPersonalADondeFueronMovidos>)
+                                    //foreach (var item in ViewData["Empleados"] as List<spConsultaPersonalADondeFueronMovidos>)
+                                    foreach (var item in ViewBag.ListaEmpleadosPres as List<spConsultaPersonalADondeFueronMovidos>)
                                     {
                                         <tr>
                                             <td>@item.CEDULA</td>
@@ -50,7 +53,7 @@
                                         </tr>
                                     }
                                 }
-                                    </tbody>
+                            </tbody>
                         </table>
 
                                 
