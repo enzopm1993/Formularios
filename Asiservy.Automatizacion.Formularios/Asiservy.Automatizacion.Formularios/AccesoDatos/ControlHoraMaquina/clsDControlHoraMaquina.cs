@@ -1,4 +1,5 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,74 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHoraMaquina
                 entities.SaveChanges();
             }
         }
+
+        public List<ControlHorasMaquina> ConsultarControlHoraMaquina (DateTime Fecha, string Turno)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                if (Turno == "0")
+                {
+                    var result = (from x in entities.CONTROL_HORA_MAQUINA
+                                  where x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                  select new ControlHorasMaquina
+                                  {
+                                    CONTROL_HORA_MAQUINA_DETALLE=x.CONTROL_HORA_MAQUINA_DETALLE.ToList(),
+                                    Cliente= x.Cliente,
+                                    Turno=x.Turno,
+                                    CodigoProducto=x.CodigoProducto,
+                                    EstadoRegistro=x.EstadoRegistro,
+                                    Fecha=x.Fecha,
+                                    FechaIngresoLog=x.FechaIngresoLog,
+                                    FechaModificacionLog=x.FechaModificacionLog,
+                                    IdControlHoraMaquina=x.IdControlHoraMaquina,
+                                     LineaNegocio=x.LineaNegocio,
+                                     OrdenFabricacion=x.OrdenFabricacion,
+                                     OrdenVenta=x.OrdenVenta,
+                                     PesoNeto=x.PesoNeto,
+                                     Producto=x.Producto,
+                                     TerminalIngresoLog=x.TerminalIngresoLog,
+                                     TerminalModificacionLog=x.TerminalModificacionLog,
+                                     UsuarioIngresoLog=x.UsuarioIngresoLog,
+                                     UsuarioModificacionLog=x.UsuarioModificacionLog
+                                  }
+                                 ).ToList();
+
+
+                    return result;
+                }
+                else
+                {
+                    var result = (from x in entities.CONTROL_HORA_MAQUINA
+                                  where x.Fecha == Fecha 
+                                  && x.Turno == Turno
+                                  && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                  select new ControlHorasMaquina
+                                  {
+                                      CONTROL_HORA_MAQUINA_DETALLE = x.CONTROL_HORA_MAQUINA_DETALLE.ToList(),
+                                      Cliente = x.Cliente,
+                                      Turno = x.Turno,
+                                      CodigoProducto = x.CodigoProducto,
+                                      EstadoRegistro = x.EstadoRegistro,
+                                      Fecha = x.Fecha,
+                                      FechaIngresoLog = x.FechaIngresoLog,
+                                      FechaModificacionLog = x.FechaModificacionLog,
+                                      IdControlHoraMaquina = x.IdControlHoraMaquina,
+                                      LineaNegocio = x.LineaNegocio,
+                                      OrdenFabricacion = x.OrdenFabricacion,
+                                      OrdenVenta = x.OrdenVenta,
+                                      PesoNeto = x.PesoNeto,
+                                      Producto = x.Producto,
+                                      TerminalIngresoLog = x.TerminalIngresoLog,
+                                      TerminalModificacionLog = x.TerminalModificacionLog,
+                                      UsuarioIngresoLog = x.UsuarioIngresoLog,
+                                      UsuarioModificacionLog = x.UsuarioModificacionLog
+                                  }
+                                ).ToList();
+                    return result;
+                }
+            }
+        }
+
 
         public List<spConsultaControlHoraMaquina> ConsultarControlAutoclave(DateTime Fecha, string Turno)
         {

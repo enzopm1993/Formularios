@@ -2788,6 +2788,7 @@
     <Compile Include="Models\BitacoraSolicitud.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\ControlCocheLinea\ControlCocheLineaViewModel.cs" />
+    <Compile Include="Models\ControlHorasMaquina.cs" />
     <Compile Include="Models\Empleado\EmpleadoEsferoViewModel.cs" />
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
@@ -2960,6 +2961,7 @@
     <Content Include="Views\ControlHoraMaquina\ControlHoraMaquinaPartial.cshtml" />
     <Content Include="Views\ControlHoraMaquina\ControlHoraMaquinaDetallePartial.cshtml" />
     <Content Include="Views\ControlHoraMaquina\ReporteControlHoraMaquina.cshtml" />
+    <Content Include="Views\ControlHoraMaquina\ReporteControlHoraMaquinaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
