@@ -2136,7 +2136,9 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\ControlHoraMaquina\ControlHoraMaquina.js" />
     <Content Include="Scripts\ControlEnfundado\ReporteControlEnfundado.js" />
+    <Content Include="Scripts\ControlHoraMaquina\ReporteControlHoraMaquina.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\AsignaMaterialesLinea.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\ControlMaterialQuebradizo.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\MantenimientoMaterialQuebradizo.js" />
@@ -2713,6 +2715,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDCuchillo.cs" />
     <Compile Include="AccesoDatos\ControlCocheLinea\clsDControlCocheLinea.cs" />
     <Compile Include="AccesoDatos\ControlEnfundado\clsDControlEnfundado.cs" />
+    <Compile Include="AccesoDatos\ControlHoraMaquina\clsDControlHoraMaquina.cs" />
     <Compile Include="AccesoDatos\ControlHueso\clsDControlHueso.cs" />
     <Compile Include="AccesoDatos\ControlMaterialQuebradizo\clsDControlMaterialQuebradizo.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDControlMiga.cs" />
@@ -2758,6 +2761,7 @@
     <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
     <Compile Include="Controllers\ControlEnfundadoController.cs" />
+    <Compile Include="Controllers\ControlHoraMaquinaController.cs" />
     <Compile Include="Controllers\ControlMaterialQuebradizoController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />
@@ -2789,6 +2793,7 @@
     <Compile Include="AccesoDatos\clsAtributos.cs" />
     <Compile Include="Models\Motivo.cs" />
     <Compile Include="Models\OrdenFabricacion.cs" />
+    <Compile Include="Models\OrdenFabricacionAutoclave.cs" />
     <Compile Include="Models\ProyeccionProgramacion\ProyeccionProgramacionViewModel.cs" />
     <Compile Include="Models\RespuestaGeneral.cs" />
     <Compile Include="Models\Seguridad\Clasificador.cs" />
@@ -2951,6 +2956,10 @@
     <Content Include="Views\Home\HomeError.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaFinalizar.cshtml" />
     <Content Include="Views\Asistencia\AsistenciaFinalizarPartial.cshtml" />
+    <Content Include="Views\ControlHoraMaquina\ControlHoraMaquina.cshtml" />
+    <Content Include="Views\ControlHoraMaquina\ControlHoraMaquinaPartial.cshtml" />
+    <Content Include="Views\ControlHoraMaquina\ControlHoraMaquinaDetallePartial.cshtml" />
+    <Content Include="Views\ControlHoraMaquina\ReporteControlHoraMaquina.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

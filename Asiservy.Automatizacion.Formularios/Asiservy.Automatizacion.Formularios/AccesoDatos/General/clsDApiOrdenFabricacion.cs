@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Net;
+using Asiservy.Automatizacion.Formularios.Models;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 {
@@ -17,6 +19,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 
             var request = new RestRequest("/api/Produccion/LotesPorOrdenLinea/" + OrdernFabricacion+"/"+Linea, Method.GET);
             IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
             var content = response.Content;
             var ListaUsuarios = JsonConvert.DeserializeObject(content);
             return ListaUsuarios;           
@@ -28,11 +34,28 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 
             var request = new RestRequest("/api/Produccion/OrdenesFabricacionPorFecha/"+FechaProduccion.ToString("yyyy-MM-dd"), Method.GET);
             IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
             var content = response.Content;
             var ListaOrdenes = JsonConvert.DeserializeObject(content);
             return ListaOrdenes;
 
         }
-       
+
+        public List<OrdenFabricacionAutoclave> ConsultaOrdenFabricacionPorFechaAutoclave(DateTime FechaProduccion)
+        {
+            var client = new RestClient("http://192.168.0.31:8870");          
+            var request = new RestRequest("/api/Produccion/OrdenesAutoclave/" + FechaProduccion.ToString("yyyy-MM-dd"), Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            List<OrdenFabricacionAutoclave> ListaOrdenes = JsonConvert.DeserializeObject<List<OrdenFabricacionAutoclave>>(content);
+            return ListaOrdenes;
+        }
     }
 }

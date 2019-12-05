@@ -68,11 +68,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<MATERIAL_QUEBRADIZO> MATERIAL_QUEBRADIZO { get; set; }
         public virtual DbSet<CONTROL_MATERIAL> CONTROL_MATERIAL { get; set; }
         public virtual DbSet<CONTROL_MATERIAL_DETALLE> CONTROL_MATERIAL_DETALLE { get; set; }
-        public virtual DbSet<CONTROL_AUTOCLAVE> CONTROL_AUTOCLAVE { get; set; }
-        public virtual DbSet<CONTROL_COCHE_AUTOCLAVE> CONTROL_COCHE_AUTOCLAVE { get; set; }
         public virtual DbSet<ASISTENCIA> ASISTENCIA { get; set; }
         public virtual DbSet<CAMBIO_PERSONAL> CAMBIO_PERSONAL { get; set; }
         public virtual DbSet<MOVIMIENTO_PERSONAL_DIARIO> MOVIMIENTO_PERSONAL_DIARIO { get; set; }
+        public virtual DbSet<CONTROL_HORA_MAQUINA> CONTROL_HORA_MAQUINA { get; set; }
+        public virtual DbSet<CONTROL_HORA_MAQUINA_DETALLE> CONTROL_HORA_MAQUINA_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -815,6 +815,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Cedula", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarCaambioPersonalxCedula>("spConsultarCaambioPersonalxCedula", cedulaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlHoraMaquina> spConsultaControlHoraMaquina(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHoraMaquina>("spConsultaControlHoraMaquina", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlHoraMaquinaDetalle> spConsultaControlHoraMaquinaDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("idControl", idControl) :
+                new ObjectParameter("idControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHoraMaquinaDetalle>("spConsultaControlHoraMaquinaDetalle", idControlParameter);
         }
     }
 }

@@ -59,12 +59,12 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_MATERIAL" Width="1.5" PointX="20.375" PointY="13.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_MATERIAL_DETALLE" Width="1.5" PointX="22.625" PointY="13" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_MATERIAL_DETALLE_CONTROL_MATERIAL" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AUTOCLAVE" Width="1.5" PointX="14.375" PointY="23" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_COCHE_AUTOCLAVE" Width="1.5" PointX="16.625" PointY="23.25" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_COCHE_AUTOCLAVE_CONTROL_AUTOCLAVE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ASISTENCIA" Width="1.5" PointX="7.375" PointY="23.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" Width="1.5" PointX="9.375" PointY="23.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MOVIMIENTO_PERSONAL_DIARIO" Width="1.5" PointX="11.375" PointY="23.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_HORA_MAQUINA" Width="1.5" PointX="14.375" PointY="23" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_HORA_MAQUINA_DETALLE" Width="1.5" PointX="16.625" PointY="23.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_HORA_MAQUINA_DETALLE_CONTROL_HORA_MAQUINA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -58,7 +58,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 if (model != null)
                     return true;
                 else
-                    return false;
+                    return true;
 
 
             }

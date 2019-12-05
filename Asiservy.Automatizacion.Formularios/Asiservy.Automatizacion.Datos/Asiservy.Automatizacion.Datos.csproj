@@ -96,12 +96,6 @@
     <Compile Include="Datos\CONTROL_AUDITORIASANGRE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\CONTROL_AUTOCLAVE.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CONTROL_COCHE_AUTOCLAVE.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datos\CONTROL_COCHE_LINEA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -115,6 +109,12 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CONTROL_ESFERO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CONTROL_HORA_MAQUINA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CONTROL_HORA_MAQUINA_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CONTROL_HUESO.cs">
@@ -238,6 +238,12 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaControlEnfundadoDetalle.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\spConsultaControlHoraMaquina.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\spConsultaControlHoraMaquinaDetalle.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaControlHueso.cs">

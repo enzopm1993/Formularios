@@ -123,6 +123,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //Clasificador Grupo Receta
         public static string CodigoGrupoRecetaRoceado = "017";
 
+        //Clasificador Grupo Autoclave
+        public static string CodigoGrupoAutoclave = "019";
+
         //Tallas de pescado
         public static string Talla35="001";
         public static string Talla1418 = "002";
