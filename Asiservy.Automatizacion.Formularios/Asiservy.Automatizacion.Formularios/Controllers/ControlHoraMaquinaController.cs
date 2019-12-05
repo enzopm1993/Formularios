@@ -396,7 +396,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        public ActionResult ReporteControlHoraMaquinaPartial(int IdControl)
+        public ActionResult ReporteControlHoraMaquinaPartial(DateTime Fecha, String Turno)
         {
             try
             {
@@ -405,14 +405,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (IdControl == 0)
+                if (string.IsNullOrEmpty(Turno))
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
                 clsDClasificador = new clsDClasificador();
                 clsDControlHoraMaquina = new clsDControlHoraMaquina();
                 ViewBag.Autoclaves = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave, 0);
-                var model = clsDControlHoraMaquina.ConsultaControlHoraMaquinaDetalle(IdControl);
+                var model = clsDControlHoraMaquina.ConsultarControlHoraMaquina(Fecha, Turno);
+               // var detalle = clsDControlHoraMaquina.ConsultaControlHoraMaquinaDetalle(model.FirstOrDefault().IdControlHoraMaquina)
                 return PartialView(model);
             }
             catch (DbEntityValidationException e)
