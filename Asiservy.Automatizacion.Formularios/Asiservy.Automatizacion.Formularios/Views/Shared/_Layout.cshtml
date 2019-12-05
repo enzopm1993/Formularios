@@ -163,18 +163,18 @@
 
 
 
-                    <div class="container-fluid relative1" style="padding-top:10px">
+                <div class="container-fluid relative1" style="padding-top:10px">
 
-                        <div class="absolute1" hidden id="response">
-                        </div>
-                        <span id="TimeLeft"></span>
-
-
-                        @RenderBody()
-
-
-
+                    <div class="absolute1" hidden id="response">
                     </div>
+                    <span id="TimeLeft"></span>
+
+
+                    @RenderBody()
+
+
+
+                </div>
                 <!-- Modal -->
                 <div class="modal" style="background-color: white;" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -269,7 +269,7 @@
             else
                 obj.innerText = iMinute.toString() + ':' + iStart.toString();
 
-            //actualizo mi método cada segundo 
+            //actualizo mi método cada segundo
             window.setTimeout("lessMinutes();", 1000)
         }
 
@@ -333,7 +333,7 @@
                 ]
             }
         }
-       
+
     </script>
 
     @if (ViewBag.dataTableJS != null)
@@ -370,6 +370,12 @@
         <link href="~/Content/summernote/dist/summernote.css" rel="stylesheet" />
         <script src="~/Content/summernote/dist/summernote.js"></script>
         <script src="~/Content/summernote/dist/lang/summernote-es-ES.js"></script>
+    }
+
+    @if (ViewBag.DateRangePicker == "1")
+    {
+        <link href="~/Content/DateRangePicker/daterangepicker.css" rel="stylesheet" />
+        <script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
     }
 
     @if (ViewBag.JavaScrip != null)

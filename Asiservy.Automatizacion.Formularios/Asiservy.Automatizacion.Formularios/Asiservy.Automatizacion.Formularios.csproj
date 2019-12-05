@@ -1939,6 +1939,7 @@
     <Content Include="Content\DataTables\media\images\sort_both.png" />
     <Content Include="Content\DataTables\media\images\sort_desc.png" />
     <Content Include="Content\DataTables\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\DateRangePicker\daterangepicker.css" />
     <Content Include="Content\EditarAsistenciaCss\EditAsistencia.css" />
     <Content Include="Content\gijgo\combined\gijgo.css" />
     <Content Include="Content\gijgo\combined\gijgo.min.css" />
@@ -2106,6 +2107,7 @@
     <Content Include="Content\summernote\dist\summernote.js" />
     <Content Include="Content\summernote\dist\summernote.min.js" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\App\Comunicados.js" />
     <Content Include="Scripts\App\SolicitudesPendientes.js" />
     <Content Include="Scripts\App\Sugerencias.js" />
     <Content Include="Scripts\Asistencia\Asistencia.js" />
@@ -2133,6 +2135,8 @@
     <Content Include="Scripts\ControlMaterialQuebradizo\AsignaMaterialesLinea.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\ControlMaterialQuebradizo.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\MantenimientoMaterialQuebradizo.js" />
+    <Content Include="Scripts\DateRangePicker\daterangepicker.js" />
+    <Content Include="Scripts\DateRangePicker\moment.min.js" />
     <Content Include="Scripts\Empleado\EmpleadoCargo.js" />
     <Content Include="Scripts\Empleado\ReporteEmpleadoCargo.js" />
     <Content Include="Scripts\GenerarDatosServicio\GenerarDatosServicio.js" />
@@ -2692,8 +2696,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccesoDatos\App\Certificados.cs" />
+    <Compile Include="AccesoDatos\App\Comunicados.cs" />
     <Compile Include="AccesoDatos\App\InfoCambioDatos.cs" />
     <Compile Include="AccesoDatos\App\ModeloVistaCertificados.cs" />
+    <Compile Include="AccesoDatos\App\ModeloVistaComunicados.cs" />
     <Compile Include="AccesoDatos\App\SolicitudesPendientes.cs" />
     <Compile Include="AccesoDatos\App\Sugerencias.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
@@ -2932,6 +2938,7 @@
     <Content Include="Views\ControlMaterialQuebradizo\AsignaMaterialesLineaPartial.cshtml" />
     <Content Include="Views\ControlMaterialQuebradizo\ControlMaterialQuebradizo.cshtml" />
     <Content Include="Views\App\Sugerencias.cshtml" />
+    <Content Include="Views\App\Comunicados.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

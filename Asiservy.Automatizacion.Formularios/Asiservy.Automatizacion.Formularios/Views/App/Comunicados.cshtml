@@ -1,0 +1,242 @@
+﻿@model Asiservy.Automatizacion.Formularios.AccesoDatos.App.ModeloVistaComunicados
+@{
+    ViewBag.Title = "Gestión de comunicados";
+}
+<style>
+    input.form-control, select.form-control, textarea.form-control {
+        max-width: 100%;
+    }
+
+    .datoCambia {
+        background-color: #c6ffc6;
+        border-color: green;
+        color: black;
+    }
+
+    .procesa_loader {
+        display: none;
+    }
+
+    a.cargaDatos {
+        font-size: 11px;
+    }
+    
+
+    div#box_visualizar {
+       display: none;
+    }
+
+    #cancelNewCat, #nombre_cat_nueva {
+        display: none;
+    }
+    .bloque {
+        margin-bottom: 10px;
+    }
+    .content_comunicado{
+        display: none;
+    }
+    label.attr_item {
+        margin-right: 20px;
+    }
+</style>
+<h4>Buzón de sugerencias</h4>
+<hr />
+<div class="form-group">
+    <a href="#" id="nuevoComunicado" class="btn btn-success"><i class="fas fa-plus"></i> Nuevo comunicado</a>
+
+</div>
+<br />
+<div id="DivTableEmpleadosDatos" class="table-responsive">
+
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th>
+                    <label>Título</label>
+                </th>
+                <th>
+                    <label>Publicar desde</label>
+                </th>
+                <th>
+                    <label>Publicar hasta</label>
+                </th>
+                <th>
+                    <label>Estado de publicación</label>
+                </th>
+                <th>
+                    <label>Categoría</label>
+                </th>
+                <th>
+                    <label>Prioridad</label>
+                </th>               
+                <th>
+                    <label>Estado</label>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Comunicados)
+            {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Asunto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fechaDesde)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fechaHasta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoPublicacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreCategoria)
+                </td>
+                <td>
+                    <label class="badge @item.ColorPrioridad">@item.Prioridad</label>
+                </td>
+                <td>
+                    @if (item.Estado)
+                    {
+                        <label class="badge badge-success">Activo</label>
+                    }
+                    else
+                    {
+                        <label class="badge badge-danger">Inactivo</label>
+                    }
+                </td>
+                <td>
+                    <div class="content_comunicado" id="contenido_@item.id">
+                        @Html.Raw( item.Contenido)
+                    </div>
+                    <a class="badge badge-primary cargaDatos" 
+                       data-fechadesde="@item.fechaDesde"  
+                       data-fechahasta="@item.fechaHasta"
+                       data-estadopublicacion="@item.EstadoPublicacion" 
+                       data-estadoregistro="@item.Estado" 
+                       data-categorianombre="@item.NombreCategoria"
+                       data-categoriaid="@item.idCategoria"
+                       data-prioridad="@item.Prioridad"
+                       data-titulo="@item.Asunto" 
+                       data-id="@item.id" 
+                       href="#">Ver comunicado</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+
+
+<div class="modal fade" id="ModalComunicado" tabindex="-1" role="dialog" aria-labelledby="ModalComunicado" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="box_visualizar">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloComunicado"></h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="atributos_comunicado">
+                        <label class="attr_item"><b>Estado publicación: </b><span id="viewEstadoPublica"></span></label>
+                        <label class="attr_item"><b>Desde: </b><span id="viewDesde"></span></label>
+                        <label class="attr_item"><b>Hasta: </b><span id="viewHasta"></span></label>
+                        <br />
+                        <label class="attr_item"><b>Categoría: </b><span id="viewCategoria"></span></label>
+                        <label class="attr_item"><b>Prioridad: </b><span id="viewPrioridad"></span></label>
+                        <label class="attr_item"><b>Estado del registro: </b><span id="viewEstadoRegistro"></span></label>
+                        <br />
+                        <b>Contenido: </b><br />
+                    </div>
+                    <div id="contenididoComunicado"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+                    <a href="#" id="btnEditar" class="btn btn-primary">Editar</a>
+                </div>
+            </div>
+            <div id="box_editar">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloFormComunicado">Nuevo comunicado</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="contenidoFormularioComunicado">
+                        <input type="hidden" id="tipoProceso" value="I" />
+                        <input type="hidden" id="idComunicado" value="0" />
+                        <div class="row">
+                            <div class="col-12 bloque">
+                                <label for="txtTituloComunicado">Título del comunicado (Asunto)</label>
+                                <input type="text" class="form-control" id="txtTituloComunicado" placeholder="Ingresa un título corto que indique sobre qué es tu comunicado" />
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-3 bloque">
+                                <label for="boxFechaDesdeHasta">Rango de publicidad</label>
+                                <input type="text" class="form-control" id="boxFechaDesdeHasta" />
+                                <input type="hidden" id="fechaDesde" />
+                                <input type="hidden" id="fechaHasta" />
+                            </div>
+                            <div class="col-3 bloque">
+                                <label for="txtCategoria">Categoría</label>
+                                <input type="hidden" id="es_nueva_cat" value="0" />
+                                <input type="text" class="form-control" id="nombre_cat_nueva" value="" />
+                                <select class="form-control" id="txtCategoria">
+                                    <option value="0">Seleccione</option>
+                                    @foreach (var cat in Model.Categorias)
+                                    {
+                                        <option value="@cat.Codigo">@cat.Descripcion</option>
+                                    }
+                                </select>
+                                <a href="#" id="addNewCat">Nueva categoría</a>
+                                <a href="#" id="cancelNewCat">Cancelar</a>
+                            </div>
+                            <div class="col-3 bloque">
+
+                                <label for="txtPrioridad">Prioridad </label>
+                                <select class="form-control" id="txtPrioridad">
+                                    <option value="Alta">Alta</option>
+                                    <option value="Media">Media</option>
+                                    <option value="Baja">Baja</option>
+                                </select>
+                            </div>
+                            <div class="col-3 bloque">
+                                <label for="txtCheckEstado">Estado </label><br />
+                                <div class="custom-control custom-checkbox mb-3  d-inline-block">
+                                    <input type="checkbox" class="custom-control-input" id="txtCheckEstado" checked>
+                                    <label class="custom-control-label" for="txtCheckEstado" id="LabeltxtCheckEstado"> Activo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-12 bloque">
+                                <label for="txtContenido">Contenido </label><br />
+                                <textarea id="txtContenido" class="form-control" rows="20"></textarea>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <a class="btn btn-secondary" id="cierraModalForm"  href="#">Cancelar</a>
+                    <a class="btn btn-success" id="publicarComunicado" href="#">Publicar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
