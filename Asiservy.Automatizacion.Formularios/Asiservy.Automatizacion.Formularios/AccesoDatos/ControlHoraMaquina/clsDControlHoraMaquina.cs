@@ -121,19 +121,47 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHoraMaquina
             }
         }
 
+        public bool ValidarControlHoraMaquinaDetalle(CONTROL_HORA_MAQUINA_DETALLE model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+
+                var detalle=(from d in entities.CONTROL_HORA_MAQUINA_DETALLE
+                             join c in entities.CONTROL_HORA_MAQUINA on d.IdControlHoraMaquina equals c.IdControlHoraMaquina
+                             where d.IdControlHoraMaquinaDetalle != model.IdControlHoraMaquinaDetalle
+                                    && d.Autoclave == model.Autoclave
+                                    && c.EstadoRegistro==clsAtributos.EstadoRegistroActivo
+                                    && ((d.FechaInicio <= model.FechaInicio && d.FechaFin > model.FechaInicio)
+                                    || (d.FechaInicio < model.FechaFin && d.FechaFin >= model.FechaFin))
+                                    select d).FirstOrDefault();              
+
+                if (detalle != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+
+
+            }
+        }
 
         public void GuardarModificarControlHoraMaquinaDetalle(CONTROL_HORA_MAQUINA_DETALLE model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var detalle = entities.CONTROL_HORA_MAQUINA_DETALLE.FirstOrDefault(x => x.IdControlHoraMaquina == model.IdControlHoraMaquina && x.Autoclave == model.Autoclave);
+                var detalle = entities.CONTROL_HORA_MAQUINA_DETALLE.FirstOrDefault(x => x.IdControlHoraMaquinaDetalle == model.IdControlHoraMaquinaDetalle);
                 if(detalle != null)
                 {
                     if (model.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
                     {
                         detalle.FechaInicio = model.FechaInicio;
+                        detalle.Autoclave = model.Autoclave;
                         detalle.FechaFin = model.FechaFin;
                         detalle.TotalCoches = model.TotalCoches;
+                        detalle.Observacion = model.Observacion;
                         detalle.TotalHoras = model.TotalHoras;
                     }
                     detalle.FechaModificacionLog = model.FechaIngresoLog;
