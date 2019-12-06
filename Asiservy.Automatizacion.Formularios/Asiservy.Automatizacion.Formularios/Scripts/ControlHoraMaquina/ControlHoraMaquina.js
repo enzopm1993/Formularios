@@ -86,7 +86,7 @@ function CargarOrdenFabricacionDetalle(orden) {
                     if (row.OrdenVenta == '0') {
                         $("#txtOrdenVenta").val('0');
                         $("#txtCodigoCliente").val('0');
-                        $("#txtCliente").val('Libre de uso');
+                        $("#txtCliente").val('Libre Utilización');
                     } else {
                         $("#txtOrdenVenta").val(row.OrdenVenta);
                         $("#txtCodigoCliente").val(row.CodigoCliente);
