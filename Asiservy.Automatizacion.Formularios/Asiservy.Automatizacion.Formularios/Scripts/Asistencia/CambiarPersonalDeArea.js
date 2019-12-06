@@ -68,8 +68,9 @@ function InactivarRegistroMovidos(result) {
             dCedulas: resultado2
         },
         success: function (resultado) {
-            MensajeCorrectoTiempo(resultado, true, 10000);
-
+            //MensajeCorrectoTiempo(resultado, true, 10000);
+            $('#BodyMensajeCp').html(resultado);
+            $('#ModalMensajeCP').modal('show');
         }
         ,
         error: function (resultado) {
@@ -126,8 +127,9 @@ function Mover(result) {
             tipo: $('#optcambiaremp').val()
         },
         success: function (resultado) {
-            MensajeCorrectoTiempo(resultado, true,10000);
-
+            //MensajeCorrectoTiempo(resultado, true,10000);
+            $('#BodyMensajeCp').html(resultado);
+            $('#ModalMensajeCP').modal('show');
         }
         ,
         error: function (resultado) {
@@ -191,13 +193,16 @@ function ConsultarEmpleadosRegresar() {
             },
             url: '../Asistencia/EmpleadosCambioPersonalPartial',
             success: function (data) {
+                
                 $('#DivEmpleados').html(data);
+               
                 $('#btnGuardarCambioEmp').show();
                 $('#Guardar').val('Regresar Empleados');
                 //**modificacion cambio personal boton inactivar 
                 $('#btnInactivar').show();
                 //**
                 $('#Guardar').show();
+                $('#inputsregresar').show();
             }
         });
         $('#contempleados').show();
@@ -279,6 +284,7 @@ $('#comboarea').change(function () {
 }); 
 $('#optcambiaremp').change(function () {
     if ($(this).val() == 'prestar') {
+        $('#inputsregresar').hide();
         $('#Guardar').hide();
         $('#DivEmpleados').empty();
         $('#divprestar').show();
@@ -293,6 +299,7 @@ $('#optcambiaremp').change(function () {
         $('#divregresar').show();
     }else
         {
+            $('#inputsregresar').hide();
             $('#DivEmpleados').empty();
             $('#contempleados').hide();
         $('#EmpleadosRegresar').hide();

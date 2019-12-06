@@ -5,16 +5,13 @@
 <style>
     td, th {
         padding: 0rem;
-        padding-bottom:3px;
+        padding-bottom: 3px;
     }
+
     .horaform {
-       
-        
         border: 1px solid #d1d3e2;
         border-radius: 0.35rem;
-     
         height: 30px;
-      
     }
 </style>
 <div class="" style="padding-bottom:100px">
@@ -52,14 +49,14 @@
                     @Html.DropDownList("SelectCargoRegresar", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control" })
 
                 </div>
-                <div class="form-group col-sm-12 col-md-3">
-                    @Html.Label("Fecha:")
-                    @Html.TextBox("txtFechaFin", null, new { type = "date", @class = "form-control" })
-                </div>
-                <div class="form-group col-sm-12 col-md-3">
-                    @Html.Label("Hora:")
-                    @Html.TextBox("txtHoraFin", null, new { type = "time", @class = "form-control" })
-                </div>
+                @*<div class="form-group col-sm-12 col-md-3">
+                        @Html.Label("Fecha:")
+                        @Html.TextBox("txtFechaFin", null, new { type = "date", @class = "form-control" })
+                    </div>
+                    <div class="form-group col-sm-12 col-md-3">
+                        @Html.Label("Hora:")
+                        @Html.TextBox("txtHoraFin", null, new { type = "time", @class = "form-control" })
+                    </div>*@
             </div>
             <div class="row">
 
@@ -158,7 +155,7 @@
                         <tr>
                             <td></td>
                             <td>
-                                
+
                                 <table cellpadding="0" border="0" cellspacing="0" width="100%">
                                     <tr>
                                         <td style="padding-right:10px">
@@ -174,13 +171,13 @@
                                                 <label class="custom-control-label" for="horaswitch" id="labelhora">Inicio Jornada</label>
                                                 @Html.TextBox("txtHoraInicio", null, new { type = "time", @class = "horaform", style = "display: none;" })
                                             </div>
-                                            
+
                                         </td>
                                     </tr>
                                 </table>
                             </td>
                         </tr>
-                        
+
                         <tr>
                             <td colspan="2"></td>
                         </tr>
@@ -207,10 +204,20 @@
             </div>
             <br />
             <div id="btnGuardarCambioEmp">
+                <div class="row" id="inputsregresar" style="display:none">
+                    <div class="form-group col-sm-12 col-md-3">
+                        @Html.Label("Fecha:")
+                        @Html.TextBox("txtFechaFin", null, new { type = "date", @class = "form-control" })
+                    </div>
+                    <div class="form-group col-sm-12 col-md-3">
+                        @Html.Label("Hora:")
+                        @Html.TextBox("txtHoraFin", null, new { type = "time", @class = "form-control" })
+                    </div>
+                </div>
                 <center>
                     <input type="button" value="Guardar" class="btn btn-primary" onclick="MoverEmpleados();" id="Guardar" />
                     <input type="button" value="Inactivar" class="btn btn-info" onclick="InactivarCambioPersonal();" id="btnInactivar" style="display:none" />
-                    
+
                 </center>
             </div>
         </div>
@@ -218,5 +225,26 @@
 
 </div>
 
+@*modal mensajes*@
+<!-- Modal -->
+<div class="modal fade" id="ModalMensajeCP" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Mensaje del sistema</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="BodyMensajeCp">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"  onclick="javascript:window.location.reload()" >Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal mensaje fin*@
 <script src="~/Scripts/General/CargarCombosLineas.js"></script>
 <link href="~/Content/AsistenciaCss/CambiarPersonal.css" rel="stylesheet" />
