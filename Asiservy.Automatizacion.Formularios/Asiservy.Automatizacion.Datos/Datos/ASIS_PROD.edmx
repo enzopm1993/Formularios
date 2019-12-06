@@ -302,7 +302,7 @@
           <Property Name="FechaFin" Type="datetime" />
           <Property Name="TotalHoras" Type="time" Precision="7" />
           <Property Name="TotalCoches" Type="int" Nullable="false" />
-          <Property Name="Observacion" Type="nchar" MaxLength="10" />
+          <Property Name="Observacion" Type="varchar" MaxLength="100" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -1702,10 +1702,6 @@
             <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
             <Parameter Name="Linea" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaAsistenciaFinalizar" ReturnType="Collection(ASIS_PRODModel.spConsultaAsistenciaFinalizar)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="Linea" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaEspecificaEmpleadosxCedula" ReturnType="Collection(ASIS_PRODModel.spConsultaEspecificaEmpleadosxCedula)">
           <Parameter Name="Cedula" Mode="In" Type="String" />
           </FunctionImport>
@@ -1757,6 +1753,10 @@
           </FunctionImport>
           <EntitySet Name="ASISTENCIA" EntityType="ASIS_PRODModel.ASISTENCIA" />
           <EntitySet Name="MOVIMIENTO_PERSONAL_DIARIO" EntityType="ASIS_PRODModel.MOVIMIENTO_PERSONAL_DIARIO" />
+          <FunctionImport Name="spConsultaAsistenciaFinalizar" ReturnType="Collection(ASIS_PRODModel.spConsultaAsistenciaFinalizar)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Linea" Mode="In" Type="String" />
+          </FunctionImport>
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -2955,15 +2955,6 @@
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="DadoBaja" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="spConsultaAsistenciaFinalizar">
-          <Property Type="String" Name="CEDULA" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="RECURSO" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="CENTROCOSTO" Nullable="true" MaxLength="7" />
-          <Property Type="String" Name="CARGO" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="LINEA" Nullable="true" MaxLength="10" />
-          <Property Type="Time" Name="HoraSalida" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="spConsultaEspecificaEmpleadosxCedula">
           <Property Type="String" Name="LINEA" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="RECURSO" Nullable="false" MaxLength="10" />
@@ -3094,7 +3085,7 @@
           <Property Name="FechaFin" Type="DateTime" Precision="3" />
           <Property Name="TotalHoras" Type="Time" Precision="7" />
           <Property Name="TotalCoches" Type="Int32" Nullable="false" />
-          <Property Name="Observacion" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Observacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -3195,6 +3186,18 @@
           <Property Name="Asistencia" Type="Boolean" />
           <Property Name="FinalizaAsistencia" Type="Boolean" />
         </EntityType>
+        <ComplexType Name="spConsultaAsistenciaFinalizar">
+          <Property Type="Int64" Name="NumReg" Nullable="true" />
+          <Property Type="Int32" Name="IdMovimientoPersonalDiario" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="DateTime" Name="FechaInicio" Nullable="true" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4673,19 +4676,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaAsistenciaFinalizar" FunctionName="ASIS_PRODModel.Store.spConsultaAsistenciaFinalizar">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaAsistenciaFinalizar">
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="RECURSO" ColumnName="RECURSO" />
-                <ScalarProperty Name="CENTROCOSTO" ColumnName="CENTROCOSTO" />
-                <ScalarProperty Name="CARGO" ColumnName="CARGO" />
-                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
-                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaEspecificaEmpleadosxCedula" FunctionName="ASIS_PRODModel.Store.spConsultaEspecificaEmpleadosxCedula">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEspecificaEmpleadosxCedula">
@@ -4952,6 +4942,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaAsistenciaFinalizar" FunctionName="ASIS_PRODModel.Store.spConsultaAsistenciaFinalizar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaAsistenciaFinalizar">
+                <ScalarProperty Name="NumReg" ColumnName="NumReg" />
+                <ScalarProperty Name="IdMovimientoPersonalDiario" ColumnName="IdMovimientoPersonalDiario" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

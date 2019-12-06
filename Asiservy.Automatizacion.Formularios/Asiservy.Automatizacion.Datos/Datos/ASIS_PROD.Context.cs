@@ -683,19 +683,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlMaterialQuebradizo>("spReporteControlMaterialQuebradizo", fechaDesdeParameter, fechaHastaParameter, lineaParameter);
         }
     
-        public virtual ObjectResult<spConsultaAsistenciaFinalizar> spConsultaAsistenciaFinalizar(Nullable<System.DateTime> fecha, string linea)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var lineaParameter = linea != null ?
-                new ObjectParameter("Linea", linea) :
-                new ObjectParameter("Linea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaAsistenciaFinalizar>("spConsultaAsistenciaFinalizar", fechaParameter, lineaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaEspecificaEmpleadosxCedula> spConsultaEspecificaEmpleadosxCedula(string cedula)
         {
             var cedulaParameter = cedula != null ?
@@ -833,6 +820,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("idControl", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHoraMaquinaDetalle>("spConsultaControlHoraMaquinaDetalle", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaAsistenciaFinalizar> spConsultaAsistenciaFinalizar(Nullable<System.DateTime> fecha, string linea)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaAsistenciaFinalizar>("spConsultaAsistenciaFinalizar", fechaParameter, lineaParameter);
         }
     }
 }

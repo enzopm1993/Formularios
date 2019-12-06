@@ -13,12 +13,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spConsultaAsistenciaFinalizar
     {
-        public string CEDULA { get; set; }
+        public Nullable<long> NumReg { get; set; }
+        public int IdMovimientoPersonalDiario { get; set; }
+        public string Cedula { get; set; }
         public string NOMBRES { get; set; }
-        public string RECURSO { get; set; }
-        public string CENTROCOSTO { get; set; }
-        public string CARGO { get; set; }
-        public string LINEA { get; set; }
-        public Nullable<System.TimeSpan> HoraSalida { get; set; }
+        public Nullable<System.DateTime> FechaInicio { get; set; }
+        public string CodLinea { get; set; }
+        public string CentroCosto { get; set; }
+        public string CodCargo { get; set; }
+        public string Recurso { get; set; }
+        public string EstadoRegistro { get; set; }
     }
 }
