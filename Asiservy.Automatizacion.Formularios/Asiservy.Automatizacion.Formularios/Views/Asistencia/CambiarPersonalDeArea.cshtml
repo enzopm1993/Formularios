@@ -5,16 +5,13 @@
 <style>
     td, th {
         padding: 0rem;
-        padding-bottom:3px;
+        padding-bottom: 3px;
     }
+
     .horaform {
-       
-        
         border: 1px solid #d1d3e2;
         border-radius: 0.35rem;
-     
         height: 30px;
-      
     }
 </style>
 <div class="" style="padding-bottom:100px">
@@ -198,7 +195,7 @@
 
 
     </div>
-    
+
     <div class="row">
         <div class="col-12" id="contempleados">
             <br />
@@ -228,5 +225,26 @@
 
 </div>
 
+@*modal mensajes*@
+<!-- Modal -->
+<div class="modal fade" id="ModalMensajeCP" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Mensaje del sistema</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="BodyMensajeCp">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"  onclick="javascript:window.location.reload()" >Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal mensaje fin*@
 <script src="~/Scripts/General/CargarCombosLineas.js"></script>
 <link href="~/Content/AsistenciaCss/CambiarPersonal.css" rel="stylesheet" />

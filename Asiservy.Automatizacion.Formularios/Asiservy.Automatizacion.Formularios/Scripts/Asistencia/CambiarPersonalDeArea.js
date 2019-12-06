@@ -68,8 +68,9 @@ function InactivarRegistroMovidos(result) {
             dCedulas: resultado2
         },
         success: function (resultado) {
-            MensajeCorrectoTiempo(resultado, true, 10000);
-
+            //MensajeCorrectoTiempo(resultado, true, 10000);
+            $('#BodyMensajeCp').html(resultado);
+            $('#ModalMensajeCP').modal('show');
         }
         ,
         error: function (resultado) {
@@ -126,8 +127,9 @@ function Mover(result) {
             tipo: $('#optcambiaremp').val()
         },
         success: function (resultado) {
-            MensajeCorrectoTiempo(resultado, true,10000);
-
+            //MensajeCorrectoTiempo(resultado, true,10000);
+            $('#BodyMensajeCp').html(resultado);
+            $('#ModalMensajeCP').modal('show');
         }
         ,
         error: function (resultado) {
