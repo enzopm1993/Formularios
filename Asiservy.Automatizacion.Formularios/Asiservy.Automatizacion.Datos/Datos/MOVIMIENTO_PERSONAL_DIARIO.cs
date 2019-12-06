@@ -33,5 +33,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public Nullable<bool> Asistencia { get; set; }
+        public Nullable<bool> FinalizaAsistencia { get; set; }
     }
 }

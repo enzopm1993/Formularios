@@ -33,5 +33,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CentroCostos { get; set; }
         public string Recurso { get; set; }
         public string Cargo { get; set; }
+        public Nullable<System.DateTime> FechaFin { get; set; }
     }
 }
