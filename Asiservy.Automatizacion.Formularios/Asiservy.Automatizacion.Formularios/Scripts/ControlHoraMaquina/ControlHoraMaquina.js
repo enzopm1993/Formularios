@@ -1,15 +1,16 @@
 ﻿
 $(document).ready(function () {
     //ValidaProyeccion();
-   
+
     CargarControlHoraMaquina();
 });
 
 function NuevoControlHoraMaquina() {
-    $("#SelectOrdenFabricacion").prop("selectedIndex", 0);  
-    $('#txtOrdenFabricacion').val("");   
+    $("#txtIdControlHoraMaquina").val('');
+    $("#SelectOrdenFabricacion").prop("selectedIndex", 0);
     LimpiarDetalle();
 }
+
 
 function CargarOrdenFabricacion() {
     valor = $("#txtFechaOrden").val();
@@ -55,6 +56,7 @@ function LimpiarDetalle(){
     $("#txtLineaNegocio").val('');
     $("#txtCodigoCliente").val('');
     $("#txtCliente").val('');
+      
 }
 
 function CargarOrdenFabricacionDetalle(orden) {
@@ -119,6 +121,11 @@ function CargarControlHoraMaquina() {
         $("#txtFechaProduccion").css('borderColor', '#ced4da');
     }  
     $("#txtFechaOrden").val($("#txtFechaProduccion").val());    
+
+    
+    var fecha = moment($("#txtFechaProduccion").val()).format("YYYY-MM-DDTHH:mm");   
+    $("#txtFechaInicioDetalle").val(fecha);    
+    $("#txtFechaFinDetalle").val(fecha);   
 
     if ($("#txtTurno").val() == "") {
         $("#txtTurno").css('borderColor', '#FA8072');
@@ -220,7 +227,7 @@ function Validar() {
 function GuardarControlHoraMaquina() {
     if (!Validar())
         return;
-    $("#btnGuardar").prop("disabled", true);
+    $("#btnGenerar").prop("disabled", true);
     $('#spinnerCargando').prop("hidden", false);
     var DivControl = $('#DivTableControl');
     DivControl.html('');
@@ -240,6 +247,9 @@ function GuardarControlHoraMaquina() {
             Fecha: $("#txtFechaProduccion").val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (resultado == '0') {
                 MensajeAdvertencia("Faltan Parametros");
             } else {
@@ -247,12 +257,12 @@ function GuardarControlHoraMaquina() {
                 MensajeCorrecto(resultado);
                 NuevoControlHoraMaquina();
             }           
-            $("#btnGuardar").prop("disabled", false);
+            $("#btnGenerar").prop("disabled", false);
             $('#spinnerCargando').prop("hidden", true);
         },
         error: function (resultado) {
             CargarControlHoraMaquina();
-            $("#btnGuardar").prop("disabled", false);
+            $("#btnGenerar").prop("disabled", false);
             $('#spinnerCargando').prop("hidden", true);
             MensajeError(resultado.responseText, false);
             NuevoControlHoraMaquina();
@@ -317,24 +327,31 @@ $("#modal-btn-no").on("click", function () {
 });
 
 function Atras() {
+    
+    $("#divDetalleControl").fadeOut();
     $("#divCabeceraControl").fadeIn();
     $("#btnInactivar").prop("hidden", true);
+   
+
     $("#btnAtras").prop("hidden", true);
-    $("#btnNuevo").prop("hidden", false);
+    $("#btnNuevo").prop("hidden", true);
     $("#btnGenerar").prop("hidden", false);
+    $("#btnGuardar").prop("hidden", true);
     $("#txtIdControlHoraMaquina").val('');
+    
     CargarControlHoraMaquina();
 }
 
 function seleccionarControlHoraMaquina(model) {
     LimpiarDetalle();
-
+    $("#divDetalleControl").fadeIn("swing");
     $("#divCabeceraControl").fadeOut("swing");
     $("#btnInactivar").prop("hidden", false);
+   
     $("#btnAtras").prop("hidden", false);
-    $("#btnNuevo").prop("hidden", true);
+    $("#btnNuevo").prop("hidden", false);
     $("#btnGenerar").prop("hidden", true);
-
+    $("#btnGuardar").prop("hidden", false);
     $("#txtIdControlHoraMaquina").val(model.IdControlHoraMaquina);
     $("#txtOrdenFabricacion").val(model.OrdenFabricacion);
     $("#txtOrdenVenta").val(model.OrdenVenta);
@@ -387,11 +404,11 @@ function CargarControlHoraMaquinaDetalle() {
 }
 
 
-function CalculoTiempo(autoclave) {
+function CalculoTiempo() {
 
-    var FechaInicio = "#txtFechaInicio-" + autoclave;
-    var FechaFin = "#txtFechaFin-" + autoclave;
-    var TotalHoras = "#txtTotalHoras-" + autoclave;
+    var FechaInicio = "#txtFechaInicioDetalle" ;
+    var FechaFin = "#txtFechaFinDetalle";
+    var TotalHoras = "#txtTotalHoras";
     if ($(FechaFin).val() == '' || $(FechaInicio).val() == '') {
         return;
     }
@@ -415,58 +432,85 @@ function CalculoTiempo(autoclave) {
 }
 
 
-function check(id, autoclave) {
-    if ($("#"+id).prop("checked")) {
-        GuardarControlDetalle(id, autoclave);
-    } else {
-        EliminarControlDetalle(id, autoclave);
-    }
+//function check(id, autoclave) {
+//    if ($("#"+id).prop("checked")) {
+//        GuardarControlDetalle(id, autoclave);
+//    } else {
+//        EliminarControlDetalle(id, autoclave);
+//    }
+//}
+
+
+function LimpiarControlDetalle() {    
+    $("#txtIdControlHoraMaquinaDetalle").val('0');   
+    $("#txtTotalHoras").val('');
+    $("#txtTotalCoche").val('');
+    $("#txtObservacion").val('');
+    var fecha = moment($("#txtFechaProduccion").val()).format("YYYY-MM-DDTHH:mm");
+    $("#txtFechaInicioDetalle").val(fecha);
+    $("#txtFechaFinDetalle").val(fecha);   
+    $("#SelectAutoclave").prop("selectedIndex",0);   
+    $("#btnInactivarDetalle").prop("hidden", true);    
+
+
 }
 
-function ValidarDetalle(autoclave) {
+
+function ValidarDetalle() {
     var valida = true;
-    var FechaInicio = "#txtFechaInicio-" + autoclave;
-    var FechaFin = "#txtFechaFin-" + autoclave;
-    var TotalHoras = "#txtTotalHoras-" + autoclave;
+    var FechaInicio = "#txtFechaInicioDetalle";
+    var FechaFin = "#txtFechaFinDetalle";
+    var TotalHoras = "#txtTotalHoras";
+    var Autoclave = "#SelectAutoclave";
+
     if ($(FechaInicio).val() == "") {
         $(FechaInicio).css('borderColor', '#FA8072');
-        bool = false;
+        valida = false;
     } else {
         $(FechaInicio).css('borderColor', '#ced4da');
     }
 
     if ($(FechaFin).val() == "") {
         $(FechaFin).css('borderColor', '#FA8072');
-        bool = false;
+        valida = false;
     } else {
         $(FechaFin).css('borderColor', '#ced4da');
     }
 
     if ($(TotalHoras).val() == "") {
         $(TotalHoras).css('borderColor', '#FA8072');
-        bool = false;
+        valida = false;
     } else {
         $(TotalHoras).css('borderColor', '#ced4da');
     }
+    if ($(Autoclave).val() == "") {
+        $(Autoclave).css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $(Autoclave).css('borderColor', '#ced4da');
+    }
+
     return valida;
 }
 
-function GuardarControlDetalle(id, autoclave) {
+function GuardarControlHoraMaquinaDetalle() {
 
-    if (!ValidarDetalle(autoclave))
+    if (!ValidarDetalle())
         return;   
-    var FechaInicio = "#txtFechaInicio-" + autoclave;
-    var FechaFin = "#txtFechaFin-" + autoclave;
-    var TotalHoras = "#txtTotalHoras-" + autoclave;
-    var TotalCoche = "#txtTotalCoche-" + autoclave;
-    var Observacion = "#txtObservacion-" + autoclave;
-
+    var FechaInicio = "#txtFechaInicioDetalle";
+    var FechaFin = "#txtFechaFinDetalle";
+    var TotalHoras = "#txtTotalHoras";
+    var TotalCoche = "#txtTotalCoche";
+    var Observacion = "#txtObservacion";
+    var Autoclave = "#SelectAutoclave";
+    $("#btnGuardar").prop("disabled", true);
     $.ajax({
         url: "../ControlHoraMaquina/GuardarModificarControlHoraMaquinaDetalle",
         type: "POST",
         data: {
             IdControlHoraMaquina: $("#txtIdControlHoraMaquina").val(),
-            Autoclave: autoclave,
+            IdControlHoraMaquinaDetalle: $("#txtIdControlHoraMaquinaDetalle").val(),
+            Autoclave: $(Autoclave).val(),
             FechaInicio: $(FechaInicio).val(),
             FechaFin: $(FechaFin).val(),
             TotalHoras: $(TotalHoras).val(),
@@ -475,52 +519,77 @@ function GuardarControlDetalle(id, autoclave) {
            
         },
         success: function (resultado) {
-            $(FechaInicio).prop("disabled", true);
-            $(FechaFin).prop("disabled", true);
-            $(TotalCoche).prop("disabled", true);
-            $(Observacion).prop("disabled", true);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            $("#btnGuardar").prop("disabled", false);
+
+            if (resultado == "0") {
+                MensajeAdvertencia("Autoclave ya está siendo usado en esas horas");
+                $("#txtFechaInicioDetalle").css('borderColor', '#FA8072');
+                $("#txtFechaFinDetalle").css('borderColor', '#FA8072');
+                return;
+            }
+            MensajeCorrecto(resultado);
+            LimpiarControlDetalle();
+            CargarControlHoraMaquinaDetalle();
 
         },
         error: function (resultado) {           
+            $("#btnGuardar").prop("disabled", false);
+
             MensajeError(resultado.responseText, false);
-            $(FechaInicio).prop("disabled", false);
-            $(FechaFin).prop("disabled", false);
-            $(TotalCoche).prop("disabled", false);
-            $(Observacion).prop("disabled", false);
-            $("#" + id).prop("checked", false)
+           
         }
     });
 }
 
 
-function EliminarControlDetalle(id, autoclave) {   
-    var FechaInicio = "#txtFechaInicio-" + autoclave;
-    var FechaFin = "#txtFechaFin-" + autoclave;
-    var TotalHoras = "#txtTotalHoras-" + autoclave;
-    var TotalCoche = "#txtTotalCoche-" + autoclave;
-    var Observacion = "#txtObservacion-" + autoclave;
+function EliminarControlDetalle() {  
     $.ajax({
         url: "../ControlHoraMaquina/EliminarControlHoraMaquinaDetalle",
         type: "Get",
         data: {            
-            idControl: $("#txtIdControlHoraMaquina").val(),
-            Autoclave: autoclave       
+            idControl: $("#txtIdControlHoraMaquinaDetalle").val()
         },
         success: function (resultado) {
-            $(FechaInicio).prop("disabled", false);
-            $(FechaFin).prop("disabled", false);
-            $(TotalCoche).prop("disabled", false);
-            $(Observacion).prop("disabled", false);
-
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            MensajeCorrecto(resultado);
+            LimpiarControlDetalle();
+            CargarControlHoraMaquinaDetalle();
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
-            $(FechaInicio).prop("disabled", true);
-            $(FechaFin).prop("disabled", true);
-            $(TotalCoche).prop("disabled", true);
-            $(Observacion).prop("disabled", true);
-            $("#" + id).prop("checked", true)
+            MensajeError(resultado.responseText, false);           
         }
     });
 }
 
+
+function SeleccionarControlDetalle(model) {
+    $("#btnInactivarDetalle").prop("hidden", false);    
+    $("#txtIdControlHoraMaquinaDetalle").val(model.IdControlHoraMaquinaDetalle);
+    $("#txtTotalHoras").val(model.TotalHoras);
+    $("#txtTotalCoche").val(model.TotalCoches);
+    $("#txtObservacion").val(model.Observacion);   
+    $("#txtFechaInicioDetalle").val(model.FechaInicio);
+    $("#txtFechaFinDetalle").val(model.FechaFin);   
+    $("#SelectAutoclave").val(model.Autoclave);   
+}
+
+
+
+$("#btnInactivarDetalle").on("click", function () {
+    $("#mi-modal-detalle").modal('show');
+});
+
+$("#modal-btn-si-detalle").on("click", function () {
+    EliminarControlDetalle();
+    $("#mi-modal-detalle").modal('hide');
+});
+
+$("#modal-btn-no-detalle").on("click", function () {
+    $("#txtEliminar").val('');
+    $("#mi-modal-detalle").modal('hide');
+});

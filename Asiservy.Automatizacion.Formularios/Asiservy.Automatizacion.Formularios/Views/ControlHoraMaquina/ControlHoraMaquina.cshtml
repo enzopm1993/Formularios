@@ -1,5 +1,7 @@
 ﻿
 @{
+    /**/
+
     ViewBag.Title = "ControlHoraMaquina";
 }
 <style>
@@ -84,6 +86,53 @@
 
 </div>
 
+<input type="hidden" name="name" id="txtIdControlHoraMaquinaDetalle" value="" />
+<div id="divDetalleControl" style="display: none;">
+    <div class="row">
+        <div class="col-2">
+            <div class="form-group">
+                <label>Autoclave</label>
+                @Html.DropDownList("SelectAutoclave", new SelectList(ViewBag.Autoclaves, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="form-group">
+                <label>Inicio</label>
+                <input type="datetime-local" class="form-control" id="txtFechaInicioDetalle" value="" onchange="CalculoTiempo()" />
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label>Fin</label>
+                <input type="datetime-local" class="form-control" id="txtFechaFinDetalle" value="" onchange="CalculoTiempo()" />
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="form-group">
+                <label>Horas</label>
+                <input disabled type="text" class="form-control" id="txtTotalHoras" value="00:00" />
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label>Coches</label>
+                <input type="number" min="0" class="form-control" id="txtTotalCoche" value="0" />
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="form-group">
+                <label>Observacion</label>
+                <input type="text" maxlength="100" class="form-control" id="txtObservacion" value="" />
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>
 <br />
 
 <div class="row">
@@ -92,14 +141,17 @@
         <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="GuardarControlHoraMaquina()" style="border-color:#2c3e50" type="button">
             <img style="width:100%" src="~/Content/icons/add24.png" />
         </button>
-        <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnNuevo" onclick="NuevoControlHoraMaquina()" style="border-color:#2c3e50" type="button">
+        <button hidden data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarControlHoraMaquinaDetalle()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/save20.png" />
+        </button>
+        <button hidden data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnNuevo" onclick="LimpiarControlDetalle()" style="border-color:#2c3e50" type="button">
             <img style="width:100%" src="~/Content/icons/clear24.png" />
         </button>
 
         <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
             <img style="width:100%" src="~/Content/icons/atras24.png" />
         </button>
-        <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnInactivar"  style="border-color:#2c3e50" type="button">
+        <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar Detalle" class="btn" id="btnInactivarDetalle" style="border-color:#2c3e50" type="button">
             <img style="width:100%" src="~/Content/icons/cancel24.png" />
         </button>
 
@@ -116,6 +168,13 @@
 
 </div>
 
+<br />
+<div class="row">
+    <div class="col-12 text-center">
+        <input hidden type="button" id="btnInactivar" class="btn btn-outline-danger" name="name" value="Eliminar" />
+
+    </div>
+</div>
 
 
 
@@ -163,11 +222,29 @@
             <div class="modal-header">
                 <input type="hidden" id="txtEliminar" name="name" value="" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Eliminar Control de Horas/Maquina</h4>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Todo el Control de Horas/Maquina</h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" id="modal-btn-si">Si</button>
                 <button type="button" class="btn btn-outline-primary" id="modal-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal-detalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminar" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Detalle del Control de Horas/Maquina</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-btn-si-detalle">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-btn-no-detalle">No</button>
             </div>
         </div>
     </div>

@@ -44,6 +44,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                // lsUsuario = User.Identity.Name.Split('_');
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Autoclaves = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave, 0);
                 //clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 return View();
             }
@@ -255,7 +257,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                clsDControlHoraMaquina.GuardarModificarControlHoraMaquinaDetalle(model);
+                if(clsDControlHoraMaquina.ValidarControlHoraMaquinaDetalle(model))
+                    clsDControlHoraMaquina.GuardarModificarControlHoraMaquinaDetalle(model);
+                else
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
 
             }
@@ -280,7 +286,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         
-        public ActionResult EliminarControlHoraMaquinaDetalle(int idControl,int autoclave)
+        public ActionResult EliminarControlHoraMaquinaDetalle(int idControl)
         {
             try
             {
@@ -290,15 +296,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlHoraMaquina = new clsDControlHoraMaquina();
-                CONTROL_HORA_MAQUINA_DETALLE model = new CONTROL_HORA_MAQUINA_DETALLE();
-                model.Autoclave = autoclave;
-                model.IdControlHoraMaquina = idControl;
+                CONTROL_HORA_MAQUINA_DETALLE model = new CONTROL_HORA_MAQUINA_DETALLE();                
+                model.IdControlHoraMaquinaDetalle = idControl;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 clsDControlHoraMaquina.GuardarModificarControlHoraMaquinaDetalle(model);
-                return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
+                return Json("Registro Eliminado Correctamente", JsonRequestBehavior.AllowGet);
 
             }
             catch (DbEntityValidationException e)
