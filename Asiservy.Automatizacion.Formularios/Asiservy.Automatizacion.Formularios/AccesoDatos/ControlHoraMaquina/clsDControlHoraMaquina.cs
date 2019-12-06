@@ -16,7 +16,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHoraMaquina
                 var control = entities.CONTROL_HORA_MAQUINA.FirstOrDefault(x => x.IdControlHoraMaquina == model.IdControlHoraMaquina || (x.OrdenFabricacion== model.OrdenFabricacion && x.EstadoRegistro ==clsAtributos.EstadoRegistroActivo));
                 if (control != null)
                 {
-
                     control.EstadoRegistro = model.EstadoRegistro;
                     control.FechaModificacionLog = DateTime.Now;
                     control.UsuarioModificacionLog = model.UsuarioIngresoLog;

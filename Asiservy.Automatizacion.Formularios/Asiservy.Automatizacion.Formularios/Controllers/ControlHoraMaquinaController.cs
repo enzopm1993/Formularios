@@ -150,7 +150,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public ActionResult ControlHoraMaquinaDetallePartial(int IdControl)
+        public ActionResult ControlHoraMaquinaDetallePartial(int IdControl, DateTime Fecha)
         {
             try
             {
@@ -166,6 +166,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDClasificador = new clsDClasificador();
                 clsDControlHoraMaquina = new clsDControlHoraMaquina();
                 ViewBag.Autoclaves = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave,0);
+                ViewBag.Fecha = Fecha;
                  var model = clsDControlHoraMaquina.ConsultaControlHoraMaquinaDetalle(IdControl);               
                 return PartialView(model);
             }

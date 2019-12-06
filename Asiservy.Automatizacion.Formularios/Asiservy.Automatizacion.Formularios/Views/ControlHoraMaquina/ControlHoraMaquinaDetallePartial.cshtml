@@ -44,7 +44,7 @@
                 }
                 else
                 {
-                    <input type="datetime-local" class="form-control" id="txtFechaInicio-@item.Codigo" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="CalculoTiempo(@item.Codigo)"/>
+                    <input type="datetime-local" class="form-control" id="txtFechaInicio-@item.Codigo" value="@ViewBag.Fecha.ToString("yyyy-MM-ddTHH:mm")" onchange="CalculoTiempo(@item.Codigo)"/>
                 }
             </td>
             <td>
@@ -54,7 +54,7 @@
                 }
                 else
                 {
-                    <input type="datetime-local" class="form-control" id="txtFechaFin-@item.Codigo" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="CalculoTiempo(@item.Codigo)"/>
+                    <input type="datetime-local" class="form-control" id="txtFechaFin-@item.Codigo" value="@ViewBag.Fecha.ToString("yyyy-MM-ddTHH:mm")" onchange="CalculoTiempo(@item.Codigo)"/>
                 }
             </td>
             <td>

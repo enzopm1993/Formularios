@@ -118,6 +118,8 @@ function CargarControlHoraMaquina() {
     } else {
         $("#txtFechaProduccion").css('borderColor', '#ced4da');
     }  
+    $("#txtFechaOrden").val($("#txtFechaProduccion").val());    
+
     if ($("#txtTurno").val() == "") {
         $("#txtTurno").css('borderColor', '#FA8072');
         return;
@@ -320,6 +322,7 @@ function Atras() {
     $("#btnAtras").prop("hidden", true);
     $("#btnNuevo").prop("hidden", false);
     $("#btnGenerar").prop("hidden", false);
+    $("#txtIdControlHoraMaquina").val('');
     CargarControlHoraMaquina();
 }
 
@@ -356,7 +359,8 @@ function CargarControlHoraMaquinaDetalle() {
         type: "GET",
         data:
         {
-            IdControl: $('#txtIdControlHoraMaquina').val()    
+            IdControl: $('#txtIdControlHoraMaquina').val(),
+            Fecha: $("#txtFechaProduccion").val()
         },
         success: function (resultado) {
             if (resultado == "101") {

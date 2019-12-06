@@ -54,11 +54,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                              && u.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                              && or.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                              && op.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                             && op.Clase=="H"
                              && op.Formulario == dsopcion select u).FirstOrDefault();
-                if (model != null)
+                if (model != null || string.IsNullOrEmpty(dsopcion))
                     return true;
                 else
-                    return true;
+                    return false;
 
 
             }
