@@ -61,7 +61,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //clsDAsistencia = new clsDAsistencia();
                 //var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, turno, Fecha);
                 clsDAsistencia = new clsDAsistencia();
-                List<spConsultaAsistenciaFinalizar> ConultaAsistenciaFinalizar = clsDAsistencia.ConsultarAsistenciaFinalizar(Fecha, CodLinea);
+                List<spConsultaAsistenciaFinalizar> ConultaAsistenciaFinalizar = clsDAsistencia.ConsultarAsistenciaFinalizar(Fecha, CodLinea,Turno);
                 return PartialView(ConultaAsistenciaFinalizar);
             }
             catch (Exception ex)
@@ -620,12 +620,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public JsonResult GuardarSalidaAsistencia(string Cedula,DateTime Fecha, TimeSpan Hora, string Tipo)
+        public JsonResult GuardarSalidaAsistencia(string Cedula,DateTime Fecha, TimeSpan Hora, string Tipo,int IdMovimiento, string Turno)
         {
             try
             {
                 clsDAsistencia = new clsDAsistencia();
-                var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula,Fecha,Hora, Tipo);
+                var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula,Fecha,Hora, Tipo, IdMovimiento,Turno);
                 return Json(resultado, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

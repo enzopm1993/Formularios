@@ -79,7 +79,7 @@ function SetearHora() {
     $('#ModalHora').modal('show');
     $('#btnhora').removeAttr('disabled');
 }
-function GuardarSalida(Fila,Cedula) {
+function GuardarSalida(Fila,Cedula,idMovimientoPersonalDiario) {
     console.log(Fila);
     var psTipo = "";
     if ($('#CheckSalida' + (parseInt(Fila)-1)).prop('checked')) {
@@ -95,7 +95,10 @@ function GuardarSalida(Fila,Cedula) {
             Cedula: Cedula,
             Fecha: $('#txtFecha').val(),
             Hora: $('#txtHorasalida' + Fila).val(),
-            Tipo: psTipo
+            Tipo: psTipo,
+            IdMovimiento: idMovimientoPersonalDiario,
+            Turno: $('#TurnoGen').val(),
+            CodLinea:$('#')
         },
         success: function (resultado) {
             
