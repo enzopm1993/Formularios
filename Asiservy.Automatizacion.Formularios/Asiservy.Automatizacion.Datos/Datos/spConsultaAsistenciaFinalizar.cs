@@ -22,6 +22,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CentroCosto { get; set; }
         public string CodCargo { get; set; }
         public string Recurso { get; set; }
+        public string Turno { get; set; }
+        public Nullable<System.DateTime> FechaFin { get; set; }
+        public Nullable<System.TimeSpan> HoraFin { get; set; }
         public string EstadoRegistro { get; set; }
     }
 }
