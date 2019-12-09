@@ -3196,6 +3196,7 @@
           <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
           <Property Type="DateTime" Name="FechaInicio" Nullable="true" />
+          <Property Type="Time" Name="HoraInicio" Nullable="true" />
           <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
@@ -4958,6 +4959,7 @@
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
                 <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
                 <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
                 <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
                 <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
