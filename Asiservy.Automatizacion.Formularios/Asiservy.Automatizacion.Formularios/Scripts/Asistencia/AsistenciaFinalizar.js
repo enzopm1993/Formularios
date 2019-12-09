@@ -98,10 +98,13 @@ function GuardarSalida(Fila,Cedula,idMovimientoPersonalDiario) {
             Tipo: psTipo,
             IdMovimiento: idMovimientoPersonalDiario,
             Turno: $('#TurnoGen').val(),
-            CodLinea:$('#')
+            CodLinea: $('#Linea').val()
         },
         success: function (resultado) {
-            
+            if (resultado == '2') {
+                $('#CheckSalida' + parseInt(Fila) + 1).prop('checked', false);
+                MensajeAdvertencia('La hora de salida no puede ser menor a la de ingreso', false);
+            }
         },
         error: function (result) {
             //Console.log(result);

@@ -620,12 +620,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public JsonResult GuardarSalidaAsistencia(string Cedula,DateTime Fecha, TimeSpan Hora, string Tipo,int IdMovimiento, string Turno)
+        public JsonResult GuardarSalidaAsistencia(string Cedula,DateTime Fecha, TimeSpan Hora, string Tipo,int IdMovimiento, string Turno, string CodLinea)
         {
             try
             {
                 clsDAsistencia = new clsDAsistencia();
-                var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula,Fecha,Hora, Tipo, IdMovimiento,Turno);
+                var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula,Fecha,Hora, Tipo, IdMovimiento,Turno,CodLinea);
                 return Json(resultado, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

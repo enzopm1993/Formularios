@@ -366,7 +366,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return ControlDeAsistenciaPrestadosViewModel;
             }
         }
-        public string GuardarAsistenciaSalida(string Cedula, DateTime Fecha, TimeSpan Hora, string Tipo, int IdMovimientoPersonalDiario, string Turno)
+        public string GuardarAsistenciaSalida(string Cedula, DateTime Fecha, TimeSpan Hora, string Tipo, int IdMovimientoPersonalDiario, string Turno, string CodLinea)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -375,15 +375,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     //MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonal = db.MOVIMIENTO_PERSONAL_DIARIO.Where(z => z.Cedula == Cedula && z.FechaInicio == Fecha && z.HoraFin == null).FirstOrDefault();
                     MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonal = db.MOVIMIENTO_PERSONAL_DIARIO.Find(IdMovimientoPersonalDiario);
                     //ASISTENCIA BuscarAsistencia = db.ASISTENCIA.Where(a => a.Cedula == Cedula && a.Fecha == Fecha).FirstOrDefault();
-                    ASISTENCIA BuscarAsistencia = db.ASISTENCIA.Where(a => a.Cedula == Cedula && a.Fecha == Fecha&&a.Turno==Turno).FirstOrDefault();
+                    ASISTENCIA BuscarAsistencia = db.ASISTENCIA.Where(a => a.Cedula == Cedula && a.Fecha == Fecha&&a.Turno==Turno && a.Linea==CodLinea).FirstOrDefault();
                     if (BuscarMovimientoPersonal != null)
                     {
-                        BuscarMovimientoPersonal.HoraFin = Hora;
-                        BuscarMovimientoPersonal.FechaFin = Fecha;
+                        //valido que la fecha y hora de finalizar asistencia ingresada por el usuario sea mayor a la fecha y hora en que inicio en la linea
+                        if (BuscarMovimientoPersonal.FechaInicio.Value.Add(BuscarMovimientoPersonal.HoraInicio.Value) < Fecha.Add(Hora))
+                        {
+                            BuscarMovimientoPersonal.HoraFin = Hora;
+                            BuscarMovimientoPersonal.FechaFin = Fecha;
+                            BuscarMovimientoPersonal.FinalizaAsistencia = true;
+                        }
+                        else
+                        {
+                            return "2";//no se puede finalizar 
+                        }
+                        
                     }
                     if (BuscarAsistencia != null)
                     {
                         BuscarAsistencia.HoraSalida = Hora;
+                        BuscarAsistencia.FechaFin = Fecha;
                     }
                 }
                 else
