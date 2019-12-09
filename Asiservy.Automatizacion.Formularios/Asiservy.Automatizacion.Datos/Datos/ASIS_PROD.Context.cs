@@ -822,7 +822,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHoraMaquinaDetalle>("spConsultaControlHoraMaquinaDetalle", idControlParameter);
         }
     
-        public virtual ObjectResult<spConsultaAsistenciaFinalizar> spConsultaAsistenciaFinalizar(Nullable<System.DateTime> fecha, string linea)
+        public virtual ObjectResult<spConsultaAsistenciaFinalizar> spConsultaAsistenciaFinalizar(Nullable<System.DateTime> fecha, string linea, string turno)
         {
             var fechaParameter = fecha.HasValue ?
                 new ObjectParameter("Fecha", fecha) :
@@ -832,7 +832,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Linea", linea) :
                 new ObjectParameter("Linea", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaAsistenciaFinalizar>("spConsultaAsistenciaFinalizar", fechaParameter, lineaParameter);
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaAsistenciaFinalizar>("spConsultaAsistenciaFinalizar", fechaParameter, lineaParameter, turnoParameter);
         }
     }
 }
