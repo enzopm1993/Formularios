@@ -1,10 +1,23 @@
 ﻿function ConsultarAsistenciaSalida(Linea) {
+    if ($('#TurnoGen').prop('selectedIndex') == 0) {
+        $('#mensajeturno').show();
+        return false;
+    } else {
+        $('#mensajeturno').hide();
+    }
+    if ($('#txtFecha').val() == '') {
+        $('#mensajefecha').show();
+        return false;
+    } else {
+        $('#mensajefecha').hide();
+    }
     $.ajax({
         //contentType: "application/json; charset=utf-8",
         url: '../Asistencia/AsistenciaFinalizarPartial',
         type: "GET",
         data: {
             CodLinea: Linea,
+            Turno: $('#TurnoGen').val(),
             Fecha: $('#txtFecha').val()
         },
         success: function (resultado) {

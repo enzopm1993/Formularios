@@ -48,7 +48,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #region Asistencia
         // GET: Asistencia
         [Authorize]
-        public ActionResult AsistenciaFinalizarPartial(string CodLinea, DateTime Fecha)
+        public ActionResult AsistenciaFinalizarPartial(string CodLinea, DateTime Fecha, string Turno)
         {
             try
             {
@@ -671,7 +671,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public JsonResult GrabarAsistenciaEmpleado(string cedula, string nombre, TimeSpan Hora, string observacion, string estado, DateTime Fecha, string CentroCostos,string Recurso, string Linea,string Cargo)
+        public JsonResult GrabarAsistenciaEmpleado(string cedula, string nombre, TimeSpan Hora, string observacion, string estado, DateTime Fecha, string CentroCostos,string Recurso, string Linea,string Cargo,string Turno)
         {
             try
             {
@@ -691,6 +691,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Recurso=Recurso,
                     Linea=Linea,
                     Cargo=Cargo,
+                    Turno=Turno,
                     EstadoRegistro=clsAtributos.EstadoRegistroActivo
                 });
                 return Json(Resultado, JsonRequestBehavior.AllowGet);
