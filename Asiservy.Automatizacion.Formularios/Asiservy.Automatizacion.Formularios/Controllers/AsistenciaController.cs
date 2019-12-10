@@ -48,7 +48,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #region Asistencia
         // GET: Asistencia
         [Authorize]
-        public ActionResult AsistenciaFinalizarPartial(string CodLinea, DateTime Fecha)
+        public ActionResult AsistenciaFinalizarPartial(string CodLinea, DateTime Fecha, string Turno)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //clsDAsistencia = new clsDAsistencia();
                 //var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, turno, Fecha);
                 clsDAsistencia = new clsDAsistencia();
-                List<spConsultaAsistenciaFinalizar> ConultaAsistenciaFinalizar = clsDAsistencia.ConsultarAsistenciaFinalizar(Fecha, CodLinea);
+                List<spConsultaAsistenciaFinalizar> ConultaAsistenciaFinalizar = clsDAsistencia.ConsultarAsistenciaFinalizar(Fecha, CodLinea,Turno);
                 return PartialView(ConultaAsistenciaFinalizar);
             }
             catch (Exception ex)
@@ -211,6 +211,54 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     ViewBag.Prestado = "false";
                 }
                     return PartialView();
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult ModalMovidosaMiLinea(DateTime Fecha, TimeSpan Hora)
+        {
+            try
+            {
+                //clsDAsistencia = new clsDAsistencia();
+                //var respuesta = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea, Fecha, Hora);
+                //if (respuesta.Count > 0)
+                //{
+                //    return Json(true, JsonRequestBehavior.AllowGet);
+                //}
+                //else
+                //{
+                //    return Json(false, JsonRequestBehavior.AllowGet);
+                //}
+                //ViewBag.Linea = CodLinea;
+                //ViewBag.bandera = bandera;
+                clsDAsistencia = new clsDAsistencia();
+                clsDEmpleado = new clsDEmpleado();
+                liststring = User.Identity.Name.Split('_');
+                string CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
+                var respuesta = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea, Fecha, Hora);
+                ViewBag.ListaEmpleadosPres = respuesta;
+                if (respuesta.Count > 0)
+                {
+                    ViewBag.Prestado = "true";
+                }
+                else
+                {
+                    ViewBag.Prestado = "false";
+                }
+                return PartialView();
             }
             catch (Exception ex)
             {
@@ -620,12 +668,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public JsonResult GuardarSalidaAsistencia(string Cedula,DateTime Fecha, TimeSpan Hora, string Tipo)
+        public JsonResult GuardarSalidaAsistencia(string Cedula,DateTime Fecha, TimeSpan Hora, string Tipo,int IdMovimiento, string Turno, string CodLinea)
         {
             try
             {
                 clsDAsistencia = new clsDAsistencia();
-                var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula,Fecha,Hora, Tipo);
+                var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula,Fecha,Hora, Tipo, IdMovimiento,Turno,CodLinea);
                 return Json(resultado, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -671,7 +719,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public JsonResult GrabarAsistenciaEmpleado(string cedula, string nombre, TimeSpan Hora, string observacion, string estado, DateTime Fecha, string CentroCostos,string Recurso, string Linea,string Cargo)
+        public JsonResult GrabarAsistenciaEmpleado(string cedula, string nombre, TimeSpan Hora, string observacion, string estado, DateTime Fecha, string CentroCostos,string Recurso, string Linea,string Cargo,string Turno)
         {
             try
             {
@@ -691,6 +739,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Recurso=Recurso,
                     Linea=Linea,
                     Cargo=Cargo,
+                    Turno=Turno,
                     EstadoRegistro=clsAtributos.EstadoRegistroActivo
                 });
                 return Json(Resultado, JsonRequestBehavior.AllowGet);

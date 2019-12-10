@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDApiProduccion clsDApiProduccion = null;
         clsDGeneral clsDGeneral = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
+        clsDLogin clsDLogin = null;
         string[] lsUsuario;
 
         #region Métodos
@@ -126,10 +127,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     string Hora;
                     string Minuto;
-                    if (tiempo1.Hours < 10)                    
-                        Hora = "0" + tiempo1.Hours;                 
+                    if (tiempo1.Hours < 10)
+                        Hora = "0" + tiempo1.Hours;
                     else
-                        Hora = tiempo1.Hours+"";
+                        Hora = tiempo1.Hours + "";
                     if (tiempo1.Minutes < 10)
                         Minuto = "0" + tiempo1.Minutes;
                     else
@@ -139,7 +140,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 ViewBag.horas = Horas;
 
-                ViewBag.Cocinas= clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoCocinas, 0);
+                ViewBag.Cocinas = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoCocinas, 0);
 
                 return View();
             }
@@ -245,9 +246,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDClasificador = new clsDClasificador();
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-                
+
                 var ListLineas = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-                ViewBag.Lineas = ListLineas;               
+                ViewBag.Lineas = ListLineas;
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -290,7 +291,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         respuesta.Mensaje = "Proyección se encuentra cerrada";
                         respuesta.Observacion = idProyeccion + "";
                     }
-                    else if (pro.IngresoPreparacion )
+                    else if (pro.IngresoPreparacion)
                     {
                         respuesta.Codigo = 2;
                         respuesta.Mensaje = "Proyección esta siendo ingresado en preparación";
@@ -302,7 +303,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         respuesta.Mensaje = "Proyección esta siendo editado por preparación";
                         respuesta.Observacion = idProyeccion + "";
                     }
-                    else if(pro.EditaProduccion)
+                    else if (pro.EditaProduccion)
                     {
                         respuesta.Codigo = 1;
                         respuesta.Observacion = idProyeccion + "";
@@ -358,7 +359,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var ListLimpiezaPescado = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoTipoLimpiezaPescado, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 ViewBag.TipoLimpieza = new SelectList(ListLimpiezaPescado, "codigo", "descripcion");
                 var ListDestinoProduccion = clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodigoGrupoDestinoProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-                var ListMareas = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoMarea,0);
+                var ListMareas = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoMarea, 0);
                 ViewBag.Marea = ListMareas;
                 ViewBag.Destino = new SelectList(ListDestinoProduccion, "codigo", "descripcion");
                 ViewBag.Especie = clsDApiProduccion.ConsultarEspecies();
@@ -375,7 +376,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                 "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return RedirectToAction("Home","Home");
+                return RedirectToAction("Home", "Home");
             }
             catch (Exception ex)
             {
@@ -388,7 +389,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        
+
         public ActionResult ProyeccionProgramacionDetallePartial(int IdProgramacion, int? proceso)
         {
             try
@@ -403,8 +404,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
-                }               
-                if(proceso!=null && proceso == 2)
+                }
+                if (proceso != null && proceso == 2)
                 {
                     ViewBag.EditaProduccion = "2";
                 }
@@ -415,7 +416,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     ViewBag.EditaPreparacion = "3";
                     ViewBag.ListadoEnfriado = ListadoPreparacion.Select(x => new { x.Talla, x.HorasDescongelado });
                     ViewBag.ListadoCoccion = ListadoPreparacion.Select(x => new { x.Talla, x.HorasCoccion });
-                   
+
 
 
                 }
@@ -441,6 +442,39 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
+        public JsonResult ValidarProyeccionProgramacionEstado(DateTime Fecha)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                RespuestaGeneral respuesta = new RespuestaGeneral();
+                clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                int Estado = clsDProyeccionProgramacion.ValidarProyeccionProgramacionEstado(Fecha);
+                return Json(Estado, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
         public JsonResult ValidarProyeccionProgramacion(DateTime Fecha)
         {
             try
@@ -856,6 +890,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
+                clsDLogin = new clsDLogin();
+                var rolCamara = clsDLogin.ValidarUsuarioRol(lsUsuario[1],clsAtributos.RolCamara);
+                if (rolCamara)
+                {
+                    ViewBag.RolCamara = rolCamara;
+                }
+
+                var rolAsistenteProduccion = clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.AsistenteProduccion);
+                if (rolAsistenteProduccion)
+                {
+                    ViewBag.rolAsistenteProduccion = rolAsistenteProduccion;
+                }
+
+
                 var modal = clsDProyeccionProgramacion.ConsultaProyeccionProgramacionReporte(Fecha);
                 return PartialView(modal);
             }

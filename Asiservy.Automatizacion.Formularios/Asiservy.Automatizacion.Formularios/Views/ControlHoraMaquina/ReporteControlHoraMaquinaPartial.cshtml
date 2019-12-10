@@ -1,0 +1,145 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.ControlHorasMaquina>
+
+<style>
+    .sorting, .sorting_asc, .sorting_desc {
+        background: none;
+    } 
+</style>
+<table class=" table-bordered table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                
+            </th>
+            <th>
+               
+            </th>
+            <th>
+               
+            </th>
+            <th>               
+
+            </th>
+            <th>
+               
+            </th>
+            <th>
+               
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ foreach (var item in Model)
+            {
+                <tr style="background-color:#bdd5f3; color:black">
+                    <td colspan="6">
+                        <b style="color:black">O.Fabricación:</b> @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                        &nbsp;
+                        &mdash;
+                        &nbsp;
+                        <b style="color:black">O.Venta:</b> @Html.DisplayFor(modelItem => item.OrdenVenta)
+                        &nbsp;
+                        &mdash;
+                        &nbsp;
+                        <b style="color:black">Cliente:</b> @Html.DisplayFor(modelItem => item.Cliente) &nbsp;
+                        &mdash;
+                        &nbsp;
+                        <b style="color:black">Producto:</b> @Html.DisplayFor(modelItem => item.Producto)
+                        &nbsp;
+                        &mdash;
+                        &nbsp;
+                        <b style="color:black">Peso:</b> @Html.DisplayFor(modelItem => item.PesoNeto) Kg
+                        &nbsp;
+                        &mdash;
+                        &nbsp;
+                        <b style="color:black">L. Negocio:</b> @Html.DisplayFor(modelItem => item.LineaNegocio)
+                        &nbsp;
+                        &mdash;
+                        &nbsp;
+                        <b style="color:black">Turno: </b>@Html.DisplayFor(modelItem => item.Turno)
+
+                    </td>
+                    <td hidden></td>
+                    <td hidden></td>
+                    <td hidden></td>
+                    <td hidden></td>
+                    <td hidden></td>
+
+                </tr>
+                <tr>
+                    <th>
+                        <label><b>Autoclave</b></label>
+                    </th>
+                    <th>
+                        <label><b>Inicio</b></label>
+                    </th>
+                    <th>
+                        <label><b>Fin</b></label>
+                    </th>
+                    <th>
+                        <label><b>Total Horas</b></label>
+                    </th>
+                    <th>
+                        <label><b>Total Coches</b></label>
+                    </th>
+                    <th>
+                        <label><b>Observación</b></label>
+                    </th>
+                </tr>
+
+                var detalle = item.CONTROL_HORA_MAQUINA_DETALLE.ToList();
+                TimeSpan TotalHoras = new TimeSpan();
+                int TotalCoches = 0;
+                int TotalAutoclaves = 0;
+                foreach (var d in detalle)
+                {
+                    <tr>
+                        <td>
+                            <label>#@d.Autoclave</label>
+                            @{ TotalAutoclaves += 1;}
+                        </td>
+                        <td>
+                            <label>@d.FechaInicio</label>
+
+                        </td>
+                        <td>
+                            <label>@d.FechaFin</label>
+
+                        </td>
+                        <td>
+                            <label>@d.TotalHoras</label>
+                            @{
+                                TotalHoras = TotalHoras + d.TotalHoras ?? new TimeSpan();
+
+                            }
+
+                        </td>
+                        <td>
+                            <label>@d.TotalCoches</label>
+                            @{
+                                TotalCoches = TotalCoches + d.TotalCoches;
+                            }
+
+                        </td>
+                        <td>
+                            <label>@d.Observacion</label>
+                        </td>
+
+                    </tr>
+                }
+                <tr>
+                    <th style="color:#3679ce">@TotalAutoclaves</th>
+                    <th></th>
+                    <th></th>
+                    @{ 
+                        //string hora = String.Format("{N}", TotalHoras.TotalHours);
+                        int numeroEntero = Convert.ToInt32(Math.Floor(TotalHoras.TotalHours));
+                    }
+                    <th style="color:#3679ce">@numeroEntero:@TotalHoras.Minutes</th>
+                    <th style="color:#3679ce">@TotalCoches</th>
+                    <th></th>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -149,3 +149,50 @@ function CambiarClave(e) {
 
 
 }
+
+
+function MostarModalColumns() {
+    var columns = $('#tblDataTable').dataTable().dataTableSettings[0].aoColumns;
+    var options = '';
+    var contador = 0;
+    $.each(columns, function (i, v) {
+        if (v.sTitle.trim() != '') {
+            var col = parseInt(i);
+            // Get the column API object
+            var column = $('#tblDataTable').DataTable().column(col);
+            // Toggle the visibility
+            if (!column.visible()) {
+                options += '<div class="col-6"><input onchange="OcultarColumnas(this.value)" type="checkbox" name="checkbox-' + i + '" id="checkbox-' + i + '" value="' + i + '" class="custom" />';
+                options += '<label for="checkbox-' + i + '">' + v.sTitle + '</label></div>';
+            } else {
+                options += '<div class="col-6"><input checked onchange="OcultarColumnas(this.value)" type="checkbox" name="checkbox-' + i + '" id="checkbox-' + i + '" value="' + i + '" class="custom" />';
+                options += '<label for="checkbox-' + i + '">' + v.sTitle + '</label></div>';
+            }
+            contador++;
+        }
+    });
+    $('#ModalBody').html('');
+    $('#ModalBody').append(options);
+    if (contador > 0) {
+        $("#ModalColumnas").modal("show");
+    } else {
+        MensajeAdvertencia("No aplica para este reporte.");
+    }
+}
+
+
+function OcultarColumnas(col) {
+    var col = parseInt(col);
+    // Get the column API object
+    var column = $('#tblDataTable').DataTable().column(col);
+    // Toggle the visibility
+    column.visible(!column.visible());
+    config.opcionesDT.scrollX = "200px";
+    config.opcionesDT.scrollY = "600px";
+   // $('#tblDataTable').DataTable().columns.adjust().draw();
+   // $('#tblDataTable').DataTable().responsive.recalc();
+    
+}
+
+
+

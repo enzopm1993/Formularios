@@ -1,15 +1,54 @@
-﻿function ConsultarAsistenciaSalida(Linea) {
+﻿function Nuevo() {
+    var now = new Date();
+
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+    $("#txtFecha").val(today);
+    $("#txtFecha").prop('disabled', false);
+    $("#TurnoGen").prop('disabled', false);
+    $("#TurnoGen").prop('selectedIndex', 0);
+    $('#PartialAsistenciaFin').empty();
+    
+}
+function ConsultarAsistenciaSalida(Linea) {
+    $("#spinnerCargando").prop("hidden", false);
+    if ($('#TurnoGen').prop('selectedIndex') == 0) {
+        $('#mensajeturno').show();
+        return false;
+    } else {
+        $('#mensajeturno').hide();
+    }
+    if ($('#txtFecha').val() == '') {
+        $('#mensajefecha').show();
+        return false;
+    } else {
+        $('#mensajefecha').hide();
+    }
+    
+    $("#txtFecha").prop('disabled', true);
+    $("#TurnoGen").prop('disabled', true);
     $.ajax({
         //contentType: "application/json; charset=utf-8",
         url: '../Asistencia/AsistenciaFinalizarPartial',
         type: "GET",
         data: {
             CodLinea: Linea,
+            Turno: $('#TurnoGen').val(),
             Fecha: $('#txtFecha').val()
         },
         success: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
             $('#PartialAsistenciaFin').empty();
             $('#PartialAsistenciaFin').html(resultado);
+            if ($('#TurnoGen').val() == 2) {
+                //console.log('show');
+                $('#divfechafin').show();
+            } else {
+                $('#divfechafin').hide();
+            }
         },
         error: function (result) {
             //Console.log(result);
@@ -66,10 +105,25 @@ function SetearHora() {
     $('#ModalHora').modal('show');
     $('#btnhora').removeAttr('disabled');
 }
-function GuardarSalida(Fila,Cedula) {
-    console.log(Fila);
+function GuardarSalida(Fila, Cedula, idMovimientoPersonalDiario) {
+  
+    //console.log(Fila);
+    if (($('#TurnoGen').val() == 2) && ($('#txtFechaFin').val() == '')) {
+        $('#mensajefechafin').show();
+        $('#CheckSalida-' + (parseInt(Fila) + 1)).prop('checked', false);
+        $('#txtFechaFin').focus();
+        return false;
+    } else {
+        $('#mensajefechafin').hide();
+    }
+    var FechaFinalizacion;
+    if (($('#TurnoGen').val() == 2)) {
+        FechaFinalizacion = $('#txtFechaFin').val();
+    } else {
+        FechaFinalizacion = $('#txtFecha').val();
+    }
     var psTipo = "";
-    if ($('#CheckSalida' + (parseInt(Fila)-1)).prop('checked')) {
+    if ($('#CheckSalida-' + (parseInt(Fila)+1)).prop('checked')) {
         psTipo = "MarcarSalida";
     } else {
         psTipo = "DesmarcarSalida";
@@ -80,16 +134,24 @@ function GuardarSalida(Fila,Cedula) {
         type: "POST",
         data: {
             Cedula: Cedula,
-            Fecha: $('#txtFecha').val(),
+            Fecha: FechaFinalizacion,
             Hora: $('#txtHorasalida' + Fila).val(),
-            Tipo: psTipo
+            Tipo: psTipo,
+            IdMovimiento: idMovimientoPersonalDiario,
+            Turno: $('#TurnoGen').val(),
+            CodLinea: $('#Linea').val()
         },
         success: function (resultado) {
             
+            if (resultado == '2') {
+                
+                MensajeAdvertencia('La hora de salida no puede ser menor a la de ingreso', false);
+                $('#CheckSalida-' + (parseInt(Fila) + 1)).prop('checked', false);
+            }
         },
         error: function (result) {
             //Console.log(result);
-            $('#CheckSalida' + parseInt(Fila) + 1).prop('checked', false);
+            $('#CheckSalida-' + parseInt(Fila) + 1).prop('checked', false);
             MensajeError(result, false);
 
         }

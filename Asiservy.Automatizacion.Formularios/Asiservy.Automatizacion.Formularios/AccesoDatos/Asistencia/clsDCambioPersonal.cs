@@ -184,12 +184,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                 FechaIngresada = item.HoraInicio == null ? item.Fecha : item.Fecha.Value.Add(item.HoraInicio.Value);
                                 //busco si la persona esta en CAMBIO_PERSONAL con Vigente false(osea que ya ha sido regresado)
                                 BuscarPerCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula && !x.Vigente.Value).OrderByDescending(z=>z.IdCambioPersonal).FirstOrDefault();
-                                if (FechaIngresada <= BuscarPerCambioPersonal.FechaFin.Value.Add(BuscarPerCambioPersonal.Horafin.Value))
+                                if (BuscarPerCambioPersonal != null)
                                 {
-                                    pListCambioPersonal.Remove(item);
-                                    NoSePudieornMover.Add(item.Cedula + ": No se puede mover, por que ya habia sido movido en una fecha menor a la indicada");
+                                    if (FechaIngresada <= BuscarPerCambioPersonal.FechaFin.Value.Add(BuscarPerCambioPersonal.Horafin.Value))
+                                    {
+                                        pListCambioPersonal.Remove(item);
+                                        NoSePudieornMover.Add(item.Cedula + ": No se puede mover, por que ya habia sido movido en una fecha menor a la indicada");
 
+                                    }
                                 }
+                                
                                 if (item.HoraInicio == null)//si la hora ingresada es "Inicio Jornada(null)", entonces busco si esa persona no tiene estado presente de asistencia
                                 {
                                     BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula == item.Cedula && x.FechaInicio == psfecha&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo /*&& x.Asistencia.Value*/).OrderByDescending(x => x.IdCambioPersonal).FirstOrDefault();//busco el registro en movimiento_personal_diario
@@ -201,8 +205,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                 }
                                 else//significa que el usuario si ingreso una hora para mover al empleado
                                 {
+                                    //BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula == item.Cedula && x.FechaInicio == psfecha
+                                    //                                                                     && x.Asistencia.Value).FirstOrDefault();
                                     BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula == item.Cedula && x.FechaInicio == psfecha
-                                                                                                         && x.Asistencia.Value).FirstOrDefault();
+                                                                                                         ).OrderByDescending(x=>x.IdCambioPersonal).FirstOrDefault();
                                     //Si la hora ingresada es menor a la hora de la asistencia(presente) de ese empleado entonces no se lo puede mover a otra línea
                                     if (BuscarMovimientoPersonalDiario != null)
                                     {
@@ -215,9 +221,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                         else
                                         {
                                             BuscarMovimientoPersonalDiario.HoraFin = psHora;
+                                            BuscarMovimientoPersonalDiario.FechaFin = psfecha;
                                             BuscarMovimientoPersonalDiario.TerminalModificacionLog = psterminal;
                                             BuscarMovimientoPersonalDiario.FechaModificacionLog = DateTime.Now;
                                             BuscarMovimientoPersonalDiario.UsuarioModificacionLog = psusuario;
+
+                                            db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO { Cedula=item.Cedula,CodLinea=psLinea,CentroCosto=psCentroCosto,
+                                            CodCargo=psCargo,Recurso=psRecurso,FechaInicio=psfecha,HoraInicio=psHora,EstadoRegistro=clsAtributos.EstadoRegistroActivo,
+                                            FechaIngresoLog=DateTime.Now,UsuarioIngresoLog=psusuario,TerminalIngresoLog=psusuario, Asistencia=false});
                                             db.SaveChanges();
 
                                         }
@@ -232,7 +243,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         db.SaveChanges();
                         transaction.Commit();
                         if (NoSePudieornMover.Count > 0)
-                        {
+                        {           
                             string Mensaje = string.Empty;
                             foreach (var item in NoSePudieornMover)
                             {
@@ -271,11 +282,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         }
                         //verifica si esta en movimiento: personal: diario
                         MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonalDiario;
+                        clsDEmpleado ClsdEmpleado = new clsDEmpleado();
+                        spConsultaEspecificaEmpleadosxCedula BuscarEmpleadoDataL;
                         //List<MOVIMIENTO_PERSONAL_DIARIO> ListMovimientopersonalDiario = new List<MOVIMIENTO_PERSONAL_DIARIO>();
                         foreach (var item in listCedulas.ToArray())
                         {
                             BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula == item && x.FechaInicio == psfecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo /*&& !x.Asistencia.Value*/).OrderByDescending(x => x.IdCambioPersonal).FirstOrDefault();
-
+                            BuscarEmpleadoDataL = ClsdEmpleado.ConsultarEmpleadoxCedula(item);
                             if (BuscarMovimientoPersonalDiario != null)
                             {
                                 //modifico el registro de asistencia, lo actualizo con fecha y hora fin
@@ -288,10 +301,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                 db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO
                                 {
                                     Cedula = item,
-                                    CodLinea = BuscarMovimientoPersonalDiario.CodLinea,//le pongo la linea, recurso, cargo y centro de costo del registro que encontro en Movimiento personal por que esta regresando a donde pertenecia
-                                    CentroCosto = BuscarMovimientoPersonalDiario.CentroCosto,
-                                    CodCargo = BuscarMovimientoPersonalDiario.CodCargo,
-                                    Recurso = BuscarMovimientoPersonalDiario.Recurso,
+                                    CodLinea = BuscarEmpleadoDataL.LINEA,//le pongo la linea, recurso, cargo y centro de costo del registro que encontro en Movimiento personal por que esta regresando a donde pertenecia
+                                    CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS,
+                                    CodCargo = BuscarEmpleadoDataL.CARGO,
+                                    Recurso = BuscarEmpleadoDataL.RECURSO,
                                     FechaInicio = psfecha,
                                     HoraInicio = psHora,
                                     EstadoRegistro = clsAtributos.EstadoRegistroActivo,

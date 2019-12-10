@@ -403,7 +403,8 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                 CentroCostos: CentroCostos,
                 Recurso: Recurso,
                 Linea: Linea,
-                Cargo: Cargo
+                Cargo: Cargo,
+                Turno:$('#TurnoGen').val()
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);

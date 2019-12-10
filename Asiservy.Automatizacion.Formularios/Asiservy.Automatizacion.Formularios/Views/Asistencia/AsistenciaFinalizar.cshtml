@@ -4,26 +4,65 @@
 }
 <style>
     input, select, textarea {
-         max-width: 100%; 
+        max-width: 100%;
     }
 </style>
 <h4>Asistencia Salida</h4>
 @ViewBag.Linea
+<input type="hidden" id="Linea" value="@ViewBag.Linea" />
 <div class="row">
+    <div class="col-md-4 col-sm-4">
+        <div class="form-group">
+            <label>Turno:</label>
+            <select name="TurnoGen" id="TurnoGen" class="form-control" @*onchange="ConsultarSiExisteAsistencia();"*@>
+                <option selected>Seleccione</option>
+                <option value="1">Turno 1</option>
+                <option value="2">Turno 2</option>
+
+            </select>
+            <label id="mensajeturno" class="text-danger" style="display:none">Debe seleccionar un turno</label>
+        </div>
+    </div>
     <div class="col-md-4 col-sm-4">
         <div class="form-group">
             <label>Fecha:</label>
             @{
                 var fechaactual = DateTime.Now.ToString("yyyy-MM-dd");
             }
-            <div class="input-group">
+
+            <div class="form-group">
                 @Html.TextBox("txtFecha", fechaactual, new { type = "date", @class = "form-control" })
-                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn btn-sm" id="ConsultaAsistencia" onclick="ConsultarAsistenciaSalida('@ViewBag.CodLinea')" style="border-color:#2c3e50" type="button">
-                    <img style="width:80%; height:80%" src="~/Content/icons/ver24.png" />
-                </button>
+                @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn btn-sm" id="ConsultaAsistencia" onclick="ConsultarAsistenciaSalida('@ViewBag.CodLinea')" style="border-color:#2c3e50" type="button">
+                        <img style="width:80%; height:80%" src="~/Content/icons/ver24.png" />
+                    </button>*@
             </div>
             <label id="mensajefecha" class="text-danger" style="display:none">Debe ingresar una fecha </label>
         </div>
+    </div>
+
+</div>
+<div class="row">
+
+    <div class="col-12 text-center">
+
+        <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="ConsultaAsistencia" onclick="ConsultarAsistenciaSalida('@ViewBag.CodLinea')" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/ver24.png" />
+        </button>
+        <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="Limpiar" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/clear24.png" />
+        </button>
+
+        @*<center>
+                <input type="button" id="ConsultaAsistencia" value="Consultar" class="btn btn-primary" onclick="ConsultarSiExisteAsistencia();" />
+                <input type="button" id="Limpiar" value="Limpiar" class="btn btn-info" onclick="Nuevo();" />
+            </center>*@
+    </div>
+
+</div>
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
     </div>
 </div>
 <div id="PartialAsistenciaFin">

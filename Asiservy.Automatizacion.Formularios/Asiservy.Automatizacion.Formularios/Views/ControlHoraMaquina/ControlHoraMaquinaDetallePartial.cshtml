@@ -1,10 +1,10 @@
 ﻿
 @model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlHoraMaquinaDetalle>
-
-<table class="table-bordered table" style="cursor: pointer" id="tblDataTable">
+@using Newtonsoft.Json;
+<table class="table-bordered table-hover table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
-             <th>
+            <th>
                 @Html.DisplayNameFor(model => model.Autoclave)
             </th>
             <th>
@@ -22,86 +22,65 @@
             <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
-            <th>Acción</th>
+
         </tr>
     </thead>
     <tbody>
         @{
-            if (ViewBag.Autoclaves != null)
+            TimeSpan TotalHoras = new TimeSpan();
+            int TotalCoches = 0;
+            int TotalAutoclaves = 0;
+            foreach (var item in Model)
             {
-                foreach (var item in ViewBag.Autoclaves)
-                {
-                    var m = Model.FirstOrDefault(x => x.Autoclave == int.Parse(item.Codigo));
-                    string auto = item.Codigo;
-        <tr>           
-            <td>
-                <input type="text" class="form-control" style="width:80px" readonly name="name" value="@item.Codigo" />
-            </td>
-            <td>
-                @if (m != null)
-                {
-                    <input disabled type="datetime-local" class="form-control" id="txtFechaInicio-@item.Codigo" value="@m.FechaInicio.Value.ToString("yyyy-MM-ddTHH:mm")" onchange="CalculoTiempo(@item.Codigo)" />
-                }
-                else
-                {
-                    <input type="datetime-local" class="form-control" id="txtFechaInicio-@item.Codigo" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="CalculoTiempo(@item.Codigo)"/>
-                }
-            </td>
-            <td>
-                @if (m != null)
-                {
-                    <input disabled type="datetime-local" class="form-control" id="txtFechaFin-@item.Codigo" value="@m.FechaFin.Value.ToString("yyyy-MM-ddTHH:mm")"onchange="CalculoTiempo(@item.Codigo)" />
-                }
-                else
-                {
-                    <input type="datetime-local" class="form-control" id="txtFechaFin-@item.Codigo" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="CalculoTiempo(@item.Codigo)"/>
-                }
-            </td>
-            <td>
-                @if (m != null)
-                {
-                    <input disabled type="text" class="form-control" id="txtTotalHoras-@item.Codigo" value="@m.TotalHoras" />
-                }
-                else
-                {
-                    <input disabled type="text" class="form-control" id="txtTotalHoras-@item.Codigo" value="00:00" />
-                }
-            </td>
-            <td>
-                @if (m != null)
-                {
-                    <input disabled type="number" min="0" class="form-control" id="txtTotalCoche-@item.Codigo" value="@m.TotalCoches" />
-                }
-                else
-                {
-                    <input type="number" min="0" class="form-control" id="txtTotalCoche-@item.Codigo" value="0" />
-                }
+                string json = JsonConvert.SerializeObject(item);
+                <tr onclick="SeleccionarControlDetalle(@json)">
+                    <td>
+                        #@Html.DisplayFor(modelItem => item.Autoclave)
+                        @{ TotalAutoclaves += 1;}
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaInicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaFin)
 
-            </td>
-            <td>
-                @if (m != null)
-                {
-                    <input disabled type="text" maxlength="100" class="form-control" id="txtObservacion-@item.Codigo" value="@m.Observacion" />
-                }
-                else
-                {
-                    <input type="text" maxlength="100" class="form-control" id="txtObservacion-@item.Codigo" value="" />
-                }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalHoras)
+                        @{
+                            TotalHoras = TotalHoras + item.TotalHoras ?? new TimeSpan();
 
-            </td>
-            <td>
-                <div class="col-xs-2 text-xs-center">
-                    <div class="custom-control custom-switch">                       
-                        @Html.CheckBox("HoraMaquina" + auto, m!=null, new { @onchange = "check(this.id,'" + auto + "')", @class = "custom-control-input" })
-                        <label class="custom-control-label" for=@("HoraMaquina" + auto) id="LabelFecha"></label>
-                    </div>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalCoches)
 
-                </div>
-            </td>
+                        @{
+                            TotalCoches = TotalCoches + item.TotalCoches;
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Observacion)
 
-        </tr>
-                }
+                    </td>
+
+                </tr>
             }
+
         }
     </tbody>
+    <thead>
+        <tr>
+            <th style="color:#3679ce">@TotalAutoclaves</th>
+            <th></th>
+            <th></th>
+            @{
+                //string hora = String.Format("{N}", TotalHoras.TotalHours);
+                int numeroEntero = Convert.ToInt32(Math.Floor(TotalHoras.TotalHours));
+            }
+            <th style="color:#3679ce">@numeroEntero:@TotalHoras.Minutes</th>
+            <th style="color:#3679ce">@TotalCoches</th>
+            <th></th>
+        </tr>
+    </thead>
 </table>

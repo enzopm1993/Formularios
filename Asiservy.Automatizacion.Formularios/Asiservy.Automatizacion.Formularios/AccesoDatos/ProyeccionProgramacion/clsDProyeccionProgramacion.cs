@@ -132,6 +132,28 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
         }
 
 
+        public int ValidarProyeccionProgramacionEstado(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (proyeccion != null)
+                {
+                    if (proyeccion.IngresoPreparacion) { return 1; }
+                    else if (proyeccion.EditaProduccion) { return 2; }
+                    else if (proyeccion.EditarPreparacion) { return 3; }
+                    else if (proyeccion.Finaliza) { return 5; }
+                    else return 4;
+
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+
         public int GenerarProyeccionProgramacion(PROYECCION_PROGRAMACION model)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -257,6 +279,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
             }
 
         }
+
+       // public int 
 
         public void InactivarProyeccionProgramacion (PROYECCION_PROGRAMACION model)
         {
