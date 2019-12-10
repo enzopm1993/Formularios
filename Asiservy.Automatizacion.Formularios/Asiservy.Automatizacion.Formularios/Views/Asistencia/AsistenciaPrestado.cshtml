@@ -59,12 +59,21 @@
             <span class="sr-only">Cargando...</span>
         </div>
     </div>
-    <div  class="text-center">
+    <div class="text-center">
         <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiariaMovidos('@ViewBag.CodLinea','0')" style="border-color:#2c3e50; display:none" type="button">
             <img style="width:25px" src="~/Content/icons/tuerca32.png" /> Generar Asistencia
         </button>
         @*<center><input type="button" value="Generar Asistencia" class="btn btn-outline-info" id="GenerarAsistencia" onclick="GenerarAsistenciaDiaria('@ViewBag.CodLinea','0');" style="display:none" /></center>*@
 
+    </div>
+    <div class="row">
+        <div class="text-center col-md-12 col-sm-12">
+            @{
+                string HoraAsis = DateTime.Now.ToString("HH:mm");
+            }
+            <br />
+            <input type="time" value="@HoraAsis" id="horaservidor" style="display:none" class="" />
+        </div>
     </div>
     @*}
         else

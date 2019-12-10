@@ -2962,6 +2962,7 @@
     <Content Include="Views\ControlHoraMaquina\ControlHoraMaquinaDetallePartial.cshtml" />
     <Content Include="Views\ControlHoraMaquina\ReporteControlHoraMaquina.cshtml" />
     <Content Include="Views\ControlHoraMaquina\ReporteControlHoraMaquinaPartial.cshtml" />
+    <Content Include="Views\Asistencia\ModalMovidosaMiLinea.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
