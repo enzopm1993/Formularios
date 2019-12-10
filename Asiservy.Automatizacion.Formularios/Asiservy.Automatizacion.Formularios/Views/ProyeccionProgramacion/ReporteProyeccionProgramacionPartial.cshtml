@@ -11,102 +11,113 @@
     <thead>
         <tr>
             <th>
-                <label></label>
+
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Lote)
             </th>
             <th>
-                <label>Barco</label>
+               Barco
             </th>
             <th>
-                <label>Marea</label>
+               Marea
             </th>
             <th>
-                <label>Orden</label>
+               Orden
             </th>
             <th>
-                <label>Kilos</label>
+               Kilos
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Lineas)
-            </th>
-            <th>
-                <label>Proceso Inicio</label>
-            </th>
-            <th>
-                <label>Proceso Fin</label>
-
-            </th>
+            @if (ViewBag.RolCamara == null)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Lineas)
+                </th>
+                <th>
+                    Proceso Inicio
+                </th>
+                <th>
+                    Proceso Fin
+                </th>
+            }
             <th>
                 @Html.DisplayNameFor(model => model.Destino)
             </th>
-
-            <th>
-                <label>Limpieza</label>
-            </th>
+            @if (ViewBag.RolCamara == null)
+            {
+                <th>
+                    Limpieza
+                </th>
+            }
             <th>
                 @Html.DisplayNameFor(model => model.Especie)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Talla)
             </th>
+            @if (ViewBag.RolCamara == null)
+            {
+                <th>
+                    Temperatura
+                </th>
+                <th>
+                    Cooción Inicio
+                </th>
+                <th>
+                    Cooción Fin
+
+                </th>
+                <th>
+                   Coches
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cocina)
+                </th>
+                <th>
+                   Evicerado Inicio
+
+                </th>
+                <th>
+                    Evicerado Fin
+
+                </th>
+            }
             <th>
-                <label>Temperatura</label>
-            </th>
-            <th>
-                <label>Cooción Inicio</label>
-            </th>
-            <th>
-                <label>Cooción Fin</label>
+                Descongelado Inicio
 
             </th>
             <th>
-                <label>Coches</label>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cocina)
-            </th>
-            <th>
-                <label>Evicerado Inicio</label>
-
-            </th>
-            <th>
-                <label>Evicerado Fin</label>
-
-            </th>
-            <th>
-                <label>Descongelado Inicio</label>
-
-            </th>
-            <th>
-                <label>Descongelado Fin</label>
+                Descongelado Fin
             </th>
 
             <th>
                 @Html.DisplayNameFor(model => model.Requerimiento)
             </th>
             <th>
-                <label>Receta</label>
+                Receta
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
-            <th>
-                <label>Fecha Ingreso</label>
-            </th>
-            <th>
-                <label>Usario Ingreso</label>
-            </th>
-            <th>
-                <label>Fecha Modificacion</label>
-            </th>
-            <th>
-                <label>Usuario Modificacion</label>
-            </th>
 
+            
+            @if (ViewBag.rolAsistenteProduccion != null)
+            {
+                <th>
+                    Fecha Ingreso
+                </th>
+                <th>
+                  Usario Ingreso
+                </th>
+                <th>
+                    Fecha Modificacion
+                </th>
+                <th>
+                   Usuario Modificacion
+                </th>
+            }
 
-        </tr>
+            </tr>
     </thead>
     <tbody>
         @{ 
@@ -142,72 +153,79 @@
                     totalKilos = totalKilos + item.Toneladas ?? 0;
                 }
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lineas)
-            </td>
-            <td>
+            @if (ViewBag.RolCamara == null)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lineas)
+                </td>
+                <td>
 
-                @Html.DisplayFor(modelItem => item.HoraProcesoInicio)
-            </td>
-            <td>
+                    @Html.DisplayFor(modelItem => item.HoraProcesoInicio)
+                </td>
+                <td>
 
-                @Html.DisplayFor(modelItem => item.HoraProcesoFin)
+                    @Html.DisplayFor(modelItem => item.HoraProcesoFin)
 
-            </td>
-
+                </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.Destino)
             </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoLimpieza)
-            </td>
+            @if (ViewBag.RolCamara == null)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoLimpieza)
+                </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.Especie)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Talla)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TemperaturaFinal)
-            </td>
-            <td>
-                @{
-                    string HoraCoccionInicio = item.HoraCoccionInicio != null ? item.HoraCoccionInicio.Value.ToString("HH:mm") : "";
-                }
-                <label>@HoraCoccionInicio</label>
-            </td>
+            @if (ViewBag.RolCamara == null)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.TemperaturaFinal)
+                </td>
+                <td>
+                    @{
+                        string HoraCoccionInicio = item.HoraCoccionInicio != null ? item.HoraCoccionInicio.Value.ToString("HH:mm") : "";
+                    }
+                    <label>@HoraCoccionInicio</label>
+                </td>
 
-            <td>
-                @{
-                    string HoraCoccionFin = item.HoraCoccionFin != null ? item.HoraCoccionFin.Value.ToString("HH:mm") : "";
-                }
-                <label>@HoraCoccionFin</label>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalCoches)
-                @{
-                    totalCoches = totalCoches + (item.TotalCoches ?? 0);
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cocina)
-            </td>
-            <td>
+                <td>
+                    @{
+                        string HoraCoccionFin = item.HoraCoccionFin != null ? item.HoraCoccionFin.Value.ToString("HH:mm") : "";
+                    }
+                    <label>@HoraCoccionFin</label>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalCoches)
+                    @{
+                        totalCoches = totalCoches + (item.TotalCoches ?? 0);
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cocina)
+                </td>
+                <td>
 
-                @{
-                    string HoraEviceradoInicio = item.HoraEviceradoInicio != null ? item.HoraEviceradoInicio.Value.ToString("HH:mm") : "";
-                }
-                <label>@HoraEviceradoInicio</label>
-            </td>
-            <td>
+                    @{
+                        string HoraEviceradoInicio = item.HoraEviceradoInicio != null ? item.HoraEviceradoInicio.Value.ToString("HH:mm") : "";
+                    }
+                    <label>@HoraEviceradoInicio</label>
+                </td>
+                <td>
 
 
-                @{
-                    string HoraEviceradoFin = item.HoraEviceradoFin != null ? item.HoraEviceradoFin.Value.ToString("HH:mm") : "";
-                }
-                <label>@HoraEviceradoFin</label>
-            </td>
+                    @{
+                        string HoraEviceradoFin = item.HoraEviceradoFin != null ? item.HoraEviceradoFin.Value.ToString("HH:mm") : "";
+                    }
+                    <label>@HoraEviceradoFin</label>
+                </td>
+            }
             <td>
 
                 @{
@@ -233,21 +251,25 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Observacion)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaIngresoLog)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaModificacionLog)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
-            </td>
-        </tr>
-            i++;
-        }
+            @if (ViewBag.rolAsistenteProduccion != null)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+                </td>
+            }
+            </tr>
+                
+                i++;
+            }
       
     </tbody>
     <tfoot>
@@ -258,31 +280,43 @@
             <td></td>
             <td></td>
             <td><b> @totalKilos KG</b></td>
+            @if (ViewBag.RolCamara == null)
+            {
+                <td></td>
+                <td></td>
+                <td></td>
+            }
+            <td></td>
+            @if (ViewBag.RolCamara == null)
+            {
+                <td></td>
+            }
+            <td></td>
+            <td></td>
+            @if (ViewBag.RolCamara == null)
+            {
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><b>@totalCoches</b></td>
+                <td></td>
+                <td></td>
+            }
             <td></td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><b>@totalCoches</b></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+           
+            @if (ViewBag.rolAsistenteProduccion != null)
+            {
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            }
 
-        </tr>
+            </tr>
 
     </tfoot>
 </table>

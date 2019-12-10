@@ -149,8 +149,8 @@
                                     <img class="img-profile rounded-circle" src="~/Content/admin/img/user.png">
                                 </a>
                                 <!-- Dropdown - User Information -->
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">                                   
-                                    <a class="dropdown-item" onclick="CambioClave()"  href="#">
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" onclick="CambioClave()" href="#">
                                         <i class="fas fa-key  fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Cambio de Clave
                                     </a>
@@ -283,6 +283,31 @@
             </div>
         </div>
     </div>
+
+
+    @* MODAL DE AJUSTAR COLUMNAS DEL DATATABLE *@
+    <div class="modal" id="ModalColumnas" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Columnas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="">
+                    <div class="row" id="ModalBody">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="~/Content/admin/vendor/jquery/jquery.min.js"></script>
     <script src="~/Content/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -403,6 +428,10 @@
                         extend: 'print',
                         text: '<img style="width:100%" src="../../Content/icons/print24.png" />',
                         titleAttr: 'Imprimir'
+                    },
+                    {                      
+                        text: '<img id="imgBtnColumnas" onclick="MostarModalColumns()" style="width:100%" src="../../Content/icons/justificar24.png" />',
+                        titleAttr: 'Ajustar Columnas'
                     }
                 ]
             }
