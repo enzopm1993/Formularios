@@ -32,6 +32,8 @@ function CargarReporte() {
             config.opcionesDT.order = false;
             config.opcionesDT.ordering = false;
             config.opcionesDT.paging = false;
+            //config.opcionesDT.scrollX = "200px";
+            config.opcionesDT.scrollY = "400px";
             $('#tblDataTable').DataTable(config.opcionesDT);
 
         },

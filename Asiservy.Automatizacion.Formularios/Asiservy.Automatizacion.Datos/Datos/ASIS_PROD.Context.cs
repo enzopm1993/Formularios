@@ -268,19 +268,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", fechaParameter);
         }
     
-        public virtual ObjectResult<spConsultarCambioPersonalxLineaxTurno> spConsultarCambioPersonalxLineaxTurno(string linea, string turno)
-        {
-            var lineaParameter = linea != null ?
-                new ObjectParameter("Linea", linea) :
-                new ObjectParameter("Linea", typeof(string));
-    
-            var turnoParameter = turno != null ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarCambioPersonalxLineaxTurno>("spConsultarCambioPersonalxLineaxTurno", lineaParameter, turnoParameter);
-        }
-    
         public virtual ObjectResult<spConsultaControlHuesoDetalle> spConsultaControlHuesoDetalle(Nullable<int> idControlHueso)
         {
             var idControlHuesoParameter = idControlHueso.HasValue ?
@@ -854,6 +841,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Hora", typeof(System.TimeSpan));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalMovidoaLinea>("spConsultaPersonalMovidoaLinea", lINEAParameter, fechaParameter, horaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultarCambioPersonalxLineaxTurno> spConsultarCambioPersonalxLineaxTurno(string linea, string turno, Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarCambioPersonalxLineaxTurno>("spConsultarCambioPersonalxLineaxTurno", lineaParameter, turnoParameter, fechaParameter, horaParameter);
         }
     }
 }
