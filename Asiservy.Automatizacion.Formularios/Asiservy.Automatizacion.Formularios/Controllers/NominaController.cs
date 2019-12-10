@@ -1,5 +1,6 @@
 ﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.App;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -45,7 +46,38 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home", "Home");
             }
         }
+        public ActionResult Asistencia()
+        {
+            try
+            {
+                ViewBag.Apexcharts = "1";
+                ViewBag.Handsontable = "1";
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
+                ModeloVistaAsistencia dataView = new ModeloVistaAsistencia();
+
+                var client = new RestClient(clsAtributos.BASE_URL_WS);
+                string URL = "/api/Nomina/Empresas/";
+                
+                var request = new RestRequest(URL, Method.GET);
+                IRestResponse response = client.Execute(request);
+                var content = response.Content;
+                var datos = JsonConvert.DeserializeObject<List<ClsKeyValue>>(content);
+
+                dataView.ListaEmpresas = datos;
+                return View(dataView);
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
 
         public ActionResult Certificados()
         {
@@ -164,6 +196,73 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return Json(datos, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult GenerarAsistencial(ParamAsistencia parametros)
+        {
+            try
+            {
+                var client = new RestClient(clsAtributos.BASE_URL_WS);
+                string URL = "/api/Nomina/AsistenciaGeneral/" + parametros.fechaIni + "/" + parametros.fechaFin + "/" + parametros.empresa;
+                if (!string.IsNullOrEmpty(parametros.cedula))
+                {
+                    URL = URL + "/" + parametros.cedula;
+                }
+                var request = new RestRequest(URL, Method.GET);
+                IRestResponse response = client.Execute(request);
+                var content = response.Content;
+                var datos = JsonConvert.DeserializeObject<List<ClsRegistroAsistencia>>(content);
+
+
+
+               var resultGeneros = datos
+                    .GroupBy(x => x.GENERO)
+                    .Select(g => new ClsKpiGenero
+                    {
+                        Genero = g.Key,
+                        Presentes = g.Sum(x => x.PRESENTE  ? 1 : 0),
+                        Ausentes = g.Sum(x => (x.AUSENTE && x.DIA_ESPECIAL) ? 1 : 0),
+                        AusentesConPermiso = g.Sum(x => x.AUSENTE && x.DIA_ESPECIAL && x.CON_PERMISO ? 1 : 0),
+                        AusentesSinPermiso = g.Sum(x => x.AUSENTE && x.DIA_ESPECIAL && !x.CON_PERMISO ? 1 : 0),
+
+                    }).ToList();
+
+                var resultPermisos = datos.Where(c => c.CON_PERMISO )
+                    .GroupBy(x => x.NOVEDAD)                           
+                    .Select(g => new ClsKpiDescripcionTotal
+                    {
+                        Descripcion = g.Key,
+                        Total = g.Sum(x => x.CON_PERMISO ? 1 : 0)
+
+                    }).OrderByDescending(c=>c.Total).ToList();
+
+                var resultDiasAusentismo = datos.Where(c => c.AUSENTE && c.DIA_ESPECIAL )
+                    .GroupBy(x => x.DIA)
+                    .Select(g => new ClsKpiDescripcionTotal
+                    {
+                        Descripcion = g.Key,
+                        Total = g.Count()
+
+                    }).ToList();
+
+
+                ModeloVistaRptAsistencia resultadoJS = new ModeloVistaRptAsistencia();
+
+                resultadoJS.dataGeneral = datos;
+                resultadoJS.TotalGeneros = resultGeneros;
+                resultadoJS.TotalPermisos = resultPermisos;
+                resultadoJS.TotalDias = resultDiasAusentismo;
+
+                JsonResult result = Json(resultadoJS, JsonRequestBehavior.AllowGet);
+                result.MaxJsonLength = 50000000;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return Json(ex, JsonRequestBehavior.AllowGet);
+            }
+
+           
+        }
 
         public ActionResult ListaEmpleadosPartial()
         {
@@ -236,5 +335,47 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public string correoPersonal { get; set; }
         public int id_solicitud { get; set; }
         public string username { get; set; }
+    }
+    public class ParamAsistencia
+    {
+        public string fechaIni { get; set; }
+        public string fechaFin { get; set; }
+        public string empresa { get; set; }
+        public string cedula { get; set; }
+    }
+    public class ClsRegistroAsistencia
+    {
+        public string DIA { get; set; }
+        public string NOMBRE_DIA { get; set; }
+        public int NUMERO_DIA { get; set; }
+        public string EMPRESA { get; set; }
+        public string CEDULA { get; set; }
+        public string CODIGO { get; set; }
+        public string ESTADO_EMPLEADO { get; set; }
+        public string GENERO_CODIGO { get; set; }
+        public string GENERO { get; set; }
+        public string NOMBRES { get; set; }
+        public string TIPO_ROL { get; set; }
+        public string AREA { get; set; }
+        public string CARGO { get; set; }
+        public string LINEA { get; set; }
+        public string RECURSO { get; set; }
+        public string INGRESO { get; set; }
+        public string ALMUERZO { get; set; }
+        public string CENA { get; set; }
+        public string SALIDA { get; set; }
+        public bool DIA_FERIADO { get; set; }
+        public string DESC_DIA_FERIADO { get; set; }
+        public bool DIA_ESPECIAL { get; set; }
+        public string DESC_MODALIDAD { get; set; }
+        public bool PRESENTE { get; set; }
+        public bool AUSENTE { get; set; }
+        public bool CON_PERMISO { get; set; }
+        public string NOVEDAD { get; set; }
+        public string OBSERVACION { get; set; }
+        public string DIA_INICIA_PERMISO { get; set; }
+        public string DIA_FIN_PERMISO { get; set; }
+        public string HORA_INICIA_PERMISO { get; set; }
+        public string HORA_FIN_PERMISO { get; set; }
     }
 }

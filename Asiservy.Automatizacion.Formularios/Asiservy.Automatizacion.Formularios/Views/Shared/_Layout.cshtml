@@ -149,8 +149,8 @@
                                     <img class="img-profile rounded-circle" src="~/Content/admin/img/user.png">
                                 </a>
                                 <!-- Dropdown - User Information -->
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">                                   
-                                    <a class="dropdown-item" onclick="CambioClave()"  href="#">
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" onclick="CambioClave()" href="#">
                                         <i class="fas fa-key  fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Cambio de Clave
                                     </a>
@@ -450,6 +450,19 @@
     {
         <link href="~/Content/DateRangePicker/daterangepicker.css" rel="stylesheet" />
         <script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+    }
+
+    @if (ViewBag.Handsontable == "1")
+    {
+        <link rel="stylesheet" media="screen" href="~/Scripts/Handsontable/dist/handsontable.full.min.css" />
+        <script src="~/Scripts/Handsontable/dist/handsontable.full.min.js"></script>
+        <script src="~/Scripts/Handsontable/dist/languages/es-MX.js"></script>
+    }
+
+    @if (ViewBag.Apexcharts == "1")
+    {
+        <script src="~/Scripts/Apexcharts/dist/apexcharts.min.js"></script>
+        <link rel="stylesheet" media="screen" href="~/Scripts/Apexcharts/dist/apexcharts.css" />
     }
 
     @if (ViewBag.JavaScrip != null)
