@@ -377,13 +377,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return poCambioPersonal;
             }
         }
-        public List<spConsultarCambioPersonalxLineaxTurno> ConsultarCambioPersonalxLinea(string CodLinea, string Turno)
+        public List<spConsultarCambioPersonalxLineaxTurno> ConsultarCambioPersonalxLinea(string CodLinea, string Turno,DateTime Fecha,TimeSpan Hora)
         {
 
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 //return db.CAMBIO_PERSONAL.Where(x => x.CodLinea == CodLinea).ToList();
-                return db.spConsultarCambioPersonalxLineaxTurno(CodLinea, Turno).ToList();
+                return db.spConsultarCambioPersonalxLineaxTurno(CodLinea, Turno, Fecha, Hora).ToList();
             }
         }
 

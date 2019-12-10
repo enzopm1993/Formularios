@@ -146,7 +146,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             else
                 return 1;
         }
-        public ControlDeAsistenciaGeneralViewModel ObtenerAsistenciaGeneralDiaria(string CodLinea, int BanderaExiste, string usuario, string terminal, string turno, DateTime Fecha)
+        public ControlDeAsistenciaGeneralViewModel ObtenerAsistenciaGeneralDiaria(string CodLinea, int BanderaExiste, string usuario, string terminal, string turno, DateTime Fecha,TimeSpan Hora)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -167,7 +167,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A" });
 
                     }
-                    var PersonalMovidoAEstaLinea = clsDCambioPersonal.ConsultarCambioPersonalxLinea(CodLinea, turno);
+                    var PersonalMovidoAEstaLinea = clsDCambioPersonal.ConsultarCambioPersonalxLinea(CodLinea, turno,Fecha, Hora);
                     foreach (var item in PersonalMovidoAEstaLinea)
                     {
                         ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A" });
@@ -295,7 +295,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             }
         }
 
-        public ControlDeAsistenciaPrestadosViewModel ObtenerAsistenciaDiariaMovidos(string CodLinea, int BanderaExiste, string usuario, string terminal,string turno,DateTime Fecha)
+        public ControlDeAsistenciaPrestadosViewModel ObtenerAsistenciaDiariaMovidos(string CodLinea, int BanderaExiste, string usuario, string terminal,string turno,DateTime Fecha, TimeSpan Hora)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -309,7 +309,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     ControlAsistencia = new List<ASISTENCIA>();
                     //var EmpleadosMovidos = db.CAMBIO_PERSONAL.Where(z => z.CodLinea == CodLinea && z.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                     clsdCambioPersonal = new clsDCambioPersonal();
-                    var EmpleadosMovidos = clsdCambioPersonal.ConsultarCambioPersonalxLinea(CodLinea,turno);
+                    var EmpleadosMovidos = clsdCambioPersonal.ConsultarCambioPersonalxLinea(CodLinea,turno,Fecha,Hora);
                     foreach (var item in EmpleadosMovidos)
                     {
                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A" });
