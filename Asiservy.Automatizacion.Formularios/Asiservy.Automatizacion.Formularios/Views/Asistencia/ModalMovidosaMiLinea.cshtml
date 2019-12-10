@@ -44,7 +44,7 @@
                         {
 
                             //foreach (var item in ViewData["Empleados"] as List<spConsultaPersonalADondeFueronMovidos>)
-                            foreach (var item in ViewBag.ListaEmpleadosPres as List<spConsultaPersonalADondeFueronMovidos>)
+                            foreach (var item in ViewBag.ListaEmpleadosPres as List<spConsultaPersonalMovidoaLinea>)
                             {
                                 <tr>
                                     <td>@item.CEDULA</td>
@@ -62,7 +62,7 @@
             </div>
             <div class="modal-footer">
                 Este es todo el personal que fue movido a su Línea, ¿desea continuar?
-                <button type="button" class="btn btn-default" id="modal-btn-si" onclick="GenerarAsistenciaOk()">Si</button>
+                <button type="button" class="btn btn-default" id="modal-btn-si" onclick="GenerarAsistenciaPrestadosOk()">Si</button>
                 <button type="button" class="btn btn-primary" id="modal-btn-no" onclick="CerrarModalPrestadoInfo()">No</button>
 
             </div>

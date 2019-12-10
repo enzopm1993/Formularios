@@ -32,6 +32,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return db.spConsultaPersonalADondeFueronMovidos(codlinea, Fecha,Hora).ToList();
             }
         }
+        public List<spConsultaPersonalMovidoaLinea> ConsultaPersonalMovidoaLinea(string codlinea, DateTime? Fecha, TimeSpan? Hora)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaPersonalMovidoaLinea(codlinea, Fecha, Hora).ToList();
+            }
+        }
         public string ModificarAsistencia(ASISTENCIA model)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
