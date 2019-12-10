@@ -113,6 +113,7 @@ function buscarenTabla() {
 function ConsultarSiExisteAsistencia() {
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
+        $('#horaservidor').hide();
         $('#mensajeturno').show();
         return false;
     } else {
@@ -137,6 +138,7 @@ function ConsultarSiExisteAsistencia() {
                 $('#Existe').val(resultado);
 
                 if (resultado == 0) {
+                    $('#horaservidor').show();
                     $('#GenerarAsistencia').show();
                     $('#TurnoGen').prop('disabled', 'disabled');
                     $('#txtFecha').prop('disabled', 'disabled');
@@ -144,6 +146,7 @@ function ConsultarSiExisteAsistencia() {
 
                 }
                 if (resultado == 1) {
+                    $('#horaservidor').hide();
                     GenerarAsistenciaDiariaMovidos($('#CodLinea').val(), resultado);
                     $('#GenerarAsistencia').hide();
                 }
@@ -155,7 +158,48 @@ function ConsultarSiExisteAsistencia() {
         });
     
 }
+function VerificarMovidosAMiLinea(IdLinea, bandera) {
+    $('#LineaPres').val(IdLinea);
+    $('#banderapres').val(bandera);
+    $.ajax({
+        //url: '../Asistencia/VerificarPrestados',
+        url: '../Asistencia/ModalPrestados',
+        type: 'GET',
+        data: {
+            //CodLinea: IdLinea,
+            //BanderaExiste: bandera,
+            //Turno: turno,
+            Fecha: $('#txtFecha').val(),
+            Hora: $('#horaservidor').val()
 
+        },
+        success: function (resultado) {
+            $('#divmodalprestados').html(resultado);
+
+            if ($('#txtPrestado').val() == 'true') {
+                $('#modalprestados').modal("show");
+                $('#LineaPres').val(IdLinea);
+                $('#banderapres').val(bandera);
+
+            } else {
+                GenerarAsistenciaDiaria(IdLinea, bandera);
+            }
+            //if (resultado) {
+            //    $('#modalprestados').modal("show");
+            //    $('#LineaPres').val(IdLinea);
+            //    $('#banderapres').val(bandera);
+
+            //} else {
+            //    GenerarAsistenciaDiaria(IdLinea, bandera);
+            //}
+
+        }
+        ,
+        error: function (result) {
+            MensajeError(result.responseText, false);
+        }
+    });
+}
 function GenerarAsistenciaDiariaMovidos(IdLinea, bandera) {
     $("#spinnerCargando").prop("hidden", false);
     //console.log("hola");
