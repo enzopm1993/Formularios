@@ -132,6 +132,15 @@
     <Compile Include="Datos\CONTROL_MIGA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CONTROL_PESO_ENLATADO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CONTROL_PESO_ENLATADO_DETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CONTROL_PESO_ENLATADO_SUBDETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CUCHILLO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

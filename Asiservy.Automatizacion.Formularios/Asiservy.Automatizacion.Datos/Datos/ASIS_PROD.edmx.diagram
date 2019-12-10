@@ -62,6 +62,11 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_HORA_MAQUINA_DETALLE_CONTROL_HORA_MAQUINA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ASISTENCIA" Width="1.5" PointX="7.375" PointY="23.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MOVIMIENTO_PERSONAL_DIARIO" Width="1.5" PointX="9.375" PointY="23.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_PESO_ENLATADO" Width="1.5" PointX="23.375" PointY="18" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_PESO_ENLATADO_DETALLE" Width="1.5" PointX="25.625" PointY="18.375" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_PESO_ENLATADO_SUBDETALLE" Width="1.5" PointX="27.875" PointY="18.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_PESO_ENLATADO_DETALLE_CONTROL_PESO_ENLATADO_DETALLE" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -73,6 +73,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_HORA_MAQUINA_DETALLE> CONTROL_HORA_MAQUINA_DETALLE { get; set; }
         public virtual DbSet<ASISTENCIA> ASISTENCIA { get; set; }
         public virtual DbSet<MOVIMIENTO_PERSONAL_DIARIO> MOVIMIENTO_PERSONAL_DIARIO { get; set; }
+        public virtual DbSet<CONTROL_PESO_ENLATADO> CONTROL_PESO_ENLATADO { get; set; }
+        public virtual DbSet<CONTROL_PESO_ENLATADO_DETALLE> CONTROL_PESO_ENLATADO_DETALLE { get; set; }
+        public virtual DbSet<CONTROL_PESO_ENLATADO_SUBDETALLE> CONTROL_PESO_ENLATADO_SUBDETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -231,23 +234,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Fecha", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlAsistencia>("spConsultaControlAsistencia", lineaParameter, fechaParameter);
-        }
-    
-        public virtual ObjectResult<sp_ConsultaAsistenciaDiariaPersonalMovido> sp_ConsultaAsistenciaDiariaPersonalMovido(string codLinea, Nullable<int> turno, Nullable<System.DateTime> fecha)
-        {
-            var codLineaParameter = codLinea != null ?
-                new ObjectParameter("codLinea", codLinea) :
-                new ObjectParameter("codLinea", typeof(string));
-    
-            var turnoParameter = turno.HasValue ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(int));
-    
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiariaPersonalMovido>("sp_ConsultaAsistenciaDiariaPersonalMovido", codLineaParameter, turnoParameter, fechaParameter);
         }
     
         public virtual ObjectResult<Nullable<int>> sp_ObtenerCuchillosSobrantes(string colorCuchillo)
@@ -862,6 +848,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Hora", typeof(System.TimeSpan));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarCambioPersonalxLineaxTurno>("spConsultarCambioPersonalxLineaxTurno", lineaParameter, turnoParameter, fechaParameter, horaParameter);
+        }
+    
+        public virtual ObjectResult<sp_ConsultaAsistenciaDiariaPersonalMovido> sp_ConsultaAsistenciaDiariaPersonalMovido(string codLinea, Nullable<int> turno, Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
+        {
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("codLinea", codLinea) :
+                new ObjectParameter("codLinea", typeof(string));
+    
+            var turnoParameter = turno.HasValue ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(int));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiariaPersonalMovido>("sp_ConsultaAsistenciaDiariaPersonalMovido", codLineaParameter, turnoParameter, fechaParameter, horaParameter);
         }
     }
 }

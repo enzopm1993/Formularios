@@ -398,6 +398,59 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CONTROL_PESO_ENLATADO">
+          <Key>
+            <PropertyRef Name="IdControlPesoEnlatado" />
+          </Key>
+          <Property Name="IdControlPesoEnlatado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrdenFabricacion" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="OrdenVenta" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="CodigoProducto" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Producto" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Peso" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LineaEnlatado" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CONTROL_PESO_ENLATADO_DETALLE">
+          <Key>
+            <PropertyRef Name="IdControlPesoEnlatadoDetallado" />
+          </Key>
+          <Property Name="IdControlPesoEnlatadoDetallado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdControlPesoEnlatado" Type="int" Nullable="false" />
+          <Property Name="Hora" Type="datetime" Nullable="false" />
+          <Property Name="Temperatura" Type="int" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CONTROL_PESO_ENLATADO_SUBDETALLE">
+          <Key>
+            <PropertyRef Name="IdControlPesoEnlatadoSubdetalle" />
+          </Key>
+          <Property Name="IdControlPesoEnlatadoSubdetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdControlPesoEnlatadoDetallado" Type="int" Nullable="false" />
+          <Property Name="IdControlPesoEnlatado" Type="int" Nullable="false" />
+          <Property Name="Muestra" Type="int" Nullable="false" />
+          <Property Name="Peso" Type="int" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CUCHILLO">
           <Key>
             <PropertyRef Name="NumeroCuchillo" />
@@ -894,6 +947,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CONTROL_PESO_ENLATADO_DETALLE_CONTROL_PESO_ENLATADO_DETALLE">
+          <End Role="CONTROL_PESO_ENLATADO" Type="Self.CONTROL_PESO_ENLATADO" Multiplicity="1" />
+          <End Role="CONTROL_PESO_ENLATADO_DETALLE" Type="Self.CONTROL_PESO_ENLATADO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_PESO_ENLATADO">
+              <PropertyRef Name="IdControlPesoEnlatado" />
+            </Principal>
+            <Dependent Role="CONTROL_PESO_ENLATADO_DETALLE">
+              <PropertyRef Name="IdControlPesoEnlatado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE">
+          <End Role="CONTROL_PESO_ENLATADO_DETALLE" Type="Self.CONTROL_PESO_ENLATADO_DETALLE" Multiplicity="1" />
+          <End Role="CONTROL_PESO_ENLATADO_SUBDETALLE" Type="Self.CONTROL_PESO_ENLATADO_SUBDETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_PESO_ENLATADO_DETALLE">
+              <PropertyRef Name="IdControlPesoEnlatadoDetallado" />
+            </Principal>
+            <Dependent Role="CONTROL_PESO_ENLATADO_SUBDETALLE">
+              <PropertyRef Name="IdControlPesoEnlatadoDetallado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OPCION_ROL_OPCION">
           <End Role="OPCION" Type="Self.OPCION" Multiplicity="0..1" />
           <End Role="OPCION_ROL" Type="Self.OPCION_ROL" Multiplicity="*" />
@@ -939,6 +1016,7 @@
           <Parameter Name="codLinea" Type="varchar" Mode="In" />
           <Parameter Name="Turno" Type="int" Mode="In" />
           <Parameter Name="Fecha" Type="date" Mode="In" />
+          <Parameter Name="Hora" Type="time" Mode="In" />
         </Function>
         <Function Name="sp_ConsultaAsistenciaGeneralDiaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codLinea" Type="varchar" Mode="In" />
@@ -1195,6 +1273,9 @@
           <EntitySet Name="CONTROL_MATERIAL" EntityType="Self.CONTROL_MATERIAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_MATERIAL_DETALLE" EntityType="Self.CONTROL_MATERIAL_DETALLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_MIGA" EntityType="Self.CONTROL_MIGA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CONTROL_PESO_ENLATADO" EntityType="Self.CONTROL_PESO_ENLATADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CONTROL_PESO_ENLATADO_DETALLE" EntityType="Self.CONTROL_PESO_ENLATADO_DETALLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CONTROL_PESO_ENLATADO_SUBDETALLE" EntityType="Self.CONTROL_PESO_ENLATADO_SUBDETALLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CUCHILLO" EntityType="Self.CUCHILLO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EMPLEADO_CUCHILLO" EntityType="Self.EMPLEADO_CUCHILLO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EMPLEADO_ESFERO" EntityType="Self.EMPLEADO_ESFERO" Schema="dbo" store:Type="Tables" />
@@ -1246,6 +1327,14 @@
           <AssociationSet Name="FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE" Association="Self.FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE">
             <End Role="CONTROL_HUESO_DETALLE" EntitySet="CONTROL_HUESO_DETALLE" />
             <End Role="CONTROL_MIGA" EntitySet="CONTROL_MIGA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONTROL_PESO_ENLATADO_DETALLE_CONTROL_PESO_ENLATADO_DETALLE" Association="Self.FK_CONTROL_PESO_ENLATADO_DETALLE_CONTROL_PESO_ENLATADO_DETALLE">
+            <End Role="CONTROL_PESO_ENLATADO" EntitySet="CONTROL_PESO_ENLATADO" />
+            <End Role="CONTROL_PESO_ENLATADO_DETALLE" EntitySet="CONTROL_PESO_ENLATADO_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE" Association="Self.FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE">
+            <End Role="CONTROL_PESO_ENLATADO_DETALLE" EntitySet="CONTROL_PESO_ENLATADO_DETALLE" />
+            <End Role="CONTROL_PESO_ENLATADO_SUBDETALLE" EntitySet="CONTROL_PESO_ENLATADO_SUBDETALLE" />
           </AssociationSet>
           <AssociationSet Name="FK_OPCION_ROL_OPCION" Association="Self.FK_OPCION_ROL_OPCION">
             <End Role="OPCION" EntitySet="OPCION" />
@@ -1532,11 +1621,6 @@
             <Parameter Name="Linea" Mode="In" Type="String" />
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="sp_ConsultaAsistenciaDiariaPersonalMovido" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido)">
-            <Parameter Name="codLinea" Mode="In" Type="String" />
-            <Parameter Name="Turno" Mode="In" Type="Int32" />
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <EntitySet Name="CONTROL_ESFERO" EntityType="ASIS_PRODModel.CONTROL_ESFERO" />
           <FunctionImport Name="sp_ObtenerCuchillosSobrantes" ReturnType="Collection(Int32)">
           <Parameter Name="ColorCuchillo" Mode="In" Type="String" />
@@ -1771,6 +1855,23 @@
           <FunctionImport Name="spConsultarCambioPersonalxLineaxTurno" ReturnType="Collection(ASIS_PRODModel.spConsultarCambioPersonalxLineaxTurno)">
             <Parameter Name="Linea" Mode="In" Type="String" />
             <Parameter Name="Turno" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Hora" Mode="In" Type="Time" />
+          </FunctionImport>
+          <EntitySet Name="CONTROL_PESO_ENLATADO" EntityType="ASIS_PRODModel.CONTROL_PESO_ENLATADO" />
+          <EntitySet Name="CONTROL_PESO_ENLATADO_DETALLE" EntityType="ASIS_PRODModel.CONTROL_PESO_ENLATADO_DETALLE" />
+          <EntitySet Name="CONTROL_PESO_ENLATADO_SUBDETALLE" EntityType="ASIS_PRODModel.CONTROL_PESO_ENLATADO_SUBDETALLE" />
+          <AssociationSet Name="FK_CONTROL_PESO_ENLATADO_DETALLE_CONTROL_PESO_ENLATADO_DETALLE" Association="ASIS_PRODModel.FK_CONTROL_PESO_ENLATADO_DETALLE_CONTROL_PESO_ENLATADO_DETALLE">
+            <End Role="CONTROL_PESO_ENLATADO" EntitySet="CONTROL_PESO_ENLATADO" />
+            <End Role="CONTROL_PESO_ENLATADO_DETALLE" EntitySet="CONTROL_PESO_ENLATADO_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE" Association="ASIS_PRODModel.FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE">
+            <End Role="CONTROL_PESO_ENLATADO_DETALLE" EntitySet="CONTROL_PESO_ENLATADO_DETALLE" />
+            <End Role="CONTROL_PESO_ENLATADO_SUBDETALLE" EntitySet="CONTROL_PESO_ENLATADO_SUBDETALLE" />
+          </AssociationSet>
+          <FunctionImport Name="sp_ConsultaAsistenciaDiariaPersonalMovido" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido)">
+            <Parameter Name="codLinea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="Int32" />
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Hora" Mode="In" Type="Time" />
           </FunctionImport>
@@ -2066,25 +2167,6 @@
           <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
-        </ComplexType>
-        <ComplexType Name="sp_ConsultaAsistenciaDiariaPersonalMovido">
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="IdAsistencia" Nullable="true" />
-          <Property Type="Int32" Name="Bloquear" Nullable="true" />
-          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="EstadoAsistencia" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
-          <Property Type="Time" Name="Hora" Nullable="true" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="Linea" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaCreacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioCreacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalCreacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
         <EntityType Name="CONTROL_ESFERO">
           <Key>
@@ -3228,6 +3310,106 @@
           <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
         </ComplexType>
+        <EntityType Name="CONTROL_PESO_ENLATADO">
+          <Key>
+            <PropertyRef Name="IdControlPesoEnlatado" />
+          </Key>
+          <Property Name="IdControlPesoEnlatado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrdenFabricacion" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="OrdenVenta" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoProducto" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Producto" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Peso" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LineaEnlatado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CONTROL_PESO_ENLATADO_DETALLE" Relationship="ASIS_PRODModel.FK_CONTROL_PESO_ENLATADO_DETALLE_CONTROL_PESO_ENLATADO_DETALLE" FromRole="CONTROL_PESO_ENLATADO" ToRole="CONTROL_PESO_ENLATADO_DETALLE" />
+        </EntityType>
+        <EntityType Name="CONTROL_PESO_ENLATADO_DETALLE">
+          <Key>
+            <PropertyRef Name="IdControlPesoEnlatadoDetallado" />
+          </Key>
+          <Property Name="IdControlPesoEnlatadoDetallado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdControlPesoEnlatado" Type="Int32" Nullable="false" />
+          <Property Name="Hora" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Temperatura" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CONTROL_PESO_ENLATADO" Relationship="ASIS_PRODModel.FK_CONTROL_PESO_ENLATADO_DETALLE_CONTROL_PESO_ENLATADO_DETALLE" FromRole="CONTROL_PESO_ENLATADO_DETALLE" ToRole="CONTROL_PESO_ENLATADO" />
+          <NavigationProperty Name="CONTROL_PESO_ENLATADO_SUBDETALLE" Relationship="ASIS_PRODModel.FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE" FromRole="CONTROL_PESO_ENLATADO_DETALLE" ToRole="CONTROL_PESO_ENLATADO_SUBDETALLE" />
+        </EntityType>
+        <EntityType Name="CONTROL_PESO_ENLATADO_SUBDETALLE">
+          <Key>
+            <PropertyRef Name="IdControlPesoEnlatadoSubdetalle" />
+          </Key>
+          <Property Name="IdControlPesoEnlatadoSubdetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdControlPesoEnlatadoDetallado" Type="Int32" Nullable="false" />
+          <Property Name="IdControlPesoEnlatado" Type="Int32" Nullable="false" />
+          <Property Name="Muestra" Type="Int32" Nullable="false" />
+          <Property Name="Peso" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CONTROL_PESO_ENLATADO_DETALLE" Relationship="ASIS_PRODModel.FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE" FromRole="CONTROL_PESO_ENLATADO_SUBDETALLE" ToRole="CONTROL_PESO_ENLATADO_DETALLE" />
+        </EntityType>
+        <Association Name="FK_CONTROL_PESO_ENLATADO_DETALLE_CONTROL_PESO_ENLATADO_DETALLE">
+          <End Type="ASIS_PRODModel.CONTROL_PESO_ENLATADO" Role="CONTROL_PESO_ENLATADO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CONTROL_PESO_ENLATADO_DETALLE" Role="CONTROL_PESO_ENLATADO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_PESO_ENLATADO">
+              <PropertyRef Name="IdControlPesoEnlatado" />
+            </Principal>
+            <Dependent Role="CONTROL_PESO_ENLATADO_DETALLE">
+              <PropertyRef Name="IdControlPesoEnlatado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE">
+          <End Type="ASIS_PRODModel.CONTROL_PESO_ENLATADO_DETALLE" Role="CONTROL_PESO_ENLATADO_DETALLE" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CONTROL_PESO_ENLATADO_SUBDETALLE" Role="CONTROL_PESO_ENLATADO_SUBDETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_PESO_ENLATADO_DETALLE">
+              <PropertyRef Name="IdControlPesoEnlatadoDetallado" />
+            </Principal>
+            <Dependent Role="CONTROL_PESO_ENLATADO_SUBDETALLE">
+              <PropertyRef Name="IdControlPesoEnlatadoDetallado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_ConsultaAsistenciaDiariaPersonalMovido">
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="IdAsistencia" Nullable="true" />
+          <Property Type="Int32" Name="Bloquear" Nullable="true" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="EstadoAsistencia" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
+          <Property Type="Time" Name="Hora" Nullable="true" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaCreacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioCreacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalCreacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3699,29 +3881,6 @@
                 <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
                 <ScalarProperty Name="Linea" ColumnName="Linea" />
                 <ScalarProperty Name="Turno" ColumnName="Turno" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_ConsultaAsistenciaDiariaPersonalMovido" FunctionName="ASIS_PRODModel.Store.sp_ConsultaAsistenciaDiariaPersonalMovido">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido">
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="IdAsistencia" ColumnName="IdAsistencia" />
-                <ScalarProperty Name="Bloquear" ColumnName="Bloquear" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="EstadoAsistencia" ColumnName="EstadoAsistencia" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
-                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
-                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5002,6 +5161,85 @@
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarCambioPersonalxLineaxTurno">
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CONTROL_PESO_ENLATADO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_PESO_ENLATADO">
+              <MappingFragment StoreEntitySet="CONTROL_PESO_ENLATADO">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="LineaEnlatado" ColumnName="LineaEnlatado" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="IdControlPesoEnlatado" ColumnName="IdControlPesoEnlatado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CONTROL_PESO_ENLATADO_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_PESO_ENLATADO_DETALLE">
+              <MappingFragment StoreEntitySet="CONTROL_PESO_ENLATADO_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Temperatura" ColumnName="Temperatura" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="IdControlPesoEnlatado" ColumnName="IdControlPesoEnlatado" />
+                <ScalarProperty Name="IdControlPesoEnlatadoDetallado" ColumnName="IdControlPesoEnlatadoDetallado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CONTROL_PESO_ENLATADO_SUBDETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_PESO_ENLATADO_SUBDETALLE">
+              <MappingFragment StoreEntitySet="CONTROL_PESO_ENLATADO_SUBDETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="Muestra" ColumnName="Muestra" />
+                <ScalarProperty Name="IdControlPesoEnlatado" ColumnName="IdControlPesoEnlatado" />
+                <ScalarProperty Name="IdControlPesoEnlatadoDetallado" ColumnName="IdControlPesoEnlatadoDetallado" />
+                <ScalarProperty Name="IdControlPesoEnlatadoSubdetalle" ColumnName="IdControlPesoEnlatadoSubdetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_ConsultaAsistenciaDiariaPersonalMovido" FunctionName="ASIS_PRODModel.Store.sp_ConsultaAsistenciaDiariaPersonalMovido">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido">
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="IdAsistencia" ColumnName="IdAsistencia" />
+                <ScalarProperty Name="Bloquear" ColumnName="Bloquear" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="EstadoAsistencia" ColumnName="EstadoAsistencia" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
