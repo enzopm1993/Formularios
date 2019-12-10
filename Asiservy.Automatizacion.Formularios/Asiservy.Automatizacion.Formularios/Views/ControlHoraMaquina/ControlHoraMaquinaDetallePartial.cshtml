@@ -74,7 +74,11 @@
             <th style="color:#3679ce">@TotalAutoclaves</th>
             <th></th>
             <th></th>
-            <th style="color:#3679ce">@TotalHoras</th>
+            @{
+                //string hora = String.Format("{N}", TotalHoras.TotalHours);
+                int numeroEntero = Convert.ToInt32(Math.Floor(TotalHoras.TotalHours));
+            }
+            <th style="color:#3679ce">@numeroEntero:@TotalHoras.Minutes</th>
             <th style="color:#3679ce">@TotalCoches</th>
             <th></th>
         </tr>
