@@ -301,7 +301,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -408,6 +408,8 @@
                 "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
                 "pagingType": "full_numbers",
                 "dom": 'Bfrtip',
+                "scrollX": "auto",
+                "scrollY": "auto",
                 "order": [[0, "desc"], [1, "desc"]],
                 "buttons": [
                     {
@@ -430,8 +432,9 @@
                         titleAttr: 'Imprimir'
                     },
                     {                      
-                        text: '<img id="imgBtnColumnas" onclick="MostarModalColumns()" style="width:100%" src="../../Content/icons/justificar24.png" />',
-                        titleAttr: 'Ajustar Columnas'
+                        text: '<img id="imgBtnColumnas"  style="width:100%" src="../../Content/icons/justificar24.png" />',
+                        titleAttr: 'Ajustar Columnas',
+                        action: MostarModalColumns
                     }
                 ]
             }
@@ -479,6 +482,19 @@
     {
         <link href="~/Content/DateRangePicker/daterangepicker.css" rel="stylesheet" />
         <script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+    }
+
+    @if (ViewBag.Handsontable == "1")
+    {
+        <link rel="stylesheet" media="screen" href="~/Scripts/Handsontable/dist/handsontable.full.min.css" />
+        <script src="~/Scripts/Handsontable/dist/handsontable.full.min.js"></script>
+        <script src="~/Scripts/Handsontable/dist/languages/es-MX.js"></script>
+    }
+
+    @if (ViewBag.Apexcharts == "1")
+    {
+        <script src="~/Scripts/Apexcharts/dist/apexcharts.min.js"></script>
+        <link rel="stylesheet" media="screen" href="~/Scripts/Apexcharts/dist/apexcharts.css" />
     }
 
     @if (ViewBag.JavaScrip != null)

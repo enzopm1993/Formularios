@@ -186,20 +186,7 @@ $(document).ready(function () {
         var nombre_nueva_cat = $.trim($("#nombre_cat_nueva").val()); 
         var usuario = $("#usernameLogin").val();
 
-        console.log(JSON.stringify({
-            'tipoProceso': tipoProceso,
-            'idComunicado': idComunicado,
-            'titulo': titulo,
-            'fechaDesde': fechaDesde,
-            'fechaHasta': fechaHasta,
-            'idCategoria': idCategoria,
-            'prioridad': prioridad,
-            'estado': estado,
-            'contenido': contenido,
-            'es_nueva_cat': es_nueva_cat,
-            'nombre_nueva_cat': nombre_nueva_cat,
-            'usuario': usuario
-        }));
+  
         if (validaCampos(titulo, fechaDesde, fechaHasta, idCategoria, es_nueva_cat, nombre_nueva_cat, tipoProceso, idComunicado)) {  
        
             $.ajax({
