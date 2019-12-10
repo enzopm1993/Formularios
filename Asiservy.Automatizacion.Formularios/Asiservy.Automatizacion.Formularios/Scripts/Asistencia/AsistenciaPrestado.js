@@ -1,4 +1,15 @@
-﻿function ActualizaObservacionHide() {
+﻿function CerrarModalPrestadoInfo() {
+    $("#modalprestados").modal("hide");
+}
+function GenerarAsistenciaPrestadosOk() {
+    $("#modalprestados").modal("hide");
+    $("#horaservidor").hide();
+    
+    GenerarAsistenciaDiariaMovidos($('#LineaPres').val(), $('#banderapres').val());
+    console.log($('#LineaPres').val());
+    console.log($('#banderapres').val());
+}
+function ActualizaObservacionHide() {
     var posiciono = $('#PosicionHide').val();
     $('#ControlAsistencia_' + posiciono + '__Observacion').val($('#areaobservacion').val());
     //"GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');"
@@ -49,6 +60,10 @@ function SetearHora() {
     $('#btnhora').removeAttr('disabled');
 }
 function Nuevo() {
+    
+    
+    $('#horaservidor').hide();
+    $('#mensajepersonal').hide();
     $('#GenerarAsistencia').hide();
     $('#TurnoGen').removeAttr('disabled');
     $('#txtFecha').removeAttr('disabled');
@@ -159,11 +174,12 @@ function ConsultarSiExisteAsistencia() {
     
 }
 function VerificarMovidosAMiLinea(IdLinea, bandera) {
+    $('#mensajepersonal').hide();
     $('#LineaPres').val(IdLinea);
     $('#banderapres').val(bandera);
     $.ajax({
         //url: '../Asistencia/VerificarPrestados',
-        url: '../Asistencia/ModalPrestados',
+        url: '../Asistencia/ModalMovidosaMiLinea',
         type: 'GET',
         data: {
             //CodLinea: IdLinea,
@@ -182,7 +198,8 @@ function VerificarMovidosAMiLinea(IdLinea, bandera) {
                 $('#banderapres').val(bandera);
 
             } else {
-                GenerarAsistenciaDiaria(IdLinea, bandera);
+                //GenerarAsistenciaDiariaMovidos(IdLinea, bandera);
+                $('#mensajepersonal').show();
             }
             //if (resultado) {
             //    $('#modalprestados').modal("show");
