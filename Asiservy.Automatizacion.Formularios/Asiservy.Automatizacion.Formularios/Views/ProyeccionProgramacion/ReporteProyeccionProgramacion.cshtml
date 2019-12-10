@@ -1,25 +1,25 @@
 ﻿
 @{
-/**/
+    /**/
 
-ViewBag.Title = "ReporteProyeccionProgramacion";
+    ViewBag.Title = "ReporteProyeccionProgramacion";
 }
 <style>
     input, select, textarea {
         max-width: 100%;
     }
+
     .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
         background-color: #01224b;
     }
 </style>
 <h3>Reporte Proyección Programación</h3>
-
 <div class="row">
     <div class="col-md-4 col-10">
         <label>Fecha</label>
         <input type="date" id="txtFecha" class="form-control" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
     </div>
- 
+
     <div class="col-md-1 text-md-left col-2 text-center">
         <label>Acción</label>
         <div class="form-group">
@@ -61,11 +61,10 @@ ViewBag.Title = "ReporteProyeccionProgramacion";
                         <label class="custom-control-label" for="Check5">Cerrado</label>
                     </div>
                 </td>
-               
             </tr>
         </table>
     </div>
-   
+
 
 </div>
 
@@ -79,3 +78,4 @@ ViewBag.Title = "ReporteProyeccionProgramacion";
 <div id="DivTableReporteProyeccion" class="table-responsive">
 
 </div>
+

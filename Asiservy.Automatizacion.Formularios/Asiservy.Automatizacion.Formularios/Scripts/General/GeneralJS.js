@@ -149,3 +149,41 @@ function CambiarClave(e) {
 
 
 }
+
+
+function MostarModalColumns() {
+    var columns = $('#tblDataTable').dataTable().dataTableSettings[0].aoColumns;
+    var options = '';
+    $.each(columns, function (i, v) {
+        if (v.sTitle.trim() != '') {
+            var col = parseInt(i);
+            // Get the column API object
+            var column = $('#tblDataTable').DataTable().column(col);
+            // Toggle the visibility
+            if (!column.visible()) {
+                options += '<div class="col-6"><input onchange="OcultarColumnas(this.value,this.checked)" type="checkbox" name="checkbox-' + i + '" id="checkbox-' + i + '" value="' + i + '" class="custom" />';
+                options += '<label for="checkbox-' + i + '">' + v.sTitle + '</label></div>';
+            } else {
+                options += '<div class="col-6"><input checked onchange="OcultarColumnas(this.value,this.checked)" type="checkbox" name="checkbox-' + i + '" id="checkbox-' + i + '" value="' + i + '" class="custom" />';
+                options += '<label for="checkbox-' + i + '">' + v.sTitle + '</label></div>';
+            }        
+        }
+    });   
+    $('#ModalBody').html('');
+    $('#ModalBody').append(options);
+    $("#ModalColumnas").modal("show");
+
+}
+
+
+function OcultarColumnas(col, val) {
+    var col = parseInt(col);
+    // Get the column API object
+    var column = $('#tblDataTable').DataTable().column(col);
+    // Toggle the visibility
+    column.visible(!column.visible());
+
+}
+
+
+

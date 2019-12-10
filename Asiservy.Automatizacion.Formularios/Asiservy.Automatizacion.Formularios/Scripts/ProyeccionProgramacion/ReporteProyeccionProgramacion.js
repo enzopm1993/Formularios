@@ -1,7 +1,8 @@
 ﻿
 $(document).ready(function () {
     CargarReporte();
-    
+  
+    $("#btnColumnas").prop("hidden", false);
 });
 
 function ValidarEstado() {
@@ -60,7 +61,7 @@ function CargarReporte() {
             $('#DivTableReporteProyeccion').html(resultado);
             $("#spinnerCargando").prop("hidden", true);
             config.opcionesDT.pageLength = 50;
-            $('#tblDataTable').DataTable(config.opcionesDT);
+            $('#tblDataTable').DataTable(config.opcionesDT);           
             ValidarEstado();
 
         },
@@ -71,4 +72,3 @@ function CargarReporte() {
         }
     });
 }
-
