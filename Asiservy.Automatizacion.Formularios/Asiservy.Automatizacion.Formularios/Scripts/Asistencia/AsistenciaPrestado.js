@@ -232,7 +232,8 @@ function GenerarAsistenciaDiariaMovidos(IdLinea, bandera) {
             CodLinea: IdLinea,
             BanderaExiste: bandera,
             Turno: turno,
-            Fecha: $('#txtFecha').val()
+            Fecha: $('#txtFecha').val(),
+            Hora: $('#horaservidor').val()
         },
         success: function (resultado) {
             //MensajeCorrecto(resultado, true);
