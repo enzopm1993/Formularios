@@ -174,6 +174,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //CLASIFICADOR AUDITORIA
         public static string CodigoGrupoAuditoria = "018";
 
+        //LINEA DE NEGOCIOS
+        public static string LineaNegocioEnlatado = "ENLATADO";
+        public static string LineaNegocioPouch = "POUCH";
+
+        //PESO ENLATADO
+        public static string GrupoCodPesoEnlatado = "020";
+        public static string CodPesoEnlatadoFill = "1";
+        public static string CodPesoEnlatadoNeto = "2";
+
+        //LINEA ENLATADO
+        public static string GrupoCodLineaEnlatado = "021";
+        
+
 
         public static string BASE_URL_WS = "http://192.168.0.31:8870";
 

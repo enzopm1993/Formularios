@@ -1,0 +1,229 @@
+﻿
+@{
+    ViewBag.Title = "ControlPesoEnlatado";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<h3>Control Peso Enlatado</h3>
+
+<input type="hidden" name="name" id="txtIdControlPesoEnlatado" value="" />
+<div class="card shadow">
+    <div class="card-body">
+        <div class="row" id="divCabeceraControl">
+            <div class="col-md-4 col-6">
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="date" id="txtFechaProduccion" class="form-control" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarControlPesoEnlatado()" />
+                </div>
+            </div>
+            <div class="col-md-4 col-6">
+                <div class="form-group">
+                    <label>Peso</label>
+                    @Html.DropDownList("selectPeso", new SelectList(ViewBag.Pesos, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-4 col-6">
+                <div class="form-group">
+                    <label>Linea</label>
+                    @Html.DropDownList("selectLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="col-md-4 col-6">
+                <div class="form-group">
+                    <label>Orden Fabricación</label>
+                    <div class="input-group">
+                        @Html.TextBox("txtOrdenFabricacion", null, new { style = "width: 75%; border: 1px solid #d1d3e2; border-radius: 0.35rem", @readonly = "readonly" })
+                        <button type="button" onclick="" id="btnOrden">
+                            <img src="~/Content/images/buscar.png" />
+                        </button><br />
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-4 col-6">
+                <div class="form-group">
+                    <label>Orden Venta</label>
+                    <input readonly type="text" id="txtOrdenVenta" class="form-control" name="name" value="" />
+                </div>
+            </div>
+
+
+            <div class="col-md-4 col-6">
+                <div class="form-group">
+                    <label>Producto</label>
+                    <input type="hidden" id="txtCodigoProducto" name="name" value="" />
+                    <input readonly type="text" id="txtProducto" class="form-control" name="name" value="" />
+                </div>
+            </div>
+        </div>
+
+
+        <input type="hidden" name="name" id="txtIdControlHoraMaquinaDetalle" value="" />
+        <div id="divDetalleControl" style="display: none;">
+            <div class="row">              
+
+                <div class="col-md-4 col-6">
+                    <div class="form-group">
+                        <label>Inicio</label>
+                        <input type="datetime-local" class="form-control" id="txtFechaInicioDetalle" value="" onchange="CalculoTiempo()" />
+                    </div>
+                </div>              
+                              
+                <div class="col-md-4 col-3">
+                    <div class="form-group">
+                        <label>Coches</label>
+                        <input type="number" min="0" class="form-control" id="txtTotalCoche" value="0" />
+                    </div>
+                </div>
+                <div class="col-md-4 col-3">
+                    <div class="form-group">
+                        <label>Observacion</label>
+                        <input type="text" maxlength="100" class="form-control" id="txtObservacion" value="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="row" style="padding-top:10px; padding-bottom:10px">
+        <div class="col-12 text-center">
+
+            <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="GuardarControlHoraMaquina()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarControlHoraMaquinaDetalle()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/save20.png" />
+            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnNuevo" onclick="LimpiarControlDetalle()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar Detalle" class="btn" id="btnInactivarDetalle" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+
+        </div>
+    </div>
+   
+    <div class="d-flex justify-content-center">
+        <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+
+    <div class="card shadow" id="DivCard" hidden>
+        <div class="card-body">
+            <div class="text-center" id="DivMensaje"></div>
+            <div id="DivTableControl" class="table-responsive">
+
+            </div>
+        </div>
+    </div>
+    
+    <div class="row" id="DivCardDetalle" hidden>
+        <div class="col-6">
+            <div class="card-body">
+                <div class="text-center" id="DivMensaje"></div>
+                <div id="DivTableControlDetalle" class="table-responsive">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+
+        </div>
+    </div>
+
+    <br />
+    <div class="row">
+        <div class="col-12 text-center">
+            <input hidden type="button" id="btnInactivar" class="btn btn-outline-danger" name="name" value="Eliminar" />
+
+        </div>
+    </div>
+
+
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalOrdenes">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ordenes de fabricación</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Fecha</label>
+                                <input type="date" class="form-control" id="txtFechaOrden" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarOrdenFabricacion()" />
+                                <p class="text-danger" hidden id="validaFecha">No existen ordenes</p>
+                            </div>
+
+                        </div>
+                        <div class="col-6">
+                            <label>Orden:</label>
+                            <select id="SelectOrdenFabricacion" , class="form-control">
+                                <option value="0">Seleccione</option>
+                            </select>
+                            <p class="text-danger" hidden id="validaOrden">Seleccione una orden</p>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" id="modal-orden-si">Aceptar</button>
+                    <button type="button" class="btn btn-outline-dark" id="modal-orden-no">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="hidden" id="txtEliminar" name="name" value="" />
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Eliminar Todo el Control de Horas/Maquina</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" id="modal-btn-si">Si</button>
+                    <button type="button" class="btn btn-outline-primary" id="modal-btn-no">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal-detalle">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="hidden" id="txtEliminar" name="name" value="" />
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Eliminar Detalle del Control de Horas/Maquina</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" id="modal-btn-si-detalle">Si</button>
+                    <button type="button" class="btn btn-outline-primary" id="modal-btn-no-detalle">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+

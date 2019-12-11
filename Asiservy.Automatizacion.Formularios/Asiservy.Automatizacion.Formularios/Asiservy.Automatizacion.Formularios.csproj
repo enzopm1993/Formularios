@@ -2149,6 +2149,7 @@
     <Content Include="Scripts\ControlMaterialQuebradizo\AsignaMaterialesLinea.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\ControlMaterialQuebradizo.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\MantenimientoMaterialQuebradizo.js" />
+    <Content Include="Scripts\ControlPesoEnlatado\ControlPesoEnlatado.js" />
     <Content Include="Scripts\DateRangePicker\daterangepicker.js" />
     <Content Include="Scripts\DateRangePicker\moment.min.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizo.js" />
@@ -2979,6 +2980,7 @@
     <Compile Include="AccesoDatos\ControlHoraMaquina\clsDControlHoraMaquina.cs" />
     <Compile Include="AccesoDatos\ControlHueso\clsDControlHueso.cs" />
     <Compile Include="AccesoDatos\ControlMaterialQuebradizo\clsDControlMaterialQuebradizo.cs" />
+    <Compile Include="AccesoDatos\ControlPesoEnlatado\clsDControlPesoEnlatado.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDControlMiga.cs" />
     <Compile Include="AccesoDatos\AuditoriaSangre\clsDAuditoriaSangre.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
@@ -3025,6 +3027,7 @@
     <Compile Include="Controllers\ControlEnfundadoController.cs" />
     <Compile Include="Controllers\ControlHoraMaquinaController.cs" />
     <Compile Include="Controllers\ControlMaterialQuebradizoController.cs" />
+    <Compile Include="Controllers\ControlPesoEnlatadoController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -3226,6 +3229,8 @@
     <Content Include="Views\Nomina\Asistencia.cshtml" />
     <Content Include="Views\ControlHoraMaquina\ReporteControlHoraMaquinaPartial.cshtml" />
     <Content Include="Views\Asistencia\ModalMovidosaMiLinea.cshtml" />
+    <Content Include="Views\ControlPesoEnlatado\ControlPesoEnlatado.cshtml" />
+    <Content Include="Views\ControlPesoEnlatado\ControlPesoEnlatadoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
