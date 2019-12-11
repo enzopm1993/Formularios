@@ -264,6 +264,15 @@
     <Compile Include="Datos\spConsultaControlMaterialQuebradizoDetalle.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaControlPesoEnlatado.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\spConsultaControlPesoEnlatadoDetalle.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\spConsultaControlPesoEnlatadoSubDetalle.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultaCuchilloEmpleado.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

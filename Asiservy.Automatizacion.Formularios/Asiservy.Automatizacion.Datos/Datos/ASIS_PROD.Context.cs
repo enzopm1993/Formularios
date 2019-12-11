@@ -768,15 +768,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiaria>("sp_ConsultaAsistenciaDiaria", codLineaParameter, turnoParameter, fechaParameter);
         }
     
-        public virtual ObjectResult<spConsultarCaambioPersonalxCedula> spConsultarCaambioPersonalxCedula(string cedula)
-        {
-            var cedulaParameter = cedula != null ?
-                new ObjectParameter("Cedula", cedula) :
-                new ObjectParameter("Cedula", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarCaambioPersonalxCedula>("spConsultarCaambioPersonalxCedula", cedulaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaControlHoraMaquina> spConsultaControlHoraMaquina(Nullable<System.DateTime> fecha)
         {
             var fechaParameter = fecha.HasValue ?
@@ -829,6 +820,59 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalMovidoaLinea>("spConsultaPersonalMovidoaLinea", lINEAParameter, fechaParameter, horaParameter);
         }
     
+        public virtual ObjectResult<spConsultaControlPesoEnlatado> spConsultaControlPesoEnlatado(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlPesoEnlatado>("spConsultaControlPesoEnlatado", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlPesoEnlatadoDetalle> spConsultaControlPesoEnlatadoDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlPesoEnlatadoDetalle>("spConsultaControlPesoEnlatadoDetalle", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlPesoEnlatadoSubDetalle> spConsultaControlPesoEnlatadoSubDetalle(Nullable<int> idControlDetalle)
+        {
+            var idControlDetalleParameter = idControlDetalle.HasValue ?
+                new ObjectParameter("IdControlDetalle", idControlDetalle) :
+                new ObjectParameter("IdControlDetalle", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlPesoEnlatadoSubDetalle>("spConsultaControlPesoEnlatadoSubDetalle", idControlDetalleParameter);
+        }
+    
+        public virtual ObjectResult<sp_ConsultaAsistenciaDiariaPersonalMovido> sp_ConsultaAsistenciaDiariaPersonalMovido(string codLinea, Nullable<int> turno, Nullable<System.DateTime> fecha)
+        {
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("codLinea", codLinea) :
+                new ObjectParameter("codLinea", typeof(string));
+    
+            var turnoParameter = turno.HasValue ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(int));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiariaPersonalMovido>("sp_ConsultaAsistenciaDiariaPersonalMovido", codLineaParameter, turnoParameter, fechaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultarCaambioPersonalxCedula> spConsultarCaambioPersonalxCedula(string cedula)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("Cedula", cedula) :
+                new ObjectParameter("Cedula", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarCaambioPersonalxCedula>("spConsultarCaambioPersonalxCedula", cedulaParameter);
+        }
+    
         public virtual ObjectResult<spConsultarCambioPersonalxLineaxTurno> spConsultarCambioPersonalxLineaxTurno(string linea, string turno, Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
         {
             var lineaParameter = linea != null ?
@@ -848,27 +892,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Hora", typeof(System.TimeSpan));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarCambioPersonalxLineaxTurno>("spConsultarCambioPersonalxLineaxTurno", lineaParameter, turnoParameter, fechaParameter, horaParameter);
-        }
-    
-        public virtual ObjectResult<sp_ConsultaAsistenciaDiariaPersonalMovido> sp_ConsultaAsistenciaDiariaPersonalMovido(string codLinea, Nullable<int> turno, Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
-        {
-            var codLineaParameter = codLinea != null ?
-                new ObjectParameter("codLinea", codLinea) :
-                new ObjectParameter("codLinea", typeof(string));
-    
-            var turnoParameter = turno.HasValue ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(int));
-    
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var horaParameter = hora.HasValue ?
-                new ObjectParameter("Hora", hora) :
-                new ObjectParameter("Hora", typeof(System.TimeSpan));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiariaPersonalMovido>("sp_ConsultaAsistenciaDiariaPersonalMovido", codLineaParameter, turnoParameter, fechaParameter, horaParameter);
         }
     }
 }

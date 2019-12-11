@@ -1016,7 +1016,6 @@
           <Parameter Name="codLinea" Type="varchar" Mode="In" />
           <Parameter Name="Turno" Type="int" Mode="In" />
           <Parameter Name="Fecha" Type="date" Mode="In" />
-          <Parameter Name="Hora" Type="time" Mode="In" />
         </Function>
         <Function Name="sp_ConsultaAsistenciaGeneralDiaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codLinea" Type="varchar" Mode="In" />
@@ -1100,6 +1099,15 @@
         </Function>
         <Function Name="spConsultaControlMaterialQuebradizoDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idControl" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spConsultaControlPesoEnlatado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="date" Mode="In" />
+        </Function>
+        <Function Name="spConsultaControlPesoEnlatadoDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdControl" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spConsultaControlPesoEnlatadoSubDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdControlDetalle" Type="int" Mode="In" />
         </Function>
         <Function Name="spConsultaCuchilloEmpleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="cedula" Type="varchar" Mode="In" />
@@ -1825,9 +1833,6 @@
             <Parameter Name="Turno" Mode="In" Type="Int32" />
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="spConsultarCaambioPersonalxCedula" ReturnType="Collection(ASIS_PRODModel.spConsultarCaambioPersonalxCedula)">
-          <Parameter Name="Cedula" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="CONTROL_HORA_MAQUINA" EntityType="ASIS_PRODModel.CONTROL_HORA_MAQUINA" />
           <EntitySet Name="CONTROL_HORA_MAQUINA_DETALLE" EntityType="ASIS_PRODModel.CONTROL_HORA_MAQUINA_DETALLE" />
           <AssociationSet Name="FK_CONTROL_HORA_MAQUINA_DETALLE_CONTROL_HORA_MAQUINA" Association="ASIS_PRODModel.FK_CONTROL_HORA_MAQUINA_DETALLE_CONTROL_HORA_MAQUINA">
@@ -1852,12 +1857,6 @@
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Hora" Mode="In" Type="Time" />
           </FunctionImport>
-          <FunctionImport Name="spConsultarCambioPersonalxLineaxTurno" ReturnType="Collection(ASIS_PRODModel.spConsultarCambioPersonalxLineaxTurno)">
-            <Parameter Name="Linea" Mode="In" Type="String" />
-            <Parameter Name="Turno" Mode="In" Type="String" />
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="Hora" Mode="In" Type="Time" />
-          </FunctionImport>
           <EntitySet Name="CONTROL_PESO_ENLATADO" EntityType="ASIS_PRODModel.CONTROL_PESO_ENLATADO" />
           <EntitySet Name="CONTROL_PESO_ENLATADO_DETALLE" EntityType="ASIS_PRODModel.CONTROL_PESO_ENLATADO_DETALLE" />
           <EntitySet Name="CONTROL_PESO_ENLATADO_SUBDETALLE" EntityType="ASIS_PRODModel.CONTROL_PESO_ENLATADO_SUBDETALLE" />
@@ -1869,9 +1868,26 @@
             <End Role="CONTROL_PESO_ENLATADO_DETALLE" EntitySet="CONTROL_PESO_ENLATADO_DETALLE" />
             <End Role="CONTROL_PESO_ENLATADO_SUBDETALLE" EntitySet="CONTROL_PESO_ENLATADO_SUBDETALLE" />
           </AssociationSet>
+          <FunctionImport Name="spConsultaControlPesoEnlatado" ReturnType="Collection(ASIS_PRODModel.spConsultaControlPesoEnlatado)">
+          <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaControlPesoEnlatadoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlPesoEnlatadoDetalle)">
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaControlPesoEnlatadoSubDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlPesoEnlatadoSubDetalle)">
+          <Parameter Name="IdControlDetalle" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="sp_ConsultaAsistenciaDiariaPersonalMovido" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido)">
             <Parameter Name="codLinea" Mode="In" Type="String" />
             <Parameter Name="Turno" Mode="In" Type="Int32" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultarCaambioPersonalxCedula" ReturnType="Collection(ASIS_PRODModel.spConsultarCaambioPersonalxCedula)">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultarCambioPersonalxLineaxTurno" ReturnType="Collection(ASIS_PRODModel.spConsultarCambioPersonalxLineaxTurno)">
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Hora" Mode="In" Type="Time" />
           </FunctionImport>
@@ -3141,11 +3157,6 @@
           <Property Type="String" Name="Recurso" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="Cargo" Nullable="true" MaxLength="30" />
         </ComplexType>
-        <ComplexType Name="spConsultarCaambioPersonalxCedula">
-          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="LINEA" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FECHAMOVIDO" Nullable="true" Precision="23" />
-        </ComplexType>
         <EntityType Name="CONTROL_HORA_MAQUINA">
           <Key>
             <PropertyRef Name="IdControlHoraMaquina" />
@@ -3306,10 +3317,6 @@
           <Property Type="String" Name="CODLINEAMOVIDO" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="LINEAMOVIDO" Nullable="false" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="spConsultarCambioPersonalxLineaxTurno">
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
-        </ComplexType>
         <EntityType Name="CONTROL_PESO_ENLATADO">
           <Key>
             <PropertyRef Name="IdControlPesoEnlatado" />
@@ -3391,6 +3398,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spConsultaControlPesoEnlatado">
+          <Property Type="Int32" Name="IdControlPesoEnlatado" Nullable="false" />
+          <Property Type="String" Name="OrdenFabricacion" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="OrdenVenta" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="CodigoProducto" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Producto" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="CodPeso" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Peso" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="CodLinea" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="LineaEnlatado" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="spConsultaControlPesoEnlatadoDetalle">
+          <Property Type="Int32" Name="IdControlPesoEnlatadoDetallado" Nullable="false" />
+          <Property Type="Int32" Name="IdControlPesoEnlatado" Nullable="false" />
+          <Property Type="DateTime" Name="Hora" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="Temperatura" Nullable="false" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="spConsultaControlPesoEnlatadoSubDetalle">
+          <Property Type="Int32" Name="IdControlPesoEnlatadoSubdetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdControlPesoEnlatadoDetallado" Nullable="false" />
+          <Property Type="Int32" Name="IdControlPesoEnlatado" Nullable="false" />
+          <Property Type="Int32" Name="Muestra" Nullable="false" />
+          <Property Type="Int32" Name="Peso" Nullable="false" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+        </ComplexType>
         <ComplexType Name="sp_ConsultaAsistenciaDiariaPersonalMovido">
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="200" />
           <Property Type="Int32" Name="IdAsistencia" Nullable="true" />
@@ -3409,6 +3444,22 @@
           <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="Time" Name="HoraSalida" Nullable="true" />
+          <Property Type="String" Name="CentroCostos" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="spConsultarCaambioPersonalxCedula">
+          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="LINEA" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FECHAMOVIDO" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spConsultarCambioPersonalxLineaxTurno">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4981,15 +5032,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultarCaambioPersonalxCedula" FunctionName="ASIS_PRODModel.Store.spConsultarCaambioPersonalxCedula">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarCaambioPersonalxCedula">
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
-                <ScalarProperty Name="FECHAMOVIDO" ColumnName="FECHAMOVIDO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CONTROL_HORA_MAQUINA">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_HORA_MAQUINA">
               <MappingFragment StoreEntitySet="CONTROL_HORA_MAQUINA">
@@ -5156,14 +5198,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultarCambioPersonalxLineaxTurno" FunctionName="ASIS_PRODModel.Store.spConsultarCambioPersonalxLineaxTurno">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarCambioPersonalxLineaxTurno">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CONTROL_PESO_ENLATADO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_PESO_ENLATADO">
               <MappingFragment StoreEntitySet="CONTROL_PESO_ENLATADO">
@@ -5220,6 +5254,46 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlPesoEnlatado" FunctionName="ASIS_PRODModel.Store.spConsultaControlPesoEnlatado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlPesoEnlatado">
+                <ScalarProperty Name="IdControlPesoEnlatado" ColumnName="IdControlPesoEnlatado" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="CodPeso" ColumnName="CodPeso" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="LineaEnlatado" ColumnName="LineaEnlatado" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlPesoEnlatadoDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaControlPesoEnlatadoDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlPesoEnlatadoDetalle">
+                <ScalarProperty Name="IdControlPesoEnlatadoDetallado" ColumnName="IdControlPesoEnlatadoDetallado" />
+                <ScalarProperty Name="IdControlPesoEnlatado" ColumnName="IdControlPesoEnlatado" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Temperatura" ColumnName="Temperatura" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlPesoEnlatadoSubDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaControlPesoEnlatadoSubDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlPesoEnlatadoSubDetalle">
+                <ScalarProperty Name="IdControlPesoEnlatadoSubdetalle" ColumnName="IdControlPesoEnlatadoSubdetalle" />
+                <ScalarProperty Name="IdControlPesoEnlatadoDetallado" ColumnName="IdControlPesoEnlatadoDetallado" />
+                <ScalarProperty Name="IdControlPesoEnlatado" ColumnName="IdControlPesoEnlatado" />
+                <ScalarProperty Name="Muestra" ColumnName="Muestra" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_ConsultaAsistenciaDiariaPersonalMovido" FunctionName="ASIS_PRODModel.Store.sp_ConsultaAsistenciaDiariaPersonalMovido">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido">
@@ -5240,6 +5314,30 @@
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
+                <ScalarProperty Name="CentroCostos" ColumnName="CentroCostos" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultarCaambioPersonalxCedula" FunctionName="ASIS_PRODModel.Store.spConsultarCaambioPersonalxCedula">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarCaambioPersonalxCedula">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="FECHAMOVIDO" ColumnName="FECHAMOVIDO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultarCambioPersonalxLineaxTurno" FunctionName="ASIS_PRODModel.Store.spConsultarCambioPersonalxLineaxTurno">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarCambioPersonalxLineaxTurno">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
