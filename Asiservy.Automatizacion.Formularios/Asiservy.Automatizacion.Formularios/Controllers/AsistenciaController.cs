@@ -436,13 +436,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             
         }
         [Authorize]
-        public JsonResult ConsultarExistenciaAsistenciaPrestados(string Turno,DateTime Fecha)
+        public JsonResult ConsultarExistenciaAsistenciaPrestados(string Turno,DateTime Fecha, TimeSpan? Hora)
         {
             try
             {
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
-                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaPrestados(liststring[1], Turno,Fecha);
+                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaPrestados(liststring[1], Turno,Fecha,Hora.Value);
                 return Json(AsitenciaExiste, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -560,6 +560,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
+                //falta modificar el script para enbviar fecha y hora
                 var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, turno, Fecha,Hora);
 
                 return PartialView(AsistenciaViewModel);
