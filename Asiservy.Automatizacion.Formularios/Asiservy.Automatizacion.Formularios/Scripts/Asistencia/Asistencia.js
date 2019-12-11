@@ -328,9 +328,9 @@ function GenerarAsistenciaDiaria(IdLinea, bandera)//genera asistencia diaria si 
 function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea, Cargo) {
     //**
     //console.log('change');
-    console.log(fila);
-    console.log(nombre);
-    console.log(ComboOCheck);
+    //console.log(fila);
+    //console.log(nombre);
+    //console.log(ComboOCheck);
     var banderaChangesinCheck = false;
     //**
     var valor = fila - 1;

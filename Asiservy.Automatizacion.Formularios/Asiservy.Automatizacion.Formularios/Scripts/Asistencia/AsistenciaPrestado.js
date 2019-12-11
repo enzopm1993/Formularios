@@ -259,7 +259,7 @@ function GenerarAsistenciaDiariaMovidos(IdLinea, bandera) {
 }
 
 //guardar con check
-function GuardarPersona(fila, nombre, ComboOCheck) {
+function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea, Cargo) {
     //**
     //console.log('change');
     var banderaChangesinCheck = false;
@@ -330,7 +330,12 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
                 Hora: $('#ControlAsistencia_' + fila + '__Hora').val(),
                 observacion: $('#ControlAsistencia_' + fila + '__Observacion').val(),
                 estado: $('#ControlAsistencia_' + fila + '__EstadoAsistencia').val(),
-                Fecha: $('#txtFecha').val()
+                Fecha: $('#txtFecha').val(),
+                CentroCostos: CentroCostos,
+                Recurso: Recurso,
+                Linea: Linea,
+                Cargo: Cargo,
+                Turno: $('#TurnoGen').val()
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);
