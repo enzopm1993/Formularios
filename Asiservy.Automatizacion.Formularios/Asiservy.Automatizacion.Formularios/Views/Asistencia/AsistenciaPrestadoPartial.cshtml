@@ -106,7 +106,7 @@
 
                 <td>
 
-                    @Html.DropDownListFor(x => x.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "browser-default custom-select", @witdh = "200px", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','combo')" })
+                    @Html.DropDownListFor(x => x.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "browser-default custom-select", @witdh = "200px", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','combo','"+@item.CentroCostos+"','"+@item.Recurso+"','"+@item.Linea+"','"+item.Cargo+"')" })
                 </td>
                 <td>
                     <center>

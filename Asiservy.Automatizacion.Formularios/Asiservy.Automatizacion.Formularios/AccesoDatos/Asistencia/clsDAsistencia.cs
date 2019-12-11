@@ -428,471 +428,495 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                DateTime Fechainicio = Convert.ToDateTime(psAsistencia.Fecha.Value.ToShortDateString());
-                DateTime FechaFin = Convert.ToDateTime(psAsistencia.Fecha.Value.AddDays(1).ToShortDateString());
-                var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == psAsistencia.Cedula && (x.Fecha >= Fechainicio && x.Fecha < FechaFin)).FirstOrDefault();
-                BuscarEnAsistencia.EstadoAsistencia = psAsistencia.EstadoAsistencia;
-                if (!string.IsNullOrEmpty(psAsistencia.Observacion))
-                    BuscarEnAsistencia.Observacion = psAsistencia.Observacion;
-                if (psAsistencia.Hora != null)
-                    BuscarEnAsistencia.Hora = psAsistencia.Hora;
-                BuscarEnAsistencia.FechaModificacionLog = psAsistencia.FechaModificacionLog;
-                BuscarEnAsistencia.UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                BuscarEnAsistencia.TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                
-                //**ingresar en MOVIMIENTO_PERSONAL_DIARIO  (entrada > fecha1 && entrada < fecha2)
-                if (psAsistencia.EstadoAsistencia == clsAtributos.EstadoFalta)//si en asistencia, despues de haberle dado asistencia le cambian el estado a falta
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    //var BuscarMovimientoPersonalActivo= (from m in db.MOVIMIENTO_PERSONAL_DIARIO
-                    //                                     where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                    //                                     select m).FirstOrDefault();
+                    DateTime Fechainicio = Convert.ToDateTime(psAsistencia.Fecha.Value.ToShortDateString());
+                    DateTime FechaFin = Convert.ToDateTime(psAsistencia.Fecha.Value.AddDays(1).ToShortDateString());
+                    var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == psAsistencia.Cedula && (x.Fecha >= Fechainicio && x.Fecha < FechaFin)).FirstOrDefault();
+                    BuscarEnAsistencia.EstadoAsistencia = psAsistencia.EstadoAsistencia;
+                    if (!string.IsNullOrEmpty(psAsistencia.Observacion))
+                        BuscarEnAsistencia.Observacion = psAsistencia.Observacion;
+                    if (psAsistencia.Hora != null)
+                        BuscarEnAsistencia.Hora = psAsistencia.Hora;
+                    BuscarEnAsistencia.FechaModificacionLog = psAsistencia.FechaModificacionLog;
+                    BuscarEnAsistencia.UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                    BuscarEnAsistencia.TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
 
-                    //traigo el último registro ingresado en MOVIMIENTO_PERSONAL con la fecha indicada
-
-                    //var BuscarMovimientoPersonalActivo = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
-                    //                                      where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                    //                                      orderby m.IdCambioPersonal descending
-                    //                                      select m).FirstOrDefault();
-
-                    //Busco en MOVIMIENTO
-                    var BuscarMovimientoPersonalActivo = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
-                                                          where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo&m.Cedula==psAsistencia.Cedula
-                                                          select m).ToList();
-                    if (BuscarMovimientoPersonalActivo.Count>0 /*!= null*/)
+                    //**ingresar en MOVIMIENTO_PERSONAL_DIARIO  (entrada > fecha1 && entrada < fecha2)
+                    if (psAsistencia.EstadoAsistencia == clsAtributos.EstadoFalta)//si en asistencia, despues de haberle dado asistencia le cambian el estado a falta
                     {
-                        foreach (var item in BuscarMovimientoPersonalActivo)
+                        //var BuscarMovimientoPersonalActivo= (from m in db.MOVIMIENTO_PERSONAL_DIARIO
+                        //                                     where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                        //                                     select m).FirstOrDefault();
+
+                        //traigo el último registro ingresado en MOVIMIENTO_PERSONAL con la fecha indicada
+
+                        //var BuscarMovimientoPersonalActivo = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
+                        //                                      where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                        //                                      orderby m.IdCambioPersonal descending
+                        //                                      select m).FirstOrDefault();
+
+                        //Busco en MOVIMIENTO
+                        var BuscarMovimientoPersonalActivo = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
+                                                              where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo & m.Cedula == psAsistencia.Cedula
+                                                              select m).ToList();
+                        if (BuscarMovimientoPersonalActivo.Count > 0 /*!= null*/)
                         {
-                            item.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                            item.UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                            item.FechaModificacionLog = DateTime.Now;
-                            item.TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                            foreach (var item in BuscarMovimientoPersonalActivo)
+                            {
+                                item.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                                item.UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                item.FechaModificacionLog = DateTime.Now;
+                                item.TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                            }
+                            //BuscarMovimientoPersonalActivo.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                         }
-                        //BuscarMovimientoPersonalActivo.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                    }
 
-                }
-                else
-                {
-                    //**
-                    //Si se Marca "Asistencia Presente" a un empleado, entonces genero un nuevo registro en MOVIMIENTO_PERSONAL_DIARIO
-                    List<MOVIMIENTO_PERSONAL_DIARIO> NuevoMovimientoPersonalAsistencia = new List<MOVIMIENTO_PERSONAL_DIARIO>();
-                    //debo buscar si el registro ya existe pero esta  inactivado
-                    //---i
-                    MOVIMIENTO_PERSONAL_DIARIO BuscarRegInactivos;
-                    var BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula==psAsistencia.Cedula&&x.FechaInicio == psAsistencia.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).ToList();
-                    int NumeroRegistros = BuscarMovimientoPersonalDiario.Count;
-                    int indice = 0;
-                    //--f
-                    //--i
-                    BuscarRegInactivos = BuscarMovimientoPersonalDiario.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).FirstOrDefault();
-                    //if (NumeroRegistros >= 1)
-                    if (BuscarRegInactivos!=null)
-                    {
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = null;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
-                        //BuscarMovimientoPersonalDiario[indice].EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                        //BuscarMovimientoPersonalDiario[indice].FechaInicio = psAsistencia.Fecha;
-                        //BuscarMovimientoPersonalDiario[indice].HoraInicio = psAsistencia.Hora;
-                        //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                        //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                        //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = psAsistencia.Fecha;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = psAsistencia.Hora;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Turno = psAsistencia.Turno;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Cedula = psAsistencia.Cedula;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodLinea = psAsistencia.Linea;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CentroCosto = psAsistencia.CentroCostos;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodCargo = psAsistencia.Cargo;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Recurso = psAsistencia.Recurso;
-                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Asistencia = true;
                     }
-                    //--f
                     else
                     {
-                        NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
-                        {
-                            Cedula = psAsistencia.Cedula,
-                            CodLinea = psAsistencia.Linea,
-                            CentroCosto = psAsistencia.CentroCostos,
-                            CodCargo = psAsistencia.Cargo,
-                            Recurso = psAsistencia.Recurso,
-                            FechaInicio = psAsistencia.Fecha,
-                            HoraInicio = psAsistencia.Hora,
-                            Asistencia = true,
-                            Turno=psAsistencia.Turno,
-                            EstadoRegistro = psAsistencia.EstadoRegistro,
-                            FechaIngresoLog = psAsistencia.FechaModificacionLog,
-                            TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
-                            UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog
-                        });
-                    }
 
-                    //Busco en CAMBIO_PERSONAL donde la fecha de inicio sea igual a la fecha de la asistencia
-                    //CAMBIO_PERSONAL BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha&&x.HoraInicio!=null&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo /*&& x.HoraInicio > psAsistencia.Hora*/).FirstOrDefault();
-                    List<CAMBIO_PERSONAL> BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha && x.HoraInicio != null && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaFin == psAsistencia.Fecha || x.FechaFin == null) /*&& x.HoraInicio > psAsistencia.Hora*/).ToList();
+                        //código para corregir , por que se puede dar guardar asistencia desde combos de "estados de asistencia", para que no se cree doble registro en movimiento_personal, cuando de presente se pasa a atraso o de atraso a presente
 
-                    ClsdEmpleado = new clsDEmpleado();
-                    spConsultaEspecificaEmpleadosxCedula BuscarEmpleadoDataL;
-                    /*if (BuscarCambioPersonal != null )*///si encuentra que el empleado fue movido en esa fecha
-                    if (BuscarCambioPersonal.Count>0)
-                    {
-                        foreach (var item in BuscarCambioPersonal)
+                        var BuscarMovimientoPersonalActivo = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
+                                                              where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo & m.Cedula == psAsistencia.Cedula
+                                                              select m).ToList();
+                        if (BuscarMovimientoPersonalActivo.Count > 0 /*!= null*/)
                         {
-                            if (item.HoraInicio != null)//verifico que no haya sido movido a inicio de jornada
+                            foreach (var item in BuscarMovimientoPersonalActivo)
                             {
-                                if (item.HoraInicio > psAsistencia.Hora)//verifico que la HoraInicio que fue movido sea mayor a la hora de la asistencia
-                                {
-                                    //actualizo la horaFin y FechaFin del primer registro en MOVIMIENTO_PERSONAL_DIARIO
-                                    //if (NumeroRegistros == 0)
-                                    if (BuscarRegInactivos == null)
-                                    {
-                                        //NuevoMovimientoPersonalAsistencia[indice].FechaFin = BuscarCambioPersonal.Fecha;
-                                        //NuevoMovimientoPersonalAsistencia[indice].HoraFin = BuscarCambioPersonal.HoraInicio;
-                                        //NuevoMovimientoPersonalAsistencia[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        //NuevoMovimientoPersonalAsistencia[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        //NuevoMovimientoPersonalAsistencia[indice].FechaModificacionLog = DateTime.Now;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaFin = item.Fecha;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().HoraFin = item.HoraInicio;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaModificacionLog = DateTime.Now;
-                                    }
-                                    else
-                                    {
-                                        //BuscarMovimientoPersonalDiario[indice].FechaFin = BuscarCambioPersonal.Fecha;
-                                        //BuscarMovimientoPersonalDiario[indice].HoraFin = BuscarCambioPersonal.HoraInicio;
-                                        //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = item.Fecha;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = item.HoraInicio;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
-                                        
-                                    }
-
-                                    indice += 1;
-                                    BuscarRegInactivos = BuscarMovimientoPersonalDiario.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).FirstOrDefault();
-                                    //genero un nuevo registro con fecha y hora de inicio a donde fue movido el empleado
-                                    //if (NumeroRegistros >= indice)
-                                    if (BuscarRegInactivos !=null)
-                                    {
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = null;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
-                                        //BuscarMovimientoPersonalDiario[indice].CodLinea = BuscarCambioPersonal.CodLinea;
-                                        //BuscarMovimientoPersonalDiario[indice].CentroCosto = BuscarCambioPersonal.CentroCosto;
-                                        //BuscarMovimientoPersonalDiario[indice].CodCargo = BuscarCambioPersonal.CodCargo;
-                                        //BuscarMovimientoPersonalDiario[indice].Recurso = BuscarCambioPersonal.Recurso;
-                                        //BuscarMovimientoPersonalDiario[indice].EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                                        //BuscarMovimientoPersonalDiario[indice].FechaInicio = BuscarCambioPersonal.Fecha;
-                                        //BuscarMovimientoPersonalDiario[indice].HoraInicio = BuscarCambioPersonal.HoraInicio;
-                                        //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodLinea = item.CodLinea;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CentroCosto = item.CentroCosto;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodCargo = item.CodCargo;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Recurso = item.Recurso;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Turno = psAsistencia.Turno;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = item.Fecha;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = item.HoraInicio;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
-                                    }
-                                    else
-                                    {
-                                        NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
-                                        {
-                                            Cedula = item.Cedula,
-                                            CodLinea = item.CodLinea,
-                                            CentroCosto = item.CentroCosto,
-                                            CodCargo = item.CodCargo,
-                                            Recurso = item.Recurso,
-                                            FechaInicio = item.Fecha,
-                                            HoraInicio = item.HoraInicio,
-                                            EstadoRegistro = clsAtributos.EstadoRegistroActivo,
-                                            Asistencia = false,
-                                            Turno=psAsistencia.Turno,
-                                            TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
-                                            UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog,
-                                            FechaIngresoLog = DateTime.Now
-                                        });
-                                    }
-
-
-                                }
-                                else
-                                {
-                                    //if (NumeroRegistros == 0)
-                                    if (BuscarRegInactivos == null)
-                                    {
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaFin = item.Fecha;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().HoraFin = item.HoraInicio;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaModificacionLog = DateTime.Now;
-                                    }
-                                    else
-                                    {
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = item.Fecha;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = item.HoraInicio;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
-                                    }
-                                    indice += 1;
-                                    BuscarRegInactivos = BuscarMovimientoPersonalDiario.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).FirstOrDefault();
-                                    //genero un nuevo registro con fecha y hora de inicio a donde fue movido el empleado
-                                    //if (NumeroRegistros >= indice)
-                                    if (BuscarRegInactivos!=null)
-                                    {
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = null;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
-
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodLinea = item.CodLinea;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CentroCosto = item.CentroCosto;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodCargo = item.CodCargo;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Recurso = item.Recurso;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Turno = psAsistencia.Turno;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = psAsistencia.Fecha;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = psAsistencia.Hora;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
-                                    }
-                                    else
-                                    {
-                                        NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
-                                        {
-                                            Cedula = item.Cedula,
-                                            CodLinea = item.CodLinea,
-                                            CentroCosto = item.CentroCosto,
-                                            CodCargo = item.CodCargo,
-                                            Recurso = item.Recurso,
-                                            FechaInicio = item.Fecha,
-                                            HoraInicio = psAsistencia.Hora,
-                                            EstadoRegistro = clsAtributos.EstadoRegistroActivo,
-                                            Asistencia = false,
-                                            Turno=psAsistencia.Turno,
-                                            TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
-                                            UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog,
-                                            FechaIngresoLog = DateTime.Now
-                                        });
-                                    }
-                                }
+                                item.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                                item.UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                item.FechaModificacionLog = DateTime.Now;
+                                item.TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
                             }
-                            //pregunto si el empleado que fue movido tiene fecha de regreso a donde pertenece igual a la fecha que se marco asistencia
-                            if (item.FechaFin != null && item.Horafin != null && psAsistencia.Fecha == item.Fecha)
+
+                        }
+                        db.SaveChanges();
+                        //fin código para corregir 
+
+                        //**
+                        //Si se Marca "Asistencia Presente" a un empleado, entonces genero un nuevo registro en MOVIMIENTO_PERSONAL_DIARIO
+                        List<MOVIMIENTO_PERSONAL_DIARIO> NuevoMovimientoPersonalAsistencia = new List<MOVIMIENTO_PERSONAL_DIARIO>();
+                        //debo buscar si el registro ya existe pero esta  inactivado
+                        //---i
+                        MOVIMIENTO_PERSONAL_DIARIO BuscarRegInactivos;
+                        var BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula == psAsistencia.Cedula && x.FechaInicio == psAsistencia.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).ToList();
+                        int NumeroRegistros = BuscarMovimientoPersonalDiario.Count;
+                        int indice = 0;
+                        //--f
+                        //--i
+                        BuscarRegInactivos = BuscarMovimientoPersonalDiario.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).FirstOrDefault();
+                        //if (NumeroRegistros >= 1)
+                        if (BuscarRegInactivos != null)
+                        {
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = null;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
+                            //BuscarMovimientoPersonalDiario[indice].EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                            //BuscarMovimientoPersonalDiario[indice].FechaInicio = psAsistencia.Fecha;
+                            //BuscarMovimientoPersonalDiario[indice].HoraInicio = psAsistencia.Hora;
+                            //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                            //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                            //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = psAsistencia.Fecha;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = psAsistencia.Hora;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Turno = psAsistencia.Turno;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Cedula = psAsistencia.Cedula;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodLinea = psAsistencia.Linea;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CentroCosto = psAsistencia.CentroCostos;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodCargo = psAsistencia.Cargo;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Recurso = psAsistencia.Recurso;
+                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Asistencia = true;
+                        }
+                        //--f
+                        else
+                        {
+                            NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
                             {
-                                //consulto linea,cargo,recurso y centro de costo donde el empleado pertenece en DataLife
-                                BuscarEmpleadoDataL = ClsdEmpleado.ConsultarEmpleadoxCedula(psAsistencia.Cedula);
-                                //modifico el 2do registro en MOVIMIENTO_PERSONAL_DIARIO para actualizar Fecha fin y hora fin
-                                if (item.Horafin > psAsistencia.Hora)
-                                {
-                                    //if (NumeroRegistros == 0)
-                                    if(BuscarRegInactivos == null)
-                                    {
-                                        //NuevoMovimientoPersonalAsistencia[indice].FechaFin = BuscarCambioPersonal.FechaFin;
-                                        //NuevoMovimientoPersonalAsistencia[indice].HoraFin = BuscarCambioPersonal.Horafin;
-                                        //NuevoMovimientoPersonalAsistencia[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        //NuevoMovimientoPersonalAsistencia[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        //NuevoMovimientoPersonalAsistencia[indice].FechaModificacionLog = DateTime.Now;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaFin = item.FechaFin;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().HoraFin = item.Horafin;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaModificacionLog = DateTime.Now;
-                                    }
-                                    else
-                                    {
-                                        //BuscarMovimientoPersonalDiario[indice].FechaFin = BuscarCambioPersonal.FechaFin;
-                                        //BuscarMovimientoPersonalDiario[indice].HoraFin = BuscarCambioPersonal.Horafin;
-                                        //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = item.FechaFin;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = item.Horafin;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
-                                    }
-                                    indice += 1;
-                                    BuscarRegInactivos = BuscarMovimientoPersonalDiario.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).FirstOrDefault();
-                                    //genero un nuevo registro para el retorno a la linea donde pertenece el empleado con fechainicio y hora inicio igual a la fecha de retorno
-                                    //if (NumeroRegistros >= indice)
-                                    if (BuscarRegInactivos!= null)
-                                    {
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = null;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
+                                Cedula = psAsistencia.Cedula,
+                                CodLinea = psAsistencia.Linea,
+                                CentroCosto = psAsistencia.CentroCostos,
+                                CodCargo = psAsistencia.Cargo,
+                                Recurso = psAsistencia.Recurso,
+                                FechaInicio = psAsistencia.Fecha,
+                                HoraInicio = psAsistencia.Hora,
+                                Asistencia = true,
+                                Turno = psAsistencia.Turno,
+                                EstadoRegistro = psAsistencia.EstadoRegistro,
+                                FechaIngresoLog = psAsistencia.FechaModificacionLog,
+                                TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
+                                UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog
+                            });
+                        }
 
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodLinea = BuscarEmpleadoDataL.LINEA;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodCargo = BuscarEmpleadoDataL.CARGO;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Recurso = BuscarEmpleadoDataL.RECURSO;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Turno = psAsistencia.Turno;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = item.FechaFin;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = item.Horafin;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
+                        //Busco en CAMBIO_PERSONAL donde la fecha de inicio sea igual a la fecha de la asistencia
+                        //CAMBIO_PERSONAL BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha&&x.HoraInicio!=null&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo /*&& x.HoraInicio > psAsistencia.Hora*/).FirstOrDefault();
+                        List<CAMBIO_PERSONAL> BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha && x.HoraInicio != null && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaFin == psAsistencia.Fecha || x.FechaFin == null) /*&& x.HoraInicio > psAsistencia.Hora*/).ToList();
+
+                        ClsdEmpleado = new clsDEmpleado();
+                        spConsultaEspecificaEmpleadosxCedula BuscarEmpleadoDataL;
+                        /*if (BuscarCambioPersonal != null )*///si encuentra que el empleado fue movido en esa fecha
+                        if (BuscarCambioPersonal.Count > 0)
+                        {
+                            foreach (var item in BuscarCambioPersonal)
+                            {
+                                if (item.HoraInicio != null)//verifico que no haya sido movido a inicio de jornada
+                                {
+                                    if (item.HoraInicio > psAsistencia.Hora)//verifico que la HoraInicio que fue movido sea mayor a la hora de la asistencia
+                                    {
+                                        //actualizo la horaFin y FechaFin del primer registro en MOVIMIENTO_PERSONAL_DIARIO
+                                        //if (NumeroRegistros == 0)
+                                        if (BuscarRegInactivos == null)
+                                        {
+                                            //NuevoMovimientoPersonalAsistencia[indice].FechaFin = BuscarCambioPersonal.Fecha;
+                                            //NuevoMovimientoPersonalAsistencia[indice].HoraFin = BuscarCambioPersonal.HoraInicio;
+                                            //NuevoMovimientoPersonalAsistencia[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            //NuevoMovimientoPersonalAsistencia[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            //NuevoMovimientoPersonalAsistencia[indice].FechaModificacionLog = DateTime.Now;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaFin = item.Fecha;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().HoraFin = item.HoraInicio;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaModificacionLog = DateTime.Now;
+                                        }
+                                        else
+                                        {
+                                            //BuscarMovimientoPersonalDiario[indice].FechaFin = BuscarCambioPersonal.Fecha;
+                                            //BuscarMovimientoPersonalDiario[indice].HoraFin = BuscarCambioPersonal.HoraInicio;
+                                            //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = item.Fecha;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = item.HoraInicio;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
+
+                                        }
+
+                                        indice += 1;
+                                        BuscarRegInactivos = BuscarMovimientoPersonalDiario.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).FirstOrDefault();
+                                        //genero un nuevo registro con fecha y hora de inicio a donde fue movido el empleado
+                                        //if (NumeroRegistros >= indice)
+                                        if (BuscarRegInactivos != null)
+                                        {
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = null;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
+                                            //BuscarMovimientoPersonalDiario[indice].CodLinea = BuscarCambioPersonal.CodLinea;
+                                            //BuscarMovimientoPersonalDiario[indice].CentroCosto = BuscarCambioPersonal.CentroCosto;
+                                            //BuscarMovimientoPersonalDiario[indice].CodCargo = BuscarCambioPersonal.CodCargo;
+                                            //BuscarMovimientoPersonalDiario[indice].Recurso = BuscarCambioPersonal.Recurso;
+                                            //BuscarMovimientoPersonalDiario[indice].EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                                            //BuscarMovimientoPersonalDiario[indice].FechaInicio = BuscarCambioPersonal.Fecha;
+                                            //BuscarMovimientoPersonalDiario[indice].HoraInicio = BuscarCambioPersonal.HoraInicio;
+                                            //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodLinea = item.CodLinea;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CentroCosto = item.CentroCosto;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodCargo = item.CodCargo;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Recurso = item.Recurso;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Turno = psAsistencia.Turno;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = item.Fecha;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = item.HoraInicio;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
+                                        }
+                                        else
+                                        {
+                                            NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                                            {
+                                                Cedula = item.Cedula,
+                                                CodLinea = item.CodLinea,
+                                                CentroCosto = item.CentroCosto,
+                                                CodCargo = item.CodCargo,
+                                                Recurso = item.Recurso,
+                                                FechaInicio = item.Fecha,
+                                                HoraInicio = item.HoraInicio,
+                                                EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                                                Asistencia = false,
+                                                Turno = psAsistencia.Turno,
+                                                TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
+                                                UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog,
+                                                FechaIngresoLog = DateTime.Now
+                                            });
+                                        }
+
+
                                     }
                                     else
                                     {
-                                        NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                                        //if (NumeroRegistros == 0)
+                                        if (BuscarRegInactivos == null)
                                         {
-                                            Cedula = psAsistencia.Cedula,
-                                            CodLinea = BuscarEmpleadoDataL.LINEA,
-                                            CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS,
-                                            CodCargo = BuscarEmpleadoDataL.CARGO,
-                                            Recurso = BuscarEmpleadoDataL.RECURSO,
-                                            FechaInicio = item.FechaFin,
-                                            HoraInicio = item.Horafin,
-                                            EstadoRegistro = clsAtributos.EstadoRegistroActivo,
-                                            Asistencia = false,
-                                            Turno=psAsistencia.Turno,
-                                            TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
-                                            UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog,
-                                            FechaIngresoLog = DateTime.Now
-                                        });
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaFin = item.Fecha;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().HoraFin = item.HoraInicio;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaModificacionLog = DateTime.Now;
+                                        }
+                                        else
+                                        {
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = item.Fecha;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = item.HoraInicio;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
+                                        }
+                                        indice += 1;
+                                        BuscarRegInactivos = BuscarMovimientoPersonalDiario.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).FirstOrDefault();
+                                        //genero un nuevo registro con fecha y hora de inicio a donde fue movido el empleado
+                                        //if (NumeroRegistros >= indice)
+                                        if (BuscarRegInactivos != null)
+                                        {
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = null;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
+
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodLinea = item.CodLinea;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CentroCosto = item.CentroCosto;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodCargo = item.CodCargo;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Recurso = item.Recurso;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Turno = psAsistencia.Turno;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = psAsistencia.Fecha;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = psAsistencia.Hora;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
+                                        }
+                                        else
+                                        {
+                                            NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                                            {
+                                                Cedula = item.Cedula,
+                                                CodLinea = item.CodLinea,
+                                                CentroCosto = item.CentroCosto,
+                                                CodCargo = item.CodCargo,
+                                                Recurso = item.Recurso,
+                                                FechaInicio = item.Fecha,
+                                                HoraInicio = psAsistencia.Hora,
+                                                EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                                                Asistencia = false,
+                                                Turno = psAsistencia.Turno,
+                                                TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
+                                                UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog,
+                                                FechaIngresoLog = DateTime.Now
+                                            });
+                                        }
                                     }
                                 }
-                                else
+                                //pregunto si el empleado que fue movido tiene fecha de regreso a donde pertenece igual a la fecha que se marco asistencia
+                                if (item.FechaFin != null && item.Horafin != null && psAsistencia.Fecha == item.Fecha)
                                 {
-                                    //if (NumeroRegistros == 0)
-                                    if (BuscarRegInactivos == null)
+                                    //consulto linea,cargo,recurso y centro de costo donde el empleado pertenece en DataLife
+                                    BuscarEmpleadoDataL = ClsdEmpleado.ConsultarEmpleadoxCedula(psAsistencia.Cedula);
+                                    //modifico el 2do registro en MOVIMIENTO_PERSONAL_DIARIO para actualizar Fecha fin y hora fin
+                                    if (item.Horafin > psAsistencia.Hora)
                                     {
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaFin = item.FechaFin;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().HoraFin = item.Horafin;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaModificacionLog = DateTime.Now;
-                                    }
-                                    else
-                                    {
-                                        //BuscarMovimientoPersonalDiario[indice].EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                                        //BuscarMovimientoPersonalDiario[indice].FechaFin = BuscarCambioPersonal.FechaFin;
-                                        //BuscarMovimientoPersonalDiario[indice].HoraFin = BuscarCambioPersonal.Horafin;
-                                        //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
-
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = item.FechaFin;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = item.Horafin;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
-                                    }
-                                    indice += 1;
-                                    BuscarRegInactivos = BuscarMovimientoPersonalDiario.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).FirstOrDefault();
-                                    //genero un nuevo registro para el retorno a la linea donde pertenece el empleado con fechainicio y hora inicio igual a la fecha de retorno
-                                    //if (NumeroRegistros >= indice)
-                                    if (BuscarRegInactivos !=null)
-                                    {
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = null;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
-                                        //BuscarMovimientoPersonalDiario[indice].CodLinea = BuscarEmpleadoDataL.LINEA;
-                                        //BuscarMovimientoPersonalDiario[indice].CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS;
-                                        //BuscarMovimientoPersonalDiario[indice].CodCargo = BuscarEmpleadoDataL.CARGO;
-                                        //BuscarMovimientoPersonalDiario[indice].Recurso = BuscarEmpleadoDataL.RECURSO;
-                                        //BuscarMovimientoPersonalDiario[indice].EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                                        //BuscarMovimientoPersonalDiario[indice].FechaInicio = BuscarCambioPersonal.FechaFin;
-                                        //BuscarMovimientoPersonalDiario[indice].HoraInicio = psAsistencia.Hora;
-                                        //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodLinea = BuscarEmpleadoDataL.LINEA;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodCargo = BuscarEmpleadoDataL.CARGO;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Recurso = BuscarEmpleadoDataL.RECURSO;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Turno = psAsistencia.Turno;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = item.FechaFin;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = psAsistencia.Hora;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                        BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
-                                    }
-                                    else
-                                    {
-                                        NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                                        //if (NumeroRegistros == 0)
+                                        if (BuscarRegInactivos == null)
                                         {
-                                            Cedula = psAsistencia.Cedula,
-                                            CodLinea = BuscarEmpleadoDataL.LINEA,
-                                            CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS,
-                                            CodCargo = BuscarEmpleadoDataL.CARGO,
-                                            Recurso = BuscarEmpleadoDataL.RECURSO,
-                                            FechaInicio = item.FechaFin,
-                                            HoraInicio = psAsistencia.Hora,
-                                            EstadoRegistro = clsAtributos.EstadoRegistroActivo,
-                                            Asistencia = false,
-                                            Turno=psAsistencia.Turno,
-                                            TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
-                                            UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog,
-                                            FechaIngresoLog = DateTime.Now
-                                        });
+                                            //NuevoMovimientoPersonalAsistencia[indice].FechaFin = BuscarCambioPersonal.FechaFin;
+                                            //NuevoMovimientoPersonalAsistencia[indice].HoraFin = BuscarCambioPersonal.Horafin;
+                                            //NuevoMovimientoPersonalAsistencia[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            //NuevoMovimientoPersonalAsistencia[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            //NuevoMovimientoPersonalAsistencia[indice].FechaModificacionLog = DateTime.Now;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaFin = item.FechaFin;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().HoraFin = item.Horafin;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaModificacionLog = DateTime.Now;
+                                        }
+                                        else
+                                        {
+                                            //BuscarMovimientoPersonalDiario[indice].FechaFin = BuscarCambioPersonal.FechaFin;
+                                            //BuscarMovimientoPersonalDiario[indice].HoraFin = BuscarCambioPersonal.Horafin;
+                                            //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = item.FechaFin;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = item.Horafin;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
+                                        }
+                                        indice += 1;
+                                        BuscarRegInactivos = BuscarMovimientoPersonalDiario.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).FirstOrDefault();
+                                        //genero un nuevo registro para el retorno a la linea donde pertenece el empleado con fechainicio y hora inicio igual a la fecha de retorno
+                                        //if (NumeroRegistros >= indice)
+                                        if (BuscarRegInactivos != null)
+                                        {
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = null;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
+
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodLinea = BuscarEmpleadoDataL.LINEA;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodCargo = BuscarEmpleadoDataL.CARGO;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Recurso = BuscarEmpleadoDataL.RECURSO;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Turno = psAsistencia.Turno;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = item.FechaFin;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = item.Horafin;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
+                                        }
+                                        else
+                                        {
+                                            NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                                            {
+                                                Cedula = psAsistencia.Cedula,
+                                                CodLinea = BuscarEmpleadoDataL.LINEA,
+                                                CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS,
+                                                CodCargo = BuscarEmpleadoDataL.CARGO,
+                                                Recurso = BuscarEmpleadoDataL.RECURSO,
+                                                FechaInicio = item.FechaFin,
+                                                HoraInicio = item.Horafin,
+                                                EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                                                Asistencia = false,
+                                                Turno = psAsistencia.Turno,
+                                                TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
+                                                UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog,
+                                                FechaIngresoLog = DateTime.Now
+                                            });
+                                        }
                                     }
+                                    else
+                                    {
+                                        //if (NumeroRegistros == 0)
+                                        if (BuscarRegInactivos == null)
+                                        {
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaFin = item.FechaFin;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().HoraFin = item.Horafin;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaModificacionLog = DateTime.Now;
+                                        }
+                                        else
+                                        {
+                                            //BuscarMovimientoPersonalDiario[indice].EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                                            //BuscarMovimientoPersonalDiario[indice].FechaFin = BuscarCambioPersonal.FechaFin;
+                                            //BuscarMovimientoPersonalDiario[indice].HoraFin = BuscarCambioPersonal.Horafin;
+                                            //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
+
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = item.FechaFin;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = item.Horafin;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
+                                        }
+                                        indice += 1;
+                                        BuscarRegInactivos = BuscarMovimientoPersonalDiario.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroInactivo).FirstOrDefault();
+                                        //genero un nuevo registro para el retorno a la linea donde pertenece el empleado con fechainicio y hora inicio igual a la fecha de retorno
+                                        //if (NumeroRegistros >= indice)
+                                        if (BuscarRegInactivos != null)
+                                        {
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = null;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
+                                            //BuscarMovimientoPersonalDiario[indice].CodLinea = BuscarEmpleadoDataL.LINEA;
+                                            //BuscarMovimientoPersonalDiario[indice].CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS;
+                                            //BuscarMovimientoPersonalDiario[indice].CodCargo = BuscarEmpleadoDataL.CARGO;
+                                            //BuscarMovimientoPersonalDiario[indice].Recurso = BuscarEmpleadoDataL.RECURSO;
+                                            //BuscarMovimientoPersonalDiario[indice].EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                                            //BuscarMovimientoPersonalDiario[indice].FechaInicio = BuscarCambioPersonal.FechaFin;
+                                            //BuscarMovimientoPersonalDiario[indice].HoraInicio = psAsistencia.Hora;
+                                            //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodLinea = BuscarEmpleadoDataL.LINEA;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodCargo = BuscarEmpleadoDataL.CARGO;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Recurso = BuscarEmpleadoDataL.RECURSO;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).Turno = psAsistencia.Turno;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = item.FechaFin;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = psAsistencia.Hora;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
+                                            BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
+                                        }
+                                        else
+                                        {
+                                            NuevoMovimientoPersonalAsistencia.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                                            {
+                                                Cedula = psAsistencia.Cedula,
+                                                CodLinea = BuscarEmpleadoDataL.LINEA,
+                                                CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS,
+                                                CodCargo = BuscarEmpleadoDataL.CARGO,
+                                                Recurso = BuscarEmpleadoDataL.RECURSO,
+                                                FechaInicio = item.FechaFin,
+                                                HoraInicio = psAsistencia.Hora,
+                                                EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                                                Asistencia = false,
+                                                Turno = psAsistencia.Turno,
+                                                TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
+                                                UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog,
+                                                FechaIngresoLog = DateTime.Now
+                                            });
+                                        }
+                                    }
+
+
                                 }
-
-
                             }
                         }
-                    }
-                    db.MOVIMIENTO_PERSONAL_DIARIO.AddRange(NuevoMovimientoPersonalAsistencia);
-                    //**
+                        db.MOVIMIENTO_PERSONAL_DIARIO.AddRange(NuevoMovimientoPersonalAsistencia);
+                        //**
 
-                    //var BuscarMovimientoPersonalDiario = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
-                    //                                      where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroInactivo
-                    //                                      select m).FirstOrDefault();
-                    //if (BuscarMovimientoPersonalDiario != null)
-                    //{
-                    //    BuscarMovimientoPersonalDiario.HoraInicio = psAsistencia.Hora;
-                    //    BuscarMovimientoPersonalDiario.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                    //}
-                    //else
-                    //{
-                    //    db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO
-                    //    {
-                    //        Cedula = psAsistencia.Cedula,
-                    //        CodLinea = psAsistencia.Linea,
-                    //        CentroCosto = psAsistencia.CentroCostos,
-                    //        CodCargo = psAsistencia.Cargo,
-                    //        Recurso = psAsistencia.Recurso,
-                    //        FechaInicio = psAsistencia.Fecha,
-                    //        HoraInicio = psAsistencia.Hora,
-                    //        Asistencia = true,
-                    //        EstadoRegistro = psAsistencia.EstadoRegistro,
-                    //        FechaIngresoLog = psAsistencia.FechaModificacionLog,
-                    //        TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
-                    //        UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog
-                    //    });
-                    //}
+                        //var BuscarMovimientoPersonalDiario = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
+                        //                                      where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroInactivo
+                        //                                      select m).FirstOrDefault();
+                        //if (BuscarMovimientoPersonalDiario != null)
+                        //{
+                        //    BuscarMovimientoPersonalDiario.HoraInicio = psAsistencia.Hora;
+                        //    BuscarMovimientoPersonalDiario.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                        //}
+                        //else
+                        //{
+                        //    db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                        //    {
+                        //        Cedula = psAsistencia.Cedula,
+                        //        CodLinea = psAsistencia.Linea,
+                        //        CentroCosto = psAsistencia.CentroCostos,
+                        //        CodCargo = psAsistencia.Cargo,
+                        //        Recurso = psAsistencia.Recurso,
+                        //        FechaInicio = psAsistencia.Fecha,
+                        //        HoraInicio = psAsistencia.Hora,
+                        //        Asistencia = true,
+                        //        EstadoRegistro = psAsistencia.EstadoRegistro,
+                        //        FechaIngresoLog = psAsistencia.FechaModificacionLog,
+                        //        TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
+                        //        UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog
+                        //    });
+                        //}
+                    }
+
+                    //**
+                    db.SaveChanges();
+                    transaction.Commit();
                 }
-                
-                //**
-                db.SaveChanges();
                 return "Registro actualizado con éxito";
             }
 
