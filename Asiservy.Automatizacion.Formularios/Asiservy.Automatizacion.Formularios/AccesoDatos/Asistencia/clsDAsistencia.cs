@@ -134,12 +134,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             else
                 return 1;
         }
-        public int ConsultarExistenciaAsistenciaPrestados(string cedula, string Turno, DateTime Fecha, TimeSpan Hora)
+        public int ConsultarExistenciaAsistenciaPrestados(string cedula, string Turno, DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
-                pListAsistenciaMovidos = db.sp_ConsultaAsistenciaDiariaPersonalMovido(BuscarControlador.CODIGOLINEA + "", Convert.ToInt32(Turno), Fecha, Hora).ToList();
+                pListAsistenciaMovidos = db.sp_ConsultaAsistenciaDiariaPersonalMovido(BuscarControlador.CODIGOLINEA + "", Convert.ToInt32(Turno), Fecha).ToList();
             }
             if (pListAsistenciaMovidos.ToList().Count == 0)
                 return 0;
