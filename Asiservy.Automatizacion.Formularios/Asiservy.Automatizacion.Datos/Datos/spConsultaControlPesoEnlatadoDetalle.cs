@@ -16,7 +16,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdControlPesoEnlatadoDetallado { get; set; }
         public int IdControlPesoEnlatado { get; set; }
         public System.DateTime Hora { get; set; }
-        public int Temperatura { get; set; }
+        public int TemperaturaAgua { get; set; }
+        public int TemperaturaAceite { get; set; }
         public string EstadoRegistro { get; set; }
     }
 }

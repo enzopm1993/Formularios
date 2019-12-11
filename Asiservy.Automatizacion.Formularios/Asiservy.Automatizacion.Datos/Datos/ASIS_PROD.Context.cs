@@ -829,15 +829,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlPesoEnlatado>("spConsultaControlPesoEnlatado", fechaParameter);
         }
     
-        public virtual ObjectResult<spConsultaControlPesoEnlatadoDetalle> spConsultaControlPesoEnlatadoDetalle(Nullable<int> idControl)
-        {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("IdControl", idControl) :
-                new ObjectParameter("IdControl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlPesoEnlatadoDetalle>("spConsultaControlPesoEnlatadoDetalle", idControlParameter);
-        }
-    
         public virtual ObjectResult<spConsultaControlPesoEnlatadoSubDetalle> spConsultaControlPesoEnlatadoSubDetalle(Nullable<int> idControlDetalle)
         {
             var idControlDetalleParameter = idControlDetalle.HasValue ?
@@ -892,6 +883,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Hora", typeof(System.TimeSpan));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarCambioPersonalxLineaxTurno>("spConsultarCambioPersonalxLineaxTurno", lineaParameter, turnoParameter, fechaParameter, horaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlPesoEnlatadoDetalle> spConsultaControlPesoEnlatadoDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlPesoEnlatadoDetalle>("spConsultaControlPesoEnlatadoDetalle", idControlParameter);
         }
     }
 }
