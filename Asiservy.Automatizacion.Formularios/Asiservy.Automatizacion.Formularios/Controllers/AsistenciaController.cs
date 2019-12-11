@@ -436,13 +436,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             
         }
         [Authorize]
-        public JsonResult ConsultarExistenciaAsistenciaPrestados(string Turno,DateTime Fecha, TimeSpan? Hora)
+        public JsonResult ConsultarExistenciaAsistenciaPrestados(string Turno,DateTime Fecha)
         {
             try
             {
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
-                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaPrestados(liststring[1], Turno,Fecha,Hora.Value);
+                int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaPrestados(liststring[1], Turno,Fecha);
                 return Json(AsitenciaExiste, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -629,7 +629,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress,Turno,Fecha, Hora);
+                ControlDeAsistenciaPrestadosViewModel AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress,Turno,Fecha, Hora);
                
 
                 //Control de Cuchillos

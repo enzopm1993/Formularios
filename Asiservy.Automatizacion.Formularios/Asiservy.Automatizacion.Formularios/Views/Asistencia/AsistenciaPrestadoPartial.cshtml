@@ -26,18 +26,18 @@
             <th>
                 <div class="text-center">
 
-                    <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.jpg" />
+                    <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo03.png" />
                 </div>
             </th>
             <th>
                 <div class="text-center">
-                    <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.jpg" />
+                    <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo01.png" />
                 </div>
             </th>
             <th>
                 <div class="text-center">
 
-                    <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.jpg" />
+                    <img class="imageCuchillo img-fluid" src="~/Content/images/cuchillo02.png" />
                 </div>
             </th>
         </tr>
@@ -79,7 +79,7 @@
                     @*<input type="checkbox" autocomplete="on" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');" id="CheckAsistencia-@cont">
                         </label>*@
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="CheckAsistencia-@cont" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');">
+                        <input type="checkbox" class="custom-control-input" id="CheckAsistencia-@cont" onchange="GuardarPersona(@cont,'@item.NOMBRES','check','@item.CentroCostos','@item.Recurso','@item.Linea','@item.Cargo');">
                         <label class="custom-control-label" for="CheckAsistencia-@cont" id="LabelFecha"></label>
                     </div>
                 </td>
