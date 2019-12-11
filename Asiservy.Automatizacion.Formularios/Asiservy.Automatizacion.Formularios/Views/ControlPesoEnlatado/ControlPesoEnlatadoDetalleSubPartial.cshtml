@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlPesoEnlatadoSubDetalle>
+
+
+<table class=" table-bordered table-striped table" style="cursor: pointer"id=""> 
+    <tr>        
+        <th>
+            @Html.DisplayNameFor(model => model.Muestra)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Peso)
+        </th>      
+        <th>Acción</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>        
+        <td>
+            @Html.DisplayFor(modelItem => item.Muestra)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Peso)
+        </td>
+       
+        <td>
+            <a href="#" onclick="ModalEditarSubDetalle(@item.IdControlPesoEnlatadoSubdetalle,'@item.Muestra','@item.Peso')">Editar</a> |
+            <a href="#" onclick="ModalEliminarSubDetalle(@item.IdControlPesoEnlatadoSubdetalle)" id="btnInactivarDetalle">Eliminar</a>
+
+        </td>
+    </tr>
+}
+
+</table>

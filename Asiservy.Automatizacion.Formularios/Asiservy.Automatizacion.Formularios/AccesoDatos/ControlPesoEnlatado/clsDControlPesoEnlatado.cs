@@ -12,8 +12,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlPesoEnlatado
         public List<spConsultaControlPesoEnlatado> ConsultarControlPesoEnlatado(DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
-            {
-                
+            {                
                     return entities.spConsultaControlPesoEnlatado(Fecha).ToList();                
             }
         }
@@ -59,6 +58,66 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlPesoEnlatado
             return valida;
         }
 
+
+
+        public List<spConsultaControlPesoEnlatadoDetalle> ConsultarControlPesoEnlatadoDetalle(int id)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.spConsultaControlPesoEnlatadoDetalle(id).ToList();
+            }
+        }
+
+        public List<spConsultaControlPesoEnlatadoSubDetalle> ConsultarControlPesoEnlatadoSubDetalle(int id)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.spConsultaControlPesoEnlatadoSubDetalle(id).ToList();
+            }
+        }
+
+
+        public void GuardarModificarControlPesoEnlatadoDetalle(CONTROL_PESO_ENLATADO_DETALLE model) {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var control = entities.CONTROL_PESO_ENLATADO_DETALLE.FirstOrDefault(x => x.IdControlPesoEnlatadoDetallado == model.IdControlPesoEnlatadoDetallado);
+                if (control != null)
+                {
+                    control.TemperaturaAgua = model.TemperaturaAgua;
+                    control.TemperaturaAceite = model.TemperaturaAceite;
+                    control.EstadoRegistro = model.EstadoRegistro;
+                    control.FechaModificacionLog = DateTime.Now;
+                    control.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    control.TerminalModificacionLog = model.TerminalIngresoLog;
+                }
+                else
+                {
+                    entities.CONTROL_PESO_ENLATADO_DETALLE.Add(model);
+                }
+                entities.SaveChanges();
+            }
+        }
+        public void GuardarModificarControlPesoEnlatadoSubDetalle(CONTROL_PESO_ENLATADO_SUBDETALLE model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var control = entities.CONTROL_PESO_ENLATADO_SUBDETALLE.FirstOrDefault(x => x.IdControlPesoEnlatadoSubdetalle == model.IdControlPesoEnlatadoSubdetalle);
+                if (control != null)
+                {
+                    control.Muestra = model.Muestra;
+                    control.Peso = model.Peso;
+                    control.EstadoRegistro = model.EstadoRegistro;
+                    control.FechaModificacionLog = DateTime.Now;
+                    control.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    control.TerminalModificacionLog = model.TerminalIngresoLog;
+                }
+                else
+                {
+                    entities.CONTROL_PESO_ENLATADO_SUBDETALLE.Add(model);
+                }
+                entities.SaveChanges();
+            }
+        }
 
 
     }

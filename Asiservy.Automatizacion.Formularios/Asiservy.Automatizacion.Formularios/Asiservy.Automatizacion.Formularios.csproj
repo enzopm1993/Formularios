@@ -3231,6 +3231,8 @@
     <Content Include="Views\Asistencia\ModalMovidosaMiLinea.cshtml" />
     <Content Include="Views\ControlPesoEnlatado\ControlPesoEnlatado.cshtml" />
     <Content Include="Views\ControlPesoEnlatado\ControlPesoEnlatadoPartial.cshtml" />
+    <Content Include="Views\ControlPesoEnlatado\ControlPesoEnlatadoDetallePartial.cshtml" />
+    <Content Include="Views\ControlPesoEnlatado\ControlPesoEnlatadoDetalleSubPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
