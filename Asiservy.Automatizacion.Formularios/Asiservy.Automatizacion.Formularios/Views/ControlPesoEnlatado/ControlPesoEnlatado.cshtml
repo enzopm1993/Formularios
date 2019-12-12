@@ -27,14 +27,14 @@
                     @Html.DropDownList("selectPeso", new SelectList(ViewBag.Pesos, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-md-4 col-6">
+            <div class="col-md-4 col-12">
                 <div class="form-group">
                     <label>Linea</label>
                     @Html.DropDownList("selectLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
                 </div>
             </div>
 
-            <div class="col-md-4 col-6">
+            <div class="col-md-4 col-12">
                 <div class="form-group">
                     <label>Orden Fabricación</label>
                     <div class="input-group">
@@ -81,7 +81,7 @@
 
     </div>
 </div>
-<div class="text-center text-primary" id="MensajeDetalleGeneral" hidden></div>
+
 
 <div class="d-flex justify-content-center">
     <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
@@ -101,12 +101,19 @@
 
 <div class="row" id="DivCardDetalle" hidden>
     @* DETALLE *@
-    <div class="col-sm-12 col-md-6 col-6">
+    <div class="col-sm-12 col-md-6 col-12">
         <div class="card shadow">
             <div class="card-header">
-                <button hidden data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="ModalDetalle()" style="border-color:#2c3e50" type="button">
-                    <img style="width:100%" src="~/Content/icons/add24.png" />
-                </button>
+                <div class="row">
+                    <div class="col-3">
+                        <button hidden data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="ModalDetalle()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/add24.png" />
+                        </button>
+                    </div>
+                    <div class="col-9">
+                        <div class="text-center text-primary" id="MensajeDetalleGeneral" hidden></div>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
                 <div class="text-center" id="DivMensajeDetalle"></div>
@@ -121,7 +128,7 @@
         </div>
     </div>
     @* SUBDETALLE *@
-    <div class="col-sm-12 col-md-6 col-6 ">
+    <div class="col-sm-12 col-md-6 col-12 ">
         <div class="card shadow">
             <div class="card-header">
                 <div class="row">

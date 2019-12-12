@@ -474,8 +474,11 @@ function ModalSubDetalle() {
         MensajeAdvertencia("Seleccione un detalle");
         return;
     }
+    var filas = $('#tablaControlPesoEnlatadoSubDetalle >tbody >tr').length+1;
+    //alert(filas);
+
     $("#txtPeso").val('');
-    $("#txtMuestra").val('');
+    $("#txtMuestra").val(filas);
     $("#txtPeso").css('borderColor', '#ced4da');
     $("#txtMuestra").css('borderColor', '#ced4da');
     $("#txtIdControlPesoEnlatadoSubDetalle").val('0');
@@ -560,7 +563,7 @@ function GuardarControlPesoEnlatadoSubDetalle() {
             }
             $("#ModalNuevoPesoEnlatadoSubDetalle").modal("hide");
             CargarControlPesoEnlatadoSubDetalle();
-            MensajeCorrecto(resultado);
+           // MensajeCorrecto(resultado);
           //  $('#spinnerCargandoSubDetalle').prop("hidden", true);
         },
         error: function (resultado) {
