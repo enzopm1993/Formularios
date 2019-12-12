@@ -78,27 +78,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                //DateTime fechaInicio = Convert.ToDateTime(DateTime.Now.ToShortDateString());
-                //DateTime fechaFin = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
-                DateTime fechaInicio = Convert.ToDateTime(Fecha.ToShortDateString());
-                DateTime fechaFin = Convert.ToDateTime(Fecha.AddDays(1).ToShortDateString());
+              
+                //DateTime fechaInicio = Convert.ToDateTime(Fecha.ToShortDateString());
+                //DateTime fechaFin = Convert.ToDateTime(Fecha.AddDays(1).ToShortDateString());
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
                 pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA+"",1,Fecha).ToList();
-                pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin && x.Linea== BuscarControlador.CODIGOLINEA &&x.Turno==Turno).ToList();
+                //pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha >= fechaInicio && x.Fecha < fechaFin && x.Linea== BuscarControlador.CODIGOLINEA &&x.Turno==Turno).ToList();
+                pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha ==Fecha && x.Linea == BuscarControlador.CODIGOLINEA && x.Turno == Turno).ToList();
 
-                //IQueryable<ASISTENCIA> query = (from a in db.ASISTENCIA
-                //                                join b in db.CAMBIO_PERSONAL on new { a.Cedula, EstadoRegistro = clsAtributos.EstadoRegistroActivo, CodLinea = BuscarControlador.CODIGOLINEA } equals new { b.Cedula, b.EstadoRegistro, b.CodLinea } into c
-                //                                from b in c.DefaultIfEmpty()
-                //                                where a.Fecha >= fechaInicio && a.Fecha <= fechaFin
-                //             // && b.CodLinea==BuscarControlador.CODIGOLINEA
-                //             && a.Turno == Turno
-                //             //&& b.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                //             //&& b.Cedula == a.Cedula
-                //             && b == null
-                //                                select a);
-                //pListAsistenciaExiste = query.ToList();
             }
-            ////if (pListAsistencia.ToList().Count == 0)
+          
             if (pListAsistenciaExiste.Count == 0)
                 return 0;
             else
@@ -164,13 +153,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     {
                         //var FueMovidoAOtraArea = clsDCambioPersonal.ConsultarCambioPersonal(item.CEDULA);
                         //if (FueMovidoAOtraArea == null)
-                            ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A" });
+                            ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A", CentroCostos = item.CODIGOAREA, Recurso = item.RECURSO, Cargo = item.CODIGOCARGO });
 
                     }
                     var PersonalMovidoAEstaLinea = clsDCambioPersonal.ConsultarCambioPersonalxLinea(CodLinea, turno,Fecha, Hora);
                     foreach (var item in PersonalMovidoAEstaLinea)
                     {
-                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A" });
+                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A",CentroCostos=item.CentroCosto, Recurso=item.Recurso,Cargo=item.CodCargo });
 
                     }
                     db.ASISTENCIA.AddRange(ControlAsistencia);

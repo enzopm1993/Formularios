@@ -1,4 +1,11 @@
-﻿function ActualizaObservacionHide() {
+﻿function GenerarAsistenciaOk() {
+    $("#modalprestados").modal("hide");
+    GenerarAsistenciaDiariaGeneral($('#LineaPres').val(), $('#banderapres').val());
+}
+function CerrarModalPrestadoInfo() {
+    $("#modalprestados").modal("hide");
+}
+function ActualizaObservacionHide() {
     var posiciono = $('#PosicionHide').val();
     $('#ControlAsistencia_' + posiciono + '__Observacion').val($('#areaobservacion').val());
     //"GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');"
@@ -109,6 +116,7 @@ function buscarenTabla() {
 function ConsultarSiExisteAsistencia() {
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
+        $('#horaservidor').hide();
         $('#mensajeturno').show();
         return false;
     } else {
@@ -134,12 +142,14 @@ function ConsultarSiExisteAsistencia() {
                 $('#Existe').val(resultado);
 
                 if (resultado == 0) {
+                    $('#horaservidor').show();
                     $('#GenerarAsistencia').show();
                     $('#TurnoGen').prop('disabled', 'disabled');
                     $('#txtFecha').prop('disabled', 'disabled');
                     $('#ConsultaAsistencia').prop('disabled', 'disabled');
                 }
                 if (resultado == 1) {
+                    $('#horaservidor').hide();
                     GenerarAsistenciaDiariaGeneral($('#CodLinea').val(), resultado);
                     $('#GenerarAsistencia').hide();
                 }
@@ -155,16 +165,19 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
     $('#LineaPres').val(IdLinea);
     $('#banderapres').val(bandera);
     $.ajax({
-        url: '../Asistencia/VerificarPrestados',
+        //url: '../Asistencia/VerificarPrestados',
+        url: '../Asistencia/ModalPrestados',
         type: 'GET',
         data: {
-            CodLinea: IdLinea
+            //CodLinea: IdLinea
             //BanderaExiste: bandera,
             //Turno: turno,
-            //Fecha: $('#txtFecha').val()
+            Fecha: $('#txtFecha').val(),
+            Hora: $('#horaservidor').val()
         },
         success: function (resultado) {
-            if (resultado) {
+            //if (resultado) {
+            if ($('#txtPrestado').val() == 'true') {
                 $('#modalprestados').modal("show");
                 $('#LineaPres').val(IdLinea);
                 $('#banderapres').val(bandera);
@@ -196,7 +209,8 @@ function GenerarAsistenciaDiariaGeneral(IdLinea, bandera) {
             CodLinea: IdLinea,
             BanderaExiste: bandera,
             Turno: turno,
-            Fecha: $('#txtFecha').val()
+            Fecha: $('#txtFecha').val(),
+            HoraServidor: $('#horaservidor').val()
         },
         success: function (resultado) {
             //MensajeCorrecto(resultado, true);

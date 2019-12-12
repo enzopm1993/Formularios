@@ -549,7 +549,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
         [HttpPost]
-        public ActionResult AsistenciaGeneralPartial(string CodLinea, int BanderaExiste, string turno, DateTime Fecha,TimeSpan Hora)
+        public ActionResult AsistenciaGeneralPartial(string CodLinea, int BanderaExiste, string turno, DateTime Fecha,TimeSpan HoraServidor)
         {
             try
             {
@@ -561,7 +561,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 clsDAsistencia = new clsDAsistencia();
                 //falta modificar el script para enbviar fecha y hora
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, turno, Fecha,Hora);
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, turno, Fecha,HoraServidor);
 
                 return PartialView(AsistenciaViewModel);
             }
