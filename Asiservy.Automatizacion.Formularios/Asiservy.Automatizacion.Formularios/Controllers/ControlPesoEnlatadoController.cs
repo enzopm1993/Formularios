@@ -334,6 +334,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+                if (!clsDControlPesoEnlatado.ValidarControlPesoEnlatadoSubDetalle(model))
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
                 clsDControlPesoEnlatado.GuardarModificarControlPesoEnlatadoSubDetalle(model);
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
 

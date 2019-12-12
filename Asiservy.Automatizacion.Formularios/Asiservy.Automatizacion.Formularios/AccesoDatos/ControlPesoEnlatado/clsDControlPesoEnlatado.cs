@@ -97,6 +97,27 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlPesoEnlatado
                 entities.SaveChanges();
             }
         }
+
+        public bool ValidarControlPesoEnlatadoSubDetalle(CONTROL_PESO_ENLATADO_SUBDETALLE model)
+        {
+            bool valida = true;
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var control = entities.CONTROL_PESO_ENLATADO_SUBDETALLE.FirstOrDefault(x => 
+                x.IdControlPesoEnlatadoSubdetalle != model.IdControlPesoEnlatadoSubdetalle
+                && x.IdControlPesoEnlatadoDetallado == model.IdControlPesoEnlatadoDetallado
+                && x.Muestra == model.Muestra
+                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+
+                if(control!= null)
+                {
+                    valida = false;
+                }
+
+            }
+            return valida;
+        }
+
         public void GuardarModificarControlPesoEnlatadoSubDetalle(CONTROL_PESO_ENLATADO_SUBDETALLE model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())

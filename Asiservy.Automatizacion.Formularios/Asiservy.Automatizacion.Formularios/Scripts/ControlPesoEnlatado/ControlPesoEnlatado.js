@@ -537,11 +537,9 @@ function ValidarSubDetalle() {
 }
 
 function GuardarControlPesoEnlatadoSubDetalle() {   
-
     if (!ValidarSubDetalle())
         return;
-
-    $('#spinnerCargandoSubDetalle').prop("hidden", false);
+   // $('#spinnerCargandoSubDetalle').prop("hidden", false);
     $.ajax({
         url: "../ControlPesoEnlatado/GuardarControlPesoEnlatadoSubDetalle",
         type: "POST",
@@ -550,17 +548,20 @@ function GuardarControlPesoEnlatadoSubDetalle() {
             IdControlPesoEnlatadoSubDetalle: $("#txtIdControlPesoEnlatadoSubDetalle").val(),
             IdControlPesoEnlatado: $("#txtIdControlPesoEnlatado").val(),
             Muestra: $("#txtMuestra").val(),
-            Peso: $("#txtPeso").val()
-           
+            Peso: $("#txtPeso").val()           
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == 1) {
+                MensajeAdvertencia("Muestra ya fue ingresada");
+                return;
+            }
             $("#ModalNuevoPesoEnlatadoSubDetalle").modal("hide");
             CargarControlPesoEnlatadoSubDetalle();
             MensajeCorrecto(resultado);
-            $('#spinnerCargandoSubDetalle').prop("hidden", true);
+          //  $('#spinnerCargandoSubDetalle').prop("hidden", true);
         },
         error: function (resultado) {
             CargarControlPesoEnlatadoSubDetalle();
