@@ -160,6 +160,13 @@
     </div>
 </div>
 
+<br />
+<div class="row">
+    <div class="col-12  text-center">
+        <input hidden type="button" id="btnEliminarControlPeso" class="btn btn-outline-danger" onclick="ModalEliminar()" name="name" value="Eliminar" />
+
+    </div>
+</div>
 
 
 
@@ -207,7 +214,7 @@
             <div class="modal-header">
                 <input type="hidden" id="txtEliminar" name="name" value="" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Eliminar Todo el Control de Horas/Maquina</h4>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Todo el Control de Peso Enlatado</h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" id="modal-btn-si">Si</button>
@@ -226,7 +233,7 @@
                 <input type="hidden" id="txtEliminar" name="name" value="" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Eliminar Detalle del Control de Peso Enlatado</h4>
-            </div> 
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" id="modal-btn-si-detalle">Si</button>
                 <button type="button" class="btn btn-outline-primary" id="modal-btn-no-detalle">No</button>
@@ -252,7 +259,6 @@
         </div>
     </div>
 </div>
-
 
 @* MODAL PARA NUEVO PESO ENLATADO DETALLE *@
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalNuevoPesoEnlatadoDetalle">

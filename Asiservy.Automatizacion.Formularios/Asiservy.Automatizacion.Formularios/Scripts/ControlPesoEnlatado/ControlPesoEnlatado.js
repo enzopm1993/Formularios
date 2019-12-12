@@ -220,7 +220,7 @@ function Validar() {
 
 
 function NuevoControlPesoEnlatado() {
-    $("#txtIdControlHoraMaquina").val('');
+    $("#txtIdControlPesoEnlatado").val('');
     $("#SelectOrdenFabricacion").prop("selectedIndex", 0);
     $("#selectPeso").prop("selectedIndex", 0);
     $("#selectLinea").prop("selectedIndex", 0);
@@ -238,7 +238,7 @@ function GuardarControlPesoEnlatado() {
         url: "../ControlPesoEnlatado/ControlPesoEnlatado",
         type: "POST",
         data: {
-            IdControlPesoEnlatado: $("#txtIdControlHoraMaquina").val(),
+            IdControlPesoEnlatado: $("#txtIdControlPesoEnlatado").val(),
             OrdenVenta: $("#txtOrdenVenta").val(),
             OrdenFabricacion: $("#txtOrdenFabricacion").val(),           
             Peso: $("#selectPeso").val(),
@@ -277,13 +277,53 @@ function GuardarControlPesoEnlatado() {
 }
 
 
+function EliminarControlPesoEnlatado() {
+    $.ajax({
+        url: "../ControlPesoEnlatado/EliminarControlPesoEnlatado",
+        type: "POST",
+        data: {
+            IdControlPesoEnlatado: $("#txtIdControlPesoEnlatado").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            Atras();
+            MensajeCorrecto(resultado);
+         //   $('#spinnerCargando').prop("hidden", true);
+        },
+        error: function (resultado) {
+           // CargarControlPesoEnlatado();
+       //     $('#spinnerCargando').prop("hidden", true);
+            MensajeError(resultado.responseText, false);
+
+        }
+    });
+}
+
+
+function ModalEliminar() {  
+    $("#mi-modal").modal('show');
+}
+
+$("#modal-btn-si").on("click", function () {
+    EliminarControlPesoEnlatado();
+    $("#mi-modal").modal('hide');
+});
+
+$("#modal-btn-no").on("click", function () {
+    $("#txtEliminar").val('');
+    $("#mi-modal").modal('hide');
+});
+
+
 //----------------------------------------------PESO ENLATADO DETALLE--------------------------------------------------------
 
 function SeleccionarControlPesoEnlatado(model) {
     LimpiarDetalle();
     $("#divDetalleControl").fadeIn("swing");
     $("#divCabeceraControl").fadeOut("swing");
-    //$("#btnInactivar").prop("hidden", false);
+    $("#btnEliminarControlPeso").prop("hidden", false);
 
     $("#btnAtras").prop("hidden", false);
     $("#btnNuevo").prop("hidden", false);
@@ -351,7 +391,8 @@ function Atras() {
     $("#txtIdControlPesoEnlatadoDetalleCard").val('0');
     $("#DivTableControlSubDetalle").html('');
     $("#MensajeTituloSubDetalle").html('');
-    
+    $("#btnEliminarControlPeso").prop("hidden", true);
+
     CargarControlPesoEnlatado();
 }
 

@@ -16,7 +16,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlPesoEnlatado
                     return entities.spConsultaControlPesoEnlatado(Fecha).ToList();                
             }
         }
-        public void GuardarModificarControlHoraMaquina(CONTROL_PESO_ENLATADO model)
+        public void GuardarModificarControlPesoEnlatado(CONTROL_PESO_ENLATADO model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {

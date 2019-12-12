@@ -95,7 +95,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
-                clsDControlPesoEnlatado.GuardarModificarControlHoraMaquina(model);
+                clsDControlPesoEnlatado.GuardarModificarControlPesoEnlatado(model);
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
 
             }
@@ -155,6 +155,52 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult EliminarControlPesoEnlatado(CONTROL_PESO_ENLATADO model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }   
+                clsDControlPesoEnlatado = new clsDControlPesoEnlatado();
+                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                if (!clsDControlPesoEnlatado.ValidaControlPesoEnlatado(model))
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+                clsDControlPesoEnlatado.GuardarModificarControlPesoEnlatado(model);
+                return Json("Registro Eliminado con Éxito", JsonRequestBehavior.AllowGet);
+
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+
 
         public ActionResult ControlPesoEnlatadoDetallePartial(int IdControl, DateTime Fecha)
         {
