@@ -20,7 +20,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlPesoEnlatado
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var control = entities.CONTROL_PESO_ENLATADO.FirstOrDefault(x => x.IdControlPesoEnlatado == model.IdControlPesoEnlatado || (x.OrdenFabricacion == model.OrdenFabricacion && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                var control = entities.CONTROL_PESO_ENLATADO.FirstOrDefault(x => x.IdControlPesoEnlatado == model.IdControlPesoEnlatado);
                 if (control != null)
                 {
                     control.EstadoRegistro = model.EstadoRegistro;
