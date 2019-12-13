@@ -11,19 +11,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsultaControlPesoEnlatado
+    public partial class spReporteControlPesoEnlatadoSubDetalle
     {
+        public int IdControlPesoEnlatadoSubdetalle { get; set; }
+        public int IdControlPesoEnlatadoDetallado { get; set; }
         public int IdControlPesoEnlatado { get; set; }
-        public string OrdenFabricacion { get; set; }
-        public string OrdenVenta { get; set; }
-        public string CodigoProducto { get; set; }
-        public string Producto { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public string CodPeso { get; set; }
-        public string Peso { get; set; }
-        public string CodLinea { get; set; }
-        public string LineaEnlatado { get; set; }
+        public int Muestra { get; set; }
+        public int Peso { get; set; }
         public string EstadoRegistro { get; set; }
-        public string Turno { get; set; }
     }
 }
