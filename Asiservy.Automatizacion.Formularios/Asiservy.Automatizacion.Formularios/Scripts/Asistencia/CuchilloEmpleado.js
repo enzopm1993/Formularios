@@ -1,8 +1,6 @@
 ﻿
 
-$(document).ready(function () {
-    console.log("prueba");
-
+$(document).ready(function () {    
     CargarEmpleadoCuchillo();
     NuevoCuchilloEmpleado();
 });
@@ -46,6 +44,9 @@ function GrabarCuchilloEmpleado() {
 
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $("#btnNuevo").prop("disabled", false);
             $("#btnGuardar").prop("disabled", false);
 
@@ -72,9 +73,9 @@ function GrabarCuchilloEmpleado() {
 function NuevoCuchilloEmpleado() {
     $('#IdEmpleadoCuchillo').val("0");
     $("#SelectEmpleado").prop('selectedIndex', 0);
-    $('#SelectCuchilloBlanco').prop('selectedIndex', 0);
-    $('#SelectCuchilloRojo').prop('selectedIndex', 0);
-    $('#SelectCuchilloNegro').prop('selectedIndex', 0);
+    $('#SelectCuchilloBlanco').val(0);
+    $('#SelectCuchilloRojo').val(0);
+    $('#SelectCuchilloNegro').val(0);
     $('#NombreEmpleado').val("");
     $('#Identificacion').val("");
    jQuery("#validaCedula").html("");
@@ -110,16 +111,18 @@ function CargarEmpleadoCuchillo() {
         url: "../Asistencia/CuchilloEmpleadoPartial",
         type: "GET",
         success: function (resultado) {
-
+            if (resultado == "101") {
+                window.location.reload();
+            }
             var bitacora = $('#DivTableEmpleadoCuchillo');
             $("#spinnerCargando").prop("hidden", true);
-
             bitacora.html(resultado);
+            config.opcionesDT.pageLength = 50;
+            $('#tblDataTable').DataTable(config.opcionesDT);
         },
         error: function (resultado) {
             MensajeError(resultado, false);
-            $("#spinnerCargando").prop("hidden", true);
-
+            $("#spinnerCargando").prop("hidden", true);            
         }
     });
 }

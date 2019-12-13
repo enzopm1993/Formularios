@@ -56,7 +56,8 @@
             <div class="col-md-2 col-12">
                 <div class="form-group">
                     <label>Cuchillo Blanco</label>
-                    @Html.DropDownListFor(model => model.CuchilloBlanco, new SelectList(ViewBag.CuchillosBlancos, "NumeroCuchillo", "NumeroCuchillo"), "Seleccione", new { @class = "form-control", @id = "SelectCuchilloBlanco" })
+                    <input type="number" min="0" class="form-control" id="SelectCuchilloBlanco" name="name" value="" />
+                    @*@Html.DropDownListFor(model => model.CuchilloBlanco, new SelectList(ViewBag.CuchillosBlancos, "NumeroCuchillo", "NumeroCuchillo"), "Seleccione", new { @class = "form-control", @id = "SelectCuchilloBlanco" })*@
                     <p id="validaCuchilloBlanco"></p>
                 </div>
             </div>
@@ -65,7 +66,8 @@
             <div class="col-md-2 col-12">
                 <div class="form-group">
                     <label>Cuchillo Rojo</label>
-                    @Html.DropDownListFor(model => model.CuchilloRojo, new SelectList(ViewBag.CuchillosRojos, "NumeroCuchillo", "NumeroCuchillo"), "Seleccione", new { @class = "form-control", @id = "SelectCuchilloRojo" })
+                    <input type="number" min="0" class="form-control" id="SelectCuchilloRojo" name="name" value="" />
+                    @*@Html.DropDownListFor(model => model.CuchilloRojo, new SelectList(ViewBag.CuchillosRojos, "NumeroCuchillo", "NumeroCuchillo"), "Seleccione", new { @class = "form-control", @id = "SelectCuchilloRojo" })*@
                     <p id="validaCuchilloRojo" class="text-danger"></p>
                 </div>
             </div>
@@ -73,7 +75,8 @@
             <div class="col-md-2 col-12">
                 <div class="form-group">
                     <label>Cuchillo Negro</label>
-                    @Html.DropDownListFor(model => model.CuchilloNegro, new SelectList(ViewBag.CuchillosNegros, "NumeroCuchillo", "NumeroCuchillo"), "Seleccione", new { @class = "form-control", @id = "SelectCuchilloNegro" })
+                    <input type="number" min="0" class="form-control" id="SelectCuchilloNegro" name="name" value="" />
+                    @*@Html.DropDownListFor(model => model.CuchilloNegro, new SelectList(ViewBag.CuchillosNegros, "NumeroCuchillo", "NumeroCuchillo"), "Seleccione", new { @class = "form-control", @id = "SelectCuchilloNegro" })*@
                     <p id="validaCuchilloNegro" class="text-danger"></p>
                 </div>
             </div>
