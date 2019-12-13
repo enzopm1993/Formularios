@@ -36,6 +36,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         #endregion
 
+        #region CONTROL
         [Authorize]
         public ActionResult ControlPesoEnlatado()
         {
@@ -80,7 +81,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (string.IsNullOrEmpty(model.CodigoProducto) || string.IsNullOrEmpty(model.LineaEnlatado) || string.IsNullOrEmpty(model.Peso))
+                if (string.IsNullOrEmpty(model.CodigoProducto) || string.IsNullOrEmpty(model.LineaEnlatado) || string.IsNullOrEmpty(model.Peso) || string.IsNullOrEmpty(model.Turno))
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
@@ -119,7 +120,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public ActionResult ControlPesoEnlatadoPartial(DateTime Fecha)
+        public ActionResult ControlPesoEnlatadoPartial(DateTime Fecha, string Turno)
         {
             try
             {
@@ -129,7 +130,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlPesoEnlatado = new clsDControlPesoEnlatado();
-                var model = clsDControlPesoEnlatado.ConsultarControlPesoEnlatado(Fecha);
+                var model = clsDControlPesoEnlatado.ConsultarControlPesoEnlatado(Fecha, Turno);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -489,7 +490,80 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
 
+        #region REPORTE
+        [Authorize]
+        public ActionResult ReporteControlPesoEnlatado()
+        {
+            try
+            {              
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];              
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return View();
+            }
+        }
+
+        public ActionResult ReporteControlPesoEnlatadoPartial(DateTime Fecha, string Turno)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDControlPesoEnlatado = new clsDControlPesoEnlatado();
+                var model = clsDControlPesoEnlatado.ConsultarControlPesoEnlatado(Fecha, Turno);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                var ListaDetalle = clsDControlPesoEnlatado.ConsultaReporteControlPesoEnlatadoDetalle(Fecha);
+                var ListaSubDetalle = clsDControlPesoEnlatado.ConsultarReporteControlPesoEnlatadoSubDetalle(Fecha);
+                ViewBag.ListaDetalle = ListaDetalle;
+                ViewBag.ListaSubDetalle = ListaSubDetalle;
+
+                return PartialView(model);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
 
     }
 }

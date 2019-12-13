@@ -2150,6 +2150,7 @@
     <Content Include="Scripts\ControlMaterialQuebradizo\ControlMaterialQuebradizo.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\MantenimientoMaterialQuebradizo.js" />
     <Content Include="Scripts\ControlPesoEnlatado\ControlPesoEnlatado.js" />
+    <Content Include="Scripts\ControlPesoEnlatado\ReporteControlPesoEnlatado.js" />
     <Content Include="Scripts\DateRangePicker\daterangepicker.js" />
     <Content Include="Scripts\DateRangePicker\moment.min.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizo.js" />
@@ -3233,6 +3234,8 @@
     <Content Include="Views\ControlPesoEnlatado\ControlPesoEnlatadoPartial.cshtml" />
     <Content Include="Views\ControlPesoEnlatado\ControlPesoEnlatadoDetallePartial.cshtml" />
     <Content Include="Views\ControlPesoEnlatado\ControlPesoEnlatadoDetalleSubPartial.cshtml" />
+    <Content Include="Views\ControlPesoEnlatado\ReporteControlPesoEnlatado.cshtml" />
+    <Content Include="Views\ControlPesoEnlatado\ReporteControlPesoEnlatadoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

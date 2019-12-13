@@ -9,11 +9,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlPesoEnlatado
     public class clsDControlPesoEnlatado
     {
 
-        public List<spConsultaControlPesoEnlatado> ConsultarControlPesoEnlatado(DateTime Fecha)
+        public List<spConsultaControlPesoEnlatado> ConsultarControlPesoEnlatado(DateTime Fecha, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {                
-                    return entities.spConsultaControlPesoEnlatado(Fecha).ToList();                
+                    return entities.spConsultaControlPesoEnlatado(Fecha, Turno).ToList();                
             }
         }
         public void GuardarModificarControlPesoEnlatado(CONTROL_PESO_ENLATADO model)
@@ -67,6 +67,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlPesoEnlatado
                 return entities.spConsultaControlPesoEnlatadoDetalle(id).ToList();
             }
         }
+        
 
         public List<spConsultaControlPesoEnlatadoSubDetalle> ConsultarControlPesoEnlatadoSubDetalle(int id)
         {
@@ -76,6 +77,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlPesoEnlatado
             }
         }
 
+        public List<spReporteControlPesoEnlatadoSubDetalle> ConsultarReporteControlPesoEnlatadoSubDetalle(DateTime fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.spReporteControlPesoEnlatadoSubDetalle(fecha).ToList();
+            }
+        }
+
+        public List<spReporteControlPesoEnlatadoDetalle> ConsultaReporteControlPesoEnlatadoDetalle(DateTime fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.spReporteControlPesoEnlatadoDetalle(fecha).ToList();
+            }
+        }
 
         public void GuardarModificarControlPesoEnlatadoDetalle(CONTROL_PESO_ENLATADO_DETALLE model) {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())

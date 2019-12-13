@@ -61,13 +61,18 @@ function CargarControlPesoEnlatado() {
     } else {
         $("#txtFechaProduccion").css('borderColor', '#ced4da');
     }
-    $("#txtFechaOrden").val($("#txtFechaProduccion").val());
-
+    if ($("#txtTurno").val() == "") {
+        $("#txtTurno").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#txtTurno").css('borderColor', '#ced4da');
+    }
+    $("#txtFechaOrden").val($("#txtFechaProduccion").val());   
+    
 
     var fecha = moment($("#txtFechaProduccion").val()).format("YYYY-MM-DDTHH:mm");
     $("#txtHoraDetalle").val(fecha);
     //$("#txtFechaFinDetalle").val(fecha);
-
   
     $("#spinnerCargando").prop("hidden", false);
     $.ajax({
@@ -75,7 +80,8 @@ function CargarControlPesoEnlatado() {
         type: "GET",
         data:
         {
-            Fecha: $('#txtFechaProduccion').val()          
+            Fecha: $('#txtFechaProduccion').val(),
+            Turno: $("#txtTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -245,7 +251,8 @@ function GuardarControlPesoEnlatado() {
             LineaEnlatado: $("#selectLinea").val(),
             CodigoProducto: $("#txtCodigoProducto").val(),
             Producto: $("#txtProducto").val(),           
-            Fecha: $("#txtFechaProduccion").val()
+            Fecha: $("#txtFechaProduccion").val(),
+            Turno: $("#txtTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -632,7 +639,7 @@ function ModalEliminarSubDetalle(id) {
 }
 
 $("#modal-btn-si-Subdetalle").on("click", function () {
-    EliminarControlPesoDetalle();
+    EliminarControlPesoSubDetalle();
     $("#mi-modal-Subdetalle").modal('hide');
 });
 
@@ -641,7 +648,7 @@ $("#modal-btn-no-Subdetalle").on("click", function () {
     $("#mi-modal-Subdetalle").modal('hide');
 });
 
-function EliminarControlPesoDetalle() {
+function EliminarControlPesoSubDetalle() {
     $.ajax({
         url: "../ControlPesoEnlatado/EliminarControlPesoEnlatadoSubDetalle",
         type: "POST",

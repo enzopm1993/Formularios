@@ -15,19 +15,29 @@
 <div class="card shadow" id="DivCardCabecera">
     <div class="card-body">
         <div class="row" id="divCabeceraControl">
-            <div class="col-md-4 col-6">
+            <div class="col-md-3 col-6">
                 <div class="form-group">
                     <label>Fecha</label>
                     <input type="date" id="txtFechaProduccion" class="form-control" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarControlPesoEnlatado()" />
                 </div>
             </div>
-            <div class="col-md-4 col-6">
+            <div class="col-md-3 col-6">
+                <div class="form-group">
+                    <label>Turno</label>
+                    <select id="txtTurno" class="form-control" onchange="CargarControlPesoEnlatado()">
+                        <option value="">Seleccione</option>
+                        <option value="A">Turno A</option>
+                        <option value="B">Turno B</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
                 <div class="form-group">
                     <label>Peso</label>
                     @Html.DropDownList("selectPeso", new SelectList(ViewBag.Pesos, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-md-4 col-12">
+            <div class="col-md-3 col-6">
                 <div class="form-group">
                     <label>Linea</label>
                     @Html.DropDownList("selectLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
