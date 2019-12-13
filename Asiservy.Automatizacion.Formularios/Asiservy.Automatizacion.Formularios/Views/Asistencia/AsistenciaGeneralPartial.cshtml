@@ -61,7 +61,7 @@
                             @*<input type="checkbox" autocomplete="on" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');" id="CheckAsistencia-@cont">
                                 </label>*@
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="CheckAsistencia-@cont" onchange="GuardarPersona(@cont,'@item.NOMBRES','check');">
+                                <input type="checkbox" class="custom-control-input" id="CheckAsistencia-@cont" onchange="GuardarPersona(@cont,'@item.NOMBRES','check','@item.CentroCostos','@item.Recurso','@item.Linea','@item.Cargo');">
                                 <label class="custom-control-label" for="CheckAsistencia-@cont" id="LabelFecha"></label>
                             </div>
                         </td>
@@ -90,7 +90,7 @@
 
                         <td>
 
-                            @Html.DropDownListFor(model => model.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "browser-default custom-select", @witdh = "200px", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','combo')" })
+                            @Html.DropDownListFor(model => model.ControlAsistencia[cont - 1].EstadoAsistencia, new SelectList(ViewBag.EstadoAsistencia, "Codigo", "Descripcion", Model.ControlAsistencia[cont - 1].EstadoAsistencia), "Seleccione", new { @class = "browser-default custom-select", @witdh = "200px", @onchange = "GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','combo','" + @item.CentroCostos + "','" + @item.Recurso + "','" + @item.Linea + "','" + item.Cargo + "')" })
                         </td>
                         <td>
                             <center>
