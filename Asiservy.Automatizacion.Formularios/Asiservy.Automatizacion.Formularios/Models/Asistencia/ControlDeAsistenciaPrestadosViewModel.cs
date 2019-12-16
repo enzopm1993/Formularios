@@ -12,6 +12,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.Asistencia
         {
             public int? Id { get; set; }
             public int? Numero { get; set; }
+            public char Color { get; set; }
         }
         public List<sp_ConsultaAsistenciaDiariaPersonalMovido> ControlAsistencia { get; set; }
         //public List<CONTROL_CUCHILLO> ControlDeCuchillos { get; set; }

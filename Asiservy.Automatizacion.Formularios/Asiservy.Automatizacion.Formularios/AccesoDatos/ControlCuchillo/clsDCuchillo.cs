@@ -403,13 +403,67 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
         }
 
-        public List<int?> CuchillosSobrantes(string Color)
+        public List<int?> CuchillosSobrantes(string Color, DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.sp_ObtenerCuchillosSobrantes(Color).ToList();
+                return db.sp_ObtenerCuchillosSobrantes(Color,Fecha).ToList();
             }
         }
+
+        public List<spConsultaEmpleadoPrestadoPorLineaFecha> ConsultaEmpleadoPrestadoPorLineaFecha(string Linea, DateTime Fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaEmpleadoPrestadoPorLineaFecha(Fecha,Linea).ToList();
+            }
+        }
+
+        public List<spConsultaCuchillosEmpleadoPrestadoPorFechaLinea> ConsultaCuchillosEmpleadoPrestadoPorLineaFecha(string Linea, DateTime Fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaCuchillosEmpleadoPrestadoPorFechaLinea(Fecha, Linea).ToList();
+            }
+        }
+
+        public List<EMPLEADO_CUCHILLO_PRESTADO> ConsultaEmpleadoCuchilloPrestado(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var result = db.EMPLEADO_CUCHILLO_PRESTADO.Where(x=> x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+
+                return result;
+            }
+        }
+
+        public void GuardarModificarEmpleadoCuchilloPrestado(EMPLEADO_CUCHILLO_PRESTADO model)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var result = db.EMPLEADO_CUCHILLO_PRESTADO.FirstOrDefault(x => 
+                x.Fecha == model.Fecha 
+                && x.Cedula == model.Cedula
+                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+
+                if(result!= null)
+                {
+                   
+                    result.CuchilloBlanco = model.CuchilloBlanco;                   
+                    result.CuchilloNegro = model.CuchilloNegro;                   
+                    result.CuchilloRojo = model.CuchilloRojo;                    
+                    result.FechaModificacionLog = DateTime.Now;
+                    result.TerminalModificacionLog = model.TerminalIngresoLog;
+                    result.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                }
+                else
+                {
+                    db.EMPLEADO_CUCHILLO_PRESTADO.Add(model);
+                }
+                db.SaveChanges();                
+            }
+        }
+
         
     }
 }

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaCuchillosEmpleadoPrestadoPorFechaLinea>
+@using Newtonsoft.Json;
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombres)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CuchilloBlanco)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CuchilloRojo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CuchilloNegro)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string json = JsonConvert.SerializeObject(item);
+            <tr onclick="seleccionarCuchilloEmpleadoPrestado(@json)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cedula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombres)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CuchilloBlanco)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CuchilloRojo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CuchilloNegro)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
