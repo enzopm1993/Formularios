@@ -62,6 +62,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, turno, Fecha);
                 clsDAsistencia = new clsDAsistencia();
                 List<spConsultaAsistenciaFinalizar> ConultaAsistenciaFinalizar = clsDAsistencia.ConsultarAsistenciaFinalizar(Fecha, CodLinea,Turno);
+                ViewBag.NRegistros = ConultaAsistenciaFinalizar.Count;
                 return PartialView(ConultaAsistenciaFinalizar);
             }
             catch (Exception ex)

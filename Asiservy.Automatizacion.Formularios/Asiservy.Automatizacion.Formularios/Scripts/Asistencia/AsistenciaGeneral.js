@@ -58,7 +58,7 @@ function Nuevo() {
     $('#ConsultaAsistencia').removeAttr('disabled');
     $('#TurnoGen').prop('selectedIndex', 0);
     $('#PartialAsistencia').empty();
-
+    $('#horaservidor').hide();
 
     var d = new Date();
 
@@ -149,8 +149,9 @@ function ConsultarSiExisteAsistencia() {
                     $('#ConsultaAsistencia').prop('disabled', 'disabled');
                 }
                 if (resultado == 1) {
-                    $('#horaservidor').hide();
+                   
                     GenerarAsistenciaDiariaGeneral($('#CodLinea').val(), resultado);
+                    $('#horaservidor').hide();
                     $('#GenerarAsistencia').hide();
                 }
             },
@@ -164,6 +165,11 @@ function ConsultarSiExisteAsistencia() {
 function VerificarsiHayPrestados(IdLinea, bandera) {
     $('#LineaPres').val(IdLinea);
     $('#banderapres').val(bandera);
+    console.log($('#horaservidor').val());
+    if ($('#horaservidor').val() == '') {
+        MensajeAdvertencia('Debe ingresar la hora');
+        return false;
+    }
     $.ajax({
         //url: '../Asistencia/VerificarPrestados',
         url: '../Asistencia/ModalPrestados',
@@ -195,6 +201,7 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
 }
 function GenerarAsistenciaDiariaGeneral(IdLinea, bandera) {
     $("#spinnerCargando").prop("hidden", false);
+    $('#horaservidor').hide();
     //console.log("hola");
     var turno;
     if (bandera == 0) {
