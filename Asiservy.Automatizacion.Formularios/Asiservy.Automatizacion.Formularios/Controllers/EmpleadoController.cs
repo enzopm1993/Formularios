@@ -601,21 +601,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
                 ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;
                 List<int?> roles = clsDLogin.ConsultaRolesUsuario(Usuario[1]);
-                if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral|| x.Value == clsAtributos.RolControladorGeneral) != null)
+                if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.RolControladorGeneral) != null)
                 {
                     ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
                     ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-                    
-                } else if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorLinea || x.Value == clsAtributos.RolControladorLinea) != null)
+
+                } else if (roles.FirstOrDefault(x=> x.Value == clsAtributos.AsistenteProduccion)!=null) {
+                    ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
+                    ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                }
+                else if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorLinea || x.Value == clsAtributos.RolControladorLinea) != null)
                 {
                     ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Codigo = Empleado.CODIGOLINEA });
-                
+
 
                 }
                 else
                 {
                     ViewBag.Lineas = clsDGeneral.ConsultaLineas(Empleado.CODIGOLINEA);
-                  
+
 
                 }
 

@@ -30,7 +30,8 @@ function CargarReporteDistribucion() {
                 }
 
                 bitacora.html(resultado);
-          
+                config.opcionesDT.pageLength = 15;
+                $('#tblDataTable').DataTable(config.opcionesDT);
 
             },
             error: function (resultado) {
