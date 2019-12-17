@@ -2154,6 +2154,7 @@
     <Content Include="Scripts\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizo.js" />
     <Content Include="Scripts\Empleado\EmpleadoCargo.js" />
     <Content Include="Scripts\Empleado\ReporteEmpleadoCargo.js" />
+    <Content Include="Scripts\excelexportjs.js" />
     <Content Include="Scripts\GenerarDatosServicio\GenerarDatosServicio.js" />
     <Content Include="Scripts\Handsontable\dist\handsontable.css" />
     <Content Include="Scripts\Handsontable\dist\handsontable.full.css" />
