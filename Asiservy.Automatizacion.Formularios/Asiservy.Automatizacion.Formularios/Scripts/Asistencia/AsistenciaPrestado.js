@@ -176,6 +176,10 @@ function ConsultarSiExisteAsistencia() {
 function VerificarMovidosAMiLinea(IdLinea, bandera) {
     $('#mensajepersonal').hide();
     $('#LineaPres').val(IdLinea);
+    if ($('#horaservidor').val() == '') {
+        MensajeAdvertencia('Debe ingresar la hora');
+        return false;
+    }
     $('#banderapres').val(bandera);
     $.ajax({
         //url: '../Asistencia/VerificarPrestados',

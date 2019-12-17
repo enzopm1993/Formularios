@@ -13,6 +13,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.App
 
         public List<ClsKpiDescripcionTotal> TotalPermisos { get; set; }
         public List<ClsKpiDescripcionTotal> TotalDias { get; set; }
+        public int TotalPersonas { get; set; }
+        public int TotalAsistentes { get; set; }
+        public int TotalAusentes { get; set; }
+        public int TotalConPermiso { get; set; }
+        public int TotalSinPermiso { get; set; }
     }
     public class ClsKpiGenero
     {

@@ -1,5 +1,90 @@
 ﻿$(function () {
+
+    var fileNameExcel = "DatosAsistencia-CSV-file_";
+
+    var optionsGenero = {
+        chart: {
+            type: 'bar'
+        },
+        series: [{name:'', data: []}],
+        xaxis: {
+            categories: ['MASCULINO','FEMENINO']
+        },
+        yaxis: {
+            title: {
+                text: '# (personas)'
+            }
+        },
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return val + " personas"
+                }
+            }
+        }
+    }
     
+    var chartGenero = new ApexCharts(document.querySelector("#chartGenero"), optionsGenero);
+    chartGenero.render();
+
+
+
+    var optionsPermiso = {
+        chart: {
+            height: 350,
+            type: 'bar',
+        },
+        plotOptions: {
+            bar: {
+                columnWidth: '50%',
+                endingShape: 'rounded'
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            width: 2
+        },
+        series: [{
+            name: 'Permisos',
+            data: [0]
+        }],
+        grid: {
+            row: {
+                colors: ['#fff', '#f2f2f2']
+            }
+        },
+        xaxis: {
+            labels: {
+                rotate: -45
+            },
+            categories: ['PERMISO'],
+        },
+        yaxis: {
+            title: {
+                text: 'Permisos',
+            },
+
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: "horizontal",
+                shadeIntensity: 0.25,
+                gradientToColors: undefined,
+                inverseColors: true,
+                opacityFrom: 0.85,
+                opacityTo: 0.85,
+                stops: [50, 0, 100]
+            },
+        },
+
+    }
+
+    var chartPermisos = new ApexCharts(document.querySelector("#chartPermisos"), optionsPermiso);
+    chartPermisos.render();
 
     var iconLoader = "fa-spinner fa-pulse";
     var iconSearch = "fa-search"
@@ -26,6 +111,9 @@
         var fechaMuestraHasta = mesesLetras[end.format('MM')] + ' ' + end.format('D') + ', ' + end.format('YYYY');
         $("#fechaDesde").val(start.format('YYYY-MM-DD'));
         $("#fechaHasta").val(end.format('YYYY-MM-DD'));
+
+        fileNameExcel = fileNameExcel + start.format('DDMMYYYY') + "-" + end.format('DDMMYYYY')
+
         $('#reportrange span').html(fechaMuestraDesde + ' - ' + fechaMuestraHasta);
     }
   
@@ -84,7 +172,26 @@
 
     cb(start, end);
 
+    $("#exportExcel").click(function () {
 
+        var hotInstance = $('#data-asistencia').handsontable('getInstance');
+
+        var exportPlugin1 = hotInstance.getPlugin('exportFile');
+
+        exportPlugin1.downloadFile('csv', {
+            bom: false,
+            columnDelimiter: ',',
+            columnHeaders: true,
+            exportHiddenColumns: true,
+            exportHiddenRows: true,
+            fileExtension: 'csv',
+            filename: fileNameExcel,
+            mimeType: 'text/csv',
+            rowDelimiter: '\r\n',
+            rowHeaders: false
+        });
+        return false;
+    });
 
     $("#generarAsistencia").click(function () {
         var fechaDesde = $("#fechaDesde").val();
@@ -121,25 +228,36 @@
                 $("#generarAsistencia").removeClass("btnWait");
 
 
+                $("#txtCantTotalPersonas").text(resultado.TotalPersonas);
+                $("#txtCantAsistieron").text(resultado.TotalAsistentes);
+                $("#txtCantAusentes").text(resultado.TotalAusentes);
+                $("#txtCantAusentesPermiso").text(resultado.TotalConPermiso);
+                $("#txtCantAusentesSinPermiso").text(resultado.TotalSinPermiso);
+
                 if (cedula == "") {
+                  
                     $("#detallePorGeneroPermisos").addClass('mostrarBloques');
 
                     var categorias = [];
                     var _series = [];
+                    $("#bodyTblDatosGenero").empty();
                     $.each(resultado.TotalGeneros, function (i, it0) {
                         categorias[i] = it0.Genero;
+                        var newRowContent = "<tr><td>" + it0.Genero + "</td><td>" + it0.Ausentes + "</td><td>" + it0.AusentesConPermiso + "</td><td>" + it0.AusentesSinPermiso +"</td></tr>";
+
+                        $("#bodyTblDatosGenero").append(newRowContent);
                     });
 
                     var keysGenerosTotales = Object.keys(resultado.TotalGeneros[0]);
                     var columns_series = [];
                     $.each(keysGenerosTotales, function (i, it1) {
-                        if (it1 == 'AusentesConPermiso' || it1 == 'Ausentes') {
+                        if (it1 == 'AusentesConPermiso' || it1 == 'Ausentes' || it1 == "AusentesSinPermiso") {
                             columns_series.push(it1);
                         }
+                       
                     });
 
                     $.each(columns_series, function (i3, cols) {
-                        // _data.push(item[cols]);
                         var _data = [];
                         $.each(categorias, function (i, cat) {
                             $.each(resultado.TotalGeneros, function (i2, item) {
@@ -155,67 +273,32 @@
                         _series.push(itemSerie);
                     });
 
-                    var optionsGenero = {
-                        chart: {
-                            type: 'bar'
-                        },
-                        series: _series,
+                   
+                    chartGenero.updateOptions({
                         xaxis: {
                             categories: categorias
-                        },
-                        yaxis: {
-                            title: {
-                                text: '# (personas)'
-                            }
-                        },
-                        tooltip: {
-                            y: {
-                                formatter: function (val) {
-                                    return val + " personas"
-                                }
-                            }
                         }
-                    }
-                    document.getElementById('chartGenero').innerHTML = '';
-                    var chartGenero = new ApexCharts(document.querySelector("#chartGenero"), optionsGenero);
-
-                    chartGenero.render();
+                    })
+                    chartGenero.updateSeries(_series)
 
                     var permisosTotalLabels = [];
                     var permisosTotalCantidades = [];
-
                     $.each(resultado.TotalPermisos, function (i, it) {
                         permisosTotalLabels[i] = it.Descripcion;
                         permisosTotalCantidades[i] = it.Total;
+                    });                  
+                    
+                    chartPermisos.updateOptions({
+                        xaxis: {
+                            categories: permisosTotalLabels,
+                        }
                     });
+                    chartPermisos.updateSeries([{
+                        name: 'Permisos',
+                        data: permisosTotalCantidades
+                    }]);
 
-
-                    var options = {
-                        chart: {
-                            width: '100%',
-                            type: 'pie',
-                        },
-                        labels: permisosTotalLabels,
-                        series: permisosTotalCantidades,
-                        responsive: [{
-                            breakpoint: 480,
-                            options: {
-                                chart: {
-                                    width: 200
-                                },
-                                legend: {
-                                    position: 'bottom'
-                                }
-                            }
-                        }]
-                    }
-
-                    document.getElementById('chartPermisos').innerHTML = '';
-                    var chartPermisos = new ApexCharts(
-                        document.querySelector("#chartPermisos"),
-                        options
-                    );
-                    chartPermisos.render();
+                    $("#detallePorPermiso").slideDown();
                     if (diffDays > 0) {
 
                         var cats_dias = [];
@@ -225,8 +308,6 @@
                             cats_dias[keyDia] = itDia.Descripcion;
                             _seriesTotal[keyDia] = itDia.Total;
                         });
-                        console.log(cats_dias);
-                        console.log(_seriesTotal);
                         var optionsDias = {
                             chart: {
                                 height: 350,
@@ -341,8 +422,7 @@
                 hotInstance.getPlugin('Filters').filter();
                 hotInstance.render();
 
-
-                
+                $("#exportExcel").show();
               
 
                 //$("#data-asistencia").slideDown();
@@ -354,6 +434,9 @@
                 $("#iconSearch").addClass(iconSearch);
                 $("#generarAsistencia").removeClass("btnWait");
                 MensajeError(resultado.statusText, false);
+
+                $("#detallePorPermiso").hide();
+                $("#exportExcel").hide();
             }
         });
        

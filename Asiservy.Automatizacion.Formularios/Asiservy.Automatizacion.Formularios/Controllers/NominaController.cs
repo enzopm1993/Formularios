@@ -220,9 +220,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     {
                         Genero = g.Key,
                         Presentes = g.Sum(x => x.PRESENTE  ? 1 : 0),
-                        Ausentes = g.Sum(x => (x.AUSENTE && x.DIA_ESPECIAL) ? 1 : 0),
-                        AusentesConPermiso = g.Sum(x => x.AUSENTE && x.DIA_ESPECIAL && x.CON_PERMISO ? 1 : 0),
-                        AusentesSinPermiso = g.Sum(x => x.AUSENTE && x.DIA_ESPECIAL && !x.CON_PERMISO ? 1 : 0),
+                        Ausentes = g.Sum(x => x.AUSENTE ? 1 : 0),
+                        AusentesConPermiso = g.Sum(x => x.AUSENTE && x.CON_PERMISO ? 1 : 0),
+                        AusentesSinPermiso = g.Sum(x => x.AUSENTE && !x.CON_PERMISO ? 1 : 0),
 
                     }).ToList();
 
@@ -251,6 +251,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 resultadoJS.TotalGeneros = resultGeneros;
                 resultadoJS.TotalPermisos = resultPermisos;
                 resultadoJS.TotalDias = resultDiasAusentismo;
+
+
+                resultadoJS.TotalPersonas = datos.Count();
+                resultadoJS.TotalAsistentes = datos.Where(c => c.PRESENTE).Count();  
+                resultadoJS.TotalAusentes = datos.Where(c => c.AUSENTE).Count();
+                resultadoJS.TotalConPermiso = datos.Where(c => c.AUSENTE && c.CON_PERMISO).Count();
+                resultadoJS.TotalSinPermiso = datos.Where(c => c.AUSENTE && !c.CON_PERMISO).Count();
+
 
                 JsonResult result = Json(resultadoJS, JsonRequestBehavior.AllowGet);
                 result.MaxJsonLength = 50000000;

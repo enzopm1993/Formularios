@@ -6417,9 +6417,6 @@ button.bg-dark:focus {
   content: "";
 }
 
-.d-none {
-  display: none !important;
-}
 
 .d-inline {
   display: inline !important;
@@ -10233,6 +10230,9 @@ a:focus {
   font-weight: 800;
   font-size: 0.65rem;
 }
+.sidebar .sidebar-brand-icon {
+    display: block;
+}
 
 @media (min-width: 768px) {
   .sidebar {
@@ -10290,6 +10290,10 @@ a:focus {
   }
   .sidebar .sidebar-brand .sidebar-brand-text {
     display: inline;
+  }
+
+  .sidebar .sidebar-brand-icon {
+      display: none;
   }
   .sidebar .sidebar-heading {
     text-align: left;
