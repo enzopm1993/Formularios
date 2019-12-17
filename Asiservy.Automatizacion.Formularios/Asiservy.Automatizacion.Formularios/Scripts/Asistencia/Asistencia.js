@@ -155,7 +155,7 @@ function buscarenTabla() {
 }
 
 function ConsultarSiExisteAsistencia() {
-
+    $("#spinnerCargando").prop("hidden", false);
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
         $('#horaservidor').hide();
@@ -180,6 +180,7 @@ function ConsultarSiExisteAsistencia() {
             Fecha: $('#txtFecha').val()
         },
         success: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
             $('#Existe').val(resultado);
 
             if (resultado == 0) {

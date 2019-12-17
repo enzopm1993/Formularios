@@ -126,6 +126,7 @@ function buscarenTabla() {
     }
 }
 function ConsultarSiExisteAsistencia() {
+    $("#spinnerCargando").prop("hidden", false);
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
         $('#horaservidor').hide();
@@ -150,6 +151,7 @@ function ConsultarSiExisteAsistencia() {
                 Fecha: $('#txtFecha').val()
             },
             success: function (resultado) {
+                $("#spinnerCargando").prop("hidden", true);
                 $('#Existe').val(resultado);
 
                 if (resultado == 0) {
@@ -174,6 +176,7 @@ function ConsultarSiExisteAsistencia() {
     
 }
 function VerificarMovidosAMiLinea(IdLinea, bandera) {
+    $("#spinnerCargando").prop("hidden", false);
     $('#mensajepersonal').hide();
     $('#LineaPres').val(IdLinea);
     if ($('#horaservidor').val() == '') {
@@ -194,6 +197,7 @@ function VerificarMovidosAMiLinea(IdLinea, bandera) {
 
         },
         success: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
             $('#divmodalprestados').html(resultado);
 
             if ($('#txtPrestado').val() == 'true') {
@@ -204,6 +208,8 @@ function VerificarMovidosAMiLinea(IdLinea, bandera) {
             } else {
                 //GenerarAsistenciaDiariaMovidos(IdLinea, bandera);
                 $('#mensajepersonal').show();
+                $('#GenerarAsistencia').hide();
+                $('#horaservidor').hide();
             }
             //if (resultado) {
             //    $('#modalprestados').modal("show");
