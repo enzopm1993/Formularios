@@ -25,7 +25,7 @@ function SeleccionCuchilloColor(numero, color, estado) {
 function GuardarCuchillo() {
 
     $.ajax({
-        url: "../Asistencia/Cuchillo",
+        url: "../ControlCuchillo/Cuchillo",
         type: "POST",
         data: {
             NumeroCuchillo: $("#NumeroCuchillo").val(),
@@ -52,7 +52,7 @@ function CargarColorCuchillos() {
     $("#spinnerCargando").prop("hidden", false);
     $('#DivColorCuchillos').html('');
     $.ajax({
-        url: "../Asistencia/CuchilloPartial",
+        url: "../ControlCuchillo/CuchilloPartial",
         type: "GET",
         data: {
             dsColor:$("#ColorCuchillos").val()

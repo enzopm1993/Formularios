@@ -57,7 +57,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult GuardarControlCuchillo(string dsCedula, string dsColor, string dsNumero, string dsEstado, bool dbCheck, DateTime ddFecha, bool dbTipo = false)
+        public ActionResult GuardarControlCuchillo(string dsCedula, string dsColor, string dsNumero, string dsEstado, bool dbCheck, DateTime ddFecha,string Observacion, bool dbTipo = false)
         {
             try
             {
@@ -75,6 +75,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 poControlCuchillo.CuchilloRojo = dsColor == "R" ? int.Parse(dsNumero) : 0;
                 poControlCuchillo.CuchilloNegro = dsColor == "N" ? int.Parse(dsNumero) : 0;
                 poControlCuchillo.Fecha = ddFecha;
+                poControlCuchillo.Observacion = Observacion;
                 poControlCuchillo.EstadoCuchillo = dsEstado;
                 poControlCuchillo.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 poControlCuchillo.FechaIngresoLog = DateTime.Now;
@@ -706,6 +707,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.Linea = modelEmpleado.CODIGOLINEA;
                 model.Cargo = modelEmpleado.CODIGOCARGO;
+
+                if (!clsDCuchillo.ValidarCuchilloEmpleadoPrestado(model))
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+
+                }
                 clsDCuchillo.GuardarModificarEmpleadoCuchilloPrestado(model);
                 return Json("Registro Exitoso",JsonRequestBehavior.AllowGet);
             }

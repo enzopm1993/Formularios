@@ -157,6 +157,10 @@ function GuardarModificarCuchilloEmpleadoPrestado() {
                 MensajeAdvertencia("No se ha encontrado al empleado");
                 return;
             }
+            if (resultado == '1') {
+                MensajeAdvertencia("Cuchillo ya ha sido asignado a otro empleado");
+                return;
+            }
             CargarEmpleadoCuchilloPrestado();
             MensajeCorrecto(resultado);
         },

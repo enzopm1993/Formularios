@@ -23,5 +23,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string ValidaRojo { get; set; }
         public Nullable<int> CuchilloNegro { get; set; }
         public string ValidaNegro { get; set; }
+        public string Observacion { get; set; }
     }
 }

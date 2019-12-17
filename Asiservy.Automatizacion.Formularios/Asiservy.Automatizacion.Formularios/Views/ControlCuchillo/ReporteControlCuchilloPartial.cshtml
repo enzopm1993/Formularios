@@ -62,71 +62,90 @@
                 <td style="">
                     @if (item.EVBlanco == "1")
                     {
-                        <label class="btn" style="background:#28B463; color:white">
-                            <input type="checkbox" name="name" value="" disabled checked />
-                            @item.ECBlanco
-                        </label>
+
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="Blanco-@item.ECBlanco" value="" disabled checked />
+                                <label class="custom-control-label" for=@("Blanco-"+item.ECBlanco) id="LabelFecha">  @item.ECBlanco</label>
+                            </div>
+                        </div>
 
                     }
                     else
                     {
-                        <label class="btn" style="background:#808080; color:white">
-                            <input type="checkbox" name="name" value="" disabled />
-                            @item.ECBlanco
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="Blanco-@item.ECBlanco" value="" disabled />
+                                <label class="custom-control-label" for=@("Blanco-"+item.ECBlanco) id="LabelFecha">  @item.ECBlanco</label>
+                            </div>
+                        </div>                      
                     }
                 </td>
 
                 <td>
                     @if (item.EVRojo == "1")
                     {
-                        <label class="btn" style="background:#28B463; color:white">
-                            <input type="checkbox" name="name" value="" disabled checked />
-                            @item.ECRojo
-                        </label>
+
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="Rojo-@item.ECRojo" value="" disabled checked />
+                                <label class="custom-control-label" for=@("Rojo-"+item.ECRojo) id="LabelFecha">  @item.ECRojo</label>
+                            </div>
+                        </div>
 
                     }
                     else
                     {
-                        <label class="btn" style="background:#808080; color:white">
-                            <input type="checkbox" name="name" value="" disabled />
-                            @item.ECRojo
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="Rojo-@item.ECRojo" value="" disabled />
+                                <label class="custom-control-label" for=@("Rojo-"+item.ECRojo) id="LabelFecha">  @item.ECRojo</label>
+                            </div>
+                        </div>
                     }
                 </td>
                 @* Almuerzo *@
                 <td style="background:#F0F8FF">
                     @if (item.AVBlanco == "1")
                     {
-                        <label class="btn" style="background:#28B463; color:white">
-                            <input type="checkbox" name="name" value="" disabled checked />
-                            @item.ACBlanco
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="ACBlanco-@item.ACBlanco" value="" disabled checked />
+                                <label class="custom-control-label" for=@("ACBlanco-"+item.ACBlanco) id="LabelFecha">  @item.ACBlanco</label>
+                            </div>
+                        </div>
+                       
 
                     }
                     else
                     {
-                        <label class="btn" style="background:#808080; color:white">
-                            <input type="checkbox" name="name" value="" disabled />
-                            @item.ACBlanco
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="ACBlanco-@item.ACBlanco" value="" disabled  />
+                                <label class="custom-control-label" for=@("ACBlanco-"+item.ACBlanco) id="LabelFecha">  @item.ACBlanco</label>
+                            </div>
+                        </div>
                     }
                 </td>
                 <td style="background:#F0F8FF">
                     @if (item.AVRojo == "1")
                     {
-                        <label class="btn" style="background:#28B463; color:white">
-                            <input type="checkbox" name="name" value="" disabled checked />
-                            @item.ACRojo
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="ACRojo-@item.ACRojo" value="" disabled checked />
+                                <label class="custom-control-label" for=@("ACRojo-"+item.ACRojo) id="LabelFecha">  @item.ACRojo</label>
+                            </div>
+                        </div>
 
                     }
                     else
                     {
-                        <label class="btn" style="background:#808080; color:white">
-                            <input type="checkbox" name="name" value="" disabled />
-                            @item.ACRojo
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="ACRojo-@item.ACRojo" value="" disabled  />
+                                <label class="custom-control-label" for=@("ACRojo-"+item.ACRojo) id="LabelFecha">  @item.ACRojo</label>
+                            </div>
+                        </div>
                     }
                 </td>
 
@@ -135,35 +154,44 @@
                 <td>
                     @if (item.RVBlanco == "1")
                     {
-                        <label class="btn" style="background:#28B463; color:white">
-                            <input type="checkbox" name="name" value="" disabled checked />
-                            @item.RCBlanco
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="RCBlanco-@item.RCBlanco" value="" disabled checked />
+                                <label class="custom-control-label" for=@("RCBlanco-"+item.RCBlanco) id="LabelFecha">  @item.RCBlanco</label>
+                            </div>
+                        </div>
 
                     }
                     else
                     {
-                        <label class="btn" style="background:#808080; color:white">
-                            <input type="checkbox" name="name" value="" disabled />
-                            @item.RCBlanco
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="RCBlanco-@item.RCBlanco" value="" disabled  />
+                                <label class="custom-control-label" for=@("RCBlanco-"+item.RCBlanco) id="LabelFecha">  @item.RCBlanco</label>
+                            </div>
+                        </div>
                     }
                 </td>
                 <td>
                     @if (item.RVRojo == "1")
                     {
-                        <label class="btn" style="background:#28B463; color:white">
-                            <input type="checkbox" name="name" value="" disabled checked />
-                            @item.RCRojo
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="RCRojo-@item.RCRojo" value="" disabled checked />
+                                <label class="custom-control-label" for=@("RCRojo-"+item.RCRojo) id="LabelFecha">  @item.RCRojo</label>
+                            </div>
+                        </div>
 
                     }
                     else
                     {
-                        <label class="btn" style="background:#808080; color:white">
-                            <input type="checkbox" name="name" value="" disabled />
-                            @item.RCRojo
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="RCRojo-@item.RCRojo" value="" disabled  />
+                                <label class="custom-control-label" for=@("RCRojo-"+item.RCRojo) id="LabelFecha">  @item.RCRojo</label>
+                            </div>
+                        </div>
+
                     }
                 </td>
 
@@ -172,35 +200,46 @@
                 <td style="background:#F0F8FF">
                     @if (item.SVBlanco == "1")
                     {
-                        <label class="btn" style="background:#28B463; color:white">
-                            <input type="checkbox" name="name" value="" disabled checked />
-                            @item.SCBlanco
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="SCBlanco-@item.SCBlanco" value="" disabled checked />
+                                <label class="custom-control-label" for=@("SCBlanco-"+item.SCBlanco) id="LabelFecha">  @item.SCBlanco</label>
+                            </div>
+                        </div>
+
 
                     }
                     else
                     {
-                        <label class="btn" style="background:#808080; color:white">
-                            <input type="checkbox" name="name" value="" disabled />
-                            @item.SCBlanco
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="SCBlanco-@item.SCBlanco" value="" disabled />
+                                <label class="custom-control-label" for=@("SCBlanco-"+item.SCBlanco) id="LabelFecha">  @item.SCBlanco</label>
+                            </div>
+                        </div>
+
                     }
                 </td>
                 <td style="background:#F0F8FF">
                     @if (item.SVRojo == "1")
                     {
-                        <label class="btn" style="background:#28B463; color:white">
-                            <input type="checkbox" name="name" value="" disabled checked />
-                            @item.SCRojo
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="SCRojo-@item.SCRojo" value="" disabled checked />
+                                <label class="custom-control-label" for=@("SCRojo-"+item.SCRojo) id="LabelFecha">  @item.SCRojo</label>
+                            </div>
+                        </div>
+
 
                     }
                     else
                     {
-                        <label class="btn" style="background:#808080; color:white">
-                            <input type="checkbox" name="name" value="" disabled />
-                            @item.SCRojo
-                        </label>
+                        <div class="col-xs-2 text-xs-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="SCRojo-@item.SCRojo" value="" disabled/>
+                                <label class="custom-control-label" for=@("SCRojo-"+item.SCRojo) id="LabelFecha">  @item.SCRojo</label>
+                            </div>
+                        </div>
                     }
                 </td>
             </tr>
