@@ -62,6 +62,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, turno, Fecha);
                 clsDAsistencia = new clsDAsistencia();
                 List<spConsultaAsistenciaFinalizar> ConultaAsistenciaFinalizar = clsDAsistencia.ConsultarAsistenciaFinalizar(Fecha, CodLinea,Turno);
+                ViewBag.NRegistros = ConultaAsistenciaFinalizar.Count;
                 return PartialView(ConultaAsistenciaFinalizar);
             }
             catch (Exception ex)
@@ -122,6 +123,38 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 clsDAsistencia = new clsDAsistencia();
                 var respuesta = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea, Fecha, Hora);
+                if (respuesta.Count > 0)
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult VerificarMovidosaLinea(string CodLinea, DateTime? Fecha, TimeSpan? Hora)
+        {
+            try
+            {
+                clsDAsistencia = new clsDAsistencia();
+                var respuesta = clsDAsistencia.ConsultaPersonalMovidoaLinea(CodLinea, Fecha, Hora);
                 if (respuesta.Count > 0)
                 {
                     return Json(true, JsonRequestBehavior.AllowGet);
@@ -248,7 +281,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 liststring = User.Identity.Name.Split('_');
                 string CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
-                var respuesta = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea, Fecha, Hora);
+                var respuesta = clsDAsistencia.ConsultaPersonalMovidoaLinea(CodLinea, Fecha, Hora);
                 ViewBag.ListaEmpleadosPres = respuesta;
                 if (respuesta.Count > 0)
                 {
@@ -517,7 +550,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
         [HttpPost]
-        public ActionResult AsistenciaGeneralPartial(string CodLinea, int BanderaExiste, string turno, DateTime Fecha)
+        public ActionResult AsistenciaGeneralPartial(string CodLinea, int BanderaExiste, string turno, DateTime Fecha,TimeSpan HoraServidor)
         {
             try
             {
@@ -528,7 +561,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, turno, Fecha);
+                //falta modificar el script para enbviar fecha y hora
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, turno, Fecha,HoraServidor);
 
                 return PartialView(AsistenciaViewModel);
             }
@@ -585,7 +619,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult AsistenciaPrestadoPartial(string CodLinea, int BanderaExiste, string Turno, DateTime Fecha)
+        public ActionResult AsistenciaPrestadoPartial(string CodLinea, int BanderaExiste, string Turno, DateTime Fecha, TimeSpan Hora)
         {
             try
             {
@@ -596,7 +630,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress,Turno,Fecha);
+                ControlDeAsistenciaPrestadosViewModel AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress,Turno,Fecha, Hora);
                
 
                 //Control de Cuchillos

@@ -97,6 +97,7 @@ function Nuevo() {
     $('#ConsultaAsistencia').removeAttr('disabled');
     $('#TurnoGen').prop('selectedIndex', 0);
     $('#PartialAsistencia').empty();
+    $('#horaservidor').hide();
 
 
     var d = new Date();
@@ -191,6 +192,8 @@ function ConsultarSiExisteAsistencia() {
             }
             if (resultado == 1) {
                 GenerarAsistenciaDiaria($('#CodLinea').val(), resultado);
+                $('#TurnoGen').prop('disabled', 'disabled');
+                $('#txtFecha').prop('disabled', 'disabled');
                 $('#horaservidor').hide();
                 $('#GenerarAsistencia').hide();
             }
@@ -239,6 +242,10 @@ function DeshabilitarControles(fila) {
 function VerificarsiHayPrestados(IdLinea, bandera) {
     $('#LineaPres').val(IdLinea);
     $('#banderapres').val(bandera);
+    if ($('#horaservidor').val() == '') {
+        MensajeAdvertencia('Debe ingresar la hora');
+        return false;
+    }
     $.ajax({
         //url: '../Asistencia/VerificarPrestados',
         url: '../Asistencia/ModalPrestados',
@@ -328,9 +335,9 @@ function GenerarAsistenciaDiaria(IdLinea, bandera)//genera asistencia diaria si 
 function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea, Cargo) {
     //**
     //console.log('change');
-    console.log(fila);
-    console.log(nombre);
-    console.log(ComboOCheck);
+    //console.log(fila);
+    //console.log(nombre);
+    //console.log(ComboOCheck);
     var banderaChangesinCheck = false;
     //**
     var valor = fila - 1;

@@ -155,9 +155,15 @@ function MostarModalColumns() {
     var columns = $('#tblDataTable').dataTable().dataTableSettings[0].aoColumns;
     var options = '';
     var contador = 0;
+    var columnas = new Array();
+    var contValidaTodos = 0;
+   
     $.each(columns, function (i, v) {
         if (v.sTitle.trim() != '') {
             var col = parseInt(i);
+            columnas.push(i);
+            console.log(columnas);
+
             // Get the column API object
             var column = $('#tblDataTable').DataTable().column(col);
             // Toggle the visibility
@@ -167,13 +173,23 @@ function MostarModalColumns() {
             } else {
                 options += '<div class="col-6"><input checked onchange="OcultarColumnas(this.value)" type="checkbox" name="checkbox-' + i + '" id="checkbox-' + i + '" value="' + i + '" class="custom" />';
                 options += '<label for="checkbox-' + i + '">' + v.sTitle + '</label></div>';
+                contValidaTodos++;
             }
             contador++;
         }
     });
+    var columnas = JSON.stringify(columnas);
+    if (contValidaTodos > 0) {
+        options += '<div class="col-6"><input checked onchange="TodosColumna(this.checked,' + columnas + ')" type="checkbox" name="checkbox-Todos" id="checkbox-Todos" class="custom" />';
+        options += '<label  class="text-info"  for="checkbox-Todos">' + "Todos" + '</label></div>';
+    } else {
+        options += '<div class="col-6"><input  onchange="TodosColumna(this.checked,' + columnas + ')" type="checkbox" name="checkbox-Todos" id="checkbox-Todos" class="custom" />';
+        options += '<label  class="text-info"  for="checkbox-Todos">' + "Todos" + '</label></div>';
+    }
     $('#ModalBody').html('');
     $('#ModalBody').append(options);
-    if (contador > 0) {
+
+    if (contador > 0) {       
         $("#ModalColumnas").modal("show");
     } else {
         MensajeAdvertencia("No aplica para este reporte.");
@@ -182,17 +198,29 @@ function MostarModalColumns() {
 
 
 function OcultarColumnas(col) {
-    var col = parseInt(col);
-    // Get the column API object
-    var column = $('#tblDataTable').DataTable().column(col);
-    // Toggle the visibility
+    var col = parseInt(col);   
+    var column = $('#tblDataTable').DataTable().column(col); 
     column.visible(!column.visible());
-    config.opcionesDT.scrollX = "200px";
-    config.opcionesDT.scrollY = "600px";
-   // $('#tblDataTable').DataTable().columns.adjust().draw();
-   // $('#tblDataTable').DataTable().responsive.recalc();
-    
 }
 
+function TodosColumna(check, columnas) {
+    console.log(check);
+    console.log(columnas);
+    if (check) {
+        $.each(columnas, function (index,value) {
+            var column = $('#tblDataTable').DataTable().column(value);
+            column.visible(true);
+            $("#checkbox-" + value).prop("checked", true);
+        });
+    }
+    else {
+        $.each(columnas, function (index, value) {
+            var column = $('#tblDataTable').DataTable().column(value);
+            column.visible(false);
+            $("#checkbox-" + value).prop("checked", false);
 
+        });
+    }
+
+}
 

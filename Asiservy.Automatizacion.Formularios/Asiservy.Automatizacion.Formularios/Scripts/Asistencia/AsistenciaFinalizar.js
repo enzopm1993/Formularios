@@ -11,6 +11,7 @@
     $("#TurnoGen").prop('disabled', false);
     $("#TurnoGen").prop('selectedIndex', 0);
     $('#PartialAsistenciaFin').empty();
+    $('#MensajeAsistenciaSalida').empty();
     
 }
 function ConsultarAsistenciaSalida(Linea) {
@@ -40,9 +41,16 @@ function ConsultarAsistenciaSalida(Linea) {
             Fecha: $('#txtFecha').val()
         },
         success: function (resultado) {
+            //console.log(resultado);
             $("#spinnerCargando").prop("hidden", true);
             $('#PartialAsistenciaFin').empty();
             $('#PartialAsistenciaFin').html(resultado);
+            if ($('#Nregistros').val() == 0) {
+                $('#MensajeAsistenciaSalida').html('No existen registros para mostrar');
+                $('#PartialAsistenciaFin').empty();
+            } else {
+                $('#MensajeAsistenciaSalida').html('');
+            }
             if ($('#TurnoGen').val() == 2) {
                 //console.log('show');
                 $('#divfechafin').show();

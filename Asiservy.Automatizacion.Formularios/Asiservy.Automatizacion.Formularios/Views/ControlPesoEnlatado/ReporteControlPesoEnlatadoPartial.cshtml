@@ -1,0 +1,169 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlPesoEnlatado>
+@using Asiservy.Automatizacion.Datos.Datos;
+@{
+    List<spReporteControlPesoEnlatadoDetalle> ListaDetalle = ViewBag.ListaDetalle;
+    List<spReporteControlPesoEnlatadoSubDetalle> ListaSubDetalle = ViewBag.ListaSubDetalle;
+
+    int idTable = 1;
+}
+
+<input type="hidden" id="txtCantidadDetalle" name="name" value="@Model.Count()" />
+
+@foreach (var item in Model)
+{
+<div class="card shadow">   
+    <div class="card-body table-responsive" >
+        <table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable-@idTable">
+            <thead>
+                @{
+                    int TotalDetalle = ListaDetalle.Where(x=>x.IdControlPesoEnlatado==item.IdControlPesoEnlatado).Select(x => x.Hora).Distinct().Count()+1;
+                    idTable++;
+                    }
+                <tr style="background-color:#bdd5f3; color:black">
+                    @{
+
+                        for (int i = 0; i < TotalDetalle; i++)
+                        {
+                            <th hidden></th>
+                        }
+                    }
+                    <th colspan="@TotalDetalle">
+                        <b style="color:black">O.F:</b>@Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                        &nbsp;
+                        &mdash;
+                        &nbsp;
+                        <b style="color:black">O.V:</b>@Html.DisplayFor(modelItem => item.OrdenVenta)
+                        &nbsp;
+                        &mdash;
+                        &nbsp;
+                        <b style="color:black">Producto:</b>@Html.DisplayFor(modelItem => item.Producto)
+                        &nbsp;
+                        &mdash;
+                        &nbsp;
+                        <b style="color:black">Peso:</b>@Html.DisplayFor(modelItem => item.Peso)
+                        &nbsp;
+                        &mdash;
+                        &nbsp;
+                        <b style="color:black">Linea:</b>@Html.DisplayFor(modelItem => item.LineaEnlatado)
+                        &nbsp;
+                        &mdash;
+                        &nbsp;
+                        <b style="color:black">Turno:</b>@Html.DisplayFor(modelItem => item.Turno)
+                    </th>
+
+                </tr>
+            </thead>
+        <tbody>
+              @{ var ListDetalle = ListaDetalle.Where(x => x.IdControlPesoEnlatado == item.IdControlPesoEnlatado).ToList();
+                  if (ListDetalle.Any())
+                  {
+                  <tr>
+                    <td><b>Muestras</b></td>
+               
+                        @foreach (var d in ListDetalle)
+                        {
+                            string Hora = d.Hora.ToString("HH:mm");
+                            <td><b>@Hora</b> </td>
+
+                        }
+                
+
+                </tr>
+                  }
+                  int cont = 1;
+                  var muestras = ListaSubDetalle.Where(x => x.IdControlPesoEnlatado == item.IdControlPesoEnlatado).Select(x => x.Muestra).Distinct().ToList();
+
+                  foreach (var d in muestras)
+                  {
+                      var listadoSubDetalle = ListaSubDetalle.Where(x => x.Muestra == cont).ToList();
+                      if (listadoSubDetalle.Any()) {
+                    <tr>
+
+                        @{
+                           
+
+                            if (ListDetalle.Any())
+                            {
+                                <td>@cont </td>
+                            }
+                        }
+
+
+                        @foreach (var detalle in ListDetalle)
+                        {
+                            var listadoSubDetalle2 = listadoSubDetalle.Where(x => x.IdControlPesoEnlatadoDetallado == detalle.IdControlPesoEnlatadoDetallado).ToList();
+                            if (!listadoSubDetalle2.Any())
+                            {
+                                <td></td>}
+                            foreach (var sub in listadoSubDetalle2)
+                            {
+                                <td>@sub.Peso</td>
+                            }
+                        }
+                    </tr>
+                    cont++;
+                   }
+                }
+               }
+        </tbody>
+        </table>
+   </div>
+</div>
+
+}
+
+
+@*<table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            @{ for (int i = 0; i < TotalDetalle; i++)
+                {
+                    <td></td>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            
+            <tr style="background-color:#bdd5f3; color:black">
+                <td colspan="@TotalDetalle">
+
+                    <b style="color:black">O.Fabricación:</b>@Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                    &nbsp;
+                    &mdash;
+                    &nbsp;
+                    <b style="color:black">O.Venta:</b>@Html.DisplayFor(modelItem => item.OrdenVenta)
+                    &nbsp;
+                    &mdash;
+                    &nbsp;
+                    <b style="color:black">Producto:</b>@Html.DisplayFor(modelItem => item.Producto)
+                    &nbsp;
+                    &mdash;
+                    &nbsp;
+                    <b style="color:black">Peso:</b>@Html.DisplayFor(modelItem => item.Peso)
+                    &nbsp;
+                    &mdash;
+                    &nbsp;
+                    <b style="color:black">Linea:</b>@Html.DisplayFor(modelItem => item.LineaEnlatado)
+                    &nbsp;
+                    &mdash;
+                    &nbsp;
+                    <b style="color:black">Turno:</b>@Html.DisplayFor(modelItem => item.Turno)
+
+
+                </td>
+                @{
+
+                    for (int i = 1; i < TotalDetalle; i++)
+                    {
+                        <td hidden></td>
+                    }
+                }
+            </tr>
+
+          
+        }
+    </tbody>
+</table>*@

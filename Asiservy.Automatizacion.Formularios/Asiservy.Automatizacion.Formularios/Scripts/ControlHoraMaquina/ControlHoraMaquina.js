@@ -361,7 +361,7 @@ function seleccionarControlHoraMaquina(model) {
     $("#txtCliente").val(model.Cliente);
     $("#DivMensaje").prop("hidden", false);
     $("#DivMensaje").html('');
-    $("#DivMensaje").html(model.Producto + ", " + model.PesoNeto+ ", " + model.Cliente);
+    $("#DivMensaje").html("OF:" + model.OrdenFabricacion + ", " + "OV:" +model.OrdenVenta + ", "+model.Producto + ", " + model.PesoNeto+ ", " + model.Cliente);
    CargarControlHoraMaquinaDetalle();   
 }
 

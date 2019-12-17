@@ -1,4 +1,15 @@
-﻿function ActualizaObservacionHide() {
+﻿function CerrarModalPrestadoInfo() {
+    $("#modalprestados").modal("hide");
+}
+function GenerarAsistenciaPrestadosOk() {
+    $("#modalprestados").modal("hide");
+    $("#horaservidor").hide();
+    
+    GenerarAsistenciaDiariaMovidos($('#LineaPres').val(), $('#banderapres').val());
+    console.log($('#LineaPres').val());
+    console.log($('#banderapres').val());
+}
+function ActualizaObservacionHide() {
     var posiciono = $('#PosicionHide').val();
     $('#ControlAsistencia_' + posiciono + '__Observacion').val($('#areaobservacion').val());
     //"GuardarPersona(" + @cont + ",'" + @item.NOMBRES + "','change');"
@@ -49,6 +60,10 @@ function SetearHora() {
     $('#btnhora').removeAttr('disabled');
 }
 function Nuevo() {
+    
+    
+    $('#horaservidor').hide();
+    $('#mensajepersonal').hide();
     $('#GenerarAsistencia').hide();
     $('#TurnoGen').removeAttr('disabled');
     $('#txtFecha').removeAttr('disabled');
@@ -159,11 +174,16 @@ function ConsultarSiExisteAsistencia() {
     
 }
 function VerificarMovidosAMiLinea(IdLinea, bandera) {
+    $('#mensajepersonal').hide();
     $('#LineaPres').val(IdLinea);
+    if ($('#horaservidor').val() == '') {
+        MensajeAdvertencia('Debe ingresar la hora');
+        return false;
+    }
     $('#banderapres').val(bandera);
     $.ajax({
         //url: '../Asistencia/VerificarPrestados',
-        url: '../Asistencia/ModalPrestados',
+        url: '../Asistencia/ModalMovidosaMiLinea',
         type: 'GET',
         data: {
             //CodLinea: IdLinea,
@@ -182,7 +202,8 @@ function VerificarMovidosAMiLinea(IdLinea, bandera) {
                 $('#banderapres').val(bandera);
 
             } else {
-                GenerarAsistenciaDiaria(IdLinea, bandera);
+                //GenerarAsistenciaDiariaMovidos(IdLinea, bandera);
+                $('#mensajepersonal').show();
             }
             //if (resultado) {
             //    $('#modalprestados').modal("show");
@@ -215,7 +236,8 @@ function GenerarAsistenciaDiariaMovidos(IdLinea, bandera) {
             CodLinea: IdLinea,
             BanderaExiste: bandera,
             Turno: turno,
-            Fecha: $('#txtFecha').val()
+            Fecha: $('#txtFecha').val(),
+            Hora: $('#horaservidor').val()
         },
         success: function (resultado) {
             //MensajeCorrecto(resultado, true);
@@ -241,7 +263,7 @@ function GenerarAsistenciaDiariaMovidos(IdLinea, bandera) {
 }
 
 //guardar con check
-function GuardarPersona(fila, nombre, ComboOCheck) {
+function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea, Cargo) {
     //**
     //console.log('change');
     var banderaChangesinCheck = false;
@@ -312,7 +334,12 @@ function GuardarPersona(fila, nombre, ComboOCheck) {
                 Hora: $('#ControlAsistencia_' + fila + '__Hora').val(),
                 observacion: $('#ControlAsistencia_' + fila + '__Observacion').val(),
                 estado: $('#ControlAsistencia_' + fila + '__EstadoAsistencia').val(),
-                Fecha: $('#txtFecha').val()
+                Fecha: $('#txtFecha').val(),
+                CentroCostos: CentroCostos,
+                Recurso: Recurso,
+                Linea: Linea,
+                Cargo: Cargo,
+                Turno: $('#TurnoGen').val()
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);

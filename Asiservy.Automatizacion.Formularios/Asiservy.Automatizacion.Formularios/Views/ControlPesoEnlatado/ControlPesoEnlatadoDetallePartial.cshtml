@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlPesoEnlatadoDetalle>
+
+
+<table class="table-bordered table-striped table" style="cursor: pointer" id="">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Hora)
+        </th>
+        <th>
+           ºAgua
+        </th>
+        <th>
+           ºAceite
+        </th>      
+        <th>Acción</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+
+        <td>
+            @{ 
+                string Fecha = item.Hora.ToString("dd-MM-yyyy HH:mm");
+            }
+            @Fecha
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TemperaturaAgua)ºC
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TemperaturaAceite)ºC
+        </td>
+        <td>
+            <a onclick="SeleccionarControlSubDetalle('@item.IdControlPesoEnlatadoDetallado','@Fecha')">Ver</a> |
+            <a onclick="ModalDetalleEditar(@item.IdControlPesoEnlatadoDetallado,'@item.TemperaturaAgua','@item.TemperaturaAceite','@item.Hora')">Editar</a> |
+            <a onclick="ModalEliminarDetalle(@item.IdControlPesoEnlatadoDetallado)" id="btnInactivarDetalle">Eliminar</a> 
+
+        </td>
+    </tr>
+    }
+
+</table>
