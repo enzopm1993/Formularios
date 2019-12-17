@@ -21,7 +21,7 @@ function CargarControlCuchillo(estado) {
     $('#TablaControlCuchillo').html('');
     $("#spinnerCargando").prop("hidden",false);
   $.ajax({
-        url: "../Asistencia/ControlCuchilloPartial",
+        url: "../ControlCuchillo/ControlCuchilloPartial",
         type: "GET",
       data: {
           dsEstado: estado,
@@ -94,7 +94,7 @@ function check(id, color, cedula) {
 
 function GuardarControlCuchillo(cedula, color, numero, estado, check,idCheck,idLabel) {
     $.ajax({
-        url: "../Asistencia/GuardarControlCuchillo",
+        url: "../ControlCuchillo/GuardarControlCuchillo",
         type: "GET",
         data: {
             dsCedula: cedula,

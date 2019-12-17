@@ -695,7 +695,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDCuchillo = new clsDCuchillo();
                 clsDEmpleado = new clsDEmpleado();
                 var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var modelEmpleado = clsDCuchillo.ConsultaCuchillosEmpleadoPrestadoPorLineaFecha(empleado.CODIGOLINEA, model.Fecha).FirstOrDefault(x=> x.Cedula == model.Cedula);
+                var modelEmpleado = clsDCuchillo.ConsultaEmpleadoPrestadoPorLineaFecha(empleado.CODIGOLINEA, model.Fecha).FirstOrDefault(x=> x.CEDULA == model.Cedula);
                 if (modelEmpleado == null)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -704,8 +704,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                model.Linea = modelEmpleado.Linea;
-                model.Cargo = modelEmpleado.Cargo;
+                model.Linea = modelEmpleado.CODIGOLINEA;
+                model.Cargo = modelEmpleado.CODIGOCARGO;
                 clsDCuchillo.GuardarModificarEmpleadoCuchilloPrestado(model);
                 return Json("Registro Exitoso",JsonRequestBehavior.AllowGet);
             }

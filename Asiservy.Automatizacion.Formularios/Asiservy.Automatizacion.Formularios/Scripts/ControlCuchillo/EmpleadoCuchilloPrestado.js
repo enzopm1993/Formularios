@@ -167,10 +167,8 @@ function GuardarModificarCuchilloEmpleadoPrestado() {
 }
 
 function seleccionarCuchilloEmpleadoPrestado(model) {
-   // console.log(model);
     $("#selectEmpleado").val(model.Cedula);
     $("#txtCuchilloBlanco").val(model.CuchilloBlanco);
     $("#txtCuchilloRojo").val(model.CuchilloRojo);
     $("#txtCuchilloNegro").val(model.CuchilloNegro);
-
 }
