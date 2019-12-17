@@ -109,6 +109,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     controlCuchillo.CuchilloNegro = model.CuchilloNegro != 0 ?
                                                     check ? model.CuchilloNegro : 0
                                                     : controlCuchillo.CuchilloNegro;
+                    controlCuchillo.Observacion = model.Observacion;
                     //controlCuchillo.Fecha = DateTime.Now;
                     controlCuchillo.FechaModificacionLog = DateTime.Now;
                     controlCuchillo.UsuarioModificacionLog = model.UsuarioIngresoLog;
@@ -196,7 +197,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             CuchilloRojo=x.CuchilloRojo,
                             ValidaRojo=x.ValidaRojo,
                             CuchilloNegro=x.CuchilloNegro,
-                            ValidaNegro=x.ValidaNegro
+                            ValidaNegro=x.ValidaNegro,
+                            Observacion=x.Observacion
                         });
                     }
                 }
@@ -434,6 +436,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 var result = db.EMPLEADO_CUCHILLO_PRESTADO.Where(x=> x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
 
                 return result;
+            }
+        }
+
+        public bool ValidarCuchilloEmpleadoPrestado(EMPLEADO_CUCHILLO_PRESTADO model)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var result = db.EMPLEADO_CUCHILLO_PRESTADO.Where(x=> 
+                x.Cedula != model.Cedula 
+                && x.Fecha == model.Fecha
+                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                if (result != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
 

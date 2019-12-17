@@ -52,47 +52,33 @@ function CargarControlCuchillo(estado) {
 
 
 function check(id, color, cedula) {
-   // alert(id);
-    //console.log(id);
-    //console.log(color);
-    //console.log(cedula);
-    //7b8a8b
-    var label = "#labelCuchillo";
+   
+    var Observacion = "#txtObservacion-"+cedula;
     var numero = 0;
     var estado = $('#EstadoControlCuchillo').val();
-    if (color == 'B') {
-        label = label + "Blanco_";
-        label = label + id.substring(9, 6);
-        numero = id.substring(9, 6);
-        console.log(numero);
-
-    } if (color == 'R') {
-        label = label + "Rojo_";
-        label = label + id.substring(8, 4);
+    if (color == 'B') {       
+        numero = id.substring(9, 6);  
+    } if (color == 'R') {       
         numero = id.substring(8, 4);
-
-    } if (color == 'N') {
-        label = label + "Negro_";
-        label = label + id.substring(9, 5);
+    } if (color == 'N') {     
         numero = id.substring(9, 5);
-
-    }
-    //console.log(label);
-   // console.log(cedula);
+    }  
     id = "#" + id;
     $(id).prop('disabled', true);
     if($(id).prop('checked')) {
-        $(label).css("background", "#28B463");
-        GuardarControlCuchillo(cedula, color, numero, estado, true, id, label);
+        // $(label).css("background", "#28B463");
+        $(Observacion).prop('readonly', true);
+        GuardarControlCuchillo(cedula, color, numero, estado, true, id, Observacion);
     } else {
-        $(label).css("background", "#7b8a8b");
-        GuardarControlCuchillo(cedula, color, numero, estado, false, id, label);
+       // $(label).css("background", "#7b8a8b");
+        $(Observacion).prop('readonly', false);
+        GuardarControlCuchillo(cedula, color, numero, estado, false, id, Observacion);
     }
 }
 
 
 
-function GuardarControlCuchillo(cedula, color, numero, estado, check,idCheck,idLabel) {
+function GuardarControlCuchillo(cedula, color, numero, estado, check,idCheck,Observacion) {
     $.ajax({
         url: "../ControlCuchillo/GuardarControlCuchillo",
         type: "GET",
@@ -102,16 +88,17 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check,idCheck,idL
             dsNumero: numero,
             dsEstado: estado,
             dbCheck: check,
-            ddFecha: $("#txtFecha").val()
+            ddFecha: $("#txtFecha").val(),
+            Observacion: $(Observacion).val()
         },
         success: function (resultado) {
             if (resultado.codigo == 1) {
                 MensajeAdvertencia(resultado.descripcion)
                 $(idCheck).prop('checked', false);
-                $(idLabel).css("background", "#7b8a8b");
-               
+              //  $(Observacion).val()
+               // $(idLabel).css("background", "#7b8a8b");               
             }
-            $(idCheck).prop('disabled', false);
+            $(idCheck).prop('disabled', false);          
             
         },
         error: function (resultado) {
@@ -120,8 +107,9 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check,idCheck,idL
             MensajeError(resultado.responseText + "", false);
            // MensajeError(resultado + "", false);
             $(idCheck).prop('checked', false);
-            $(idLabel).css("background", "#7b8a8b");
+           // $(idLabel).css("background", "#7b8a8b");
             $(idCheck).prop('disabled', false);
+     
 
         }
     });

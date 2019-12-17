@@ -15,7 +15,7 @@ function CargarReporteControlCuchillo() {
     bitacora.html('');
     $("#spinnerCargando").prop("hidden", false);
     $.ajax({
-        url: "../Asistencia/ReporteControlCuchilloPartial",
+        url: "../ControlCuchillo/ReporteControlCuchilloPartial",
         type: "GET",
         data: {
             Fecha: fecha,
