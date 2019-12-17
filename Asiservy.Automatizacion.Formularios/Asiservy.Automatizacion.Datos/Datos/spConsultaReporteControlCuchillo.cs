@@ -40,5 +40,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string SVRojo { get; set; }
         public Nullable<int> SCNegro { get; set; }
         public string SVNegro { get; set; }
+        public string ObservacionEntrada { get; set; }
+        public string ObservacionAlmuerzo { get; set; }
+        public string ObservacionRegreso { get; set; }
+        public string ObservacionSalida { get; set; }
     }
 }
