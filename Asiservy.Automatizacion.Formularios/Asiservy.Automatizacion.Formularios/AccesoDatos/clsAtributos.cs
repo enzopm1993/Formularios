@@ -185,8 +185,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //LINEA ENLATADO
         public static string GrupoCodLineaEnlatado = "021";
-        
 
+        //TURNOS
+        public static string TurnoUno = "1";
+        public static string TurnoDos = "2";
 
         public static string BASE_URL_WS = "http://192.168.0.31:8870";
 

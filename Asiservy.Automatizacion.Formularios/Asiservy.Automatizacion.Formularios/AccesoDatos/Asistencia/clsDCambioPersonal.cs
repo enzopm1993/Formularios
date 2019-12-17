@@ -97,6 +97,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             DateTime FechaActual = DateTime.Now;
             List<string> NoSePudieornMover = new List<string>();
             List<string> NoSePudieornRegresar = new List<string>();
+            string psTurno = string.Empty;
+            EMPLEADO_TURNO poTurnoEmpleado = null;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 using (var transaction = db.Database.BeginTransaction())
@@ -226,9 +228,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                             BuscarMovimientoPersonalDiario.FechaModificacionLog = DateTime.Now;
                                             BuscarMovimientoPersonalDiario.UsuarioModificacionLog = psusuario;
 
+                                            poTurnoEmpleado = db.EMPLEADO_TURNO.Where(x => x.Cedula == item.Cedula).FirstOrDefault();
+                                            psTurno = poTurnoEmpleado == null ? clsAtributos.TurnoUno : poTurnoEmpleado.Turno;//consulto el turno al que pertenece el empleado
+
                                             db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO { Cedula=item.Cedula,CodLinea=psLinea,CentroCosto=psCentroCosto,
                                             CodCargo=psCargo,Recurso=psRecurso,FechaInicio=psfecha,HoraInicio=psHora,EstadoRegistro=clsAtributos.EstadoRegistroActivo,
-                                            FechaIngresoLog=DateTime.Now,UsuarioIngresoLog=psusuario,TerminalIngresoLog=psusuario, Asistencia=false});
+                                            FechaIngresoLog=DateTime.Now,UsuarioIngresoLog=psusuario,TerminalIngresoLog=psusuario, Asistencia=false, Turno=psTurno});
                                             db.SaveChanges();
 
                                         }
@@ -284,7 +289,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonalDiario;
                         clsDEmpleado ClsdEmpleado = new clsDEmpleado();
                         spConsultaEspecificaEmpleadosxCedula BuscarEmpleadoDataL;
+                        
                         //List<MOVIMIENTO_PERSONAL_DIARIO> ListMovimientopersonalDiario = new List<MOVIMIENTO_PERSONAL_DIARIO>();
+
                         foreach (var item in listCedulas.ToArray())
                         {
                             BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula == item && x.FechaInicio == psfecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo /*&& !x.Asistencia.Value*/).OrderByDescending(x => x.IdCambioPersonal).FirstOrDefault();
@@ -298,6 +305,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                 BuscarMovimientoPersonalDiario.FechaModificacionLog = DateTime.Now;
                                 BuscarMovimientoPersonalDiario.TerminalModificacionLog = psterminal;
                                 //Creo un nuevo registro en movimiento_personal para poder generar la finalizacion de la asistencia de la linea a la que retorno el empleado
+                                poTurnoEmpleado = db.EMPLEADO_TURNO.Where(x => x.Cedula == item).FirstOrDefault();
+                                psTurno = poTurnoEmpleado == null ? clsAtributos.TurnoUno : poTurnoEmpleado.Turno;//consulto el turno al que pertenece el empleado
                                 db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO
                                 {
                                     Cedula = item,
@@ -311,7 +320,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                     FechaIngresoLog = DateTime.Now,
                                     UsuarioIngresoLog = psusuario,
                                     TerminalIngresoLog = psterminal,
-                                    Asistencia = false
+                                    Asistencia = false,
+                                    Turno=psTurno
                                 });
 
                                 //, Recurso=psRecurso});
