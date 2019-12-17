@@ -64,6 +64,32 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             }
         }
 
+        public List<ASISTENCIA> ConsultaFaltantesFinalizarAsistencia(string Linea, DateTime Fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var result = db.ASISTENCIA.Where(x =>
+                            x.Linea==Linea
+                            && x.Fecha<  Fecha
+                            && x.FechaFin == null
+                            && (x.EstadoAsistencia == clsAtributos.EstadoPresente || x.EstadoAsistencia == clsAtributos.EstadoAtraso)
+                            ).ToList();
+                return result;
+            }
+        }
+        public List<ASISTENCIA> ConsultaFaltantesFinalizarAsistenciaTodos( DateTime Fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var result = db.ASISTENCIA.Where(x =>
+                            x.Fecha < Fecha
+                            && x.FechaFin == null
+                            && (x.EstadoAsistencia == clsAtributos.EstadoPresente || x.EstadoAsistencia == clsAtributos.EstadoAtraso)
+                            ).ToList();
+                return result;
+            }
+        }
+
         public List<spConsultaControlAsistencia> ConsultaControlAsistencia(string Linea, DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())

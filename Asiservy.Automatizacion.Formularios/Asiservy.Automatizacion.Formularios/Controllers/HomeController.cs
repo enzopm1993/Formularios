@@ -10,6 +10,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion;
 using System.Globalization;
 using Asiservy.Automatizacion.Formularios.Models;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -22,6 +23,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDEmpleado clsDEmpleado = null;
         clsDParametro clsDParametro = null;
         clsDProyeccionProgramacion clsDProyeccionProgramacion = null;
+        clsDAsistencia clsDAsistencia = null;
+        clsDGeneral clsDGeneral = null;
         string[] lsUsuario;
         protected void SetSuccessMessage(string message)
         {
@@ -205,15 +208,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             if (Roles.Any(x => x.Value == clsAtributos.RolControladorGeneral))
             {
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
-
+                clsDAsistencia = new clsDAsistencia();
+                clsDEmpleado = new clsDEmpleado();
                 var programaciones = clsDProyeccionProgramacion.ConsultaProyeccionProgramacion();
                 if(programaciones!= null && programaciones.EditaProduccion)
                 {
-
                     string dia = ci.DateTimeFormat.GetDayName(programaciones.FechaProduccion.DayOfWeek);
-
-                     // < a class="collapse-item border-top " href="/@MenuHijo.Url"><text class=""></text>@MenuHijo.Nombre</a>
-                     string enlace = "/ProyeccionProgramacion/EditarProyeccionProgramacionProduccion";
+                    string enlace = "/ProyeccionProgramacion/EditarProyeccionProgramacionProduccion";
                     string Mensaje = "Tiene la proyección de la programación pendiente de finalizar del dia: "+ dia +", "+ programaciones.FechaProduccion.ToString("dd-MM-yyyy");
                   
                     MensajesNotificaciones.Add(new RespuestaGeneral {
@@ -221,12 +222,88 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         Observacion = enlace
                     });
                 }
+
+                lsUsuario = User.Identity.Name.Split('_');
+                var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now);
+                if (finalizarAsistencia.Any())
+                {
+                    foreach(var x in finalizarAsistencia)
+                    {
+
+                        string dia = ci.DateTimeFormat.GetDayName(x.Fecha.Value.DayOfWeek);
+                        string enlace = "/Asistencia/FinalizarAsistencia";
+                        string Mensaje = "No ha finalizado la Asistencia del: " + dia + ", " + x.Fecha.Value.ToString("dd-MM-yyyy");
+
+                        MensajesNotificaciones.Add(new RespuestaGeneral
+                        {
+                            Mensaje = Mensaje,
+                            Observacion = enlace
+                        });
+
+                    }
+                }
+
             }
 
+            if (Roles.Any(x => x.Value == clsAtributos.RolControladorLinea))
+            {
+                clsDAsistencia = new clsDAsistencia();
+                clsDEmpleado = new clsDEmpleado();
+                lsUsuario = User.Identity.Name.Split('_');
+                var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now);
+                var finalizarCantidadFecha = finalizarAsistencia.Select(x => x.Fecha).Distinct();
+                if (finalizarAsistencia.Any())
+                {
+                    foreach (var x in finalizarCantidadFecha)
+                    {
+                        int cantidad = finalizarAsistencia.Count(y => y.Fecha == x.Value);
+                        string dia = ci.DateTimeFormat.GetDayName(x.Value.DayOfWeek);
+                        string enlace = "/Asistencia/AsistenciaFinalizar";
+                        string Mensaje = "No ha finalizado la Asistencia del día: " + dia + ", " + x.Value.ToString("dd-MM-yyyy")+" Existen "+cantidad+" empleados sin finalizar";
 
+                        MensajesNotificaciones.Add(new RespuestaGeneral
+                        {
+                            Mensaje = Mensaje,
+                            Observacion = enlace
+                        });
 
+                    }
+                }
+            }
 
-            if (MensajesNotificaciones.Any())
+            if (Roles.Any(x => x.Value == clsAtributos.AsistenteProduccion))
+            {
+                clsDAsistencia = new clsDAsistencia();
+                clsDEmpleado = new clsDEmpleado();
+                clsDGeneral = new clsDGeneral();
+                //lsUsuario = User.Identity.Name.Split('_');
+                //var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistenciaTodos( DateTime.Now);
+                var finalizarCantidadFecha = finalizarAsistencia.Select(x => new { Fecha=x.Fecha, Linea =x.Linea}).Distinct();
+                if (finalizarAsistencia.Any())
+                {
+                    foreach (var x in finalizarCantidadFecha)
+                    {
+                        var linea = clsDGeneral.ConsultaLineas(x.Linea).FirstOrDefault();
+                        int cantidad = finalizarAsistencia.Count(y => y.Fecha == x.Fecha && y.Linea==x.Linea);
+                        string dia = ci.DateTimeFormat.GetDayName(x.Fecha.Value.DayOfWeek);
+                        //string enlace = "/Asistencia/AsistenciaFinalizar";
+                        string Mensaje = "No ha finalizado la Asistencia "+linea.Descripcion+" del día: " + dia + ", " + x.Fecha.Value.ToString("dd-MM-yyyy") + " Existen " + cantidad + " empleados sin finalizar";
+
+                        MensajesNotificaciones.Add(new RespuestaGeneral
+                        {
+                            Mensaje = Mensaje,
+                           // Observacion = enlace
+                        });
+
+                    }
+                }
+
+            }
+
+                if (MensajesNotificaciones.Any())
             {
                 ViewBag.MensajesNotificaciones = MensajesNotificaciones;
             }
