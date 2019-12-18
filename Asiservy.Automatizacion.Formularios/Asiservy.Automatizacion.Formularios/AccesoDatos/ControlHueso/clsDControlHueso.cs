@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
-
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 {
     public class clsDControlHueso
     {
+        clsDAsistencia clsDAsistencia = null;
 
         public string GuardarModificarControlHueso(CONTROL_HUESO_DETALLE detalle)
         {
@@ -82,7 +83,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                List<spConsultaLimpiadorasControlHueso> detalle = new List<spConsultaLimpiadorasControlHueso>();
+                clsDAsistencia = new clsDAsistencia();
+                List<spConsultaMovimientoPersonalDiario> detalle = new List<spConsultaMovimientoPersonalDiario>();
                 var FechaActual = DateTime.Now.Date;
                 
                 var ControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x =>
@@ -97,13 +99,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 {
                     if (doControl.TipoControlHueso == clsAtributos.Hueso || doControl.TipoControlHueso == clsAtributos.Roto)
                     {
-                        detalle = ConsultaLimpiadorasControlHueso(doControl.Linea, doControl.Fecha);
+                        detalle = clsDAsistencia.ConsultaMovimientoPersonalDiario( doControl.Fecha,doControl.HoraInicio ,doControl.Linea).Where(x=> x.CodCargo==clsAtributos.CargoLimpiadora).ToList();
                         foreach (var x in detalle)
                         {
                             doControl.CONTROL_HUESO_DETALLE.Add(new CONTROL_HUESO_DETALLE
                             {
                                 CantidadHueso = 0,
-                                Cedula = x.CEDULA,
+                                Cedula = x.Cedula,
                                 EstadoRegistro = clsAtributos.EstadoRegistroActivo,
                                 FechaIngresoLog = DateTime.Now,
                                 UsuarioIngresoLog = doControl.UsuarioIngresoLog,
@@ -124,7 +126,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                    && x.Lote == doControl.Lote
                    && x.HoraInicio == doControl.HoraInicio
                    && x.HoraFin == doControl.HoraFin
-                   && x.Fecha == doControl.Fecha);
+                   && x.OrdenFabricacion == doControl.OrdenFabricacion
+                   && x.Fecha == doControl.Fecha
+                  // && x.FechaIngresoLog == doControl.FechaIngresoLog
+                   && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 return idControlHueso.IdControlHueso;
             }
         }   
@@ -162,5 +167,39 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             }
 
         }
+
+        public List<AVANCE_KILOS_HORA> ConsultaEficienciaAvanceKilosHora()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                List<AVANCE_KILOS_HORA> Listado = new List<AVANCE_KILOS_HORA>();
+                Listado = entities.AVANCE_KILOS_HORA.ToList();
+                return Listado;
+            }
+        }
+
+        public void GuardarModificarEficienciaAvanceKilosHora(AVANCE_KILOS_HORA model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                
+                var result = entities.AVANCE_KILOS_HORA.FirstOrDefault(x=> x.IdAvanceKilosHora == model.IdAvanceKilosHora);
+                if(result!= null){
+                    result.Intermedia = model.Intermedia;
+                    result.Sencilla = model.Sencilla;
+                    result.Doble = model.Doble;
+                    result.FechaModificacionLog = DateTime.Now;
+                    result.TerminalModificacionLog = model.TerminalIngresoLog;
+                    result.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                }
+                else
+                {
+                    entities.AVANCE_KILOS_HORA.Add(model);
+                }
+                entities.SaveChanges();
+                
+            }
+        }
+
     }
 }

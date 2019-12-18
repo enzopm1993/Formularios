@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.AVANCE_KILOS_HORA>
+@using Newtonsoft.Json;
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Talla)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sencilla)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Intermedia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Doble)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string json = JsonConvert.SerializeObject(item);
+            <tr onclick="seleccionarEficienciaAvance(@json)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdAvanceKilosHora)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Talla)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sencilla)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Intermedia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Doble)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
