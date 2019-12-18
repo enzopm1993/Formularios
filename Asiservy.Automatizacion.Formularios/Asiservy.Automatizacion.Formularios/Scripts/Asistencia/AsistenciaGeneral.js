@@ -114,6 +114,7 @@ function buscarenTabla() {
     }
 }
 function ConsultarSiExisteAsistencia() {
+    $("#spinnerCargando").prop("hidden", false);
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
         $('#horaservidor').hide();
@@ -139,6 +140,7 @@ function ConsultarSiExisteAsistencia() {
                 Fecha: $('#txtFecha').val()
             },
             success: function (resultado) {
+                $("#spinnerCargando").prop("hidden", true);
                 $('#Existe').val(resultado);
 
                 if (resultado == 0) {
@@ -163,6 +165,7 @@ function ConsultarSiExisteAsistencia() {
  
 }
 function VerificarsiHayPrestados(IdLinea, bandera) {
+    $("#spinnerCargando").prop("hidden", false);
     $('#LineaPres').val(IdLinea);
     $('#banderapres').val(bandera);
     console.log($('#horaservidor').val());
@@ -183,6 +186,7 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
         },
         success: function (resultado) {
             //if (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
             if ($('#txtPrestado').val() == 'true') {
                 $('#modalprestados').modal("show");
                 $('#LineaPres').val(IdLinea);

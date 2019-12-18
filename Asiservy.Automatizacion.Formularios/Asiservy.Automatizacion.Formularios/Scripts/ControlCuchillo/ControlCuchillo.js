@@ -78,7 +78,8 @@ function check(id, color, cedula) {
 
 
 
-function GuardarControlCuchillo(cedula, color, numero, estado, check,idCheck,Observacion) {
+function GuardarControlCuchillo(cedula, color, numero, estado, check, idCheck, Observacion) {
+   
     $.ajax({
         url: "../ControlCuchillo/GuardarControlCuchillo",
         type: "GET",
