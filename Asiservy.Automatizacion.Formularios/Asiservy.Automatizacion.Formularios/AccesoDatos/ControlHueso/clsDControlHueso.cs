@@ -4,12 +4,14 @@ using System.Linq;
 using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 {
     public class clsDControlHueso
     {
         clsDAsistencia clsDAsistencia = null;
+        clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
 
         public string GuardarModificarControlHueso(CONTROL_HUESO_DETALLE detalle)
         {
@@ -150,6 +152,42 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
+                List<CONTROL_AVANCE_API> ListadoControlAvanceApi = new List<CONTROL_AVANCE_API>();
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                var ordendesFabricacion = entities.CONTROL_HUESO.Where(x =>
+                x.Fecha == Fecha
+                && x.Linea == Linea
+                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).Select(x=> x.OrdenFabricacion).Distinct();
+
+                foreach(int x in ordendesFabricacion)
+                {
+                    var detalleOrden = clsDApiOrdenFabricacion.ConsultaLotesPorOrdenFabricacionLinea2(x, Linea);
+                    foreach (var detalle in detalleOrden)                    {
+                        
+                        var modelControlAvanceApi = entities.CONTROL_AVANCE_API.FirstOrDefault(y => y.OrdenFabricacion == x && y.Lote == detalle.Lote);
+                        if(modelControlAvanceApi == null)
+                        {                           
+                            ListadoControlAvanceApi.Add(new CONTROL_AVANCE_API
+                            {           
+                                OrdenFabricacion = x,
+                                Limpieza = detalle.Limpieza,
+                                Lote = detalle.Lote,
+                                Peso = int.Parse(double.Parse(detalle.Peso).ToString()),
+                                Piezas = int.Parse(double.Parse(detalle.Piezas).ToString()),
+                                Talla = detalle.Talla,
+                                Promedio = decimal.Parse(detalle.Promedio),
+                                Especie = detalle.Especie,
+                                Producto = detalle.Producto
+                            });
+                        }                      
+                    }                    
+                }
+                if (ListadoControlAvanceApi.Any())
+                {
+                    entities.CONTROL_AVANCE_API.AddRange(ListadoControlAvanceApi);
+                    entities.SaveChanges();
+                }
+
                 List<spConsultaControlAvanceDiarioPorLinea> Listado = new List<spConsultaControlAvanceDiarioPorLinea>();
                 Listado = entities.spConsultaControlAvanceDiarioPorLinea(Fecha,Linea).ToList();
                 return Listado;

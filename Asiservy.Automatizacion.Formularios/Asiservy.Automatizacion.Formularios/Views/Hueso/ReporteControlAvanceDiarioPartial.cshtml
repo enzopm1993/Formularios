@@ -14,10 +14,10 @@
                 @Html.DisplayNameFor(model => model.Especie)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HoraInicio)
+               Inicio
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HoraFin)
+              Fin
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Tiempo)
@@ -26,7 +26,7 @@
                 @Html.DisplayNameFor(model => model.CodTipoControl)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TipoControl)
+              Control
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Promedio)
@@ -38,13 +38,13 @@
                 @Html.DisplayNameFor(model => model.Limpiadoras)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.KiloTeorico)
+               Kilo Teorico
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.KiloReal)
+               Kilo Real
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TipoLimpieza)
+                Limpieza
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.avance)
@@ -93,16 +93,16 @@
                     @Html.DisplayFor(modelItem => item.Limpiadoras)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.KiloTeorico)
+                    @Html.DisplayFor(modelItem => item.KiloTeorico) Kg
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.KiloReal)
+                    @Html.DisplayFor(modelItem => item.KiloReal) Kg
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TipoLimpieza)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.avance)
+                    @Html.DisplayFor(modelItem => item.avance) %
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Observacion)
@@ -112,5 +112,3 @@
         }
     </tbody>
 </table>
-
-<script src="~/Scripts/General/dataTableJS.js"></script>
