@@ -16,18 +16,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Lote { get; set; }
         public string Talla { get; set; }
         public string Especie { get; set; }
-        public System.TimeSpan HoraInicio { get; set; }
-        public System.TimeSpan HoraFin { get; set; }
+        public Nullable<System.TimeSpan> HoraInicio { get; set; }
+        public Nullable<System.TimeSpan> HoraFin { get; set; }
         public Nullable<int> Tiempo { get; set; }
-        public int CodTipoControl { get; set; }
+        public Nullable<int> CodTipoControl { get; set; }
         public string TipoControl { get; set; }
-        public decimal Promedio { get; set; }
+        public Nullable<decimal> Promedio { get; set; }
         public Nullable<int> Huesos { get; set; }
         public Nullable<int> Limpiadoras { get; set; }
-        public int KiloTeorico { get; set; }
-        public int KiloReal { get; set; }
-        public int TipoLimpieza { get; set; }
-        public int avance { get; set; }
+        public Nullable<int> KiloTeorico { get; set; }
+        public Nullable<decimal> KiloReal { get; set; }
+        public string TipoLimpieza { get; set; }
+        public Nullable<decimal> avance { get; set; }
         public string Observacion { get; set; }
     }
 }

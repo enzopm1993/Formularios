@@ -193,6 +193,21 @@
           <Property Name="TipoAuditoria" Type="varchar" MaxLength="5" />
           <Property Name="Observacion" Type="varchar" MaxLength="250" />
         </EntityType>
+        <EntityType Name="CONTROL_AVANCE_API">
+          <Key>
+            <PropertyRef Name="IdControlAvance" />
+          </Key>
+          <Property Name="IdControlAvance" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrdenFabricacion" Type="int" Nullable="false" />
+          <Property Name="Lote" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Limpieza" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Talla" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Peso" Type="int" Nullable="false" />
+          <Property Name="Piezas" Type="int" Nullable="false" />
+          <Property Name="Promedio" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="Especie" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Producto" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
         <EntityType Name="CONTROL_COCHE_LINEA">
           <Key>
             <PropertyRef Name="IdControlCocheLinea" />
@@ -1330,6 +1345,7 @@
           <EntitySet Name="CAMBIO_PERSONAL" EntityType="Self.CAMBIO_PERSONAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLASIFICADOR" EntityType="Self.CLASIFICADOR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_AUDITORIASANGRE" EntityType="Self.CONTROL_AUDITORIASANGRE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CONTROL_AVANCE_API" EntityType="Self.CONTROL_AVANCE_API" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_COCHE_LINEA" EntityType="Self.CONTROL_COCHE_LINEA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_CUCHILLO" EntityType="Self.CONTROL_CUCHILLO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_ENFUNDADO" EntityType="Self.CONTROL_ENFUNDADO" Schema="dbo" store:Type="Tables" />
@@ -1698,10 +1714,6 @@
           <FunctionImport Name="spConsultaControlHuesoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHuesoDetalle)">
           <Parameter Name="IdControlHueso" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaControlAvanceDiarioPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaControlAvanceDiarioPorLinea)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="linea" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaAvanceDiarioPorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
@@ -1976,6 +1988,11 @@
             <Parameter Name="CodLinea" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="AVANCE_KILOS_HORA" EntityType="ASIS_PRODModel.AVANCE_KILOS_HORA" />
+          <EntitySet Name="CONTROL_AVANCE_API" EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" />
+          <FunctionImport Name="spConsultaControlAvanceDiarioPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaControlAvanceDiarioPorLinea)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
+          </FunctionImport>
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -2311,24 +2328,6 @@
           <Property Type="String" Name="Lote" Nullable="true" MaxLength="10" />
           <Property Type="Time" Name="HoraInicio" Nullable="true" />
           <Property Type="Time" Name="HoraFin" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="spConsultaControlAvanceDiarioPorLinea">
-          <Property Type="String" Name="Lote" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="Talla" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="Especie" Nullable="false" MaxLength="2" />
-          <Property Type="Time" Name="HoraInicio" Nullable="false" />
-          <Property Type="Time" Name="HoraFin" Nullable="false" />
-          <Property Type="Int32" Name="Tiempo" Nullable="true" />
-          <Property Type="Int32" Name="CodTipoControl" Nullable="false" />
-          <Property Type="String" Name="TipoControl" Nullable="true" MaxLength="100" />
-          <Property Type="Decimal" Name="Promedio" Nullable="false" Precision="2" Scale="2" />
-          <Property Type="Int32" Name="Huesos" Nullable="true" />
-          <Property Type="Int32" Name="Limpiadoras" Nullable="true" />
-          <Property Type="Int32" Name="KiloTeorico" Nullable="false" />
-          <Property Type="Int32" Name="KiloReal" Nullable="false" />
-          <Property Type="Int32" Name="TipoLimpieza" Nullable="false" />
-          <Property Type="Int32" Name="avance" Nullable="false" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
         </ComplexType>
         <ComplexType Name="spConsultaAvanceDiarioPorLimpiadora">
           <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
@@ -3662,6 +3661,39 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="CONTROL_AVANCE_API">
+          <Key>
+            <PropertyRef Name="IdControlAvance" />
+          </Key>
+          <Property Name="IdControlAvance" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
+          <Property Name="Lote" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Limpieza" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Talla" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Peso" Type="Int32" Nullable="false" />
+          <Property Name="Piezas" Type="Int32" Nullable="false" />
+          <Property Name="Promedio" Type="Decimal" Nullable="false" Precision="3" Scale="2" />
+          <Property Name="Especie" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Producto" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="spConsultaControlAvanceDiarioPorLinea">
+          <Property Type="String" Name="Lote" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Talla" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Especie" Nullable="true" MaxLength="20" />
+          <Property Type="Time" Name="HoraInicio" Nullable="true" />
+          <Property Type="Time" Name="HoraFin" Nullable="true" />
+          <Property Type="Int32" Name="Tiempo" Nullable="true" />
+          <Property Type="Int32" Name="CodTipoControl" Nullable="true" />
+          <Property Type="String" Name="TipoControl" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="Promedio" Nullable="true" Precision="3" Scale="2" />
+          <Property Type="Int32" Name="Huesos" Nullable="true" />
+          <Property Type="Int32" Name="Limpiadoras" Nullable="true" />
+          <Property Type="Int32" Name="KiloTeorico" Nullable="true" />
+          <Property Type="Decimal" Name="KiloReal" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="String" Name="TipoLimpieza" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="avance" Nullable="true" Precision="3" Scale="2" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4184,28 +4216,6 @@
                 <ScalarProperty Name="Lote" ColumnName="Lote" />
                 <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
                 <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaControlAvanceDiarioPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaControlAvanceDiarioPorLinea">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlAvanceDiarioPorLinea">
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="Talla" ColumnName="Talla" />
-                <ScalarProperty Name="Especie" ColumnName="Especie" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-                <ScalarProperty Name="Tiempo" ColumnName="Tiempo" />
-                <ScalarProperty Name="CodTipoControl" ColumnName="CodTipoControl" />
-                <ScalarProperty Name="TipoControl" ColumnName="TipoControl" />
-                <ScalarProperty Name="Promedio" ColumnName="Promedio" />
-                <ScalarProperty Name="Huesos" ColumnName="Huesos" />
-                <ScalarProperty Name="Limpiadoras" ColumnName="Limpiadoras" />
-                <ScalarProperty Name="KiloTeorico" ColumnName="KiloTeorico" />
-                <ScalarProperty Name="KiloReal" ColumnName="KiloReal" />
-                <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
-                <ScalarProperty Name="avance" ColumnName="avance" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5680,6 +5690,44 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CONTROL_AVANCE_API">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_AVANCE_API">
+              <MappingFragment StoreEntitySet="CONTROL_AVANCE_API">
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="Promedio" ColumnName="Promedio" />
+                <ScalarProperty Name="Piezas" ColumnName="Piezas" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="Limpieza" ColumnName="Limpieza" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="IdControlAvance" ColumnName="IdControlAvance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlAvanceDiarioPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaControlAvanceDiarioPorLinea">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlAvanceDiarioPorLinea">
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="Tiempo" ColumnName="Tiempo" />
+                <ScalarProperty Name="CodTipoControl" ColumnName="CodTipoControl" />
+                <ScalarProperty Name="TipoControl" ColumnName="TipoControl" />
+                <ScalarProperty Name="Promedio" ColumnName="Promedio" />
+                <ScalarProperty Name="Huesos" ColumnName="Huesos" />
+                <ScalarProperty Name="Limpiadoras" ColumnName="Limpiadoras" />
+                <ScalarProperty Name="KiloTeorico" ColumnName="KiloTeorico" />
+                <ScalarProperty Name="KiloReal" ColumnName="KiloReal" />
+                <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
+                <ScalarProperty Name="avance" ColumnName="avance" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

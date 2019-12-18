@@ -99,6 +99,9 @@
     <Compile Include="Datos\CONTROL_AUDITORIASANGRE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CONTROL_AVANCE_API.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CONTROL_COCHE_LINEA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

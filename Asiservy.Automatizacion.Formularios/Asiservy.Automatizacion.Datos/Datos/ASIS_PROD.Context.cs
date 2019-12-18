@@ -78,6 +78,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_PESO_ENLATADO_SUBDETALLE> CONTROL_PESO_ENLATADO_SUBDETALLE { get; set; }
         public virtual DbSet<EMPLEADO_CUCHILLO_PRESTADO> EMPLEADO_CUCHILLO_PRESTADO { get; set; }
         public virtual DbSet<AVANCE_KILOS_HORA> AVANCE_KILOS_HORA { get; set; }
+        public virtual DbSet<CONTROL_AVANCE_API> CONTROL_AVANCE_API { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -254,19 +255,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IdControlHueso", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHuesoDetalle>("spConsultaControlHuesoDetalle", idControlHuesoParameter);
-        }
-    
-        public virtual ObjectResult<spConsultaControlAvanceDiarioPorLinea> spConsultaControlAvanceDiarioPorLinea(Nullable<System.DateTime> fecha, string linea)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            var lineaParameter = linea != null ?
-                new ObjectParameter("linea", linea) :
-                new ObjectParameter("linea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlAvanceDiarioPorLinea>("spConsultaControlAvanceDiarioPorLinea", fechaParameter, lineaParameter);
         }
     
         public virtual ObjectResult<spConsultaAvanceDiarioPorLimpiadora> spConsultaAvanceDiarioPorLimpiadora(Nullable<System.DateTime> fecha, string linea)
@@ -963,6 +951,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("CodLinea", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMovimientoPersonalDiario>("spConsultaMovimientoPersonalDiario", fechaParameter, horaParameter, codLineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlAvanceDiarioPorLinea> spConsultaControlAvanceDiarioPorLinea(Nullable<System.DateTime> fecha, string linea)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlAvanceDiarioPorLinea>("spConsultaControlAvanceDiarioPorLinea", fechaParameter, lineaParameter);
         }
     }
 }
