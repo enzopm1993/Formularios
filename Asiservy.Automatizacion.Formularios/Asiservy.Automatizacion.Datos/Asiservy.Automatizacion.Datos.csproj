@@ -69,6 +69,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ASIS_PROD.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Datos\AVANCE_KILOS_HORA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\BARCO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -304,6 +307,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaLineaXRecursoyCentroCosto.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\spConsultaMovimientoPersonalDiario.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaOpcionesPorRol.cs">
