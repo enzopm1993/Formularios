@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlHueso>
-
+@using Newtonsoft.Json;
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
@@ -31,7 +31,9 @@
         @foreach (var item in Model)
         {
             var FechaProduccion = item.Fecha.Value.ToString("yyyy-MM-dd");
-            <tr onclick="SeleccionControlHueso('@item.IdControlHueso','@item.Lote','@item.OrdenFabricacion',@item.CodTipoControl,'@item.HoraInicio','@item.HoraFin','@item.Observacion','@item.TotalPieza','@FechaProduccion')">
+            string json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionControlHueso(@json)">
+            
                 <td>
                     @Html.DisplayFor(modelItem => item.IdControlHueso)
                 </td>
@@ -55,8 +57,8 @@
                 </td>
 
             </tr>
-        }
-    </tbody>
+            }
+        </tbody>
 </table>
 
 <script src="~/Scripts/General/dataTableJS.js"></script> 

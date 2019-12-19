@@ -90,12 +90,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 var FechaActual = DateTime.Now.Date;
                 
                 var ControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x =>
-                x.Linea == doControl.Linea
-              
+                x.Linea == doControl.Linea              
                 && x.HoraFin == doControl.HoraFin
-                && x.HoraInicio == doControl.HoraInicio
-               
+                && x.HoraInicio == doControl.HoraInicio               
                 && x.Fecha == doControl.Fecha
+                && x.TipoControlHueso == doControl.TipoControlHueso
                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (ControlHueso == null)
                 {
