@@ -187,14 +187,20 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
         success: function (resultado) {
             //if (resultado) {
             $("#spinnerCargando").prop("hidden", true);
-            if ($('#txtPrestado').val() == 'true') {
-                $('#modalprestados').modal("show");
-                $('#LineaPres').val(IdLinea);
-                $('#banderapres').val(bandera);
-
+            if (resultado == '888') {
+                MensajeError("No se puede generar la asistencia, el período se encuentra cerrado");
             } else {
-                GenerarAsistenciaDiariaGeneral(IdLinea, bandera);
+                $('#divmodalprestados').html(resultado);
+                if ($('#txtPrestado').val() == 'true') {
+                    $('#modalprestados').modal("show");
+                    $('#LineaPres').val(IdLinea);
+                    $('#banderapres').val(bandera);
+
+                } else {
+                    GenerarAsistenciaDiariaGeneral(IdLinea, bandera);
+                }
             }
+            
 
         }
         ,

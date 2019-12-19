@@ -173,19 +173,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 {
 
                     //List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", CodLinea, "0").Where(x => x.CODIGOCARGO != "221").ToList();
-                    List<spConsultarEmpleadosxTurno> ListaEmpleados = db.spConsultarEmpleadosxTurno(CodLinea, turno, null, null).ToList();//corregir parametros null mandar fecha y hora
+                    List<spConsultarEmpleadosxTurno> ListaEmpleados = db.spConsultarEmpleadosxTurno(CodLinea, turno, Fecha, Hora).ToList();//corregir parametros null mandar fecha y hora
                     ControlAsistencia = new List<ASISTENCIA>();
                     foreach (var item in ListaEmpleados)
                     {
                         //var FueMovidoAOtraArea = clsDCambioPersonal.ConsultarCambioPersonal(item.CEDULA);
                         //if (FueMovidoAOtraArea == null)
-                            ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A", CentroCostos = item.CODIGOAREA, Recurso = item.RECURSO, Cargo = item.CODIGOCARGO });
+                            ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = Fecha, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A", CentroCostos = item.CODIGOAREA, Recurso = item.RECURSO, Cargo = item.CODIGOCARGO });
 
                     }
                     var PersonalMovidoAEstaLinea = clsDCambioPersonal.ConsultarCambioPersonalxLinea(CodLinea, turno,Fecha, Hora);
                     foreach (var item in PersonalMovidoAEstaLinea)
                     {
-                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = DateTime.Now, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A",CentroCostos=item.CentroCosto, Recurso=item.Recurso,Cargo=item.CodCargo });
+                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = Fecha, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A",CentroCostos=item.CentroCosto, Recurso=item.Recurso,Cargo=item.CodCargo });
 
                     }
                     db.ASISTENCIA.AddRange(ControlAsistencia);
@@ -422,7 +422,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 }
                 else
                 {
-                    MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonal = db.MOVIMIENTO_PERSONAL_DIARIO.Where(z => z.Cedula == Cedula && z.FechaInicio == Fecha && z.HoraFin != null).FirstOrDefault();
+                    //MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonal = db.MOVIMIENTO_PERSONAL_DIARIO.Where(z => z.Cedula == Cedula && z.FechaInicio == Fecha && z.HoraFin != null).FirstOrDefault();
+                    MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonal = db.MOVIMIENTO_PERSONAL_DIARIO.Find(IdMovimientoPersonalDiario);
                     ASISTENCIA BuscarAsistencia = db.ASISTENCIA.Where(a => a.Cedula == Cedula && a.Fecha == Fecha).FirstOrDefault();
                     if (BuscarMovimientoPersonal != null)
                     {
