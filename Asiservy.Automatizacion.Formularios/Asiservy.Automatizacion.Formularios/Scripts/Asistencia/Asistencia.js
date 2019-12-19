@@ -260,16 +260,21 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
 
         },
         success: function (resultado) {
-            $('#divmodalprestados').html(resultado);
-            
-            if ($('#txtPrestado').val()=='true') {
-                $('#modalprestados').modal("show");
-                $('#LineaPres').val(IdLinea);
-                $('#banderapres').val(bandera);
-
+            if (resultado == '888') {
+                MensajeError("No es posible generar la asistencia, el período se encuentra cerrado");
             } else {
-                GenerarAsistenciaDiaria(IdLinea, bandera);
+                $('#divmodalprestados').html(resultado);
+
+                if ($('#txtPrestado').val() == 'true') {
+                    $('#modalprestados').modal("show");
+                    $('#LineaPres').val(IdLinea);
+                    $('#banderapres').val(bandera);
+
+                } else {
+                    GenerarAsistenciaDiaria(IdLinea, bandera);
+                }
             }
+            
             //if (resultado) {
             //    $('#modalprestados').modal("show");
             //    $('#LineaPres').val(IdLinea);
@@ -415,9 +420,14 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                 Turno:$('#TurnoGen').val()
             },
             success: function (resultado) {
-                //MensajeCorrecto(resultado, true);
-                $('#CheckAsistencia-' + indice).prop("disabled", false);
-                $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
+                if (resultado == '888') {
+                    MensajeError("no se puede grabar la asistencia, el periodo se encuentra cerrado");
+                } else {
+                    //MensajeCorrecto(resultado, true);
+                    $('#CheckAsistencia-' + indice).prop("disabled", false);
+                    $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
+                }
+                
             }
             ,
             error: function (resultado) {
@@ -444,8 +454,13 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);
-                $('#CheckAsistencia-' + indice).prop("disabled", false);
-                $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
+                if (resultado == '888') {
+                    MensajeError('No se puede cambiar asistencia, el periodo se encuentra cerrado');
+                } else {
+                    $('#CheckAsistencia-' + indice).prop("disabled", false);
+                    $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
+                }
+                
             }
             ,
             error: function (resultado) {

@@ -218,18 +218,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                //clsDAsistencia = new clsDAsistencia();
-                //var respuesta = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea, Fecha, Hora);
-                //if (respuesta.Count > 0)
-                //{
-                //    return Json(true, JsonRequestBehavior.AllowGet);
-                //}
-                //else
-                //{
-                //    return Json(false, JsonRequestBehavior.AllowGet);
-                //}
-                //ViewBag.Linea = CodLinea;
-                //ViewBag.bandera = bandera;
+                ClsDPeriodo = new clsDPeriodo();
+                if (!ClsDPeriodo.ValidaFechaPeriodo(Fecha.Add(Hora)))
+                {
+                    return Json("888", JsonRequestBehavior.AllowGet);
+                }
+                    //clsDAsistencia = new clsDAsistencia();
+                    //var respuesta = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea, Fecha, Hora);
+                    //if (respuesta.Count > 0)
+                    //{
+                    //    return Json(true, JsonRequestBehavior.AllowGet);
+                    //}
+                    //else
+                    //{
+                    //    return Json(false, JsonRequestBehavior.AllowGet);
+                    //}
+                    //ViewBag.Linea = CodLinea;
+                    //ViewBag.bandera = bandera;
                 clsDAsistencia = new clsDAsistencia();
                 clsDEmpleado = new clsDEmpleado();
                 liststring = User.Identity.Name.Split('_');
@@ -768,6 +773,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ClsDPeriodo = new clsDPeriodo();
+                if (!ClsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("888", JsonRequestBehavior.AllowGet);
+                }
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
                 string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA
@@ -848,6 +858,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ClsDPeriodo = new clsDPeriodo();
+                if (!ClsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("888", JsonRequestBehavior.AllowGet);
+                }
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
                 string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, EstadoAsistencia = clsAtributos.EstadoFalta, UsuarioModificacionLog = liststring[0], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now, Fecha=Fecha });
