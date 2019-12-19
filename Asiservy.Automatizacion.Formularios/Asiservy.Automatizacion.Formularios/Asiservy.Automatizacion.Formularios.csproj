@@ -2387,6 +2387,7 @@
     <Content Include="Scripts\Handsontable\dist\numbro\numbro.js" />
     <Content Include="Scripts\Handsontable\dist\pikaday\pikaday.css" />
     <Content Include="Scripts\Handsontable\dist\pikaday\pikaday.js" />
+    <Content Include="Scripts\Hueso\EficienciaAvanceKiloHora.js" />
     <Content Include="Scripts\Hueso\ReporteAvanceDiarioPorLimpiadora.js" />
     <Content Include="Scripts\ControlCocheLinea\ControlCocheLinea.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteControlCocheLinea.js" />
@@ -3064,6 +3065,7 @@
     <Compile Include="Models\Motivo.cs" />
     <Compile Include="Models\OrdenFabricacion.cs" />
     <Compile Include="Models\OrdenFabricacionAutoclave.cs" />
+    <Compile Include="Models\OrdenFabricacionAvance.cs" />
     <Compile Include="Models\ProyeccionProgramacion\ProyeccionProgramacionViewModel.cs" />
     <Compile Include="Models\RespuestaGeneral.cs" />
     <Compile Include="Models\Seguridad\Clasificador.cs" />
@@ -3241,6 +3243,8 @@
     <Content Include="Views\ControlPesoEnlatado\ReporteControlPesoEnlatadoPartial.cshtml" />
     <Content Include="Views\ControlCuchillo\EmpleadoCuchilloPrestado.cshtml" />
     <Content Include="Views\ControlCuchillo\EmpleadoCuchilloPrestadoPartial.cshtml" />
+    <Content Include="Views\Hueso\EficienciaAvanceKiloHora.cshtml" />
+    <Content Include="Views\Hueso\EficienciaAvanceKiloHoraPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -945,5 +945,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return db.spReporteAsistencia(FechaInicio, FechaFin, "1", "01").ToList();
             }
         }
+
+
+        public List<spConsultaMovimientoPersonalDiario> ConsultaMovimientoPersonalDiario(DateTime Fecha, TimeSpan Hora, string Linea)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaMovimientoPersonalDiario(Fecha, Hora, Linea).ToList();
+            }
+        }
     }
 }

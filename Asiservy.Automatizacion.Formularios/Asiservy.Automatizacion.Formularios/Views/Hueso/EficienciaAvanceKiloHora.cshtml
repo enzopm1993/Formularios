@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "EficienciaAvanceKiloHora";
+}
+
+<h3>Eficiencia Avance Kilo/Hora</h3>
+
+
+<div class="card shadow" id="DivCardCabecera">
+    <div class="card-body">
+        <div class="row">
+            <input type="hidden" id="txtIdEficiencia" name="name" value="0" />
+            <div class="col-md-3 col-6">
+                <div class="form-group">
+                    <label>Tallas</label>
+                    @Html.DropDownList("selectTalla", new SelectList(ViewBag.Tallas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="form-group">
+                    <label>Sencilla</label>
+                    <input type="number" min="0" class="form-control" id="txtSencilla" name="name" value="0" />
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6">
+                <div class="form-group">
+                    <label>Intermedia</label>
+                    <input type="number" min="0" class="form-control" id="txtIntermedia" name="name" value="0" />
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6">
+                <div class="form-group">
+                    <label>Doble</label>
+                    <input type="number" min="0" class="form-control" id="txtDoble" name="name" value="0" />
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px; padding-bottom:10px">
+    <div class="col-12 text-center">
+        <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="Guardar" onclick="GuardarModificarEficiencia()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/save20.png" />
+        </button>
+
+        <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Nuevo" onclick="NuevaEficienciaAvance()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/clear24.png" />
+        </button>
+    </div>
+</div>
+
+
+
+
+<div class="card shadow">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <div id="spinnerCargando" hidden class="text-center">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="DivTableEficiencia">
+
+        </div>
+    </div>
+</div>

@@ -138,8 +138,11 @@ function SeleccionControlHueso(id, lote, orden, tipo, horainicio, horafin, obser
     $("#btnNuevo").prop("hidden", false);
     $("#btnGenerar").prop("hidden", true);
     $("#btnInactivar").prop("hidden", false);
+  //  console.log(id);
+
     if (tipo==1|| tipo ==4)
-    CargarControlHuesoDetalle(id);
+        CargarControlHuesoDetalle(id);
+
 }
 
 function CargarControlHuesoDetalle(id) {
@@ -265,10 +268,13 @@ function GenerarControlHueso() {
                 CargarControlHueso();
                 return;
             }
-            if (tipoControl == 1 || tipoControl == 4)
+            
+            if (tipoControl == 1 || tipoControl == 4) {
                 CargarControlHuesoDetalle(resultado);
-            else
-                NuevoControlHueso();
+                $("#txtIdControlHueso").val(resultado);
+            }
+            else { NuevoControlHueso(); }
+
             $('#btnGenerar').prop("disabled", false);
             $('#spinnerCargando').prop("hidden", true);     
 
