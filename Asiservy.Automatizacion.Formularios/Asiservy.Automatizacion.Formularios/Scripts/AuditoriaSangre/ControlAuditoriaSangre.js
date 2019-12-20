@@ -168,14 +168,21 @@ function IngresarAuditoriaSangre() {
                 Hora: $('#HoraAuditoria').val(),
                 TipoAuditoria: $("#TipoAuditoria").val(),
                 Estado: 'A',
-                Observacion:$("#txtObservacion").val()
+                Observacion: $("#txtObservacion").val(),
+                Linea: $('#Lineas').val() 
             },
             success: function (resultado) {
-                LimpiarBoton();             
-                $("#btnEliminarDetalle").prop("hidden", true);        
-                MensajeCorrecto("Registro ingresado con éxito", false);
-    
+                if (resultado == "101") {
+                    window.location.reload();
+                }
+                $("#btnEliminarDetalle").prop("hidden", true);     
                 $("#Agregar").prop("disabled", false);
+                if (resultado == '0') {
+                    MensajeAdvertencia("Faltan parametros", false);    
+                    return;
+                }
+                LimpiarBoton();   
+                MensajeCorrecto("Registro ingresado con éxito", false);  
                 ConsultarAuditoriaChange();
             },
             error: function (resultado) {

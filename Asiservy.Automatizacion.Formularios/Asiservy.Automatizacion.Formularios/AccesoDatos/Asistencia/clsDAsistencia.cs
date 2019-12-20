@@ -73,6 +73,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             && x.Fecha<  Fecha
                             && x.FechaFin == null
                             && (x.EstadoAsistencia == clsAtributos.EstadoPresente || x.EstadoAsistencia == clsAtributos.EstadoAtraso)
+                            && x.EstadoRegistro== clsAtributos.EstadoRegistroActivo
                             ).ToList();
                 return result;
             }
