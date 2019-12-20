@@ -13,14 +13,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spConsultaEmpleadosPersonalPrestadoFiltro
     {
-        public string CEDULA { get; set; }
-        public string NOMBRES { get; set; }
-        public string CODIGOLINEA { get; set; }
-        public string LINEA { get; set; }
-        public string CODIGOAREA { get; set; }
-        public string AREA { get; set; }
-        public string CODIGOCARGO { get; set; }
-        public string CARGO { get; set; }
-        public string CODIGORECURSO { get; set; }
+        public string Cedula { get; set; }
+        public string Nombre { get; set; }
+        public string CodLinea { get; set; }
+        public string Linea { get; set; }
+        public string CodCentroCosto { get; set; }
+        public string CentroCosto { get; set; }
+        public string CodCargo { get; set; }
+        public string Cargo { get; set; }
+        public string CodRecurso { get; set; }
+        public string Recurso { get; set; }
     }
 }

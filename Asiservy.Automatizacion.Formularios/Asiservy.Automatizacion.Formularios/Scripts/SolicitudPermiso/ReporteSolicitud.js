@@ -50,7 +50,8 @@ function MarcarSalida(IdSolicitudPermiso,fecha,fechaSalida) {
         },
         success: function (Resultado) {
             if (Resultado == "1") {
-                MensajeAdvertencia("Su hora de salida es: " + fechaSalida);
+                var horaSalida = moment(fechaSalida).format('HH:mm');
+                MensajeAdvertencia("Su hora de salida es a las: " + horaSalida);
                 return;
             }
             MensajeCorrecto(Resultado,false);

@@ -155,17 +155,28 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult ControlAuditoriaSangrePartial(int? IdAuditoria,string Cedula, string Porcentaje, DateTime Fecha,TimeSpan Hora, string estado,string TipoAuditoria,string Observacion)
+        public ActionResult ControlAuditoriaSangrePartial(int? IdAuditoria,string Cedula, string Porcentaje, DateTime Fecha,TimeSpan Hora, string estado,string TipoAuditoria,string Observacion, string Linea)
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if(string.IsNullOrEmpty(Cedula) || string.IsNullOrEmpty(Porcentaje) || string.IsNullOrEmpty(estado) || string.IsNullOrEmpty(TipoAuditoria) || string.IsNullOrEmpty(Linea))
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
+                }
+
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
                 clsDEmpleado = new clsDEmpleado();
              
                     int IdAuditoriaS = IdAuditoria == null ? 0 : Convert.ToInt32(IdAuditoria);
                     lsUsuario = User.Identity.Name.Split('_');
                     DateTime FechaCreacion = DateTime.Now;
-                    var Linea = clsDEmpleado.ConsultaEmpleado(Cedula).FirstOrDefault();
+                    //var Linea = clsDEmpleado.ConsultaEmpleado(Cedula).FirstOrDefault();
 
                     clsDAuditoriaSangre.GuardarActualizarAuditoriaSangre(new CONTROL_AUDITORIASANGRE
                     {
@@ -178,7 +189,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         Hora = Hora,
                         FechaAuditoria = Fecha,
                         IdControlAuditoriaSangre = IdAuditoriaS,
-                        Linea= Linea.CODIGOLINEA,
+                        Linea= Linea,
                         TipoAuditoria= TipoAuditoria,
                         Observacion= Observacion
                     });

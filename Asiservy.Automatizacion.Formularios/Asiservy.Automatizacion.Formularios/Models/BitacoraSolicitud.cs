@@ -13,6 +13,7 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public string Nombres { get; set; }
         public string CodEstadoSolicitud { get; set; }
         public string EstadoSolicitud { get; set; }
+        public string Linea { get; set; }
         public string Observacion { get; set; }
         public DateTime? FechaSalida { get; set; }
         public DateTime? FechaRegreso { get; set; }

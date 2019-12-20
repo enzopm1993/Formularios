@@ -525,23 +525,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAuditoriaSangre>("spReporteAuditoriaSangre", codLineaParameter, fECHAParameter, tipoParameter);
         }
     
-        public virtual ObjectResult<spConsultaEmpleadosPersonalPrestadoFiltro> spConsultaEmpleadosPersonalPrestadoFiltro(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, string linea)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var horaParameter = hora.HasValue ?
-                new ObjectParameter("Hora", hora) :
-                new ObjectParameter("Hora", typeof(System.TimeSpan));
-    
-            var lineaParameter = linea != null ?
-                new ObjectParameter("Linea", linea) :
-                new ObjectParameter("Linea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaEmpleadosPersonalPrestadoFiltro>("spConsultaEmpleadosPersonalPrestadoFiltro", fechaParameter, horaParameter, lineaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaAsignaMaterialesLinea> spConsultaAsignaMaterialesLinea(string linea)
         {
             var lineaParameter = linea != null ?
@@ -964,6 +947,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fecha", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaEmpleadosPersonalPrestadoFiltro> spConsultaEmpleadosPersonalPrestadoFiltro(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, string linea)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaEmpleadosPersonalPrestadoFiltro>("spConsultaEmpleadosPersonalPrestadoFiltro", fechaParameter, horaParameter, lineaParameter);
         }
     }
 }
