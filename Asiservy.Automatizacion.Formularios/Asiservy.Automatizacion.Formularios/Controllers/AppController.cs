@@ -1,5 +1,6 @@
 ﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.App;
+using Asiservy.Automatizacion.Formularios.Models;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -48,6 +49,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return View(sugerencias);
         }
 
+        public ActionResult MarcacionesJustificar()
+        {
+
+            ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
+            var request = new RestRequest("/api/Nomina/PendientesJustificarMarcacion", Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            var pendientesjustificarMarcacions = JsonConvert.DeserializeObject<List<AccesoDatos.App.PendientesjustificarMarcacion>>(content);
+
+
+            return View(pendientesjustificarMarcacions);
+        }
+
         public ActionResult Comunicados()
         {
 
@@ -73,6 +88,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             modeloVista.Categorias = Categorias;
 
             return View(modeloVista);
+        }
+
+
+        [HttpPost]
+        public ActionResult ObtieneLogMarcacion(paramBuscaMarcacion parametros)
+        {
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
+            var request = new RestRequest("/api/Empleado/Marcaciones/" + parametros.fechaIni + "/" + parametros.fechaFin + "/" + parametros.cedula, Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            var datos = JsonConvert.DeserializeObject<AccesoDatos.App.ClsMarcaciones>(content);
+            return Json(datos.LogMarcaciones, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -127,6 +154,64 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return Json(datos, JsonRequestBehavior.AllowGet);
         }
 
+
+        public ActionResult EnviarMarcacion(ClsParamEnviarMarcacion parametros)
+        {
+            ClsKeyValue respuesta = new ClsKeyValue();
+            respuesta.Codigo = "0";
+            try
+            {
+                if (string.IsNullOrEmpty(parametros.cedula))
+                {
+                    respuesta.Descripcion = "La cédula del empleado es obligatoria";
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(parametros.tipoMarcacion))
+                    {
+                        respuesta.Descripcion = "Ingrese un tipo de marcación";
+                    }
+                    else
+                    {
+                        string fechaHora = parametros.diaMarcacion + " " + parametros.horaMarcacionCorrecta;
+                        DateTime dateTime = DateTime.ParseExact(parametros.diaMarcacion, "dd/MM/yyyy", null);
+                        DateTime fechaCompletaMarcacion = DateTime.Parse(dateTime.ToShortDateString() + " " + parametros.horaMarcacionCorrecta);
+
+                        StatusOnlyControl resultOnlyControl;
+                        using (OnlyControlService.wsrvTcontrolSoapClient service = new OnlyControlService.wsrvTcontrolSoapClient())
+                        {
+
+                            string content = service.InsertaMarcacion(clsAtributos.keyLlaveAcceso, parametros.cedula, fechaCompletaMarcacion, parametros.tipoMarcacion, "192.168.31.2");
+
+                            resultOnlyControl = JsonConvert.DeserializeObject<StatusOnlyControl>(content);
+                        }
+                        respuesta.Descripcion = resultOnlyControl.mensaje;
+                        if (resultOnlyControl.codigo == "0")
+                        {
+                            var client = new RestClient(clsAtributos.BASE_URL_WS);
+                            var request = new RestRequest("/api/Admin/ActualizaEstadoSolicitudMarcacion", Method.POST);
+                            request.AddParameter("id", parametros.idRegistro);
+                            request.AddParameter("estado", "A");
+                            request.AddParameter("observacion", "Marcación actualizada");
+                            request.AddParameter("username", parametros.usuarioActualiza);
+                            IRestResponse response = client.Execute(request);
+                            var contentJs = response.Content;
+                            var datos = JsonConvert.DeserializeObject<ClsKeyValue>(contentJs);
+
+                            respuesta.Codigo = "1";
+                        }                        
+                    }
+                }               
+            }
+            catch (Exception ex)
+            {
+               
+                respuesta.Descripcion = ex.Message;
+            }
+            return Json(respuesta, JsonRequestBehavior.AllowGet);
+
+        }
+
     }
     public class ParamCambioEstado
     {
@@ -156,5 +241,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public string nombre_nueva_cat { get; set; }
         public string usuario { get; set; }
     }
-
+    public class paramBuscaMarcacion
+    {
+        public string fechaIni { get; set; }
+        public string fechaFin { get; set; }
+        public string cedula { get; set; }
+    }
 }

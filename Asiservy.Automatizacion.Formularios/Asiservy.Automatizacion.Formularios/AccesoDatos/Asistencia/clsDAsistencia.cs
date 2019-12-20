@@ -399,7 +399,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     //MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonal = db.MOVIMIENTO_PERSONAL_DIARIO.Where(z => z.Cedula == Cedula && z.FechaInicio == Fecha && z.HoraFin == null).FirstOrDefault();
                     MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonal = db.MOVIMIENTO_PERSONAL_DIARIO.Find(IdMovimientoPersonalDiario);
                     //ASISTENCIA BuscarAsistencia = db.ASISTENCIA.Where(a => a.Cedula == Cedula && a.Fecha == Fecha).FirstOrDefault();
-                    ASISTENCIA BuscarAsistencia = db.ASISTENCIA.Where(a => a.Cedula == Cedula && a.Fecha == Fecha&&a.Turno==Turno && a.Linea==CodLinea).FirstOrDefault();
+                    ASISTENCIA BuscarAsistencia = db.ASISTENCIA.Where(a => a.Cedula == Cedula && a.Fecha == Fecha&&a.Turno==Turno).FirstOrDefault();
                     if (BuscarMovimientoPersonal != null)
                     {
                         //valido que la fecha y hora de finalizar asistencia ingresada por el usuario sea mayor a la fecha y hora en que inicio en la linea

@@ -34,6 +34,13 @@ namespace Asiservy.Automatizacion.Formularios.OnlyControlService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/consultarCatalogoPermisos", ReplyAction="*")]
         System.Threading.Tasks.Task<Asiservy.Automatizacion.Formularios.OnlyControlService.consultarCatalogoPermisosResponse> consultarCatalogoPermisosAsync(Asiservy.Automatizacion.Formularios.OnlyControlService.consultarCatalogoPermisosRequest request);
+        
+        // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento key del espacio de nombres http://tempuri.org/ no está marcado para aceptar valores nil.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/InsertaMarcacion", ReplyAction="*")]
+        Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionResponse InsertaMarcacion(Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/InsertaMarcacion", ReplyAction="*")]
+        System.Threading.Tasks.Task<Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionResponse> InsertaMarcacionAsync(Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -208,6 +215,90 @@ namespace Asiservy.Automatizacion.Formularios.OnlyControlService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class InsertaMarcacionRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="InsertaMarcacion", Namespace="http://tempuri.org/", Order=0)]
+        public Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionRequestBody Body;
+        
+        public InsertaMarcacionRequest() {
+        }
+        
+        public InsertaMarcacionRequest(Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class InsertaMarcacionRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string key;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string cedula;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        public System.DateTime fechaMarcacion;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public string tipoMarcacion;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
+        public string ipMarcacion;
+        
+        public InsertaMarcacionRequestBody() {
+        }
+        
+        public InsertaMarcacionRequestBody(string key, string cedula, System.DateTime fechaMarcacion, string tipoMarcacion, string ipMarcacion) {
+            this.key = key;
+            this.cedula = cedula;
+            this.fechaMarcacion = fechaMarcacion;
+            this.tipoMarcacion = tipoMarcacion;
+            this.ipMarcacion = ipMarcacion;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class InsertaMarcacionResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="InsertaMarcacionResponse", Namespace="http://tempuri.org/", Order=0)]
+        public Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionResponseBody Body;
+        
+        public InsertaMarcacionResponse() {
+        }
+        
+        public InsertaMarcacionResponse(Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class InsertaMarcacionResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string InsertaMarcacionResult;
+        
+        public InsertaMarcacionResponseBody() {
+        }
+        
+        public InsertaMarcacionResponseBody(string InsertaMarcacionResult) {
+            this.InsertaMarcacionResult = InsertaMarcacionResult;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface wsrvTcontrolSoapChannel : Asiservy.Automatizacion.Formularios.OnlyControlService.wsrvTcontrolSoap, System.ServiceModel.IClientChannel {
     }
@@ -309,6 +400,39 @@ namespace Asiservy.Automatizacion.Formularios.OnlyControlService {
             inValue.Body = new Asiservy.Automatizacion.Formularios.OnlyControlService.consultarCatalogoPermisosRequestBody();
             inValue.Body.key = key;
             return ((Asiservy.Automatizacion.Formularios.OnlyControlService.wsrvTcontrolSoap)(this)).consultarCatalogoPermisosAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionResponse Asiservy.Automatizacion.Formularios.OnlyControlService.wsrvTcontrolSoap.InsertaMarcacion(Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionRequest request) {
+            return base.Channel.InsertaMarcacion(request);
+        }
+        
+        public string InsertaMarcacion(string key, string cedula, System.DateTime fechaMarcacion, string tipoMarcacion, string ipMarcacion) {
+            Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionRequest inValue = new Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionRequest();
+            inValue.Body = new Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionRequestBody();
+            inValue.Body.key = key;
+            inValue.Body.cedula = cedula;
+            inValue.Body.fechaMarcacion = fechaMarcacion;
+            inValue.Body.tipoMarcacion = tipoMarcacion;
+            inValue.Body.ipMarcacion = ipMarcacion;
+            Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionResponse retVal = ((Asiservy.Automatizacion.Formularios.OnlyControlService.wsrvTcontrolSoap)(this)).InsertaMarcacion(inValue);
+            return retVal.Body.InsertaMarcacionResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionResponse> Asiservy.Automatizacion.Formularios.OnlyControlService.wsrvTcontrolSoap.InsertaMarcacionAsync(Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionRequest request) {
+            return base.Channel.InsertaMarcacionAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionResponse> InsertaMarcacionAsync(string key, string cedula, System.DateTime fechaMarcacion, string tipoMarcacion, string ipMarcacion) {
+            Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionRequest inValue = new Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionRequest();
+            inValue.Body = new Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionRequestBody();
+            inValue.Body.key = key;
+            inValue.Body.cedula = cedula;
+            inValue.Body.fechaMarcacion = fechaMarcacion;
+            inValue.Body.tipoMarcacion = tipoMarcacion;
+            inValue.Body.ipMarcacion = ipMarcacion;
+            return ((Asiservy.Automatizacion.Formularios.OnlyControlService.wsrvTcontrolSoap)(this)).InsertaMarcacionAsync(inValue);
         }
     }
 }
