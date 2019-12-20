@@ -221,6 +221,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     OrdenFabricacion = model.OrdenFabricacion,
                     Observacion = model.Observacion,
                     TotalPieza = model.TotalPieza,
+                    TotalLimpiadoras = model.TotalLimpiadoras,
                     EstadoRegistro = clsAtributos.EstadoRegistroActivo,
                     UsuarioIngresoLog = lsUsuario[0],
                     FechaIngresoLog = DateTime.Now,
