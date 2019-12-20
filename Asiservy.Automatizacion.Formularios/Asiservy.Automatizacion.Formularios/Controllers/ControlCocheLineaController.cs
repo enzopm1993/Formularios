@@ -195,6 +195,59 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
+        [Authorize]
+        public ActionResult ReporteCochesPorDias()
+        {
+            try
+            {
+                ViewBag.Apexcharts = "1";
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                clsDClasificador = new clsDClasificador();
+                var ListLineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+
+                ViewBag.LineasJson = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ListLineas);
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+
+        }
+        [HttpGet]
+        public JsonResult ObtenerCochesPorLineaDiario(DateTime fechaIni, DateTime fechaFin)
+        {
+            
+            try
+            {
+                clsDControlCocheLinea = new clsDControlCocheLinea();
+
+                var respuesta = clsDControlCocheLinea.ConsultarCochesPorLineaDiario(fechaIni, fechaFin);
+
+                return Json(respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
 
         protected void SetSuccessMessage(string message)
         {
