@@ -131,6 +131,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Connected Services\DataLifeService\ServicioAsiservy.wsdl" />
+    <Content Include="Connected Services\OnlyControlService\Asiservy.Automatizacion.Formularios.OnlyControlService.InsertaMarcacionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Connected Services\OnlyControlService\wsrvTcontrol.disco" />
     <None Include="Connected Services\OnlyControlService\configuration91.svcinfo" />
     <None Include="Connected Services\OnlyControlService\configuration.svcinfo" />
@@ -2119,6 +2122,7 @@
     <Content Include="Scripts\Apexcharts\dist\apexcharts.min.js" />
     <Content Include="Scripts\Apexcharts\dist\locales\ko.js" />
     <Content Include="Scripts\App\Comunicados.js" />
+    <Content Include="Scripts\App\MarcacionesJustificar.js" />
     <Content Include="Scripts\App\SolicitudesPendientes.js" />
     <Content Include="Scripts\App\Sugerencias.js" />
     <Content Include="Scripts\Asistencia\Asistencia.js" />
@@ -2968,11 +2972,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccesoDatos\App\Certificados.cs" />
+    <Compile Include="AccesoDatos\App\ClsMarcaciones.cs" />
+    <Compile Include="AccesoDatos\App\ClsParamEnviarMarcacion.cs" />
     <Compile Include="AccesoDatos\App\Comunicados.cs" />
     <Compile Include="AccesoDatos\App\InfoCambioDatos.cs" />
     <Compile Include="AccesoDatos\App\ModeloVistaCertificados.cs" />
     <Compile Include="AccesoDatos\App\ModeloVistaComunicados.cs" />
     <Compile Include="AccesoDatos\App\ModeloVistaRptAsistencia.cs" />
+    <Compile Include="AccesoDatos\App\PendientesjustificarMarcacion.cs" />
     <Compile Include="AccesoDatos\App\SolicitudesPendientes.cs" />
     <Compile Include="AccesoDatos\App\Sugerencias.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
@@ -3241,6 +3248,7 @@
     <Content Include="Views\ControlPesoEnlatado\ReporteControlPesoEnlatadoPartial.cshtml" />
     <Content Include="Views\ControlCuchillo\EmpleadoCuchilloPrestado.cshtml" />
     <Content Include="Views\ControlCuchillo\EmpleadoCuchilloPrestadoPartial.cshtml" />
+    <Content Include="Views\App\MarcacionesJustificar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

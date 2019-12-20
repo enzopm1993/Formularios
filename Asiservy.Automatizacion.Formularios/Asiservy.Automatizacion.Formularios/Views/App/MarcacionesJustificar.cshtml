@@ -1,0 +1,151 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.AccesoDatos.App.PendientesjustificarMarcacion>
+@{
+    ViewBag.Title = "Marcaciones por justificar";
+}
+<style>
+    input.form-control, select.form-control, textarea.form-control {
+        max-width: 100%;
+    }
+
+    .datoCambia {
+        background-color: #c6ffc6;
+        border-color: green;
+        color: black;
+    }
+
+    .procesa_loader {
+        display: none;
+    }
+
+    a.cargaDatos {
+        font-size: 11px;
+    }
+
+    #txtContentCertificado table {
+        margin: 0 auto;
+    }
+
+    div#TipoCertificado {
+        font-size: 20px;
+    }
+
+    label#tituloTipo {
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    div#ContenidoCertificado h6 {
+        font-weight: bold;
+    }
+
+    ul#listLogMarcaciones li {
+        list-style: none;
+    }
+    #seccionNuevaMarcacion{
+        display: none;
+    }
+    .muestraSeccion {
+        display: flex !important;
+    }
+</style>
+<h4>Marcaciones por justificar</h4>
+<hr />
+<br />
+<div id="DivTableEmpleadosDatos" class="table-responsive">
+
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th><label>EMPRESA</label></th>
+                <th><label>ÁREA</label></th>
+                <th><label>CARGO</label></th>
+                <th><label>LÍNEA</label></th>
+                <th><label>NOMBRES</label></th>
+                <th><label>CÉDULA</label></th>
+                <th><label>MARCACIÓN FALTANTE</label></th>
+                <th><label>DÍA</label></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>               
+                <td>
+                    @Html.DisplayFor(modelItem => item.EMPRESA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AREA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CARGO)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LINEA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NOMBRES)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CEDULA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MARCACION_FALTA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DIA)
+                </td>
+                
+                <td>
+                    <div class="procesa_loader" id="procesando_@item.id"> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></div>
+                    <a id="cargaDatos_@item.id" data-nombre="@item.NOMBRES" class="badge badge-primary cargaDatos" data-cedula="@item.CEDULA" data-id="@item.id" data-fecha="@item.DIA" data-marcacion="@item.MARCACION_FALTA" href="#">Log de marcación</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+
+
+<div class="modal fade" id="ModalLogMarcacion" tabindex="-1" role="dialog" aria-labelledby="ModalSugerencia" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="nombrePersonaJustifica"></h4>
+                
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5 class="modal-title" id="logMarcacionTitulo">LOG DE MARCACIÓN DEL DÍA <b><span id="diaMarcacionFalta"></span></b></h5>
+                <input type="hidden" id="cedulaUser" value="" />
+                <input type="hidden" id="idRegistro" value="" />
+                <p>Para este día se solicita justificar la marcación de <b><span id="tipoMarcacion"></span></b></p>
+                <h6 class="titulo_log_marcacion">Histoial de marcación para este día</h6>
+                <ul id="listLogMarcaciones"></ul>
+                <p>Seleccione la marcación correcta para asignar en la marcación que hace falta, si no está como marcación erronea seleccione una nueva marcación</p>
+                <div class="form-row" id="seccionNuevaMarcacion">
+                    <div class="col">
+                        <select id="listaTipoMarcacion" class="form-control">
+                            <option value="0">Seleccione una marcación</option>
+                            <option value="INGRESO">F1 - INGRESO</option>
+                            <option value="BREAK-OUT">F2 - COMIDA</option>
+                            <option value="SALIDA">F4 - SALIDA</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="time" class="form-control" id="hora_marcacion_nueva" placeholder="00:00">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+                <a href="#" id="justificarMarcacion" class="btn btn-primary" data-fecha="" data-cedula="" data-marcacion=""><i id="justificarIcon" class="fas fa-check-circle"></i> Justificar marcación</a>
+            </div>
+        </div>
+    </div>
+</div>
