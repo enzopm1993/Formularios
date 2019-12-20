@@ -129,18 +129,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
-                DateTime fechaInicio=Convert.ToDateTime(Fecha.ToShortDateString());
-                DateTime FechaFin=Convert.ToDateTime(Fecha.AddDays(1).ToShortDateString());
-                List<CONTROL_CUCHILLO> controlCuchillos = db.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Fecha < FechaFin).ToList();
+                // EMPLEADO_CUCHILLO_PRESTADO
+                //DateTime fechaInicio=Convert.ToDateTime(Fecha.ToShortDateString());
+                //DateTime FechaFin=Convert.ToDateTime(Fecha.AddDays(1).ToShortDateString());
+                //List<CONTROL_CUCHILLO> controlCuchillos = db.CONTROL_CUCHILLO.Where(x => x.Fecha >= fechaInicio && x.Fecha < FechaFin).ToList();
+                List<EMPLEADO_CUCHILLO_PRESTADO> controlCuchillos = db.EMPLEADO_CUCHILLO_PRESTADO.Where(x => x.Fecha == Fecha).ToList();
+
                 List<ControlCuchilloViewModel> ControlCuchillosViewModel = new List<ControlCuchilloViewModel>();
                 foreach (var x in controlCuchillos)
                 {
                     ControlCuchillosViewModel.Add(new ControlCuchilloViewModel
                     {
                         Cedula = x.Cedula,
-                        CuchilloBlanco = x.CuchilloBlanco,
-                        CuchilloRojo = x.CuchilloRojo,
-                        CuchilloNegro = x.CuchilloNegro,
+                        CuchilloBlanco = x.CuchilloBlanco == null ? 0 : x.CuchilloBlanco,
+                        CuchilloRojo = x.CuchilloRojo == null ? 0: x.CuchilloRojo,
+                        CuchilloNegro = x.CuchilloNegro==null?0: x.CuchilloNegro,
                     });
                 }
                 return ControlCuchillosViewModel;
@@ -446,6 +449,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 var result = db.EMPLEADO_CUCHILLO_PRESTADO.Where(x=> 
                 x.Cedula != model.Cedula 
                 && x.Fecha == model.Fecha
+                && ((x.CuchilloBlanco == model.CuchilloBlanco
+                && model.CuchilloBlanco>0)|| (x.CuchilloRojo  == model.CuchilloRojo && model.CuchilloRojo>0))
                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                 if (result != null)
                 {

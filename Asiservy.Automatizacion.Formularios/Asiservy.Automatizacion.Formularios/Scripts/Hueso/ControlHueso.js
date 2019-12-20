@@ -61,11 +61,19 @@ function CargarLotes(valor) {
     });
 }
 function SeleccionarTipoControl(valor) {
-    console.log(valor);
+    // console.log(valor);
+    $('#divPiezas').prop("hidden", true);
+    $('#divLimpiadoras').prop("hidden", true);
+
     if (valor == "3") {
         $('#divPiezas').prop("hidden", false);
-    } else
-        $('#divPiezas').prop("hidden", true);
+        $('#divLimpiadoras').prop("hidden", false);
+    }
+    if (valor=="2")
+    {
+        $('#divLimpiadoras').prop("hidden", false);
+    }
+
 
 }
 function NuevoControlHueso() {
@@ -83,9 +91,14 @@ function NuevoControlHueso() {
     $('#txtObservacion').prop("disabled", false);
     $('#txtHoraInicio').prop("disabled", false);
     $('#txtHoraFin').prop("disabled", false);
+
+    $('#divLimpiadoras').prop("hidden", true);
     $('#divPiezas').prop("hidden", true);
     $('#txtPiezas').val(0);
     $('#txtPiezas').prop("disabled", false);
+    $('#txtLimpiadoras').val(0);
+    $('#txtLimpiadoras').prop("disabled", false);
+    
     $('#SelectOrdenFabricacion').prop("disabled", false);
     $('#txtFechaProduccion').prop("disabled", false);
 
@@ -103,20 +116,23 @@ function NuevoControlHueso() {
 
 }
 
-function SeleccionControlHueso(id, lote, orden, tipo, horainicio, horafin, observacion,piezas,fecha) {
+function SeleccionControlHueso(model) {
+    console.log(model);
     $("#SelectLote").empty();
-    $("#SelectLote").append("<option value='" + lote + "' >" + lote+"</option>");
+    $("#SelectLote").append("<option value='" + model.Lote + "' >" + model.Lote+"</option>");
 
     $("#SelectOrdenFabricacion").empty();
-    $("#SelectOrdenFabricacion").append("<option value='" + orden + "' >" + orden + "</option>");
+    $("#SelectOrdenFabricacion").append("<option value='" + model.OrdenFabricacion + "' >" + model.OrdenFabricacion + "</option>");
 
-   
-    $('#txtFechaProduccion').val(fecha);
-    $('#txtIdControlHueso').val(id);
-    $('#txtHoraInicio').val(horainicio);
-    $('#txtHoraFin').val(horafin);
-    $('#SelectTipoControl').val(tipo);
-    $('#txtObservacion').val(observacion);
+
+    //$('#txtFechaProduccion').val(model.Fecha);
+    $('#txtIdControlHueso').val(model.IdControlHueso);
+    $('#txtHoraInicio').val(model.HoraInicio);
+    $('#txtHoraFin').val(model.HoraFin);
+    $('#SelectTipoControl').val(model.CodTipoControl);
+    $('#txtObservacion').val(model.Observacion);
+    $('#txtPiezas').val(model.TotalPieza);
+    $('#txtLimpiadoras').val(model.TotalLimpiadoras);
   
     $('#SelectLote').prop("disabled", true);
     $('#SelectTipoControl').prop("disabled", true);
@@ -124,22 +140,29 @@ function SeleccionControlHueso(id, lote, orden, tipo, horainicio, horafin, obser
     $('#txtHoraInicio').prop("disabled", true);
     $('#txtHoraFin').prop("disabled", true);
     $('#txtPiezas').prop("disabled", true);
+    $('#txtLimpiadoras').prop("disabled", true);
     $('#SelectOrdenFabricacion').prop("disabled", true);
     $('#txtFechaProduccion').prop("disabled", true);
 
-    if (tipo == 3) {
+    $('#divPiezas').prop("hidden", true);
+    $('#divLimpiadoras').prop("hidden", true);
+
+    if (model.CodTipoControl == "3") {
         $('#divPiezas').prop("hidden", false);
-        $('#txtPiezas').val(piezas);
-    } else {
-        $('#divPiezas').prop("hidden", true);
-        $('#txtPiezas').val(0);
+        $('#divLimpiadoras').prop("hidden", false);
+    }
+    if (model.CodTipoControl == "2") {
+        $('#divLimpiadoras').prop("hidden", false);
     }
 
     $("#btnNuevo").prop("hidden", false);
     $("#btnGenerar").prop("hidden", true);
     $("#btnInactivar").prop("hidden", false);
-    if (tipo==1|| tipo ==4)
-    CargarControlHuesoDetalle(id);
+  //  console.log(id);
+
+    if (model.CodTipoControl == 1 || model.CodTipoControl ==4)
+        CargarControlHuesoDetalle(id);
+
 }
 
 function CargarControlHuesoDetalle(id) {
@@ -228,11 +251,18 @@ function GenerarControlHueso() {
         MensajeAdvertencia("Total de piezas es requerido");
         return;
     }
+    if (tipoControl == "3" && $('#txtLimpiadoras').val() == 0) {
+        MensajeAdvertencia("Total de limpiadoras es requerido");
+        return;
+    }
     if (tipoControl == "2" && $('#txtObservacion').val() =='') {
         MensajeAdvertencia("La observacion es requerido");
         return;
     }
-
+    if (tipoControl == "2" && $('#txtLimpiadoras').val() == 0) {
+        MensajeAdvertencia("Total de limpiadoras es requerido");
+        return;
+    }
     if (horaInicio == '' || horaFin == '') {
         MensajeAdvertencia("Ingrese rango de horas");
         return;
@@ -254,6 +284,7 @@ function GenerarControlHueso() {
             HoraFin: horaFin,
             Observacion: observacion+"",
             TotalPieza: $('#txtPiezas').val(),
+            TotalLimpiadoras: $('#txtLimpiadoras').val(),
             OrdenFabricacion: $('#SelectOrdenFabricacion').val(),
             Fecha: $('#txtFechaProduccion').val()
         },
@@ -265,10 +296,13 @@ function GenerarControlHueso() {
                 CargarControlHueso();
                 return;
             }
-            if (tipoControl == 1 || tipoControl == 4)
+            
+            if (tipoControl == 1 || tipoControl == 4) {
                 CargarControlHuesoDetalle(resultado);
-            else
-                NuevoControlHueso();
+                $("#txtIdControlHueso").val(resultado);
+            }
+            else { NuevoControlHueso(); }
+
             $('#btnGenerar').prop("disabled", false);
             $('#spinnerCargando').prop("hidden", true);     
 

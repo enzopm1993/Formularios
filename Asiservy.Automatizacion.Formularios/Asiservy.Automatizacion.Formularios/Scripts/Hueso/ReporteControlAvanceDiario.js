@@ -23,6 +23,9 @@ function CargarReporteAvance() {
             dsLinea: selectLinea
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                location.reload();
+            }
             if (resultado == "1") { 
 
                 MensajeAdvertencia("No existen registros para esa linea");
@@ -32,7 +35,9 @@ function CargarReporteAvance() {
                 var bitacora = $('#DivTableReporteControlAvance');
                 $("#spinnerCargando").prop("hidden", true);
                 bitacora.html(resultado);
-               
+                config.opcionesDT.pageLength = 50;
+                config.opcionesDT.order = [[0, "asc"]];
+                $('#tblDataTable').DataTable(config.opcionesDT);
             }
             $('#btnConsultar').prop("disabled", true);
            

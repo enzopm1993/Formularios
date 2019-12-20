@@ -48,9 +48,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<EMPLEADO_TURNO> EMPLEADO_TURNO { get; set; }
         public virtual DbSet<EMPLEADO_ESFERO> EMPLEADO_ESFERO { get; set; }
         public virtual DbSet<CONTROL_ESFERO> CONTROL_ESFERO { get; set; }
-        public virtual DbSet<CONTROL_HUESO> CONTROL_HUESO { get; set; }
-        public virtual DbSet<CONTROL_HUESO_DETALLE> CONTROL_HUESO_DETALLE { get; set; }
-        public virtual DbSet<CONTROL_MIGA> CONTROL_MIGA { get; set; }
         public virtual DbSet<CONTROL_AUDITORIASANGRE> CONTROL_AUDITORIASANGRE { get; set; }
         public virtual DbSet<CONTROL_COCHE_LINEA> CONTROL_COCHE_LINEA { get; set; }
         public virtual DbSet<CONTROL_ENFUNDADO> CONTROL_ENFUNDADO { get; set; }
@@ -77,6 +74,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_PESO_ENLATADO_DETALLE> CONTROL_PESO_ENLATADO_DETALLE { get; set; }
         public virtual DbSet<CONTROL_PESO_ENLATADO_SUBDETALLE> CONTROL_PESO_ENLATADO_SUBDETALLE { get; set; }
         public virtual DbSet<EMPLEADO_CUCHILLO_PRESTADO> EMPLEADO_CUCHILLO_PRESTADO { get; set; }
+        public virtual DbSet<AVANCE_KILOS_HORA> AVANCE_KILOS_HORA { get; set; }
+        public virtual DbSet<CONTROL_AVANCE_API> CONTROL_AVANCE_API { get; set; }
+        public virtual DbSet<CONTROL_HUESO> CONTROL_HUESO { get; set; }
+        public virtual DbSet<CONTROL_HUESO_DETALLE> CONTROL_HUESO_DETALLE { get; set; }
+        public virtual DbSet<CONTROL_MIGA> CONTROL_MIGA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -237,15 +239,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlAsistencia>("spConsultaControlAsistencia", lineaParameter, fechaParameter);
         }
     
-        public virtual ObjectResult<spConsultaControlHueso> spConsultaControlHueso(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", fechaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaControlHuesoDetalle> spConsultaControlHuesoDetalle(Nullable<int> idControlHueso)
         {
             var idControlHuesoParameter = idControlHueso.HasValue ?
@@ -253,19 +246,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IdControlHueso", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHuesoDetalle>("spConsultaControlHuesoDetalle", idControlHuesoParameter);
-        }
-    
-        public virtual ObjectResult<spConsultaControlAvanceDiarioPorLinea> spConsultaControlAvanceDiarioPorLinea(Nullable<System.DateTime> fecha, string linea)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            var lineaParameter = linea != null ?
-                new ObjectParameter("linea", linea) :
-                new ObjectParameter("linea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlAvanceDiarioPorLinea>("spConsultaControlAvanceDiarioPorLinea", fechaParameter, lineaParameter);
         }
     
         public virtual ObjectResult<spConsultaAvanceDiarioPorLimpiadora> spConsultaAvanceDiarioPorLimpiadora(Nullable<System.DateTime> fecha, string linea)
@@ -945,6 +925,45 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("linea", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteControlCuchillo>("spConsultaReporteControlCuchillo", fechaParameter, lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaMovimientoPersonalDiario> spConsultaMovimientoPersonalDiario(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, string codLinea)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("CodLinea", codLinea) :
+                new ObjectParameter("CodLinea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMovimientoPersonalDiario>("spConsultaMovimientoPersonalDiario", fechaParameter, horaParameter, codLineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlAvanceDiarioPorLinea> spConsultaControlAvanceDiarioPorLinea(Nullable<System.DateTime> fecha, string linea)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlAvanceDiarioPorLinea>("spConsultaControlAvanceDiarioPorLinea", fechaParameter, lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlHueso> spConsultaControlHueso(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", fechaParameter);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -217,18 +218,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                //clsDAsistencia = new clsDAsistencia();
-                //var respuesta = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea, Fecha, Hora);
-                //if (respuesta.Count > 0)
-                //{
-                //    return Json(true, JsonRequestBehavior.AllowGet);
-                //}
-                //else
-                //{
-                //    return Json(false, JsonRequestBehavior.AllowGet);
-                //}
-                //ViewBag.Linea = CodLinea;
-                //ViewBag.bandera = bandera;
+                ClsDPeriodo = new clsDPeriodo();
+                if (!ClsDPeriodo.ValidaFechaPeriodo(Fecha.Add(Hora)))
+                {
+                    return Json("888", JsonRequestBehavior.AllowGet);
+                }
+                    //clsDAsistencia = new clsDAsistencia();
+                    //var respuesta = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea, Fecha, Hora);
+                    //if (respuesta.Count > 0)
+                    //{
+                    //    return Json(true, JsonRequestBehavior.AllowGet);
+                    //}
+                    //else
+                    //{
+                    //    return Json(false, JsonRequestBehavior.AllowGet);
+                    //}
+                    //ViewBag.Linea = CodLinea;
+                    //ViewBag.bandera = bandera;
                 clsDAsistencia = new clsDAsistencia();
                 clsDEmpleado = new clsDEmpleado();
                 liststring = User.Identity.Name.Split('_');
@@ -407,6 +413,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 });
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
+
 
         }
         [Authorize]
@@ -710,6 +717,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula,Fecha,Hora, Tipo, IdMovimiento,Turno,CodLinea);
                 return Json(resultado, JsonRequestBehavior.AllowGet);
             }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -757,6 +773,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ClsDPeriodo = new clsDPeriodo();
+                if (!ClsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("888", JsonRequestBehavior.AllowGet);
+                }
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
                 string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA
@@ -777,6 +798,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     EstadoRegistro=clsAtributos.EstadoRegistroActivo
                 });
                 return Json(Resultado, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -828,9 +858,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                ClsDPeriodo = new clsDPeriodo();
+                if (!ClsDPeriodo.ValidaFechaPeriodo(Fecha))
+                {
+                    return Json("888", JsonRequestBehavior.AllowGet);
+                }
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
                 string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, EstadoAsistencia = clsAtributos.EstadoFalta, UsuarioModificacionLog = liststring[0], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now, Fecha=Fecha });
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -1193,6 +1237,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 return PartialView(ListaEmpleados);
             }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
@@ -1278,6 +1331,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json("Error, no se ha seleccionado ningún empleado", JsonRequestBehavior.AllowGet);
 
             }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
                 SetErrorMessage(ex.Message);
@@ -1359,6 +1421,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 return Json("Error, no se ha seleccionado ningún empleado", JsonRequestBehavior.AllowGet);
 
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

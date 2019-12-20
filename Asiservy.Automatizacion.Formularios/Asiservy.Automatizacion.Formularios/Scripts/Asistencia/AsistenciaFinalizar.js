@@ -113,7 +113,7 @@ function SetearHora() {
     $('#ModalHora').modal('show');
     $('#btnhora').removeAttr('disabled');
 }
-function GuardarSalida(Fila, Cedula, idMovimientoPersonalDiario) {
+function GuardarSalida(Fila, Cedula, idMovimientoPersonalDiario,VieneDeHora) {
   
     //console.log(Fila);
     if (($('#TurnoGen').val() == 2) && ($('#txtFechaFin').val() == '')) {
@@ -135,6 +135,11 @@ function GuardarSalida(Fila, Cedula, idMovimientoPersonalDiario) {
         psTipo = "MarcarSalida";
     } else {
         psTipo = "DesmarcarSalida";
+    }
+    if (VieneDeHora == 'change') {
+        psTipo = "DesmarcarSalida";
+        $('#CheckSalida-' + parseInt(Fila)).prop('checked', false);
+        console.log(Fila);
     }
     $.ajax({
         //contentType: "application/json; charset=utf-8",
