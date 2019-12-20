@@ -47,12 +47,41 @@
                 <th hidden></th>
                 <th hidden></th>
                 <th hidden></th>
-                <td>@Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).TotalMaterial</td>
-                <td>@Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).BuenEstado</td>
-                <td>@{var baja= Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).DadoBaja ?? 0;}
-                    @baja
-                </td>
-                <td>@Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).Observacion</td>
+
+
+
+                var TMaterial = Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha);
+                if (TMaterial != null)
+                {
+                    <td>
+                        @TMaterial.TotalMaterial
+                    </td>
+                    <td>@TMaterial.BuenEstado</td>
+                    <td>
+                        @{var baja = Listado.FirstOrDefault(x => x.CodigoMaterial == m.CodigoMaterial && x.Fecha == f.Fecha).DadoBaja ?? 0;}
+                        @baja
+                    </td>
+                    <td>@TMaterial.Observacion</td>
+                }
+                else
+                {
+                    <td>
+                        0
+                    </td>
+                    <td>
+                        0
+                    </td>
+                    <td>
+                        0
+                    </td>
+                    <td>
+                        
+                    </td>
+                }
+
+
+
+
             }
         </tr>
 

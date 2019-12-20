@@ -740,7 +740,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public List<BitacoraSolicitud> ConsultaBitacoraSolicitud(string dsIdSolicitud, string dsCedula, DateTime? ddFechaDesde, DateTime? ddFechaHasta)
         {
             IQueryable<BitacoraSolicitud> ListaBitacora = null;
-            using(var context = new ASIS_PRODEntities())
+            List<BitacoraSolicitud> ListaBitacoraFinal = null;
+            clsDEmpleado = new clsDEmpleado();
+            clsDGeneral = new clsDGeneral();
+            using (var context = new ASIS_PRODEntities())
             {
 
                 var query = (from bitacora in context.BITACORA_SOLICITUD
@@ -774,7 +777,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     ddFechaDesde = ddFechaDesde.Value.Date;
                     ListaBitacora = ListaBitacora.Where(x => x.FechaIngresoLog >= ddFechaDesde && x.FechaIngresoLog <= ddFechaHasta);
                 }
-                return ListaBitacora.ToList();
+                ListaBitacoraFinal = ListaBitacora.ToList();
+                foreach (var x in ListaBitacoraFinal)
+                {
+                    var empleado = clsDEmpleado.ConsultaEmpleado(x.Cedula).FirstOrDefault();
+                    var linea = clsDGeneral.ConsultaLineas(empleado.CODIGOLINEA).FirstOrDefault();
+                    x.Nombres = empleado.NOMBRES;
+                    x.Linea = linea.Descripcion;                    
+                }
+
+
+                return ListaBitacoraFinal.ToList();
             }
         }
 
