@@ -183,7 +183,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
                     }
                     var PersonalMovidoAEstaLinea = clsDCambioPersonal.ConsultarCambioPersonalxLinea(CodLinea, turno,Fecha, Hora);
-                    foreach (var item in PersonalMovidoAEstaLinea)
+                    //**
+                    //SI YA SE GENERO LA ASISTENCIA EN LINEA_X Y LE DOY PRESENTE A LAS 7AM Y LUEGO  PRESTO A ESA PERSONA A LAS 7:30 A CONTROL_RECUPERADO Y CONTROL, Y EN
+                    //XONTROL RECUPERADO Y CONTRO GENERO LA ASISTENCIA GENERAL A LAS 8AM (ESA PERSONA NO DEBE SALIR)
+                    var AsistenciaBuscar = db.ASISTENCIA.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();//traigo la asistencia de todas las lineas en la fecha ingresada
+                    List<spConsultarCambioPersonalxLineaxTurno> PersonalMovidoAEstaLineaFiltrado = (from p in PersonalMovidoAEstaLinea
+                                                                                                   join asis in AsistenciaBuscar
+                                                                                                   on p.Cedula equals asis.Cedula into pp
+                                                                                                   from asis in pp.DefaultIfEmpty()
+                                                                                                   where asis == null
+                                                                                                   select p).ToList();
+                    //**
+                    //foreach (var item in PersonalMovidoAEstaLinea)
+                    foreach (var item in PersonalMovidoAEstaLineaFiltrado)
                     {
                         ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = Fecha, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A",CentroCostos=item.CentroCosto, Recurso=item.Recurso,Cargo=item.CodCargo });
 
