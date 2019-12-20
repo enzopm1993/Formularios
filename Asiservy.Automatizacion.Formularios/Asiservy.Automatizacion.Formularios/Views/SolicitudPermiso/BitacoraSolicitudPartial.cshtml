@@ -11,7 +11,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Cedula)
             </th>
-
+            <th>
+                @Html.DisplayNameFor(model => model.Nombres)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Linea)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
@@ -49,6 +54,13 @@
                 @Html.DisplayFor(modelItem => item.Cedula)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Nombres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Linea)
+            </td>
+
+            <td>
                 @Html.DisplayFor(modelItem => item.Observacion)
             </td>
             <td>
@@ -57,7 +69,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.FechaRegreso)
             </td>
-            
+
             <td>
                 @Html.DisplayFor(modelItem => item.EstadoSolicitud)
             </td>

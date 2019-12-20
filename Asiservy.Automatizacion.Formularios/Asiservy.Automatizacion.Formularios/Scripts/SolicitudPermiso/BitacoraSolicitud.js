@@ -12,7 +12,9 @@ function ConsultarBitacora() {
         },
         success: function (resultado) {
             //console.log(JSON.stringify(resultado));
-      
+            if (resultado == "101") {
+                window.location.reload();
+            }
             var bitacora = $('#Bitacora');
             $("#spinnerCargando").prop("hidden", true);
 

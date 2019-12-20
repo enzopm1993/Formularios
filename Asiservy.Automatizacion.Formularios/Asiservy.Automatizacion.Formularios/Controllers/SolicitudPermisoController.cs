@@ -1078,7 +1078,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDEmpleado = new clsDEmpleado();
+                clsDClasificador = new clsDClasificador();
+                clsDLogin = new clsDLogin();
+                if(clsDLogin.ValidarUsuarioRol(lsUsuario[1],clsAtributos.AsistenteProduccion))
+                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, 0);
+                if (clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolControladorGeneral) || clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolSupervisorGeneral))
+                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, 0);
+                if (clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolSupervisorLinea) || clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolControladorLinea))
+                {
+                    var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, int.Parse(empleado.CODIGOLINEA));
+                }
 
                 return View();
             }
@@ -1089,7 +1101,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 SetErrorMessage(Mensaje);
-                return View();
+                return RedirectToAction("Home", "Home");
             }
             catch (Exception ex)
             {
@@ -1098,7 +1110,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
-                return View();
+                return RedirectToAction("Home", "Home");
             }        
         }
 
@@ -1107,6 +1119,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 if (string.IsNullOrEmpty(dsIdSolicitud) && string.IsNullOrEmpty(dsCedula))
                 {

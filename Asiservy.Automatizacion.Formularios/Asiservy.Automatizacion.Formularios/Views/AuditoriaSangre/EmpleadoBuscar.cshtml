@@ -25,9 +25,9 @@
                     </thead>
                     @foreach (var item in Model)
                     {
-                        <tr id="@item.CEDULA" onclick="EmpleadoCons('@item.CEDULA','@item.NOMBRES');">
-                            <td>@item.CEDULA</td>
-                            <td>@item.NOMBRES</td>
+                        <tr id="@item.Cedula" onclick="EmpleadoCons('@item.Cedula','@item.Nombre,');">
+                            <td>@item.Cedula</td>
+                            <td>@item.Nombre</td>
                         </tr>
                     }
 

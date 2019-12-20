@@ -1818,11 +1818,6 @@
             <Parameter Name="FECHA" Mode="In" Type="DateTime" />
             <Parameter Name="Tipo" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaEmpleadosPersonalPrestadoFiltro" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadosPersonalPrestadoFiltro)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="Hora" Mode="In" Type="Time" />
-            <Parameter Name="Linea" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="MATERIAL_LINEA" EntityType="ASIS_PRODModel.MATERIAL_LINEA" />
           <EntitySet Name="MATERIAL_QUEBRADIZO" EntityType="ASIS_PRODModel.MATERIAL_QUEBRADIZO" />
           <FunctionImport Name="spConsultaAsignaMaterialesLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaAsignaMaterialesLinea)">
@@ -1992,7 +1987,12 @@
             <End Role="CONTROL_MIGA" EntitySet="CONTROL_MIGA" />
           </AssociationSet>
           <FunctionImport Name="spConsultaControlHueso" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHueso)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaEmpleadosPersonalPrestadoFiltro" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadosPersonalPrestadoFiltro)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Hora" Mode="In" Type="Time" />
+            <Parameter Name="Linea" Mode="In" Type="String" />
           </FunctionImport>
           
           </EntityContainer>
@@ -2855,17 +2855,6 @@
           <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="8000" />
         </ComplexType>
-        <ComplexType Name="spConsultaEmpleadosPersonalPrestadoFiltro">
-          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="CODIGOLINEA" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="LINEA" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="CODIGOAREA" Nullable="true" MaxLength="7" />
-          <Property Type="String" Name="AREA" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CODIGOCARGO" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="CARGO" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CODIGORECURSO" Nullable="false" MaxLength="10" />
-        </ComplexType>
         <EntityType Name="MATERIAL_LINEA">
           <Key>
             <PropertyRef Name="IdMaterialLinea" />
@@ -3696,6 +3685,18 @@
           <Property Type="String" Name="TipoControlHueso" Nullable="true" MaxLength="20" />
           <Property Type="Int32" Name="TotalPieza" Nullable="true" />
           <Property Type="Int32" Name="TotalLimpiadoras" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spConsultaEmpleadosPersonalPrestadoFiltro">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodCentroCosto" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodRecurso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4828,21 +4829,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaEmpleadosPersonalPrestadoFiltro" FunctionName="ASIS_PRODModel.Store.spConsultaEmpleadosPersonalPrestadoFiltro">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEmpleadosPersonalPrestadoFiltro">
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="CODIGOLINEA" ColumnName="CODIGOLINEA" />
-                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
-                <ScalarProperty Name="CODIGOAREA" ColumnName="CODIGOAREA" />
-                <ScalarProperty Name="AREA" ColumnName="AREA" />
-                <ScalarProperty Name="CODIGOCARGO" ColumnName="CODIGOCARGO" />
-                <ScalarProperty Name="CARGO" ColumnName="CARGO" />
-                <ScalarProperty Name="CODIGORECURSO" ColumnName="CODIGORECURSO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="MATERIAL_LINEA">
             <EntityTypeMapping TypeName="ASIS_PRODModel.MATERIAL_LINEA">
               <MappingFragment StoreEntitySet="MATERIAL_LINEA">
@@ -5730,6 +5716,22 @@
                 <ScalarProperty Name="TipoControlHueso" ColumnName="TipoControlHueso" />
                 <ScalarProperty Name="TotalPieza" ColumnName="TotalPieza" />
                 <ScalarProperty Name="TotalLimpiadoras" ColumnName="TotalLimpiadoras" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaEmpleadosPersonalPrestadoFiltro" FunctionName="ASIS_PRODModel.Store.spConsultaEmpleadosPersonalPrestadoFiltro">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEmpleadosPersonalPrestadoFiltro">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="CodCentroCosto" ColumnName="CodCentroCosto" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="CodRecurso" ColumnName="CodRecurso" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
