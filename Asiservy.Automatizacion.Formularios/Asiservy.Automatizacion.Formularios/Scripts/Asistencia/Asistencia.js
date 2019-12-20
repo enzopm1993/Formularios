@@ -431,8 +431,8 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
             }
             ,
             error: function (resultado) {
-                //MensajeError(resultado, false);
-
+                MensajeError(resultado, false);
+                console.log(resultado);
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
                 $("#LabelAsistencia-" + indice).css("background", "transparent");
