@@ -164,7 +164,7 @@ function ConsultarEmpleados() {
                 $('#DivEmpleados').html(data);
                 $('#btnGuardarCambioEmp').show();
                 $('#Guardar').show();
-                $('#Guardar').val('Mover Empleados');
+                $('#Guardar').val('Prestar Empleados');
                 CerrarModalCargando();
 
             }

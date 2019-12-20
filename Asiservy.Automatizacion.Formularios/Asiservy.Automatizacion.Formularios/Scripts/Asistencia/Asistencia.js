@@ -247,6 +247,7 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
         MensajeAdvertencia('Debe ingresar la hora');
         return false;
     }
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         //url: '../Asistencia/VerificarPrestados',
         url: '../Asistencia/ModalPrestados',
@@ -260,6 +261,7 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
 
         },
         success: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
             if (resultado == '888') {
                 MensajeError("No es posible generar la asistencia, el período se encuentra cerrado");
             } else {
