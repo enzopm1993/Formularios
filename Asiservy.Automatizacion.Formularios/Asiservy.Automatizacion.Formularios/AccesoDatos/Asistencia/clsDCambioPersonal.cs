@@ -204,6 +204,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                         pListCambioPersonal.Remove(item);
                                         NoSePudieornMover.Add(item.Cedula + ": No se pudo mover a Inicio de Jornada por que la asistencia ya fue marcada en la Línea donde pertenece");
                                     }
+                                    //validar que no haya sido generada la asistencia en la linea a la que pertenece el empleado en el dia que se lo piensa mover(por que es a inicio de jornada
+                                    var buscarasistencia = db.ASISTENCIA.Where(x => x.Cedula == item.Cedula&&x.Fecha==item.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                                    if (buscarasistencia.Count > 0)
+                                    {
+                                        pListCambioPersonal.Remove(item);
+                                        NoSePudieornMover.Add(item.Cedula + ": No se pudo mover a inicio de jornada por que la asistencia ya habia sido generada en su linea ");
+                                    }
                                 }
                                 else//significa que el usuario si ingreso una hora para mover al empleado
                                 {
