@@ -115,7 +115,10 @@ function SetearHora() {
 }
 function GuardarSalida(Fila, Cedula, idMovimientoPersonalDiario,VieneDeHora) {
   
-    //console.log(Fila);
+    console.log(Fila);
+    console.log(Cedula);
+    console.log(idMovimientoPersonalDiario);
+    console.log(VieneDeHora);
     if (($('#TurnoGen').val() == 2) && ($('#txtFechaFin').val() == '')) {
         $('#mensajefechafin').show();
         $('#CheckSalida-' + (parseInt(Fila) + 1)).prop('checked', false);
@@ -136,10 +139,12 @@ function GuardarSalida(Fila, Cedula, idMovimientoPersonalDiario,VieneDeHora) {
     } else {
         psTipo = "DesmarcarSalida";
     }
-    if (VieneDeHora == 'change') {
+    if (VieneDeHora == 'change' && ($('#CheckSalida-' + parseInt(Fila)).is(':checked'))) {
         psTipo = "DesmarcarSalida";
         $('#CheckSalida-' + parseInt(Fila)).prop('checked', false);
         console.log(Fila);
+    } else if (VieneDeHora == 'change' && !($('#CheckSalida-' + parseInt(Fila)).is(':checked'))){
+        return false;
     }
     $.ajax({
         //contentType: "application/json; charset=utf-8",
@@ -163,7 +168,7 @@ function GuardarSalida(Fila, Cedula, idMovimientoPersonalDiario,VieneDeHora) {
             }
         },
         error: function (result) {
-            //Console.log(result);
+            Console.log(result);
             $('#CheckSalida-' + parseInt(Fila) + 1).prop('checked', false);
             MensajeError(result, false);
 
