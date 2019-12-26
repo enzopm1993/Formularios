@@ -37,8 +37,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDClasificador = new clsDClasificador();
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
-                ViewBag.TipoAuditoria = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAuditoria, 0);
-                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, 0);
+                ViewBag.TipoAuditoria = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAuditoria, "0");
+                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, "0");
                 ViewBag.AuditoriaSangre = clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria(DateTime.Now);
                 
                 return View();
@@ -229,7 +229,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDClasificador = new clsDClasificador();
                 var ListLineas= clsDClasificador.ConsultaClasificador(new Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
 
-                ViewBag.TipoAuditoria = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAuditoria, 0);
+                ViewBag.TipoAuditoria = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAuditoria, "0");
                 ViewBag.Lineas = new SelectList(ListLineas, "codigo", "descripcion");
                 return View();
             }

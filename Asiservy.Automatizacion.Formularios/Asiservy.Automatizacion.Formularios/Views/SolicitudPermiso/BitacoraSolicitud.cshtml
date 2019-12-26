@@ -8,38 +8,42 @@
     }
 </style>
 
-
+<h3>Consulta Bitacora Solicitud</h3>
 <div class="" style="padding-bottom:5%">
 
     <br />
-    <h4>BitacoraSolicitud</h4>
-
     <div class="row">
-        <div form-group col-md-3 col-sm-12>
-            <label>Linea</label>
-            @Html.DropDownList("selectLinea",new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"),"seleccione",new { @class="form-control"})
+        <div class="col-md-3 col-sm-12">
+            <div class="form-group" >
+                <label>Linea</label>
+                @Html.DropDownList("selectLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control" })
+            </div>
         </div>
+
         <div class="form-group col-md-3 col-sm-12">
-            <label>Solicitud</label>
-            <input id="textSolicitud" class="form-control" type="number" name="name" value="" />
+            <label>Empleado</label>
+            <div class="input-group">
+                @Html.TextBox("NombreEmpleado", null, new { style = "width: 65%;", @readonly = "readonly" })
+                @Html.Hidden("Identificacion")
+                <button type="button" onclick="CargarEmpleados();" id="CargarEmpleadoPG">
+                    <img src="~/Content/images/buscar.png" />
+                </button>
+            </div>
         </div>
-        <div class="form-group col-md-3 col-sm-12">
-            <label>Cédula</label>
-            <input id="textCedula" class="form-control" type="number" name="name" value="" />
-        </div>
-        <div style="display: flex;justify-content: center;align-items: center;" class="form-group col-md-1 col-sm-2">
+
+        <div style="display: flex;justify-content: center;align-items: center;" class="form-group text-left col-md-1 col-sm-2">
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="SwitchFechas" onchange="ActivarFechas();">
+                <input type="checkbox" checked class="custom-control-input" id="SwitchFechas" onchange="ActivarFechas();">
                 <label class="custom-control-label" for="SwitchFechas"></label>
             </div>
         </div>
         <div class="form-group col-md-2 col-sm-5">
             <label>Fecha Desde</label>
-            <input id="dateDesde" class="form-control" type="date" name="name" value="" disabled />
+            <input id="dateDesde" class="form-control" type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
         </div>
         <div class="form-group col-md-2 col-sm-5">
             <label>Fecha Hasta</label>
-            <input id="dateHasta" class="form-control" type="date" name="name" value="" disabled />
+            <input id="dateHasta" class="form-control" type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
         </div>
 
     </div>
@@ -69,3 +73,7 @@
 
 
 
+<div id="ModelCargarEmpleados"></div>
+<br /><br />
+
+<script src="~/Scripts/SolicitudPermiso/Empleado.js"></script>

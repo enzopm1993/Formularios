@@ -10,7 +10,7 @@ function CargarControlCoche() {
 
     }
     $('#spinnerCargando').prop("hidden", false);
-
+    $('#DivTableReporteControlCoche').html('');
     $.ajax({
         url: "../ControlCocheLinea/ReporteControlCocheLineaPartial",
         type: "GET",

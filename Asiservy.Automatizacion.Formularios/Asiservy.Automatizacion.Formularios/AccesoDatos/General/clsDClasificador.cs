@@ -130,10 +130,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
 
-        public List<CLASIFICADOR> ConsultarClasificador(string dsGrupo, int diCodigo=0)
+        public List<CLASIFICADOR> ConsultarClasificador(string dsGrupo, string diCodigo="0")
         {
             entities = new ASIS_PRODEntities();
-            if(diCodigo!=0)
+            if(diCodigo!="0")
                 return entities.CLASIFICADOR.Where(x => x.Grupo == dsGrupo && x.Codigo==diCodigo+"" && x.EstadoRegistro=="A").ToList();
             else
                 return entities.CLASIFICADOR.Where(x => x.Grupo == dsGrupo && x.Codigo != diCodigo+"" && x.EstadoRegistro == "A").ToList();
