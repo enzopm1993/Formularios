@@ -92,7 +92,35 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea
             }
         }
 
+        public List<ControlCocheLineaViewModel> ConsultarCochesPorLineaDiario(DateTime fechaIni, DateTime fechaFin)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var listaRegistros = entities.CONTROL_COCHE_LINEA.Where(c => c.Fecha >= fechaIni && c.Fecha <= fechaFin)
+                                                                .GroupBy(c=> new { c.Fecha, c.Linea })
+                                                                .Select( s => new  {
+                                                                    s.Key.Fecha,
+                                                                    s.Key.Linea,
+                                                                    Coches = s.Sum( x => x.Coches )
+                                                                }).OrderBy(a => a.Fecha).ToList();
 
+                List<ControlCocheLineaViewModel> listaFinal = new List<ControlCocheLineaViewModel>();
+                if (listaRegistros.Count() > 0)
+                {
+                    foreach (var item in listaRegistros)
+                    {
+                        listaFinal.Add(new ControlCocheLineaViewModel
+                        {
+                            Fecha = item.Fecha,
+                            Linea = item.Linea,
+                            Coches = item.Coches
+                        });
+                    }
+                }
+                
+                return listaFinal;
+            }
+        }
 
 
     }

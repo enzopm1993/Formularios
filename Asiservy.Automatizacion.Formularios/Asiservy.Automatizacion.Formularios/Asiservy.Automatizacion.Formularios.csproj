@@ -2131,6 +2131,7 @@
     <Content Include="Scripts\Asistencia\AsistenciaPrestado.js" />
     <Content Include="Scripts\Asistencia\BitacoraCambioPersonal.js" />
     <Content Include="Scripts\Asistencia\CambiarPersonalDeArea.js" />
+    <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
     <Content Include="Scripts\Asistencia\MoverPersonalDataLife.js" />
     <Content Include="Scripts\ControlCuchillo\ControlCuchillo.js" />
     <Content Include="Scripts\ControlCuchillo\Cuchillo.js" />
@@ -3256,6 +3257,7 @@
     <Content Include="Views\App\MarcacionesJustificar.cshtml" />
     <Content Include="Views\Asistencia\MoverPersonalDataLife.cshtml" />
     <Content Include="Views\Asistencia\MoverPersonalDataLifePartial.cshtml" />
+    <Content Include="Views\ControlCocheLinea\ReporteCochesPorDias.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
