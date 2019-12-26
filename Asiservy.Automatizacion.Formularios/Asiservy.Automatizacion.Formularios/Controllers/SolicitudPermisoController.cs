@@ -1085,7 +1085,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if(clsDLogin.ValidarUsuarioRol(lsUsuario[1],clsAtributos.AsistenteProduccion))
                     ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
                 if (clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolControladorGeneral) || clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolSupervisorGeneral))
-                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, "0");
+                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
                 if (clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolSupervisorLinea) || clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolControladorLinea))
                 {
                     var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();

@@ -41,15 +41,15 @@ function ActivarFechas() {
     var dateHasta = document.getElementById("dateHasta");
     if (check) {
         dateDesde.removeAttribute("disabled");
-        dateHasta.removeAttribute("disabled");        
+        dateHasta.removeAttribute("disabled");
+        dateDesde.value = moment().format("YYYY-MM-DD");
+        dateHasta.value = moment().format("YYYY-MM-DD");
 
     } else {        
         dateDesde.setAttribute("disabled", true)
         dateHasta.setAttribute("disabled", true)
-
         dateDesde.value = "";
         dateHasta.value = "";
-
     }
 }
 

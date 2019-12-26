@@ -39,8 +39,22 @@
         </tr>
     </thead>
     <tbody>
+        @{  int TotalL1 = 0;
+            int TotalL2 = 0;
+            int TotalL3 = 0;
+            int TotalL4 = 0;
+            int TotalL5 = 0;
+            int Total = 0;
+        }
         @foreach (var item in Model)
         {
+
+            TotalL1 = TotalL1 + int.Parse(item.Linea1.Split('|')[0]);
+            TotalL2 = TotalL2 + int.Parse(item.Linea2.Split('|')[0]);
+            TotalL3 = TotalL3 + int.Parse(item.Linea3.Split('|')[0]);
+            TotalL4 = TotalL4 + int.Parse(item.Linea4.Split('|')[0]);
+            TotalL5 = TotalL5 + int.Parse(item.Linea5.Split('|')[0]);
+            Total = Total + item.Total??0;
             <tr>
 
                 <td>
@@ -70,6 +84,17 @@
             </tr>
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2"> Total</td>            
+            <td class="text-center">@TotalL1</td>
+            <td class="text-center">@TotalL2</td>
+            <td class="text-center">@TotalL3</td>
+            <td class="text-center">@TotalL4</td>
+            <td class="text-center">@TotalL5</td>
+            <td class="text-center">@Total</td>
+        </tr>
+    </tfoot>
 </table>
 
 
