@@ -1,7 +1,4 @@
-﻿function CargarEmpleados(formulario) {
-    //console.log($('#selectLinea').val());   
-    //console.log($('#selectArea').val());   
-    //console.log($('#selectCargo').val());  
+﻿function CargarEmpleados(formulario) {    
     if ($('#selectLinea').val() != '') {
         $('#' + formulario).attr("disabled", true);
         $.ajax({
@@ -16,7 +13,6 @@
             success: function (resultado) {
                 $('#ModelCargarEmpleados').html(resultado);
                 $("#ModalEmpleado").modal("show");
-
             },
             error: function (resultado) {
                 MensajeError(JSON.stringify(resultado), false);
@@ -26,5 +22,4 @@
     } else {
         MensajeAdvertencia("Seleccione una LINEA", false)
     }
-
 }

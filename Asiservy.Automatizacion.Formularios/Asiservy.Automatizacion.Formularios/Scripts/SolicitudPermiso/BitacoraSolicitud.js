@@ -5,7 +5,7 @@ function ConsultarBitacora() {
         url: "../SolicitudPermiso/BitacoraSolicitudPartial",
         type: "GET",
         data: {
-            dsCedula: $('#textCedula').val(),
+            dsCedula: $('#Identificacion').val(),
             dsIdSolicitud: $('#textSolicitud').val(),
             ddFechaDesde: $('#dateDesde').val(),
             ddFechaHasta: $('#dateHasta').val()

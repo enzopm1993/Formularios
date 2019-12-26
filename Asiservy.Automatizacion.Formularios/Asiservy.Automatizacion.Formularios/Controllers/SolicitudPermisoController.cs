@@ -279,7 +279,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     clsDClasificador = new clsDClasificador();
                     ConsultaCombosMotivos(true);
-                    ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
+                    ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", "0");
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
                     ViewBag.Medico = "1";
                     if (!string.IsNullOrEmpty(model.CodigoDiagnostico))
@@ -294,7 +294,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     clsDClasificador = new clsDClasificador();
                     ConsultaCombosMotivos(true);
-                    ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
+                    ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", "0");
                     ViewBag.CodigosEnfermedad = clsDGeneral.ConsultaCodigosGrupoSubEnfermedad(clsAtributos.CodGrupoEnfermedadDiagnostico, "", "");
                     
                 }
@@ -461,7 +461,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.Linea = poEmpleado.LINEA;
                 if(poEmpleado.CODIGOLINEA == clsAtributos.CodLineaProduccion)
                 {
-                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, 0);
+                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
                     
                 }
                 ViewBag.CodLinea = poEmpleado.CODIGOLINEA;
@@ -809,7 +809,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.ControladorLinea = piContrladorLinea;
                 ViewBag.CodLinea = poEmpleado.CODIGOLINEA;
-                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, 0);
+                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, "0");
             }
             else
             {
@@ -1083,13 +1083,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDClasificador = new clsDClasificador();
                 clsDLogin = new clsDLogin();
                 if(clsDLogin.ValidarUsuarioRol(lsUsuario[1],clsAtributos.AsistenteProduccion))
-                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, 0);
+                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
                 if (clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolControladorGeneral) || clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolSupervisorGeneral))
-                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, 0);
+                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, "0");
                 if (clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolSupervisorLinea) || clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolControladorLinea))
                 {
                     var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, int.Parse(empleado.CODIGOLINEA));
+                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, empleado.CODIGOLINEA);
                 }
 
                 return View();
@@ -1253,7 +1253,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             clsDSolicitudPermiso = new clsDSolicitudPermiso();
             clsDGeneral = new clsDGeneral();
             clsApiUsuario = new clsApiUsuario();
-            ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", 0);
+            ViewBag.ClasificaroMedico = clsDClasificador.ConsultarClasificador("001", "0");
             if (bandeja)
             {
                 ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null).Where(x=> x.CodigoMotivo== "CM");
