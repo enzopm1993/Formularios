@@ -107,7 +107,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlMaterialQuebrad
                         entities.SaveChanges();
 
                         control = entities.CONTROL_MATERIAL.FirstOrDefault(x => x.Fecha == model.Fecha && x.Linea == model.Linea && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-                        var detalle = entities.MATERIAL_LINEA.Where(x => x.Linea == control.Linea).ToList();
+                        var detalle = entities.MATERIAL_LINEA.Where(x => x.Linea == control.Linea && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
                         if (detalle.Any())
                         {
                             foreach (var x in detalle)
