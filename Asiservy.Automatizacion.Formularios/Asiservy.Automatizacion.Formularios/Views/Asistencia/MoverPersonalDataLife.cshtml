@@ -1,0 +1,167 @@
+﻿
+@{
+    ViewBag.Title = "MoverPersonalDataLife";
+}
+
+<style>
+    td, th {
+        padding: 0rem;
+        padding-bottom: 3px;
+    }
+
+    .horaform {
+        border: 1px solid #d1d3e2;
+        border-radius: 0.35rem;
+        height: 30px;
+    }
+</style>
+<h5>Mover Personal en Nómina</h5>
+<div class="" style="padding-bottom:100px">
+    
+    <br />
+ 
+    <div class="row" id="divprestar">
+        <div class="col-md-6 col-sm-12">
+            <fieldset class="form-group" style="height:100%">
+                <legend>Origen</legend>
+                <center>
+                    <table>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Centro de Costos:")
+                                @Html.DropDownList("SelectAreaOrigen", new SelectList(ViewBag.CentroCostos, "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "ChangeCentroCostoOrigen(this.value)", @class = "form-control" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Recurso:")
+                                @Html.DropDownList("SelectRecursoOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el recurso", new { @onchange = "ChangeRecursoOrigen(this.value)", @class = "form-control" })
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Línea:")
+                                @Html.DropDownList("SelectLineaOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "ChangeLineaOrigen(this.value)", @class = "form-control" })
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Cargo")
+                                @Html.DropDownList("SelectCargoOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control" })
+
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+                <br />
+                <center> <input type="button" id="ConsultarEmpleados" value="Consultar" class="btn btn-primary" onclick="ConsultarEmpleados();" /></center>
+            </fieldset>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+
+            <fieldset class="form-group" style="height:100%">
+                <legend>Mover a</legend>
+                <center>
+                    <table>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Centro de Costos:")
+                                @Html.DropDownList("Area", new SelectList(ViewBag.CentroCostos, "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "ChangeCentroCosto(this.value)", @class = "form-control", @id = "SelectArea" })
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Recurso:")
+                                @Html.DropDownList("Recurso", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Recurso", new { @onchange = "ChangeRecurso(this.value)", @class = "form-control", @id = "SelectRecurso" })
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Línea:")
+                                @Html.DropDownList("Linea", new SelectList("", "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "ChangeLinea(this.value)", @class = "form-control", @id = "SelectLinea" })
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.Label("Cargo:")
+                                @Html.DropDownList("Cargo", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "SelectCargo" })
+
+                            </td>
+                        </tr>
+                     
+
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                    </table>
+                </center>
+                <br /><br />
+            </fieldset>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-12" id="contempleados">
+            <br />
+            <div class="table-responsive" id="DivEmpleados">
+
+            </div>
+            <br />
+            <div id="btnGuardarCambioEmp">
+               
+                <center>
+                    <input type="button" value="Guardar" class="btn btn-primary" onclick="MoverEmpleados();" id="Guardar" style="display:none" />
+
+                </center>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@*modal mensajes*@
+<!-- Modal -->
+<div class="modal fade" id="ModalMensajeCP" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Mensaje del sistema</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="BodyMensajeCp">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="javascript:window.location.reload()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal mensaje fin*@
+<script src="~/Scripts/General/CargarCombosLineas.js"></script>
+<link href="~/Content/AsistenciaCss/CambiarPersonal.css" rel="stylesheet" />
