@@ -86,22 +86,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
 
-        public List<EmpleadoViewModel> ConsultaEmpleadoTurno(string Linea)
+        public List<EmpleadoViewModel> ConsultaEmpleadoTurno(string Linea, DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 List<EmpleadoViewModel> ListaEmpleadoTurno = new List<EmpleadoViewModel>();
 
-                var poEmpleadoTurno = db.spConsutaEmpleadosTurnos(Linea).ToList();
+                var poEmpleadoTurno = db.spConsutaEmpleadosTurnos(Linea, Fecha).ToList();
 
                 foreach(var x in poEmpleadoTurno)
                 {
                     ListaEmpleadoTurno.Add(new EmpleadoViewModel {
-                        Cedula = x.CEDULA,
-                        Nombre = x.NOMBRES,
-                        CodLinea=x.CODLINEA,
-                        Linea = x.LINEA,
-                         Turno = x.TURNO
+                        Cedula = x.Cedula,
+                        Nombre = x.Nombre,
+                        CodLinea=x.CodLinea,
+                        Linea = x.Linea,
+                         Turno = x.TURNO,
+                         Prestado = x.Prestado??false
                     });
                 }
                 return ListaEmpleadoTurno;

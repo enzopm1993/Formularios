@@ -178,15 +178,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_ConsultaMotivoSolicitudPermisoAsistencia", cedulaParameter);
         }
     
-        public virtual ObjectResult<spConsutaEmpleadosTurnos> spConsutaEmpleadosTurnos(string linea)
-        {
-            var lineaParameter = linea != null ?
-                new ObjectParameter("linea", linea) :
-                new ObjectParameter("linea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosTurnos>("spConsutaEmpleadosTurnos", lineaParameter);
-        }
-    
         public virtual ObjectResult<spConsutaReporteEmpleadosTurnos> spConsutaReporteEmpleadosTurnos(string linea, string turno)
         {
             var lineaParameter = linea != null ?
@@ -964,6 +955,32 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Linea", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaEmpleadosPersonalPrestadoFiltro>("spConsultaEmpleadosPersonalPrestadoFiltro", fechaParameter, horaParameter, lineaParameter);
+        }
+    
+        public virtual ObjectResult<string> spConsultaEmpacadoras(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("hora", hora) :
+                new ObjectParameter("hora", typeof(System.TimeSpan));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spConsultaEmpacadoras", fechaParameter, horaParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaEmpleadosTurnos> spConsutaEmpleadosTurnos(string linea, Nullable<System.DateTime> fecha)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosTurnos>("spConsutaEmpleadosTurnos", lineaParameter, fechaParameter);
         }
     }
 }

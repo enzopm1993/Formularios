@@ -1178,6 +1178,10 @@
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsultaEmpacadoras" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="hora" Type="time" Mode="In" />
+        </Function>
         <Function Name="spConsultaEmpleadoCargoPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Linea" Type="varchar" Mode="In" />
         </Function>
@@ -1293,6 +1297,7 @@
         </Function>
         <Function Name="spConsutaEmpleadosTurnos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="linea" Type="varchar" Mode="In" />
+          <Parameter Name="Fecha" Type="date" Mode="In" />
         </Function>
         <Function Name="spConsutaMotivosPermiso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="dsCodigoMotivo" Type="varchar" Mode="In" />
@@ -1688,9 +1693,6 @@
           </FunctionImport>
           <EntitySet Name="BITACORA_EMPLEADO_TURNO" EntityType="ASIS_PRODModel.BITACORA_EMPLEADO_TURNO" />
           <EntitySet Name="EMPLEADO_TURNO" EntityType="ASIS_PRODModel.EMPLEADO_TURNO" />
-          <FunctionImport Name="spConsutaEmpleadosTurnos" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosTurnos)">
-          <Parameter Name="linea" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsutaReporteEmpleadosTurnos" ReturnType="Collection(ASIS_PRODModel.spConsutaReporteEmpleadosTurnos)">
             <Parameter Name="linea" Mode="In" Type="String" />
             <Parameter Name="turno" Mode="In" Type="String" />
@@ -1994,6 +1996,14 @@
             <Parameter Name="Hora" Mode="In" Type="Time" />
             <Parameter Name="Linea" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="spConsultaEmpacadoras" ReturnType="Collection(String)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="hora" Mode="In" Type="Time" />
+          </FunctionImport>
+          <FunctionImport Name="spConsutaEmpleadosTurnos" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosTurnos)">
+            <Parameter Name="linea" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -2229,13 +2239,6 @@
           <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CodLinea" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
-        <ComplexType Name="spConsutaEmpleadosTurnos">
-          <Property Type="String" Name="CEDULA" Nullable="false" MaxLength="13" />
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CODLINEA" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="LINEA" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TURNO" Nullable="true" MaxLength="1" />
-        </ComplexType>
         <ComplexType Name="spConsutaReporteEmpleadosTurnos">
           <Property Type="String" Name="CEDULA" Nullable="false" MaxLength="13" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="50" />
@@ -3698,6 +3701,14 @@
           <Property Type="String" Name="CodRecurso" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <ComplexType Name="spConsutaEmpleadosTurnos">
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TURNO" Nullable="true" MaxLength="1" />
+          <Property Type="Boolean" Name="Prestado" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4093,17 +4104,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsutaEmpleadosTurnos" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleadosTurnos">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosTurnos">
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="CODLINEA" ColumnName="CODLINEA" />
-                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
-                <ScalarProperty Name="TURNO" ColumnName="TURNO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsutaReporteEmpleadosTurnos" FunctionName="ASIS_PRODModel.Store.spConsutaReporteEmpleadosTurnos">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaReporteEmpleadosTurnos">
@@ -5732,6 +5732,19 @@
                 <ScalarProperty Name="Cargo" ColumnName="Cargo" />
                 <ScalarProperty Name="CodRecurso" ColumnName="CodRecurso" />
                 <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaEmpacadoras" FunctionName="ASIS_PRODModel.Store.spConsultaEmpacadoras" />
+          <FunctionImportMapping FunctionImportName="spConsutaEmpleadosTurnos" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleadosTurnos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosTurnos">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="TURNO" ColumnName="TURNO" />
+                <ScalarProperty Name="Prestado" ColumnName="Prestado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

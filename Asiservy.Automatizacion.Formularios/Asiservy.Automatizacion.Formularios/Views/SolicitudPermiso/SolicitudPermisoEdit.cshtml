@@ -166,7 +166,7 @@
         <div class="row">
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.FechaSalida, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <label class="control-label col-md-12">Fecha Desde</label>                   
                     <div class="col-md-12">
                         @Html.TextBoxFor(model => model.FechaSalida, "{0:s}", new { @class = "form-control", @type = "datetime-local" })
                         @Html.ValidationMessageFor(model => model.FechaSalida, "", new { @class = "text-danger" })
@@ -175,7 +175,7 @@
             </div>
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.FechaRegreso, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <label class="control-label col-md-12">Fecha Hasta</label>
                     <div class="col-md-12">
                         @Html.TextBoxFor(model => model.FechaRegreso, "{0:s}", new { @class = "form-control", @type = "datetime-local" })
                         @Html.ValidationMessageFor(model => model.FechaRegreso, "", new { @class = "text-danger" })
