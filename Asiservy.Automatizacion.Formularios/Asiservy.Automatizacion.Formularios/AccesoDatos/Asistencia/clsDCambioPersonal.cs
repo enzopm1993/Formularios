@@ -222,6 +222,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                     if (BuscarMovimientoPersonalDiario != null)
                                     {
                                         //si la hora de Cambio de Personal es Mejor a la HoraInicio de Movimiento_Personal entonces no se puede mover al empleado
+                                        if (BuscarMovimientoPersonalDiario.HoraFin!=null)//valido si se finalizo asistencia, que no lo pueda mover en una hora menor a la que se finalizo(siempre deberá ser mayor a la hora de finalización de la asistencia)
+                                        {
+                                            if (psHora <= BuscarMovimientoPersonalDiario.HoraFin)
+                                            {
+                                                pListCambioPersonal.Remove(item);
+                                                NoSePudieornMover.Add(item.Cedula + ": No se pudo mover por que la hora ingresada es menor a la hora en que ya marco asistencia en la Línea a la que pertenece");
+                                            }
+                                        }else
                                         if (psHora < BuscarMovimientoPersonalDiario.HoraInicio)// && psHora>x.HoraInicio
                                         {
                                             pListCambioPersonal.Remove(item);
