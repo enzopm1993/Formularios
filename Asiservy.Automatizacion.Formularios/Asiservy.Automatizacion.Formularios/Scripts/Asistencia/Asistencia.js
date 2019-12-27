@@ -265,6 +265,8 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
         },
         success: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
+            $('#GenerarAsistencia').show();
+            $('#horaservidor').show();
             if (resultado == '888') {
                 MensajeError("No es posible generar la asistencia, el período se encuentra cerrado");
             } else {
