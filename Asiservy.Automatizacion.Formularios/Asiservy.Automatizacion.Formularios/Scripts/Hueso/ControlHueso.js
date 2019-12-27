@@ -117,7 +117,7 @@ function NuevoControlHueso() {
 }
 
 function SeleccionControlHueso(model) {
-    console.log(model);
+  //  console.log(model);
     $("#SelectLote").empty();
     $("#SelectLote").append("<option value='" + model.Lote + "' >" + model.Lote+"</option>");
 
@@ -161,7 +161,7 @@ function SeleccionControlHueso(model) {
   //  console.log(id);
 
     if (model.CodTipoControl == 1 || model.CodTipoControl ==4)
-        CargarControlHuesoDetalle(id);
+        CargarControlHuesoDetalle(model.IdControlHueso);
 
 }
 

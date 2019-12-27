@@ -29,7 +29,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlEnfundado
         }
 
 
-        public int GenerarControlHueso(CONTROL_ENFUNDADO doControl)
+        public int GenerarControlEnfundado(CONTROL_ENFUNDADO doControl)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -44,13 +44,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlEnfundado
                 if (ControlEnfundado == null)
                 {
                   
-                        var empleados = clsDEmpleado.ConsultaEmpleadosFiltro(null,null,clsAtributos.CargoEmpacado);
+                        var empleados = entities.spConsultaEmpacadoras(doControl.Fecha,doControl.Hora);
                         foreach (var x in empleados)
                         {
                             doControl.CONTROL_ENFUNDADO_DETALLE.Add(new CONTROL_ENFUNDADO_DETALLE
                             {
                                 Fundas = 0,                                                            
-                                Cedula = x.CEDULA,
+                                Cedula = x,
                                 EstadoRegistro = clsAtributos.EstadoRegistroActivo,
                                 FechaIngresoLog = DateTime.Now,
                                 UsuarioIngresoLog = doControl.UsuarioIngresoLog,

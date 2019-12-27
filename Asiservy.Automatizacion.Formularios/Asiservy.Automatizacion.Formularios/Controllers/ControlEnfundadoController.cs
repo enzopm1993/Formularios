@@ -136,7 +136,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                int id = clsDControlEnfundado.GenerarControlHueso(model);
+                int id = clsDControlEnfundado.GenerarControlEnfundado(model);
                 return Json(id, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

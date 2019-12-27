@@ -259,77 +259,127 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {            
             try
             {
-              
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 Usuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                clsDGeneral = new clsDGeneral();
                 clsDEmpleado = new clsDEmpleado();
+                clsDClasificador = new clsDClasificador();
+
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
-                List<EmpleadoViewModel> model = new List<EmpleadoViewModel>();
-                ViewBag.Linea = Empleado.LINEA;
-                if (Empleado != null)
+                ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;
+                List<int?> roles = clsDLogin.ConsultaRolesUsuario(Usuario[1]);
+                if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.RolControladorGeneral) != null)
                 {
-                     model = clsDEmpleado.ConsultaEmpleadoTurno(Empleado.CODIGOLINEA);
+                   ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+
+                }               
+                else if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorLinea || x.Value == clsAtributos.RolControladorLinea) != null)
+                {
+                    ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Codigo = Empleado.CODIGOLINEA });
                 }
-                return View(model);
+                else
+                {
+                    ViewBag.Lineas = clsDGeneral.ConsultaLineas(Empleado.CODIGOLINEA);
+                }
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
             }
             catch (Exception ex)
             {
-
-                SetErrorMessage(ex.Message);
-                Usuario = User.Identity.Name.Split('_');
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = Usuario[0]
-                });
-                return View();
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
             }
-           
+
         }
 
-        [Authorize]
-        [HttpPost]
-        public ActionResult EmpleadoTurno(List<EmpleadoViewModel> model)
+        public ActionResult EmpleadoTurnoPartial(string Linea, DateTime Fecha)
         {
             try
             {
-                if (!ModelState.IsValid) { return View(model); }
-
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
-                //var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
-                // List<EmpleadoViewModel> model = new List<EmpleadoViewModel>();
-                foreach(var x in model)
+                var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+                List<EmpleadoViewModel> model = new List<EmpleadoViewModel>();               
+                if (Empleado != null)
                 {
-                    x.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                    x.FechaIngreso = DateTime.Now;
-                    x.TerminalIngreso = Request.UserHostAddress;
-                    x.UsuarioIngreso = Usuario[0];
-                    clsDEmpleado.GuardarModificarEmpleadoTurno(x);
+                    model = clsDEmpleado.ConsultaEmpleadoTurno(Linea, Fecha);
                 }
-                SetSuccessMessage(clsAtributos.MsjRegistroGuardado);
-                return RedirectToAction("EmpleadoTurno");
+                return PartialView(model);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-
-                SetErrorMessage(ex.Message);
-                Usuario = User.Identity.Name.Split('_');
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+       
+        [HttpPost]
+        public ActionResult EmpleadoTurnoPartial(EmpleadoViewModel model)
+        {
+            try
+            {
+                Usuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(Usuario[0]))
                 {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = Usuario[1]
-                });
-                return RedirectToAction("EmpleadoTurno");
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (!ModelState.IsValid) {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }               
+                clsDEmpleado = new clsDEmpleado();               
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.FechaIngreso = DateTime.Now;
+                model.TerminalIngreso = Request.UserHostAddress;
+                model.UsuarioIngreso = Usuario[0];
+                clsDEmpleado.GuardarModificarEmpleadoTurno(model);             
+                return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
 
         }
