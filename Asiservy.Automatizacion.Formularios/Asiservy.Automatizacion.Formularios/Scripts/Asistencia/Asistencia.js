@@ -248,6 +248,9 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
         return false;
     }
     $("#spinnerCargando").prop("hidden", false);
+    $('#GenerarAsistencia').hide();
+    $('#horaservidor').hide();
+    
     $.ajax({
         //url: '../Asistencia/VerificarPrestados',
         url: '../Asistencia/ModalPrestados',
