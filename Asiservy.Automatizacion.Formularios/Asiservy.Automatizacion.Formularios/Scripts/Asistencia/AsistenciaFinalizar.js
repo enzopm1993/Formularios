@@ -87,7 +87,7 @@ function buscarenTabla() {
 }
 function CheckSalida(fila) {
     //$("#LabelAsistencia-" + fila).css("background", "green");
-    console.log('heckSalida-'+fila);
+    //console.log('heckSalida-'+fila);
     $("#CheckSalida-" + fila).prop('checked', true);
 }
 function FijarHora() {
@@ -100,8 +100,8 @@ function FijarHora() {
     $("#ModalHora").modal("hide");
     var numerofilas = ($('#TableCuchillos tr').length) - 2;
     for (var i = 0; i <= numerofilas; i++) {
-        
-        if ($('#CheckSalida-' + i + 1).prop("checked", false)) {
+        //console.log('#CheckSalida-' + parseInt(i + 1));
+        if (!$('#CheckSalida-' + parseInt(i + 1)).is(':checked')) {
             $('#txtHorasalida'+i).val($('#FijarHora').val());
         }
     }
@@ -116,6 +116,9 @@ function SetearHora() {
 function GuardarSalida(Fila, Cedula, idMovimientoPersonalDiario,VieneDeHora) {
   
     //console.log(Fila);
+    //console.log(Cedula);
+    //console.log(idMovimientoPersonalDiario);
+    //console.log(VieneDeHora);
     if (($('#TurnoGen').val() == 2) && ($('#txtFechaFin').val() == '')) {
         $('#mensajefechafin').show();
         $('#CheckSalida-' + (parseInt(Fila) + 1)).prop('checked', false);
@@ -136,10 +139,12 @@ function GuardarSalida(Fila, Cedula, idMovimientoPersonalDiario,VieneDeHora) {
     } else {
         psTipo = "DesmarcarSalida";
     }
-    if (VieneDeHora == 'change') {
+    if (VieneDeHora == 'change' && ($('#CheckSalida-' + parseInt(Fila)).is(':checked'))) {
         psTipo = "DesmarcarSalida";
         $('#CheckSalida-' + parseInt(Fila)).prop('checked', false);
-        console.log(Fila);
+        //console.log(Fila);
+    } else if (VieneDeHora == 'change' && !($('#CheckSalida-' + parseInt(Fila)).is(':checked'))){
+        return false;
     }
     $.ajax({
         //contentType: "application/json; charset=utf-8",
