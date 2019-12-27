@@ -927,7 +927,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home", "Home");
             }
         }
-        public ActionResult RptAsistenciaPartial(DateTime FechaInicio, DateTime FechaFin)
+        public ActionResult RptAsistenciaPartial(DateTime FechaInicio, DateTime FechaFin, string Linea, string Turno)
         {
             try
             {
@@ -935,7 +935,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.FechaInicio = FechaInicio;
                 ViewBag.FechaFinal = FechaFin;
                 clsDAsistencia = new clsDAsistencia();
-                var resultado = clsDAsistencia.ConsultarRptAsistencia(FechaInicio,FechaFin);
+                var resultado = clsDAsistencia.ConsultarRptAsistencia(FechaInicio,FechaFin,Linea, Turno);
                 List<EmpleadoRpt> Empleado = new List<EmpleadoRpt>();
 
                 foreach (var item in resultado)

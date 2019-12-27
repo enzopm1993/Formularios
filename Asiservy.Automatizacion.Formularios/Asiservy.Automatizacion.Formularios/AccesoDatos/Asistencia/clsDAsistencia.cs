@@ -951,11 +951,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
         }
 
-        public List<spReporteAsistencia> ConsultarRptAsistencia(DateTime FechaInicio, DateTime FechaFin)
+        public List<spReporteAsistencia> ConsultarRptAsistencia(DateTime FechaInicio, DateTime FechaFin, string Linea, string Turno)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.spReporteAsistencia(FechaInicio, FechaFin, "1", "01").ToList();
+                return db.spReporteAsistencia(FechaInicio, FechaFin, Turno, Linea).ToList();
             }
         }
 

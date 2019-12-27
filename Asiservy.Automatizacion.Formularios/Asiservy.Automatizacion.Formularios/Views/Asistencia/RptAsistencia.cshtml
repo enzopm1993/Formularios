@@ -8,22 +8,36 @@
 <h4>Reporte Asistencia</h4>
 
 <div class="row">
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Fecha desde:</label>
             @Html.TextBox("FechaDesde", null, new { @class = "form-control input-large", type = "date" })
+            <label id="msjerrorFecha1" class="text-info" style="display:none" ></label>
         </div>
     </div>
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Fecha desde:</label>
             @Html.TextBox("FechaHasta", null, new { @class = "form-control input-large", type = "date" })
+            <label id="msjerrorFecha2" class="text-info" style="display:none"></label>
         </div>
     </div>
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Líneas:</label>
-            @Html.DropDownList("Línea:", (IEnumerable<SelectListItem>)ViewBag.Lineas, "Seleccione", new { @class = "form-control" })
+            @Html.DropDownList("Linea", (IEnumerable<SelectListItem>)ViewBag.Lineas, "Seleccione", new { @class = "form-control" })
+            <label id="msjerrorLinea" class="text-info" style="display:none"></label>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="form-group">
+            <label>Turno:</label>
+            <select id="Turno" class="form-control">
+                <option value="">Seleccione</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+            <label id="msjerrorTurno" class="text-info" style="display:none"></label>
         </div>
     </div>
 </div>

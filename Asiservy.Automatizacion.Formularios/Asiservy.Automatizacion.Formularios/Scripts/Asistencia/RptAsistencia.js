@@ -1,11 +1,14 @@
 ﻿function ConsultarAsistencia() {
+    //if ($('#FechaDesde').val()=='')
     $.ajax({
         url: "../Asistencia/RptAsistenciaPartial",
         type: "GET",
         data:
         {
             FechaInicio: $('#FechaDesde').val(),
-            FechaFin: $('#FechaHasta').val()
+            FechaFin: $('#FechaHasta').val(),
+            Linea: $('#Linea').val(),
+            Turno: $('#Turno').val()
         },
         success: function (resultado) {
            
