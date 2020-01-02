@@ -278,7 +278,11 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
                     $('#banderapres').val(bandera);
 
                 } else {
-                    GenerarAsistenciaDiaria(IdLinea, bandera);
+                    $('#MensajeModalPrestado').html('No existe personal prestado a otra línea');
+                    $('#modalprestados').modal("show");
+                    $('#LineaPres').val(IdLinea);
+                    $('#banderapres').val(bandera);
+                    //GenerarAsistenciaDiaria(IdLinea, bandera);
                 }
             }
             

@@ -1,5 +1,10 @@
 ﻿function ConsultarAsistencia() {
-    //if ($('#FechaDesde').val()=='')
+    if ($('#FechaDesde').val() == '') {
+        $('#msjerrorFecha1').show();
+        return false;
+    } else {
+        $('#msjerrorFecha1').hide();
+    }
     $.ajax({
         url: "../Asistencia/RptAsistenciaPartial",
         type: "GET",

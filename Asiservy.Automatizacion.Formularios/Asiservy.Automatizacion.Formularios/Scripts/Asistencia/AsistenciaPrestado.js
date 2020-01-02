@@ -181,13 +181,16 @@ function ConsultarSiExisteAsistencia() {
     
 }
 function VerificarMovidosAMiLinea(IdLinea, bandera) {
-    $("#spinnerCargando").prop("hidden", false);
+    
     $('#mensajepersonal').hide();
     $('#LineaPres').val(IdLinea);
     if ($('#horaservidor').val() == '') {
         MensajeAdvertencia('Debe ingresar la hora');
         return false;
     }
+    $("#spinnerCargando").prop("hidden", false);
+    $('#GenerarAsistencia').hide();
+    $('#horaservidor').hide();
     $('#banderapres').val(bandera);
     $.ajax({
         //url: '../Asistencia/VerificarPrestados',
@@ -203,6 +206,8 @@ function VerificarMovidosAMiLinea(IdLinea, bandera) {
         },
         success: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
+            $('#GenerarAsistencia').show();
+            $('#horaservidor').show();
             $('#divmodalprestados').html(resultado);
 
             if ($('#txtPrestado').val() == 'true') {
@@ -212,9 +217,10 @@ function VerificarMovidosAMiLinea(IdLinea, bandera) {
 
             } else {
                 //GenerarAsistenciaDiariaMovidos(IdLinea, bandera);
+                $('#MensajeModalPrestado').html('No existe personal prestado a otra línea');
                 $('#mensajepersonal').show();
-                $('#GenerarAsistencia').hide();
-                $('#horaservidor').hide();
+                $('#LineaPres').val(IdLinea);
+                $('#banderapres').val(bandera);
             }
             //if (resultado) {
             //    $('#modalprestados').modal("show");

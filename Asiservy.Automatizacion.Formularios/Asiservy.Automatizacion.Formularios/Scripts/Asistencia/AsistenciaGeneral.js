@@ -165,7 +165,7 @@ function ConsultarSiExisteAsistencia() {
  
 }
 function VerificarsiHayPrestados(IdLinea, bandera) {
-    $("#spinnerCargando").prop("hidden", false);
+    
     $('#LineaPres').val(IdLinea);
     $('#banderapres').val(bandera);
     console.log($('#horaservidor').val());
@@ -173,6 +173,9 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
         MensajeAdvertencia('Debe ingresar la hora');
         return false;
     }
+    $("#spinnerCargando").prop("hidden", false);
+    $('#GenerarAsistencia').hide();
+    $('#horaservidor').hide();
     $.ajax({
         //url: '../Asistencia/VerificarPrestados',
         url: '../Asistencia/ModalPrestados',
@@ -187,6 +190,8 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
         success: function (resultado) {
             //if (resultado) {
             $("#spinnerCargando").prop("hidden", true);
+            $('#GenerarAsistencia').show();
+            $('#horaservidor').show();
             if (resultado == '888') {
                 MensajeError("No se puede generar la asistencia, el período se encuentra cerrado");
             } else {
@@ -197,7 +202,11 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
                     $('#banderapres').val(bandera);
 
                 } else {
-                    GenerarAsistenciaDiariaGeneral(IdLinea, bandera);
+                    //GenerarAsistenciaDiariaGeneral(IdLinea, bandera);
+                    $('#MensajeModalPrestado').html('No existe personal prestado a otra línea');
+                    $('#mensajepersonal').show();
+                    $('#LineaPres').val(IdLinea);
+                    $('#banderapres').val(bandera);
                 }
             }
             
