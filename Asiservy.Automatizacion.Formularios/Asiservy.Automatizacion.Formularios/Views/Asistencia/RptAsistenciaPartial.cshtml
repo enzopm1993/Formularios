@@ -1,6 +1,20 @@
 ﻿@using System.Globalization;
 @model List<Asiservy.Automatizacion.Datos.Datos.spReporteAsistencia>
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 40%;
+    }
 
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+    .container {
+        padding: 2px 16px;
+    }
+</style>
 
 @{
 
@@ -13,6 +27,7 @@
 <table class="table-bordered table-hover" id="tblDataTable" style="min-width:100%">
     <thead>
         <tr>
+            <th  style="border-bottom:0"></th>
             <th style="border-bottom:0"></th>
             @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
             {
@@ -30,6 +45,7 @@
     </thead>
     <tbody>
         <tr>
+            <th  style="border-bottom:0"></th>
             <th style="border-top:0"></th>
             @{fechaInicial = (DateTime)ViewBag.FechaInicio; }
             @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
@@ -45,31 +61,50 @@
             }
         </tr>
         @{fechaInicial = (DateTime)ViewBag.FechaInicio;
-            string EstadoAsistencia;}
+            string EstadoAsistencia;
+            int cont = 1;
+            }
         @*@for (int i = 0; fechaInicial != (FechaFinal.AddDays(2)); i++)
         {*@
         @foreach (var item in ViewBag.Empleados)
         {
+           
             <tr>
+                <td>@cont</td>
                 <td>
                     @item.Nombre
                 </td>
                 @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
                 {
                     <td class="text-center">
-                        @(EstadoAsistencia = (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault())
+                        @(EstadoAsistencia = (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault()==null?"F": (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault())
                     </td>
                     fechaInicial = fechaInicial.AddDays(1);
                 }
             </tr>
             fechaInicial = (DateTime)ViewBag.FechaInicio;
+            cont++;
         }
 
         @*fechaInicial = fechaInicial.AddDays(1);
         }*@
     </tbody>
 </table>
+<br />
+<div class="row">
+    <div class="card card-accent-info mb-3" style="max-width: 18rem;">
+        <div class="card-header"></div>
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text">P: Presente <br />
+            A: Atraso
+            <br />
+            F: Falta</p>
+        </div>
+    </div>
+   
 
+</div>
 <script>
     $('#tblDataTable').DataTable({
         "language": {
