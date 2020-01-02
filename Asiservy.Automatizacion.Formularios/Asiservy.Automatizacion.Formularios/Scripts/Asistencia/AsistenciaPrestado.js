@@ -4,7 +4,7 @@
 function GenerarAsistenciaPrestadosOk() {
     $("#modalprestados").modal("hide");
     $("#horaservidor").hide();
-    
+
     GenerarAsistenciaDiariaMovidos($('#LineaPres').val(), $('#banderapres').val());
     console.log($('#LineaPres').val());
     console.log($('#banderapres').val());
@@ -34,7 +34,7 @@ function CargarObservacion(Posicion, bloquear) {
 }
 
 function FijarHora() {
-    
+
     if ($('#FijarHora').val() == "") {
         $('#msgerrorfijarhora').show();
         return false;
@@ -43,9 +43,9 @@ function FijarHora() {
     }
     $("#ModalHora").modal("hide");
     var numerofilas = ($('#TableCuchillos tr').length) - 3;
-    
+
     for (var i = 0; i <= numerofilas; i++) {
- 
+
         //$('#ControlAsistencia_' + i + '__Hora').val
         if ($('#ControlAsistencia_' + i + '__EstadoAsistencia').val() == "3") {
             $('#ControlAsistencia_' + i + '__Hora').val($('#FijarHora').val());
@@ -60,8 +60,8 @@ function SetearHora() {
     $('#btnhora').removeAttr('disabled');
 }
 function Nuevo() {
-    
-    
+
+
     $('#horaservidor').hide();
     $('#mensajepersonal').hide();
     $('#GenerarAsistencia').hide();
@@ -127,7 +127,7 @@ function buscarenTabla() {
     }
 }
 function ConsultarSiExisteAsistencia() {
-    
+
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
         $('#horaservidor').hide();
@@ -144,44 +144,44 @@ function ConsultarSiExisteAsistencia() {
     }
     $('#TurnoGen').prop('disabled', true);
     $('#txtFecha').prop('disabled', true);
-    
+
     $("#spinnerCargando").prop("hidden", false);
-        $('#PartialAsistencia').empty();
-        $.ajax({
-            //contentType: "application/json; charset=utf-8",
-            url: '../Asistencia/ConsultarExistenciaAsistenciaPrestados',
-            type: "POST",
-            data: {
-                Turno: $('#TurnoGen').val(),
-                Fecha: $('#txtFecha').val()
-            },
-            success: function (resultado) {
-                $("#spinnerCargando").prop("hidden", true);
-                $('#Existe').val(resultado);
+    $('#PartialAsistencia').empty();
+    $.ajax({
+        //contentType: "application/json; charset=utf-8",
+        url: '../Asistencia/ConsultarExistenciaAsistenciaPrestados',
+        type: "POST",
+        data: {
+            Turno: $('#TurnoGen').val(),
+            Fecha: $('#txtFecha').val()
+        },
+        success: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
+            $('#Existe').val(resultado);
 
-                if (resultado == 0) {
-                    $('#horaservidor').show();
-                    $('#GenerarAsistencia').show();
-                    $('#TurnoGen').prop('disabled', 'disabled');
-                    $('#txtFecha').prop('disabled', 'disabled');
-                    $('#ConsultaAsistencia').prop('disabled', 'disabled');
+            if (resultado == 0) {
+                $('#horaservidor').show();
+                $('#GenerarAsistencia').show();
+                $('#TurnoGen').prop('disabled', 'disabled');
+                $('#txtFecha').prop('disabled', 'disabled');
+                $('#ConsultaAsistencia').prop('disabled', 'disabled');
 
-                }
-                if (resultado == 1) {
-                    $('#horaservidor').hide();
-                    GenerarAsistenciaDiariaMovidos($('#CodLinea').val(), resultado);
-                    $('#GenerarAsistencia').hide();
-                }
-            },
-            error: function (result) {
-                Console.log(result);
-                //MensajeError(result, false);
             }
-        });
-    
+            if (resultado == 1) {
+                $('#horaservidor').hide();
+                GenerarAsistenciaDiariaMovidos($('#CodLinea').val(), resultado);
+                $('#GenerarAsistencia').hide();
+            }
+        },
+        error: function (result) {
+            Console.log(result);
+            //MensajeError(result, false);
+        }
+    });
+
 }
 function VerificarMovidosAMiLinea(IdLinea, bandera) {
-    
+
     $('#mensajepersonal').hide();
     $('#LineaPres').val(IdLinea);
     if ($('#horaservidor').val() == '') {
@@ -294,10 +294,10 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
     //** 
 
     if (ComboOCheck != 'change') {
-    //**
-    $('#CheckAsistencia-' + indice).prop("disabled", true);
-    $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", true);
-    //**
+        //**
+        $('#CheckAsistencia-' + indice).prop("disabled", true);
+        $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", true);
+        //**
     }
     //**
     if (ComboOCheck == 'check') {
@@ -373,7 +373,7 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                 $("#CheckAsistencia-" + indice).prop('checked', false);
             }
         });
-    } else if (($('#CheckAsistencia-' + fila).prop('checked') == false) && banderaChangesinCheck == false){
+    } else if (($('#CheckAsistencia-' + fila).prop('checked') == false) && banderaChangesinCheck == false) {
 
         $("#LabelAsistencia-" + fila).css("background", "transparent");
         fila -= 1;
@@ -440,7 +440,7 @@ function DeshabilitarControles(fila) {
 
 
 //METODOS PARA CUCHILLOS
-function GuardarModificarCuchilloEmpleadoPrestado(NumeroCuchillo,Color,Cedula) {
+function GuardarModificarCuchilloEmpleadoPrestado(NumeroCuchillo, Color, Cedula) {
     //if (!Validar()) {
     //    return;
     //}
@@ -469,7 +469,7 @@ function GuardarModificarCuchilloEmpleadoPrestado(NumeroCuchillo,Color,Cedula) {
             //CuchilloBlanco: $("#txtCuchilloBlanco").val(),
             //CuchilloRojo: $("#txtCuchilloRojo").val(),
             //CuchilloNegro: $("#txtCuchilloNegro").val()
-            CuchilloBlanco: $('#Blanco'+Cedula).val(),
+            CuchilloBlanco: $('#Blanco' + Cedula).val(),
             CuchilloRojo: $('#Rojo' + Cedula).val(),
             CuchilloNegro: $('#Negro' + Cedula).val()
         },
@@ -512,19 +512,19 @@ function check(id, color, cedula) {
     var estado = "1";
     if (id == "") {
         //parametros cuchillo victor
-      //  alert("seleccione");
+        //  alert("seleccione");
         GuardarControlCuchillo(cedula, color, 1, estado, false);
         //***
 
         //GuardarControlCuchillo(cedula, color, id, estado, true);
     } else {
         //parametros cuchillo victor
-   //     alert("cuchillo seleccionado");
+        //     alert("cuchillo seleccionado");
         GuardarControlCuchillo(cedula, color, id, estado, true);
         //**
 
         //GuardarControlCuchillo(cedula, color, id, estado, false);
-    }  
+    }
 }
 //function GuardarControlCuchillo(cedula, color, numero, estado, check,idCheck,Observacion)
 function GuardarControlCuchillo(cedula, color, numero, estado, check) {
@@ -558,7 +558,7 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check) {
         error: function (resultado) {
             //console.log(resultado.responseJSON);
             MensajeError(resultado.responseJSON + "", false);
-           
+
 
         }
     });

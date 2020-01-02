@@ -130,42 +130,42 @@ function ConsultarSiExisteAsistencia() {
         $('#mensajefecha').hide();
     }
     $('#PartialAsistencia').empty();
-        $('#PartialAsistencia').empty();
-        $.ajax({
-            //contentType: "application/json; charset=utf-8",
-            url: '../Asistencia/ConsultarExistenciaAsistenciaGeneral',
-            type: "POST",
-            data: {
-                Turno: $('#TurnoGen').val(),
-                Fecha: $('#txtFecha').val()
-            },
-            success: function (resultado) {
-                $("#spinnerCargando").prop("hidden", true);
-                $('#Existe').val(resultado);
+    $('#PartialAsistencia').empty();
+    $.ajax({
+        //contentType: "application/json; charset=utf-8",
+        url: '../Asistencia/ConsultarExistenciaAsistenciaGeneral',
+        type: "POST",
+        data: {
+            Turno: $('#TurnoGen').val(),
+            Fecha: $('#txtFecha').val()
+        },
+        success: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
+            $('#Existe').val(resultado);
 
-                if (resultado == 0) {
-                    $('#horaservidor').show();
-                    $('#GenerarAsistencia').show();
-                    $('#TurnoGen').prop('disabled', 'disabled');
-                    $('#txtFecha').prop('disabled', 'disabled');
-                    $('#ConsultaAsistencia').prop('disabled', 'disabled');
-                }
-                if (resultado == 1) {
-                   
-                    GenerarAsistenciaDiariaGeneral($('#CodLinea').val(), resultado);
-                    $('#horaservidor').hide();
-                    $('#GenerarAsistencia').hide();
-                }
-            },
-            error: function (result) {
-                //Console.log(result);
-                //MensajeError(result, false);
+            if (resultado == 0) {
+                $('#horaservidor').show();
+                $('#GenerarAsistencia').show();
+                $('#TurnoGen').prop('disabled', 'disabled');
+                $('#txtFecha').prop('disabled', 'disabled');
+                $('#ConsultaAsistencia').prop('disabled', 'disabled');
             }
-        });
- 
+            if (resultado == 1) {
+
+                GenerarAsistenciaDiariaGeneral($('#CodLinea').val(), resultado);
+                $('#horaservidor').hide();
+                $('#GenerarAsistencia').hide();
+            }
+        },
+        error: function (result) {
+            //Console.log(result);
+            //MensajeError(result, false);
+        }
+    });
+
 }
 function VerificarsiHayPrestados(IdLinea, bandera) {
-    
+
     $('#LineaPres').val(IdLinea);
     $('#banderapres').val(bandera);
     console.log($('#horaservidor').val());
@@ -209,7 +209,7 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
                     $('#banderapres').val(bandera);
                 }
             }
-            
+
 
         }
         ,
@@ -262,7 +262,7 @@ function GenerarAsistenciaDiariaGeneral(IdLinea, bandera) {
 }
 
 //guardar con check
-function GuardarPersona(fila, nombre, ComboOCheck,CentroCostos, Recurso, Linea, Cargo) {
+function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea, Cargo) {
     //**
     //console.log('change');
     var banderaChangesinCheck = false;
@@ -276,16 +276,16 @@ function GuardarPersona(fila, nombre, ComboOCheck,CentroCostos, Recurso, Linea, 
     //** 
 
     if (ComboOCheck != 'change') {
-    //**
-    $('#CheckAsistencia-' + indice).prop("disabled", true);
-    $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", true);
+        //**
+        $('#CheckAsistencia-' + indice).prop("disabled", true);
+        $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", true);
 
         //**
     }
     //**
     if (ComboOCheck == 'check') {
         if ($('#TurnoGen').val() == '1') {
-            if (hora > toDate("07:00", "h:m")){
+            if (hora > toDate("07:00", "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('2');
             }
             if (hora <= toDate("07:00", "h:m")) {
@@ -356,7 +356,7 @@ function GuardarPersona(fila, nombre, ComboOCheck,CentroCostos, Recurso, Linea, 
                 $("#CheckAsistencia-" + indice).prop('checked', false);
             }
         });
-    } else if (($('#CheckAsistencia-' + fila).prop('checked') == false) && banderaChangesinCheck == false){
+    } else if (($('#CheckAsistencia-' + fila).prop('checked') == false) && banderaChangesinCheck == false) {
 
         $("#LabelAsistencia-" + fila).css("background", "transparent");
         fila -= 1;

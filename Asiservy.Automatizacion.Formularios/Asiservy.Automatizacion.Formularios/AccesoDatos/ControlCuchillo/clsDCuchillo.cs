@@ -1,4 +1,5 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.Models;
 using Asiservy.Automatizacion.Formularios.Models.Asistencia;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var ControlCuchillo = entities.CONTROL_CUCHILLO.Where(x=>x.Cedula== cedula).ToList();
+                var ControlCuchillo = entities.CONTROL_CUCHILLO.Where(x => x.Cedula == cedula).ToList();
                 if (ControlCuchillo.Any())
                 {
                     foreach (var x in ControlCuchillo)
@@ -34,13 +35,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         }
 
 
-        public string GuardarModificarControlCuchillo(CONTROL_CUCHILLO model,bool check)
+        public string GuardarModificarControlCuchillo(CONTROL_CUCHILLO model, bool check)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 DateTime FechaDesde = DateTime.Now.Date;
                 DateTime FechaHasta = DateTime.Now.AddDays(1).Date;
-                DateTime fechaInicio =Convert.ToDateTime(DateTime.Now.ToShortDateString());
+                DateTime fechaInicio = Convert.ToDateTime(DateTime.Now.ToShortDateString());
                 DateTime fechaFin = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
 
                 //
@@ -48,30 +49,31 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 {
                     if (model.CuchilloBlanco != 0)
                     {
-                        bool ExisteBlanco = entities.CONTROL_CUCHILLO.Where(x => x.Fecha == model.Fecha && x.Tipo=="P" ).Any(z => z.CuchilloBlanco == model.CuchilloBlanco);
+                        bool ExisteBlanco = entities.CONTROL_CUCHILLO.Where(x => x.Fecha == model.Fecha && x.Tipo == "P").Any(z => z.CuchilloBlanco == model.CuchilloBlanco);
                         if (ExisteBlanco && check)
                             return "No es posible asignar el cuchillo, por que ya ha sido prestado";
                     }
                     if (model.CuchilloRojo != 0)
                     {
-                        bool ExisteRojo = entities.CONTROL_CUCHILLO.Where(x => x.Fecha == model.Fecha && x.Tipo == "P" ).Any(z => z.CuchilloRojo == model.CuchilloRojo);
+                        bool ExisteRojo = entities.CONTROL_CUCHILLO.Where(x => x.Fecha == model.Fecha && x.Tipo == "P").Any(z => z.CuchilloRojo == model.CuchilloRojo);
                         if (ExisteRojo && check)
                             return "No es posible asignar el cuchillo, por que ya ha sido prestado";
                     }
                     if (model.CuchilloNegro != 0)
                     {
-                        bool ExisteNegro = entities.CONTROL_CUCHILLO.Where(x => x.Fecha == model.Fecha && x.Tipo == "P" ).Any(z => z.CuchilloNegro == model.CuchilloNegro);
+                        bool ExisteNegro = entities.CONTROL_CUCHILLO.Where(x => x.Fecha == model.Fecha && x.Tipo == "P").Any(z => z.CuchilloNegro == model.CuchilloNegro);
                         if (ExisteNegro && check)
                             return "No es posible asignar el cuchillo, por que ya ha sido prestado";
                     }
                 }
-                else {
+                else
+                {
                     if (check)
                     {
                         if (model.EstadoCuchillo != clsAtributos.Salida)
                         {
                             var estado = (int.Parse(model.EstadoCuchillo) - 1).ToString();
-                            bool validar = entities.CONTROL_CUCHILLO.Where(x => x.Fecha ==model.Fecha
+                            bool validar = entities.CONTROL_CUCHILLO.Where(x => x.Fecha == model.Fecha
                                                                           && x.EstadoCuchillo == estado
                                                                           && x.Cedula == model.Cedula
                                                                           && ((x.CuchilloBlanco == model.CuchilloBlanco && model.CuchilloBlanco > 0)
@@ -93,15 +95,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         }
                     }
                 }
-              
+
                 //validacion de que nno exista el cuchillo en control de cuchillo
-               
-                var controlCuchillo = entities.CONTROL_CUCHILLO.FirstOrDefault(x=> x.Cedula == model.Cedula
+
+                var controlCuchillo = entities.CONTROL_CUCHILLO.FirstOrDefault(x => x.Cedula == model.Cedula
                 && x.EstadoCuchillo == model.EstadoCuchillo && x.Fecha == model.Fecha);
                 if (controlCuchillo != null)
                 {
-                    controlCuchillo.CuchilloBlanco = model.CuchilloBlanco!=0 ? 
-                                                    check? model.CuchilloBlanco:0
+                    controlCuchillo.CuchilloBlanco = model.CuchilloBlanco != 0 ?
+                                                    check ? model.CuchilloBlanco : 0
                                                     : controlCuchillo.CuchilloBlanco;
                     controlCuchillo.CuchilloRojo = model.CuchilloRojo != 0 ?
                                                     check ? model.CuchilloRojo : 0
@@ -127,7 +129,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         }
         public List<ControlCuchilloViewModel> ConsultaControlCuchillos(DateTime Fecha)
         {
-            using (ASIS_PRODEntities db=new ASIS_PRODEntities())
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 // EMPLEADO_CUCHILLO_PRESTADO
                 //DateTime fechaInicio=Convert.ToDateTime(Fecha.ToShortDateString());
@@ -142,8 +144,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     {
                         Cedula = x.Cedula,
                         CuchilloBlanco = x.CuchilloBlanco == null ? 0 : x.CuchilloBlanco,
-                        CuchilloRojo = x.CuchilloRojo == null ? 0: x.CuchilloRojo,
-                        CuchilloNegro = x.CuchilloNegro==null?0: x.CuchilloNegro,
+                        CuchilloRojo = x.CuchilloRojo == null ? 0 : x.CuchilloRojo,
+                        CuchilloNegro = x.CuchilloNegro == null ? 0 : x.CuchilloNegro,
                     });
                 }
                 return ControlCuchillosViewModel;
@@ -156,7 +158,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 ControlCuchilloViewModel ControlCuchillosViewModel = null;
                 DateTime fechaInicio = Convert.ToDateTime(DateTime.Now.ToShortDateString());
                 DateTime FechaFin = Convert.ToDateTime(DateTime.Now.AddDays(1).ToShortDateString());
-                CONTROL_CUCHILLO controlCuchillos = db.CONTROL_CUCHILLO.Where(x =>x.Cedula==cedula &&( x.Fecha >= fechaInicio && x.Fecha < FechaFin)).FirstOrDefault();
+                CONTROL_CUCHILLO controlCuchillos = db.CONTROL_CUCHILLO.Where(x => x.Cedula == cedula && (x.Fecha >= fechaInicio && x.Fecha < FechaFin)).FirstOrDefault();
                 if (controlCuchillos != null)
                 {
                     ControlCuchillosViewModel = new ControlCuchilloViewModel()
@@ -167,41 +169,42 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         CuchilloNegro = controlCuchillos.CuchilloNegro,
                     };
                 }
-                else {
+                else
+                {
                     ControlCuchillosViewModel = new ControlCuchilloViewModel()
                     {
-                        Cedula=cedula,
-                        CuchilloBlanco=0,
-                        CuchilloRojo=0,
-                        CuchilloNegro=0
+                        Cedula = cedula,
+                        CuchilloBlanco = 0,
+                        CuchilloRojo = 0,
+                        CuchilloNegro = 0
                     };
                 }
-                    
+
 
                 return ControlCuchillosViewModel;
             }
         }
-        public List<ControlCuchilloViewModel> ConsultarEmpleadosCuchilloPorLinea(string Linea, string Estado,DateTime Fecha, bool control)
+        public List<ControlCuchilloViewModel> ConsultarEmpleadosCuchilloPorLinea(string Linea, string Estado, DateTime Fecha, bool control)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 List<ControlCuchilloViewModel> ListadoEmpleadoCuchillo = new List<ControlCuchilloViewModel>();
                 var consulta = entities.spConsutaEmpleadosCuchillos(Linea, Estado, Fecha, control).ToList();
-                if(consulta != null)
+                if (consulta != null)
                 {
-                    foreach(var x in consulta)
+                    foreach (var x in consulta)
                     {
                         ListadoEmpleadoCuchillo.Add(new ControlCuchilloViewModel
                         {
                             Cedula = x.Cedula,
                             Nombre = x.Nombre,
                             CuchilloBlanco = x.CuchilloBlanco,
-                            ValidaBlanco=x.ValidaBlanco,
-                            CuchilloRojo=x.CuchilloRojo,
-                            ValidaRojo=x.ValidaRojo,
-                            CuchilloNegro=x.CuchilloNegro,
-                            ValidaNegro=x.ValidaNegro,
-                            Observacion=x.Observacion
+                            ValidaBlanco = x.ValidaBlanco,
+                            CuchilloRojo = x.CuchilloRojo,
+                            ValidaRojo = x.ValidaRojo,
+                            CuchilloNegro = x.CuchilloNegro,
+                            ValidaNegro = x.ValidaNegro,
+                            Observacion = x.Observacion
                         });
                     }
                 }
@@ -213,44 +216,60 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return ListadoEmpleadoCuchillo;
             }
         }
-            
 
-        public string GuardarModificarEmpleadoCuchillo(EmpleadoCuchilloViewModel model)
+
+        public RespuestaGeneral GuardarModificarEmpleadoCuchillo(EmpleadoCuchilloViewModel model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                
-                if(model.CuchilloBlanco >0)
+
+                if (model.CuchilloBlanco > 0)
                 {
-                    var validacion = entities.EMPLEADO_CUCHILLO.FirstOrDefault(x=> x.CuchilloBlanco == model.CuchilloBlanco
-                    && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo && x.Cedula != model.Cedula);
+                    var validacion = entities.EMPLEADO_CUCHILLO.FirstOrDefault(x => x.CuchilloBlanco == model.CuchilloBlanco
+                    && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.Cedula != model.Cedula);
                     if (validacion != null)
-                        return "Cuchillo Blanco ya se encuentra asignado a otro empleado("+validacion.Cedula+")";
+                        return new RespuestaGeneral
+                        {
+                            Codigo = 1,
+                            Respuesta = false,
+                            Descripcion = "Cuchillo Blanco ya se encuentra asignado a otro empleado(" + validacion.Cedula + ")"
+                        };
                 }
-                if (model.CuchilloRojo >0)
+                if (model.CuchilloRojo > 0)
                 {
                     var validacion = entities.EMPLEADO_CUCHILLO.FirstOrDefault(x => x.CuchilloRojo == model.CuchilloRojo
                     && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.Cedula != model.Cedula);
                     if (validacion != null)
-                        return "Cuchillo Rojo ya se encuentra asignado a otro empleado(" + validacion.Cedula + ")";
+                        return new RespuestaGeneral
+                        {
+                            Codigo = 1,
+                            Respuesta = false,
+                            Descripcion = "Cuchillo Rojo ya se encuentra asignado a otro empleado(" + validacion.Cedula + ")"
+                        };
                 }
                 if (model.CuchilloNegro > 0)
                 {
                     var validacion = entities.EMPLEADO_CUCHILLO.FirstOrDefault(x => x.CuchilloNegro == model.CuchilloNegro
                     && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.Cedula != model.Cedula);
                     if (validacion != null)
-                        return "Cuchillo Negro ya se encuentra asignado a otro empleado(" + validacion.Cedula + ")";
+                        return new RespuestaGeneral
+                        {
+                            Codigo = 1,
+                            Respuesta = false,
+                            Descripcion = "Cuchillo Negro ya se encuentra asignado a otro empleado(" + validacion.Cedula + ")"
+                        };
+
                 }
 
-                var EmpleadoCuchillo = entities.EMPLEADO_CUCHILLO.FirstOrDefault(x=> 
+                var EmpleadoCuchillo = entities.EMPLEADO_CUCHILLO.FirstOrDefault(x =>
                 x.IdEmpleadoCuchillo == model.IdEmpleadoCuchillo
                 || (x.Cedula == model.Cedula)
                 );
                 if (EmpleadoCuchillo != null)
                 {
-                    EmpleadoCuchillo.CuchilloBlanco = model.CuchilloBlanco??0;                 
-                    EmpleadoCuchillo.CuchilloRojo = model.CuchilloRojo??0;                    
-                    EmpleadoCuchillo.CuchilloNegro = model.CuchilloNegro??0;
+                    EmpleadoCuchillo.CuchilloBlanco = model.CuchilloBlanco ?? 0;
+                    EmpleadoCuchillo.CuchilloRojo = model.CuchilloRojo ?? 0;
+                    EmpleadoCuchillo.CuchilloNegro = model.CuchilloNegro ?? 0;
                     EmpleadoCuchillo.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     EmpleadoCuchillo.TerminalModificacionLog = model.TerminalIngresoLog;
                     EmpleadoCuchillo.FechaModificacionLog = model.FechaIngresoLog;
@@ -258,10 +277,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 }
                 else
                 {
-                    entities.EMPLEADO_CUCHILLO.Add(new EMPLEADO_CUCHILLO {
-                        CuchilloBlanco =model.CuchilloBlanco??0,
-                        CuchilloRojo = model.CuchilloRojo??0,
-                        CuchilloNegro = model.CuchilloNegro??0,
+                    entities.EMPLEADO_CUCHILLO.Add(new EMPLEADO_CUCHILLO
+                    {
+                        CuchilloBlanco = model.CuchilloBlanco ?? 0,
+                        CuchilloRojo = model.CuchilloRojo ?? 0,
+                        CuchilloNegro = model.CuchilloNegro ?? 0,
                         Cedula = model.Cedula,
                         FechaIngresoLog = model.FechaIngresoLog,
                         TerminalIngresoLog = model.TerminalIngresoLog,
@@ -271,22 +291,27 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     });
                 }
                 entities.SaveChanges();
+                return new RespuestaGeneral
+                {
+                    Codigo = 2,
+                    Respuesta = true,
+                    Descripcion = clsAtributos.MsjRegistroGuardado
+                };
 
-                return clsAtributos.MsjRegistroGuardado;
             }
         }
-        
-            public List<EmpleadoCuchilloViewModel> ConsultarEmpleadoCuchillo(EmpleadoCuchilloViewModel filtros, string Linea)
+
+        public List<EmpleadoCuchilloViewModel> ConsultarEmpleadoCuchillo(EmpleadoCuchilloViewModel filtros, string Linea)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 clsDEmpleado = new clsDEmpleado();
                 List<spConsultaCuchilloEmpleado> EmpleadosCuchillos = new List<spConsultaCuchilloEmpleado>();
-               
+
 
                 if (!string.IsNullOrEmpty(filtros.Cedula))
                 {
-                    EmpleadosCuchillos = entities.spConsultaCuchilloEmpleado(filtros.Cedula,"").ToList();
+                    EmpleadosCuchillos = entities.spConsultaCuchilloEmpleado(filtros.Cedula, "").ToList();
                 }
                 else
                 {
@@ -298,25 +323,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     //EmpleadosCuchillos= EmpleadosCuchillos.Where(x=>x.linea)
                 }
 
-                List<EmpleadoCuchilloViewModel> Listado = (from c in EmpleadosCuchillos                                                
-                                                 select new EmpleadoCuchilloViewModel
-                                                 {
-                                                     IdEmpleadoCuchillo = c.IdEmpleadoCuchillo,
-                                                     Cedula = c.Cedula,
-                                                     Nombre=c.Nombre,
-                                                    CuchilloBlanco=c.CuchilloBlanco,
-                                                    CuchilloRojo=c.CuchilloRojo,
-                                                    CuchilloNegro=c.CuchilloNegro,
-                                                     EstadoRegistro = c.EstadoRegistro,
-                                                     FechaIngresoLog = c.FechaIngresoLog,
-                                                     FechaModificacionLog = c.FechaModificacionLog,                                                   
-                                                     TerminalIngresoLog = c.TerminalIngresoLog,
-                                                     TerminalModificacionLog = c.TerminalModificacionLog,
-                                                     UsuarioIngresoLog = c.UsuarioIngresoLog,
-                                                     UsuarioModificacionLog = c.UsuarioModificacionLog
-                                                 }
+                List<EmpleadoCuchilloViewModel> Listado = (from c in EmpleadosCuchillos
+                                                           select new EmpleadoCuchilloViewModel
+                                                           {
+                                                               IdEmpleadoCuchillo = c.IdEmpleadoCuchillo,
+                                                               Cedula = c.Cedula,
+                                                               Nombre = c.Nombre,
+                                                               CuchilloBlanco = c.CuchilloBlanco,
+                                                               CuchilloRojo = c.CuchilloRojo,
+                                                               CuchilloNegro = c.CuchilloNegro,
+                                                               EstadoRegistro = c.EstadoRegistro,
+                                                               FechaIngresoLog = c.FechaIngresoLog,
+                                                               FechaModificacionLog = c.FechaModificacionLog,
+                                                               TerminalIngresoLog = c.TerminalIngresoLog,
+                                                               TerminalModificacionLog = c.TerminalModificacionLog,
+                                                               UsuarioIngresoLog = c.UsuarioIngresoLog,
+                                                               UsuarioModificacionLog = c.UsuarioModificacionLog
+                                                           }
                                                  ).ToList();
-             
+
 
                 return Listado;
             }
@@ -340,21 +365,22 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
                 IEnumerable<CUCHILLO> Listado = (from c in Cuchillos
                                                  join color in entities.CLASIFICADOR on c.ColorCuchillo equals color.Codigo
-                                                 where color.Grupo==clsAtributos.CodigoGrupoColorCuchillo
-                                                 select new CUCHILLO {
+                                                 where color.Grupo == clsAtributos.CodigoGrupoColorCuchillo
+                                                 select new CUCHILLO
+                                                 {
                                                      ColorCuchillo = color.Descripcion,
-                                                     EstadoRegistro =c.EstadoRegistro,
-                                                     FechaIngresoLog=c.FechaIngresoLog,
-                                                     FechaModificacionLog=c.FechaModificacionLog,
-                                                     NumeroCuchillo=c.NumeroCuchillo,
+                                                     EstadoRegistro = c.EstadoRegistro,
+                                                     FechaIngresoLog = c.FechaIngresoLog,
+                                                     FechaModificacionLog = c.FechaModificacionLog,
+                                                     NumeroCuchillo = c.NumeroCuchillo,
                                                      TerminalIngresoLog = c.TerminalIngresoLog,
                                                      TerminalModificacionLog = c.TerminalModificacionLog,
-                                                     UsuarioIngresoLog=c.UsuarioIngresoLog,
-                                                     UsuarioModificacionLog=c.UsuarioModificacionLog
+                                                     UsuarioIngresoLog = c.UsuarioIngresoLog,
+                                                     UsuarioModificacionLog = c.UsuarioModificacionLog
                                                  }
                                                  );
 
-              
+
 
 
                 return Listado.ToList();
@@ -362,19 +388,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
         }
 
-        public  string GuardarModificarCuchillo(CUCHILLO model)
+        public string GuardarModificarCuchillo(CUCHILLO model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
 
-              var Listado = entities.CUCHILLO.FirstOrDefault(x=> x.NumeroCuchillo == model.NumeroCuchillo && x.ColorCuchillo == model.ColorCuchillo);
+                var Listado = entities.CUCHILLO.FirstOrDefault(x => x.NumeroCuchillo == model.NumeroCuchillo && x.ColorCuchillo == model.ColorCuchillo);
                 if (Listado != null)
                 {
                     Listado.EstadoRegistro = model.EstadoRegistro;
                     Listado.FechaModificacionLog = model.FechaIngresoLog;
                     Listado.TerminalModificacionLog = model.TerminalIngresoLog;
                     Listado.UsuarioModificacionLog = model.UsuarioIngresoLog;
-                    
+
                 }
                 else
                 {
@@ -382,7 +408,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 }
                 entities.SaveChanges();
 
-             return clsAtributos.MsjRegistroGuardado;
+                return clsAtributos.MsjRegistroGuardado;
             }
 
         }
@@ -402,8 +428,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.spConsultaReporteControlCuchillo(Fecha,Linea).ToList();
-               
+                return entities.spConsultaReporteControlCuchillo(Fecha, Linea).ToList();
+
             }
 
         }
@@ -412,7 +438,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.sp_ObtenerCuchillosSobrantes(Color,Fecha).ToList();
+                return db.sp_ObtenerCuchillosSobrantes(Color, Fecha).ToList();
             }
         }
 
@@ -420,7 +446,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.spConsultaEmpleadoPrestadoPorLineaFecha(Fecha,Linea).ToList();
+                return db.spConsultaEmpleadoPrestadoPorLineaFecha(Fecha, Linea).ToList();
             }
         }
 
@@ -436,7 +462,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var result = db.EMPLEADO_CUCHILLO_PRESTADO.Where(x=> x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                var result = db.EMPLEADO_CUCHILLO_PRESTADO.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
 
                 return result;
             }
@@ -446,11 +472,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var result = db.EMPLEADO_CUCHILLO_PRESTADO.Where(x=> 
-                x.Cedula != model.Cedula 
+                var result = db.EMPLEADO_CUCHILLO_PRESTADO.Where(x =>
+                x.Cedula != model.Cedula
                 && x.Fecha == model.Fecha
                 && ((x.CuchilloBlanco == model.CuchilloBlanco
-                && model.CuchilloBlanco>0)|| (x.CuchilloRojo  == model.CuchilloRojo && model.CuchilloRojo>0))
+                && model.CuchilloBlanco > 0) || (x.CuchilloRojo == model.CuchilloRojo && model.CuchilloRojo > 0))
                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                 if (result != null)
                 {
@@ -467,17 +493,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var result = db.EMPLEADO_CUCHILLO_PRESTADO.FirstOrDefault(x => 
-                x.Fecha == model.Fecha 
+                var result = db.EMPLEADO_CUCHILLO_PRESTADO.FirstOrDefault(x =>
+                x.Fecha == model.Fecha
                 && x.Cedula == model.Cedula
                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
 
-                if(result!= null)
+                if (result != null)
                 {
-                   
-                    result.CuchilloBlanco = model.CuchilloBlanco;                   
-                    result.CuchilloNegro = model.CuchilloNegro;                   
-                    result.CuchilloRojo = model.CuchilloRojo;                    
+
+                    result.CuchilloBlanco = model.CuchilloBlanco;
+                    result.CuchilloNegro = model.CuchilloNegro;
+                    result.CuchilloRojo = model.CuchilloRojo;
                     result.FechaModificacionLog = DateTime.Now;
                     result.TerminalModificacionLog = model.TerminalIngresoLog;
                     result.UsuarioModificacionLog = model.UsuarioIngresoLog;
@@ -486,10 +512,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 {
                     db.EMPLEADO_CUCHILLO_PRESTADO.Add(model);
                 }
-                db.SaveChanges();                
+                db.SaveChanges();
             }
         }
 
-        
+
     }
 }
