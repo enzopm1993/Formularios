@@ -16,7 +16,7 @@
             Turno: $('#Turno').val()
         },
         success: function (resultado) {
-           
+
             $('#divRptAsistencia').html(resultado);
             //MensajeCorrecto("Registro ingresado con éxito", false);
         },

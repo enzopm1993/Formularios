@@ -25,7 +25,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #region EMPLEADO ESFERO
 
-           [Authorize]
+        [Authorize]
         public ActionResult ControlEsfero()
         {
             try
@@ -33,7 +33,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 Usuario = User.Identity.Name.Split('_');
-                clsDEmpleado = new clsDEmpleado();               
+                clsDEmpleado = new clsDEmpleado();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
                 ViewBag.Linea = Empleado.LINEA;
 
@@ -60,27 +60,27 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult ControlEsfero(spConsutaControlEsferos model,string dsTipo)
+        public ActionResult ControlEsfero(spConsutaControlEsferos model, string dsTipo)
         {
             try
             {
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleadoEsfero = new clsDEmpleadoEsfero();
-              
+
                 var respuesta = clsDEmpleadoEsfero.GuardarModificarControlEsfero(new CONTROL_ESFERO
                 {
                     Cedula = model.Cedula,
                     HoraInicio = model.Hora,
                     UsuarioIngresoLog = Usuario[0],
                     TerminalIngresoLog = Request.UserHostAddress
-                },dsTipo);
+                }, dsTipo);
 
                 return Json(respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
 
-               // SetErrorMessage(ex.Message);
+                // SetErrorMessage(ex.Message);
                 Usuario = User.Identity.Name.Split('_');
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
@@ -92,7 +92,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = Usuario[1]
                 });
-                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -108,9 +108,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 List<spConsutaControlEsferos> model = new List<spConsutaControlEsferos>();
                 if (Empleado != null)
                 {
-                   clsDEmpleadoEsfero.GenerarControlEmpleadoEsfero(Empleado.CODIGOLINEA, Usuario[0], Request.UserHostAddress);
+                    clsDEmpleadoEsfero.GenerarControlEmpleadoEsfero(Empleado.CODIGOLINEA, Usuario[0], Request.UserHostAddress);
                     model = clsDEmpleadoEsfero.ConsultaControlEsfero(Empleado.CODIGOLINEA, dsTipo);
-                    
+
                 }
 
                 return PartialView(model);
@@ -131,7 +131,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = Usuario[1]
                 });
-                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -147,7 +147,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
-                if(Empleado != null)
+                if (Empleado != null)
                 {
                     var ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltro(Empleado.CODIGOLINEA, null, null);
                     ViewBag.Empleados = ListaEmpleados;
@@ -170,7 +170,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = Usuario[1]
                 });
-                return RedirectToAction("Home","Home");
+                return RedirectToAction("Home", "Home");
             }
         }
 
@@ -223,7 +223,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (Empleado != null)
                 {
                     ListaEmpleadoEsfero = clsDEmpleadoEsfero.ConsultaEmpleadoEsfero(Empleado.CODIGOLINEA);
-                 
+
                 }
 
                 return PartialView(ListaEmpleadoEsfero);
@@ -244,7 +244,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = Usuario[0]
                 });
-                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -256,7 +256,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         // GET: Empleado
         [Authorize]
         public ActionResult EmpleadoTurno()
-        {            
+        {
             try
             {
                 ViewBag.dataTableJS = "1";
@@ -272,9 +272,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 List<int?> roles = clsDLogin.ConsultaRolesUsuario(Usuario[1]);
                 if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.RolControladorGeneral) != null)
                 {
-                   ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                    ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
 
-                }               
+                }
                 else if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorLinea || x.Value == clsAtributos.RolControladorLinea) != null)
                 {
                     ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Codigo = Empleado.CODIGOLINEA });
@@ -313,7 +313,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
-                List<EmpleadoViewModel> model = new List<EmpleadoViewModel>();               
+                List<EmpleadoViewModel> model = new List<EmpleadoViewModel>();
                 if (Empleado != null)
                 {
                     model = clsDEmpleado.ConsultaEmpleadoTurno(Linea, Fecha);
@@ -341,7 +341,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-       
+
         [HttpPost]
         public ActionResult EmpleadoTurnoPartial(EmpleadoViewModel model)
         {
@@ -352,15 +352,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (!ModelState.IsValid) {
+                if (!ModelState.IsValid)
+                {
                     return Json("0", JsonRequestBehavior.AllowGet);
-                }               
-                clsDEmpleado = new clsDEmpleado();               
+                }
+                clsDEmpleado = new clsDEmpleado();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngreso = DateTime.Now;
                 model.TerminalIngreso = Request.UserHostAddress;
                 model.UsuarioIngreso = Usuario[0];
-                clsDEmpleado.GuardarModificarEmpleadoTurno(model);             
+                clsDEmpleado.GuardarModificarEmpleadoTurno(model);
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -409,7 +410,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = Usuario[1]
                 });
-                return RedirectToAction("Home","Home");
+                return RedirectToAction("Home", "Home");
             }
         }
 
@@ -417,15 +418,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-               
+
 
                 clsDEmpleado = new clsDEmpleado();
                 Usuario = User.Identity.Name.Split('_');
                 List<spConsutaReporteEmpleadosTurnos> model = new List<spConsutaReporteEmpleadosTurnos>();
-               // var empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
-               
+                // var empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
+
                 model = clsDEmpleado.ConsultaReporteEmpleadoTurno(dsLinea, dsTurno);
-              if(!model.Any())
+                if (!model.Any())
                     return Json("0", JsonRequestBehavior.AllowGet);
 
 
@@ -447,7 +448,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = Usuario[1]
                 });
-                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
@@ -534,20 +535,34 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 clsDGeneral = new clsDGeneral();
                 clsDLogin = new clsDLogin();
-                //clsDClasificador = new clsDClasificador();
+                clsDClasificador = new clsDClasificador();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
-              
-                var rol = clsDLogin.ConsultaRolesUsuario(Usuario[1]).FirstOrDefault(x=>x.Value == clsAtributos.RolControladorGeneral || x.Value == clsAtributos.RolSupervisorGeneral);
-                if (rol != null)
+                List<int?> roles = clsDLogin.ConsultaRolesUsuario(Usuario[1]);
+                if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.AsistenteProduccion || x.Value == clsAtributos.RolControladorGeneral) != null)
                 {
-                    ViewBag.Principal = "1";
-                   // ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro= clsAtributos.EstadoRegistroActivo});
-                    ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
+                    ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
+                    ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+
                 }
-                else {
+                else if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorLinea || x.Value == clsAtributos.RolControladorLinea) != null)
+                {
+                    ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Codigo = Empleado.CODIGOLINEA });
+                }
+                else
+                {
                     ViewBag.Lineas = clsDGeneral.ConsultaLineas(Empleado.CODIGOLINEA);
                 }
-                ViewBag.Linea = Empleado.LINEA;         
+                //var rol = clsDLogin.ConsultaRolesUsuario(Usuario[1]).FirstOrDefault(x=>x.Value == clsAtributos.RolControladorGeneral || x.Value == clsAtributos.RolSupervisorGeneral);
+                //if (rol != null)
+                //{
+                //    ViewBag.Principal = "1";
+                //   // ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro= clsAtributos.EstadoRegistroActivo});
+                //    ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
+                //}
+                //else {
+                //    ViewBag.Lineas = clsDGeneral.ConsultaLineas(Empleado.CODIGOLINEA);
+                //}
+                ViewBag.Linea = Empleado.LINEA;
                 return View();
             }
             catch (Exception ex)
@@ -565,7 +580,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     TerminalIngreso = Request.UserHostAddress,
                     UsuarioIngreso = Usuario[0]
                 });
-                return RedirectToAction("Home","Home");
+                return RedirectToAction("Home", "Home");
             }
 
         }
@@ -612,17 +627,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                ViewBag.dataTableJS = "1";        
+                ViewBag.dataTableJS = "1";
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
-                var model = clsDEmpleado.ConsultaPersonalNominaPorLinea();      
+                var model = clsDEmpleado.ConsultaPersonalNominaPorLinea();
                 return View(model);
             }
             catch (Exception ex)
             {
 
                 SetErrorMessage(ex.Message);
-                Usuario   = User.Identity.Name.Split('_');
+                Usuario = User.Identity.Name.Split('_');
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR
                 {
@@ -656,7 +671,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
                     ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
 
-                } else if (roles.FirstOrDefault(x=> x.Value == clsAtributos.AsistenteProduccion)!=null) {
+                }
+                else if (roles.FirstOrDefault(x => x.Value == clsAtributos.AsistenteProduccion) != null)
+                {
                     ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
                     ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 }
@@ -700,10 +717,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                if(string.IsNullOrEmpty(Linea) || Fecha == null)
+                if (string.IsNullOrEmpty(Linea) || Fecha == null)
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
-                    
+
                 }
 
                 ViewBag.dataTableJS = "1";
@@ -754,8 +771,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                Usuario  = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(Usuario [0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
@@ -763,8 +780,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                Usuario  = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(Usuario [0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                Usuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(Usuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }

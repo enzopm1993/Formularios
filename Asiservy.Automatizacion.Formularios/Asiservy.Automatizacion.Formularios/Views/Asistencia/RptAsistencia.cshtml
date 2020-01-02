@@ -12,7 +12,7 @@
         <div class="form-group">
             <label>Fecha desde:</label>
             @Html.TextBox("FechaDesde", null, new { @class = "form-control input-large", type = "date" })
-            <label id="msjerrorFecha1" class="text-info" style="display:none" ></label>
+            <label id="msjerrorFecha1" class="text-info" style="display:none"></label>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
@@ -25,8 +25,9 @@
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Líneas:</label>
-            @Html.DropDownList("Linea", (IEnumerable<SelectListItem>)ViewBag.Lineas, "Seleccione", new { @class = "form-control" })
-            <label id="msjerrorLinea" class="text-info" style="display:none"></label>
+            @Html.DropDownList("Linea", (IEnumerable<SelectListItem>
+                )ViewBag.Lineas, "Seleccione", new { @class = "form-control" })
+                <label id="msjerrorLinea" class="text-info" style="display:none"></label>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
@@ -45,17 +46,17 @@
     <div class="col-md-12 col-sm-12">
         <center>
             <div class="form-group">
-                
-                    <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="" onclick="ConsultarAsistencia()" style="border-color:#2c3e50" type="button">
-                        <img style="width:100%" src="~/Content/icons/ver24.png" />
-                    </button>
 
-           
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="" onclick="ConsultarAsistencia()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>
+
+
                 <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="Limpiar()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/clear24.png" />
                 </button>
                 @*<input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="IngresarProyeccionProgramacion()" />
-                    <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
+                <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
             </div>
         </center>
     </div>
@@ -66,4 +67,5 @@
 <div id="divRptAsistencia" style="padding-bottom:1%" class="table-responsive">
 
 </div>
-@*<script src="~/Scripts/AsistenciaJS/RptAsistencia.js"></script>*@
+@*
+<script src="~/Scripts/AsistenciaJS/RptAsistencia.js"></script>*@

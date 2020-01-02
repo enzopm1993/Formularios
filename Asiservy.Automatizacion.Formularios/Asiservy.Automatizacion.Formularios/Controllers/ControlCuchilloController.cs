@@ -57,7 +57,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult GuardarControlCuchillo(string dsCedula, string dsColor, string dsNumero, string dsEstado, bool dbCheck, DateTime ddFecha,string Observacion, bool dbTipo = false)
+        public ActionResult GuardarControlCuchillo(string dsCedula, string dsColor, string dsNumero, string dsEstado, bool dbCheck, DateTime ddFecha, string Observacion, bool dbTipo = false)
         {
             try
             {
@@ -263,22 +263,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
 
             }
-            catch (Exception ex)
+            catch (DbEntityValidationException e)
             {
-                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
                 lsUsuario = User.Identity.Name.Split('_');
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = lsUsuario[0]
-                });
-                return RedirectToAction("Cuchillo");
-
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
             }
         }
 
@@ -294,20 +295,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return PartialView(model);
 
             }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = lsUsuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -324,20 +328,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return View();
 
             }
-            catch (Exception ex)
+            catch (DbEntityValidationException e)
             {
-                SetErrorMessage(ex.Message);
                 clsDError = new clsDError();
                 lsUsuario = User.Identity.Name.Split('_');
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = lsUsuario[0]
-                });
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
                 return RedirectToAction("Home", "Home");
             }
         }
@@ -349,8 +355,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                ViewBag.dataTableJS = "1";
-                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 if (!ModelState.IsValid || (model.CuchilloBlanco == null && model.CuchilloNegro == null && model.CuchilloRojo == null))
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
@@ -362,28 +370,28 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     model.FechaIngresoLog = DateTime.Now;
                     model.UsuarioIngresoLog = lsUsuario[0];
                     model.TerminalIngresoLog = Request.UserHostAddress;
-
-                    var respuesta = clsDCuchillo.GuardarModificarEmpleadoCuchillo(model);
+                    RespuestaGeneral respuesta = new RespuestaGeneral();
+                    respuesta = clsDCuchillo.GuardarModificarEmpleadoCuchillo(model);
                     return Json(respuesta, JsonRequestBehavior.AllowGet);
-
                 }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-
-                SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 lsUsuario = User.Identity.Name.Split('_');
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = lsUsuario[0]
-                });
-                return RedirectToAction("CuchilloEmpleado");
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -409,11 +417,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             ViewBag.CuchillosNegros = poCuchillosNegros;
         }
 
-        [Authorize]
+
         public ActionResult CuchilloEmpleadoPartial()
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDCuchillo = new clsDCuchillo();
                 clsDEmpleado = new clsDEmpleado();
                 lsUsuario = User.Identity.Name.Split('_');
@@ -422,21 +435,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return PartialView(model);
 
             }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 lsUsuario = User.Identity.Name.Split('_');
-                clsDError.GrabarError(new ERROR
-                {
-                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    Mensaje = ex.Message,
-                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-                    FechaIngreso = DateTime.Now,
-                    TerminalIngreso = Request.UserHostAddress,
-                    UsuarioIngreso = lsUsuario[0]
-                });
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -486,7 +501,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.AsistenteProduccion || x.Value == clsAtributos.RolControladorGeneral) != null)
                 {
                     ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
-                }          
+                }
 
                 return View();
 
@@ -616,7 +631,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDCuchillo = new clsDCuchillo();
-                var CuchillosBlancosSobrantes = clsDCuchillo.CuchillosSobrantes(clsAtributos.CodigoColorCuchilloBlanco, DateTime.Now).Select(x => new ControlDeAsistenciaPrestadosViewModel.Cuchillos { Numero = x, Id = x, Color='B' }).ToList();
+                var CuchillosBlancosSobrantes = clsDCuchillo.CuchillosSobrantes(clsAtributos.CodigoColorCuchilloBlanco, DateTime.Now).Select(x => new ControlDeAsistenciaPrestadosViewModel.Cuchillos { Numero = x, Id = x, Color = 'B' }).ToList();
                 ViewBag.CuchilloBlanco = new SelectList(CuchillosBlancosSobrantes, "Id", "Numero");
                 var CuchillosRojosSobrantes = clsDCuchillo.CuchillosSobrantes(clsAtributos.CodigoColorCuchilloRojo, DateTime.Now).Select(x => new ControlDeAsistenciaPrestadosViewModel.Cuchillos { Numero = x, Id = x, Color = 'R' }).ToList();
                 ViewBag.CuchilloRojo = new SelectList(CuchillosRojosSobrantes, "Id", "Numero");
@@ -696,12 +711,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDCuchillo = new clsDCuchillo();
                 clsDEmpleado = new clsDEmpleado();
                 var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var modelEmpleado = clsDCuchillo.ConsultaEmpleadoPrestadoPorLineaFecha(empleado.CODIGOLINEA, model.Fecha).FirstOrDefault(x=> x.CEDULA == model.Cedula);
+                var modelEmpleado = clsDCuchillo.ConsultaEmpleadoPrestadoPorLineaFecha(empleado.CODIGOLINEA, model.Fecha).FirstOrDefault(x => x.CEDULA == model.Cedula);
                 if (modelEmpleado == null)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                model.UsuarioIngresoLog=lsUsuario[0];
+                model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -714,7 +729,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 }
                 clsDCuchillo.GuardarModificarEmpleadoCuchilloPrestado(model);
-                return Json("Registro Exitoso",JsonRequestBehavior.AllowGet);
+                return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -814,4 +829,4 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #endregion
 
     }
-    }
+}
