@@ -440,7 +440,17 @@ function DeshabilitarControles(fila) {
 
 
 //METODOS PARA CUCHILLOS
-function GuardarModificarCuchilloEmpleadoPrestado(NumeroCuchillo, Color, Cedula) {
+function GuardarModificarCuchilloEmpleadoPrestado(NumeroCuchillo, Color, Cedula,id, cont) {
+
+    var sPath = window.location.pathname;
+    var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+    //alert(sPage);
+    if (sPage == "AsistenciaPrestado") {
+        if (!$('#CheckAsistencia-' + cont).prop('checked')) {
+            $('#' + id).prop('selectedIndex', 0);
+            return false;
+        }
+    }
     //if (!Validar()) {
     //    return;
     //}

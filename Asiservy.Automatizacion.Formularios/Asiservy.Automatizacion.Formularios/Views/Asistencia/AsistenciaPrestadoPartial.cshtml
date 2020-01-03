@@ -124,28 +124,28 @@
 
                     @if (cuchillo != null)
                     {
-                        <div class="col-xs-2 text-xs-center">
-                            @if (cuchillo.CuchilloBlanco != 0)
-                            {
-                                Model.CuchillosBlancosSobrantes.Add(new Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id = cuchillo.CuchilloBlanco, Numero = cuchillo.CuchilloBlanco });
-                                @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero", cuchillo.CuchilloBlanco), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'B','" + item.Cedula + "')" });
+                    <div class="col-xs-2 text-xs-center">
+                        @if (cuchillo.CuchilloBlanco != 0)
+                        {
+                            Model.CuchillosBlancosSobrantes.Add(new Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id = cuchillo.CuchilloBlanco, Numero = cuchillo.CuchilloBlanco });
+                            @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero", cuchillo.CuchilloBlanco), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'B','" + item.Cedula + "',this.id,'" + @cont + "')" });
 
-                            }
-                            else
-                            {
-                                @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'B','" + item.Cedula + "')" });
+                        }
+                        else
+                        {
+                            @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'B','" + item.Cedula + "',this.id,'" + @cont + "')" });
 
-                            }
+                        }
 
 
-                        </div>
+                    </div>
                     }
                     else
                     {
-                        <div class="col-xs-2 text-xs-center">
-                            @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'B','" + item.Cedula + "')" })
+                    <div class="col-xs-2 text-xs-center">
+                        @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'B','" + item.Cedula + "',this.id,'" + @cont + "')" })
 
-                        </div>
+                    </div>
                     }
 
 
@@ -161,12 +161,12 @@
                             {
                                 Model.CuchillosRojosSobrantes.Add(new Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id = cuchillo.CuchilloRojo, Numero = cuchillo.CuchilloRojo });
 
-                                @Html.DropDownList("Rojo" + item.Cedula, new SelectList(Model.CuchillosRojosSobrantes, "Id", "Numero", cuchillo.CuchilloRojo), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'R','" + item.Cedula + "')" })
+                                @Html.DropDownList("Rojo" + item.Cedula, new SelectList(Model.CuchillosRojosSobrantes, "Id", "Numero", cuchillo.CuchilloRojo), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'R','" + item.Cedula + "',this.id,'" + @cont + "')" })
 
                             }
                             else
                             {
-                                @Html.DropDownList("Rojo" + item.Cedula, new SelectList(Model.CuchillosRojosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'R','" + item.Cedula + "')" })
+                                @Html.DropDownList("Rojo" + item.Cedula, new SelectList(Model.CuchillosRojosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'R','" + item.Cedula + "',this.id,'" + @cont + "')" })
 
                             }
                         </div>
@@ -174,7 +174,7 @@
                     else
                     {
                         <div class="col-xs-2 text-xs-center">
-                            @Html.DropDownList("Rojo" + item.Cedula, new SelectList(Model.CuchillosRojosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'R','" + item.Cedula + "')" })
+                            @Html.DropDownList("Rojo" + item.Cedula, new SelectList(Model.CuchillosRojosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'R','" + item.Cedula + "',this.id,'" + @cont + "')" })
 
                         </div>
                     }
