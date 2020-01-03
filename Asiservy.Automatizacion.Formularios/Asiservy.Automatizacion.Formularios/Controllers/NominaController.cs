@@ -1,5 +1,6 @@
 ﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.App;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina;
 using Newtonsoft.Json;
 using RestSharp;
@@ -20,6 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
        
         clsDError clsDError = null;
+        clsDAsistencia ClsdAsistencia = null;
         string[] lsUsuario;
 
         protected void SetErrorMessage(string message)
@@ -312,12 +314,27 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             ClsKeyValue obReturn = new ClsKeyValue();
             using (DataLifeService.ServicioAsiservySoapClient servicio = new DataLifeService.ServicioAsiservySoapClient())
             {
+                List<string> arrCedulas=new List<string>();
                 DataSet content;
                 DataTable dt;
                 string codigoReturn;
                 string msgReturn;
                 List<Respuesta> Respuesta=new List<Respuesta>();
-                foreach (var cedula in parametros.Cedula)
+                ClsdAsistencia = new clsDAsistencia();
+                foreach (var item in parametros.Cedula)
+                {
+                    if (ClsdAsistencia.CosultarAsistenciaEmpleado(item, DateTime.Now))
+                    {
+                        //remover cedula y agregar msjerror
+                        Respuesta.Add(new Respuesta { cedula = item, Codigo = "001", Descripcion = "No se puede mover, La asistencia ya habia sido generada" });
+                    }
+                    else
+                    {
+                        arrCedulas.Add(item);
+                    }
+                }
+                //foreach (var cedula in parametros.Cedula)
+                foreach (var cedula in arrCedulas.ToArray())
                 {
                     content = servicio.actualizarCodigosEmpleados(cedula, parametros.Compania, parametros.CentroCostos, parametros.Cargo, parametros.Linea, parametros.Recurso);
                     dt = content.Tables[0];
@@ -327,9 +344,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     obReturn.Codigo = codigoReturn;
                     Respuesta.Add(new Respuesta { cedula = cedula, Codigo = obReturn.Codigo, Descripcion = obReturn.Descripcion });
                 }
-                
-               
-                return Json(obReturn, JsonRequestBehavior.AllowGet);
+                //return Json(obReturn, JsonRequestBehavior.AllowGet);
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }
 
         }
