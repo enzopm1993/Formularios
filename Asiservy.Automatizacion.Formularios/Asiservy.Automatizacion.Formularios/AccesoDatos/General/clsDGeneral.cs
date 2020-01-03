@@ -58,13 +58,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         }
         public List<spConsultaCargosXRecursoLinea> ConsultaCargosxRecursoyLinea(string dsCodigoRecurso, string dsLinea)
         {
-
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 return db.spConsultaCargosXRecursoLinea(dsCodigoRecurso, dsLinea).ToList();
-
             }
-
         }
         public List<spConsultaLineaXRecursoyCentroCosto> ConsultaLineasxCCyRecurso(string dsCodigoCC,string dsCodigoRecurso)
         {
