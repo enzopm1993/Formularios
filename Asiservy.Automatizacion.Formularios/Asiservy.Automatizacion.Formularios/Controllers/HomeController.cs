@@ -226,7 +226,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 lsUsuario = User.Identity.Name.Split('_');
                 var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now);
+                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now.AddDays(-1));
                 if (finalizarAsistencia.Any())
                 {
                     foreach(var x in finalizarAsistencia)
@@ -253,7 +253,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 lsUsuario = User.Identity.Name.Split('_');
                 var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now);
+                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now.AddDays(-1));
                 var finalizarCantidadFecha = finalizarAsistencia.Select(x => x.Fecha).Distinct();
                 if (finalizarAsistencia.Any())
                 {
@@ -281,7 +281,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDGeneral = new clsDGeneral();
                 //lsUsuario = User.Identity.Name.Split('_');
                 //var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistenciaTodos( DateTime.Now);
+                var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistenciaTodos(DateTime.Now.AddDays(-1));
                 var finalizarCantidadFecha = finalizarAsistencia.Select(x => new { Fecha=x.Fecha, Linea =x.Linea}).Distinct();
                 if (finalizarAsistencia.Any())
                 {

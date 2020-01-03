@@ -39,8 +39,13 @@ function CargarOrdenFabricacion(valor) {
 
 
 function CargarLotes(valor) {
+   
+
     $("#SelectLote").empty();
     $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>");
+    if (valor == '') {
+        return;
+    }
     $.ajax({
         url: "../Hueso/ConsultarLotesPorLinea",
         type: "GET",
@@ -266,8 +271,13 @@ function GenerarControlHueso() {
     if (horaInicio == '' || horaFin == '') {
         MensajeAdvertencia("Ingrese rango de horas");
         return;
-
     }
+    if ($('#selectLimpieza').val() == '0') {
+        MensajeAdvertencia("Seleccione un tipo de limpieza");
+        return;
+    }
+
+  
     $('#DivTableControlHueso').html('');
     $('#DivTableControlHuesoDetalle').html('');
 
@@ -286,7 +296,8 @@ function GenerarControlHueso() {
             TotalPieza: $('#txtPiezas').val(),
             TotalLimpiadoras: $('#txtLimpiadoras').val(),
             OrdenFabricacion: $('#SelectOrdenFabricacion').val(),
-            Fecha: $('#txtFechaProduccion').val()
+            Fecha: $('#txtFechaProduccion').val(),
+            Limpieza: $('#selectLimpieza').val()
         },
         success: function (resultado) {
             if (resultado == 0) {
@@ -311,8 +322,6 @@ function GenerarControlHueso() {
             MensajeError(resultado.responseText, false);
             $('#btnGenerar').prop("disabled", false);
             $('#spinnerCargando').prop("hidden", true);     
-
-
         }
     });
        
