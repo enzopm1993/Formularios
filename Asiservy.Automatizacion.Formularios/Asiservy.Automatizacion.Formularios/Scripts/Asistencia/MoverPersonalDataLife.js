@@ -69,9 +69,16 @@ function MoverEmpleados() {
                 //$('#Guardar').show();
                 //$('#Guardar').val('Mover Empleados');
                 CerrarModalCargando();
-                MensajeCorrecto("Empleados movidos con éxito", true);
+                //MensajeCorrecto("Empleados movidos con éxito", true);
+                console.log(resultado);
+                $('#BodyMensajeCp').html(resultado);
+                $('#ModalMensajeCP').modal('show');
                 
 
+            },
+            error: function (resultado) {
+                //MensajeError("No se pudieron mover", false);
+                MensajeError(resultado, false);
             }
         });
         $('#contempleados').show();

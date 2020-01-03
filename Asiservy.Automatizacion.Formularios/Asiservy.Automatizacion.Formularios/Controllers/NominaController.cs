@@ -310,42 +310,67 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         [HttpPost]
         public ActionResult ActualizaEmpleadosArea(ParamCambioPersonal parametros)
         {
-            parametros.Compania = "1";
-            ClsKeyValue obReturn = new ClsKeyValue();
-            using (DataLifeService.ServicioAsiservySoapClient servicio = new DataLifeService.ServicioAsiservySoapClient())
+            try
             {
-                List<string> arrCedulas=new List<string>();
-                DataSet content;
-                DataTable dt;
-                string codigoReturn;
-                string msgReturn;
-                List<Respuesta> Respuesta=new List<Respuesta>();
-                ClsdAsistencia = new clsDAsistencia();
-                foreach (var item in parametros.Cedula)
+                parametros.Compania = "1";
+                ClsKeyValue obReturn = new ClsKeyValue();
+                clsDMovimientoPersonalNomina ClsMovimientoPersonalNomina = new clsDMovimientoPersonalNomina();
+                using (DataLifeService.ServicioAsiservySoapClient servicio = new DataLifeService.ServicioAsiservySoapClient())
                 {
-                    if (ClsdAsistencia.CosultarAsistenciaEmpleado(item, DateTime.Now))
+                    List<string> arrCedulas = new List<string>();
+                    string[] liststring = User.Identity.Name.Split('_');
+                    DataSet content;
+                    DataTable dt;
+                    string codigoReturn;
+                    string msgReturn;
+                    List<Respuesta> Respuesta = new List<Respuesta>();
+                    ClsdAsistencia = new clsDAsistencia();
+                    foreach (var item in parametros.Cedula)
                     {
-                        //remover cedula y agregar msjerror
-                        Respuesta.Add(new Respuesta { cedula = item, Codigo = "001", Descripcion = "No se puede mover, La asistencia ya habia sido generada" });
+                        if (ClsdAsistencia.CosultarAsistenciaEmpleado(item, DateTime.Now))
+                        {
+                            //remover cedula y agregar msjerror
+                            Respuesta.Add(new Respuesta { cedula = item, Codigo = "001", Descripcion = "No se puede mover, La asistencia ya habia sido generada" });
+                        }
+                        else
+                        {
+                            arrCedulas.Add(item);
+                        }
                     }
-                    else
+                    //foreach (var cedula in parametros.Cedula)
+                    foreach (var cedula in arrCedulas.ToArray())
                     {
-                        arrCedulas.Add(item);
+                        content = servicio.actualizarCodigosEmpleados(cedula, parametros.Compania, parametros.CentroCostos, parametros.Cargo, parametros.Linea, parametros.Recurso);
+                        dt = content.Tables[0];
+                        codigoReturn = dt.Rows[0]["iRetCode"].ToString();
+                        msgReturn = dt.Rows[0]["sErrMsg"].ToString();
+                        obReturn.Descripcion = msgReturn;
+                        obReturn.Codigo = codigoReturn;
+                        Respuesta.Add(new Respuesta { cedula = cedula, Codigo = obReturn.Codigo, Descripcion = obReturn.Descripcion });
+                        ClsMovimientoPersonalNomina.GuardarBitacoraMovimientoPersonalNomina(cedula, liststring[0], Request.UserHostAddress, parametros.CentroCostos, parametros.Recurso, parametros.Linea, parametros.Cargo);
                     }
+                    //return Json(obReturn, JsonRequestBehavior.AllowGet);
+                    return Json(Respuesta, JsonRequestBehavior.AllowGet);
                 }
-                //foreach (var cedula in parametros.Cedula)
-                foreach (var cedula in arrCedulas.ToArray())
-                {
-                    content = servicio.actualizarCodigosEmpleados(cedula, parametros.Compania, parametros.CentroCostos, parametros.Cargo, parametros.Linea, parametros.Recurso);
-                    dt = content.Tables[0];
-                    codigoReturn = dt.Rows[0]["iRetCode"].ToString();
-                    msgReturn = dt.Rows[0]["sErrMsg"].ToString();
-                    obReturn.Descripcion = msgReturn;
-                    obReturn.Codigo = codigoReturn;
-                    Respuesta.Add(new Respuesta { cedula = cedula, Codigo = obReturn.Codigo, Descripcion = obReturn.Descripcion });
-                }
-                //return Json(obReturn, JsonRequestBehavior.AllowGet);
-                return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
 
         }

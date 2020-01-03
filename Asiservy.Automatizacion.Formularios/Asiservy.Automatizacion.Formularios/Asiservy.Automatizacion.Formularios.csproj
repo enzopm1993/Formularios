@@ -2988,6 +2988,7 @@
     <Compile Include="AccesoDatos\App\Sugerencias.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
+    <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
     <Compile Include="AccesoDatos\ControlCuchillo\clsDCuchillo.cs" />
     <Compile Include="AccesoDatos\ControlCocheLinea\clsDControlCocheLinea.cs" />
     <Compile Include="AccesoDatos\ControlEnfundado\clsDControlEnfundado.cs" />
