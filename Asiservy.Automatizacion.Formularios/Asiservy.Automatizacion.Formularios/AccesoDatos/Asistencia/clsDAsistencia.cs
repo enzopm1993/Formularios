@@ -18,6 +18,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         spConsutaEmpleados BuscarControlador = null;
         clsDEmpleado ClsdEmpleado = null;
 
+        public Boolean CosultarAsistenciaEmpleado(string cedula, DateTime fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+               if( db.ASISTENCIA.Where(z => z.Cedula == cedula && z.Fecha == z.Fecha).ToList().Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
         public List<spConsultaAsistenciaFinalizar> ConsultarAsistenciaFinalizar(DateTime Fecha, string CodLinea, string Turno)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())

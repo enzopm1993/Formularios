@@ -47,6 +47,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 string psrolid = lsUsuario[1];
                 clsDLogin PsLogin = new clsDLogin();
                 var resultado = PsLogin.ConsultarRolesDeUsuario(psrolid);
+                Session.Timeout = 480;
                 Session["Padre"] = resultado[0];
                 Session["Hijo"] = resultado[1];
                 Session["Modulos"] = resultado[2];

@@ -12,22 +12,21 @@
         <div class="form-group">
             <label>Fecha desde:</label>
             @Html.TextBox("FechaDesde", null, new { @class = "form-control input-large", type = "date" })
-            <label id="msjerrorFecha1" class="text-info" style="display:none"></label>
+            <label id="msjerrorFecha1" class="text-danger" style="display:none">Debe seleccionar una fecha de inicio</label>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Fecha desde:</label>
             @Html.TextBox("FechaHasta", null, new { @class = "form-control input-large", type = "date" })
-            <label id="msjerrorFecha2" class="text-info" style="display:none"></label>
+            <label id="msjerrorFecha2" class="text-danger" style="display:none">Debe seleccionar una fecha fin</label>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Líneas:</label>
-            @Html.DropDownList("Linea", (IEnumerable<SelectListItem>
-                )ViewBag.Lineas, "Seleccione", new { @class = "form-control" })
-                <label id="msjerrorLinea" class="text-info" style="display:none"></label>
+            @Html.DropDownList("Linea", (IEnumerable<SelectListItem>)ViewBag.Lineas, "Seleccione", new { @class = "form-control" })
+            <label id="msjerrorLinea" class="text-danger" style="display:none">Debe seleccionar una Línea</label>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
@@ -38,8 +37,14 @@
                 <option value="1">1</option>
                 <option value="2">2</option>
             </select>
-            <label id="msjerrorTurno" class="text-info" style="display:none"></label>
+            <label id="msjerrorTurno" class="text-danger" style="display:none">Debe seleccionar un Turno</label>
         </div>
+    </div>
+</div>
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
     </div>
 </div>
 <div class="row">
