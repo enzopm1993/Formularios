@@ -17,6 +17,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Nombre { get; set; }
         public Nullable<int> TotalHueso { get; set; }
         public Nullable<decimal> Miga { get; set; }
-        public int Avance { get; set; }
+        public Nullable<decimal> Avance { get; set; }
+        public Nullable<int> Pieza { get; set; }
     }
 }

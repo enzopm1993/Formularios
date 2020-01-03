@@ -17,7 +17,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdBitacoraMoverPersonal { get; set; }
         public string Cedula { get; set; }
         public string CodLinea { get; set; }
-        public string CodArea { get; set; }
+        public string CodCentroCosto { get; set; }
         public string CodCargo { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -26,5 +26,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public string CodRecurso { get; set; }
     }
 }
