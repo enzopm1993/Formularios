@@ -188,7 +188,7 @@
                                                 @Html.CheckBox("Rojo" + cuchillo.CuchilloRojo, cuchillo.ValidaRojo == "1", new { @onchange = "check(this.id,'R','" + cuchillo.Cedula + "')" })
                                             </label>*@
                                         <div class="custom-control custom-switch">
-                                            @Html.CheckBox("Rojo" + cuchillo.CuchilloRojo, cuchillo.ValidaRojo == "1", new { @onchange = "check(this.id,'R','" + cuchillo.Cedula + "')", @class = "custom-control-input" })
+                                            @Html.CheckBox("Rojo" + cuchillo.CuchilloRojo, cuchillo.ValidaRojo == "1", new { @onchange = "check(this.id,'R','" + cuchillo.Cedula + "','" + @cont + "')", @class = "custom-control-input" })
                                             <label class="custom-control-label" for="@("Rojo"+cuchillo.CuchilloRojo)">@cuchillo.CuchilloRojo</label>
                                         </div>
                                     </div>
