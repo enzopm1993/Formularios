@@ -51,8 +51,14 @@ function CargarControlCuchillo(estado) {
 
 
 
-function check(id, color, cedula) {
+function check(id, color, cedula, cont) {
 
+    var sPath = window.location.pathname;
+    var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+    alert(sPage);
+    if (sPage == "Asistencia") {
+        //if ($('#CheckAsistencia-'+cont),)
+    }
     var Observacion = "#txtObservacion-" + cedula;
     var numero = 0;
     var estado = $('#EstadoControlCuchillo').val();
