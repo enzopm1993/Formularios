@@ -2132,7 +2132,7 @@
     <Content Include="Scripts\Asistencia\BitacoraCambioPersonal.js" />
     <Content Include="Scripts\Asistencia\CambiarPersonalDeArea.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
-    <Content Include="Scripts\Asistencia\MoverPersonalDataLife.js" />
+    <Content Include="Scripts\MoverPersonal\MoverPersonalDataLife.js" />
     <Content Include="Scripts\ControlCuchillo\ControlCuchillo.js" />
     <Content Include="Scripts\ControlCuchillo\Cuchillo.js" />
     <Content Include="Scripts\Asistencia\EditarAsistencia.js" />
@@ -3008,6 +3008,7 @@
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\General\clsDParametro.cs" />
     <Compile Include="AccesoDatos\GenerarDatosServicio\clsDGenerarDatosServicio.cs" />
+    <Compile Include="AccesoDatos\MoverPersonal\ClsDMoverPersonal.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaAsistencia.cs" />
     <Compile Include="AccesoDatos\Periodo\clsDPeriodo.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
@@ -3044,12 +3045,14 @@
     <Compile Include="Controllers\ControlHoraMaquinaController.cs" />
     <Compile Include="Controllers\ControlMaterialQuebradizoController.cs" />
     <Compile Include="Controllers\ControlPesoEnlatadoController.cs" />
+    <Compile Include="Controllers\ControlToallaController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HuesoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MensajeController.cs" />
+    <Compile Include="Controllers\MoverPersonalController.cs" />
     <Compile Include="Controllers\NominaController.cs" />
     <Compile Include="Controllers\PeriodoController.cs" />
     <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
@@ -3257,10 +3260,11 @@
     <Content Include="Views\Hueso\EficienciaAvanceKiloHora.cshtml" />
     <Content Include="Views\Hueso\EficienciaAvanceKiloHoraPartial.cshtml" />
     <Content Include="Views\App\MarcacionesJustificar.cshtml" />
-    <Content Include="Views\Asistencia\MoverPersonalDataLife.cshtml" />
-    <Content Include="Views\Asistencia\MoverPersonalDataLifePartial.cshtml" />
+    <Content Include="Views\MoverPersonal\MoverPersonalDataLife.cshtml" />
+    <Content Include="Views\MoverPersonal\MoverPersonalDataLifePartial.cshtml" />
     <Content Include="Views\ControlCocheLinea\ReporteCochesPorDias.cshtml" />
     <Content Include="Views\Empleado\EmpleadoTurnoPartial.cshtml" />
+    <Content Include="Views\ControlToalla\ControlToalla.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

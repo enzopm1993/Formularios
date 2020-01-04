@@ -20,9 +20,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
         public Boolean CosultarAsistenciaEmpleado(string cedula, DateTime fecha)
         {
-            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())  
             {
-               if( db.ASISTENCIA.Where(z => z.Cedula == cedula && z.Fecha == z.Fecha).ToList().Count > 0)
+               if(db.ASISTENCIA.Where(z => (z.Cedula == cedula && z.Fecha == z.Fecha)&& (z.HoraSalida==null)).ToList().Count > 0)
                 {
                     return true;
                 }
