@@ -15,24 +15,45 @@
             <th>
                 @Html.DisplayNameFor(model => model.Cargo)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dias) Antiguedad
+            </th>
 
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cedula)
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cargo)
+            </td>
+            @if (item.Dias >= 70 && item.Dias <= 90)
+            {
+                <td class="text-info">
+                    @Html.DisplayFor(modelItem => item.Dias)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombres)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cargo)
+            }
+            else if (item.Dias<70)
+            {
+                <td class="text-warning">
+                    @Html.DisplayFor(modelItem => item.Dias)
                 </td>
 
-            </tr>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dias)
+                </td>
+            }
+        </tr>
         }
     </tbody>
 </table>

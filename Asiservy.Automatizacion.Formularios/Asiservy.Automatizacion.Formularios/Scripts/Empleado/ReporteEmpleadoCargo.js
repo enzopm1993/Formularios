@@ -1,7 +1,9 @@
 ﻿
 
 function CargarEmpleadoCargo() {
-    console.log($("#selectLinea").val());
+   // console.log($("#selectLinea").val());
+    $("#divCard").prop("hidden", true);
+
     if ($("#selectLinea").val() < 1) {
         MensajeAdvertencia("Seleccione una Linea");
         return;
@@ -27,6 +29,7 @@ function CargarEmpleadoCargo() {
             config.opcionesDT.pageLength = 15;
             //   config.opcionesDT.order = [[1, "asc"]];
             $('#tblDataTable').DataTable(config.opcionesDT);
+            $("#divCard").prop("hidden", false);
 
         },
         error: function (resultado) {
