@@ -77,9 +77,11 @@ function GrabarCuchilloEmpleado() {
 function NuevoCuchilloEmpleado() {
     $('#IdEmpleadoCuchillo').val("0");
     $("#SelectEmpleado").prop('selectedIndex', 0);
-    $('#SelectCuchilloBlanco').val(0);
-    $('#SelectCuchilloRojo').val(0);
-    $('#SelectCuchilloNegro').val(0);
+    $('#SelectCuchilloBlanco').prop("selectedIndex",0);
+    $('#SelectCuchilloBlanco').prop("selectedIndex",0);
+    $('#SelectCuchilloNegro').prop("selectedIndex", 0);
+    //$('#SelectCuchilloRojo').val(0);
+    //$('#SelectCuchilloNegro').val(0);
     $('#NombreEmpleado').val("");
     $('#Identificacion').val("");
     jQuery("#validaCedula").html("");
