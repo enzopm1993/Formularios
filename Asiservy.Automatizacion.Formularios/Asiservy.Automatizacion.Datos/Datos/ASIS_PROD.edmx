@@ -1757,9 +1757,6 @@
           <FunctionImport Name="spConsultaUltimaMarcacionBiometrico" ReturnType="Collection(ASIS_PRODModel.spConsultaUltimaMarcacionBiometrico)">
           <Parameter Name="cedula" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaEmpleadoCargoPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea)">
-          <Parameter Name="Linea" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaOpcionesPorRol" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionesPorRol)">
           <Parameter Name="IDROL" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -2006,6 +2003,9 @@
             <End Role="CONTROL_HUESO_DETALLE" EntitySet="CONTROL_HUESO_DETALLE" />
             <End Role="CONTROL_MIGA" EntitySet="CONTROL_MIGA" />
           </AssociationSet>
+          <FunctionImport Name="spConsultaEmpleadoCargoPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea)">
+            <Parameter Name="Linea" Mode="In" Type="String" />
+          </FunctionImport>
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -2495,15 +2495,6 @@
         <ComplexType Name="spConsultaUltimaMarcacionBiometrico">
           <Property Type="String" Name="Cedula" Nullable="true" MaxLength="15" />
           <Property Type="DateTime" Name="Marcacion" Nullable="true" Precision="23" />
-        </ComplexType>
-        <ComplexType Name="spConsultaEmpleadoCargoPorLinea">
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="CodArea" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="spConsultaOpcionesPorRol">
           <Property Type="Int32" Name="IdOpcion" Nullable="false" />
@@ -3716,6 +3707,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spConsultaEmpleadoCargoPorLinea">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CodArea" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="60" />
+          <Property Type="Int32" Name="Dias" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4411,19 +4412,6 @@
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaUltimaMarcacionBiometrico">
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Marcacion" ColumnName="Marcacion" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaEmpleadoCargoPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaEmpleadoCargoPorLinea">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
-                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
-                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
-                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5760,6 +5748,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaEmpleadoCargoPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaEmpleadoCargoPorLinea">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="Dias" ColumnName="Dias" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

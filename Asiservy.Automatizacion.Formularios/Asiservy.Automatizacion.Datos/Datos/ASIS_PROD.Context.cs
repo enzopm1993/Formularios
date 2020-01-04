@@ -344,15 +344,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaUltimaMarcacionBiometrico>("spConsultaUltimaMarcacionBiometrico", cedulaParameter);
         }
     
-        public virtual ObjectResult<spConsultaEmpleadoCargoPorLinea> spConsultaEmpleadoCargoPorLinea(string linea)
-        {
-            var lineaParameter = linea != null ?
-                new ObjectParameter("Linea", linea) :
-                new ObjectParameter("Linea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaEmpleadoCargoPorLinea>("spConsultaEmpleadoCargoPorLinea", lineaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaOpcionesPorRol> spConsultaOpcionesPorRol(Nullable<int> iDROL)
         {
             var iDROLParameter = iDROL.HasValue ?
@@ -981,6 +972,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("linea", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlAvanceDiarioPorLinea>("spConsultaControlAvanceDiarioPorLinea", fechaParameter, lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaEmpleadoCargoPorLinea> spConsultaEmpleadoCargoPorLinea(string linea)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaEmpleadoCargoPorLinea>("spConsultaEmpleadoCargoPorLinea", lineaParameter);
         }
     }
 }
