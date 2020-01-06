@@ -52,8 +52,6 @@
                             <label>Línea</label>
                             @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), "Seleccione la Línea", new { @onchange = "CambioLineas(this.id)", @class = "form-control", @id = "selectLinea" })
                             @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
-
-
                         </div>
                     </div>
 
@@ -138,12 +136,12 @@
                         @Html.TextBoxFor(m => m.FechaSalidaEntrada, new { @type = "date", @id = "dateSalidaRegreso", @class = "form-control" })
                     </div>
                     <div class="col-md-4 col-sm-5">
-                        <label>Hora Salida</label>
+                        <label>Hora Desde</label>
                         @Html.TextBoxFor(m => m.HoraSalida, new { @type = "time", @id = "timeHoraSalida", @class = "form-control" })
                         @*<input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />*@
                     </div>
                     <div class="col-md-4  col-sm-5">
-                        <label>Hora Regreso</label>
+                        <label>Hora Hasta</label>
                         @Html.TextBoxFor(m => m.HoraRegreso, new { @type = "time", @id = "timeHoraRegreso", @class = "form-control" })
                         @*<input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />*@
                     </div>
@@ -151,12 +149,12 @@
                 </div>
                 <div class="row" id="DivFecha" >
                     <div class="col-md-6 col-sm-12">
-                        <label>Fecha Salida</label>
+                        <label>Fecha Desde</label>
                         @Html.TextBoxFor(m => m.FechaSalida, new { @type = "date", @id = "dateSalida", @class = "form-control" })
                         @*<input class="form-control" type="date" name="name" value="" id="datetimeDesde" />*@
                     </div>
                     <div class="col-md-6 col-sm-12">
-                        <label>Fecha Regreso</label>
+                        <label>Fecha Hasta</label>
                         @Html.TextBoxFor(m => m.FechaRegreso, new { @type = "date", @id = "dateRegreso", @class = "form-control" })
 
                     </div>

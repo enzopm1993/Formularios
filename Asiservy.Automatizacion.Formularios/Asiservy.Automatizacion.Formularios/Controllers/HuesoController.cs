@@ -42,6 +42,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDClasificador = new clsDClasificador();
                 var TipoControlHueso = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoTipoControlHuesos, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+
                 ViewBag.Linea = Empleado.LINEA;
                 ViewBag.CodLinea = Empleado.CODIGOLINEA;
                 ViewBag.TipoControlHueso = TipoControlHueso;
@@ -81,7 +82,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaControlHueso(Fecha);
+                clsDEmpleado = new clsDEmpleado();
+                var linea = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+            
+                var model = clsDControlHueso.ConsultaControlHueso(Fecha, linea.CODIGOLINEA);
                 return PartialView(model);
             }
             catch (DbEntityValidationException e)
@@ -195,6 +199,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (string.IsNullOrEmpty(model.Linea)
                     || string.IsNullOrEmpty(model.Lote)
                     || model.Lote == "0"
+                    || model.Limpieza == "0"
+                    || string.IsNullOrEmpty(model.Limpieza)                   
                     || model.HoraInicio == TimeSpan.Parse("00:00")
                     || model.HoraFin == TimeSpan.Parse("00:00")
                     )
@@ -222,6 +228,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     Observacion = model.Observacion,
                     TotalPieza = model.TotalPieza,
                     TotalLimpiadoras = model.TotalLimpiadoras,
+                    Limpieza = model.Limpieza,
                     EstadoRegistro = clsAtributos.EstadoRegistroActivo,
                     UsuarioIngresoLog = lsUsuario[0],
                     FechaIngresoLog = DateTime.Now,
@@ -551,11 +558,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;                
                 List<int?> roles = clsDLogin.ConsultaRolesUsuario(lsUsuario[1]);
-                if (roles.FirstOrDefault(x=> x.Value ==clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.RolControladorGeneral) != null)
+                if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.AsistenteProduccion || x.Value == clsAtributos.RolControladorGeneral) != null)
                 {
                     ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
+                    ViewBag.Linea = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                }              
+                //else if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorLinea || x.Value == clsAtributos.RolControladorLinea) != null)
+                //{
+                //    ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Codigo = Empleado.CODIGOLINEA });
+                //}
+                else
+                {
+                    ViewBag.Linea = clsDGeneral.ConsultaLineas(Empleado.CODIGOLINEA);
                 }
-                ViewBag.ComboLineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador {Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro=clsAtributos.EstadoRegistroActivo }); 
+              
                 return View();
             }
             catch (Exception ex)
@@ -584,6 +600,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
@@ -634,11 +654,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;
                 List<int?> roles = clsDLogin.ConsultaRolesUsuario(lsUsuario[1]);
-                if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral) != null)
+                if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.AsistenteProduccion || x.Value == clsAtributos.RolControladorGeneral) != null)
                 {
                     ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
+                    ViewBag.Linea = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 }
-                ViewBag.ComboLineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                //else if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorLinea || x.Value == clsAtributos.RolControladorLinea) != null)
+                //{
+                //    ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Codigo = Empleado.CODIGOLINEA });
+                //}
+                else
+                {
+                    ViewBag.Linea = clsDGeneral.ConsultaLineas(Empleado.CODIGOLINEA);
+                }
                 return View();
             }
             catch (Exception ex)
@@ -667,6 +695,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 // lsUsuario = User.Identity.Name.Split('_');
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDControlHueso = new clsDControlHueso();
                 var model = clsDControlHueso.ConsultaControlAvanceDiarioPorLimpiadora(ddFecha.Date, dsLinea);
                 return PartialView(model);

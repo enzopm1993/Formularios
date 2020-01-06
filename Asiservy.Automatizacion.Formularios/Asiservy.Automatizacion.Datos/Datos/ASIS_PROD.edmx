@@ -97,7 +97,7 @@
           <Property Name="IdBitacoraMoverPersonal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Cedula" Type="varchar" MaxLength="13" Nullable="false" />
           <Property Name="CodLinea" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="CodArea" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CodCentroCosto" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="CodCargo" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
@@ -106,6 +106,7 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="CodRecurso" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="BITACORA_PROYECCION">
           <Key>
@@ -365,6 +366,7 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TotalLimpiadoras" Type="int" />
+          <Property Name="Limpieza" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="CONTROL_HUESO_DETALLE">
           <Key>
@@ -1178,6 +1180,10 @@
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsultaEmpacadoras" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="hora" Type="time" Mode="In" />
+        </Function>
         <Function Name="spConsultaEmpleadoCargoPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Linea" Type="varchar" Mode="In" />
         </Function>
@@ -1293,6 +1299,7 @@
         </Function>
         <Function Name="spConsutaEmpleadosTurnos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="linea" Type="varchar" Mode="In" />
+          <Parameter Name="Fecha" Type="date" Mode="In" />
         </Function>
         <Function Name="spConsutaMotivosPermiso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="dsCodigoMotivo" Type="varchar" Mode="In" />
@@ -1688,9 +1695,6 @@
           </FunctionImport>
           <EntitySet Name="BITACORA_EMPLEADO_TURNO" EntityType="ASIS_PRODModel.BITACORA_EMPLEADO_TURNO" />
           <EntitySet Name="EMPLEADO_TURNO" EntityType="ASIS_PRODModel.EMPLEADO_TURNO" />
-          <FunctionImport Name="spConsutaEmpleadosTurnos" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosTurnos)">
-          <Parameter Name="linea" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsutaReporteEmpleadosTurnos" ReturnType="Collection(ASIS_PRODModel.spConsutaReporteEmpleadosTurnos)">
             <Parameter Name="linea" Mode="In" Type="String" />
             <Parameter Name="turno" Mode="In" Type="String" />
@@ -1711,10 +1715,6 @@
           <EntitySet Name="CONTROL_ESFERO" EntityType="ASIS_PRODModel.CONTROL_ESFERO" />
           <FunctionImport Name="spConsultaControlHuesoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHuesoDetalle)">
           <Parameter Name="IdControlHueso" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="spConsultaAvanceDiarioPorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spConsultaPersonalNominaPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaPersonalNominaPorLinea)" />
           <FunctionImport Name="spReporteCambioPersonal" ReturnType="Collection(ASIS_PRODModel.spReporteCambioPersonal)">
@@ -1760,7 +1760,6 @@
           <FunctionImport Name="spConsultaEmpleadoCargoPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea)">
           <Parameter Name="Linea" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="BITACORA_MOVER_EMPLEADO" EntityType="ASIS_PRODModel.BITACORA_MOVER_EMPLEADO" />
           <FunctionImport Name="spConsultaOpcionesPorRol" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionesPorRol)">
           <Parameter Name="IDROL" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1971,6 +1970,27 @@
           </FunctionImport>
           <EntitySet Name="AVANCE_KILOS_HORA" EntityType="ASIS_PRODModel.AVANCE_KILOS_HORA" />
           <EntitySet Name="CONTROL_AVANCE_API" EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" />
+          <FunctionImport Name="spConsultaControlHueso" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHueso)">
+          <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaEmpleadosPersonalPrestadoFiltro" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadosPersonalPrestadoFiltro)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Hora" Mode="In" Type="Time" />
+            <Parameter Name="Linea" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaEmpacadoras" ReturnType="Collection(String)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="hora" Mode="In" Type="Time" />
+          </FunctionImport>
+          <FunctionImport Name="spConsutaEmpleadosTurnos" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleadosTurnos)">
+            <Parameter Name="linea" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="BITACORA_MOVER_EMPLEADO" EntityType="ASIS_PRODModel.BITACORA_MOVER_EMPLEADO" />
+          <FunctionImport Name="spConsultaAvanceDiarioPorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="spConsultaControlAvanceDiarioPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaControlAvanceDiarioPorLinea)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
@@ -1986,14 +2006,6 @@
             <End Role="CONTROL_HUESO_DETALLE" EntitySet="CONTROL_HUESO_DETALLE" />
             <End Role="CONTROL_MIGA" EntitySet="CONTROL_MIGA" />
           </AssociationSet>
-          <FunctionImport Name="spConsultaControlHueso" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHueso)">
-          <Parameter Name="fecha" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="spConsultaEmpleadosPersonalPrestadoFiltro" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadosPersonalPrestadoFiltro)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="Hora" Mode="In" Type="Time" />
-            <Parameter Name="Linea" Mode="In" Type="String" />
-          </FunctionImport>
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -2229,13 +2241,6 @@
           <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CodLinea" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
-        <ComplexType Name="spConsutaEmpleadosTurnos">
-          <Property Type="String" Name="CEDULA" Nullable="false" MaxLength="13" />
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CODLINEA" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="LINEA" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TURNO" Nullable="true" MaxLength="1" />
-        </ComplexType>
         <ComplexType Name="spConsutaReporteEmpleadosTurnos">
           <Property Type="String" Name="CEDULA" Nullable="false" MaxLength="13" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="50" />
@@ -2315,13 +2320,6 @@
           <Property Type="String" Name="Lote" Nullable="true" MaxLength="10" />
           <Property Type="Time" Name="HoraInicio" Nullable="true" />
           <Property Type="Time" Name="HoraFin" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="spConsultaAvanceDiarioPorLimpiadora">
-          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
-          <Property Type="Int32" Name="TotalHueso" Nullable="true" />
-          <Property Type="Decimal" Name="Miga" Nullable="true" Precision="3" Scale="2" />
-          <Property Type="Int32" Name="Avance" Nullable="false" />
         </ComplexType>
         <ComplexType Name="spConsultaPersonalNominaPorLinea">
           <Property Type="String" Name="Area" Nullable="true" MaxLength="50" />
@@ -2507,23 +2505,6 @@
           <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="8" />
           <Property Type="String" Name="Cargo" Nullable="true" MaxLength="60" />
         </ComplexType>
-        <EntityType Name="BITACORA_MOVER_EMPLEADO">
-          <Key>
-            <PropertyRef Name="IdBitacoraMoverPersonal" />
-          </Key>
-          <Property Name="IdBitacoraMoverPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
-          <Property Name="CodLinea" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CodArea" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CodCargo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <ComplexType Name="spConsultaOpcionesPorRol">
           <Property Type="Int32" Name="IdOpcion" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
@@ -3572,6 +3553,67 @@
           <Property Name="Especie" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="Producto" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="spConsultaControlHueso">
+          <Property Type="Int32" Name="IdControlHueso" Nullable="false" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Lote" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="OrdenFabricacion" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" />
+          <Property Type="Time" Name="HoraInicio" Nullable="true" />
+          <Property Type="Time" Name="HoraFin" Nullable="true" />
+          <Property Type="Int32" Name="CodTipoControl" Nullable="true" />
+          <Property Type="String" Name="TipoControlHueso" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="TotalPieza" Nullable="true" />
+          <Property Type="Int32" Name="TotalLimpiadoras" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spConsultaEmpleadosPersonalPrestadoFiltro">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodCentroCosto" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodRecurso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spConsutaEmpleadosTurnos">
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TURNO" Nullable="true" MaxLength="1" />
+          <Property Type="Boolean" Name="Prestado" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="BITACORA_MOVER_EMPLEADO">
+          <Key>
+            <PropertyRef Name="IdBitacoraMoverPersonal" />
+          </Key>
+          <Property Name="IdBitacoraMoverPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="CodLinea" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CodCentroCosto" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CodCargo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodRecurso" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="spConsultaAvanceDiarioPorLimpiadora">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="60" />
+          <Property Type="Int32" Name="TotalHueso" Nullable="true" />
+          <Property Type="Decimal" Name="Miga" Nullable="true" Precision="3" Scale="2" />
+          <Property Type="Decimal" Name="Avance" Nullable="true" Precision="5" Scale="2" />
+          <Property Type="Int32" Name="Pieza" Nullable="true" />
+        </ComplexType>
         <ComplexType Name="spConsultaControlAvanceDiarioPorLinea">
           <Property Type="String" Name="Lote" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="Talla" Nullable="true" MaxLength="20" />
@@ -3587,8 +3629,10 @@
           <Property Type="Int32" Name="KiloTeorico" Nullable="true" />
           <Property Type="Decimal" Name="KiloReal" Nullable="true" Precision="10" Scale="2" />
           <Property Type="String" Name="TipoLimpieza" Nullable="true" MaxLength="30" />
-          <Property Type="Decimal" Name="avance" Nullable="true" Precision="3" Scale="2" />
+          <Property Type="Decimal" Name="avance" Nullable="true" Precision="5" Scale="2" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="KiloTeoricoLimpiadora" Nullable="true" />
+          <Property Type="Int32" Name="PiezasTeoricaLimpiadora" Nullable="true" />
         </ComplexType>
         <EntityType Name="CONTROL_HUESO">
           <Key>
@@ -3612,6 +3656,7 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TotalLimpiadoras" Type="Int32" />
+          <Property Name="Limpieza" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CONTROL_HUESO_DETALLE" Relationship="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" FromRole="CONTROL_HUESO" ToRole="CONTROL_HUESO_DETALLE" />
         </EntityType>
         <EntityType Name="CONTROL_HUESO_DETALLE">
@@ -3671,33 +3716,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="spConsultaControlHueso">
-          <Property Type="Int32" Name="IdControlHueso" Nullable="false" />
-          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Linea" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Lote" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="OrdenFabricacion" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
-          <Property Type="DateTime" Name="Fecha" Nullable="true" />
-          <Property Type="Time" Name="HoraInicio" Nullable="true" />
-          <Property Type="Time" Name="HoraFin" Nullable="true" />
-          <Property Type="Int32" Name="CodTipoControl" Nullable="true" />
-          <Property Type="String" Name="TipoControlHueso" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="TotalPieza" Nullable="true" />
-          <Property Type="Int32" Name="TotalLimpiadoras" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="spConsultaEmpleadosPersonalPrestadoFiltro">
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Linea" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodCentroCosto" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodRecurso" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4093,17 +4111,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsutaEmpleadosTurnos" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleadosTurnos">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosTurnos">
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="CODLINEA" ColumnName="CODLINEA" />
-                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
-                <ScalarProperty Name="TURNO" ColumnName="TURNO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsutaReporteEmpleadosTurnos" FunctionName="ASIS_PRODModel.Store.spConsutaReporteEmpleadosTurnos">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaReporteEmpleadosTurnos">
@@ -4202,17 +4209,6 @@
                 <ScalarProperty Name="Lote" ColumnName="Lote" />
                 <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
                 <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaAvanceDiarioPorLimpiadora" FunctionName="ASIS_PRODModel.Store.spConsultaAvanceDiarioPorLimpiadora">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="TotalHueso" ColumnName="TotalHueso" />
-                <ScalarProperty Name="Miga" ColumnName="Miga" />
-                <ScalarProperty Name="Avance" ColumnName="Avance" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -4431,24 +4427,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="BITACORA_MOVER_EMPLEADO">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.BITACORA_MOVER_EMPLEADO">
-              <MappingFragment StoreEntitySet="BITACORA_MOVER_EMPLEADO">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
-                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
-                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="IdBitacoraMoverPersonal" ColumnName="IdBitacoraMoverPersonal" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spConsultaOpcionesPorRol" FunctionName="ASIS_PRODModel.Store.spConsultaOpcionesPorRol">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaOpcionesPorRol">
@@ -5622,6 +5600,85 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlHueso" FunctionName="ASIS_PRODModel.Store.spConsultaControlHueso">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlHueso">
+                <ScalarProperty Name="IdControlHueso" ColumnName="IdControlHueso" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="CodTipoControl" ColumnName="CodTipoControl" />
+                <ScalarProperty Name="TipoControlHueso" ColumnName="TipoControlHueso" />
+                <ScalarProperty Name="TotalPieza" ColumnName="TotalPieza" />
+                <ScalarProperty Name="TotalLimpiadoras" ColumnName="TotalLimpiadoras" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaEmpleadosPersonalPrestadoFiltro" FunctionName="ASIS_PRODModel.Store.spConsultaEmpleadosPersonalPrestadoFiltro">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEmpleadosPersonalPrestadoFiltro">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="CodCentroCosto" ColumnName="CodCentroCosto" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="CodRecurso" ColumnName="CodRecurso" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaEmpacadoras" FunctionName="ASIS_PRODModel.Store.spConsultaEmpacadoras" />
+          <FunctionImportMapping FunctionImportName="spConsutaEmpleadosTurnos" FunctionName="ASIS_PRODModel.Store.spConsutaEmpleadosTurnos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsutaEmpleadosTurnos">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="TURNO" ColumnName="TURNO" />
+                <ScalarProperty Name="Prestado" ColumnName="Prestado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="BITACORA_MOVER_EMPLEADO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.BITACORA_MOVER_EMPLEADO">
+              <MappingFragment StoreEntitySet="BITACORA_MOVER_EMPLEADO">
+                <ScalarProperty Name="CodRecurso" ColumnName="CodRecurso" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="CodCentroCosto" ColumnName="CodCentroCosto" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdBitacoraMoverPersonal" ColumnName="IdBitacoraMoverPersonal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaAvanceDiarioPorLimpiadora" FunctionName="ASIS_PRODModel.Store.spConsultaAvanceDiarioPorLimpiadora">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="TotalHueso" ColumnName="TotalHueso" />
+                <ScalarProperty Name="Miga" ColumnName="Miga" />
+                <ScalarProperty Name="Avance" ColumnName="Avance" />
+                <ScalarProperty Name="Pieza" ColumnName="Pieza" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaControlAvanceDiarioPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaControlAvanceDiarioPorLinea">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlAvanceDiarioPorLinea">
@@ -5641,12 +5698,15 @@
                 <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
                 <ScalarProperty Name="avance" ColumnName="avance" />
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="KiloTeoricoLimpiadora" ColumnName="KiloTeoricoLimpiadora" />
+                <ScalarProperty Name="PiezasTeoricaLimpiadora" ColumnName="PiezasTeoricaLimpiadora" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
           <EntitySetMapping Name="CONTROL_HUESO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_HUESO">
               <MappingFragment StoreEntitySet="CONTROL_HUESO">
+                <ScalarProperty Name="Limpieza" ColumnName="Limpieza" />
                 <ScalarProperty Name="TotalLimpiadoras" ColumnName="TotalLimpiadoras" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
@@ -5700,41 +5760,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaControlHueso" FunctionName="ASIS_PRODModel.Store.spConsultaControlHueso">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlHueso">
-                <ScalarProperty Name="IdControlHueso" ColumnName="IdControlHueso" />
-                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-                <ScalarProperty Name="CodTipoControl" ColumnName="CodTipoControl" />
-                <ScalarProperty Name="TipoControlHueso" ColumnName="TipoControlHueso" />
-                <ScalarProperty Name="TotalPieza" ColumnName="TotalPieza" />
-                <ScalarProperty Name="TotalLimpiadoras" ColumnName="TotalLimpiadoras" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaEmpleadosPersonalPrestadoFiltro" FunctionName="ASIS_PRODModel.Store.spConsultaEmpleadosPersonalPrestadoFiltro">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEmpleadosPersonalPrestadoFiltro">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="CodCentroCosto" ColumnName="CodCentroCosto" />
-                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
-                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
-                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
-                <ScalarProperty Name="CodRecurso" ColumnName="CodRecurso" />
-                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -20,13 +20,13 @@ function CargarEmpleadoCuchilloPrestado() {
         url: "../ControlCuchillo/EmpleadoCuchilloPrestadoPartial",
         type: "GET",
         data: {
-            Fecha:$("#txtFecha").val()
+            Fecha: $("#txtFecha").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            $("#spinnerCargando").prop("hidden", true);     
+            $("#spinnerCargando").prop("hidden", true);
             if (resultado == "0") {
                 $('#DivTableCuchilloPrestado').html("<div class='text-center'><h4>No Existen Registros</h4></div>");
 
@@ -34,9 +34,9 @@ function CargarEmpleadoCuchilloPrestado() {
                 $('#DivTableCuchilloPrestado').html(resultado);
                 config.opcionesDT.pageLength = 50;
                 $('#tblDataTable').DataTable(config.opcionesDT);
-            }           
-                  
-          
+            }
+
+
         },
         error: function (resultado) {
             MensajeError(resultado, false);
@@ -47,10 +47,10 @@ function CargarEmpleadoCuchilloPrestado() {
 
 function CargarEmpleadoPrestado() {
     $("#selectEmpleado").empty();
-    $("#selectEmpleado").append("<option value='' >-- Seleccionar Opción--</option>");  
+    $("#selectEmpleado").append("<option value='' >-- Seleccionar Opción--</option>");
     if ($("#txtFecha").val() == '') {
         return;
-    }  
+    }
     $.ajax({
         url: "../ControlCuchillo/ConsultaEmpleadosPrestado",
         type: "Get",
@@ -134,7 +134,7 @@ function Validar() {
     return valida;
 }
 
-function GuardarModificarCuchilloEmpleadoPrestado() {    
+function GuardarModificarCuchilloEmpleadoPrestado() {
     if (!Validar()) {
         return;
     }

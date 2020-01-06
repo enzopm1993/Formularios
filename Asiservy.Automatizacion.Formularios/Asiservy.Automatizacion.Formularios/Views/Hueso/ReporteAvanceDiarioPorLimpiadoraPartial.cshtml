@@ -41,19 +41,17 @@
 
                     @Html.DisplayFor(modelItem => item.Avance) &nbsp;
                     @{
-                        if (item.Avance > 70)
+                        if (item.Avance > 80)
                         {
                             <i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i>
                         }
-                        else if (item.Avance > 50)
+                        else if (item.Avance > 60)
                         {
                             <i class="fas fa-arrow-circle-right" style="background:#ffd800; border-radius:10px"></i>
-
                         }
                         else
                         {
                             <i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i>
-
                         }
 
                     }

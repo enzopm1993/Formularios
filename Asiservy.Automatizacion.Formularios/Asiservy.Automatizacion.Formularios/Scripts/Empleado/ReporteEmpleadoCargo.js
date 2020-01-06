@@ -24,6 +24,9 @@ function CargarEmpleadoCargo() {
                 return;
             }
             div.html(resultado);
+            config.opcionesDT.pageLength = 15;
+            //   config.opcionesDT.order = [[1, "asc"]];
+            $('#tblDataTable').DataTable(config.opcionesDT);
 
         },
         error: function (resultado) {

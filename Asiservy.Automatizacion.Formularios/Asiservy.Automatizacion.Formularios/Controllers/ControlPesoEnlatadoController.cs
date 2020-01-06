@@ -46,8 +46,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDClasificador = new clsDClasificador();
-                ViewBag.Pesos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodPesoEnlatado, 0);
-                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodLineaEnlatado, 0);
+                ViewBag.Pesos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodPesoEnlatado, "0");
+                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodLineaEnlatado, "0");
                 //clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 return View();
             }

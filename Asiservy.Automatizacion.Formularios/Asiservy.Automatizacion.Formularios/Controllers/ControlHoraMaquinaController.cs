@@ -45,7 +45,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDClasificador = new clsDClasificador();
-                ViewBag.Autoclaves = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave, 0);
+                ViewBag.Autoclaves = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave, "0");
                 //clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 return View();
             }
@@ -167,7 +167,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 clsDClasificador = new clsDClasificador();
                 clsDControlHoraMaquina = new clsDControlHoraMaquina();
-                ViewBag.Autoclaves = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave,0);
+                ViewBag.Autoclaves = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave,"0");
                 ViewBag.Fecha = Fecha;
                  var model = clsDControlHoraMaquina.ConsultaControlHoraMaquinaDetalle(IdControl);               
                 return PartialView(model);
@@ -417,7 +417,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 clsDClasificador = new clsDClasificador();
                 clsDControlHoraMaquina = new clsDControlHoraMaquina();
-                ViewBag.Autoclaves = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave, 0);
+                ViewBag.Autoclaves = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave, "0");
                 var model = clsDControlHoraMaquina.ConsultarControlHoraMaquina(Fecha, Turno);
                // var detalle = clsDControlHoraMaquina.ConsultaControlHoraMaquinaDetalle(model.FirstOrDefault().IdControlHoraMaquina)
                 return PartialView(model);

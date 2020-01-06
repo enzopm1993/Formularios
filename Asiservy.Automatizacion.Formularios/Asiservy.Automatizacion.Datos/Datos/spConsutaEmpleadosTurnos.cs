@@ -13,10 +13,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spConsutaEmpleadosTurnos
     {
-        public string CEDULA { get; set; }
-        public string NOMBRES { get; set; }
-        public string CODLINEA { get; set; }
-        public string LINEA { get; set; }
+        public string Cedula { get; set; }
+        public string Nombre { get; set; }
+        public string CodLinea { get; set; }
+        public string Linea { get; set; }
         public string TURNO { get; set; }
+        public Nullable<bool> Prestado { get; set; }
     }
 }

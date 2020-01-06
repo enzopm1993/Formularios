@@ -3,7 +3,7 @@
 
 $(document).ready(function () {
     CargarColorCuchillos();
-  //  Nuevo();
+    //  Nuevo();
 });
 
 
@@ -30,9 +30,9 @@ function GuardarCuchillo() {
         data: {
             NumeroCuchillo: $("#NumeroCuchillo").val(),
             ColorCuchillo: $("#ColorCuchillos").val(),
-            EstadoRegistro: $("#CheckEstadoRegistro").val()
+            EstadoRegistro: $("#CheckEstadoRegistro").prop("checked")
         },
-        success: function (resultado) {           
+        success: function (resultado) {
             if (resultado == "1") {
                 MensajeAdvertencia("Faltan Parametros");
             }
@@ -43,7 +43,7 @@ function GuardarCuchillo() {
         },
         error: function (resultado) {
             MensajeError(resultado, false);
-           
+
         }
     });
 }
@@ -55,14 +55,14 @@ function CargarColorCuchillos() {
         url: "../ControlCuchillo/CuchilloPartial",
         type: "GET",
         data: {
-            dsColor:$("#ColorCuchillos").val()
+            dsColor: $("#ColorCuchillos").val()
         },
         success: function (resultado) {
             var bitacora = $('#DivColorCuchillos');
-                bitacora.html(resultado);
+            bitacora.html(resultado);
 
             $("#spinnerCargando").prop("hidden", true);
-          
+
         },
         error: function (resultado) {
             MensajeError(resultado, false);
@@ -75,12 +75,12 @@ function CargarColorCuchillos() {
 
 //Limpia el campo de busqueda creado sin DataTable.net
 function LimpiarTexto() {
-        $.each($("#TableCuchillos tbody tr"), function () {
-                $(this).show();
-        });
+    $.each($("#TableCuchillos tbody tr"), function () {
+        $(this).show();
+    });
     document.getElementById("search").innerText = "";
     $("#search").val("");
- }
+}
 
 //Busqueda Manual para tablas
 $(document).ready(function () {
@@ -101,7 +101,7 @@ $(document).ready(function () {
 var i = 0;
 $("tr").each(function () {
     var desCheck = "CheckCuchilloNegro";
-    if(i>1)
+    if (i > 1)
         desCheck += i;
     var x = document.getElementById(desCheck);
     if (x != null)
@@ -141,7 +141,7 @@ function Cuchillo(color, fila) {
 
 function Guardar() {
     var Estado = document.getElementById("SelectEstado");
-   // console.log(Estado);
+    // console.log(Estado);
     //console.log(Estado.selectedIndex);
     if (Estado.selectedIndex == 0) {
         Mensaje("Seleccione un estado..");
@@ -159,5 +159,15 @@ function prueba() {
     var checkNegro = document.getElementById("CheckCuchilloNegro").checked;
 
     console.log(checkRojo, checkNegro, checkBlanco);
+
+}
+
+
+function CambioEstado(valor) {
+    // console.log(valor);
+    if (valor)
+        $('#LabelEstado').text('Activo');
+    else
+        $('#LabelEstado').text('Inactivo');
 
 }

@@ -3,7 +3,7 @@
 
 
 function SelectEstado(valor) {
-    if (valor < 1 && $("#EstadoControlCuchillo").val() !="undefined")
+    if (valor < 1 && $("#EstadoControlCuchillo").val() != "undefined")
         valor = $("#EstadoControlCuchillo").val();
 
     CargarControlCuchillo(valor);
@@ -19,14 +19,14 @@ function CargarControlCuchillo(estado) {
         return;
     }
     $('#TablaControlCuchillo').html('');
-    $("#spinnerCargando").prop("hidden",false);
-  $.ajax({
+    $("#spinnerCargando").prop("hidden", false);
+    $.ajax({
         url: "../ControlCuchillo/ControlCuchilloPartial",
         type: "GET",
-      data: {
-          dsEstado: estado,
-          ddFecha: $("#txtFecha").val()
-      },
+        data: {
+            dsEstado: estado,
+            ddFecha: $("#txtFecha").val()
+        },
         success: function (resultado) {
             var bitacora = $('#TablaControlCuchillo');
             $("#spinnerCargando").prop("hidden", true);
@@ -39,7 +39,7 @@ function CargarControlCuchillo(estado) {
 
         },
         error: function (resultado) {
-           
+
             MensajeError(resultado, false);
             $("#spinnerCargando").prop("hidden", true);
 
@@ -51,26 +51,36 @@ function CargarControlCuchillo(estado) {
 
 
 
-function check(id, color, cedula) {
-   
-    var Observacion = "#txtObservacion-"+cedula;
+function check(id, color, cedula, cont) {
+
+    var sPath = window.location.pathname;
+    var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+    //alert(sPage);
+    if (sPage == "Asistencia") {
+        if (!$('#CheckAsistencia-' + cont).prop('checked')) {
+            $('#' + id).prop("checked", false);
+            return false;
+        }
+    }
+    //alert('hola');
+    var Observacion = "#txtObservacion-" + cedula;
     var numero = 0;
     var estado = $('#EstadoControlCuchillo').val();
-    if (color == 'B') {       
-        numero = id.substring(9, 6);  
-    } if (color == 'R') {       
+    if (color == 'B') {
+        numero = id.substring(9, 6);
+    } if (color == 'R') {
         numero = id.substring(8, 4);
-    } if (color == 'N') {     
+    } if (color == 'N') {
         numero = id.substring(9, 5);
-    }  
+    }
     id = "#" + id;
     $(id).prop('disabled', true);
-    if($(id).prop('checked')) {
+    if ($(id).prop('checked')) {
         // $(label).css("background", "#28B463");
         $(Observacion).prop('readonly', true);
         GuardarControlCuchillo(cedula, color, numero, estado, true, id, Observacion);
     } else {
-       // $(label).css("background", "#7b8a8b");
+        // $(label).css("background", "#7b8a8b");
         $(Observacion).prop('readonly', false);
         GuardarControlCuchillo(cedula, color, numero, estado, false, id, Observacion);
     }
@@ -79,7 +89,7 @@ function check(id, color, cedula) {
 
 
 function GuardarControlCuchillo(cedula, color, numero, estado, check, idCheck, Observacion) {
-   
+
     $.ajax({
         url: "../ControlCuchillo/GuardarControlCuchillo",
         type: "GET",
@@ -96,21 +106,21 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check, idCheck, O
             if (resultado.codigo == 1) {
                 MensajeAdvertencia(resultado.descripcion)
                 $(idCheck).prop('checked', false);
-              //  $(Observacion).val()
-               // $(idLabel).css("background", "#7b8a8b");               
+                //  $(Observacion).val()
+                // $(idLabel).css("background", "#7b8a8b");               
             }
-            $(idCheck).prop('disabled', false);          
-            
+            $(idCheck).prop('disabled', false);
+
         },
         error: function (resultado) {
             //console.log(resultado.responseJSON);
             //console.log(resultado);
             MensajeError(resultado.responseText + "", false);
-           // MensajeError(resultado + "", false);
+            // MensajeError(resultado + "", false);
             $(idCheck).prop('checked', false);
-           // $(idLabel).css("background", "#7b8a8b");
+            // $(idLabel).css("background", "#7b8a8b");
             $(idCheck).prop('disabled', false);
-     
+
 
         }
     });

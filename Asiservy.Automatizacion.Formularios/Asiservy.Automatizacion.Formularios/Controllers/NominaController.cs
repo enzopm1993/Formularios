@@ -1,10 +1,12 @@
 ﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.App;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
@@ -19,6 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
        
         clsDError clsDError = null;
+        clsDAsistencia ClsdAsistencia = null;
         string[] lsUsuario;
 
         protected void SetErrorMessage(string message)
@@ -304,10 +307,83 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        public ActionResult ActualizaEmpleadosArea(ParamCambioPersonal parametros)
+        {
+            try
+            {
+                parametros.Compania = "1";
+                ClsKeyValue obReturn = new ClsKeyValue();
+                clsDMovimientoPersonalNomina ClsMovimientoPersonalNomina = new clsDMovimientoPersonalNomina();
+                using (DataLifeService.ServicioAsiservySoapClient servicio = new DataLifeService.ServicioAsiservySoapClient())
+                {
+                    List<string> arrCedulas = new List<string>();
+                    string[] liststring = User.Identity.Name.Split('_');
+                    DataSet content;
+                    DataTable dt;
+                    string codigoReturn;
+                    string msgReturn;
+                    List<Respuesta> Respuesta = new List<Respuesta>();
+                    ClsdAsistencia = new clsDAsistencia();
+                    foreach (var item in parametros.Cedula)
+                    {
+                        if (ClsdAsistencia.CosultarAsistenciaEmpleado(item, DateTime.Now))
+                        {
+                            //remover cedula y agregar msjerror
+                            Respuesta.Add(new Respuesta { cedula = item, Codigo = "001", Descripcion = "No se puede mover, La asistencia ya habia sido generada" });
+                        }
+                        else
+                        {
+                            arrCedulas.Add(item);
+                        }
+                    }
+                    //foreach (var cedula in parametros.Cedula)
+                    foreach (var cedula in arrCedulas.ToArray())
+                    {
+                        content = servicio.actualizarCodigosEmpleados(cedula, parametros.Compania, parametros.CentroCostos, parametros.Cargo, parametros.Linea, parametros.Recurso);
+                        dt = content.Tables[0];
+                        codigoReturn = dt.Rows[0]["iRetCode"].ToString();
+                        msgReturn = dt.Rows[0]["sErrMsg"].ToString();
+                        obReturn.Descripcion = msgReturn;
+                        obReturn.Codigo = codigoReturn;
+                        Respuesta.Add(new Respuesta { cedula = cedula, Codigo = obReturn.Codigo, Descripcion = obReturn.Descripcion });
+                        ClsMovimientoPersonalNomina.GuardarBitacoraMovimientoPersonalNomina(cedula, liststring[0], Request.UserHostAddress, parametros.CentroCostos, parametros.Recurso, parametros.Linea, parametros.Cargo);
+                    }
+                    //return Json(obReturn, JsonRequestBehavior.AllowGet);
+                    return Json(Respuesta, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
 
 
     }
 
+    public class Respuesta
+    {
+        public string cedula { get; set; }
+        public string Codigo { get; set; }
+        public string Descripcion { get; set; }
+    }
     public class clsEmpleadoCliente
     {
         public string CODEMPLEADO { get; set; }
@@ -321,7 +397,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public string CODIGO_SAP { get; set; }
         public bool EXISTE_SAP { get; set; }
     }
-
+    public class ParamCambioPersonal
+    {
+        public string[] Cedula { get; set; }
+        public string Compania { get; set; }
+        public string CentroCostos { get; set; }
+        public string Recurso { get; set; }
+        public string Linea { get; set; }
+        public string Cargo { get; set; }
+    }
     public class ParamCertificado
     {
         public int Id { get; set; }

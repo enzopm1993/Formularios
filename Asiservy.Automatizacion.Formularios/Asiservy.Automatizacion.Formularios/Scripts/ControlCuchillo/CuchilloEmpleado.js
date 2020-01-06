@@ -1,6 +1,6 @@
 ﻿
 
-$(document).ready(function () {    
+$(document).ready(function () {
     CargarEmpleadoCuchillo();
     NuevoCuchilloEmpleado();
 });
@@ -31,7 +31,7 @@ function GrabarCuchilloEmpleado() {
     $("#btnNuevo").prop("disabled", true);
     $("#btnGuardar").prop("disabled", true);
     $.ajax({
-        url: "../Asistencia/CuchilloEmpleado",
+        url: "../ControlCuchillo/CuchilloEmpleado",
         type: "Post",
         data: {
             IdEmpleadoCuchillo: $("#IdEmpleadoCuchillo").val(),
@@ -54,11 +54,15 @@ function GrabarCuchilloEmpleado() {
                 MensajeAdvertencia("Parametros Incompletos");
                 return false;
             } else {
-                MensajeCorrecto(resultado);
-                NuevoCuchilloEmpleado();
-                CargarEmpleadoCuchillo();
+                if (resultado.Respuesta == true) {
+                    MensajeCorrecto(resultado.Descripcion);
+                    NuevoCuchilloEmpleado();
+                    CargarEmpleadoCuchillo();
+                } else {
+                    MensajeAdvertencia(resultado.Descripcion);
+                }
             }
-          
+
         },
         error: function (resultado) {
             $("#btnNuevo").prop("disabled", true);
@@ -78,12 +82,12 @@ function NuevoCuchilloEmpleado() {
     $('#SelectCuchilloNegro').val(0);
     $('#NombreEmpleado').val("");
     $('#Identificacion').val("");
-   jQuery("#validaCedula").html("");
+    jQuery("#validaCedula").html("");
 
 }
 
-function SeleccionEmpleadoCuchillo(id, cedula, blanco,rojo, negro, estado, nombre) {
-    
+function SeleccionEmpleadoCuchillo(id, cedula, blanco, rojo, negro, estado, nombre) {
+
     $('#IdEmpleadoCuchillo').val(id);
     $('#SelectEmpleado').val(cedula);
     $('#SelectCuchilloBlanco').val(blanco);
@@ -91,7 +95,7 @@ function SeleccionEmpleadoCuchillo(id, cedula, blanco,rojo, negro, estado, nombr
     $('#SelectCuchilloNegro').val(negro);
     $('#NombreEmpleado').val(nombre);
     $('#Identificacion').val(cedula);
-   
+
     if (estado == 'A') {
         $('#CheckEstadoRegistro').prop('checked', true);
         // console.log($('#LabelEstado').val());
@@ -108,7 +112,7 @@ function CargarEmpleadoCuchillo() {
     $("#spinnerCargando").prop("hidden", false);
     $('#DivTableEmpleadoCuchillo').html('');
     $.ajax({
-        url: "../Asistencia/CuchilloEmpleadoPartial",
+        url: "../ControlCuchillo/CuchilloEmpleadoPartial",
         type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
@@ -122,7 +126,7 @@ function CargarEmpleadoCuchillo() {
         },
         error: function (resultado) {
             MensajeError(resultado, false);
-            $("#spinnerCargando").prop("hidden", true);            
+            $("#spinnerCargando").prop("hidden", true);
         }
     });
 }

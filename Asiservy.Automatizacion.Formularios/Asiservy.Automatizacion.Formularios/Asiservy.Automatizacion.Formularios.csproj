@@ -2132,6 +2132,7 @@
     <Content Include="Scripts\Asistencia\BitacoraCambioPersonal.js" />
     <Content Include="Scripts\Asistencia\CambiarPersonalDeArea.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
+    <Content Include="Scripts\Asistencia\MoverPersonalDataLife.js" />
     <Content Include="Scripts\ControlCuchillo\ControlCuchillo.js" />
     <Content Include="Scripts\ControlCuchillo\Cuchillo.js" />
     <Content Include="Scripts\Asistencia\EditarAsistencia.js" />
@@ -2161,6 +2162,7 @@
     <Content Include="Scripts\DateRangePicker\moment.min.js" />
     <Content Include="Scripts\ControlMaterialQuebradizo\ReporteControlMaterialQuebradizo.js" />
     <Content Include="Scripts\Empleado\EmpleadoCargo.js" />
+    <Content Include="Scripts\Empleado\EmpleadoTurno.js" />
     <Content Include="Scripts\Empleado\ReporteEmpleadoCargo.js" />
     <Content Include="Scripts\excelexportjs.js" />
     <Content Include="Scripts\GenerarDatosServicio\GenerarDatosServicio.js" />
@@ -2986,6 +2988,7 @@
     <Compile Include="AccesoDatos\App\Sugerencias.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
+    <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
     <Compile Include="AccesoDatos\ControlCuchillo\clsDCuchillo.cs" />
     <Compile Include="AccesoDatos\ControlCocheLinea\clsDControlCocheLinea.cs" />
     <Compile Include="AccesoDatos\ControlEnfundado\clsDControlEnfundado.cs" />
@@ -3254,7 +3257,10 @@
     <Content Include="Views\Hueso\EficienciaAvanceKiloHora.cshtml" />
     <Content Include="Views\Hueso\EficienciaAvanceKiloHoraPartial.cshtml" />
     <Content Include="Views\App\MarcacionesJustificar.cshtml" />
+    <Content Include="Views\Asistencia\MoverPersonalDataLife.cshtml" />
+    <Content Include="Views\Asistencia\MoverPersonalDataLifePartial.cshtml" />
     <Content Include="Views\ControlCocheLinea\ReporteCochesPorDias.cshtml" />
+    <Content Include="Views\Empleado\EmpleadoTurnoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

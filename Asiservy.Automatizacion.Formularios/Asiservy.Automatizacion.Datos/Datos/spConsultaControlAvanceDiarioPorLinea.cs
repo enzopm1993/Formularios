@@ -29,5 +29,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TipoLimpieza { get; set; }
         public Nullable<decimal> avance { get; set; }
         public string Observacion { get; set; }
+        public Nullable<int> KiloTeoricoLimpiadora { get; set; }
+        public Nullable<int> PiezasTeoricaLimpiadora { get; set; }
     }
 }

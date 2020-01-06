@@ -15,6 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.Empleado
         public string Linea { get; set; }
         public string CodArea { get; set; }
         public string CodCargo { get; set; }
+        public bool Prestado { get; set; }
 
         [Required(ErrorMessage ="Campo Requerido")]
         public string Turno { get; set; }
