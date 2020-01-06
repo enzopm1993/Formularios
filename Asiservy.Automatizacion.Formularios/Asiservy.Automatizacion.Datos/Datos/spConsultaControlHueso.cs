@@ -26,5 +26,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TipoControlHueso { get; set; }
         public Nullable<int> TotalPieza { get; set; }
         public Nullable<int> TotalLimpiadoras { get; set; }
+        public string Limpieza { get; set; }
     }
 }

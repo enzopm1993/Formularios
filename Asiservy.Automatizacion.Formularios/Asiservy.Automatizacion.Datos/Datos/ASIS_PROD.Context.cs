@@ -896,15 +896,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMovimientoPersonalDiario>("spConsultaMovimientoPersonalDiario", fechaParameter, horaParameter, codLineaParameter);
         }
     
-        public virtual ObjectResult<spConsultaControlHueso> spConsultaControlHueso(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", fechaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaEmpleadosPersonalPrestadoFiltro> spConsultaEmpleadosPersonalPrestadoFiltro(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, string linea)
         {
             var fechaParameter = fecha.HasValue ?
@@ -981,6 +972,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Linea", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaEmpleadoCargoPorLinea>("spConsultaEmpleadoCargoPorLinea", lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlHueso> spConsultaControlHueso(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", fechaParameter);
         }
     }
 }
