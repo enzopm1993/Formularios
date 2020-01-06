@@ -31,6 +31,14 @@
         </tr>
     </thead>
     <tbody>
+        @{ 
+            int TotalPresente = 0;
+            int TotalFalta = 0;
+            int TotalPermisoMedico = 0;
+            int TotalCambioArea = 0;
+            int TotalPermisoGeneral = 0;
+            int Total = 0;
+        }
         @foreach (var item in Model)
         {
             <tr>
@@ -42,24 +50,46 @@
                 </td>
                 <td class="text-center">
                     @Html.DisplayFor(modelItem => item.Presente)
+                    @{ TotalPresente = TotalPresente + item.Presente??0;}
                 </td>
                 <td class="text-center">
                     @Html.DisplayFor(modelItem => item.Falta)
+                    @{ TotalFalta = TotalFalta + item.Falta??0;}
+
                 </td>
                 <td class="text-center">
                     @Html.DisplayFor(modelItem => item.PermisoMedico)
+                    @{ TotalPermisoMedico = TotalPermisoMedico + item.PermisoMedico ?? 0;}
+
                 </td>
                 <td class="text-center">
                     @Html.DisplayFor(modelItem => item.CambioArea)
+                    @{ TotalCambioArea = TotalCambioArea + item.CambioArea ?? 0;}
+
                 </td>
                 <td class="text-center">
                     @Html.DisplayFor(modelItem => item.PermisoGeneral)
+                    @{ TotalPermisoGeneral = TotalPermisoGeneral + item.PermisoGeneral ?? 0;}
+
                 </td>
                 <td class="text-center">
                     @Html.DisplayFor(modelItem => item.Total)
+                    @{ Total = Total + item.Total ?? 0;}
+
                 </td>
 
             </tr>
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <td>Totales:</td>
+            <td class="text-center">@TotalPresente</td>
+            <td class="text-center">@TotalFalta</td>
+            <td class="text-center">@TotalPermisoMedico</td>
+            <td class="text-center">@TotalCambioArea</td>
+            <td class="text-center">@TotalPermisoGeneral</td>
+            <td class="text-center">@Total</td>
+        </tr>
+    </tfoot>
 </table>
