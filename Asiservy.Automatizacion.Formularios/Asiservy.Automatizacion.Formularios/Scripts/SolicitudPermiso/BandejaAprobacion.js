@@ -25,7 +25,8 @@ function Aprobar(result) {
     $("#btnArpobarEspera").prop("hidden", false);
     var resultado = JSON.stringify(result)
     var resultado2 = JSON.parse(resultado)
-    console.log(resultado2);
+   // MostrarModalCargando();
+    // console.log(resultado2);
     $.ajax({
         url: '../SolicitudPermiso/AprobarSolicitud',
         type: 'POST',
@@ -37,7 +38,6 @@ function Aprobar(result) {
             MensajeCorrecto(resultado, true);
             $("#btnAprobar").prop("hidden", false);
             $("#tdAcciones").prop("hidden", false);
-
             $("#btnArpobarEspera").prop("hidden", true);
         }
         ,
