@@ -360,6 +360,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 dynamic result= clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProduccion(Fecha);
                 List<OrdenFabricacion> Listado = new List<OrdenFabricacion>();
@@ -394,6 +399,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDEmpleado = new clsDEmpleado();
                 var Linea = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();

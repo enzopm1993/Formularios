@@ -23,7 +23,9 @@ function CargarOrdenFabricacion(valor) {
             Fecha: valor
         },
         success: function (resultado) {
-           
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (!$.isEmptyObject(resultado)) {
                 $.each(resultado, function (create, row) {
                     $("#SelectOrdenFabricacion").append("<option value='" + row.Orden + "'>" + row.Orden + "</option>")
@@ -53,7 +55,9 @@ function CargarLotes(valor) {
             Orden: valor
         },
         success: function (resultado) {
-
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (!$.isEmptyObject(resultado)) {
                 $.each(resultado, function (create, row) {
                     $("#SelectLote").append("<option value='" + row.descripcion + "'>" + row.descripcion + "</option>")
@@ -181,6 +185,9 @@ function CargarControlHuesoDetalle(id) {
             id: id         
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $('#divCabecera').slideUp(300).fadeOut(1000);  
             var bitacora = $('#DivTableControlHueso');
             bitacora.html('');
@@ -214,6 +221,9 @@ function CargarControlHueso() {
         },
     
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             var bitacora = $('#DivTableControlHueso');
             $("#spinnerCargando").prop("hidden", true);
             bitacora.html(resultado);
@@ -300,6 +310,9 @@ function GenerarControlHueso() {
             Limpieza: $('#selectLimpieza').val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (resultado == 0) {
                 MensajeAdvertencia("Ya se ha generado un control con esos parametros");
                 $('#spinnerCargando').prop("hidden", true);
@@ -382,7 +395,9 @@ function GuardarControlHueso(detalle, hueso, miga, id) {
                 diMiga: miga
             },
             success: function (resultado) {                
-
+                if (resultado == "101") {
+                    window.location.reload();
+                }
             },
             error: function (resultado) {
 
@@ -415,6 +430,9 @@ function InactivarRegistro() {
         },
 
         success: function (resultado) {            
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $("#spinnerCargando").prop("hidden", true);
             MensajeCorrecto(resultado);
             var bitacora = $('#DivTableControlHuesoDetalle');
