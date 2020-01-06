@@ -698,7 +698,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        [Authorize]
+        
         public ActionResult ReporteAvanceDiarioPorLimpiadoraPartial(DateTime ddFecha, string dsLinea)
         {
             try
