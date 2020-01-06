@@ -355,6 +355,49 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
+        public JsonResult ModificarControl(CONTROL_HUESO model)
+        {
+            try
+            {
+                clsDControlHueso = new clsDControlHueso();
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                RespuestaGeneral respuesta = new RespuestaGeneral();
+                if (model.IdControlHueso == 0 ||
+                    model.HoraInicio == new TimeSpan(0,0,0) || 
+                    model.HoraFin == new TimeSpan(0, 0, 0) || string.IsNullOrEmpty(model.Limpieza))
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
+                }
+                respuesta= clsDControlHueso.GuardarModificarControl(model);
+                return Json(respuesta, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
 
         public JsonResult ConsultarOrdenesFabricacion(DateTime Fecha)
         {
