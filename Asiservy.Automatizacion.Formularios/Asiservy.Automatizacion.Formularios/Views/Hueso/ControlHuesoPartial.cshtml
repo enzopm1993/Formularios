@@ -44,7 +44,7 @@
                 @Html.TextBoxFor(modelItem => item.CantidadHueso, new {@type="number" ,@class = "form-control", @id="Huesos-"+item.IdDetalle, @onclick= "Clear(this.id)" })
             </td>
             <td>
-                @Html.TextBoxFor(modelItem => item.Miga, new { @type = "number", @class = "form-control", @id = "Miga-" + item.IdDetalle, @onclick = "Clear(this.id)" })          
+                @Html.TextBoxFor(modelItem => item.Miga, new { @type = "number", @class = "form-control", @id = "Miga-" + item.IdDetalle, @onclick = "Clear(this.id)", @onkeypress = "return filterFloat(event,this)" })          
             </td>
             <td>
                 <label class="btn btn-dark text-xs-center" id="labelCheck-@item.IdDetalle">
