@@ -190,7 +190,6 @@
             },
             success: function (resultado) {
 
-
                 $("#generarGrafico").attr('href', "#");
                 $("#iconSearch").removeClass(iconLoader);
                 $("#iconSearch").addClass(iconSearch);
@@ -209,6 +208,7 @@
 
 
                 var maxSerie = 0;
+                var minSerie = 0;
                 if (fechasCategories.length > 0) {
                     var _series = [];
                     $.each(objetoCodigosLineas, function (i, itemCodLinea) {
@@ -223,6 +223,9 @@
                             });
                             if (maxSerie < valorCoche) {
                                 maxSerie = valorCoche
+                            }
+                            if (minSerie < valorCoche) {
+                                minSerie = valorCoche
                             }
                             dataSerie.push(valorCoche);
                         });
@@ -251,7 +254,8 @@
                     name: 'Total día',
                     data: serieDataSum
                 }];
-               
+
+            
                 chartDiario.updateOptions({
                     xaxis: {
                         categories: fechasCategories,
@@ -266,7 +270,18 @@
                 });
                 chartDiario.updateSeries(_series);
 
+                var minTotals = Math.min.apply(Math, serieDataSum);
+                console.log(minTotals);
+             
+                if (minTotals >= 100) {
+                    minTotals = 100;
+                } else {
+                    minTotals = 0;
+                }
 
+                
+                
+                console.log(minTotals);
                 chartDiarioTotal.updateOptions({
                     title: {
                         text: 'Total de coches por día',
@@ -279,8 +294,8 @@
                         title: {
                             text: 'Coches'
                         },
-                        min: 0,
-                        max: Math.max.apply(Math, serieDataSum) + 10
+                        min: minTotals,
+                        max: Math.max.apply(Math, serieDataSum) + 100
                     }
                 });
                 chartDiarioTotal.updateSeries(serieTotal);
