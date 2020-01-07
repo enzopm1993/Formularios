@@ -91,7 +91,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             && (x.EstadoAsistencia == clsAtributos.EstadoPresente || x.EstadoAsistencia == clsAtributos.EstadoAtraso)
                             && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                             ).ToList();
-                return result;
+
+                List<ASISTENCIA> resultado = new List<ASISTENCIA>();
+                foreach (var x in result)
+                {
+                    if(resultado.FirstOrDefault(y=> y.Fecha == x.Fecha)==null)
+                    {
+                        resultado.Add(x);
+                    }
+                }
+
+                return resultado;
             }
         }
         public List<ASISTENCIA> ConsultaFaltantesFinalizarAsistenciaTodos(DateTime Fecha)
