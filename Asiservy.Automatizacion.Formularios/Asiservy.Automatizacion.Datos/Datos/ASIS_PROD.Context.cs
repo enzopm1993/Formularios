@@ -79,6 +79,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_HUESO> CONTROL_HUESO { get; set; }
         public virtual DbSet<CONTROL_HUESO_DETALLE> CONTROL_HUESO_DETALLE { get; set; }
         public virtual DbSet<CONTROL_MIGA> CONTROL_MIGA { get; set; }
+        public virtual DbSet<MOVER_PERSONAL> MOVER_PERSONAL { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -981,6 +982,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fecha", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultarMovimientoPersonalEnNominaPendiente> spConsultarMovimientoPersonalEnNominaPendiente()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarMovimientoPersonalEnNominaPendiente>("spConsultarMovimientoPersonalEnNominaPendiente");
         }
     }
 }

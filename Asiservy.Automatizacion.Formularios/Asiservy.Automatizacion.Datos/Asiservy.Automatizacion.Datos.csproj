@@ -183,6 +183,9 @@
     <Compile Include="Datos\MODULO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\MOVER_PERSONAL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\MOVIMIENTO_PERSONAL_DIARIO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -352,6 +355,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaReporteControlCuchillo.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\spConsultarMovimientoPersonalEnNominaPendiente.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaUltimaMarcacionBiometrico.cs">

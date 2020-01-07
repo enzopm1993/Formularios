@@ -669,6 +669,29 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="MOVER_PERSONAL">
+          <Key>
+            <PropertyRef Name="IdMoverPersonal" />
+          </Key>
+          <Property Name="IdMoverPersonal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cedula" Type="varchar" MaxLength="15" />
+          <Property Name="CentroCostoOrigen" Type="varchar" MaxLength="10" />
+          <Property Name="RecursoOrigen" Type="varchar" MaxLength="10" />
+          <Property Name="LineaOrigen" Type="varchar" MaxLength="10" />
+          <Property Name="CargoOrigen" Type="varchar" MaxLength="10" />
+          <Property Name="CentroCosto" Type="varchar" MaxLength="10" />
+          <Property Name="Recurso" Type="varchar" MaxLength="10" />
+          <Property Name="Linea" Type="varchar" MaxLength="10" />
+          <Property Name="Cargo" Type="varchar" MaxLength="10" />
+          <Property Name="EstadoAprobacion" Type="varchar" MaxLength="3" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
+          <Property Name="FechaCreacionLog" Type="datetime" />
+          <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="MOVIMIENTO_PERSONAL_DIARIO">
           <Key>
             <PropertyRef Name="IdCambioPersonal" />
@@ -1261,6 +1284,7 @@
           <Parameter Name="fecha" Type="datetime" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsultarMovimientoPersonalEnNominaPendiente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spConsultarUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="Clave" Type="varchar" Mode="In" />
@@ -1381,6 +1405,7 @@
           <EntitySet Name="MATERIAL_LINEA" EntityType="Self.MATERIAL_LINEA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MATERIAL_QUEBRADIZO" EntityType="Self.MATERIAL_QUEBRADIZO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MODULO" EntityType="Self.MODULO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MOVER_PERSONAL" EntityType="Self.MOVER_PERSONAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MOVIMIENTO_PERSONAL_DIARIO" EntityType="Self.MOVIMIENTO_PERSONAL_DIARIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NIVEL_APROBACION" EntityType="Self.NIVEL_APROBACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NIVEL_USUARIO" EntityType="Self.NIVEL_USUARIO" Schema="dbo" store:Type="Tables" />
@@ -2004,8 +2029,10 @@
           <Parameter Name="Linea" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spConsultaControlHueso" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHueso)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <EntitySet Name="MOVER_PERSONAL" EntityType="ASIS_PRODModel.MOVER_PERSONAL" />
+          <FunctionImport Name="spConsultarMovimientoPersonalEnNominaPendiente" ReturnType="Collection(ASIS_PRODModel.spConsultarMovimientoPersonalEnNominaPendiente)" />
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -3717,6 +3744,52 @@
           <Property Type="Int32" Name="TotalPieza" Nullable="true" />
           <Property Type="Int32" Name="TotalLimpiadoras" Nullable="true" />
           <Property Type="String" Name="Limpieza" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <EntityType Name="MOVER_PERSONAL">
+          <Key>
+            <PropertyRef Name="IdMoverPersonal" />
+          </Key>
+          <Property Name="IdMoverPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CentroCostoOrigen" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RecursoOrigen" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="LineaOrigen" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CargoOrigen" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CentroCosto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Recurso" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Linea" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Cargo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoAprobacion" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="spConsultarMovimientoPersonalEnNominaPendiente">
+          <Property Type="Int32" Name="IdMoverPersonal" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CentroCostoOrigen" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="CentroCostosOrigenDescr" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="RecursoOrigen" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="RecursoOrigenDescr" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LineaOrigen" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="LineaOrigenDescr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CargoOrigen" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="CargoOrigenDescr" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="CentroCostosAMover" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="RecursoAMover" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="LineaAMover" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="CargoAMover" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="EstadoAprobacion" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -5761,6 +5834,57 @@
                 <ScalarProperty Name="TotalPieza" ColumnName="TotalPieza" />
                 <ScalarProperty Name="TotalLimpiadoras" ColumnName="TotalLimpiadoras" />
                 <ScalarProperty Name="Limpieza" ColumnName="Limpieza" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="MOVER_PERSONAL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.MOVER_PERSONAL">
+              <MappingFragment StoreEntitySet="MOVER_PERSONAL">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="EstadoAprobacion" ColumnName="EstadoAprobacion" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="CargoOrigen" ColumnName="CargoOrigen" />
+                <ScalarProperty Name="LineaOrigen" ColumnName="LineaOrigen" />
+                <ScalarProperty Name="RecursoOrigen" ColumnName="RecursoOrigen" />
+                <ScalarProperty Name="CentroCostoOrigen" ColumnName="CentroCostoOrigen" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdMoverPersonal" ColumnName="IdMoverPersonal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultarMovimientoPersonalEnNominaPendiente" FunctionName="ASIS_PRODModel.Store.spConsultarMovimientoPersonalEnNominaPendiente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarMovimientoPersonalEnNominaPendiente">
+                <ScalarProperty Name="IdMoverPersonal" ColumnName="IdMoverPersonal" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="CentroCostoOrigen" ColumnName="CentroCostoOrigen" />
+                <ScalarProperty Name="CentroCostosOrigenDescr" ColumnName="CentroCostosOrigenDescr" />
+                <ScalarProperty Name="RecursoOrigen" ColumnName="RecursoOrigen" />
+                <ScalarProperty Name="RecursoOrigenDescr" ColumnName="RecursoOrigenDescr" />
+                <ScalarProperty Name="LineaOrigen" ColumnName="LineaOrigen" />
+                <ScalarProperty Name="LineaOrigenDescr" ColumnName="LineaOrigenDescr" />
+                <ScalarProperty Name="CargoOrigen" ColumnName="CargoOrigen" />
+                <ScalarProperty Name="CargoOrigenDescr" ColumnName="CargoOrigenDescr" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="CentroCostosAMover" ColumnName="CentroCostosAMover" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="RecursoAMover" ColumnName="RecursoAMover" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="LineaAMover" ColumnName="LineaAMover" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="CargoAMover" ColumnName="CargoAMover" />
+                <ScalarProperty Name="EstadoAprobacion" ColumnName="EstadoAprobacion" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
