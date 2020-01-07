@@ -56,8 +56,24 @@
         </tr>
     </thead>
     <tbody>
+        @{ 
+            int TotalTiempo = 0;
+            int TotalHueso = 0;
+            int TotalLimpiadoras = 0;
+            decimal TotalKiloTeorico = 0;
+            decimal TotalKiloReal = 0;
+            decimal TotalAvance = 0;
+            int contador = 0;
+        }
         @foreach (var item in Model)
         {
+            contador++;
+            TotalTiempo = TotalTiempo + item.Tiempo ?? 0;
+            TotalHueso = TotalHueso + item.Huesos??0;
+            TotalLimpiadoras = TotalLimpiadoras + item.Limpiadoras ?? 0;
+            TotalKiloReal = TotalKiloReal + item.KiloReal ?? 0;
+            TotalKiloTeorico = TotalKiloTeorico + item.KiloTeorico ?? 0;
+            TotalAvance = TotalAvance + item.avance??0;
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Lote)
@@ -112,7 +128,7 @@
                         {
                             <i class="fas fa-arrow-circle-right" style="background:#ffd800; border-radius:10px"></i>
                         }
-                        else
+                        else if (item.avance > 0)
                         {
                             <i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i>
                         }
@@ -126,4 +142,26 @@
             </tr>
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <td>@contador Lotes</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>@TotalTiempo</td>
+            <td></td>
+            <td></td>
+            <td>@TotalHueso</td>
+            <td>@TotalLimpiadoras</td>
+            <td>@TotalKiloTeorico</td>
+            <td>@TotalKiloReal</td>
+            <td></td>
+            <td>
+                @{decimal PromedioAvance = TotalAvance / contador;}
+                @PromedioAvance
+            </td>
+
+        </tr>  
+    </tfoot>
 </table>
