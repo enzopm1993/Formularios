@@ -7,6 +7,7 @@ using System.Net;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using System.Data.Entity.Validation;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.MoverPersonal;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -14,6 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
         clsDError clsDError = null;
         clsDGeneral clsDGeneral = null;
+        ClsDMoverPersonal clsDMoverPersonal = null;
         string[] liststring;
         clsDEmpleado clsDEmpleado = null;
         protected void SetSuccessMessage(string message)
@@ -94,13 +96,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public JsonResult GuardarMoverPersonal(string Cedula, string CentroCostos, string Recurso, string Linea, string Cargo)
+        public JsonResult GuardarMoverPersonal(string[] Cedula, string CentroCostos, string Recurso, string Linea, string Cargo)
         {
             try
             {
                 liststring = User.Identity.Name.Split('_');
-              
-                return Json("", JsonRequestBehavior.AllowGet);
+                clsDMoverPersonal = new ClsDMoverPersonal();
+                var psRespuesta = clsDMoverPersonal.MoverPersonal(Cedula.ToList(),CentroCostos,Recurso,Linea,Cargo, Request.UserHostAddress, liststring[0]);
+                
+                return Json(psRespuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -127,5 +131,137 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-    }
+        [Authorize]
+        public ActionResult BandejaMovimientoPersonalRRHH()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                //clsDMoverPersonal = new ClsDMoverPersonal();
+                //List<spConsultarMovimientoPersonalEnNominaPendiente> ListMoveerPersonalNomina;
+                //ListMoveerPersonalNomina = clsDMoverPersonal.ConsultarMoverPersonalEnNominaPendiente();
+                //return View(ListMoveerPersonalNomina);
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return View();
+            }
+        }
+
+        public ActionResult PartialBandejaMovimientoPersonalRRHH()
+        {
+            try
+            {
+                clsDMoverPersonal = new ClsDMoverPersonal();
+                List<spConsultarMovimientoPersonalEnNominaPendiente> ListMoveerPersonalNomina;
+                ListMoveerPersonalNomina = clsDMoverPersonal.ConsultarMoverPersonalEnNominaPendiente();
+                ViewBag.NumeroRegistros = (ListMoveerPersonalNomina.Count == 0) ? 0:1 ;
+                return PartialView(ListMoveerPersonalNomina);
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                //SetErrorMessage(Mensaje);
+                return Json(Mensaje,JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult InactivarRegistro(string IdMovimientoPersonal)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');
+                clsDMoverPersonal = new ClsDMoverPersonal();
+                var psRespuesta = clsDMoverPersonal.InactivaoMoverPersonal(Convert.ToInt32(IdMovimientoPersonal), liststring[0], Request.UserHostAddress);
+
+                return Json(psRespuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        //public JsonResult ActualizarMoverPersonal(string IdMoverPersonal)
+        //{
+        //    try
+        //    {
+        //        liststring = User.Identity.Name.Split('_');
+        //        clsDMoverPersonal = new ClsDMoverPersonal();
+        //        var psRespuesta = clsDMoverPersonal.MoverPersonal(Cedula.ToList(), CentroCostos, Recurso, Linea, Cargo, Request.UserHostAddress, liststring[0]);
+
+            //        return Json(psRespuesta, JsonRequestBehavior.AllowGet);
+            //    }
+            //    catch (DbEntityValidationException e)
+            //    {
+            //        clsDError = new clsDError();
+            //        liststring = User.Identity.Name.Split('_');
+            //        string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+            //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+            //        SetErrorMessage(Mensaje);
+            //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            //    }
+            //    catch (Exception ex)
+            //    {
+
+            //        clsDError = new clsDError();
+            //        clsDError.GrabarError(new ERROR
+            //        {
+            //            Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+            //            Mensaje = ex.Message,
+            //            Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+            //            FechaIngreso = DateTime.Now,
+            //            TerminalIngreso = Request.UserHostAddress,
+            //            UsuarioIngreso = liststring[0]
+            //        });
+            //        return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            //    }
+            //}
+        }
 }

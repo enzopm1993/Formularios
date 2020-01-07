@@ -61,7 +61,13 @@
             <div class="row">
 
                 <div class="col">
-                    <center> <input type="button" id="ConsultarEmpleadosRegresar" value="Consultar" class="btn btn-primary" onclick="ConsultarEmpleadosRegresar();" /></center>
+                    <center>
+                        <input type="button" id="ConsultarEmpleadosRegresar" value="Consultar" class="btn btn-primary" onclick="ConsultarEmpleadosRegresar();" />
+                        <button class="btn btn-primary" type="button" disabled hidden id="btnConsultarEspera">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Espere...
+                        </button>
+                    </center>
                     <br />
                 </div>
 
@@ -216,8 +222,15 @@
                 </div>
                 <center>
                     <input type="button" value="Guardar" class="btn btn-primary" onclick="MoverEmpleados();" id="Guardar" />
+                    <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarEspera">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Espere...
+                    </button>
                     <input type="button" value="Inactivar" class="btn btn-info" onclick="InactivarCambioPersonal();" id="btnInactivar" style="display:none" />
-
+                    <button class="btn btn-info" type="button" disabled hidden id="btnInactivarEspera">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Espere...
+                    </button>
                 </center>
             </div>
         </div>

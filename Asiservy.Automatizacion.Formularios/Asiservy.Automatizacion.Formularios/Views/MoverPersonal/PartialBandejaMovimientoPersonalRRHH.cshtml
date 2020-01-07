@@ -1,0 +1,86 @@
+﻿@model List<Asiservy.Automatizacion.Datos.Datos.spConsultarMovimientoPersonalEnNominaPendiente>
+<div class="table-responsive">
+    <input hidden id="Nregistros" value="@ViewBag.NumeroRegistros" />
+    <input type="hidden" id="ideliminar" />
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th>
+
+                </th>
+
+                <th>#</th>
+                <th>Cédula</th>
+                <th>Empleado</th>
+                <th>Centro Costo  </th>
+                <th>Rescurso</th>
+                <th>Línea</th>
+                <th>Cargo</th>
+                <th>Centro Costo a Mover</th>
+                <th>Recurso a Mover</th>
+                <th>Línea a Mover</th>
+                <th>Cargo a Mover</th>
+                <th>Acción</th>
+
+            </tr>
+        </thead>
+        <tbody style="font-size:14px">
+            @if (Model != null)
+            {
+                int cont = 0;
+                foreach (var m in Model)
+                {
+                    cont++;
+                    <tr>
+                        <td class="text-center">
+                            <input class="case" name="case" type="checkbox" id="@m.IdMoverPersonal" />
+                        </td>
+                        <td>@cont</td>
+                        <td>@m.Cedula</td>
+                        <td>@m.NOMBRES</td>
+                        <td>@m.CentroCostosOrigenDescr</td>
+                        <td>@m.RecursoOrigenDescr</td>
+                        <td>@m.LineaOrigenDescr</td>
+                        <td>@m.CargoOrigenDescr</td>
+                        <td>@m.CentroCostosAMover</td>
+                        <td>@m.RecursoAMover</td>
+                        <td>@m.LineaAMover</td>
+                        <td>@m.CargoAMover</td>
+                        <td style="width:20%">
+                            @*<button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn iconStyle" id="Nuevo" onclick="Mostrar(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
+            <i class="fas fa-search"></i>
+        </button>*@
+                            <button data-toggle="tooltip" data-placement="top" title="Aprobar" class="btn btn-link iconStyle" id="Aprobar-@m.IdMoverPersonal" onclick="AprobarSolicitud(@m.IdMoverPersonal)" style="border-color:#2c3e50" type="button">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button data-toggle="tooltip" data-placement="top" title="Aprobar" class="btn btn-link iconStyle" id="AprobarCargando-@m.IdMoverPersonal" style="border-color:#2c3e50" type="button" disabled hidden>
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </button>
+                            <button data-toggle="tooltip" data-placement="top" title="Anular" class="btn iconStyle" id="Inactivar-@m.IdMoverPersonal" onclick="PreguntaEliminar('@m.IdMoverPersonal')" style="border-color:#2c3e50" type="button">
+                                <i class="fas fa-times text-danger"></i>
+                            </button>
+                            <button data-toggle="tooltip" data-placement="top" title="Aprobar" class="btn btn-link iconStyle" id="InactivarCargando-@m.IdMoverPersonal" style="border-color:#2c3e50" type="button" disabled hidden>
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </button>
+                            @*<input name="chkbox" type="button" value="Ver" onclick="Mostrar(@m.IdSolicitudPermiso)" class=" btn btn-link" />
+        <input name="chkbox" type="button" value="Finalizar" onclick="FinalizarSolicitud(@m.IdSolicitudPermiso)" class=" btn btn-link" />
+        <input name="chkbox" type="button" value="Anular" onclick="Observacion(@m.IdSolicitudPermiso)" class=" btn btn-link" />*@
+                        </td>
+                    </tr>
+
+                }
+            }
+        </tbody>
+    </table>
+    <center> <h5 id="MensajeRegistros" class="text-warning" style="display:none"> No Existen Solicitudes Pendientes para Mover Personal</h5></center>
+
+    <div class="container-fluid text-center">
+            <input type="button" class="btn btn-info" name="name" value="Aprobar" onclick="AprobarMas()" id="btnAprobar" />
+            <button class="btn btn-info" type="button" disabled hidden id="btnAprobarEspera">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+     </div>
+</div>
+
+<script src="~/Scripts/General/dataTableJS.js"></script>

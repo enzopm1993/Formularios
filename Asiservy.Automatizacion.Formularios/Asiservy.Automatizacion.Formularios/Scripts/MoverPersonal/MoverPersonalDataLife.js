@@ -46,42 +46,47 @@ function MoverEmpleados() {
         });
     } else {
         MensajeAdvertencia("Centro de Costos, Recurso, Línea,Cargo,fecha y hora son obligatorios", false);
+        return false;
     }
-        MostrarModalCargando();
-        $.ajax({
-            url: "../MoverPersonal/GuardarMoverPersonal",
-            type: "POST",
-            data:
-            {
-                //pslinea: $('#SelectLineaOrigen').val(),
-                //psarea: $('#SelectAreaOrigen').val(),
-                //pscargo: $('#SelectCargoOrigen').val(),
-                //tipo: $('#optcambiaremp').val()
-                Cedula: result,
-                CentroCostos: $('#SelectArea').val(),
-                Recurso: $('#SelectRecurso').val(),
-                Linea: $('#SelectLinea').val(),
-                Cargo: $('#SelectCargo').val(),
-            },
-            success: function (data) {
-                //$('#DivEmpleados').html(data);
-                //$('#btnGuardarCambioEmp').show();
-                //$('#Guardar').show();
-                //$('#Guardar').val('Mover Empleados');
-                CerrarModalCargando();
-                //MensajeCorrecto("Empleados movidos con éxito", true);
-                console.log(resultado);
-                $('#BodyMensajeCp').html(resultado);
-                $('#ModalMensajeCP').modal('show');
+    if (result.length == 0) {
+        MensajeAdvertencia("Debe seleccionar al menos un empleado", false);
+        return false;
+    }
+    MostrarModalCargando();
+    $.ajax({
+        url: "../MoverPersonal/GuardarMoverPersonal",
+        type: "POST",
+        data:
+        {
+            //pslinea: $('#SelectLineaOrigen').val(),
+            //psarea: $('#SelectAreaOrigen').val(),
+            //pscargo: $('#SelectCargoOrigen').val(),
+            //tipo: $('#optcambiaremp').val()
+            Cedula: result,
+            CentroCostos: $('#SelectArea').val(),
+            Recurso: $('#SelectRecurso').val(),
+            Linea: $('#SelectLinea').val(),
+            Cargo: $('#SelectCargo').val(),
+        },
+        success: function (resultado) {
+            //$('#DivEmpleados').html(data);
+            //$('#btnGuardarCambioEmp').show();
+            //$('#Guardar').show();
+            //$('#Guardar').val('Mover Empleados');
+            CerrarModalCargando();
+            MensajeCorrecto(resultado, true);
+            //console.log(resultado);
+            //$('#BodyMensajeCp').html(resultado);
+            //$('#ModalMensajeCP').modal('show');
                 
 
-            },
-            error: function (resultado) {
-                //MensajeError("No se pudieron mover", false);
-                MensajeError(resultado, false);
-            }
-        });
-        $('#contempleados').show();
+        },
+        error: function (resultado) {
+            //MensajeError("No se pudieron mover", false);
+            MensajeError(resultado, false);
+        }
+    });
+    $('#contempleados').show();
    
 }
 function AprobarMoverEmpleados() {

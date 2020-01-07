@@ -2132,6 +2132,7 @@
     <Content Include="Scripts\Asistencia\BitacoraCambioPersonal.js" />
     <Content Include="Scripts\Asistencia\CambiarPersonalDeArea.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
+    <Content Include="Scripts\MoverPersonal\BandejaMovimientoPersonalRRHH.js" />
     <Content Include="Scripts\MoverPersonal\MoverPersonalDataLife.js" />
     <Content Include="Scripts\ControlCuchillo\ControlCuchillo.js" />
     <Content Include="Scripts\ControlCuchillo\Cuchillo.js" />
@@ -3265,6 +3266,8 @@
     <Content Include="Views\ControlCocheLinea\ReporteCochesPorDias.cshtml" />
     <Content Include="Views\Empleado\EmpleadoTurnoPartial.cshtml" />
     <Content Include="Views\ControlToalla\ControlToalla.cshtml" />
+    <Content Include="Views\MoverPersonal\BandejaMovimientoPersonalRRHH.cshtml" />
+    <Content Include="Views\MoverPersonal\PartialBandejaMovimientoPersonalRRHH.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

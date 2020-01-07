@@ -155,7 +155,7 @@ function buscarenTabla() {
 }
 
 function ConsultarSiExisteAsistencia() {
-    $("#spinnerCargando").prop("hidden", false);
+    
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
         $('#horaservidor').hide();
@@ -171,6 +171,7 @@ function ConsultarSiExisteAsistencia() {
         $('#mensajefecha').hide();
     }
     $('#PartialAsistencia').empty();
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         //contentType: "application/json; charset=utf-8",
         url: '../Asistencia/ConsultarExistenciaAsistencia',

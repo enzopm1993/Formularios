@@ -114,7 +114,7 @@ function buscarenTabla() {
     }
 }
 function ConsultarSiExisteAsistencia() {
-    $("#spinnerCargando").prop("hidden", false);
+    
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
         $('#horaservidor').hide();
@@ -131,6 +131,7 @@ function ConsultarSiExisteAsistencia() {
     }
     $('#PartialAsistencia').empty();
     $('#PartialAsistencia').empty();
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         //contentType: "application/json; charset=utf-8",
         url: '../Asistencia/ConsultarExistenciaAsistenciaGeneral',
@@ -168,7 +169,7 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
 
     $('#LineaPres').val(IdLinea);
     $('#banderapres').val(bandera);
-    console.log($('#horaservidor').val());
+    //console.log($('#horaservidor').val());
     if ($('#horaservidor').val() == '') {
         MensajeAdvertencia('Debe ingresar la hora');
         return false;

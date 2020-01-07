@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "BandejaMovimientoPersonalRRHH";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%
+    }
+</style>
+
+<h5>Bandeja Movimiento Personal RRHH</h5>
+<br />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+<div id="divPartialBandeja">
+
+</div>
+
+<br />
+@*<div class="container-fluid text-center">
+        <input type="button" class="btn btn-info" name="name" value="Finalizar" onclick="FinalizarSolitudes()" id="btnFinalizar" />
+        <button class="btn btn-info" type="button" disabled hidden id="btnFinalizarEspera">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Espere...
+        </button>
+    </div>*@
+
+<br />
+@*<div class="modal fade" id="ModalEditarSolicitud" data-backdrop="static">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Solicitud Permiso</h4>
+                </div>
+                <div class="modal-body" id="modal_body">
+                </div>
+            </div>
+        </div>
+    </div>*@
+<!-- MODAL PARA INGRESO DE OBSERVACION -->
+@*<div class="modal fade" id="ModalObservacion" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Ingrese motivo</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <textarea class="form-control" rows="5" id="txtObservaccionAnulacion"></textarea>
+                    <input type="text" name="name" value="" hidden id="txtIdSolicitud" />
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="Anular()">Aceptar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>*@
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalMensajeMP" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Mensaje del sistema</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body table-responsive" id="divMensajeSistemna">
+                <table id="tablamensaje">
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="CerrarModalMensajeMP()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="ModalMensajeMPAnular" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Mensaje del sistema</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body table-responsive" id="divMensajeSistemna">
+                ¿Esta seguro que desea eliminar este registro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="EliminarRegistroMP()">Si</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="CerrarModalEliminaReg()">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="text" id="regELiminar" hidden>
+@*<script src="~/Scripts/General/dataTableJS.js"></script>*@
+

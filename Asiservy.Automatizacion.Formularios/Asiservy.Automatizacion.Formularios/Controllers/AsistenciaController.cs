@@ -53,7 +53,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                //liststring = User.Identity.Name.Split('_');
+                liststring = User.Identity.Name.Split('_');
                 //clsDCambioPersonal = new clsDCambioPersonal();
                 //clsDClasificador = new clsDClasificador();
                 //var EstadoAsistencia = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
