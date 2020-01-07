@@ -158,7 +158,10 @@
             <td>@TotalKiloReal kg</td>
             <td></td>
             <td>
-                @{decimal PromedioAvance = TotalAvance / contador;}
+                @{decimal PromedioAvance = Math.Round((TotalAvance/contador), 2); ;
+                    //returns 2.00
+
+                    }
                 @PromedioAvance %
             </td>
 
