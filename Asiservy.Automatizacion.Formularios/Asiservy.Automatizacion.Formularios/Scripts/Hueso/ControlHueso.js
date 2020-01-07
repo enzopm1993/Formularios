@@ -23,7 +23,9 @@ function CargarOrdenFabricacion(valor) {
             Fecha: valor
         },
         success: function (resultado) {
-           
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (!$.isEmptyObject(resultado)) {
                 $.each(resultado, function (create, row) {
                     $("#SelectOrdenFabricacion").append("<option value='" + row.Orden + "'>" + row.Orden + "</option>")
@@ -53,7 +55,9 @@ function CargarLotes(valor) {
             Orden: valor
         },
         success: function (resultado) {
-
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (!$.isEmptyObject(resultado)) {
                 $.each(resultado, function (create, row) {
                     $("#SelectLote").append("<option value='" + row.descripcion + "'>" + row.descripcion + "</option>")
@@ -96,6 +100,8 @@ function NuevoControlHueso() {
     $('#txtObservacion').prop("disabled", false);
     $('#txtHoraInicio').prop("disabled", false);
     $('#txtHoraFin').prop("disabled", false);
+    
+    $('#selectLimpieza').val(0);
 
     $('#divLimpiadoras').prop("hidden", true);
     $('#divPiezas').prop("hidden", true);
@@ -113,7 +119,8 @@ function NuevoControlHueso() {
     CargarControlHueso();
     $("#btnGenerar").prop("hidden", false);
     $("#btnInactivar").prop("hidden", true);
-
+    $("#btnEditar").prop("hidden", true);
+    
 
     //$("#divCabecera").prop("hidden", false);
     $('#divCabecera').slideUp(300).fadeIn(1000);
@@ -138,6 +145,7 @@ function SeleccionControlHueso(model) {
     $('#txtObservacion').val(model.Observacion);
     $('#txtPiezas').val(model.TotalPieza);
     $('#txtLimpiadoras').val(model.TotalLimpiadoras);
+    $('#selectLimpieza').val(model.Limpieza);
   
     $('#SelectLote').prop("disabled", true);
     $('#SelectTipoControl').prop("disabled", true);
@@ -148,7 +156,7 @@ function SeleccionControlHueso(model) {
     $('#txtLimpiadoras').prop("disabled", true);
     $('#SelectOrdenFabricacion').prop("disabled", true);
     $('#txtFechaProduccion').prop("disabled", true);
-
+    
     $('#divPiezas').prop("hidden", true);
     $('#divLimpiadoras').prop("hidden", true);
 
@@ -163,6 +171,8 @@ function SeleccionControlHueso(model) {
     $("#btnNuevo").prop("hidden", false);
     $("#btnGenerar").prop("hidden", true);
     $("#btnInactivar").prop("hidden", false);
+    $("#btnEditar").prop("hidden", false);
+
   //  console.log(id);
 
     if (model.CodTipoControl == 1 || model.CodTipoControl ==4)
@@ -181,6 +191,9 @@ function CargarControlHuesoDetalle(id) {
             id: id         
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $('#divCabecera').slideUp(300).fadeOut(1000);  
             var bitacora = $('#DivTableControlHueso');
             bitacora.html('');
@@ -190,6 +203,8 @@ function CargarControlHuesoDetalle(id) {
             $("#btnNuevo").prop("hidden", false);
             $("#btnGenerar").prop("hidden", true);
             $("#btnInactivar").prop("hidden", false);
+            $("#btnEditar").prop("hidden", false);
+
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -214,6 +229,9 @@ function CargarControlHueso() {
         },
     
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             var bitacora = $('#DivTableControlHueso');
             $("#spinnerCargando").prop("hidden", true);
             bitacora.html(resultado);
@@ -300,6 +318,9 @@ function GenerarControlHueso() {
             Limpieza: $('#selectLimpieza').val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (resultado == 0) {
                 MensajeAdvertencia("Ya se ha generado un control con esos parametros");
                 $('#spinnerCargando').prop("hidden", true);
@@ -382,7 +403,9 @@ function GuardarControlHueso(detalle, hueso, miga, id) {
                 diMiga: miga
             },
             success: function (resultado) {                
-
+                if (resultado == "101") {
+                    window.location.reload();
+                }
             },
             error: function (resultado) {
 
@@ -415,12 +438,17 @@ function InactivarRegistro() {
         },
 
         success: function (resultado) {            
+            if (resultado == "101") {
+                window.location.reload();
+            }
             $("#spinnerCargando").prop("hidden", true);
             MensajeCorrecto(resultado);
             var bitacora = $('#DivTableControlHuesoDetalle');
             bitacora.html('');
             $('#btnNuevo').prop("disabled", false);
             $('#btnInactivar').prop("disabled", false);
+            $("#btnEditar").prop("hidden", false);
+
             NuevoControlHueso();
         },
         error: function (resultado) {
@@ -428,6 +456,8 @@ function InactivarRegistro() {
             $("#spinnerCargando").prop("hidden", true);
             $('#btnNuevo').prop("disabled", false);
             $('#btnInactivar').prop("disabled", false);
+            $("#btnEditar").prop("hidden", false);
+
 
           
 
@@ -435,6 +465,74 @@ function InactivarRegistro() {
     });
 
 }
+
+var modalModificar = function (callback) {
+
+    $("#btnEditar").on("click", function () {
+        $('#txtIdControlModal').val($('#txtIdControlHueso').val());
+        $('#txtHoraDesdeModal').val($('#txtHoraInicio').val());
+        $('#txtHoraHastaModal').val($('#txtHoraFin').val());
+        $('#txtLoteModal').val($('#SelectLote').val());
+        $('#selectLimpiezaModal').val($('#selectLimpieza').val());
+        $('#txtObservacionModal').val($('#txtObservacion').val());
+        
+
+        $("#ModalEditControl").modal('show');
+    });
+
+    $("#btnModificarModal").on("click", function () {
+        callback(true);
+        $("#ModalEditControl").modal('hide');
+    });
+    
+};
+modalModificar(function (confirm) {
+    if (confirm) {
+        //Acciones si el usuario confirma
+        ModificarControlHueso();
+
+    }
+});
+
+
+function ModificarControlHueso() {
+    if ($("#txtIdControlModal").val() < 1) {
+        MensajeAdvertencia("No se pudo modificar el control, faltan parametros.");
+        return;
+    }
+    $.ajax({
+        url: "../Hueso/ModificarControl",
+        type: "GET",
+        data: {
+            IdControlHueso: $("#txtIdControlModal").val(),
+            HoraInicio: $("#txtHoraDesdeModal").val(),
+            HoraFin: $("#txtHoraHastaModal").val(),
+            Limpieza: $("#selectLimpiezaModal").val(),
+            Observacion: $("#txtObservacionModal").val()
+        },
+
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            }
+            if (resultado.Respuesta) {
+                MensajeCorrecto(resultado.Mensaje);
+            } else {
+                MensajeAdvertencia(resultado.Mensaje);
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
+
+
 
 
 var modalConfirm = function (callback) {

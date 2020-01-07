@@ -5,6 +5,7 @@ using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.Models;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
 {
@@ -12,6 +13,33 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
     {
         clsDAsistencia clsDAsistencia = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
+
+        public RespuestaGeneral GuardarModificarControl(CONTROL_HUESO control)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var result = entities.CONTROL_HUESO.FirstOrDefault(x => x.IdControlHueso == control.IdControlHueso);
+                if (result != null)
+                {
+                    result.HoraInicio = control.HoraInicio;
+                    result.HoraFin = control.HoraFin;
+                    result.Observacion = control.Observacion;
+                    result.Limpieza = control.Limpieza;
+                    result.UsuarioModificacionLog = control.UsuarioIngresoLog;
+                    result.FechaModificacionLog = DateTime.Now;
+                    result.TerminalModificacionLog = control.TerminalIngresoLog;
+                    entities.SaveChanges();
+                    return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta=true };
+
+                }
+                else
+                {
+                    return new RespuestaGeneral { Mensaje = "No se encontró ningun control", Respuesta = false};
+
+                }
+
+            }
+        }
 
         public string GuardarModificarControlHueso(CONTROL_HUESO_DETALLE detalle)
         {

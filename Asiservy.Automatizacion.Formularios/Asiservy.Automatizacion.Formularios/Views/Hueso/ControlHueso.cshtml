@@ -106,7 +106,7 @@
 
         <div class="col-12 text-center">
             @*<input type="button" id="btnGenerar" name="Generar" value="Generar" class="btn btn-primary" onclick="GenerarControlHueso()" />
-                <input type="button" id="btnNuevo" name="Nuevo" value="Nuevo" class="btn btn-info" onclick="NuevoControlHueso()" />*@
+        <input type="button" id="btnNuevo" name="Nuevo" value="Nuevo" class="btn btn-info" onclick="NuevoControlHueso()" />*@
 
             <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="GenerarControlHueso()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/add24.png" />
@@ -116,6 +116,9 @@
             </button>
             <button data-toggle="tooltip" data-placement="top" title="Inactivar" class="btn" id="btnInactivar" onclick="" style="border-color:#2c3e50" type="button" hidden>
                 <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="" style="border-color:#2c3e50" type="button" hidden>
+                <img style="width:100%" src="~/Content/icons/edit24.png" />
             </button>
         </div>
         <hr />
@@ -135,6 +138,58 @@
     </div>
 }
 
+
+    <div class="modal" tabindex="-1" id="ModalEditControl" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Control Hueso</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="hidden" id="txtIdControlModal" name="name" value="0" />
+                        <div class="col-md-12 col-sm-12 col-12">
+                            <label>Lote</label>
+                            <input type="text" disabled id="txtLoteModal" class="form-control" name="name" value="" />
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-6">
+                            <label>Hora Desde</label>
+                            <input type="time" id="txtHoraDesdeModal" class="form-control" name="name" value="" />
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-6">
+                            <label>Hora Hasta</label>
+                            <input type="time" id="txtHoraHastaModal" class="form-control" name="name" value="" />
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label>Limpieza</label>
+                                <select class="form-control" id="selectLimpiezaModal">
+                                    <option value="0">Seleccione</option>
+                                    <option value="SIMPLE">SIMPLE</option>
+                                    <option value="INTERMEDIA">INTERMEDIA</option>
+                                    <option value="DOBLE">DOBLE</option>
+                                </select>
+                                @*<input class="form-control" type="text" name="name" value="" id="txtLimpieza" maxlength="100" />*@
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12">
+                                <label>Observación</label>
+                                <input class="form-control" type="text" name="name" value="" id="txtObservacionModal" maxlength="100" />
+                            
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnModificarModal">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">

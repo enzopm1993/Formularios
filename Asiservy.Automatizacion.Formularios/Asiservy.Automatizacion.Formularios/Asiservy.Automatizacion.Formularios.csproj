@@ -1979,6 +1979,7 @@
     <Content Include="Content\icons\clave32.png" />
     <Content Include="Content\icons\clear24.png" />
     <Content Include="Content\icons\copy24.png" />
+    <Content Include="Content\icons\edit24.png" />
     <Content Include="Content\icons\excel24.png" />
     <Content Include="Content\icons\justificar24.png" />
     <Content Include="Content\icons\limpiar32.png" />
