@@ -1090,6 +1090,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 clsDClasificador = new clsDClasificador();
                 clsDLogin = new clsDLogin();
+                clsDGeneral = new clsDGeneral();
                 if(clsDLogin.ValidarUsuarioRol(lsUsuario[1],clsAtributos.AsistenteProduccion))
                     ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
                 if (clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolControladorGeneral) || clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolSupervisorGeneral))
@@ -1098,6 +1099,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                     ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, empleado.CODIGOLINEA);
+                }
+                if(clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolRRHH))
+                {
+                    ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
+                }else
+                {
+                    var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                    ViewBag.Lineas = clsDGeneral.ConsultaLineas(empleado.CODIGOLINEA);
                 }
 
                 return View();

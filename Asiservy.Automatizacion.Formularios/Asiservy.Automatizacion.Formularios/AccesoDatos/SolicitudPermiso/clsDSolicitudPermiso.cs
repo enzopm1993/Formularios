@@ -236,6 +236,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             {
                 var fechaBiometrico = entities.spConsultaUltimaMarcacionBiometrico(x.Identificacion).FirstOrDefault();
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
+                var poMotivos = ConsultarMotivos(x.CodigoMotivo).FirstOrDefault();
                 string DescripcionEstadosSolicitud = (from e in entities.ESTADO_SOLICITUD
                                                       where e.Estado == x.EstadoSolicitud
                                                       select e.Descripcion).FirstOrDefault();
@@ -251,7 +252,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     //Identificacion = x.Identificacion,
                     NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : "",
                     //CodigoMotivo = x.CodigoMotivo,
-                    //DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
+                   DescripcionMotivo = poMotivos != null ? poMotivos.DescripcionMotivo : "",
                     Observacion = x.Observacion,
                     FechaSalida = x.FechaSalida,
                     FechaRegreso = x.FechaRegreso,

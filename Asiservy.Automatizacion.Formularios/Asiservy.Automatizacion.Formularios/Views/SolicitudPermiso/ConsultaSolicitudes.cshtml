@@ -24,6 +24,7 @@
             else
             {
                 <th>Regreso</th>
+                <th>Motivo</th>
                 <th>Observación</th>
                 <th>Fecha Ingreso</th>
                 <th>Terminal Ingreso</th>
@@ -62,6 +63,7 @@
                 var diaEntrada = ci.DateTimeFormat.GetDayName(item.FechaRegreso.Value.DayOfWeek);
 
                 <td>@diaEntrada, @item.FechaRegreso.Value.ToString("dd-MM-yyyy HH:mm")</td>
+                <td>@item.DescripcionMotivo</td>
                 <td>@item.Observacion</td>
                 <td>@item.FechaIngresoLog</td>
                 <td>@item.TerminalIngresoLog</td>
