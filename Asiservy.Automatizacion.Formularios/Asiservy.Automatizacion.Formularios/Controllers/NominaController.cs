@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.App;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.MoverPersonal;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina;
 using Newtonsoft.Json;
 using RestSharp;
@@ -22,6 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
        
         clsDError clsDError = null;
         clsDAsistencia ClsdAsistencia = null;
+        ClsDMoverPersonal clsdMoverPersonal=null;
         string[] lsUsuario;
 
         protected void SetErrorMessage(string message)
@@ -308,13 +310,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public ActionResult ActualizaEmpleadosArea(ParamCambioPersonal parametros)
+        public ActionResult ActualizaEmpleadosArea(int IdMovimientoPersonal)
         {
             try
             {
-                parametros.Compania = "1";
+                lsUsuario = User.Identity.Name.Split('_');
+                string Compania = "1";
                 ClsKeyValue obReturn = new ClsKeyValue();
-                clsDMovimientoPersonalNomina ClsMovimientoPersonalNomina = new clsDMovimientoPersonalNomina();
+                //clsDMovimientoPersonalNomina ClsMovimientoPersonalNomina = new clsDMovimientoPersonalNomina();
                 using (DataLifeService.ServicioAsiservySoapClient servicio = new DataLifeService.ServicioAsiservySoapClient())
                 {
                     List<string> arrCedulas = new List<string>();
@@ -323,33 +326,36 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     DataTable dt;
                     string codigoReturn;
                     string msgReturn;
-                    List<Respuesta> Respuesta = new List<Respuesta>();
+                    //List<Respuesta> Respuesta = new List<Respuesta>();
+                    Respuesta Respuesta = new Respuesta();
                     ClsdAsistencia = new clsDAsistencia();
-                    foreach (var item in parametros.Cedula)
+                    clsdMoverPersonal = new ClsDMoverPersonal();
+                    var personaAMover = clsdMoverPersonal.ConsultarMoverPersonalPorId(IdMovimientoPersonal);
+                    if (ClsdAsistencia.CosultarAsistenciaEmpleado(personaAMover.Cedula, DateTime.Now))
                     {
-                        if (ClsdAsistencia.CosultarAsistenciaEmpleado(item, DateTime.Now))
-                        {
-                            //remover cedula y agregar msjerror
-                            Respuesta.Add(new Respuesta { cedula = item, Codigo = "001", Descripcion = "No se puede mover, La asistencia ya habia sido generada" });
-                        }
-                        else
-                        {
-                            arrCedulas.Add(item);
-                        }
+                        //remover cedula y agregar msjerror
+                        Respuesta=new Respuesta { cedula = personaAMover.Cedula, Codigo = "999", Descripcion = "No se puede mover, Ya tiene asistencia Presente en su línea" };
                     }
-                    //foreach (var cedula in parametros.Cedula)
-                    foreach (var cedula in arrCedulas.ToArray())
+                    else
                     {
-                        content = servicio.actualizarCodigosEmpleados(cedula, parametros.Compania, parametros.CentroCostos, parametros.Cargo, parametros.Linea, parametros.Recurso);
+                        //arrCedulas.Add(personaAMover.Cedula);
+                        content = servicio.actualizarCodigosEmpleados(personaAMover.Cedula, Compania, personaAMover.CentroCosto, personaAMover.Cargo, personaAMover.Linea, personaAMover.Recurso);
                         dt = content.Tables[0];
                         codigoReturn = dt.Rows[0]["iRetCode"].ToString();
                         msgReturn = dt.Rows[0]["sErrMsg"].ToString();
                         obReturn.Descripcion = msgReturn;
                         obReturn.Codigo = codigoReturn;
-                        Respuesta.Add(new Respuesta { cedula = cedula, Codigo = obReturn.Codigo, Descripcion = obReturn.Descripcion });
-                        ClsMovimientoPersonalNomina.GuardarBitacoraMovimientoPersonalNomina(cedula, liststring[0], Request.UserHostAddress, parametros.CentroCostos, parametros.Recurso, parametros.Linea, parametros.Cargo);
+                        Respuesta=new Respuesta { cedula = personaAMover.Cedula, Codigo = obReturn.Codigo, Descripcion = obReturn.Descripcion };
+                        
+                        if (obReturn.Codigo == "0")
+                        {
+                            string GuardarBitacora = clsdMoverPersonal.GuardarBitacoraMovimientoPersonalNomina(personaAMover.Cedula, liststring[0], Request.UserHostAddress, personaAMover.CentroCosto, personaAMover.Recurso, personaAMover.Linea, personaAMover.Cargo);
+                            string ActualizarEstadoAprobado = clsdMoverPersonal.ActualizarEstadoMoverPersonal(IdMovimientoPersonal, lsUsuario[0], Request.UserHostAddress, clsAtributos.EstadoAprobadoMoverPersonalN);
+
+                        }
+
                     }
-                    //return Json(obReturn, JsonRequestBehavior.AllowGet);
+                    
                     return Json(Respuesta, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -375,7 +381,86 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult ActualizaEmpleadosAreaMas(string[] IdMovimientoPersonal)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                string Compania = "1";
+                ClsKeyValue obReturn = new ClsKeyValue();
+                //clsDMovimientoPersonalNomina ClsMovimientoPersonalNomina = new clsDMovimientoPersonalNomina();
+                using (DataLifeService.ServicioAsiservySoapClient servicio = new DataLifeService.ServicioAsiservySoapClient())
+                {
+                    List<string> arrCedulas = new List<string>();
+                    string[] liststring = User.Identity.Name.Split('_');
+                    DataSet content;
+                    DataTable dt;
+                    string codigoReturn;
+                    string msgReturn;
+                    List<Respuesta> Respuesta = new List<Respuesta>();
+                    //Respuesta Respuesta = new Respuesta();
+                    ClsdAsistencia = new clsDAsistencia();
+                    clsdMoverPersonal = new ClsDMoverPersonal();
+                    
+                    var personaAMover = clsdMoverPersonal.ConsultarMoverPersonalPorIdMas(Array.ConvertAll(IdMovimientoPersonal,s=>int.Parse(s)));
+                    
+                    foreach (var item in personaAMover.ToArray())
+                    {
+                        if (ClsdAsistencia.CosultarAsistenciaEmpleado(item.Cedula, DateTime.Now))
+                        {
+                            //remover cedula y agregar msjerror
+                            Respuesta.Add(new Respuesta { cedula = item.Cedula, Codigo = "001", Descripcion = "No se puede mover, Tiene asistencia con estado Presente" });
+                            personaAMover.Remove(personaAMover.Single(x => x.IdMoverPersonal == item.IdMoverPersonal));
+                        }
+                        else
+                        {
+                            arrCedulas.Add(item.Cedula);
+                        }
+                    }
+                    //foreach (var cedula in parametros.Cedula)
+                    foreach (var item in personaAMover)
+                    {
+                        content = servicio.actualizarCodigosEmpleados(item.Cedula, Compania, item.CentroCosto, item.Cargo, item.Linea, item.Recurso);
+                        dt = content.Tables[0];
+                        codigoReturn = dt.Rows[0]["iRetCode"].ToString();
+                        msgReturn = dt.Rows[0]["sErrMsg"].ToString();
+                        obReturn.Descripcion = msgReturn;
+                        obReturn.Codigo = codigoReturn;
+                        Respuesta.Add(new Respuesta { cedula = item.Cedula, Codigo = obReturn.Codigo, Descripcion = obReturn.Descripcion });
+                        if (obReturn.Codigo == "0")
+                        {
+                            string GuardarBitacora = clsdMoverPersonal.GuardarBitacoraMovimientoPersonalNomina(item.Cedula, liststring[0], Request.UserHostAddress, item.CentroCosto, item.Recurso, item.Linea, item.Cargo);
+                            string ActualizarEstadoAprobado = clsdMoverPersonal.ActualizarEstadoMoverPersonal(item.IdMoverPersonal, lsUsuario[0], Request.UserHostAddress, clsAtributos.EstadoAprobadoMoverPersonalN);
 
+                        }
+                    }
+
+                    //return Json(obReturn, JsonRequestBehavior.AllowGet);
+                    return Json(Respuesta, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
     }
 
     public class Respuesta

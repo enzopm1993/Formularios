@@ -1,6 +1,10 @@
 ﻿$(document).ready(function () {
     CargarNivelUsuario();
     Nuevo();
+    
+    //$('#IdUsuario').select2({
+    //    width: 'resolve'
+    //});
 });
 
 

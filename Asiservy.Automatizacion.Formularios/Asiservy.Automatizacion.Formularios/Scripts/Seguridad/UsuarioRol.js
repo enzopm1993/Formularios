@@ -1,6 +1,14 @@
 ﻿$(document).ready(function () {
     CargarUsuarioRol();
     NuevoUsuarioRol();
+    $('#IdUsuario2').select2({
+        width: 'resolve' 
+    });
+    
+    $('#IdRol2').select2({
+        width: 'resolve' 
+    });
+   
 });
 
 

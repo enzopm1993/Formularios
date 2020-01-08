@@ -60,6 +60,10 @@ function InactivarRegistroMovidos(result) {
     }
     var resultado = JSON.stringify(result)
     var resultado2 = JSON.parse(resultado)
+    //spinner
+    $("#btnInactivar").prop("hidden", true);
+    $("#btnInactivarEspera").prop("hidden", false);
+    //**
     $.ajax({
         url: '../Asistencia/InactivarEmpleadoCambioPersonal',
         type: 'POST',
@@ -68,12 +72,20 @@ function InactivarRegistroMovidos(result) {
             dCedulas: resultado2
         },
         success: function (resultado) {
+            //spinner
+            $("#btnInactivar").prop("hidden", false);
+            $("#btnInactivarEspera").prop("hidden", true);
+            //**
             //MensajeCorrectoTiempo(resultado, true, 10000);
             $('#BodyMensajeCp').html(resultado);
             $('#ModalMensajeCP').modal('show');
         }
         ,
         error: function (resultado) {
+            //spinner
+            $("#btnInactivar").prop("hidden", false);
+            $("#btnInactivarEspera").prop("hidden", true);
+            //**
             //MensajeError("No se pudieron mover", false);
             MensajeError(resultado, false);
         }
@@ -111,6 +123,10 @@ function Mover(result) {
         psfecha = $('#txtFechaFin').val();
         pshora = $('#txtHoraFin').val();
     }
+    //spinner
+        $("#Guardar").prop("hidden", true);
+        $("#btnGuardarEspera").prop("hidden", false);
+    //**
     console.log(resultado2);
     $.ajax({
         url: '../Asistencia/MoverEmpleados',
@@ -127,12 +143,20 @@ function Mover(result) {
             tipo: $('#optcambiaremp').val()
         },
         success: function (resultado) {
+            //spinner
+            $("#Guardar").prop("hidden", false);
+            $("#btnGuardarEspera").prop("hidden", true);
+            //**
             //MensajeCorrectoTiempo(resultado, true,10000);
             $('#BodyMensajeCp').html(resultado);
             $('#ModalMensajeCP').modal('show');
         }
         ,
         error: function (resultado) {
+            //spinner
+            $("#Guardar").prop("hidden", false);
+            $("#btnGuardarEspera").prop("hidden", true);
+            //**
             //MensajeError("No se pudieron mover", false);
             MensajeError(resultado, false);
         }
@@ -178,7 +202,8 @@ function ConsultarEmpleados() {
 
 }
 function ConsultarEmpleadosRegresar() {
-    
+    $("#ConsultarEmpleadosRegresar").prop("hidden", true);
+    $("#btnConsultarEspera").prop("hidden", false);
     //ConsultarEmpleado = "ConsultarEmpleado";
     if ($('#SelectAreaRegresar').val() != "") {
         $.ajax({
@@ -193,7 +218,8 @@ function ConsultarEmpleadosRegresar() {
             },
             url: '../Asistencia/EmpleadosCambioPersonalPartial',
             success: function (data) {
-                
+                $("#ConsultarEmpleadosRegresar").prop("hidden", false);
+                $("#btnConsultarEspera").prop("hidden", true);
                 $('#DivEmpleados').html(data);
                
                 $('#btnGuardarCambioEmp').show();
@@ -203,6 +229,11 @@ function ConsultarEmpleadosRegresar() {
                 //**
                 $('#Guardar').show();
                 $('#inputsregresar').show();
+            },
+            error: function (data) {
+                $("#ConsultarEmpleadosRegresar").prop("hidden", false);
+                $("#btnConsultarEspera").prop("hidden", true);
+                MensajeError(data,true);
             }
         });
         $('#contempleados').show();

@@ -14,6 +14,9 @@
         border-radius: 0.35rem;
         height: 30px;
     }
+    .bootstrap-select .hidden {
+        display: none;
+    }
 </style>
 <h5>Mover Personal en Nómina</h5>
 <div class="" style="padding-bottom:100px">
@@ -30,7 +33,7 @@
                             <td></td>
                             <td>
                                 @Html.Label("Centro de Costos:")
-                                @Html.DropDownList("SelectAreaOrigen", new SelectList(ViewBag.CentroCostos, "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "ChangeCentroCostoOrigen(this.value)", @class = "form-control" })
+                                @Html.DropDownList("SelectAreaOrigen", new SelectList(ViewBag.CentroCostos, "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "ChangeCentroCostoOrigen(this.value)", @class = "form-control", @data_live_search = "true" })
                             </td>
                         </tr>
                         <tr>

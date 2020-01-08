@@ -1,4 +1,12 @@
-﻿$.ajax({
+﻿$(document).ready(function () {
+    //$('#IdRol').select2({
+    //    width: 'resolve'
+    //});
+    //$('#IdOpcion').select2({
+    //    width: 'resolve'
+    //});
+});
+$.ajax({
     url: "../Seguridad/ConsultaOpcionRol",
     type: "Get",
     success: function (resultado) {
