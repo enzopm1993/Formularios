@@ -673,6 +673,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //.ToArray();
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 string psMensajeValidarFecha = string.Empty;
+                if (model.CodigoMotivo == clsAtributos.CodigoMotivoPermisoComisionServicio
+                    && string.IsNullOrEmpty(model.Observacion))
+                {
+                    ConsultaCombosMotivos(false);
+                    ValidacionSolicitudPermiso();
+                    SetErrorMessage("La observación es obligatoria para este tipo de solicitud.");
+                    return View(model);
+                }
                 psMensajeValidarFecha = ValidarFechas(model);
                 if(!string.IsNullOrEmpty(psMensajeValidarFecha))
                 {
