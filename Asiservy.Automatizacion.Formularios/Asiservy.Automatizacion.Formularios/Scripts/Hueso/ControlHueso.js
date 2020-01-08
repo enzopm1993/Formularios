@@ -361,7 +361,12 @@ function checkControlHueso(id, detalle) {
     if ($(id).prop('checked')) {
         if (huesos > 0) {
             if (miga == '') {                
-                $(txtMiga).val('0.00');              
+               // $(txtMiga).val('0.00');  
+                //miga = '0.00';
+                MensajeAdvertencia2("El formato de la miga es incorrecto", detalle)
+                $(id).focus();
+                $(id).prop('checked', false);
+                return
             }
             if (miga > 9.9) {
                 MensajeAdvertencia2("Miga no puede ser mayor de 9.9kg", detalle)
@@ -609,6 +614,30 @@ function filter(__val__) {
     } else {
         return false;
     }
-
 }
--->
+
+function SoloNumeros(evt,input) {
+    var key = window.Event ? evt.which : evt.keyCode;
+    var chark = String.fromCharCode(key);
+    var tempValue = input.value + chark;
+    if (key >= 48 && key <= 57) {
+        if (filter(tempValue) === false) {
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        if (key == 8 || key == 13 || key == 0) {
+            return true;
+        } else if (key == 46) {
+            if (filter(tempValue) === false) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    } 
+}
+

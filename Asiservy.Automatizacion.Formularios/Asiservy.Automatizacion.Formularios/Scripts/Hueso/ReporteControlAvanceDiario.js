@@ -24,7 +24,7 @@ function CargarReporteAvance() {
         },
         success: function (resultado) {
             if (resultado == "101") {
-                location.reload();
+                window.location.reload();
             }
             if (resultado == "1") { 
 
