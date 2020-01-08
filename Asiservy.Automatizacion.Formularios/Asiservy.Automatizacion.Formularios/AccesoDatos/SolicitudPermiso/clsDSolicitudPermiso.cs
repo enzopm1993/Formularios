@@ -210,7 +210,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
             else
             {
-                Lista = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstado && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if(dbGarita)
+                {
+                    //2020-01-08 -> se agrega el estado de solicitud revisado para que garita pueda visualizar las solicitude que RRHH ya las pone en ese estado.
+                    Lista = entities.SOLICITUD_PERMISO.Where(x => (x.EstadoSolicitud == dsEstado || x.EstadoSolicitud ==clsAtributos.EstadoSolicitudRevisado) && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+
+                }
+                else
+                {
+                    Lista = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstado && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+
+                }
             }
             if (!string.IsNullOrEmpty(dsLinea))
             {

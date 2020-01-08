@@ -935,7 +935,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.CodigoClasificador = int.Parse(model.CodigoClasificador);
                     solicitudPermiso.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                     lsUsuario = User.Identity.Name.Split('_');
-                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(lsUsuario[1] + "");
+                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(model.Identificacion + "");
 
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
                     solicitudPermiso.UsuarioIngresoLog = lsUsuario[0] + "";
