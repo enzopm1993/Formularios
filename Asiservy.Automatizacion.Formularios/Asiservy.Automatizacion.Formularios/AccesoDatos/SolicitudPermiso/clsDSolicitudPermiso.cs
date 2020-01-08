@@ -823,10 +823,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             StatusOnlyControl resultOnlyControl;
             foreach (var x in ListadoSolicitudes)
             {
-
+                bool envioTodoDia = false;
+                TimeSpan Tiempo = x.FechaRegreso - x.FechaSalida;
+                if(x.FechaSalida==x.FechaRegreso || Tiempo.Days >= 1)
+                {
+                    envioTodoDia = true;
+                }
+                //if () { }
                 using (OnlyControlService.wsrvTcontrolSoapClient service = new OnlyControlService.wsrvTcontrolSoapClient())
                 {
-                    string content = service.insertarPermiso(x.FechaSalida.Date, x.FechaRegreso.Date, OnlyControl.Codigo, x.CodigoMotivo, true, x.FechaSalida, x.FechaRegreso, 1, x.Observacion, clsAtributos.keyLlaveAcceso);
+                    string content = service.insertarPermiso(x.FechaSalida.Date, x.FechaRegreso.Date, OnlyControl.Codigo, x.CodigoMotivo, envioTodoDia, x.FechaSalida, x.FechaRegreso, 1, x.Observacion, clsAtributos.keyLlaveAcceso);
                     //var prueba = content.codigo;
                     resultOnlyControl = JsonConvert.DeserializeObject<StatusOnlyControl>(content);
                 }
@@ -845,9 +851,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
             if(!Respuestas.Any(x=> x.Respuesta==false))
             {
+                bool envioTodoDia = false;
+                TimeSpan Tiempo = poSolicitud.FechaRegreso - poSolicitud.FechaSalida;
+                if (poSolicitud.FechaSalida == poSolicitud.FechaRegreso || Tiempo.Days >= 1)
+                {
+                    envioTodoDia = true;
+                }
                 using (OnlyControlService.wsrvTcontrolSoapClient service = new OnlyControlService.wsrvTcontrolSoapClient())
                 {
-                    string content = service.insertarPermiso(poSolicitud.FechaSalida.Date, poSolicitud.FechaRegreso.Date, OnlyControl.Codigo, poSolicitud.CodigoMotivo, true, poSolicitud.FechaSalida, poSolicitud.FechaRegreso, 1, poSolicitud.Observacion, clsAtributos.keyLlaveAcceso);
+                    string content = service.insertarPermiso(poSolicitud.FechaSalida.Date, poSolicitud.FechaRegreso.Date, OnlyControl.Codigo, poSolicitud.CodigoMotivo, envioTodoDia, poSolicitud.FechaSalida, poSolicitud.FechaRegreso, 1, poSolicitud.Observacion, clsAtributos.keyLlaveAcceso);
                     //var prueba = content.codigo;
                     resultOnlyControl = JsonConvert.DeserializeObject<StatusOnlyControl>(content);
                 }
