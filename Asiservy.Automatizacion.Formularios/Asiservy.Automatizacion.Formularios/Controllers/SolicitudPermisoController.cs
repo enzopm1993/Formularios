@@ -1258,8 +1258,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             clsDSolicitudPermiso = new clsDSolicitudPermiso();
             clsDGeneral = new clsDGeneral();
-            if(!RRHH)
-                ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null).Where(x=> x.CodigoMotivo != "CP" && x.CodigoMotivo != "EP" && x.CodigoMotivo != "CH" && x.CodigoMotivo != "EH");
+            clsDClasificador = new clsDClasificador();
+            if (!RRHH)
+            {
+                List<string> Motivos = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoMotivosExcluidos, "0").Select(x=> x.Codigo).ToList();
+                ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null).Where(x => !Motivos.Contains(x.CodigoMotivo));
+            }
             else
                 ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null);
            

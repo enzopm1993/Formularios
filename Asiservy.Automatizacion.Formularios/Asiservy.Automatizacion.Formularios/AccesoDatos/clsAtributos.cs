@@ -197,5 +197,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //Estadp Aprobación Mover Personal en Nómina
         public static string EstadoPendienteMoverPersonalN = "001";
         public static string EstadoAprobadoMoverPersonalN = "002";
+
+        //Clasificador Grupo de Motivos excluidos para solicitud de permiso
+        public static string CodigoGrupoMotivosExcluidos = "022";
     }
 }
