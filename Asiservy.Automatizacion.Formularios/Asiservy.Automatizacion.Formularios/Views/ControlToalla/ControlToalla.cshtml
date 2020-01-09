@@ -1,7 +1,111 @@
-﻿
+﻿@model Asiservy.Automatizacion.Datos.Datos.CONTROL_TOALLA
 @{
     ViewBag.Title = "ControlToalla";
 }
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 
-<h5>ControlToalla</h5>
+<h5>Control Toalla</h5>
+
+<input type="hidden" id="txtLinea" value="@ViewBag.Linea"/>
+<div class="row">
+
+    @*<div class="col-md-2 col-4">
+            <div class="form-group">
+                <label>Id</label>
+                <input type="text" name="name" id="txtIdControlToalla" value="0" class="form-control" readonly />
+            </div>
+        </div>*@
+    <div class="col-md-2 col-4">
+        <div class="form-group">
+            <label>Turno:</label>
+            <select name="TurnoGen" id="TurnoGen" class="form-control" @*onchange="ConsultarSiExisteAsistencia();"*@>
+                <option selected>Seleccione</option>
+                <option value="1" selected>Turno 1</option>
+                <option value="2">Turno 2</option>
+
+            </select>
+            <label id="mensajeturno" class="text-danger" style="display:none">Debe seleccionar un turno</label>
+        </div>
+    </div>
+    <div class="col-md-3 col-8">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label" })
+            @{var FechaActual = DateTime.Now.ToString("yyyy-MM-dd"); }
+            <input type="date" id="txtFecha" name="name" value="@FechaActual" onchange="CargarControlToalla()" class="form-control" />
+            <span class="field-validation-valid text-danger" hidden id="txtValidaFecha"> Ingrese la Fecha </span>
+
+        </div>
+    </div>
+
+    <div class="col-md-2 col-6">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Hora, htmlAttributes: new { @class = "control-label" })
+            @*<input type="time" id="txtHoraInicio" name="name" value="" class="form-control" />*@
+            <select id="txtHora" class="form-control">
+                <option value="07:00">07:00</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                @*<option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+                <option value="21:00">21:00</option>
+                <option value="22:00">22:00</option>
+                <option value="23:00">23:00</option>
+                <option value="23:30">00:00</option>*@
+
+            </select>
+            <span class="field-validation-valid text-danger" hidden id="txtValidaHora"> Ingrese la Hora </span>
+
+        </div>
+    </div>
+    <div class="col-md-5 col-12">
+        <div class="form-group">
+            <label class="control-label">Observación: </label>
+            @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control", @id = "txtObservacion", @maxlength = "250" } })
+            @*@Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+</div>
+    <br />
+    <div class="row">
+        <div class=" col-12 text-center">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+           
+
+            <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGuardar" onclick="GuardarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+            @*<button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>*@
+        </div>
+    </div>
+
+
+
+    <hr />
+    <div class="d-flex justify-content-center">
+        <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
+
+    <div class="table-responsive" id="DivControl">
+
+    </div>
 
