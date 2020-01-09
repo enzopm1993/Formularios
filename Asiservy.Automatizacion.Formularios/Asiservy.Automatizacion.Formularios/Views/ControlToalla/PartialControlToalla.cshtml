@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CONTROL_TOALLA>
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdControlToalla)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Turno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @foreach (var item in Model)
+        {
+            <tr onclick="">
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdControlToalla)
+                </td>
+                <td>
+                    <label>@item.Fecha.Value.ToString("yyyy-MM-dd")</label>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Turno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hora)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/Scripts/General/dataTableJS.js"></script>
