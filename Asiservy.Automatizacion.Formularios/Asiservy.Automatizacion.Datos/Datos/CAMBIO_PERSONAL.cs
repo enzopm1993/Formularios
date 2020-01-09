@@ -32,5 +32,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
         public Nullable<System.DateTime> FechaFin { get; set; }
         public Nullable<System.TimeSpan> Horafin { get; set; }
+        public string CodLineaOrigen { get; set; }
+        public string CentroCostoOrigen { get; set; }
+        public string CodCargoOrigen { get; set; }
+        public string RecursoOrigen { get; set; }
     }
 }
