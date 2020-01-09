@@ -63,8 +63,11 @@
                 </td>
             }
                 <td>
-                    @Html.DisplayFor(modelItem => item.INGRESO)
-
+                    @if (item.INGRESO != null)
+                    {
+                        @item.INGRESO.Value.ToString("dd-MM-yyyy")
+                    }
+                   
                 </td>
         </tr>
         }
