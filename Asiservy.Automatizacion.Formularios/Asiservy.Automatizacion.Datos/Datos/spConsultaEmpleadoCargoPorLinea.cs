@@ -21,7 +21,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CodCargo { get; set; }
         public string Cargo { get; set; }
         public Nullable<int> Dias { get; set; }
-        public Nullable<int> Meses { get; set; }
+        public string Meses { get; set; }
         public Nullable<System.DateTime> INGRESO { get; set; }
     }
 }

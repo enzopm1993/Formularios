@@ -2034,10 +2034,10 @@
           </FunctionImport>
           <EntitySet Name="MOVER_PERSONAL" EntityType="ASIS_PRODModel.MOVER_PERSONAL" />
           <FunctionImport Name="spConsultarMovimientoPersonalEnNominaPendiente" ReturnType="Collection(ASIS_PRODModel.spConsultarMovimientoPersonalEnNominaPendiente)" />
-          <FunctionImport Name="spConsultaEmpleadoCargoPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea)">
-          <Parameter Name="Linea" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="CAMBIO_PERSONAL" EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" />
+          <FunctionImport Name="spConsultaEmpleadoCargoPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea)">
+            <Parameter Name="Linea" Mode="In" Type="String" />
+          </FunctionImport>
           
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -3764,18 +3764,6 @@
           <Property Type="String" Name="EstadoAprobacion" Nullable="true" MaxLength="3" />
           <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
         </ComplexType>
-        <ComplexType Name="spConsultaEmpleadoCargoPorLinea">
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="CodArea" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="60" />
-          <Property Type="Int32" Name="Dias" Nullable="true" />
-          <Property Type="Int32" Name="Meses" Nullable="true" />
-          <Property Type="DateTime" Name="INGRESO" Nullable="true" Precision="23" />
-        </ComplexType>
         <EntityType Name="CAMBIO_PERSONAL">
           <Key>
             <PropertyRef Name="IdCambioPersonal" />
@@ -3803,6 +3791,18 @@
           <Property Name="CodCargoOrigen" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="RecursoOrigen" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="spConsultaEmpleadoCargoPorLinea">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CodArea" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="60" />
+          <Property Type="Int32" Name="Dias" Nullable="true" />
+          <Property Type="String" Name="Meses" Nullable="false" MaxLength="84" />
+          <Property Type="DateTime" Name="INGRESO" Nullable="true" Precision="23" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5863,22 +5863,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaEmpleadoCargoPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaEmpleadoCargoPorLinea">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
-                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
-                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
-                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
-                <ScalarProperty Name="Dias" ColumnName="Dias" />
-                <ScalarProperty Name="Meses" ColumnName="Meses" />
-                <ScalarProperty Name="INGRESO" ColumnName="INGRESO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CAMBIO_PERSONAL">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CAMBIO_PERSONAL">
               <MappingFragment StoreEntitySet="CAMBIO_PERSONAL">
@@ -5907,6 +5891,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaEmpleadoCargoPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaEmpleadoCargoPorLinea">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="Dias" ColumnName="Dias" />
+                <ScalarProperty Name="Meses" ColumnName="Meses" />
+                <ScalarProperty Name="INGRESO" ColumnName="INGRESO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
