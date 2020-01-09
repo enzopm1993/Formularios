@@ -64,6 +64,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string CodigoMotivoPermisoCitaMedica = "CM";
         public static string CodigoMotivoPermisoEnfermedadNP = "EN";
 
+        //Motivos de permiso general
+        public static string CodigoMotivoPermisoComisionServicio = "CS";
+
         //Tipos Cambio de personal de Área
         public static string TipoPrestar = "P";
         public static string TipoRegresar = "R";
@@ -194,5 +197,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //Estadp Aprobación Mover Personal en Nómina
         public static string EstadoPendienteMoverPersonalN = "001";
         public static string EstadoAprobadoMoverPersonalN = "002";
+
+        //Clasificador Grupo de Motivos excluidos para solicitud de permiso
+        public static string CodigoGrupoMotivosExcluidos = "022";
     }
 }

@@ -210,7 +210,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
             else
             {
-                Lista = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstado && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if(dbGarita)
+                {
+                    //2020-01-08 -> se agrega el estado de solicitud revisado para que garita pueda visualizar las solicitude que RRHH ya las pone en ese estado.
+                    Lista = entities.SOLICITUD_PERMISO.Where(x => (x.EstadoSolicitud == dsEstado || x.EstadoSolicitud ==clsAtributos.EstadoSolicitudRevisado) && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+
+                }
+                else
+                {
+                    Lista = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstado && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+
+                }
             }
             if (!string.IsNullOrEmpty(dsLinea))
             {
@@ -236,6 +246,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             {
                 var fechaBiometrico = entities.spConsultaUltimaMarcacionBiometrico(x.Identificacion).FirstOrDefault();
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
+                var poMotivos = ConsultarMotivos(x.CodigoMotivo).FirstOrDefault();
                 string DescripcionEstadosSolicitud = (from e in entities.ESTADO_SOLICITUD
                                                       where e.Estado == x.EstadoSolicitud
                                                       select e.Descripcion).FirstOrDefault();
@@ -251,7 +262,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     //Identificacion = x.Identificacion,
                     NombreEmpleado = poEmpleado != null ? poEmpleado.NOMBRES : "",
                     //CodigoMotivo = x.CodigoMotivo,
-                    //DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
+                   DescripcionMotivo = poMotivos != null ? poMotivos.DescripcionMotivo : "",
                     Observacion = x.Observacion,
                     FechaSalida = x.FechaSalida,
                     FechaRegreso = x.FechaRegreso,
@@ -823,10 +834,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             StatusOnlyControl resultOnlyControl;
             foreach (var x in ListadoSolicitudes)
             {
-
+                bool envioTodoDia = false;
+                TimeSpan Tiempo = x.FechaRegreso - x.FechaSalida;
+                if(x.FechaSalida==x.FechaRegreso || Tiempo.Days >= 1)
+                {
+                    envioTodoDia = true;
+                }
+                //if () { }
                 using (OnlyControlService.wsrvTcontrolSoapClient service = new OnlyControlService.wsrvTcontrolSoapClient())
                 {
-                    string content = service.insertarPermiso(x.FechaSalida.Date, x.FechaRegreso.Date, OnlyControl.Codigo, x.CodigoMotivo, true, x.FechaSalida, x.FechaRegreso, 1, x.Observacion, clsAtributos.keyLlaveAcceso);
+                    string content = service.insertarPermiso(x.FechaSalida.Date, x.FechaRegreso.Date, OnlyControl.Codigo, x.CodigoMotivo, envioTodoDia, x.FechaSalida, x.FechaRegreso, 1, x.Observacion, clsAtributos.keyLlaveAcceso);
                     //var prueba = content.codigo;
                     resultOnlyControl = JsonConvert.DeserializeObject<StatusOnlyControl>(content);
                 }
@@ -845,9 +862,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
             if(!Respuestas.Any(x=> x.Respuesta==false))
             {
+                bool envioTodoDia = false;
+                TimeSpan Tiempo = poSolicitud.FechaRegreso - poSolicitud.FechaSalida;
+                if (poSolicitud.FechaSalida == poSolicitud.FechaRegreso || Tiempo.Days >= 1)
+                {
+                    envioTodoDia = true;
+                }
                 using (OnlyControlService.wsrvTcontrolSoapClient service = new OnlyControlService.wsrvTcontrolSoapClient())
                 {
-                    string content = service.insertarPermiso(poSolicitud.FechaSalida.Date, poSolicitud.FechaRegreso.Date, OnlyControl.Codigo, poSolicitud.CodigoMotivo, true, poSolicitud.FechaSalida, poSolicitud.FechaRegreso, 1, poSolicitud.Observacion, clsAtributos.keyLlaveAcceso);
+                    string content = service.insertarPermiso(poSolicitud.FechaSalida.Date, poSolicitud.FechaRegreso.Date, OnlyControl.Codigo, poSolicitud.CodigoMotivo, envioTodoDia, poSolicitud.FechaSalida, poSolicitud.FechaRegreso, 1, poSolicitud.Observacion, clsAtributos.keyLlaveAcceso);
                     //var prueba = content.codigo;
                     resultOnlyControl = JsonConvert.DeserializeObject<StatusOnlyControl>(content);
                 }

@@ -39,8 +39,23 @@
             </tr>
         </thead>
         <tbody>
+
+            @{
+                int TotalLinea1 = 0;
+                int TotalLinea2 = 0;
+                int TotalLinea3 = 0;
+                int TotalLinea4 = 0;
+                int TotalLinea5 = 0;
+                int TotalLineas = 0;
+            }
             @foreach (var item in Model)
             {
+                TotalLinea1 = TotalLinea1 + item.Linea1 ?? 0;
+                TotalLinea2 = TotalLinea2 + item.Linea2 ?? 0;
+                TotalLinea3 = TotalLinea3 + item.Linea3 ?? 0;
+                TotalLinea4 = TotalLinea4 + item.Linea4 ?? 0;
+                TotalLinea5 = TotalLinea5 + item.Linea5 ?? 0;
+                TotalLineas = TotalLineas + item.Total ?? 0;
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Area)

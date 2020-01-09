@@ -216,7 +216,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     string dia = ci.DateTimeFormat.GetDayName(programaciones.FechaProduccion.DayOfWeek);
                     string enlace = "/ProyeccionProgramacion/EditarProyeccionProgramacionProduccion";
-                    string Mensaje = "Tiene la proyección de la programación pendiente de finalizar del dia: "+ dia +", "+ programaciones.FechaProduccion.ToString("dd-MM-yyyy");
+                    string Mensaje = "Tiene la proyección de la programación pendiente de finalizar del dia "+ dia +", "+ programaciones.FechaProduccion.ToString("dd-MM-yyyy");
                   
                     MensajesNotificaciones.Add(new RespuestaGeneral {
                         Mensaje = Mensaje,

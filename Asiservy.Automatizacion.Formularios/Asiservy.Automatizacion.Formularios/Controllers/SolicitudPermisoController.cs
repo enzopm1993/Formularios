@@ -673,6 +673,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //.ToArray();
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 string psMensajeValidarFecha = string.Empty;
+                if (model.CodigoMotivo == clsAtributos.CodigoMotivoPermisoComisionServicio
+                    && string.IsNullOrEmpty(model.Observacion))
+                {
+                    ConsultaCombosMotivos(false);
+                    ValidacionSolicitudPermiso();
+                    SetErrorMessage("La observación es obligatoria para este tipo de solicitud.");
+                    return View(model);
+                }
                 psMensajeValidarFecha = ValidarFechas(model);
                 if(!string.IsNullOrEmpty(psMensajeValidarFecha))
                 {
@@ -927,7 +935,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.CodigoClasificador = int.Parse(model.CodigoClasificador);
                     solicitudPermiso.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                     lsUsuario = User.Identity.Name.Split('_');
-                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(lsUsuario[1] + "");
+                    solicitudPermiso.Nivel = clsDSolicitudPermiso.ConsultarNivelUsuario(model.Identificacion + "");
 
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
                     solicitudPermiso.UsuarioIngresoLog = lsUsuario[0] + "";
@@ -1082,6 +1090,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 clsDClasificador = new clsDClasificador();
                 clsDLogin = new clsDLogin();
+                clsDGeneral = new clsDGeneral();
                 if(clsDLogin.ValidarUsuarioRol(lsUsuario[1],clsAtributos.AsistenteProduccion))
                     ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
                 if (clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolControladorGeneral) || clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolSupervisorGeneral))
@@ -1090,6 +1099,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                     ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, empleado.CODIGOLINEA);
+                }
+                if(clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolRRHH))
+                {
+                    ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
+                }else
+                {
+                    var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                    ViewBag.Lineas = clsDGeneral.ConsultaLineas(empleado.CODIGOLINEA);
                 }
 
                 return View();
@@ -1241,8 +1258,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             clsDSolicitudPermiso = new clsDSolicitudPermiso();
             clsDGeneral = new clsDGeneral();
-            if(!RRHH)
-                ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null).Where(x=> x.CodigoMotivo != "CP" && x.CodigoMotivo != "EP" && x.CodigoMotivo != "CH" && x.CodigoMotivo != "EH");
+            clsDClasificador = new clsDClasificador();
+            if (!RRHH)
+            {
+                List<string> Motivos = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoMotivosExcluidos, "0").Select(x=> x.Codigo).ToList();
+                ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null).Where(x => !Motivos.Contains(x.CodigoMotivo));
+            }
             else
                 ViewBag.MotivosPermiso = clsDSolicitudPermiso.ConsultarMotivos(null);
            

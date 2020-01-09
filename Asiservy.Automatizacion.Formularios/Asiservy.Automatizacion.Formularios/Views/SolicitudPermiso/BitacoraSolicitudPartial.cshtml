@@ -64,10 +64,16 @@
                 @Html.DisplayFor(modelItem => item.Observacion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaSalida)
+                @if (item.FechaSalida != null)
+                {
+                @item.FechaSalida.Value.ToString("dd-MM-yyyy HH:mm")
+                }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaRegreso)
+                @if (item.FechaRegreso != null)
+                {
+                    @item.FechaRegreso.Value.ToString("dd-MM-yyyy HH:mm")
+                }
             </td>
 
             <td>
