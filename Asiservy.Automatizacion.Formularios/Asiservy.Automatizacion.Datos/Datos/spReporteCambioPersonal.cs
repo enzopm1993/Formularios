@@ -13,11 +13,20 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spReporteCambioPersonal
     {
-        public string Cedula { get; set; }
+        public string CEDULA { get; set; }
         public string NOMBRES { get; set; }
-        public string TIPO { get; set; }
+        public string CentroCostosOrigen { get; set; }
+        public string RecursoOrigen { get; set; }
+        public string LineaOrigen { get; set; }
+        public string CargoOrigen { get; set; }
+        public string CentroCostoMovido { get; set; }
+        public string RecursoMovido { get; set; }
         public string LineaMovido { get; set; }
-        public string LineaOriginal { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
+        public string CargoMovido { get; set; }
+        public Nullable<bool> Vigente { get; set; }
+        public Nullable<System.DateTime> FechaMovido { get; set; }
+        public string HoraMovido { get; set; }
+        public Nullable<System.DateTime> FechaRegreso { get; set; }
+        public Nullable<System.TimeSpan> HoraRegreso { get; set; }
     }
 }
