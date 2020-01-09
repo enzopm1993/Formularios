@@ -432,6 +432,9 @@
     <Compile Include="Datos\SP_PKI_SOLICITUDES.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\sp_SolicitudesRealizadas_Result.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\sysdiagrams.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
