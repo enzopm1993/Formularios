@@ -388,15 +388,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PKI_SOLICITUDES>("SP_PKI_SOLICITUDES");
         }
     
-        public virtual ObjectResult<spConsutaEmpleados> spConsutaEmpleados(string cedula)
-        {
-            var cedulaParameter = cedula != null ?
-                new ObjectParameter("cedula", cedula) :
-                new ObjectParameter("cedula", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleados>("spConsutaEmpleados", cedulaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaCambioPersonalFecha> spConsultaCambioPersonalFecha(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
         {
             var fechaParameter = fecha.HasValue ?
@@ -998,6 +989,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("CEDULA", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_SolicitudesRealizadas>("sp_SolicitudesRealizadas", cEDULAParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaEmpleados> spConsutaEmpleados(string cedula)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleados>("spConsutaEmpleados", cedulaParameter);
         }
     }
 }

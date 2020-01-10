@@ -24,5 +24,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CARGO { get; set; }
         public string TIPCONTRATO { get; set; }
         public string CODIGORECURSO { get; set; }
+        public string CorreoPersonal { get; set; }
+        public string CorreoEmpresa { get; set; }
     }
 }
