@@ -1124,6 +1124,9 @@
         </Function>
         <Function Name="SP_PKI_SOLICITUDES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_ReporteSolicitudes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_SolicitudesRealizadas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CEDULA" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spConsultaArea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="varchar" Mode="In" />
         </Function>
@@ -3813,6 +3816,16 @@
           <Property Type="DateTime" Name="FechaRegreso" Nullable="true" />
           <Property Type="Time" Name="HoraRegreso" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="sp_SolicitudesRealizadas_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="MOTIVO" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="OBSERVACION" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="FECHA_DESDE" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FECHA_HASTA" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ESTADO" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="USUARIO_CREA" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="23" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5924,6 +5937,20 @@
                 <ScalarProperty Name="HoraMovido" ColumnName="HoraMovido" />
                 <ScalarProperty Name="FechaRegreso" ColumnName="FechaRegreso" />
                 <ScalarProperty Name="HoraRegreso" ColumnName="HoraRegreso" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_SolicitudesRealizadas" FunctionName="ASIS_PRODModel.Store.sp_SolicitudesRealizadas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_SolicitudesRealizadas_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MOTIVO" ColumnName="MOTIVO" />
+                <ScalarProperty Name="OBSERVACION" ColumnName="OBSERVACION" />
+                <ScalarProperty Name="FECHA_DESDE" ColumnName="FECHA_DESDE" />
+                <ScalarProperty Name="FECHA_HASTA" ColumnName="FECHA_HASTA" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="USUARIO_CREA" ColumnName="USUARIO_CREA" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

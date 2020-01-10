@@ -951,5 +951,36 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 }
             }
         }
+
+        public List<SolicitudPermisoViewModel> ConsultarSolicitudesRealizadas(string cedula)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                
+
+                var listSolicitudes = entities.sp_SolicitudesRealizadas(cedula).ToList();
+
+
+                List<SolicitudPermisoViewModel> listaRetorna = new List<SolicitudPermisoViewModel>();
+
+                foreach (var itemBase in listSolicitudes)
+                {                   
+
+                    listaRetorna.Add(new SolicitudPermisoViewModel {
+                        IdSolicitudPermiso = itemBase.ID
+                        ,DescripcionMotivo = itemBase.MOTIVO
+                        ,Observacion = itemBase.OBSERVACION
+                        ,FechaSalida = itemBase.FECHA_DESDE
+                        ,FechaRegreso = itemBase.FECHA_HASTA
+                        ,DescripcionEstadoSolicitud = itemBase.ESTADO
+                        ,UsuarioIngresoLog = itemBase.USUARIO_CREA
+                        ,FechaIngresoLog = itemBase.FECHA_CREACION
+                    });
+
+                }
+
+                return listaRetorna;
+            }
+        }
     }
 } 

@@ -1076,6 +1076,41 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return PartialView(pListSolicitudPermiso);
         }
 
+        [Authorize]
+        public ActionResult SolicitudesRealizadas()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                //ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                
+                lsUsuario = User.Identity.Name.Split('_');
+                string Cedula = lsUsuario[1];
+
+                var solicitudes = clsDSolicitudPermiso.ConsultarSolicitudesRealizadas(Cedula);
+
+                return View(solicitudes);
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
         #endregion
 
         #region BITACORA SOLICITUD

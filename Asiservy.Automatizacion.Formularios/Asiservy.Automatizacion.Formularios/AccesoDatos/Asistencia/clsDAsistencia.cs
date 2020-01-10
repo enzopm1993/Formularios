@@ -611,7 +611,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         }
 
                         //Busco en CAMBIO_PERSONAL donde la fecha de inicio sea igual a la fecha de la asistencia
-                        //CAMBIO_PERSONAL BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha&&x.HoraInicio!=null&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo /*&& x.HoraInicio > psAsistencia.Hora*/).FirstOrDefault();
                         List<CAMBIO_PERSONAL> BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha && x.HoraInicio != null && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaFin == psAsistencia.Fecha || x.FechaFin == null) /*&& x.HoraInicio > psAsistencia.Hora*/).ToList();
 
                         ClsdEmpleado = new clsDEmpleado();
@@ -629,11 +628,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                         //if (NumeroRegistros == 0)
                                         if (BuscarRegInactivos == null)
                                         {
-                                            //NuevoMovimientoPersonalAsistencia[indice].FechaFin = BuscarCambioPersonal.Fecha;
-                                            //NuevoMovimientoPersonalAsistencia[indice].HoraFin = BuscarCambioPersonal.HoraInicio;
-                                            //NuevoMovimientoPersonalAsistencia[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                            //NuevoMovimientoPersonalAsistencia[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                            //NuevoMovimientoPersonalAsistencia[indice].FechaModificacionLog = DateTime.Now;
                                             NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaFin = item.Fecha;
                                             NuevoMovimientoPersonalAsistencia.LastOrDefault().HoraFin = item.HoraInicio;
                                             NuevoMovimientoPersonalAsistencia.LastOrDefault().UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
@@ -642,17 +636,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                         }
                                         else
                                         {
-                                            //BuscarMovimientoPersonalDiario[indice].FechaFin = BuscarCambioPersonal.Fecha;
-                                            //BuscarMovimientoPersonalDiario[indice].HoraFin = BuscarCambioPersonal.HoraInicio;
-                                            //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                            //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                            //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = item.Fecha;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = item.HoraInicio;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaModificacionLog = DateTime.Now;
-
                                         }
 
                                         indice += 1;
@@ -665,16 +653,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
-                                            //BuscarMovimientoPersonalDiario[indice].CodLinea = BuscarCambioPersonal.CodLinea;
-                                            //BuscarMovimientoPersonalDiario[indice].CentroCosto = BuscarCambioPersonal.CentroCosto;
-                                            //BuscarMovimientoPersonalDiario[indice].CodCargo = BuscarCambioPersonal.CodCargo;
-                                            //BuscarMovimientoPersonalDiario[indice].Recurso = BuscarCambioPersonal.Recurso;
-                                            //BuscarMovimientoPersonalDiario[indice].EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                                            //BuscarMovimientoPersonalDiario[indice].FechaInicio = BuscarCambioPersonal.Fecha;
-                                            //BuscarMovimientoPersonalDiario[indice].HoraInicio = BuscarCambioPersonal.HoraInicio;
-                                            //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                            //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                            //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodLinea = item.CodLinea;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CentroCosto = item.CentroCosto;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodCargo = item.CodCargo;
@@ -785,11 +763,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                         //if (NumeroRegistros == 0)
                                         if (BuscarRegInactivos == null)
                                         {
-                                            //NuevoMovimientoPersonalAsistencia[indice].FechaFin = BuscarCambioPersonal.FechaFin;
-                                            //NuevoMovimientoPersonalAsistencia[indice].HoraFin = BuscarCambioPersonal.Horafin;
-                                            //NuevoMovimientoPersonalAsistencia[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                            //NuevoMovimientoPersonalAsistencia[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                            //NuevoMovimientoPersonalAsistencia[indice].FechaModificacionLog = DateTime.Now;
                                             NuevoMovimientoPersonalAsistencia.LastOrDefault().FechaFin = item.FechaFin;
                                             NuevoMovimientoPersonalAsistencia.LastOrDefault().HoraFin = item.Horafin;
                                             NuevoMovimientoPersonalAsistencia.LastOrDefault().UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
@@ -798,11 +771,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                         }
                                         else
                                         {
-                                            //BuscarMovimientoPersonalDiario[indice].FechaFin = BuscarCambioPersonal.FechaFin;
-                                            //BuscarMovimientoPersonalDiario[indice].HoraFin = BuscarCambioPersonal.Horafin;
-                                            //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                            //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                            //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = item.FechaFin;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = item.Horafin;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
@@ -866,13 +834,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                         }
                                         else
                                         {
-                                            //BuscarMovimientoPersonalDiario[indice].EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                                            //BuscarMovimientoPersonalDiario[indice].FechaFin = BuscarCambioPersonal.FechaFin;
-                                            //BuscarMovimientoPersonalDiario[indice].HoraFin = BuscarCambioPersonal.Horafin;
-                                            //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                            //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                            //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
-
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = item.FechaFin;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = item.Horafin;
@@ -890,16 +851,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
-                                            //BuscarMovimientoPersonalDiario[indice].CodLinea = BuscarEmpleadoDataL.LINEA;
-                                            //BuscarMovimientoPersonalDiario[indice].CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS;
-                                            //BuscarMovimientoPersonalDiario[indice].CodCargo = BuscarEmpleadoDataL.CARGO;
-                                            //BuscarMovimientoPersonalDiario[indice].Recurso = BuscarEmpleadoDataL.RECURSO;
-                                            //BuscarMovimientoPersonalDiario[indice].EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                                            //BuscarMovimientoPersonalDiario[indice].FechaInicio = BuscarCambioPersonal.FechaFin;
-                                            //BuscarMovimientoPersonalDiario[indice].HoraInicio = psAsistencia.Hora;
-                                            //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                                            //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                                            //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodLinea = BuscarEmpleadoDataL.LINEA;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS;
                                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).CodCargo = BuscarEmpleadoDataL.CARGO;
@@ -938,34 +889,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             }
                         }
                         db.MOVIMIENTO_PERSONAL_DIARIO.AddRange(NuevoMovimientoPersonalAsistencia);
-                        //**
-
-                        //var BuscarMovimientoPersonalDiario = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
-                        //                                      where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroInactivo
-                        //                                      select m).FirstOrDefault();
-                        //if (BuscarMovimientoPersonalDiario != null)
-                        //{
-                        //    BuscarMovimientoPersonalDiario.HoraInicio = psAsistencia.Hora;
-                        //    BuscarMovimientoPersonalDiario.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                        //}
-                        //else
-                        //{
-                        //    db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO
-                        //    {
-                        //        Cedula = psAsistencia.Cedula,
-                        //        CodLinea = psAsistencia.Linea,
-                        //        CentroCosto = psAsistencia.CentroCostos,
-                        //        CodCargo = psAsistencia.Cargo,
-                        //        Recurso = psAsistencia.Recurso,
-                        //        FechaInicio = psAsistencia.Fecha,
-                        //        HoraInicio = psAsistencia.Hora,
-                        //        Asistencia = true,
-                        //        EstadoRegistro = psAsistencia.EstadoRegistro,
-                        //        FechaIngresoLog = psAsistencia.FechaModificacionLog,
-                        //        TerminalIngresoLog = psAsistencia.TerminalModificacionLog,
-                        //        UsuarioIngresoLog = psAsistencia.UsuarioModificacionLog
-                        //    });
-                        //}
                     }
 
                     //**

@@ -322,7 +322,6 @@
     <script src="~/Scripts/General/GeneralJS.js"></script>
     <script src="~/Scripts/Mensajes/Mensajes.js"></script>
 
-
     <script>
 
         //var iStart = 0;
@@ -503,7 +502,7 @@
 
     @if (ViewBag.JavaScrip != null)
     {
-        
+
         string js = ViewBag.JavaScrip;
         string url = "/Scripts/" + js + ".js";
         var res = HttpUtility.UrlDecode(url);

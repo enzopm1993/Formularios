@@ -1230,11 +1230,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (tipo == "prestar")
                 {
                     ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(psLinea, psCentroCosto, psCargo, psRecurso, clsAtributos.TipoPrestar);
-
+                    TempData["ListaEmpleados"] = ListaEmpleados;
                 }
                 else
                 {
                     ListaEmpleados = clsDEmpleado.ConsultaEmpleadosFiltroCambioPersonal(psLinea, psCentroCosto, psCargo, psRecurso, clsAtributos.TipoRegresar);
+                    TempData["ListaEmpleados"] = ListaEmpleados;
                     ViewBag.ADondeFuePrestado = clsDEmpleado.ConsultarDondeFueMovido(ListaEmpleados);
                 }
                 return PartialView(ListaEmpleados);
@@ -1363,6 +1364,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosFiltroCambioPersonal>;
                 if (dCedulas.ToList().Contains("horaswitch"))
                 {
 
@@ -1395,7 +1397,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                                 FechaIngresoLog = DateTime.Now,
                                 UsuarioIngresoLog = liststring[0],
                                 TerminalIngresoLog = Request.UserHostAddress,
-                                EstadoRegistro = "A"
+                                EstadoRegistro = "A",
+                                CentroCostoOrigen=ListEmpleados.Where(x=>x.CEDULA==pscedulas).FirstOrDefault().CODIGOAREA,
+                                CodLineaOrigen=ListEmpleados.Where(x => x.CEDULA == pscedulas).FirstOrDefault().CODIGOLINEA,
+                                RecursoOrigen= ListEmpleados.Where(x => x.CEDULA == pscedulas).FirstOrDefault().RECURSO,
+                                CodCargoOrigen= ListEmpleados.Where(x => x.CEDULA == pscedulas).FirstOrDefault().CODIGOCARGO
                             });
                             //pListBitacoraCambioPersonal.Add(new BITACORA_CAMBIO_PERSONAL
                             //{
