@@ -276,7 +276,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         }
                         if (NoSePudieornMover.Count == 0)
                         {
-                            return "Empleados movidos con éxito";
+                            return "1000"; //Empleados movidos con éxito
 
                         }
 
