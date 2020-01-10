@@ -3392,6 +3392,7 @@
     <Content Include="Views\ControlToalla\ControlToalla.cshtml" />
     <Content Include="Views\MoverPersonal\BandejaMovimientoPersonalRRHH.cshtml" />
     <Content Include="Views\MoverPersonal\PartialBandejaMovimientoPersonalRRHH.cshtml" />
+    <Content Include="Views\SolicitudPermiso\SolicitudesRealizadas.cshtml" />
     <Content Include="Views\ControlToalla\PartialControlToalla.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

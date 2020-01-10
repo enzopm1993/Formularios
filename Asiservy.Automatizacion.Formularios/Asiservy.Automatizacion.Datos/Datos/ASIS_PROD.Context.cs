@@ -80,6 +80,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_MIGA> CONTROL_MIGA { get; set; }
         public virtual DbSet<MOVER_PERSONAL> MOVER_PERSONAL { get; set; }
         public virtual DbSet<CAMBIO_PERSONAL> CAMBIO_PERSONAL { get; set; }
+        public virtual DbSet<CONTROL_TOALLA> CONTROL_TOALLA { get; set; }
+        public virtual DbSet<DETALLE_CONTROL_TOALLA> DETALLE_CONTROL_TOALLA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -243,23 +245,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual ObjectResult<spConsultaPersonalNominaPorLinea> spConsultaPersonalNominaPorLinea()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalNominaPorLinea>("spConsultaPersonalNominaPorLinea");
-        }
-    
-        public virtual ObjectResult<spReporteCambioPersonal> spReporteCambioPersonal(string codLinea, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
-        {
-            var codLineaParameter = codLinea != null ?
-                new ObjectParameter("CodLinea", codLinea) :
-                new ObjectParameter("CodLinea", typeof(string));
-    
-            var fechaInicioParameter = fechaInicio.HasValue ?
-                new ObjectParameter("FechaInicio", fechaInicio) :
-                new ObjectParameter("FechaInicio", typeof(System.DateTime));
-    
-            var fechaFinParameter = fechaFin.HasValue ?
-                new ObjectParameter("fechaFin", fechaFin) :
-                new ObjectParameter("fechaFin", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteCambioPersonal>("spReporteCambioPersonal", codLineaParameter, fechaInicioParameter, fechaFinParameter);
         }
     
         public virtual ObjectResult<spConsultaReporteControlCochePorLineas> spConsultaReporteControlCochePorLineas(Nullable<System.DateTime> fecha)
@@ -987,6 +972,32 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Linea", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaEmpleadoCargoPorLinea>("spConsultaEmpleadoCargoPorLinea", lineaParameter);
+        }
+    
+        public virtual ObjectResult<spReporteCambioPersonal> spReporteCambioPersonal(string codLinea, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("CodLinea", codLinea) :
+                new ObjectParameter("CodLinea", typeof(string));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("fechaFin", fechaFin) :
+                new ObjectParameter("fechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteCambioPersonal>("spReporteCambioPersonal", codLineaParameter, fechaInicioParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<sp_SolicitudesRealizadas> sp_SolicitudesRealizadas(string cEDULA)
+        {
+            var cEDULAParameter = cEDULA != null ?
+                new ObjectParameter("CEDULA", cEDULA) :
+                new ObjectParameter("CEDULA", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_SolicitudesRealizadas>("sp_SolicitudesRealizadas", cEDULAParameter);
         }
     }
 }

@@ -24,10 +24,14 @@
             <th>
                 Fecha Ingreso
             </th>
+            <th>
+                Renucia
+            </th>
 
         </tr>
     </thead>
     <tbody>
+        @{ int contador = 1;}
         @foreach (var item in Model)
         {
         <tr>
@@ -49,7 +53,7 @@
                     @Html.DisplayFor(modelItem => item.Dias)
                 </td>
             }
-            else if (item.Dias<70)
+            else if (item.Dias < 70)
             {
                 <td class="text-warning">
                     @Html.DisplayFor(modelItem => item.Dias)
@@ -62,14 +66,22 @@
                     @Html.DisplayFor(modelItem => item.Dias)
                 </td>
             }
-                <td>
-                    @if (item.INGRESO != null)
-                    {
-                        @item.INGRESO.Value.ToString("dd-MM-yyyy")
-                    }
-                   
-                </td>
+            <td>
+                @if (item.INGRESO != null)
+                {
+                    @item.INGRESO.Value.ToString("dd-MM-yyyy")
+                }
+
+            </td>
+            <td>
+                @if (item.Salida != null && item.Salida.Value.Year>1900)
+                {
+                    @item.Salida.Value.ToString("dd-MM-yyyy")
+                }
+
+            </td>
         </tr>
+            contador++;
         }
     </tbody>
 </table>

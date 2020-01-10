@@ -23,5 +23,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> Dias { get; set; }
         public string Meses { get; set; }
         public Nullable<System.DateTime> INGRESO { get; set; }
+        public Nullable<System.DateTime> Salida { get; set; }
     }
 }
