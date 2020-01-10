@@ -118,7 +118,7 @@
 
                 <div class="form-group">
                     <label>Observación</label>
-                    @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control", @maxlength = "500", @style = "text-transform:uppercase", @onkeypress = "return sololetras(event)" })
+                    @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control", @maxlength = "500", @style = "text-transform:uppercase" })
                 </div>
                 @Html.ValidationMessage("CustomError", "", new { @class = "input-validation-error text-danger has-error" })
 

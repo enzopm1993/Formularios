@@ -711,7 +711,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.CodigoCargo = poEmpleado.CODIGOCARGO;
                     solicitudPermiso.Identificacion = model.Identificacion;
                     solicitudPermiso.CodigoMotivo = model.CodigoMotivo;
-                    solicitudPermiso.Observacion = model.Observacion;
+                    solicitudPermiso.Observacion = model.Observacion??model.Observacion.ToUpper();
 
                     if (model.FechaSalidaEntrada == null)
                     {
@@ -756,11 +756,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     var Motivo= clsDSolicitudPermiso.ConsultarMotivos(solicitudPermiso.CodigoMotivo).FirstOrDefault();
 
                     string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);                    
-                    string mensajeCorreo=clsDGeneral.EnvioCorreo("victorrcch@hotmail.com", "Solicitud Permiso",
+                    string mensajeCorreo=clsDGeneral.EnvioCorreo(poEmpleado, "Solicitud Permiso",
                         "Empleado: "+ poEmpleado.NOMBRES+ "\n</br>"
-                        + " Motivo:" + Motivo.DescripcionMotivo+ "\n</br>"
+                        + "Motivo:" + Motivo.DescripcionMotivo+ "\n</br>"
+                        + "Observación:" + solicitudPermiso.Observacion+ "\n</br>"
                         + "Fecha Salida: " + solicitudPermiso.FechaSalida+ "\n</br>" 
-                        + "Fecha Regreso: " + solicitudPermiso.FechaRegreso+ "</br>\n Estado: Pendiente </br></br>");
+                        + "Fecha Regreso: " + solicitudPermiso.FechaRegreso+ "</br>\n Estado: Pendiente </br></br>",false);
 
 
                     SetSuccessMessage(string.Format(psRespuesta+" -- "+ mensajeCorreo));

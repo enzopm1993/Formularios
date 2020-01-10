@@ -200,5 +200,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //Clasificador Grupo de Motivos excluidos para solicitud de permiso
         public static string CodigoGrupoMotivosExcluidos = "022";
+
+        //Clasificador de Grupo de Correos electronicos para solicitud aprobada.
+        public static string CodigoGrupoCorreosElectronicosCopias = "023";
+
     }
 }
