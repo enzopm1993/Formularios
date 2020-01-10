@@ -55,11 +55,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 entities.BITACORA_SOLICITUD.Add(poBitacora);  
             entities.SaveChanges();
 
+                bool RRHH = false;
                 string EstadoSolictud = string.Empty;
                 if (poSolicitud.EstadoSolicitud == clsAtributos.EstadoSolicitudAprobado)
                 {
                     EstadoSolictud = "Aprobado";
-                }else if (poSolicitud.EstadoSolicitud == clsAtributos.EstadoSolicitudAnulado)
+                    RRHH = true;
+                }
+                else if (poSolicitud.EstadoSolicitud == clsAtributos.EstadoSolicitudAnulado)
                 {
                     EstadoSolictud = "Anulado";
                 }
@@ -67,6 +70,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 var Motivo = ConsultarMotivos(poSolicitud.CodigoMotivo).FirstOrDefault();
                 String MensajeBody = "Empleado: " + poEmpleado.NOMBRES + "\n</br>"
                       + " Motivo:" + Motivo.DescripcionMotivo + "\n</br>"
+                       + "Observación:" + poSolicitud.Observacion + "\n</br>"
                       + "Fecha Salida: " + poSolicitud.FechaSalida + "\n</br>"
                       + "Fecha Regreso: " + poSolicitud.FechaRegreso + "</br>\n Estado: " + EstadoSolictud + " </br>"
                       + "Realizado por: " + doSolicitud.UsuarioModificacionLog + "</br>";
@@ -78,9 +82,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 {
                     MensajeBody = MensajeBody + "</br>";
                 }
-
-                mensajeCorreo = clsDGeneral.EnvioCorreo("victorrcch@hotmail.com", "Solicitud Permiso",
-                MensajeBody);
+               
+                mensajeCorreo = clsDGeneral.EnvioCorreo(poEmpleado, "Solicitud Permiso",
+                MensajeBody, RRHH);
             }
 
             return psMensaje+"--"+ mensajeCorreo;
@@ -765,7 +769,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                                  Cedula=bitacora.Cedula,
                                  CodEstadoSolicitud=bitacora.EstadoSolicitud,
                                  EstadoSolicitud=estado.Descripcion,
-                                 FechaRegreso=bitacora.FechaSalida,
+                                 FechaRegreso=bitacora.FechaRegreso,
                                  FechaSalida=bitacora.FechaSalida,
                                  Observacion=bitacora.Observacion,
                                  FechaIngresoLog=bitacora.FechaIngresoLog,
