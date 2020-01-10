@@ -47,7 +47,7 @@
         },
         error: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
-
+            //console.log(resultado);
             MensajeError(JSON.stringify(resultado), false);
 
         }
