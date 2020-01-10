@@ -233,6 +233,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             }
 
         }
+        public List<spConsultaReporteAvanceDiario> ConsultaControlAvanceDiario (DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                List<spConsultaReporteAvanceDiario> Listado = new List<spConsultaReporteAvanceDiario>();
+                Listado = entities.spConsultaReporteAvanceDiario(Fecha).ToList();
+                return Listado;
+            }
+
+        }
 
         public List<AVANCE_KILOS_HORA> ConsultaEficienciaAvanceKilosHora()
         {

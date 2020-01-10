@@ -2138,6 +2138,7 @@
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
+    <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
     <Content Include="Scripts\i18n\defaults-ar_AR.js" />
@@ -3394,6 +3395,8 @@
     <Content Include="Views\MoverPersonal\PartialBandejaMovimientoPersonalRRHH.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudesRealizadas.cshtml" />
     <Content Include="Views\ControlToalla\PartialControlToalla.cshtml" />
+    <Content Include="Views\Hueso\ReporteControlAvanceDiarioGeneralPartial.cshtml" />
+    <Content Include="Views\Hueso\ReporteControlAvanceDiarioGeneral.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
