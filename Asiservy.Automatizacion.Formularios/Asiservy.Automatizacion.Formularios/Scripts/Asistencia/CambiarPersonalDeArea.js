@@ -1,4 +1,10 @@
-﻿function SetearHoraInicio() {
+﻿function CerrarModalMensaje() {
+    //javascript: window.location.reload();
+    if ($('#mensajefeed').val() == '1000') {
+        window.location.reload();
+    }
+}
+function SetearHoraInicio() {
     if ($('#horaswitch').prop('checked')) {
         $('#txtHoraInicio').show();
         $('#labelhora').text("");
@@ -148,7 +154,14 @@ function Mover(result) {
             $("#btnGuardarEspera").prop("hidden", true);
             //**
             //MensajeCorrectoTiempo(resultado, true,10000);
-            $('#BodyMensajeCp').html(resultado);
+            if (resultado == '1000') {
+                $('#mensajefeed').val(resultado);
+                $('#BodyMensajeCp').html('Empleados movidos con éxito');
+            } else {
+                $('#BodyMensajeCp').html(resultado);
+            }
+            
+
             $('#ModalMensajeCP').modal('show');
         }
         ,

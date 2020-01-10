@@ -4,20 +4,43 @@
     <thead>
         <tr>
             <th>
+                Cédula
+            </th>
+            <th>
                 Nombres
             </th>
             <th>
-                Tipo
+                Centro de Costo Origen
+            </th>
+            <th>
+                Recurso Origen
+            </th>
+            <th>
+                Linea Origen
+            </th>
+            <th>
+                Cargo Origen
+            </th>
+            <th>
+                Centro de Costo Movido
+            </th>
+            <th>
+                Recurso Movido
             </th>
             <th>
                 Línea Movido
             </th>
             <th>
-                Línea Original
+                Cargo Movido
             </th>
             <th>
-                Fecha
+                Fecha Movimiento
             </th>
+            <th>
+                Hora Movimietno
+            </th>
+            <th>Fecha Regreso</th>
+            <th>Hora Regreso</th>
         </tr>
     </thead>
     <tbody>
@@ -25,19 +48,46 @@
         {
             <tr>
                 <td>
+                    @item.CEDULA
+                </td>
+                <td>
                     @item.NOMBRES
                 </td>
                 <td>
-                    @item.TIPO
+                    @item.CentroCostosOrigen
+                </td>
+                <td>
+                    @item.RecursoOrigen
+                </td>
+                <td>
+                    @item.LineaOrigen
+                </td>
+                <td>
+                    @item.CargoOrigen
+                </td>
+                <td>
+                    @item.CentroCostoMovido
+                </td>
+                <td>
+                    @item.RecursoMovido
                 </td>
                 <td>
                     @item.LineaMovido
                 </td>
                 <td>
-                    @item.LineaOriginal
+                    @item.CargoMovido
                 </td>
                 <td>
-                    @item.Fecha
+                    @item.FechaMovido
+                </td>
+                <td>
+                    @item.HoraMovido
+                </td>
+                <td>
+                    @item.FechaRegreso
+                </td>
+                <td>
+                    @item.HoraRegreso
                 </td>
             </tr>
         }

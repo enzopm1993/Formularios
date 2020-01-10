@@ -31,6 +31,7 @@
     }
     $('#resultadoreporte').html('');
     $("#spinnerCargando").prop("hidden", false);
+    $("#Consultar").prop("disabled", true);
     $.ajax({
         url: "../Asistencia/ReporteCambioPersonalPartial",
         type: "GET",
@@ -41,12 +42,14 @@
             FechaFin: $('#fechahasta').val()
         },
         success: function (resultado) {
-             $("#spinnerCargando").prop("hidden", true);
+            $("#spinnerCargando").prop("hidden", true);
+            $("#Consultar").prop("disabled", false);
                 $('#resultadoreporte').html(resultado);
             
         },
         error: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
+            $("#Consultar").prop("disabled", false);
             //console.log(resultado);
             MensajeError(JSON.stringify(resultado), false);
 
