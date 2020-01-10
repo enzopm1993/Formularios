@@ -1,5 +1,10 @@
 ﻿var ListadoGeneral=[];
 
+$(document).ready(function () {
+    CargarReporteAvance();
+});
+
+
 function CargarReporteAvance() {
     var txtFecha = $('#txtFecha').val();    
     if (txtFecha == "") {
@@ -13,6 +18,7 @@ function CargarReporteAvance() {
     $("#kpi").prop("hidden", true); 
     $("#kpi2").prop("hidden", true); 
     $("#DivTable").prop("hidden", true); 
+    $("#chartPorLinea").html("");
     $.ajax({
         url: "../Hueso/ReporteControlAvanceDiarioGeneralPartial",
         type: "GET",
