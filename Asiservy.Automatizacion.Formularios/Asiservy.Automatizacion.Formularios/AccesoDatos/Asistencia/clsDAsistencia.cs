@@ -611,8 +611,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         }
 
                         //Busco en CAMBIO_PERSONAL donde la fecha de inicio sea igual a la fecha de la asistencia
-                        List<CAMBIO_PERSONAL> BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha && x.HoraInicio != null && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaFin == psAsistencia.Fecha || x.FechaFin == null) /*&& x.HoraInicio > psAsistencia.Hora*/).ToList();
+                        //List<CAMBIO_PERSONAL> BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha && x.HoraInicio != null && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaFin == psAsistencia.Fecha || x.FechaFin == null) /*&& x.HoraInicio > psAsistencia.Hora*/).ToList();
 
+                        //**cambio consulta de "Buscar CambioPersonal" para traer tambien cuando la fechaFinCambioPer==FechaAsistencia y la fechaInicioCambioP<FechaAsistencia por el caso de la persona que pudo ser prestada un dia antes y regresada el dia siguiente
+                        List<CAMBIO_PERSONAL> BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x =>
+                        (
+                            x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha && x.HoraInicio != null
+                            && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaFin == psAsistencia.Fecha || x.FechaFin == null)
+                        ) ||
+                        (
+                            x.Cedula == psAsistencia.Cedula && x.FechaFin == psAsistencia.Fecha && x.Fecha < psAsistencia.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                        )
+                        ).OrderBy(x => x.Fecha).ToList();
+                        //**
                         ClsdEmpleado = new clsDEmpleado();
                         spConsultaEspecificaEmpleadosxCedula BuscarEmpleadoDataL;
                         /*if (BuscarCambioPersonal != null )*///si encuentra que el empleado fue movido en esa fecha
@@ -620,7 +631,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         {
                             foreach (var item in BuscarCambioPersonal)
                             {
-                                if (item.HoraInicio != null)//verifico que no haya sido movido a inicio de jornada
+                                /*if (item.HoraInicio != null)*///verifico que no haya sido movido a inicio de jornada
+                                //**cambie el if para que entre solo si la fechaFInicio==FechaAsistencia por el caso de la persona que pudo ser prestada un dia antes y regresada el dia siguiente 
+                                if (item.HoraInicio != null &&item.Fecha==psAsistencia.Fecha)
+                                //**
                                 {
                                     if (item.HoraInicio > psAsistencia.Hora)//verifico que la HoraInicio que fue movido sea mayor a la hora de la asistencia
                                     {
