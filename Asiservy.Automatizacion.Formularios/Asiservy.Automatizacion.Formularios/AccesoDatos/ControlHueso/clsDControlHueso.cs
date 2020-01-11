@@ -179,24 +179,37 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
         public List<spConsultaControlAvanceDiarioPorLinea> ConsultaControlAvanceDiarioPorLinea(DateTime Fecha, string Linea)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {           
+                GenerarAvanceOrdenesApi(Fecha, Linea);
+                List<spConsultaControlAvanceDiarioPorLinea> Listado = new List<spConsultaControlAvanceDiarioPorLinea>();
+                Listado = entities.spConsultaControlAvanceDiarioPorLinea(Fecha,Linea).ToList();
+                return Listado;
+            }
+
+        }
+
+        public void GenerarAvanceOrdenesApi(DateTime Fecha,string Linea)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 List<CONTROL_AVANCE_API> ListadoControlAvanceApi = new List<CONTROL_AVANCE_API>();
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 var ordendesFabricacion = entities.CONTROL_HUESO.Where(x =>
                 x.Fecha == Fecha
-                && x.Linea == Linea
-                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).Select(x=> x.OrdenFabricacion).Distinct();
+               && x.Linea == Linea
+                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).Select(x => x.OrdenFabricacion).Distinct();
 
-                foreach(int x in ordendesFabricacion)
+                foreach (int x in ordendesFabricacion)
                 {
                     var detalleOrden = clsDApiOrdenFabricacion.ConsultaLotesPorOrdenFabricacionLinea2(x, Linea);
-                    foreach (var detalle in detalleOrden)                    {
-                        
+                    foreach (var detalle in detalleOrden)
+                    {
+
                         var modelControlAvanceApi = entities.CONTROL_AVANCE_API.FirstOrDefault(y => y.OrdenFabricacion == x && y.Lote == detalle.Lote);
-                        if(modelControlAvanceApi == null)
-                        {                           
+                        if (modelControlAvanceApi == null)
+                        {
                             ListadoControlAvanceApi.Add(new CONTROL_AVANCE_API
-                            {           
+                            {
                                 OrdenFabricacion = x,
                                 Limpieza = detalle.Limpieza,
                                 Lote = detalle.Lote,
@@ -207,28 +220,40 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                                 Especie = detalle.Especie,
                                 Producto = detalle.Producto
                             });
-                        }                      
-                    }                    
+                        }
+                    }
                 }
                 if (ListadoControlAvanceApi.Any())
                 {
                     entities.CONTROL_AVANCE_API.AddRange(ListadoControlAvanceApi);
                     entities.SaveChanges();
-                }
-
-                List<spConsultaControlAvanceDiarioPorLinea> Listado = new List<spConsultaControlAvanceDiarioPorLinea>();
-                Listado = entities.spConsultaControlAvanceDiarioPorLinea(Fecha,Linea).ToList();
-                return Listado;
+                }               
             }
-
         }
 
         public List<spConsultaAvanceDiarioPorLimpiadora> ConsultaControlAvanceDiarioPorLimpiadora(DateTime Fecha, string Linea)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
+                GenerarAvanceOrdenesApi(Fecha, Linea);
                 List<spConsultaAvanceDiarioPorLimpiadora> Listado = new List<spConsultaAvanceDiarioPorLimpiadora>();
                 Listado = entities.spConsultaAvanceDiarioPorLimpiadora(Fecha, Linea).ToList();
+                return Listado;
+            }
+
+        }
+        public List<spConsultaReporteAvanceDiario> ConsultaControlAvanceDiario (DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                clsDClasificador clsDClasificador = new clsDClasificador();
+                var lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion);
+                foreach(var x in lineas)
+                {
+                    GenerarAvanceOrdenesApi(Fecha, x.Codigo);
+                }
+                List<spConsultaReporteAvanceDiario> Listado = new List<spConsultaReporteAvanceDiario>();
+                Listado = entities.spConsultaReporteAvanceDiario(Fecha).ToList();
                 return Listado;
             }
 

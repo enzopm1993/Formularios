@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaReporteAvanceDiario>
+@{ 
+    List<string> Lineas = Model.Select(x => x.Linea).Distinct().ToList();
+}
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+
+            @foreach (var x in Lineas)
+            {
+                <th>
+                    @x
+                </th>
+            }
+            <th>
+                @Html.DisplayNameFor(model => model.limpiadoras)
+            </th>
+
+        </tr>
+    </thead>
+    @{
+        decimal Totales = 0;
+        int count = 0;
+        int TotalLimpiadoras = 0;
+    }
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hora)
+                </td>
+                @foreach (var x in Lineas)
+                {
+
+                    decimal avance = Model.FirstOrDefault(y => y.Linea == x && y.Hora == item.Hora).Avance??0;
+                    if (avance > 0)
+                    {
+                        Totales = Totales + avance;
+                    }
+                    count++;
+                    <td>
+                        @Model.FirstOrDefault(y => y.Linea == x && y.Hora == item.Hora).Avance %
+                    </td>
+                }
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.limpiadoras)
+                    @{                    
+                        TotalLimpiadoras = TotalLimpiadoras+item.limpiadoras??0;
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+    <thead>
+        @{
+            decimal AvanceGeneral = Totales / count;
+        }
+        <tr>
+            <td>Totales</td>
+          
+            <td colspan="@Lineas.Count">Avance General: @AvanceGeneral %</td>
+            <td>@TotalLimpiadoras </td>
+        </tr>
+    </thead>
+</table>
