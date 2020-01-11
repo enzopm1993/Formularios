@@ -163,7 +163,7 @@
                 @*<center><input type="submit" class="btn btn-info" name="name" value="Generar" id="GuardarSolicitudGeneral" /></center>*@
                 <div class="row">
                     <div class=" text-center col-12">
-                        <button class="btn" id="GuardarSolicitudGeneral" onclick="" style="border-color:#2c3e50" type="submit">
+                        <button class="btn" id="GuardarSolicitudGeneral" onclick="GuardarSolicitud(this.id)" style="border-color:#2c3e50" type="submit">
                             <img style="width:100%" src="~/Content/icons/send24.png" />
                         </button>
 
@@ -181,6 +181,13 @@
 </div>
 <div id="ModelCargarEmpleados"></div>
 <br /><br />
+<script>
+    function GuardarSolicitud(id) {
+        
+        $("#" + id).prop("hidden", true);
+        $("#" + id).submit();
+    }
+</script>
 
 <script src="~/Scripts/SolicitudPermiso/Empleado.js"></script>
 <script src="~/Scripts/General/CargarCombosLineas.js"></script>

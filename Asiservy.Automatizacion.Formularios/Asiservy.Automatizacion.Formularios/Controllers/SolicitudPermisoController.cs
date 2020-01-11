@@ -711,7 +711,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.CodigoCargo = poEmpleado.CODIGOCARGO;
                     solicitudPermiso.Identificacion = model.Identificacion;
                     solicitudPermiso.CodigoMotivo = model.CodigoMotivo;
-                    solicitudPermiso.Observacion = model.Observacion??model.Observacion.ToUpper();
+                    solicitudPermiso.Observacion = model.Observacion==null?"":model.Observacion.ToUpper();
 
                     if (model.FechaSalidaEntrada == null)
                     {

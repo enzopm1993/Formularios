@@ -6,6 +6,7 @@ $(document).ready(function () {
 
 
 function CargarReporteAvance() {
+    $("#selectLinea").prop("selectedIndex", 0);
     var txtFecha = $('#txtFecha').val();    
     if (txtFecha == "") {
         MensajeAdvertencia("Igrese una Fecha");
@@ -61,10 +62,12 @@ function CargarReporteAvance() {
 }
 
 function CargarAvanceKPI2() {
+
+    $("#chartPorLinea").html("");
     if ($("#selectLinea").val() == '') {
+
         return;
     }
-    $("#chartPorLinea").html("");
     var Horas = [];
     var Horas2 = [];
     var AvanceLinea= [];
@@ -185,23 +188,29 @@ function CargarReporteAvanceKPI() {
             var Lineas = []; 
             var Avance = []; 
             $.each(resultado, function (i, item) {
-               // console.log(item.Hora);
-                Lineas[i]=item.Linea;
+               ///console.log($.inArray(item.Linea, Lineas));
+                if ($.inArray(item.Linea, Lineas) == -1)
+                { Lineas[i] = item.Linea; }
             });
-            Lineas = Lineas.unique();
+            ///console.log(Lineas);
+            //Lineas = Lineas.unique();
+            //console.log(Lineas);
+
             $.each(Lineas, function (i, linea) {
                 var TotalAvance = 0;
                 var cont = 0;
                 $.each(resultado, function (j, item) {
                     if (linea == item.Linea) {
                         TotalAvance = parseFloat(TotalAvance) +parseFloat(item.Avance);   
+
+                        if (parseFloat(item.Avance) > 0)
+                            cont++;
                     }
-                    if (parseFloat(item.Avance)>0)
-                        cont++;
                 });  
-               // console.log(TotalAvance);
+                //console.log(linea+': '+TotalAvance);
                 //console.log(cont);
                 Avance[i] = parseFloat(TotalAvance) / parseFloat(cont);
+                Avance[i] = Avance[i].toFixed(2);
                 //Avance[i] = TotalAvance / cont;
             });
            // console.log(Avance);
