@@ -614,15 +614,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         //List<CAMBIO_PERSONAL> BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha && x.HoraInicio != null && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaFin == psAsistencia.Fecha || x.FechaFin == null) /*&& x.HoraInicio > psAsistencia.Hora*/).ToList();
 
                         //**cambio consulta de "Buscar CambioPersonal" para traer tambien cuando la fechaFinCambioPer==FechaAsistencia y la fechaInicioCambioP<FechaAsistencia por el caso de la persona que pudo ser prestada un dia antes y regresada el dia siguiente
-                        List<CAMBIO_PERSONAL> BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x => 
+                        List<CAMBIO_PERSONAL> BuscarCambioPersonal = db.CAMBIO_PERSONAL.Where(x =>
                         (
-                            x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha && x.HoraInicio != null 
+                            x.Cedula == psAsistencia.Cedula && x.Fecha == psAsistencia.Fecha && x.HoraInicio != null
                             && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaFin == psAsistencia.Fecha || x.FechaFin == null)
-                        )||
+                        ) ||
                         (
-                            x.Cedula==psAsistencia.Cedula&& x.FechaFin==psAsistencia.Fecha&& x.Fecha<psAsistencia.Fecha && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo
+                            x.Cedula == psAsistencia.Cedula && x.FechaFin == psAsistencia.Fecha && x.Fecha < psAsistencia.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                         )
-                        ).ToList();
+                        ).OrderBy(x => x.Fecha).ToList();
                         //**
                         ClsdEmpleado = new clsDEmpleado();
                         spConsultaEspecificaEmpleadosxCedula BuscarEmpleadoDataL;
