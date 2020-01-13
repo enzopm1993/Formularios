@@ -712,7 +712,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home", "Home");
             }
         }
-        [Authorize]
+       
         public ActionResult ReporteDistribucionPorLineaPartial(string Linea, DateTime Fecha)
         {
             try

@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaReporteAvanceDiario>
 @{ 
     List<string> Lineas = Model.Select(x => x.Linea).Distinct().ToList();
+    List<TimeSpan?> Horas = Model.Select(x => x.Hora).Distinct().ToList();
 }
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
@@ -17,43 +18,88 @@
                 </th>
             }
             <th>
-                @Html.DisplayNameFor(model => model.limpiadoras)
+                Hora
             </th>
-
+            <th>
+                Limpiadoras
+            </th>
+            
         </tr>
     </thead>
     @{
         decimal Totales = 0;
         int count = 0;
-        int TotalLimpiadoras = 0;
+        int countador = 0;
+        decimal TotalLimpiadoras = 0;
     }
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Horas)
         {
-
+            countador++;
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Hora)
+                    @item
                 </td>
                 @foreach (var x in Lineas)
                 {
-
-                    decimal avance = Model.FirstOrDefault(y => y.Linea == x && y.Hora == item.Hora).Avance??0;
+                    var poAvance = Model.FirstOrDefault(y => y.Linea == x && y.Hora == item);
+                    decimal avance = 0;
+                    if (poAvance != null)
+                    {
+                        avance = poAvance.Avance ?? 0;
+                    }
                     if (avance > 0)
                     {
                         Totales = Totales + avance;
+                        count++;
+
                     }
-                    count++;
-                    <td>
-                        @Model.FirstOrDefault(y => y.Linea == x && y.Hora == item.Hora).Avance %
-                    </td>
+                <td>
+                    @if (poAvance != null)
+                    {
+                        @poAvance.Avance 
+                    } else
+                    {
+                        @:0
+                    } 
+                    %
+                </td>
                 }
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.limpiadoras)
-                    @{                    
-                        TotalLimpiadoras = TotalLimpiadoras+item.limpiadoras??0;
+                    @{decimal avanceHora = 0;
+                        if (Totales > 0)
+                        { avanceHora = Math.Round(Totales / count, 2); }
                     }
+                    @avanceHora %
+                    @{
+                        if (avanceHora > 80)
+                        {
+                            <i class="fas fa-arrow-circle-up" style="background:#4cff00; border-radius:10px"></i>
+                        }
+                        else if (avanceHora > 60)
+                        {
+                            <i class="fas fa-arrow-circle-right" style="background:#ffd800; border-radius:10px"></i>
+                        }
+                        else if (avanceHora > 0)
+                        {
+                            <i class="fas fa-arrow-circle-down" style="background:#ff0000 ; border-radius:10px"></i>
+                        }
+
+                    }
+                </td>
+                <td>
+                    @{
+                        var poLimpiadora = Model.Where(y => y.Hora == item);
+                        var Limp = 0;
+                        foreach(var x in poLimpiadora)
+                        {
+                            Limp = Limp + x.limpiadoras ?? 0;
+                        }
+                        TotalLimpiadoras = TotalLimpiadoras + Limp;
+
+                    }
+                    @Limp
                 </td>
 
             </tr>
@@ -61,13 +107,21 @@
     </tbody>
     <thead>
         @{
-            decimal AvanceGeneral = Totales / count;
+            decimal AvanceGeneral = 0;
+            if (Totales > 0)
+            {
+                AvanceGeneral=Math.Round(Totales / count, 2);
+            }
+            if (TotalLimpiadoras>0)
+            {
+                TotalLimpiadoras = Math.Round(TotalLimpiadoras / countador, 0);
+            }
         }
         <tr>
             <td>Totales</td>
-          
-            <td colspan="@Lineas.Count">Avance General: @AvanceGeneral %</td>
-            <td>@TotalLimpiadoras </td>
+            @{ int contadorLinea = Lineas.Count + 1;}
+            <td colspan="@contadorLinea" class="text-right">Avance General:<b> @AvanceGeneral %</b></td>
+            <td>Promedio: <b> @TotalLimpiadoras </b>Limpiadoras</td>
         </tr>
     </thead>
 </table>

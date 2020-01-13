@@ -102,6 +102,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                Usuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(Usuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 RespuestaGeneral respuestaGeneral = new RespuestaGeneral(); 
                 clsDControlCocheLinea = new clsDControlCocheLinea();
                 //clsDPeriodo = new clsDPeriodo();

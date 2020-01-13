@@ -916,19 +916,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosTurnos>("spConsutaEmpleadosTurnos", lineaParameter, fechaParameter);
         }
     
-        public virtual ObjectResult<spConsultaAvanceDiarioPorLimpiadora> spConsultaAvanceDiarioPorLimpiadora(Nullable<System.DateTime> fecha, string linea)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            var lineaParameter = linea != null ?
-                new ObjectParameter("linea", linea) :
-                new ObjectParameter("linea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaAvanceDiarioPorLimpiadora>("spConsultaAvanceDiarioPorLimpiadora", fechaParameter, lineaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaControlHueso> spConsultaControlHueso(Nullable<System.DateTime> fecha)
         {
             var fechaParameter = fecha.HasValue ?
@@ -1007,6 +994,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fecha", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteAvanceDiario>("spConsultaReporteAvanceDiario", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaAvanceDiarioPorLimpiadora> spConsultaAvanceDiarioPorLimpiadora(Nullable<System.DateTime> fecha, string linea)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaAvanceDiarioPorLimpiadora>("spConsultaAvanceDiarioPorLimpiadora", fechaParameter, lineaParameter);
         }
     }
 }
