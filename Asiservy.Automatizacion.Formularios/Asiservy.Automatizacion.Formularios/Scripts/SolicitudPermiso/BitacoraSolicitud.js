@@ -1,12 +1,13 @@
 ﻿
 function ConsultarBitacora() {
     $("#spinnerCargando").prop("hidden", false);
+    $('#Bitacora').html('');
     $.ajax({
         url: "../SolicitudPermiso/BitacoraSolicitudPartial",
         type: "GET",
         data: {
             dsCedula: $('#Identificacion').val(),
-            dsIdSolicitud: $('#textSolicitud').val(),
+            dsIdSolicitud: $('#txtNumeroSolicitud').val(),
             ddFechaDesde: $('#dateDesde').val(),
             ddFechaHasta: $('#dateHasta').val()
         },

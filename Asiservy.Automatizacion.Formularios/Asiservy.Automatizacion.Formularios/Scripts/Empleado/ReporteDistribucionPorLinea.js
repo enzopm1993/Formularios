@@ -21,7 +21,9 @@ function CargarReporteDistribucion() {
                
             },
             success: function (resultado) {
-
+                if (resultado == "101") {
+                    window.location.reload();
+                }
                 var bitacora = $('#DivTableReporteDistribucion');
                 $("#spinnerCargando").prop("hidden", true);
                 if (resultado == "1") {
