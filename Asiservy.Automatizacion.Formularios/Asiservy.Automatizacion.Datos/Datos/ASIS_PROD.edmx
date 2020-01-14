@@ -1253,6 +1253,9 @@
           <Parameter Name="Fecha" Type="date" Mode="In" />
           <Parameter Name="Linea" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsultaDetalleToalla" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCabToalla" Type="int" Mode="In" />
+        </Function>
         <Function Name="spConsultaDistribucionPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
@@ -2093,8 +2096,6 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <EntitySet Name="CONTROL_TOALLA" EntityType="ASIS_PRODModel.CONTROL_TOALLA" />
-          <EntitySet Name="DETALLE_CONTROL_TOALLA" EntityType="ASIS_PRODModel.DETALLE_CONTROL_TOALLA" />
           <FunctionImport Name="sp_SolicitudesRealizadas" ReturnType="Collection(ASIS_PRODModel.sp_SolicitudesRealizadas)">
           <Parameter Name="CEDULA" Mode="In" Type="String" />
           </FunctionImport>
@@ -2108,10 +2109,6 @@
           <FunctionImport Name="spConsultaReporteAvanceDiario" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteAvanceDiario)">
           <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <AssociationSet Name="FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" Association="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA">
-            <End Role="CONTROL_TOALLA" EntitySet="CONTROL_TOALLA" />
-            <End Role="DETALLE_CONTROL_TOALLA" EntitySet="DETALLE_CONTROL_TOALLA" />
-          </AssociationSet>
           <FunctionImport Name="spConsultaSolcitudesPermisos" ReturnType="Collection(ASIS_PRODModel.spConsultaSolcitudesPermisos)">
             <Parameter Name="Linea" Mode="In" Type="String" />
             <Parameter Name="Area" Mode="In" Type="String" />
@@ -2124,6 +2121,15 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="spConsultaDetalleToalla" ReturnType="Collection(ASIS_PRODModel.spConsultaDetalleToalla)">
+          <Parameter Name="IdCabToalla" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="CONTROL_TOALLA" EntityType="ASIS_PRODModel.CONTROL_TOALLA" />
+          <EntitySet Name="DETALLE_CONTROL_TOALLA" EntityType="ASIS_PRODModel.DETALLE_CONTROL_TOALLA" />
+          <AssociationSet Name="FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" Association="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA">
+            <End Role="CONTROL_TOALLA" EntitySet="CONTROL_TOALLA" />
+            <End Role="DETALLE_CONTROL_TOALLA" EntitySet="DETALLE_CONTROL_TOALLA" />
+          </AssociationSet>
 
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -3858,42 +3864,6 @@
           <Property Type="DateTime" Name="FechaRegreso" Nullable="true" />
           <Property Type="Time" Name="HoraRegreso" Nullable="true" />
         </ComplexType>
-        <EntityType Name="CONTROL_TOALLA">
-          <Key>
-            <PropertyRef Name="IdControlToalla" />
-          </Key>
-          <Property Name="IdControlToalla" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fecha" Type="DateTime" Precision="0" />
-          <Property Name="Turno" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Observacion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Hora" Type="Time" Precision="7" />
-          <Property Name="Linea" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DETALLE_CONTROL_TOALLA" Relationship="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" FromRole="CONTROL_TOALLA" ToRole="DETALLE_CONTROL_TOALLA" />
-        </EntityType>
-        <EntityType Name="DETALLE_CONTROL_TOALLA">
-          <Key>
-            <PropertyRef Name="IdDetalleControlToalla" />
-          </Key>
-          <Property Name="IdDetalleControlToalla" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdControlToalla" Type="Int32" Nullable="false" />
-          <Property Name="Cedula" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="NumeroToallas" Type="Int32" />
-          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CONTROL_TOALLA" Relationship="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" FromRole="DETALLE_CONTROL_TOALLA" ToRole="CONTROL_TOALLA" />
-        </EntityType>
         <ComplexType Name="sp_SolicitudesRealizadas">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="MOTIVO" Nullable="false" MaxLength="30" />
@@ -3946,18 +3916,6 @@
           <Property Type="Decimal" Name="Avance" Nullable="true" Precision="18" Scale="0" />
           <Property Type="Int32" Name="limpiadoras" Nullable="true" />
         </ComplexType>
-        <Association Name="FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA">
-          <End Type="ASIS_PRODModel.CONTROL_TOALLA" Role="CONTROL_TOALLA" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.DETALLE_CONTROL_TOALLA" Role="DETALLE_CONTROL_TOALLA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CONTROL_TOALLA">
-              <PropertyRef Name="IdControlToalla" />
-            </Principal>
-            <Dependent Role="DETALLE_CONTROL_TOALLA">
-              <PropertyRef Name="IdControlToalla" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spConsultaSolcitudesPermisos">
           <Property Type="Int32" Name="IdSolicitudPermiso" Nullable="false" />
           <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
@@ -3993,6 +3951,68 @@
           <Property Type="Decimal" Name="MigaPromedio" Nullable="true" Precision="3" Scale="2" />
           <Property Type="Decimal" Name="MigaPorcentaje" Nullable="true" Precision="3" Scale="2" />
         </ComplexType>
+        <ComplexType Name="spConsultaDetalleToalla">
+          <Property Type="Int32" Name="IdDetalleControlToalla" Nullable="false" />
+          <Property Type="Int32" Name="IdControlToalla" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="NumeroToallas" Nullable="true" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaCreacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioCreacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalCreacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+        </ComplexType>
+        <EntityType Name="CONTROL_TOALLA">
+          <Key>
+            <PropertyRef Name="IdControlToalla" />
+          </Key>
+          <Property Name="IdControlToalla" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
+          <Property Name="Turno" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Hora" Type="Time" Precision="7" />
+          <Property Name="Linea" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DETALLE_CONTROL_TOALLA" Relationship="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" FromRole="CONTROL_TOALLA" ToRole="DETALLE_CONTROL_TOALLA" />
+        </EntityType>
+        <EntityType Name="DETALLE_CONTROL_TOALLA">
+          <Key>
+            <PropertyRef Name="IdDetalleControlToalla" />
+          </Key>
+          <Property Name="IdDetalleControlToalla" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdControlToalla" Type="Int32" Nullable="false" />
+          <Property Name="Cedula" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroToallas" Type="Int32" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CONTROL_TOALLA" Relationship="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" FromRole="DETALLE_CONTROL_TOALLA" ToRole="CONTROL_TOALLA" />
+        </EntityType>
+        <Association Name="FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA">
+          <End Type="ASIS_PRODModel.CONTROL_TOALLA" Role="CONTROL_TOALLA" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.DETALLE_CONTROL_TOALLA" Role="DETALLE_CONTROL_TOALLA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_TOALLA">
+              <PropertyRef Name="IdControlToalla" />
+            </Principal>
+            <Dependent Role="DETALLE_CONTROL_TOALLA">
+              <PropertyRef Name="IdControlToalla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6054,42 +6074,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="CONTROL_TOALLA">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_TOALLA">
-              <MappingFragment StoreEntitySet="CONTROL_TOALLA">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
-                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
-                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdControlToalla" ColumnName="IdControlToalla" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DETALLE_CONTROL_TOALLA">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.DETALLE_CONTROL_TOALLA">
-              <MappingFragment StoreEntitySet="DETALLE_CONTROL_TOALLA">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
-                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
-                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="NumeroToallas" ColumnName="NumeroToallas" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="IdControlToalla" ColumnName="IdControlToalla" />
-                <ScalarProperty Name="IdDetalleControlToalla" ColumnName="IdDetalleControlToalla" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_SolicitudesRealizadas" FunctionName="ASIS_PRODModel.Store.sp_SolicitudesRealizadas">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_SolicitudesRealizadas">
@@ -6201,6 +6185,60 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaDetalleToalla" FunctionName="ASIS_PRODModel.Store.spConsultaDetalleToalla">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaDetalleToalla">
+                <ScalarProperty Name="IdDetalleControlToalla" ColumnName="IdDetalleControlToalla" />
+                <ScalarProperty Name="IdControlToalla" ColumnName="IdControlToalla" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="NumeroToallas" ColumnName="NumeroToallas" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CONTROL_TOALLA">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_TOALLA">
+              <MappingFragment StoreEntitySet="CONTROL_TOALLA">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdControlToalla" ColumnName="IdControlToalla" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DETALLE_CONTROL_TOALLA">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.DETALLE_CONTROL_TOALLA">
+              <MappingFragment StoreEntitySet="DETALLE_CONTROL_TOALLA">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="NumeroToallas" ColumnName="NumeroToallas" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdControlToalla" ColumnName="IdControlToalla" />
+                <ScalarProperty Name="IdDetalleControlToalla" ColumnName="IdDetalleControlToalla" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

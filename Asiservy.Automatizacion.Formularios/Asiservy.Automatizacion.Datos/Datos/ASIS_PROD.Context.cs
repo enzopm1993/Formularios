@@ -1037,5 +1037,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaAvanceDiarioPorLimpiadora>("spConsultaAvanceDiarioPorLimpiadora", fechaParameter, lineaParameter);
         }
+    
+        public virtual ObjectResult<spConsultaDetalleToalla> spConsultaDetalleToalla(Nullable<int> idCabToalla)
+        {
+            var idCabToallaParameter = idCabToalla.HasValue ?
+                new ObjectParameter("IdCabToalla", idCabToalla) :
+                new ObjectParameter("IdCabToalla", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaDetalleToalla>("spConsultaDetalleToalla", idCabToallaParameter);
+        }
     }
 }
