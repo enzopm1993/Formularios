@@ -16,6 +16,9 @@ function CambioLinea(valor) {
             CodLinea: valor
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (!$.isEmptyObject(resultado)) {
                 $.each(resultado, function (create, row) {
                     $("#selectArea").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
@@ -49,6 +52,9 @@ function MarcarSalida(IdSolicitudPermiso,fecha,fechaSalida) {
             FechaSalida: fechaSalida
         },
         success: function (Resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             if (Resultado == "1") {
                 var horaSalida = moment(fechaSalida).format('HH:mm');
                 MensajeAdvertencia("Su hora de salida es a las: " + horaSalida);
