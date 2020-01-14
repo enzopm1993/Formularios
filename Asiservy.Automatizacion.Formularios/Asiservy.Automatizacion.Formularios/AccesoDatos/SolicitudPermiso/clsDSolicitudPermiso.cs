@@ -209,7 +209,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
            // IEnumerable<SOLICITUD_PERMISO> Lista;
 
             var ListadoSolicitudes = entities.spConsultaSolcitudesPermisos(dsLinea, dsArea, dsEstado, dbGarita, FechaDesde, FechaHasta).ToList();
-            var motivos = ConsultarMotivos("0").ToList();
+            var motivos = ConsultarMotivos(null).ToList();
             foreach (var x in ListadoSolicitudes)
             {
                 var DescripcionMotivo = motivos.FirstOrDefault(y => y.CodigoMotivo == x.CodigoMotivo);
@@ -468,7 +468,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstadoSolcitud && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
 
-            var ListaMotivoPermiso = this.ConsultarMotivos("0").ToList();
+            var ListaMotivoPermiso = this.ConsultarMotivos(null).ToList();
 
 
             foreach (var x in ListaPreliminar)
