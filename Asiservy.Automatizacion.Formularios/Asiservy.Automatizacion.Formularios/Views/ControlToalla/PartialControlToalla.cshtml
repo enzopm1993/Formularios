@@ -3,7 +3,7 @@
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
-            <th>
+            <th hidden>
                 @Html.DisplayNameFor(model => model.IdControlToalla)
             </th>
             <th>
@@ -15,14 +15,17 @@
             <th>
                 @Html.DisplayNameFor(model => model.Hora)
             </th>
+            <th>
+                Observación
+            </th>
         </tr>
     </thead>
     <tbody>
         
         @foreach (var item in Model)
         {
-            <tr onclick="">
-                <td>
+            <tr onclick="ConsultarDetallexIDToalla('@item.IdControlToalla','@item.Fecha','@item.Turno','@item.Hora','@item.Observacion')">
+                <td hidden>
                     @Html.DisplayFor(modelItem => item.IdControlToalla)
                 </td>
                 <td>
