@@ -1090,6 +1090,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA">
+          <End Role="CONTROL_TOALLA" Type="Self.CONTROL_TOALLA" Multiplicity="1" />
+          <End Role="DETALLE_CONTROL_TOALLA" Type="Self.DETALLE_CONTROL_TOALLA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_TOALLA">
+              <PropertyRef Name="IdControlToalla" />
+            </Principal>
+            <Dependent Role="DETALLE_CONTROL_TOALLA">
+              <PropertyRef Name="IdControlToalla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OPCION_ROL_OPCION">
           <End Role="OPCION" Type="Self.OPCION" Multiplicity="0..1" />
           <End Role="OPCION_ROL" Type="Self.OPCION_ROL" Multiplicity="*" />
@@ -1334,6 +1346,14 @@
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="Clave" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsultaSolcitudesPermisos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Linea" Type="varchar" Mode="In" />
+          <Parameter Name="Area" Type="varchar" Mode="In" />
+          <Parameter Name="Estado" Type="varchar" Mode="In" />
+          <Parameter Name="Garita" Type="bit" Mode="In" />
+          <Parameter Name="FechaDesde" Type="date" Mode="In" />
+          <Parameter Name="FechaHasta" Type="date" Mode="In" />
+        </Function>
         <Function Name="spConsultaUltimaMarcacionBiometrico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="cedula" Type="varchar" Mode="In" />
         </Function>
@@ -1501,6 +1521,10 @@
           <AssociationSet Name="FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE" Association="Self.FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE">
             <End Role="CONTROL_PESO_ENLATADO_DETALLE" EntitySet="CONTROL_PESO_ENLATADO_DETALLE" />
             <End Role="CONTROL_PESO_ENLATADO_SUBDETALLE" EntitySet="CONTROL_PESO_ENLATADO_SUBDETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" Association="Self.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA">
+            <End Role="CONTROL_TOALLA" EntitySet="CONTROL_TOALLA" />
+            <End Role="DETALLE_CONTROL_TOALLA" EntitySet="DETALLE_CONTROL_TOALLA" />
           </AssociationSet>
           <AssociationSet Name="FK_OPCION_ROL_OPCION" Association="Self.FK_OPCION_ROL_OPCION">
             <End Role="OPCION" EntitySet="OPCION" />
@@ -2087,6 +2111,18 @@
           <FunctionImport Name="spConsultaAvanceDiarioPorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
+          </FunctionImport>
+          <AssociationSet Name="FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" Association="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA">
+            <End Role="CONTROL_TOALLA" EntitySet="CONTROL_TOALLA" />
+            <End Role="DETALLE_CONTROL_TOALLA" EntitySet="DETALLE_CONTROL_TOALLA" />
+          </AssociationSet>
+          <FunctionImport Name="spConsultaSolcitudesPermisos" ReturnType="Collection(ASIS_PRODModel.spConsultaSolcitudesPermisos)">
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Area" Mode="In" Type="String" />
+            <Parameter Name="Estado" Mode="In" Type="String" />
+            <Parameter Name="Garita" Mode="In" Type="Boolean" />
+            <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
           </FunctionImport>
 
         </EntityContainer>
@@ -3839,6 +3875,7 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DETALLE_CONTROL_TOALLA" Relationship="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" FromRole="CONTROL_TOALLA" ToRole="DETALLE_CONTROL_TOALLA" />
         </EntityType>
         <EntityType Name="DETALLE_CONTROL_TOALLA">
           <Key>
@@ -3855,6 +3892,7 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CONTROL_TOALLA" Relationship="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" FromRole="DETALLE_CONTROL_TOALLA" ToRole="CONTROL_TOALLA" />
         </EntityType>
         <ComplexType Name="sp_SolicitudesRealizadas">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -3916,6 +3954,43 @@
           <Property Type="Decimal" Name="MigaTotal" Nullable="true" Precision="8" Scale="2" />
           <Property Type="Decimal" Name="MigaPromedio" Nullable="true" Precision="3" Scale="2" />
           <Property Type="Decimal" Name="MigaPorcentaje" Nullable="true" Precision="3" Scale="2" />
+        </ComplexType>
+        <Association Name="FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA">
+          <End Type="ASIS_PRODModel.CONTROL_TOALLA" Role="CONTROL_TOALLA" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.DETALLE_CONTROL_TOALLA" Role="DETALLE_CONTROL_TOALLA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_TOALLA">
+              <PropertyRef Name="IdControlToalla" />
+            </Principal>
+            <Dependent Role="DETALLE_CONTROL_TOALLA">
+              <PropertyRef Name="IdControlToalla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spConsultaSolcitudesPermisos">
+          <Property Type="Int32" Name="IdSolicitudPermiso" Nullable="false" />
+          <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CodigoArea" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Area" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoRecurso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoLinea" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CodigoCargo" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="CodigoMotivo" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="FechaSalida" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FechaRegreso" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CodEstadoSolicitud" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="EstadoSolcitud" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="FechaBiometrico" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -6092,6 +6167,35 @@
                 <ScalarProperty Name="MigaTotal" ColumnName="MigaTotal" />
                 <ScalarProperty Name="MigaPromedio" ColumnName="MigaPromedio" />
                 <ScalarProperty Name="MigaPorcentaje" ColumnName="MigaPorcentaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaSolcitudesPermisos" FunctionName="ASIS_PRODModel.Store.spConsultaSolcitudesPermisos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaSolcitudesPermisos">
+                <ScalarProperty Name="IdSolicitudPermiso" ColumnName="IdSolicitudPermiso" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="CodigoRecurso" ColumnName="CodigoRecurso" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="CodigoLinea" ColumnName="CodigoLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="CodigoCargo" ColumnName="CodigoCargo" />
+                <ScalarProperty Name="CodigoMotivo" ColumnName="CodigoMotivo" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
+                <ScalarProperty Name="FechaRegreso" ColumnName="FechaRegreso" />
+                <ScalarProperty Name="CodEstadoSolicitud" ColumnName="CodEstadoSolicitud" />
+                <ScalarProperty Name="EstadoSolcitud" ColumnName="EstadoSolcitud" />
+                <ScalarProperty Name="FechaBiometrico" ColumnName="FechaBiometrico" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

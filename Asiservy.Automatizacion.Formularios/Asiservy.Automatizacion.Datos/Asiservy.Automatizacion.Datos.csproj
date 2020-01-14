@@ -369,6 +369,9 @@
     <Compile Include="Datos\spConsultarMovimientoPersonalEnNominaPendiente.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaSolcitudesPermisos.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultaUltimaMarcacionBiometrico.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
