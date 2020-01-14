@@ -12,6 +12,9 @@
             <th class="text-center">
                 <label>Total Huesos</label>
             </th>
+              <th class="text-center">
+                <label>Huesos Teóricos</label>
+            </th>
             <th class="text-center">
                 <label>Miga Total</label>
             </th>
@@ -39,6 +42,9 @@
             </td>
             <td class="text-center">
                 @Html.DisplayFor(modelItem => item.TotalHueso)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.HuesoTeorico)
             </td>
             <td class="text-center">
                 @Html.DisplayFor(modelItem => item.MigaTotal) kg
