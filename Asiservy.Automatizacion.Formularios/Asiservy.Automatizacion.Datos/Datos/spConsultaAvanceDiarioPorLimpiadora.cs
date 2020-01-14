@@ -16,8 +16,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Cedula { get; set; }
         public string Nombre { get; set; }
         public Nullable<int> TotalHueso { get; set; }
-        public Nullable<decimal> Miga { get; set; }
+        public Nullable<int> HuesoTeorico { get; set; }
         public Nullable<decimal> Avance { get; set; }
-        public Nullable<int> Pieza { get; set; }
+        public Nullable<decimal> MigaTotal { get; set; }
+        public Nullable<decimal> MigaPromedio { get; set; }
+        public Nullable<decimal> MigaPorcentaje { get; set; }
     }
 }

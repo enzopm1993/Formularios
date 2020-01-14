@@ -711,7 +711,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.CodigoCargo = poEmpleado.CODIGOCARGO;
                     solicitudPermiso.Identificacion = model.Identificacion;
                     solicitudPermiso.CodigoMotivo = model.CodigoMotivo;
-                    solicitudPermiso.Observacion = model.Observacion??model.Observacion.ToUpper();
+                    solicitudPermiso.Observacion = model.Observacion==null?"":model.Observacion.ToUpper();
 
                     if (model.FechaSalidaEntrada == null)
                     {
@@ -1013,12 +1013,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }    
         }
 
-        [Authorize]
+       
         [HttpPost]
         public JsonResult MarcarSalidaSolicitudPermiso(int IdSolicitudPermiso, DateTime FechaBiometrico,DateTime FechaSalida)
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
 
                 clsDParametro clsDParametro = new clsDParametro();
                 var poTiempo=clsDParametro.ConsultaParametros(new PARAMETRO {Codigo=clsAtributos.TiempoSalidaGarita, EstadoRegistro=clsAtributos.EstadoRegistroActivo }).FirstOrDefault();
@@ -1069,6 +1074,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         public ActionResult ConsultaSolicitudes(string dsLinea, string dsArea, string dsEstado, bool dsGarita=false, DateTime? ddFechaDesde=null, DateTime? ddFechaHasta = null)
         {
+            lsUsuario = User.Identity.Name.Split('_');
+            if (string.IsNullOrEmpty(lsUsuario[0]))
+            {
+                return Json("101", JsonRequestBehavior.AllowGet);
+            }
             clsDSolicitudPermiso poSolicitudPermiso = new clsDSolicitudPermiso();
             int RolGarita = ValidarRolGarita();
             if (RolGarita > 0)

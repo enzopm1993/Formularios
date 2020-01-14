@@ -29,6 +29,9 @@ function CargarControlCoche() {
             Fecha: $("#txtFecha").val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             var DivControl = $('#DivTableControlCoche');
             $('#spinnerCargando').prop("hidden", true);  
 
@@ -39,6 +42,9 @@ function CargarControlCoche() {
             } else {
                 $("#btnGuardar").prop("hidden", false);
                 DivControl.html(resultado);
+                config.opcionesDT.pageLength = 5;
+                config.opcionesDT.order = [[2, "desc"]];
+                $('#tblDataTable').DataTable(config.opcionesDT);
 
             }
 
