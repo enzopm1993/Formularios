@@ -2108,10 +2108,6 @@
           <FunctionImport Name="spConsultaReporteAvanceDiario" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteAvanceDiario)">
           <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaAvanceDiarioPorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="linea" Mode="In" Type="String" />
-          </FunctionImport>
           <AssociationSet Name="FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" Association="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA">
             <End Role="CONTROL_TOALLA" EntitySet="CONTROL_TOALLA" />
             <End Role="DETALLE_CONTROL_TOALLA" EntitySet="DETALLE_CONTROL_TOALLA" />
@@ -2123,6 +2119,10 @@
             <Parameter Name="Garita" Mode="In" Type="Boolean" />
             <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaAvanceDiarioPorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
 
         </EntityContainer>
@@ -3946,15 +3946,6 @@
           <Property Type="Decimal" Name="Avance" Nullable="true" Precision="18" Scale="0" />
           <Property Type="Int32" Name="limpiadoras" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="spConsultaAvanceDiarioPorLimpiadora">
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="60" />
-          <Property Type="Int32" Name="TotalHueso" Nullable="true" />
-          <Property Type="Decimal" Name="Avance" Nullable="true" Precision="5" Scale="2" />
-          <Property Type="Decimal" Name="MigaTotal" Nullable="true" Precision="8" Scale="2" />
-          <Property Type="Decimal" Name="MigaPromedio" Nullable="true" Precision="3" Scale="2" />
-          <Property Type="Decimal" Name="MigaPorcentaje" Nullable="true" Precision="3" Scale="2" />
-        </ComplexType>
         <Association Name="FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA">
           <End Type="ASIS_PRODModel.CONTROL_TOALLA" Role="CONTROL_TOALLA" Multiplicity="1" />
           <End Type="ASIS_PRODModel.DETALLE_CONTROL_TOALLA" Role="DETALLE_CONTROL_TOALLA" Multiplicity="*" />
@@ -3991,6 +3982,16 @@
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="20" />
           <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spConsultaAvanceDiarioPorLimpiadora">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="60" />
+          <Property Type="Int32" Name="TotalHueso" Nullable="true" />
+          <Property Type="Int32" Name="HuesoTeorico" Nullable="true" />
+          <Property Type="Decimal" Name="Avance" Nullable="true" Precision="5" Scale="2" />
+          <Property Type="Decimal" Name="MigaTotal" Nullable="true" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="MigaPromedio" Nullable="true" Precision="3" Scale="2" />
+          <Property Type="Decimal" Name="MigaPorcentaje" Nullable="true" Precision="3" Scale="2" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -6157,19 +6158,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaAvanceDiarioPorLimpiadora" FunctionName="ASIS_PRODModel.Store.spConsultaAvanceDiarioPorLimpiadora">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="TotalHueso" ColumnName="TotalHueso" />
-                <ScalarProperty Name="Avance" ColumnName="Avance" />
-                <ScalarProperty Name="MigaTotal" ColumnName="MigaTotal" />
-                <ScalarProperty Name="MigaPromedio" ColumnName="MigaPromedio" />
-                <ScalarProperty Name="MigaPorcentaje" ColumnName="MigaPorcentaje" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaSolcitudesPermisos" FunctionName="ASIS_PRODModel.Store.spConsultaSolcitudesPermisos">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaSolcitudesPermisos">
@@ -6196,6 +6184,20 @@
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaAvanceDiarioPorLimpiadora" FunctionName="ASIS_PRODModel.Store.spConsultaAvanceDiarioPorLimpiadora">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="TotalHueso" ColumnName="TotalHueso" />
+                <ScalarProperty Name="HuesoTeorico" ColumnName="HuesoTeorico" />
+                <ScalarProperty Name="Avance" ColumnName="Avance" />
+                <ScalarProperty Name="MigaTotal" ColumnName="MigaTotal" />
+                <ScalarProperty Name="MigaPromedio" ColumnName="MigaPromedio" />
+                <ScalarProperty Name="MigaPorcentaje" ColumnName="MigaPorcentaje" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
