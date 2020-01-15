@@ -8,10 +8,10 @@
     }
 </style>
 
-<h5>Control Toalla</h5>
+<h5>Control Toalla </h5><h5 id="headercabToalla"></h5>
 
-<input type="hidden" id="txtLinea" value="@ViewBag.Linea"/>
-<div class="row">
+<input type="hidden" id="txtLinea" value="@ViewBag.Linea" />
+<div class="row" id="DivCabToalla">
 
     @*<div class="col-md-2 col-4">
             <div class="form-group">
@@ -22,8 +22,8 @@
     <div class="col-md-2 col-4">
         <div class="form-group">
             <label>Turno:</label>
-            <select name="TurnoGen" id="TurnoGen" class="form-control" @*onchange="ConsultarSiExisteAsistencia();"*@>
-                <option selected>Seleccione</option>
+            <select name="TurnoGen" id="TurnoGen" class="form-control" onchange="cargarpartial()">
+                @*<option selected>Seleccione</option>*@
                 <option value="1" selected>Turno 1</option>
                 <option value="2">Turno 2</option>
 
@@ -35,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label" })
             @{var FechaActual = DateTime.Now.ToString("yyyy-MM-dd"); }
-            <input type="date" id="txtFecha" name="name" value="@FechaActual" onchange="CargarControlToalla()" class="form-control" />
+            <input type="date" id="txtFecha" name="name" value="@FechaActual" onchange="cargarpartial()" class="form-control" />
             <span class="field-validation-valid text-danger" hidden id="txtValidaFecha"> Ingrese la Fecha </span>
 
         </div>
@@ -58,12 +58,12 @@
                 <option value="16:00">16:00</option>
                 <option value="17:00">17:00</option>
                 @*<option value="18:00">18:00</option>
-                <option value="19:00">19:00</option>
-                <option value="20:00">20:00</option>
-                <option value="21:00">21:00</option>
-                <option value="22:00">22:00</option>
-                <option value="23:00">23:00</option>
-                <option value="23:30">00:00</option>*@
+                    <option value="19:00">19:00</option>
+                    <option value="20:00">20:00</option>
+                    <option value="21:00">21:00</option>
+                    <option value="22:00">22:00</option>
+                    <option value="23:00">23:00</option>
+                    <option value="23:30">00:00</option>*@
 
             </select>
             <span class="field-validation-valid text-danger" hidden id="txtValidaHora"> Ingrese la Hora </span>
@@ -78,34 +78,136 @@
         </div>
     </div>
 </div>
-    <br />
-    <div class="row">
-        <div class=" col-12 text-center">
-            <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Espere...
-            </button>
-           
+<br />
+<div class="row">
+    <div class=" col-12 text-center">
+        <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargando">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Espere...
+        </button>
 
-            <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGuardar" onclick="GuardarControl()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/add24.png" />
-            </button>
-            @*<button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+
+        <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGuardar" onclick="GuardarControl()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/add24.png" />
+        </button>
+        <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button" hidden>
+            <img style="width:100%" src="~/Content/icons/atras24.png" />
+        </button>
+        <button data-toggle="tooltip" data-placement="top" title="Inactivar" class="btn" id="btnInactivar" onclick="ConfirmarInactivar()" style="border-color:#2c3e50" type="button" hidden>
+            <img style="width:100%" src="~/Content/icons/cancel24.png" />
+        </button>
+        <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="EditarCabeceraToalla()" style="border-color:#2c3e50" type="button" hidden>
+            <img style="width:100%" src="~/Content/icons/edit24.png" />
+        </button>
+        @*<button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/clear24.png" />
             </button>*@
+    </div>
+</div>
+
+
+
+<hr />
+<div class="d-flex justify-content-center">
+    <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+
+<div class="table-responsive" id="DivControl">
+
+</div>
+
+<div class="table-responsive" id="DivDetToalla" style="display:none"></div>
+
+@*modal*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" data-backdrop="static" aria-hidden="true" id="ModalMsjInactivar">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Esta seguro que desea eliminar este Control de Toallas?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="modal-btn-si" onclick="InactivarControlToalla()">Si</button>
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="modal-btn-no">No</button>
+            </div>
         </div>
     </div>
+</div>
 
+@*modal editar cabecera toalla*@
+<div class="modal" tabindex="-1" id="ModalEditCabToalla" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Control Toalla</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="CodCabecera" />
 
+                    <div class="col-md-12 col-12">
+                        <div class="form-group">
+                            <label>Turno:</label>
+                            <select name="TurnoGen" id="TurnoGenEdit" class="form-control" @*onchange="ConsultarSiExisteAsistencia();"*@>
+                                @*<option selected>Seleccione</option>*@
+                                <option value="1" selected>Turno 1</option>
+                                <option value="2">Turno 2</option>
 
-    <hr />
-    <div class="d-flex justify-content-center">
-        <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Cargando...</span>
+                            </select>
+                            <label id="mensajeturnoEdit" class="text-danger" hidden>Debe seleccionar un turno</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-12">
+                        <div class="form-group">
+                            <label class="control-label">Fecha</label>
+                           
+                            <input type="date" id="txtFechaEdit" name="name" class="form-control" />
+                            <span class="field-validation-valid text-danger" hidden id="txtValidaFecha"> Ingrese la Fecha </span>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-12">
+                        <div class="form-group">
+                            <label class="control-label">Hora</label>
+                            @*<input type="time" id="txtHoraInicio" name="name" value="" class="form-control" />*@
+                            <select id="txtHoraEdit" class="form-control">
+                                <option value="07:00">07:00</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+
+                            </select>
+                            <span class="field-validation-valid text-danger" hidden id="txtValidaHoraEdit"> Ingrese la Hora </span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-12">
+                        <div class="form-group">
+                            <label class="control-label">Observación: </label>
+                            <textarea id="txtobservacionEdit" class="form-control"></textarea>
+                            @*@Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnModificarModal" onclick="ActualizarControlToallaCab()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
         </div>
     </div>
-
-    <div class="table-responsive" id="DivControl">
-
-    </div>
-
+</div>

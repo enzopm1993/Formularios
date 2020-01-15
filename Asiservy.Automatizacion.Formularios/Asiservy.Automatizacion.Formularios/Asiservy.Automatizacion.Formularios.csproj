@@ -3397,6 +3397,7 @@
     <Content Include="Views\ControlToalla\PartialControlToalla.cshtml" />
     <Content Include="Views\Hueso\ReporteControlAvanceDiarioGeneralPartial.cshtml" />
     <Content Include="Views\Hueso\ReporteControlAvanceDiarioGeneral.cshtml" />
+    <Content Include="Views\ControlToalla\PartialDetalleToalla.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

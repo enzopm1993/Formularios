@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaDetalleToalla>
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th hidden>
+                
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Número Toallas
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td hidden>
+                   @item.Cedula
+                </td>
+                <td>
+                   @item.NOMBRES
+                </td>
+                <td>
+                    @Html.TextBoxFor(model=>item.NumeroToallas, new { @id = "NumToalla" + item.IdDetalleControlToalla, @onkeypress = "ValidateNumber(event);" })
+                </td>
+                <td>
+                    <label class="btn btn-dark text-xs-center" id="labelCheck-@item.IdDetalleControlToalla">
+                        @*@Html.CheckBox("Check" + item.IdDetalle, item.CantidadHueso > 0, new { @onchange = "checkControlHueso(this.id,'" + item.IdDetalle + "')" })*@
+                        @Html.CheckBox("Check" + item.IdDetalleControlToalla, new { @onchange = "checkControlToalla(this.id,'" + item.IdDetalleControlToalla + "')" })
+                    </label>
+                    
+                </td>
+            </tr>
+            if (item.NumeroToallas != null)
+            {
+            <script>
+                $('#labelCheck-' + @item.IdDetalleControlToalla).css("background", "#28B463");
+                $('#Check' +@item.IdDetalleControlToalla).prop('checked', true); 
+                $('#NumToalla' +@item.IdDetalleControlToalla).prop('disabled', true); 
+            </script>
+            }
+        }
+    </tbody>
+</table>
+
