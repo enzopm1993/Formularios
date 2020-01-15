@@ -1,4 +1,41 @@
 ﻿
+$(document).ready(function () {
+     CargarBandejaAprobacion();
+});
+
+function CargarBandejaAprobacion() {  
+    $("#spinnerCargando").prop("hidden", false);
+    $("#divTable").html('');
+    $.ajax({
+        url: "../SolicitudPermiso/BandejaAprobacionPartial",
+        type: "GET",      
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }           
+            if (resultado == "0") {
+                $("#divTable").html("No existen registros");
+                $("#spinnerCargando").prop("hidden", true);
+            } else {
+                $("#spinnerCargando").prop("hidden", true);
+                $("#divTable").html(resultado);
+                config.opcionesDT.pageLength = 10;
+                //      config.opcionesDT.order = [[0, "asc"]];
+                $('#tblDataTable').DataTable(config.opcionesDT);
+            }
+            $('#btnConsultar').prop("disabled", true);
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $('#btnConsultar').prop("disabled", false);
+            $("#spinnerCargando").prop("hidden", true);
+
+
+        }
+    });
+
+}
+
 function AprobarSolitudes() {
     var result = new Array();    
     i = 0;
@@ -11,22 +48,21 @@ function AprobarSolitudes() {
     //console.log(result);
     Aprobar(result);    
 }
-function AprobarSolicitud(valor) {
+function AprobarSolicitud(valor, id) {
    // console.log(valor);
+    $("#" + id).prop("disabled", true);
     var solicitud=[];
     solicitud[0] = valor;
-    Aprobar(solicitud);  
+    Aprobar(solicitud, id);  
 }
 
-function Aprobar(result) {
-    //console.log(result);
+function Aprobar(result) {   
     $("#tdAcciones").prop("hidden", true);
     $("#btnAprobar").prop("hidden", true);
     $("#btnArpobarEspera").prop("hidden", false);
     var resultado = JSON.stringify(result)
     var resultado2 = JSON.parse(resultado)
-   // MostrarModalCargando();
-    // console.log(resultado2);
+  
     $.ajax({
         url: '../SolicitudPermiso/AprobarSolicitud',
         type: 'POST',
@@ -35,17 +71,20 @@ function Aprobar(result) {
             diIdSolicitud: resultado2           
         },
         success: function (resultado) {
-            MensajeCorrecto(resultado, true);
+            CargarBandejaAprobacion();
+            MensajeCorrecto(resultado);
             $("#btnAprobar").prop("hidden", false);
             $("#tdAcciones").prop("hidden", false);
             $("#btnArpobarEspera").prop("hidden", true);
         }
         ,
         error: function () {
-            MensajeError("No se ha podido obtener la información", false);
+            MensajeError("No se ha podido obtener la información");
             $("#btnAprobar").prop("hidden", false);
-    $("#tdAcciones").prop("hidden", false);
+            $("#tdAcciones").prop("hidden", false);
             $("#btnArpobarEspera").prop("hidden", true);
+            $("#" + id).prop("disabled", false);
+
         }
     });
 }
@@ -66,11 +105,12 @@ function Anular() {
                 dsObservacion: " -Anulación: "+Observacion
             },
             success: function (resultado) {
-                MensajeCorrecto(resultado + "\n Solicitud Anulada",true);
+                CargarBandejaAprobacion();
+                MensajeCorrecto(resultado + "\n Solicitud Anulada");
             }
             ,
             error: function () {
-                MensajeError("No se ha podido obtener la información",false);
+                MensajeError("No se ha podido obtener la información");
             }
         });
     }
@@ -109,39 +149,6 @@ function Mostrar(valor) {
     });
 }
 
-$(document).ready(function () {
-    $('#TableBandeja').DataTable({
-        "language": {
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
-            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sSearch": "Buscar:",
-            "sUrl": "",
-            "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst": "Primero",
-                "sLast": "Último",
-                "sNext": "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-        },
-        "pageLength": 5,
-        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
-        "pagingType": "full_numbers"
-        
-        
-    });
-});
 
 
 //function checkTodos() {

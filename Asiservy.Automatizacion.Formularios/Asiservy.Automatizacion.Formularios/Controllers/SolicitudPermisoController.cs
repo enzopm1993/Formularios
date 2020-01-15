@@ -32,16 +32,45 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                //List<SolicitudPermisoViewModel> ListaSolicitud;
+                //clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                clsDGeneral = new clsDGeneral();
+                lsUsuario = User.Identity.Name.Split('_');
+                ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(lsUsuario[1]);
+                //ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente, lsUsuario[1]);
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return View();
+            }
+        }
 
-
+        public ActionResult BandejaAprobacionPartial()
+        {
+            try
+            {
                 List<SolicitudPermisoViewModel> ListaSolicitud;
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 clsDGeneral = new clsDGeneral();
-
                 lsUsuario = User.Identity.Name.Split('_');
                 ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(lsUsuario[1]);
                 ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente, lsUsuario[1]);
-                return View(ListaSolicitud);
+                return PartialView(ListaSolicitud);
             }
             catch (DbEntityValidationException e)
             {
