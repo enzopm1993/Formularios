@@ -9,6 +9,8 @@ using Asiservy.Automatizacion.Datos.Datos;
 using System.Net;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using System.Data.Entity.Validation;
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -288,7 +290,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                                                      where d.Codigo == model.CodigoDiagnostico
                                                      select d.Descripcion).FirstOrDefault();
                     }
-
+                    var client = new RestClient(clsAtributos.BASE_URL_WS);
+                    var request = new RestRequest("/api/Empleado/Marcaciones/" + model.FechaSalida.Value.ToString("yyyy-MM-dd") + "/" + model.FechaSalida.Value.ToString("yyyy-MM-dd") + "/" + model.Identificacion, Method.GET);
+                    IRestResponse response = client.Execute(request);
+                    ViewBag.JsonMarcaciones = response.Content;
                 }
                 else if (!string.IsNullOrEmpty(frm) && frm == "BandejaAprobacion")
                 {
