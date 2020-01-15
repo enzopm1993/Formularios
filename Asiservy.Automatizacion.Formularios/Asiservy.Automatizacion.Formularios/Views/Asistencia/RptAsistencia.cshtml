@@ -17,7 +17,7 @@
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
-            <label>Fecha desde:</label>
+            <label>Fecha Hasta:</label>
             @Html.TextBox("FechaHasta", null, new { @class = "form-control input-large", type = "date" })
             <label id="msjerrorFecha2" class="text-danger" style="display:none">Debe seleccionar una fecha fin</label>
         </div>
@@ -71,7 +71,8 @@
     </div>
 </div>
 <div id="divRptAsistencia" style="padding-bottom:1%" class="table-responsive">
-
+    
 </div>
+<center><h4 id="mensajeregistros" class="text-warning"></h4></center>
 @*
 <script src="~/Scripts/AsistenciaJS/RptAsistencia.js"></script>*@

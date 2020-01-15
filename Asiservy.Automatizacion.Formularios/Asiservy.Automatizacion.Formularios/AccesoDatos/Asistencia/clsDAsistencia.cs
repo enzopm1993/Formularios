@@ -308,8 +308,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
                     //List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", CodLinea, "0").Where(x => x.CODIGOCARGO != "221").ToList();
                     List<spConsultarEmpleadosxTurno> ListaEmpleados = db.spConsultarEmpleadosxTurno(CodLinea, turno, Fecha, HoraServidor).ToList();
+                    //AGREGUE 2020-01-15: Si se genero aistencia(PRESTADOS) en linea 5 a las 07:00am de un empleado que fue movido a esa línea con diferente cargo , si se genera asistencia proncesos 6:30 am no deberia aparecer por que ya existe en tabla asistencia 
+                    var AsistenciaBuscar = db.ASISTENCIA.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();//traigo la asistencia de todas las lineas en la fecha ingresada
+                    List<spConsultarEmpleadosxTurno> PersonalMovidoAEstaLineaFiltrado = (from p in ListaEmpleados
+                                                                                                    join asis in AsistenciaBuscar
+                                                                                                    on p.CEDULA equals asis.Cedula into pp
+                                                                                                    from asis in pp.DefaultIfEmpty()
+                                                                                                    where asis == null
+                                                                                                    select p).ToList();
+                    //**FIN 2020-01-15
                     ControlAsistencia = new List<ASISTENCIA>();
-                    foreach (var item in ListaEmpleados)
+                    foreach (var item in PersonalMovidoAEstaLineaFiltrado)
                     {
                         //var FueMovidoAOtraArea = clsDCambioPersonal.ConsultarCambioPersonal(item.CEDULA);
                         //if (FueMovidoAOtraArea==null)
@@ -364,7 +373,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     //var EmpleadosMovidos = db.CAMBIO_PERSONAL.Where(z => z.CodLinea == CodLinea && z.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                     clsdCambioPersonal = new clsDCambioPersonal();
                     var EmpleadosMovidos = clsdCambioPersonal.ConsultarCambioPersonalxLinea(CodLinea, turno, Fecha, Hora);
-                    foreach (var item in EmpleadosMovidos)
+                    //AGREGUE 2020-01-15: Si se genero aistencia(procesos) de Juan a las 06:40am en su linea y cargo, pero en CambioPersonal tiene horaInicio 07:00 a otro cargo, ya no debería generarse su asistencia en AsistenciaPrestados por que se crearian 2 registros en tabla de asistencia 
+                    var AsistenciaBuscar = db.ASISTENCIA.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();//traigo la asistencia de todas las lineas en la fecha ingresada
+                    List<spConsultarCambioPersonalxLineaxTurno> PersonalMovidoAEstaLineaFiltrado = (from p in EmpleadosMovidos
+                                                                                                    join asis in AsistenciaBuscar
+                                                                                                    on p.Cedula equals asis.Cedula into pp
+                                                                                                    from asis in pp.DefaultIfEmpty()
+                                                                                                    where asis == null
+                                                                                                    select p).ToList();
+                    //**FIN 2020-01-15
+                    foreach (var item in PersonalMovidoAEstaLineaFiltrado)
+                    //foreach (var item in EmpleadosMovidos)
                     {
                         ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = Fecha, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A", CentroCostos = item.CentroCosto, Recurso = item.Recurso, Cargo = item.CodCargo });
                     }

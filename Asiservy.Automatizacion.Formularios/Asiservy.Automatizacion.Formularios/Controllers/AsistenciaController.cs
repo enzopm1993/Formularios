@@ -637,7 +637,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
-                ControlDeAsistenciaPrestadosViewModel AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, Turno, Fecha, Hora);
+                ControlDeAsistenciaPrestadosViewModel AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[0], Request.UserHostAddress, Turno, Fecha, Hora);
 
 
                 //Control de Cuchillos

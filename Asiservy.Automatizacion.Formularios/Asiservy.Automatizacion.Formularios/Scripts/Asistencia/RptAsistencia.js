@@ -31,6 +31,10 @@
         success: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
             $('#divRptAsistencia').html(resultado);
+            if ($('#contempleados').val() == '0') {
+                $('#divRptAsistencia').empty();
+                $('#mensajeregistros').html('No existen Registros a Mostrar');
+            }
             //MensajeCorrecto("Registro ingresado con éxito", false);
         },
         error: function (resultado) {

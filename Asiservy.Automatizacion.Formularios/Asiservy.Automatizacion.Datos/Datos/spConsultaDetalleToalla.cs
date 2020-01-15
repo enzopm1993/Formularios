@@ -10,9 +10,8 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class DETALLE_CONTROL_TOALLA
+    public partial class spConsultaDetalleToalla
     {
         public int IdDetalleControlToalla { get; set; }
         public int IdControlToalla { get; set; }
@@ -25,7 +24,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        public virtual CONTROL_TOALLA CONTROL_TOALLA { get; set; }
+        public string NOMBRES { get; set; }
     }
 }

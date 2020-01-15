@@ -71,8 +71,9 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MOVER_PERSONAL" Width="1.5" PointX="18.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" Width="1.5" PointX="24.375" PointY="5.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_TOALLA" Width="1.5" PointX="20.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_TOALLA" Width="1.5" PointX="25.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_TOALLA" Width="1.5" PointX="25.375" PointY="1" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_TOALLA" Width="1.5" PointX="27.625" PointY="1.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
