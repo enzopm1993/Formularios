@@ -28,6 +28,7 @@ function LimpiarBoton() {
     $('#IdAuditoriaSangre').val("");
     $("#btnEliminarDetalle").prop("hidden", true);
     $("#TipoAuditoria").prop("selectedIndex", 0);
+    $("#Lineas").prop("selectedIndex", 0);
     
     
 }
@@ -236,6 +237,7 @@ function CargarAuditoria(model) {
     $('#TipoAuditoria').val(model.Tipo);    
     $("#btnEliminarDetalle").prop("hidden", false);
     $("#txtObservacion").val(model.Observacion);
+    $("#Lineas").val(model.Linea);
 }
 
 
