@@ -203,21 +203,25 @@ function InactivarDetalle() {
     }
     $('#ModalObservacion').modal("hide");
     $.ajax({
-        url: "../AuditoriaSangre/ControlAuditoriaSangrePartial",
+        url: "../AuditoriaSangre/EliminarControlAuditoriaSangrePartial",
         type: "POST",
         data:
         {
-            IdAuditoria: $('#IdAuditoriaSangre').val(),
-            Cedula: $('#Cedula').val(),
-            Porcentaje: $('#Porcentaje').val(),
-            Fecha: $('#FechaAuditoria').val(),
-            Hora: $('#HoraAuditoria').val(),
-            Estado: "I"
+            IdAuditoria: $('#IdAuditoriaSangre').val(),          
+            Estado: "I",
+            Observacion: $("#txtObservaccionEliminacion").val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan parametros");
+                return;
+            }
             LimpiarBoton();
            // $('#ControlAuditoriaSangre').html(resultado);
-            MensajeCorrecto("Registro ingresado con éxito", false);
+            MensajeCorrecto("Registro eliminado con éxito", false);
             ConsultarAuditoriaChange();
         },
         error: function (resultado) {

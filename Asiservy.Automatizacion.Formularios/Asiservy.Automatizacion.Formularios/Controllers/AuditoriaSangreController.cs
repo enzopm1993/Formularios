@@ -124,11 +124,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        [Authorize]
+       
         public ActionResult ControlAuditoriaSangrePartial( DateTime Fecha)
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();       
                 return PartialView(clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria(Fecha));  
             }
@@ -153,7 +158,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        [Authorize]
+       
         [HttpPost]
         public ActionResult ControlAuditoriaSangrePartial(int? IdAuditoria,string Cedula, string Porcentaje, DateTime Fecha,TimeSpan Hora, string estado,string TipoAuditoria,string Observacion, string Linea)
         {
@@ -218,6 +223,62 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpPost]
+        public ActionResult EliminarControlAuditoriaSangrePartial(int IdAuditoria,string estado,string Observacion)        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (string.IsNullOrEmpty(estado) )
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
+                }
+                clsDAuditoriaSangre = new clsDAuditoriaSangre();
+                clsDEmpleado = new clsDEmpleado();              
+                lsUsuario = User.Identity.Name.Split('_');
+                DateTime FechaCreacion = DateTime.Now;               
+
+                clsDAuditoriaSangre.EliminarAuditoriaSangre(new CONTROL_AUDITORIASANGRE
+                {
+                  
+                    FechaCreacionLog = FechaCreacion,
+                    EstadoRegistro = estado,
+                    TerminalCreacionLog = Request.UserHostAddress,
+                    UsuarioCreacionLog = lsUsuario[0],                   
+                    IdControlAuditoriaSangre = IdAuditoria,                   
+                    Observacion = Observacion
+                });
+
+                return Json("Registro Éxitoso", JsonRequestBehavior.AllowGet);
+
+
+
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [Authorize]
         public ActionResult ReporteAuditoriaSangre()
         {
