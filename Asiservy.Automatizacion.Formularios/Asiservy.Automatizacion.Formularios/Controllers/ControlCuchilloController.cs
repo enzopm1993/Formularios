@@ -283,7 +283,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        [Authorize]
+       
         // GET: Asistencia/Cuchillo
         public ActionResult CuchilloPartial(string dsColor)
         {
@@ -315,7 +315,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        [Authorize]
+      
         // GET: Asistencia/Cuchillo
         public ActionResult CuchilloEmpleado()
         {
@@ -348,7 +348,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        [Authorize]
+       
         [HttpPost]
         public ActionResult CuchilloEmpleado(EmpleadoCuchilloViewModel model)
         {

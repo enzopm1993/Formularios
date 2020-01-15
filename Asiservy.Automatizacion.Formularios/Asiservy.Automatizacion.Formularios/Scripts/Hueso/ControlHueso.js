@@ -115,6 +115,8 @@ function NuevoControlHueso() {
 
     $("#SelectLote").empty();
     $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>"); 
+    $("#SelectOrdenFabricacion").empty();
+    $("#SelectOrdenFabricacion").append("<option value='0' >-- Seleccionar Opción--</option>"); 
     CargarOrdenFabricacion($('#txtFechaProduccion').val());
     CargarControlHueso();
     $("#btnGenerar").prop("hidden", false);

@@ -7,12 +7,31 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.AuditoriaSangre
 {
     public class clsDAuditoriaSangre
     {
+        public void EliminarAuditoriaSangre(CONTROL_AUDITORIASANGRE AuditoriaSangre)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                
+                var BuscarAuditoriaSangre = db.CONTROL_AUDITORIASANGRE.Find(AuditoriaSangre.IdControlAuditoriaSangre);
+                if (BuscarAuditoriaSangre != null)
+                {  
+                    BuscarAuditoriaSangre.EstadoRegistro = AuditoriaSangre.EstadoRegistro;
+                    BuscarAuditoriaSangre.FechaModificacionLog = DateTime.Now;  
+                    BuscarAuditoriaSangre.Observacion = AuditoriaSangre.Observacion;
+                    BuscarAuditoriaSangre.TerminalModificacionLog = AuditoriaSangre.TerminalCreacionLog;
+                    BuscarAuditoriaSangre.UsuarioModificacionLog = AuditoriaSangre.UsuarioCreacionLog;
+                    db.SaveChanges();
+
+                }              
+            }
+        }
+
         public void  GuardarActualizarAuditoriaSangre(CONTROL_AUDITORIASANGRE AuditoriaSangre)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                
-                DateTime FechaFin = AuditoriaSangre.FechaCreacionLog.Value.AddSeconds(1);
+               
                 var BuscarAuditoriaSangre = db.CONTROL_AUDITORIASANGRE.Find(AuditoriaSangre.IdControlAuditoriaSangre);
                 if (BuscarAuditoriaSangre == null)
                 {
