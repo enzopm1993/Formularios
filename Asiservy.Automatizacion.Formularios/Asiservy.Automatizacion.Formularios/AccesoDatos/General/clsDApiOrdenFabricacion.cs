@@ -76,5 +76,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             List<OrdenFabricacionAutoclave> ListaOrdenes = JsonConvert.DeserializeObject<List<OrdenFabricacionAutoclave>>(content);
             return ListaOrdenes;
         }
+
+        public List<OrdenFabricacionConsumoInsumo> ConsultaOrdenFabricacionPorFechaConsumoInsumo(string Orden)
+        {
+            var client = new RestClient("http://192.168.0.31:8870");
+            var request = new RestRequest("/api/Produccion/DatosOrdenFabricacion/" + Orden, Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            List<OrdenFabricacionConsumoInsumo> ListaOrdenes = JsonConvert.DeserializeObject<List<OrdenFabricacionConsumoInsumo>>(content);
+            return ListaOrdenes;
+        }
     }
 }

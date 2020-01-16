@@ -1,4 +1,73 @@
-﻿function mostrartabla() {
+﻿
+
+function CargarBandejaAprobacion() {
+    $("#spinnerCargando").prop("hidden", false);
+    $("#divTable").html('');
+    $.ajax({
+        url: "../SolicitudPermiso/BandejaRRHHPartial",
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#divTable").html("No existen registros");
+                $("#spinnerCargando").prop("hidden", true);
+            } else {
+                $("#spinnerCargando").prop("hidden", true);
+                $("#divTable").html(resultado);
+                config.opcionesDT.pageLength = 10;
+                //      config.opcionesDT.order = [[0, "asc"]];
+                $('#tblDataTable').DataTable(config.opcionesDT);
+            }
+            $('#btnConsultar').prop("disabled", true);
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $('#btnConsultar').prop("disabled", false);
+            $("#spinnerCargando").prop("hidden", true);
+
+
+        }
+    });
+
+}
+
+
+$(document).ready(function () {
+    CargarBandejaAprobacion();
+    ("#ModalEditarSolicitud").on("click", "#modal_close_log", function () {
+        $("#ModalLogMarcacion").modal("hide");
+        return false;
+    });
+    $("#ModalEditarSolicitud").on("click", "#logMarcacion", function () {
+
+        var logMarcaciones = $("#logMarcaciones").val();
+        var obJson = JSON.parse(logMarcaciones);
+        console.log(obJson);
+        $("#marcacionesExistentes").empty();
+        if (obJson.LogMarcaciones == null) {
+            $("#msjMarcaciones").text("El usuario no tiene marcaciones registradas en el día");
+        } else {
+            if (obJson.LogMarcaciones.length > 0) {
+                $("#marcacionesExistentes").empty();
+                $("#msjMarcaciones").text("Las marcaciones del usuario son:");
+                $.each(obJson.LogMarcaciones, function (i, item) {
+                    var newRowContent = '<li><span class="log_hora_marca">' + item.HORA + '</span> <i class="fas fa-arrow-alt-circle-right"></i> <span class="log_marcacion">' + item.TIPO_MARCACION + '</span></label> </li>';
+                    $("#marcacionesExistentes").append(newRowContent);
+                });               
+            } else {
+                $("#msjMarcaciones").text("El usuario no tiene marcaciones registradas en el día");
+            }
+        }
+
+
+        $("#ModalLogMarcacion").modal("show");
+        return false;
+    });
+    
+});
+function mostrartabla() {
     $('#codsenfermedad').show();
     $('#buscarenfermedad').prop('disabled', false);
     $('#buscarenfermedad').val("");
@@ -58,6 +127,7 @@ function Finalizar(result) {
         //  console.log(resultado2);
         $("#btnFinalizarEspera").prop("hidden", false);
         $("#btnFinalizar").prop("hidden", true);
+        MostrarModalCargando();
         $.ajax({
             url: '../SolicitudPermiso/FinalizarSolicitud',
             type: 'POST',
@@ -81,11 +151,16 @@ function Finalizar(result) {
                     }
                 }
                 $("#ModalMensajeBandeja").modal("show");
+                CargarBandejaAprobacion();
+                CerrarModalCargando();
+                
 
                // MensajeCorrecto(resultado + "\n Solicitud Finalizada", true);
             }
             ,
             error: function (resultado) {
+                CerrarModalCargando();
+
                 $("#btnFinalizarEspera").prop("hidden", true);
                 $("#btnFinalizar").prop("hidden", false);
                 MensajeError(resultado.responseText, false);
@@ -98,10 +173,11 @@ function Finalizar(result) {
 function Anular() {
     valor = document.getElementById("txtIdSolicitud").value;
     Observacion = document.getElementById("txtObservaccionAnulacion").value;
-    console.log(Observacion);
+   // console.log(Observacion);
     if (!Observacion || Observacion == undefined || Observacion == "" || Observacion.length == 0) {
         MensajeCorrecto("Debe ingresar un motivo");
     } else {
+        MostrarModalCargando();
         $.ajax({
             url: '../SolicitudPermiso/AnularSolicitud',
             type: 'GET',
@@ -110,11 +186,16 @@ function Anular() {
                 dsObservacion: " -Anulación: " +Observacion
             },
             success: function (resultado) {
-                MensajeCorrecto(resultado + "\n Solicitud Anulada", true);
+                CerrarModalCargando();
+                CargarBandejaAprobacion();
+                CerrarModalCargando();MensajeCorrecto(resultado + "\n Solicitud Anulada");
+                
             }
             ,
+
             error: function () {
-                MensajeError("No se ha podido obtener la información", false);
+                CerrarModalCargando();
+                MensajeError("No se ha podido obtener la información");
             }
         });
     }
@@ -135,8 +216,7 @@ function Mostrar(valor) {
         },
         success: function (resultado) {
             CerrarModalCargando();
-            document.getElementById("modal_body").innerHTML = resultado;
-           
+            document.getElementById("modal_body").innerHTML = resultado;           
             document.getElementById("frmName").value = sPage;
             //console.log(sPage);
             $('#ModalEditarSolicitud').modal('toggle');
@@ -145,50 +225,52 @@ function Mostrar(valor) {
         ,
         error: function () {
             CerrarModalCargando();
-
             MensajeError("No se ha podido obtener la información",false);
         }
     });
 }
 
-function Observacion(valor) {
-    console.log(valor);
-    document.getElementById("txtObservaccionAnulacion").value = "";
-    document.getElementById("txtIdSolicitud").value = valor;
+function ObservacionAnular(valor) {
+   // console.log(valor);
+   // document.getElementById("txtObservaccionAnulacion").value = "";
+   // document.getElementById("txtIdSolicitud").value = valor;
+    $("#txtObservaccionAnulacion").val("");
+    $("#txtIdSolicitud").val(valor);
+
     $('#ModalObservacion').modal("show");
 }
 
-$(document).ready(function () {
-    $('#TableBandeja').DataTable({
-        "language": {
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
-            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sSearch": "Buscar:",
-            "sUrl": "",
-            "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst": "Primero",
-                "sLast": "Último",
-                "sNext": "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-        },
-        "pageLength": 5,
-        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
-        "pagingType": "full_numbers"
-    });
-});
+//$(document).ready(function () {
+//    $('#TableBandeja').DataTable({
+//        "language": {
+//            "sProcessing": "Procesando...",
+//            "sLengthMenu": "Mostrar _MENU_ registros",
+//            "sZeroRecords": "No se encontraron resultados",
+//            "sEmptyTable": "Ningún dato disponible en esta tabla",
+//            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+//            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+//            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+//            "sInfoPostFix": "",
+//            "sSearch": "Buscar:",
+//            "sUrl": "",
+//            "sInfoThousands": ",",
+//            "sLoadingRecords": "Cargando...",
+//            "oPaginate": {
+//                "sFirst": "Primero",
+//                "sLast": "Último",
+//                "sNext": "Siguiente",
+//                "sPrevious": "Anterior"
+//            },
+//            "oAria": {
+//                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+//                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+//            }
+//        },
+//        "pageLength": 5,
+//        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+//        "pagingType": "full_numbers"
+//    });
+//});
 
 
 function checkTodos() {

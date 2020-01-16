@@ -359,6 +359,50 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
      
+
+        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermisosRRHH()
+        {
+            entities = new ASIS_PRODEntities();
+            List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
+            // IEnumerable<SOLICITUD_PERMISO> Lista;
+
+            var ListadoSolicitudes = entities.spConsultaSolcitudesPermisos(null, null, clsAtributos.EstadoSolicitudAprobado, false, null, null).ToList();
+            var motivos = ConsultarMotivos(null).ToList();
+            foreach (var x in ListadoSolicitudes)
+            {
+                var DescripcionMotivo = motivos.FirstOrDefault(y => y.CodigoMotivo == x.CodigoMotivo);
+                ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
+                {
+                    IdSolicitudPermiso = x.IdSolicitudPermiso,
+                    //CodigoLinea = x.CodigoLinea,
+                    DescripcionLinea = x.Linea,
+                    //CodigoArea = x.CodigoArea,
+                    DescripcionArea = x.Area,
+                    //CodigoCargo = x.CodigoCargo,
+                    //DescripcionCargo = poEmpleado != null ? poEmpleado.CARGO : "",
+                    //Identificacion = x.Identificacion,
+                    NombreEmpleado = x.Nombre,
+                    //CodigoMotivo = x.CodigoMotivo,
+                    DescripcionMotivo = DescripcionMotivo != null ? DescripcionMotivo.DescripcionMotivo : "",
+                    Observacion = x.Observacion,
+                    FechaSalida = x.FechaSalida,
+                    FechaRegreso = x.FechaRegreso,
+                    EstadoSolicitud = x.CodEstadoSolicitud,
+                    DescripcionEstadoSolicitud = x.EstadoSolcitud,
+                    FechaBiometrico = x.FechaBiometrico,
+                    //Origen = x.Origen,
+                    //CodigoDiagnostico = x.CodigoDiagnostico,
+                    FechaIngresoLog = x.FechaIngresoLog,
+                    UsuarioIngresoLog = x.UsuarioIngresoLog,
+                    TerminalIngresoLog = x.TerminalIngresoLog,
+                    UsuarioModificacionLog = x.UsuarioModificacionLog,
+                    FechaModificacionLog = x.FechaModificacionLog,
+                    TerminalModificacionLog = x.TerminalModificacionLog
+                });
+            }
+            return ListaSolicitudesPermiso;
+        }
+
         public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso(string dsEstadoSolcitud, string dsIdUsuario)
         {
             entities = new ASIS_PRODEntities();

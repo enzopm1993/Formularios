@@ -19,7 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDControlCocheLinea clsDControlCocheLinea = null;
         clsDClasificador clsDClasificador = null;
         clsDApiProduccion clsDApiProduccion = null;
-        clsDPeriodo clsDPeriodo = null;
+       // clsDPeriodo clsDPeriodo = null;
 
         // GET: ControlCocheLinea
         [Authorize]

@@ -6,13 +6,16 @@
     input, select, textarea {
         max-width: 100%;
     }
+
     span.select2.select2-container.select2-container--default {
         width: 100%;
     }
+
     span#select2-CodDiagnostico-container {
         font-size: 13px;
         color: #858796;
     }
+
     ul#select2-CodDiagnostico-results {
         font-size: 12px;
     }
@@ -82,7 +85,7 @@
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1" class="control-label col-md-6">Observación</label>
                     <div class="col-md-12">
-                        @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control", @rows = 4, @id = "exampleFormControlTextarea1", @maxlength = "500", @style = "text-transform:uppercase"})
+                        @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control", @rows = 4, @id = "exampleFormControlTextarea1", @maxlength = "500", @style = "text-transform:uppercase" })
                         @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -90,14 +93,14 @@
         </div>
 
 
-        @if (Model.Origen == "M" && ViewBag.Medico!=null)
+        @if (Model.Origen == "M" && ViewBag.Medico != null)
         {
             <div class="row">
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
-                        
-                            <label class="control-label col-md-12">Diagnóstico</label>
-                        
+
+                        <label class="control-label col-md-12">Diagnóstico</label>
+
                         <div class="col-md-12">
                             <div class="input-group">
                                 @if (ViewBag.NombreDiagnoatico != null)
@@ -110,25 +113,25 @@
                                 }
                                 <button type="button" class="btn btn-sm btn-light" onclick="mostrartabla()"><img src="~/Content/images/arrow001.png" /></button>
                             </div>
-                            
+
                             @*@Html.DropDownListFor(m => m.CodigoDiagnostico, new SelectList(ViewBag.CodigosEnfermedad, "codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "CodDiagnostico" })*@
                             @*@Html.ValidationMessageFor(model => model.CodigoDiagnostico, "", new { @class = "text-danger" })*@
                             @Html.Hidden("CodigoDiagnostico")
                             <div id="codsenfermedad" style="max-height:100px; overflow-y: scroll; overflow-x:hidden; display:none">
                                 <table class="table-bordered table-striped table-hover" style="cursor:pointer" id="tbldiagnostico">
                                     @*<thead>
-                                        <tr>
-                                            <th>
-                                                Diagnóstico
-                                            </th>
-                                        </tr>
-                                    </thead>*@
+                                            <tr>
+                                                <th>
+                                                    Diagnóstico
+                                                </th>
+                                            </tr>
+                                        </thead>*@
                                     <tbody>
                                         @foreach (var item in ViewBag.CodigosEnfermedad)
                                         {
-                                        <tr onclick="ocultartabla('@item.Codigo','@item.Descripcion')">
-                                            <td>@item.Descripcion</td>
-                                        </tr>
+                                            <tr onclick="ocultartabla('@item.Codigo','@item.Descripcion')">
+                                                <td>@item.Descripcion</td>
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -166,7 +169,7 @@
         <div class="row">
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <label class="control-label col-md-12">Fecha Desde</label>                   
+                    <label class="control-label col-md-12">Fecha Desde</label>
                     <div class="col-md-12">
                         @Html.TextBoxFor(model => model.FechaSalida, "{0:s}", new { @class = "form-control", @type = "datetime-local" })
                         @Html.ValidationMessageFor(model => model.FechaSalida, "", new { @class = "text-danger" })
@@ -275,10 +278,13 @@
                     <button data-toggle="collapse" data-placement="top" title="justificar" class="btn" data-target="#collapseJustificar" aria-expanded="false" aria-controls="collapseExample" style="border-color:#2c3e50" type="button">
                         <img style="width:100%" src="~/Content/icons/justificar24.png" />
                     </button>
+                    <a title="Log de marcación" class="btn" id="logMarcacion" style="border-color:#2c3e50" href="#">
+                        <i class="fas fa-clock"></i>
+                    </a>
 
                     @*<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseJustificar" aria-expanded="false" aria-controls="collapseExample">
-                            justificar
-                        </button>*@
+                justificar
+            </button>*@
                 }
                 @*<input type="button" value="Cancelar" class="btn btn-primary" data-dismiss="modal" />*@
                 <button data-toggle="tooltip" data-placement="top" title="Cancelar" class="btn" data-dismiss="modal" id="" onclick="" style="border-color:#2c3e50" type="button">
@@ -288,17 +294,29 @@
         </div>
 
     </div>
+    <div class="modal fade" id="ModalLogMarcacion" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Marcaciones</h4>
+                </div>
+                <!-- Modal body -->
+                <input type="hidden" id="logMarcaciones" value="@ViewBag.JsonMarcaciones" />
+                <div class="modal-body" id="body_log">
+                    <span id="msjMarcaciones"></span>
+                    <ul id="marcacionesExistentes">
+
+                    </ul>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="modal_close_log" >Cerrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 }
-    @*<script src="~/Scripts/select2.min.js"></script>
-    <script>
-        // Inicializa select2
-        $("#cmbuser").select2();
-
-
-    </script>*@
-@*<script>
-    @{var ViewBag.CodigosEnfermedad as List<sp_GrupoEnfermedades>}
-    $('#buscarenfermedad').val("hola");
-   
-</script>*@
-    <script src="~/Scripts/select2.js"></script>
+<script src="~/Scripts/select2.js"></script>
