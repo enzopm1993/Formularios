@@ -1,0 +1,91 @@
+﻿
+@model List<Asiservy.Automatizacion.Formularios.Models.SolicitudPermisoViewModel>
+
+<div class="table-responsive">
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th>
+
+                </th>
+                <th>#</th>
+                <th>Fecha Creación</th>
+                <th>Motivo</th>
+                <th>Médico </th>
+                <th hidden>Linea</th>
+                <th hidden>Area</th>
+                <th>Empleado</th>
+                <th>Biométrico</th>
+                <th>Acción</th>
+
+            </tr>
+        </thead>
+        <tbody style="font-size:14px">
+            @if (Model != null)
+            {
+                foreach (var m in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <input class="case" name="case" type="checkbox" id="solicitud-@m.IdSolicitudPermiso" />
+                        </td>
+                        <td>@m.IdSolicitudPermiso</td>
+                        <td>@m.FechaIngresoLog</td>
+                        <td>@m.DescripcionMotivo</td>
+                        @if (m.ValidaMedico != null)
+                        {
+                            if (m.ValidaMedico == false)
+                            {
+                                <td style="color:#133c70" class="text-center">
+                                    <i class="fas fa-briefcase-medical"></i>
+                                </td>
+
+                            }
+                            else
+                            {
+                                <td style="color:#ff0000" class="text-center">
+                                    <i class="fas fa-briefcase-medical"></i>
+                                </td>
+
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td hidden>@m.DescripcionLinea</td>
+                        <td hidden>@m.DescripcionArea</td>
+                        <td>@m.NombreEmpleado</td>
+                        <td>@m.FechaBiometrico</td>
+                        <td style="width:20%">
+                            <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn iconStyle" id="Nuevo" onclick="Mostrar(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <button data-toggle="tooltip" data-placement="top" title="Aprobar" class="btn btn-link iconStyle" id="Nuevo" onclick="FinalizarSolicitud(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button data-toggle="tooltip" data-placement="top" title="Anular" class="btn iconStyle" id="Nuevo" onclick="ObservacionAnular(@m.IdSolicitudPermiso)" style="border-color:#2c3e50" type="button">
+                                <i class="fas fa-times text-danger"></i>
+                            </button>
+
+                            @*<input name="chkbox" type="button" value="Ver" onclick="Mostrar(@m.IdSolicitudPermiso)" class=" btn btn-link" />
+                                <input name="chkbox" type="button" value="Finalizar" onclick="FinalizarSolicitud(@m.IdSolicitudPermiso)" class=" btn btn-link" />
+                                <input name="chkbox" type="button" value="Anular" onclick="Observacion(@m.IdSolicitudPermiso)" class=" btn btn-link" />*@
+                        </td>
+                    </tr>
+
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+<div class="container-fluid text-center">
+    <input type="button" class="btn btn-info" name="name" value="Finalizar" onclick="FinalizarSolitudes()" id="btnFinalizar" />
+    <button class="btn btn-info" type="button" disabled hidden id="btnFinalizarEspera">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Espere...
+    </button>
+</div>
+
+<br />
