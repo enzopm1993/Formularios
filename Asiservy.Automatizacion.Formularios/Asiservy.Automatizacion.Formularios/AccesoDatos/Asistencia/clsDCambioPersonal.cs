@@ -284,7 +284,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     else if (tipo == "regresar")
                     {
                         CAMBIO_PERSONAL BuscarEnCambioPersonal = null;
+                        string LineaDesc = string.Empty;
                         DateTime ValidaFecha;
+                        spConsutaEmpleados Empleado = null;
+                        //**CONSULTO LA ASISTENCIA, si tiene asistencia falta, no le permito regresarlo(tiene que ir a marcarle presente y de ahi le permitira regresarlo) agregado 2020-01-15
+                        ASISTENCIA buscaEnAsistencia = null;
+                        foreach (var item in pListCambioPersonal.ToArray())
+                        {
+                            buscaEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == item.Cedula&&x.Fecha==item.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.EstadoAsistencia == clsAtributos.EstadoFalta).FirstOrDefault();
+                            if (buscaEnAsistencia != null)
+                            {
+                                pListCambioPersonal.Remove(item);
+                                Empleado = db.spConsutaEmpleados(item.Cedula).FirstOrDefault();
+                                LineaDesc = db.spConsultaLinea(buscaEnAsistencia.Linea).FirstOrDefault().Descripcion;
+                                NoSePudieornRegresar.Add(Empleado.NOMBRES+" con cédula N°: "+ item.Cedula+", No se pudo regresar por que tiene asistencia con estado de falta en la fecha indicada en la línea: "+ LineaDesc + " \n");
+
+                            }
+                           
+                        }
+                        //*
                         foreach (var item in pListCambioPersonal.ToArray())
                         {
                             BuscarEnCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
@@ -296,8 +314,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             }
                             else
                             {
-                                NoSePudieornRegresar.Add(item.Cedula);
+                                Empleado = db.spConsutaEmpleados(item.Cedula).FirstOrDefault();
+                                NoSePudieornRegresar.Add(Empleado.NOMBRES+"con cédula N°: "+ item.Cedula+ ":  No se pudo regresar por que la fecha de Fin debe ser mayor a la Fecha de inicio \n");
                             }
+                            
 
                         }
                         //verifica si esta en movimiento: personal: diario
@@ -345,6 +365,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             }
                             db.SaveChanges();
                         }
+                        
                         //**
                         string[] CedulasArray = listCedulas.ToArray();
                         //Traigo la lista de Cambio_personal que hay que actualizar para regresar
@@ -382,7 +403,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             string mensaje = string.Empty;
                             foreach (var item in NoSePudieornRegresar)
                             {
-                                mensaje += item + " No se pudo regresar por que la fecha de Fin debe ser mayor a la Fecha de inicio \n";
+                                //mensaje += item + " No se pudo regresar por que la fecha de Fin debe ser mayor a la Fecha de inicio \n";
+                                mensaje += item;
                             }
                             return mensaje;
                         }
