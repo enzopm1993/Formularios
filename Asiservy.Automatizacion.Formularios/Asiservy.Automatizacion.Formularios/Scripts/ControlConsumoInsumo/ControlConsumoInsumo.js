@@ -5,6 +5,87 @@ $(document).ready(function () {
     // CargarControlConsumo(); 
 });
 
+function CargarDatosOrdenFabricacion() {
+
+    if ($("#txtOrdenFabricacion").val() == "") {
+        NuevoControlConsumoInsumos();
+        return;
+    }
+
+    $.ajax({
+        url: "../ControlConsumoInsumo/ConsultarDatosOrdenFabricacion",
+        type: "GET",
+        data: {
+            Orden: $("#txtOrdenFabricacion").val()
+          //  Linea: $("#txtLineaNegocio").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            }
+            if (resultado == "1") {
+                MensajeAdvertencia("No se pudo obtener información");
+                return;
+            }
+            console.log(resultado);
+            $("#txtPesoNeto").val(resultado.PESO_NETO);
+            $("#txtPesoEscrundido").val(resultado.PESO_ESCURRIDO);
+            $("#txtLomo").val(resultado.LOMOS);
+            $("#txtMiga").val(resultado.MIGAS);
+            $("#txtCajas").val(resultado.UNIDADES_X_CAJA);
+            $("#txtOrdenVenta").val(resultado.PEDIDO_VENTA);
+
+            //$("#").val('');
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+
+}
+
+function CargarOrdenFabricacion() {
+    valor = $("#txtFecha").val();   
+    if (valor == '' || valor == null)
+        return;
+    $("#txtOrdenFabricacion").empty();
+    $("#txtOrdenFabricacion").append("<option value='' >-- Seleccionar Opción--</option>");
+    $.ajax({
+        url: "../ControlConsumoInsumo/ConsultarOrdenesFabricacion",
+        type: "GET",
+        data: {
+            Fecha: valor,
+            Linea: $("#txtLineaNegocio").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            }
+           // LimpiarDetalle();
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#txtOrdenFabricacion").append("<option value='" + row.ORDEN_FABRICACION + "'>" + row.ORDEN_FABRICACION + "</option>")
+                });
+                $('#validaFecha').prop("hidden", true);
+            } else {
+                $('#validaFecha').prop("hidden", false);
+            }
+            //CargarControlHueso();
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
 
 function CargarControlConsumo() {
     $("#divCabecera2").prop("hidden", true);
@@ -27,6 +108,7 @@ function CargarControlConsumo() {
  
     $("#spinnerCargando").prop("hidden", false);
     $("#chartCabecera2").html('');
+    CargarOrdenFabricacion();
     $.ajax({
         url: "../ControlConsumoInsumo/ControlConsumoInsumoPartial",
         type: "GET",
@@ -65,6 +147,7 @@ function NuevoControlConsumoInsumos() {
     $("#txtOrdenFabricacion").prop("readonly", false);
 
     $("#txtPesoNeto").val('0');
+    $("#txtPesoEscrundido").val('0');
     $("#txtLomo").val('0');
     $("#txtMiga").val('0');
     $("#txtAceite").val('0');

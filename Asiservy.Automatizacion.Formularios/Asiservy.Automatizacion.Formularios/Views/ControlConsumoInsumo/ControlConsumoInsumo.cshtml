@@ -29,7 +29,6 @@
             </select>
         </div>
     </div>
-
     <div class="col-md-4 col-12  text-md-left text-center">
         <label class="">Acciones</label>
 
@@ -170,7 +169,8 @@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Orden Fabricación</label>
-                            <input class="form-control" id="txtOrdenFabricacion" type="text" name="name" value="0" />
+                            @*<input class="form-control" id="txtOrdenFabricacion" type="text" name="name" value="0" />*@
+                            @Html.DropDownList("txtOrdenFabricacion",new SelectList(ViewBag.OrdenesFabricacion, "ORDEN_FABRICACION", "ORDEN_FABRICACION"),"seleccione",new { @class="form-control", @Onchange= "CargarDatosOrdenFabricacion()" })
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">

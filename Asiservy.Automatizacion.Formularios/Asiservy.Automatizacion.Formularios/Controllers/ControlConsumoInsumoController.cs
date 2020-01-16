@@ -2,6 +2,7 @@
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -41,7 +42,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 ViewBag.Linea = Empleado.LINEA;
                 ViewBag.CodLinea = Empleado.CODIGOLINEA;
-                ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProduccion(DateTime.Now);
+                
 
 
                 clsDLogin = new clsDLogin();
@@ -50,11 +51,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoDaniadoPouch);
                     ViewBag.LineaNegocio = "POUCH";
+                    ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaAutoclave(DateTime.Now).Where(x=> x.LineaNegocio==clsAtributos.LineaNegocioPouch).ToList();
                 }
                 else
                 {
                     ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoDaniadoLata);
                     ViewBag.LineaNegocio = "ENLATADO";
+                    ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaAutoclave(DateTime.Now).Where(x => x.LineaNegocio == clsAtributos.LineaNegocioEnlatado).ToList();
+
                 }
                 return View();
             }
@@ -579,6 +583,107 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         #endregion
 
+        public JsonResult ConsultarOrdenesFabricacion(DateTime Fecha, string Linea)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (string.IsNullOrEmpty(Linea))
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
+                }
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                List<OrdenFabricacionAutoclave> result = new List<OrdenFabricacionAutoclave>();
+                if (Linea == clsAtributos.LineaNegocioEnlatado)
+                {
+                    result = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaAutoclave(Fecha).Where(x => x.LineaNegocio == clsAtributos.LineaNegocioEnlatado).ToList();
+                }
+                else
+                {
+                    result = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaAutoclave(Fecha).Where(x => x.LineaNegocio == clsAtributos.LineaNegocioPouch).ToList();
+
+                }
+                if (!result.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
+                }
+                //else
+                //{
+                //    clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
+                //    var ordenesUsadas = clsDControlConsumoInsumo.ConsultaControlConsumoInsumo(Fecha, "0").Select(x => x.OrdenFabricacion).ToList();
+                //    result = result.Where(x => !ordenesUsadas.Contains(x.ORDEN_FABRICACION)).ToList();
+                //}                
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult ConsultarDatosOrdenFabricacion(string Orden)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (string.IsNullOrEmpty(Orden))
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+
+                }
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                OrdenFabricacionConsumoInsumo result = new OrdenFabricacionConsumoInsumo();
+                result = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(Orden).FirstOrDefault();
+                if (result==null)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+
+                }                        
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         protected void SetSuccessMessage(string message)
         {

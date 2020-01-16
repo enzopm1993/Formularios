@@ -206,5 +206,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //Clasificador de Grupo de Correos electronicos para solicitud aprobada.
         public static string CodigoGrupoCorreosElectronicosCopias = "023";
 
+
+        //CLASIFICADOR DE CONSUMO DETALLE DANIADO
+        public static string CodigoGrupoConsumoDaniadoLata = "024";
+        public static string CodigoGrupoConsumoDaniadoPouch = "025";
     }
 }

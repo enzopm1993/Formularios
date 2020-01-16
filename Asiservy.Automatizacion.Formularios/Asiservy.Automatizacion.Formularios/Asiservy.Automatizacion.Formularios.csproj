@@ -3209,6 +3209,7 @@
     <Compile Include="Models\OrdenFabricacion.cs" />
     <Compile Include="Models\OrdenFabricacionAutoclave.cs" />
     <Compile Include="Models\OrdenFabricacionAvance.cs" />
+    <Compile Include="Models\OrdenFabricacionConsumoInsumo.cs" />
     <Compile Include="Models\ProyeccionProgramacion\ProyeccionProgramacionViewModel.cs" />
     <Compile Include="Models\RespuestaGeneral.cs" />
     <Compile Include="Models\Seguridad\Clasificador.cs" />
@@ -3406,6 +3407,7 @@
     <Content Include="Views\SolicitudPermiso\BandejaAprobacionPartial.cshtml" />
     <Content Include="Views\SolicitudPermiso\BandejaRRHHPartial.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ControlConsumoInsumoDetalleEnlatadoPartial.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ControlConsumoDaniadoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
