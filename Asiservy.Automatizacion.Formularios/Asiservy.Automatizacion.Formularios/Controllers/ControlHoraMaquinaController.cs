@@ -17,10 +17,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     {
         string[] lsUsuario;
         clsDError clsDError = null;
-        clsDGeneral clsDGeneral = null;
-        clsDEmpleado clsDEmpleado = null;
+        //clsDGeneral clsDGeneral = null;
+        //clsDEmpleado clsDEmpleado = null;
         clsDClasificador clsDClasificador = null;
-        clsDLogin clsDLogin = null;
+        //clsDLogin clsDLogin = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
         clsDControlHoraMaquina clsDControlHoraMaquina = null;
 
