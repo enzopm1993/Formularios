@@ -71,6 +71,9 @@ function Aprobar(result) {
             diIdSolicitud: resultado2           
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }   
             CargarBandejaAprobacion();
             MensajeCorrecto(resultado);
             $("#btnAprobar").prop("hidden", false);

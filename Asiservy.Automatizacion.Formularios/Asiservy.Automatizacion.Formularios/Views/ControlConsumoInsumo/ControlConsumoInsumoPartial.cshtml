@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlConsumoInsumo>
+@using Newtonsoft.Json;
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraFin)
+            </th>
+            <th>
+                O. Fabricación
+            </th>
+            <th>
+                O. Venta
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Destino)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.PesoNeto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PesoEscurido)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lomo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Miga)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Envase)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Aceite)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Agua)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarControlDetalleConsumo(@json)">
+                <td>
+                    @if (item.HoraInicio != null)
+                    {
+                        var HoraInicio = item.HoraInicio.Value.ToString("HH:mm");
+                        @HoraInicio
+                    }
+
+                </td>
+                <td>
+                    @if (item.HoraFin != null)
+                    {
+                        var HoraFin = item.HoraInicio.Value.ToString("HH:mm");
+                        @HoraFin
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenVenta)
+                </td>
+                <td>
+                    @if (item.Fecha != null)
+                    {
+                        var Fecha = item.Fecha.ToString("yyyy-MM-dd");
+                        @Fecha
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Destino)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.PesoNeto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PesoEscurido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lomo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Miga)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Envase)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Aceite)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Agua)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

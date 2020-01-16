@@ -2137,6 +2137,7 @@
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
+    <Content Include="Scripts\ControlConsumoInsumo\ControlConsumoInsumo.js" />
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
     <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
@@ -3114,6 +3115,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
+    <Compile Include="AccesoDatos\ControlConsumoInsumo\clsDControlConsumoInsumo.cs" />
     <Compile Include="AccesoDatos\ControlCuchillo\clsDCuchillo.cs" />
     <Compile Include="AccesoDatos\ControlCocheLinea\clsDControlCocheLinea.cs" />
     <Compile Include="AccesoDatos\ControlEnfundado\clsDControlEnfundado.cs" />
@@ -3166,6 +3168,7 @@
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
+    <Compile Include="Controllers\ControlConsumoInsumoController.cs" />
     <Compile Include="Controllers\ControlCuchilloController.cs" />
     <Compile Include="Controllers\ControlEnfundadoController.cs" />
     <Compile Include="Controllers\ControlHoraMaquinaController.cs" />
@@ -3398,6 +3401,11 @@
     <Content Include="Views\Hueso\ReporteControlAvanceDiarioGeneralPartial.cshtml" />
     <Content Include="Views\Hueso\ReporteControlAvanceDiarioGeneral.cshtml" />
     <Content Include="Views\ControlToalla\PartialDetalleToalla.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ControlConsumoInsumo.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ControlConsumoInsumoPartial.cshtml" />
+    <Content Include="Views\SolicitudPermiso\BandejaAprobacionPartial.cshtml" />
+    <Content Include="Views\SolicitudPermiso\BandejaRRHHPartial.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ControlConsumoInsumoDetalleEnlatadoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

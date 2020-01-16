@@ -64,6 +64,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 List<SolicitudPermisoViewModel> ListaSolicitud;
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 clsDGeneral = new clsDGeneral();
@@ -127,7 +132,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public ActionResult BandejaRRHHPartial()
         {
             try
-            {       
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 List<SolicitudPermisoViewModel> ListaSolicitud;
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermisosRRHH();
@@ -154,11 +164,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        [Authorize]
+        
         public JsonResult AprobarSolicitud(string[] diIdSolicitud)
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[1]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 string psRespuesta = string.Empty;
                 if (diIdSolicitud != null && diIdSolicitud.Length > 0)
                 {

@@ -1,0 +1,269 @@
+﻿
+@{
+    ViewBag.Title = "ControlConsumoInsumo";
+}
+
+<h5>Control Consumo de Insumos</h5>
+@ViewBag.Linea
+<hr />
+<div class="row" id="divCabecera1">
+    <div class="col-md-4 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarControlConsumo()" id="txtFecha" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-4 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Turno</label>
+            <select class="form-control" id="selectTurno" onchange="CargarControlConsumo()">
+                <option value="0">Seleccione</option>
+                <option value="1">Turno 1</option>
+                <option value="2">Turno 2</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-12  text-md-left text-center">
+        <label class="">Acciones</label>
+
+        <div class="form-group">
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControl(false)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button hidden data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalEditar" onclick="ModalGenerarControl(true)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/edit24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>
+        </div>
+    </div>
+
+</div>
+<hr />
+<div class="d-flex justify-content-center">
+    <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div id="divCabecera2" hidden>
+    <div class="card shadow">
+        <div class="card-body">
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
+
+<div id="divDetalleProceso" hidden>
+    <div class="card shadow">
+        <div class="card-header">
+            <div class="form-group">
+                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControlDetalle()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="chart">
+                <div class="d-flex justify-content-center">
+                    <div id="spinnerCargandoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+
+                <div id="divTableDetalle" class="table-responsive">
+
+                </div>
+
+               
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal" tabindex="-1" id="ModalGenerarControl" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Control Consumo de Insumos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdControlConsumo" name="name" value="0" />
+                    <input type="hidden" id="txtLineaNegocio" name="name" value="@ViewBag.LineaNegocio" />
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Orden Fabricación</label>
+                            <input class="form-control" id="txtOrdenFabricacion" type="text" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Orden Venta</label>
+                            <input class="form-control" id="txtOrdenVenta" disabled type="text" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Hora Inicio</label>
+                            <input class="form-control" id="txtHoraInicio" type="datetime-local" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Hora Fin</label>
+                            <input class="form-control" id="txtHoraFin" type="datetime-local" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Peso Neto</label>
+                            <input class="form-control" id="txtPesoNeto" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Peso Escrundido</label>
+                            <input class="form-control" id="txtPesoEscrundido" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Lomo</label>
+                            <input class="form-control" id="txtLomo" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Miga</label>
+                            <input class="form-control" id="txtMiga" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Aceite(g)</label>
+                            <input class="form-control" id="txtAceite" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Agua(g)</label>
+                            <input class="form-control" id="txtAgua" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Desperdicio Solido</label>
+                            <input class="form-control" id="txtDesperdicioSolido" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Desperdicio Liquido</label>
+                            <input class="form-control" id="txtDesperdicioLiquido" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Desperdicio Aceite</label>
+                            <input class="form-control" id="txtDesperdicioAceite" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Empleados</label>
+                            <input class="form-control" id="txtEmpleados" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Cajas</label>
+                            <input class="form-control" id="txtCajas" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Observacion</label>
+                            <input class="form-control" id="txtObservacion" maxlength="250"  type="text" name="name" value="" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarControlConsumo()" id="btnGenerarControlConsumo">Generar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@* DETALLE DE PROCESO DE CONTROL DE CONSUMO *@
+<div class="modal" tabindex="-1" id="ModalGenerarControlDetalle" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Control Consumo de Insumos @ViewBag.LineaNegocio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdControlDetalleProceso" name="name" value="0" />
+                    <div class="col-md-6 col-6 col-sm-6">
+                        @if (ViewBag.LineaNegocio == "ENLATADO")
+                        {
+                            <label>Pallet </label>
+                        }
+                        else
+                        {
+                            <label>Cajas</label>
+                        }
+                        <input type="number" id="txtPallet" name="name" value="0" min="0" class="form-control" />
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Lote</label>
+                        <input type="text" id="txtLote" class="form-control" name="name" value="" />
+                    </div>
+
+                    @if (ViewBag.LineaNegocio == "ENLATADO")
+                    {
+                        <div class="col-md-6 col-6 col-sm-6">
+                            <label>Bultos</label>
+                            <input type="number" min="0" id="txtBulto" class="form-control" name="name" value="" />
+                        </div>
+                    }
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Fecha Fabricación</label>
+                        <input type="date" class="form-control" name="name" value="" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarControlConsumoDetalle()" id="btnGenerarControlConsumoDetalle">Generar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
