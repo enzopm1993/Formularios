@@ -111,6 +111,9 @@
     <Compile Include="Datos\CONSUMO_TIEMPO_MUERTO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CONTROL_ASISTENCIA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CONTROL_AUDITORIASANGRE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
