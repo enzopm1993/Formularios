@@ -87,6 +87,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONSUMO_DETALLE_POUCH> CONSUMO_DETALLE_POUCH { get; set; }
         public virtual DbSet<CONSUMO_TIEMPO_MUERTO> CONSUMO_TIEMPO_MUERTO { get; set; }
         public virtual DbSet<CONTROL_CONSUMO_INSUMO> CONTROL_CONSUMO_INSUMO { get; set; }
+        public virtual DbSet<CONSUMO_DETALLE_DANIADO> CONSUMO_DETALLE_DANIADO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -606,7 +607,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarEmpleadosxTurno>("spConsultarEmpleadosxTurno", codLineaParameter, turnoParameter, fechaParameter, horaParameter);
         }
     
-        public virtual ObjectResult<sp_ConsultaAsistenciaDiaria> sp_ConsultaAsistenciaDiaria(string codLinea, Nullable<int> turno, Nullable<System.DateTime> fecha)
+        public virtual ObjectResult<sp_ConsultaAsistenciaDiaria> sp_ConsultaAsistenciaDiaria(string codLinea, Nullable<int> turno, Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hORA)
         {
             var codLineaParameter = codLinea != null ?
                 new ObjectParameter("codLinea", codLinea) :
@@ -620,7 +621,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Fecha", fecha) :
                 new ObjectParameter("Fecha", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiaria>("sp_ConsultaAsistenciaDiaria", codLineaParameter, turnoParameter, fechaParameter);
+            var hORAParameter = hORA.HasValue ?
+                new ObjectParameter("HORA", hORA) :
+                new ObjectParameter("HORA", typeof(System.TimeSpan));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaDiaria>("sp_ConsultaAsistenciaDiaria", codLineaParameter, turnoParameter, fechaParameter, hORAParameter);
         }
     
         public virtual ObjectResult<spConsultaControlHoraMaquina> spConsultaControlHoraMaquina(Nullable<System.DateTime> fecha)

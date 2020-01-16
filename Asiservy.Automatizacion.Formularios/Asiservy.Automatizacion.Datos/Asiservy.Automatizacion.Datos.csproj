@@ -99,6 +99,9 @@
     <Compile Include="Datos\CONSUMO_DETALLE_ADITIVO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CONSUMO_DETALLE_DANIADO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CONSUMO_DETALLE_LATA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

@@ -83,6 +83,8 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_DANIADO" Width="1.5" PointX="13.625" PointY="47.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
