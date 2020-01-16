@@ -1,7 +1,4 @@
 ﻿
-$(document).ready(function () {
-    CargarBandejaAprobacion();
-});
 
 function CargarBandejaAprobacion() {
     $("#spinnerCargando").prop("hidden", false);
@@ -37,6 +34,39 @@ function CargarBandejaAprobacion() {
 }
 
 
+$(document).ready(function () {
+    CargarBandejaAprobacion();
+    ("#ModalEditarSolicitud").on("click", "#modal_close_log", function () {
+        $("#ModalLogMarcacion").modal("hide");
+        return false;
+    });
+    $("#ModalEditarSolicitud").on("click", "#logMarcacion", function () {
+
+        var logMarcaciones = $("#logMarcaciones").val();
+        var obJson = JSON.parse(logMarcaciones);
+        console.log(obJson);
+        $("#marcacionesExistentes").empty();
+        if (obJson.LogMarcaciones == null) {
+            $("#msjMarcaciones").text("El usuario no tiene marcaciones registradas en el día");
+        } else {
+            if (obJson.LogMarcaciones.length > 0) {
+                $("#marcacionesExistentes").empty();
+                $("#msjMarcaciones").text("Las marcaciones del usuario son:");
+                $.each(obJson.LogMarcaciones, function (i, item) {
+                    var newRowContent = '<li><span class="log_hora_marca">' + item.HORA + '</span> <i class="fas fa-arrow-alt-circle-right"></i> <span class="log_marcacion">' + item.TIPO_MARCACION + '</span></label> </li>';
+                    $("#marcacionesExistentes").append(newRowContent);
+                });               
+            } else {
+                $("#msjMarcaciones").text("El usuario no tiene marcaciones registradas en el día");
+            }
+        }
+
+
+        $("#ModalLogMarcacion").modal("show");
+        return false;
+    });
+    
+});
 function mostrartabla() {
     $('#codsenfermedad').show();
     $('#buscarenfermedad').prop('disabled', false);

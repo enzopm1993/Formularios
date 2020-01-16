@@ -308,8 +308,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
                     //List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", CodLinea, "0").Where(x => x.CODIGOCARGO != "221").ToList();
                     List<spConsultarEmpleadosxTurno> ListaEmpleados = db.spConsultarEmpleadosxTurno(CodLinea, turno, Fecha, HoraServidor).ToList();
+                    //AGREGUE 2020-01-15: Si se genero aistencia(PRESTADOS) en linea 5 a las 07:00am de un empleado que fue movido a esa línea con diferente cargo , si se genera asistencia proncesos 6:30 am no deberia aparecer por que ya existe en tabla asistencia 
+                    var AsistenciaBuscar = db.ASISTENCIA.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();//traigo la asistencia de todas las lineas en la fecha ingresada
+                    List<spConsultarEmpleadosxTurno> PersonalMovidoAEstaLineaFiltrado = (from p in ListaEmpleados
+                                                                                                    join asis in AsistenciaBuscar
+                                                                                                    on p.CEDULA equals asis.Cedula into pp
+                                                                                                    from asis in pp.DefaultIfEmpty()
+                                                                                                    where asis == null
+                                                                                                    select p).ToList();
+                    //**FIN 2020-01-15
                     ControlAsistencia = new List<ASISTENCIA>();
-                    foreach (var item in ListaEmpleados)
+                    foreach (var item in PersonalMovidoAEstaLineaFiltrado)
                     {
                         //var FueMovidoAOtraArea = clsDCambioPersonal.ConsultarCambioPersonal(item.CEDULA);
                         //if (FueMovidoAOtraArea==null)

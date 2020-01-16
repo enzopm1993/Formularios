@@ -78,13 +78,20 @@
                     @item.CargoMovido
                 </td>
                 <td>
-                    @item.FechaMovido.Value.ToString("yyyy/MM/dd");
+                    @if (item.FechaMovido != null)
+                    {
+                        @item.FechaMovido.Value.ToString("yyyy/MM/dd");
+                    }
+
                 </td>
                 <td>
                     @item.HoraMovido
                 </td>
                 <td>
-                    @item.FechaRegreso.Value.ToString("yyyy/MM/dd");
+                    @if (item.FechaRegreso != null){
+                        @item.FechaRegreso.Value.ToString("yyyy/MM/dd");
+                    }
+                    
                 </td>
                 <td>
                     @item.HoraRegreso
