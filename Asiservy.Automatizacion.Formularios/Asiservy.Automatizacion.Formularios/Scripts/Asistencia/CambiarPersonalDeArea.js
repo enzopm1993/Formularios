@@ -119,7 +119,7 @@ function Mover(result) {
         psfecha = $('#txtFechaInicio').val();
         pshora = $('#txtHoraInicio').val();
     } else {
-        if ($('#txtFechaFin').val() == "" && $('#txtHoraFin').val() == "") {
+        if ($('#txtFechaFin').val() == "" || $('#txtHoraFin').val() == "") {
             MensajeAdvertencia("Error, Debe ingresar Fecha y hora");
             return false;
         }
