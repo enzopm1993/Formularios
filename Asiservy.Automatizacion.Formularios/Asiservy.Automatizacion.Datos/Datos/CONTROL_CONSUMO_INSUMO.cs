@@ -18,10 +18,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public CONTROL_CONSUMO_INSUMO()
         {
             this.CONSUMO_DETALLE_ADITIVO = new HashSet<CONSUMO_DETALLE_ADITIVO>();
+            this.CONSUMO_DETALLE_DANIADO = new HashSet<CONSUMO_DETALLE_DANIADO>();
             this.CONSUMO_DETALLE_LATA = new HashSet<CONSUMO_DETALLE_LATA>();
             this.CONSUMO_DETALLE_POUCH = new HashSet<CONSUMO_DETALLE_POUCH>();
             this.CONSUMO_TIEMPO_MUERTO = new HashSet<CONSUMO_TIEMPO_MUERTO>();
-            this.CONSUMO_DETALLE_DANIADO = new HashSet<CONSUMO_DETALLE_DANIADO>();
         }
     
         public int IdControlConsumoInsumos { get; set; }
@@ -35,7 +35,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Destino { get; set; }
         public string Cliente { get; set; }
         public Nullable<int> PesoNeto { get; set; }
-        public Nullable<int> PesoEscurido { get; set; }
+        public Nullable<int> PesoEscrundido { get; set; }
         public Nullable<int> Lomo { get; set; }
         public Nullable<int> Miga { get; set; }
         public string Envase { get; set; }
@@ -58,16 +58,17 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public string CodigoMaterial { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONSUMO_DETALLE_ADITIVO> CONSUMO_DETALLE_ADITIVO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CONSUMO_DETALLE_DANIADO> CONSUMO_DETALLE_DANIADO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONSUMO_DETALLE_LATA> CONSUMO_DETALLE_LATA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONSUMO_DETALLE_POUCH> CONSUMO_DETALLE_POUCH { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONSUMO_TIEMPO_MUERTO> CONSUMO_TIEMPO_MUERTO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CONSUMO_DETALLE_DANIADO> CONSUMO_DETALLE_DANIADO { get; set; }
     }
 }

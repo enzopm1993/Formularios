@@ -285,6 +285,9 @@
     <Compile Include="Datos\spConsultaConsumoDetallePouch.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaConsumoEnvasesFundas.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultaConsumoTiempoMuerto.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
