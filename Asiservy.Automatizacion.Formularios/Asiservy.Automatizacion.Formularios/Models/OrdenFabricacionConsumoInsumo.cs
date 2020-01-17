@@ -7,6 +7,8 @@ namespace Asiservy.Automatizacion.Formularios.Models
 {
     public class OrdenFabricacionConsumoInsumo
     {
+        public string CODIGO_PRODUCTO { get; set; }
+        public string CODIGO_MATERIAL { get; set; }
         public string NOMBRE_PRODUCTO { get; set; }
         public string NOMBRE_ADICIONAL { get; set; }
         public string UNIDADES_X_CAJA { get; set; }

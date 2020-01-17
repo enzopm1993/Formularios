@@ -121,11 +121,11 @@
                         <div class="col-md-10 col-sm-9 col-8">
                             @if (ViewBag.LineaNegocio == "ENLATADO")
                             {
-                                <h4>Consumo de Envases </h4>
+                                <h4>Mermas de Envases </h4>
                             }
                             else
                             {
-                                <h4>Consumo de Fundas</h4>
+                                <h4>Mermas de Fundas</h4>
                             }
                         </div>
                     </div>
@@ -146,6 +146,75 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerarAditivos" onclick="ModalGenerarAditivos()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            <h4>Aditivos</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoAditivos" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableAditivos" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerarTiemposMuertos" onclick="ModalGenerarTiemposMuertos()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            <h4>Tiempos Muertos</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoTiemposMuertos" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableTiemposMuertos" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -170,7 +239,7 @@
                         <div class="form-group">
                             <label>Orden Fabricación</label>
                             @*<input class="form-control" id="txtOrdenFabricacion" type="text" name="name" value="0" />*@
-                            @Html.DropDownList("txtOrdenFabricacion",new SelectList(ViewBag.OrdenesFabricacion, "ORDEN_FABRICACION", "ORDEN_FABRICACION"),"seleccione",new { @class="form-control", @Onchange= "CargarDatosOrdenFabricacion()" })
+                            @Html.DropDownList("txtOrdenFabricacion", new SelectList(ViewBag.OrdenesFabricacion, "ORDEN_FABRICACION", "ORDEN_FABRICACION"), "seleccione", new { @class = "form-control", @Onchange = "CargarDatosOrdenFabricacion()" })
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
@@ -199,7 +268,7 @@
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
-                            <label>Peso Escrundido</label>
+                            <label>Peso Escurrido</label>
                             <input class="form-control" id="txtPesoEscrundido" type="number" name="name" value="0" />
                         </div>
                     </div>
@@ -379,6 +448,9 @@
 
 
 
+
+
+@* CONSUMO DE ENVASES  *@
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarConsumoDaniado">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -400,9 +472,6 @@
 </div>
 
 
-
-
-@* CONSUMO DE ENVASES  *@
 <div class="modal" tabindex="-1" id="ModalConsumoDaniado" role="dialog" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -456,3 +525,135 @@
         </div>
     </div>
 </div>
+
+
+@* CONSUMO DE ADITIVOS *@
+<div class="modal" tabindex="-1" id="ModalConsumoAditivos" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Consumo Aditivos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdConsumoAditivos" name="name" value="0" />
+                    <div class="col-6 col-sm-12 col-md-12">
+                        <label>Aditivo</label>
+                        <select>
+                            <option value="value">text</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <label>Peso</label>
+                        <input type="number" id="txtPesoAditivo" class="form-control" min="0" name="name" value="0" />
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <label>Lote</label>
+                        <input type="text" id="txtPesoAditivo" class="form-control" name="name" value="" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarConsumoAditivos()" id="">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarAditivos">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarAditivos" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelAditivos">Eliminar Tiempo Muerto?</h4>
+            </div>
+            <div class="modal-body">
+                <p id="pModalAditivos"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-Aditivos-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-Aditivos-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@* TIEMPOS MUERTOS *@
+
+<div class="modal" tabindex="-1" id="ModalConsumoTiemposMuertos" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Tiempos Muertos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdConsumoTiemposMuertos" name="name" value="0" />
+                    <div class="col-6 col-sm-12 col-md-12">
+                        <label>Hora Para</label>
+                        <input type="datetime-local" id="txtHoraPara" class="form-control" name="name" value="" />
+                    </div>
+                    <div class="col-6 col-sm-12 col-md-12">
+                        <label>Hora Reinicio</label>
+                        <input type="datetime-local" id="txtHoraReinicio" class="form-control" name="name" value="" />
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <label>Tipo</label>
+                        @Html.DropDownList("selectTipoTiemposMuertos", new SelectList(ViewBag.TipoTiemposMuertos, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <label>Observación</label>
+                        <textarea id="txtObservacionTiemposMuertos" class="form-control"></textarea>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarConsumoTiemposMuertos()" id="">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarTiemposMuertos">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarTiemposMuertos" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelTiemposMuertos">Eliminar Tiempo Muerto?</h4>
+            </div>
+            <div class="modal-body">
+                <p id="pModalTiemposMuertos"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-TiemposMuertos-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-TiemposMuertos-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

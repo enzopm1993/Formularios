@@ -214,5 +214,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string CodigoGrupoConsumoDaniadoLata = "024";
         public static string CodigoGrupoConsumoDaniadoPouch = "025";
 
+
+        //CLASIFICADOR DE TIPO DE TIEMPOS MUERRTOS
+        public static string CodigoGrupoTipoTiemposMuertos = "026";
     }
 }

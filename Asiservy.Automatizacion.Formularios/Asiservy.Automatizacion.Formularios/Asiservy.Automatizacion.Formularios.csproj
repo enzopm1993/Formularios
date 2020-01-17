@@ -3408,6 +3408,8 @@
     <Content Include="Views\SolicitudPermiso\BandejaRRHHPartial.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ControlConsumoInsumoDetalleEnlatadoPartial.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ControlConsumoDaniadoPartial.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ControlConsumoTiemposMuertos.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ControlConsumoAditivos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
