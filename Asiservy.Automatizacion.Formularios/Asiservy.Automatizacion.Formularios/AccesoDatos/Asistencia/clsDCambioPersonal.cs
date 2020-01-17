@@ -174,6 +174,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         //    });
                         //    db.SaveChanges();
                         //}
+
+                        //**Buscar En Asistencia EstadoFalta para no permitir mover
+                        ASISTENCIA BuscarEnAsistencia = null;
+                        foreach (var item in pListCambioPersonal.ToArray())
+                        {
+                            BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == item.Cedula && x.Fecha == item.Fecha && x.EstadoAsistencia == clsAtributos.EstadoFalta && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                            if (BuscarEnAsistencia != null)
+                            {
+                                pListCambioPersonal.Remove(item);
+                                NoSePudieornMover.Add(item.Cedula + ": No se puede mover, por que su asistencia ya fue generada en la fecha indicada y tiene estado falta");
+                            }
+
+                        }
+                        //**
                         if (pListCambioPersonal.Count > 0)//si es un CAMBIO_PERSONAL(nuevo) que no está en la tabla CAMBIO_PERSONAL, hay que crearlo 
                         {
                             //**verificar si esta en movimiento_personal_diario
@@ -217,7 +231,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                     //BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula == item.Cedula && x.FechaInicio == psfecha
                                     //                                                                     && x.Asistencia.Value).FirstOrDefault();
                                     BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula == item.Cedula && x.FechaInicio == psfecha
-                                                                                                         ).OrderByDescending(x=>x.IdCambioPersonal).FirstOrDefault();
+                                                                                                         &&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).OrderByDescending(x=>x.IdCambioPersonal).FirstOrDefault();
                                     //Si la hora ingresada es menor a la hora de la asistencia(presente) de ese empleado entonces no se lo puede mover a otra línea
                                     if (BuscarMovimientoPersonalDiario != null)
                                     {
@@ -284,7 +298,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     else if (tipo == "regresar")
                     {
                         CAMBIO_PERSONAL BuscarEnCambioPersonal = null;
+                        string LineaDesc = string.Empty;
                         DateTime ValidaFecha;
+                        spConsutaEmpleados Empleado = null;
+                        //**CONSULTO LA ASISTENCIA, si tiene asistencia falta, no le permito regresarlo(tiene que ir a marcarle presente y de ahi le permitira regresarlo) agregado 2020-01-15
+                        ASISTENCIA buscaEnAsistencia = null;
+                        foreach (var item in pListCambioPersonal.ToArray())
+                        {
+                            buscaEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == item.Cedula&&x.Fecha==item.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.EstadoAsistencia == clsAtributos.EstadoFalta).FirstOrDefault();
+                            if (buscaEnAsistencia != null)
+                            {
+                                pListCambioPersonal.Remove(item);
+                                Empleado = db.spConsutaEmpleados(item.Cedula).FirstOrDefault();
+                                LineaDesc = db.spConsultaLinea(buscaEnAsistencia.Linea).FirstOrDefault().Descripcion;
+                                NoSePudieornRegresar.Add(Empleado.NOMBRES+" con cédula N°: "+ item.Cedula+", No se pudo regresar por que tiene asistencia con estado de falta en la fecha indicada en la línea: "+ LineaDesc + " \n");
+
+                            }
+                           
+                        }
+                        //*
                         foreach (var item in pListCambioPersonal.ToArray())
                         {
                             BuscarEnCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
@@ -296,10 +328,28 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             }
                             else
                             {
-                                NoSePudieornRegresar.Add(item.Cedula);
+                                Empleado = db.spConsutaEmpleados(item.Cedula).FirstOrDefault();
+                                NoSePudieornRegresar.Add(Empleado.NOMBRES+"con cédula N°: "+ item.Cedula+ ":  No se pudo regresar por que la fecha de Fin debe ser mayor a la Fecha de inicio \n");
                             }
+                            
 
                         }
+                        //**
+                        foreach (var item in listCedulas.ToArray())
+                        {
+                            buscaEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == item && x.Fecha == psfecha && x.FechaFin != null).FirstOrDefault();
+                            if(buscaEnAsistencia!=null)
+                            {
+                                if (buscaEnAsistencia.FechaFin.Value.Add(buscaEnAsistencia.HoraSalida.Value) >= psfecha.Value.Add(psHora.Value))
+                                {
+                                    listCedulas.Remove(item);
+                                    Empleado = db.spConsutaEmpleados(item).FirstOrDefault();
+                                    NoSePudieornRegresar.Add(Empleado.NOMBRES + " con cédula N°: " + item + ": No se pudo regresar por que la hora de finalización de asistencia es mayor o igual a la fecha en la que se lo va a regresar \n");
+
+                                }
+                            }
+                        }
+                        //**
                         //verifica si esta en movimiento: personal: diario
                         MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonalDiario;
                         clsDEmpleado ClsdEmpleado = new clsDEmpleado();
@@ -311,40 +361,46 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         {
                             BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.Cedula == item && x.FechaInicio == psfecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo /*&& !x.Asistencia.Value*/).OrderByDescending(x => x.IdCambioPersonal).FirstOrDefault();
                             BuscarEmpleadoDataL = ClsdEmpleado.ConsultarEmpleadoxCedula(item);
+                            
                             if (BuscarMovimientoPersonalDiario != null)
                             {
-                                //modifico el registro de asistencia, lo actualizo con fecha y hora fin
-                                BuscarMovimientoPersonalDiario.HoraFin = psHora;
-                                BuscarMovimientoPersonalDiario.FechaFin = psfecha;
-                                BuscarMovimientoPersonalDiario.UsuarioModificacionLog = psusuario;
-                                BuscarMovimientoPersonalDiario.FechaModificacionLog = DateTime.Now;
-                                BuscarMovimientoPersonalDiario.TerminalModificacionLog = psterminal;
-                                //Creo un nuevo registro en movimiento_personal para poder generar la finalizacion de la asistencia de la linea a la que retorno el empleado
-                                poTurnoEmpleado = db.EMPLEADO_TURNO.Where(x => x.Cedula == item).FirstOrDefault();
-                                psTurno = poTurnoEmpleado == null ? clsAtributos.TurnoUno : poTurnoEmpleado.Turno;//consulto el turno al que pertenece el empleado
-                                db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                                if (BuscarMovimientoPersonalDiario.FinalizaAsistencia==null)
                                 {
-                                    Cedula = item,
-                                    CodLinea = BuscarEmpleadoDataL.LINEA,//le pongo la linea, recurso, cargo y centro de costo del registro que encontro en Movimiento personal por que esta regresando a donde pertenecia
-                                    CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS,
-                                    CodCargo = BuscarEmpleadoDataL.CARGO,
-                                    Recurso = BuscarEmpleadoDataL.RECURSO,
-                                    FechaInicio = psfecha,
-                                    HoraInicio = psHora,
-                                    EstadoRegistro = clsAtributos.EstadoRegistroActivo,
-                                    FechaIngresoLog = DateTime.Now,
-                                    UsuarioIngresoLog = psusuario,
-                                    TerminalIngresoLog = psterminal,
-                                    Asistencia = false,
-                                    Turno=psTurno
-                                });
+                                    //modifico el registro de asistencia, lo actualizo con fecha y hora fin
+                                    BuscarMovimientoPersonalDiario.HoraFin = psHora;
+                                    BuscarMovimientoPersonalDiario.FechaFin = psfecha;
+                                    BuscarMovimientoPersonalDiario.UsuarioModificacionLog = psusuario;
+                                    BuscarMovimientoPersonalDiario.FechaModificacionLog = DateTime.Now;
+                                    BuscarMovimientoPersonalDiario.TerminalModificacionLog = psterminal;
+                                    //Creo un nuevo registro en movimiento_personal para poder generar la finalizacion de la asistencia de la linea a la que retorno el empleado
+                                    poTurnoEmpleado = db.EMPLEADO_TURNO.Where(x => x.Cedula == item).FirstOrDefault();
+                                    psTurno = poTurnoEmpleado == null ? clsAtributos.TurnoUno : poTurnoEmpleado.Turno;//consulto el turno al que pertenece el empleado
+                                    db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO
+                                    {
+                                        Cedula = item,
+                                        CodLinea = BuscarEmpleadoDataL.LINEA,//le pongo la linea, recurso, cargo y centro de costo del registro que encontro en Movimiento personal por que esta regresando a donde pertenecia
+                                        CentroCosto = BuscarEmpleadoDataL.CENTRO_COSTOS,
+                                        CodCargo = BuscarEmpleadoDataL.CARGO,
+                                        Recurso = BuscarEmpleadoDataL.RECURSO,
+                                        FechaInicio = psfecha,
+                                        HoraInicio = psHora,
+                                        EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                                        FechaIngresoLog = DateTime.Now,
+                                        UsuarioIngresoLog = psusuario,
+                                        TerminalIngresoLog = psterminal,
+                                        Asistencia = false,
+                                        Turno = psTurno
+                                    });
 
-                                //, Recurso=psRecurso});
-                                //ListMovimientopersonalDiario.Add(new MOVIMIENTO_PERSONAL_DIARIO {Cedula=item,CodLinea=psLinea, CentroCosto=psCentroCosto, CodCargo=psCargo
-                                //, Recurso=psRecurso});
+                                    //, Recurso=psRecurso});
+                                    //ListMovimientopersonalDiario.Add(new MOVIMIENTO_PERSONAL_DIARIO {Cedula=item,CodLinea=psLinea, CentroCosto=psCentroCosto, CodCargo=psCargo
+                                    //, Recurso=psRecurso});
+                                }
+
                             }
                             db.SaveChanges();
                         }
+                        
                         //**
                         string[] CedulasArray = listCedulas.ToArray();
                         //Traigo la lista de Cambio_personal que hay que actualizar para regresar
@@ -382,7 +438,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             string mensaje = string.Empty;
                             foreach (var item in NoSePudieornRegresar)
                             {
-                                mensaje += item + " No se pudo regresar por que la fecha de Fin debe ser mayor a la Fecha de inicio \n";
+                                //mensaje += item + " No se pudo regresar por que la fecha de Fin debe ser mayor a la Fecha de inicio \n";
+                                mensaje += item;
                             }
                             return mensaje;
                         }

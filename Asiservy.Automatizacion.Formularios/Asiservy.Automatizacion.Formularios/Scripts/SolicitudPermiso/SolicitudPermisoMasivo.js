@@ -95,9 +95,10 @@ function Guardar() {
 
     $("input[type=checkbox]:checked").each(function (resultado) {
         id = $(this).attr("id");
-        this.id = id.replace('Empleado-', '');
-        if (id != "Empleado") {
-            result.push(this.id);
+        id = id.replace('Empleado-', '');
+       // console.log(id);
+        if (id != "Empleado" && id != "switchHoraFecha") {            
+            result.push(id);
         }
     });
        

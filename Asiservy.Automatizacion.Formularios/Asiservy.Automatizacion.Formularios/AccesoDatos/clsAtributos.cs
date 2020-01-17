@@ -39,6 +39,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int RolRRHH = 9;
         public static int RolMedico = 6;
         public static int RolCamara = 26;
+        public static int RolPouch = 40;
+        public static int RolEnlatado = 27;
         public static int AsistenteProduccion = 16;
 
         //Codigos de Lineas
@@ -76,6 +78,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string EstadoFalta = "3";
         public static string EstadoAtraso = "2";
 
+        //Asistencia Origen donde se genera
+        public static string Procesos = "PRO";
+        public static string Prestado = "PRE";
 
         //Clasificador de colores de cuchillos
         public static string CodigoGrupoColorCuchillo = "003";
@@ -204,5 +209,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //Clasificador de Grupo de Correos electronicos para solicitud aprobada.
         public static string CodigoGrupoCorreosElectronicosCopias = "023";
 
+
+        //CLASIFICADOR DE CONSUMO DETALLE DANIADO
+        public static string CodigoGrupoConsumoDaniadoLata = "024";
+        public static string CodigoGrupoConsumoDaniadoPouch = "025";
+
+
+        //CLASIFICADOR DE TIPO DE TIEMPOS MUERRTOS
+        public static string CodigoGrupoTipoTiemposMuertos = "026";
     }
 }

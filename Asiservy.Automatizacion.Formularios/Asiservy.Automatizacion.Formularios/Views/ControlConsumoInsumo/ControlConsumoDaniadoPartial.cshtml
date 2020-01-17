@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaConsumoEnvasesFundas>
+@using Newtonsoft.Json;
+<table class="table table-striped">
+    <tr>
+        <th>
+            Tipo
+        </th>
+        @if (ViewBag.LineaNegocio == "ENLATADO")
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.Latas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tapas)
+            </th>
+
+        }
+        else
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.Fundas)
+            </th>
+
+        }
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoConsumo)
+            </td>
+            @if (ViewBag.LineaNegocio == "ENLATADO")
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Latas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tapas)
+                </td>
+
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fundas)
+                </td>
+
+            }
+
+
+
+            <td>
+                @{string json = JsonConvert.SerializeObject(item); }
+                <button class="btn btn-link" onclick="EditarConsumoDaniado(@json)">Editar</button>
+                |
+                <button class="btn btn-link" onclick="EliminarConsumoDaniado(@json)">Eliminar</button>
+            </td>
+        </tr>
+    }
+
+</table>

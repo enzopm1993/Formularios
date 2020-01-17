@@ -12,28 +12,22 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class ASISTENCIA
+    public partial class CONSUMO_TIEMPO_MUERTO
     {
-        public int IdAsistencia { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
-        public string Cedula { get; set; }
-        public string EstadoAsistencia { get; set; }
+        public int IdTiempoMuertos { get; set; }
+        public int IdControlConsumoInsumos { get; set; }
+        public System.DateTime HoraPara { get; set; }
+        public Nullable<System.DateTime> HoraReinicio { get; set; }
+        public string Tipo { get; set; }
         public string Observacion { get; set; }
-        public Nullable<System.TimeSpan> Hora { get; set; }
         public string EstadoRegistro { get; set; }
-        public string Linea { get; set; }
-        public string Turno { get; set; }
-        public Nullable<System.DateTime> FechaCreacionLog { get; set; }
-        public string UsuarioCreacionLog { get; set; }
-        public string TerminalCreacionLog { get; set; }
+        public System.DateTime FechaIngresoLog { get; set; }
+        public string UsuarioIngresoLog { get; set; }
+        public string TerminalIngresoLog { get; set; }
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<System.TimeSpan> HoraSalida { get; set; }
-        public string CentroCostos { get; set; }
-        public string Recurso { get; set; }
-        public string Cargo { get; set; }
-        public Nullable<System.DateTime> FechaFin { get; set; }
-        public string Generado { get; set; }
+    
+        public virtual CONTROL_CONSUMO_INSUMO CONTROL_CONSUMO_INSUMO { get; set; }
     }
 }

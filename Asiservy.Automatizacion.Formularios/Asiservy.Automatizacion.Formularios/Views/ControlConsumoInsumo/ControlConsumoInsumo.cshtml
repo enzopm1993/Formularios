@@ -1,0 +1,659 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "ControlConsumoInsumo";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<h5>Control Consumo de Insumos</h5>
+@ViewBag.Linea
+<hr />
+<div class="row" id="divCabecera1">
+    <div class="col-md-4 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarControlConsumo()" id="txtFecha" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-4 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Turno</label>
+            <select class="form-control" id="selectTurno" onchange="CargarControlConsumo()">
+                <option value="0">Seleccione</option>
+                <option value="1">Turno 1</option>
+                <option value="2">Turno 2</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4 col-12  text-md-left text-center">
+        <label class="">Acciones</label>
+
+        <div class="form-group">
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControl(false)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button hidden data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalEliminar" onclick="ModalEliminarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalEditar" onclick="ModalGenerarControl(true)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/edit24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>
+        </div>
+    </div>
+
+</div>
+<hr />
+<div class="d-flex justify-content-center">
+    <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div id="divCabecera2" hidden>
+    <div class="card shadow">
+        <div class="card-body">
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
+
+<div id="divDetalleProceso" hidden>
+    <div class="row">
+        <div class="col-md-6 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControlDetalle()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            <h4>Datos del Proceso</h4>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableDetalle" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerarDaniado" onclick="ModalGenerarDanadio()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            @if (ViewBag.LineaNegocio == "ENLATADO")
+                            {
+                                <h4>Mermas de Envases </h4>
+                            }
+                            else
+                            {
+                                <h4>Mermas de Fundas</h4>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoDaniados" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableDaniados" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerarAditivos" onclick="ModalGenerarAditivos()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            <h4>Aditivos</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoAditivos" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableAditivos" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerarTiemposMuertos" onclick="ModalGenerarTiemposMuertos()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            <h4>Tiempos Muertos</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoTiemposMuertos" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableTiemposMuertos" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<div class="modal" tabindex="-1" id="ModalGenerarControl" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Control Consumo de Insumos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdControlConsumo" name="name" value="0" />
+                    <input type="hidden" id="txtLineaNegocio" name="name" value="@ViewBag.LineaNegocio" />
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Orden Fabricación</label>
+                            @*<input class="form-control" id="txtOrdenFabricacion" type="text" name="name" value="0" />*@
+                            @Html.DropDownList("txtOrdenFabricacion", new SelectList(ViewBag.OrdenesFabricacion, "ORDEN_FABRICACION", "ORDEN_FABRICACION"), "seleccione", new { @class = "form-control", @Onchange = "CargarDatosOrdenFabricacion()" })
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Orden Venta</label>
+                            <input class="form-control" id="txtOrdenVenta" disabled type="text" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Hora Inicio</label>
+                            <input class="form-control" id="txtHoraInicio" type="datetime-local" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Hora Fin</label>
+                            <input class="form-control" id="txtHoraFin" type="datetime-local" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Peso Neto</label>
+                            <input class="form-control" id="txtPesoNeto" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Peso Escurrido</label>
+                            <input class="form-control" id="txtPesoEscrundido" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Lomo</label>
+                            <input class="form-control" id="txtLomo" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Miga</label>
+                            <input class="form-control" id="txtMiga" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Aceite(g)</label>
+                            <input class="form-control" id="txtAceite" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Agua(g)</label>
+                            <input class="form-control" id="txtAgua" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Caldo Vegetal(g)</label>
+                            <input class="form-control" id="txtCaldoVegetal" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Desperdicio Solido</label>
+                            <input class="form-control" id="txtDesperdicioSolido" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Desperdicio Liquido</label>
+                            <input class="form-control" id="txtDesperdicioLiquido" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Desperdicio Aceite</label>
+                            <input class="form-control" id="txtDesperdicioAceite" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Empleados</label>
+                            <input class="form-control" id="txtEmpleados" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Cajas</label>
+                            <input class="form-control" id="txtCajas" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Observacion</label>
+                            <textarea class="form-control" cols="12" id="txtObservacion" maxlength="250" type="text" name="name" value=""></textarea>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarControlConsumo()" id="btnGenerarControlConsumo">Generar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@* DETALLE DE PROCESO DE CONTROL DE CONSUMO *@
+<div class="modal" tabindex="-1" id="ModalGenerarControlDetalle" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Control Consumo de Insumos @ViewBag.LineaNegocio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdControlDetalleProceso" name="name" value="0" />
+                    <div class="col-md-6 col-6 col-sm-6">
+                        @if (ViewBag.LineaNegocio == "ENLATADO")
+                        {
+                            <label>Pallet </label>
+                        }
+                        else
+                        {
+                            <label>Cajas</label>
+                        }
+                        <input type="number" id="txtPallet" name="name" value="0" min="0" class="form-control" />
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Lote</label>
+                        <input type="text" id="txtLote" class="form-control" name="name" value="" />
+                    </div>
+
+                    @if (ViewBag.LineaNegocio == "ENLATADO")
+                    {
+                        <div class="col-md-6 col-6 col-sm-6">
+                            <label>Bultos</label>
+                            <input type="number" min="0" id="txtBulto" class="form-control" name="name" value="" />
+                        </div>
+                    }
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Fecha Fabricación</label>
+                        <input type="date" id="txtFechaFabricacion" class="form-control" name="name" value="" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarConsumoDetalle()" id="btnGenerarControlConsumoDetalle">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminar" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Todo el Control de Consumo Insumos</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarProcesoDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarProcesoDetalle" name="name" value="0" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelDetalle">Esta seguro de Eliminar?</h4>
+
+            </div>
+            <div class="modal-body">
+                <h5 id="pModalDetalle"></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-Detalle-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-Detalle-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@* CONSUMO DE ENVASES  *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarConsumoDaniado">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarProcesoDaniado" name="name" value="0" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelDaniado">Esta seguro de Eliminar?</h4>
+
+            </div>
+            <div class="modal-body">
+                <h5 id="pModalDaniado"></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-Daniado-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-Daniado-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" id="ModalConsumoDaniado" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @if (ViewBag.LineaNegocio == "ENLATADO")
+                {
+                    <h4>Consumo de Envases </h4>
+                }
+                else
+                {
+                    <h4>Consumo de Fundas</h4>
+                }
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdConsumoDaniado" name="name" value="0" />
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <label>Motivo</label>
+                        @Html.DropDownList("selectDaniado", new SelectList(ViewBag.Daniado, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                    </div>
+
+                    @if (ViewBag.LineaNegocio == "ENLATADO")
+                    {
+                        <div class="col-md-6 col-6 col-sm-6">
+                            <label>Latas</label>
+                            <input type="number" min="0" id="txtLatas" class="form-control" name="name" value="" />
+                        </div>
+
+                        <div class="col-md-6 col-6 col-sm-6">
+                            <label>Tapas</label>
+                            <input type="number" min="0" id="txtTapas" class="form-control" name="name" value="" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-6 col-6 col-sm-6">
+                            <label>Fundas</label>
+                            <input type="number" min="0" id="txtFundas" class="form-control" name="name" value="" />
+                        </div>
+                    }
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarConsumoDaniado()" id="">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* CONSUMO DE ADITIVOS *@
+<div class="modal" tabindex="-1" id="ModalConsumoAditivos" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Consumo Aditivos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdConsumoAditivos" name="name" value="0" />
+                    <div class="col-6 col-sm-12 col-md-12">
+                        <label>Aditivo</label>
+                        <select>
+                            <option value="value">text</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <label>Peso</label>
+                        <input type="number" id="txtPesoAditivo" class="form-control" min="0" name="name" value="0" />
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <label>Lote</label>
+                        <input type="text" id="txtPesoAditivo" class="form-control" name="name" value="" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarConsumoAditivos()" id="">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarAditivos">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarAditivos" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelAditivos">Eliminar Tiempo Muerto?</h4>
+            </div>
+            <div class="modal-body">
+                <p id="pModalAditivos"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-Aditivos-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-Aditivos-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@* TIEMPOS MUERTOS *@
+
+<div class="modal" tabindex="-1" id="ModalConsumoTiemposMuertos" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Tiempos Muertos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdConsumoTiemposMuertos" name="name" value="0" />
+                    <div class="col-6 col-sm-12 col-md-12">
+                        <label>Hora Para</label>
+                        <input type="datetime-local" id="txtHoraPara" class="form-control" name="name" value="" />
+                    </div>
+                    <div class="col-6 col-sm-12 col-md-12">
+                        <label>Hora Reinicio</label>
+                        <input type="datetime-local" id="txtHoraReinicio" class="form-control" name="name" value="" />
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <label>Tipo</label>
+                        @Html.DropDownList("selectTipoTiemposMuertos", new SelectList(ViewBag.TipoTiemposMuertos, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <label>Observación</label>
+                        <textarea id="txtObservacionTiemposMuertos" class="form-control"></textarea>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarConsumoTiemposMuertos()" id="">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarTiemposMuertos">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarTiemposMuertos" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelTiemposMuertos">Eliminar Tiempo Muerto?</h4>
+            </div>
+            <div class="modal-body">
+                <p id="pModalTiemposMuertos"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-TiemposMuertos-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-TiemposMuertos-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

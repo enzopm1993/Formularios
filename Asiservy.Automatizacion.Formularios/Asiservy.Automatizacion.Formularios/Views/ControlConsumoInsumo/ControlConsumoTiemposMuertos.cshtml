@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaConsumoTiempoMuerto>
+@using Newtonsoft.Json;
+
+
+<table class="table table-light table-striped">
+    <thead class="">
+        <tr>
+            <th>
+                Para
+            </th>
+            <th>
+                Reinicio
+            </th>
+            <th>
+                Tipo
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+
+            <th></th>
+        </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{ 
+                        if (item.HoraPara != null)
+                        {
+                            var HoraPara = item.HoraPara.ToString("HH:mm");
+                            @HoraPara
+                        }
+                    }                    
+                </td>
+                <td>
+                    @{
+                        if (item.HoraReinicio != null)
+                        {
+                            var HoraPara = item.HoraReinicio.Value.ToString("HH:mm");
+                            @HoraPara
+                        }
+                    }
+                   
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+
+                <td>
+                    @{string json = JsonConvert.SerializeObject(item); }
+                    <button class="btn btn-link" onclick="EditarConsumoTiemposMuertos(@json)">Editar</button>
+                    |
+                    <button class="btn btn-link" onclick="EliminarConsumoTiemposMuertos(@json)">Eliminar</button>
+                </td>
+            </tr>
+        }
+
+</table>

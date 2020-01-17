@@ -182,38 +182,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-        //public JsonResult VerificarPrestados(string CodLinea, DateTime? Fecha, TimeSpan? Hora)
-        //{
-        //    try
-        //    {
-        //        clsDAsistencia = new clsDAsistencia();
-        //        var respuesta = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea, Fecha, Hora);
-        //        if (respuesta.Count > 0)
-        //        {
-        //            return Json(true, JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            return Json(false, JsonRequestBehavior.AllowGet);
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        clsDError.GrabarError(new ERROR
-        //        {
-        //            Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            Mensaje = ex.Message,
-        //            Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-        //            FechaIngreso = DateTime.Now,
-        //            TerminalIngreso = Request.UserHostAddress,
-        //            UsuarioIngreso = "sistemas"
-        //        });
-        //        return Json(ex.Message, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+       
         public ActionResult ModalPrestados(DateTime Fecha, TimeSpan Hora)
         {
             try
@@ -223,18 +192,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("888", JsonRequestBehavior.AllowGet);
                 }
-                //clsDAsistencia = new clsDAsistencia();
-                //var respuesta = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea, Fecha, Hora);
-                //if (respuesta.Count > 0)
-                //{
-                //    return Json(true, JsonRequestBehavior.AllowGet);
-                //}
-                //else
-                //{
-                //    return Json(false, JsonRequestBehavior.AllowGet);
-                //}
-                //ViewBag.Linea = CodLinea;
-                //ViewBag.bandera = bandera;
+                
                 clsDAsistencia = new clsDAsistencia();
                 clsDEmpleado = new clsDEmpleado();
                 liststring = User.Identity.Name.Split('_');
@@ -287,7 +245,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 liststring = User.Identity.Name.Split('_');
                 string CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
-                var respuesta = clsDAsistencia.ConsultaPersonalMovidoaLinea(CodLinea, Fecha, Hora);
+                var respuesta = clsDAsistencia.ConsultaPersonalMovidoaLineaModal(CodLinea, Fecha, Hora);
                 ViewBag.ListaEmpleadosPres = respuesta;
                 if (respuesta.Count > 0)
                 {
@@ -315,35 +273,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-        //public ActionResult ModalPrestados()
-        //{
-        //    try
-        //    {
-        //        //ViewBag.Linea = CodLinea;
-        //        //ViewBag.bandera = bandera;
-        //        clsDAsistencia = new clsDAsistencia();
-        //        clsDEmpleado = new clsDEmpleado();
-        //        liststring = User.Identity.Name.Split('_');
-        //        string CodLinea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
-        //        ViewBag.ListaEmpleadosPres = clsDAsistencia.ConsultaPrestadosxLinea(CodLinea);
-        //        return PartialView();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        clsDError.GrabarError(new ERROR
-        //        {
-        //            Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            Mensaje = ex.Message,
-        //            Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
-        //            FechaIngreso = DateTime.Now,
-        //            TerminalIngreso = Request.UserHostAddress,
-        //            UsuarioIngreso = "sistemas"
-        //        });
-        //        return Json(ex.Message, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
         public ActionResult ModalObservacion()
         {
             try
@@ -569,7 +498,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 clsDAsistencia = new clsDAsistencia();
                 //falta modificar el script para enbviar fecha y hora
-                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[1], Request.UserHostAddress, turno, Fecha, HoraServidor);
+                var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[0], Request.UserHostAddress, turno, Fecha, HoraServidor);
 
                 return PartialView(AsistenciaViewModel);
             }
