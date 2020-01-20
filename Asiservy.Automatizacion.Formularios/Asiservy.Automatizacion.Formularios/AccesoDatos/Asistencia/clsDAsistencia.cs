@@ -76,14 +76,34 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 var Asistencia = db.ASISTENCIA.FirstOrDefault(x => x.IdAsistencia == model.IdAsistencia);
                 if (Asistencia != null)
                 {
-                    Asistencia.Hora = model.Hora;
-                    Asistencia.EstadoAsistencia = model.EstadoAsistencia;
-                    Asistencia.Observacion = model.Observacion;
-                    Asistencia.FechaModificacionLog = DateTime.Now;
-                    Asistencia.UsuarioModificacionLog = model.UsuarioCreacionLog;
-                    Asistencia.TerminalModificacionLog = model.TerminalCreacionLog;
-                    db.SaveChanges();
-                    return clsAtributos.MsjRegistroGuardado;
+                    //Asistencia.Hora = model.Hora;
+                    //Asistencia.EstadoAsistencia = model.EstadoAsistencia;
+                    //Asistencia.Observacion = model.Observacion;
+                    //Asistencia.FechaModificacionLog = DateTime.Now;
+                    //Asistencia.UsuarioModificacionLog = model.UsuarioCreacionLog;
+                    //Asistencia.TerminalModificacionLog = model.TerminalCreacionLog;
+                    //db.SaveChanges();
+
+                   
+                    string Resultado = ActualizarAsistencia(new ASISTENCIA
+                    {
+                        Cedula = Asistencia.Cedula,
+                        Hora = model.Hora,
+                        Observacion = model.Observacion,
+                        EstadoAsistencia = model.EstadoAsistencia,
+                        UsuarioModificacionLog = model.UsuarioCreacionLog,
+                        TerminalModificacionLog = model.TerminalCreacionLog,
+                        FechaModificacionLog = DateTime.Now,
+                        Fecha = Asistencia.Fecha,
+                        CentroCostos = Asistencia.CentroCostos,
+                        Recurso = Asistencia.Recurso,
+                        Linea = Asistencia.Linea,
+                        Cargo = Asistencia.Cargo,
+                        Turno = Asistencia.Turno,
+                        EstadoRegistro = clsAtributos.EstadoRegistroActivo
+                    });
+                    return Resultado;
+                    //return clsAtributos.MsjRegistroGuardado;
                 }
                 else
                 {

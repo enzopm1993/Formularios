@@ -1,4 +1,15 @@
-﻿function CerrarModalMensaje() {
+﻿function destruirDataTable() {
+    $('#tblDataTable').DataTable().destroy();
+}
+function construirDataTable() {
+    $('#tblDataTable').DataTable(config.opcionesDT);
+}
+
+function cerrarmodalconfirm() {
+    $('#ModalMensajeCP').modal('hide');
+    ConsultarEmpleados();
+}
+function CerrarModalMensaje() {
     //javascript: window.location.reload();
     if ($('#mensajefeed').val() == '1000') {
         window.location.reload();
@@ -22,13 +33,18 @@ function MoverEmpleados() {
     //**
     if ($('#optcambiaremp').val() == 'prestar') {
         if ($('#selectLinea').val() != "" && $('#SelectArea').val() != "" && $('#SelectRecurso').val() != "" && $('#SelectCargo').val() != ""
-            && $('#txtFechaInicio').val() != "" && (($('#horaswitch').prop('checked')==false) || ($('#txtHoraInicio').val()!=""))) {
+            && $('#txtFechaInicio').val() != "" && (($('#horaswitch').prop('checked') == false) || ($('#txtHoraInicio').val() != ""))) {
+            //var valortable = ('#tblDataTable').val();
+            //console.log(valortable);
+            destruirDataTable();
+            
             $("input[type=checkbox]:checked").each(function (resultado) {
                 id = $(this).attr("id");
                 this.id = id.replace('Empleado-', '');
                 result.push(this.id);
                 i++;
             });
+            construirDataTable();
             //console.log(result);
             Mover(result);
         } else {
