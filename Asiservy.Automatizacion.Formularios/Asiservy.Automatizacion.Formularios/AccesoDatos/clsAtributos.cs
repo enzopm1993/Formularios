@@ -149,10 +149,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //Clasificador Nivel Usuario
         public static string CodigoGrupoNivelUsuario = "011";
-        public static int NivelEmpleado = 3;
-        public static int NivelJefe = 2;
-        public static int NivelJefatura = 1;
-        public static int NivelGerencia = 0;
+        public static int NivelEmpleado = 5;
+        public static int NivelSubJefe = 4;
+        public static int NivelJefe = 3;
+        public static int NivelSubGerencia = 2;
+        public static int NivelGerencia = 1;
 
         //Clasificador Funda
         public static string CodigoGrupoFunda = "012";

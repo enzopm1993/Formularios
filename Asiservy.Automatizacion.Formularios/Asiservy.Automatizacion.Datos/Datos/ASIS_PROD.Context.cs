@@ -1123,5 +1123,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoTiempoMuerto>("spConsultaConsumoTiempoMuerto", idControlParameter);
         }
+    
+        public virtual ObjectResult<spConsultaSolicitudesPendientesAprobar> spConsultaSolicitudesPendientesAprobar(string cEDULA)
+        {
+            var cEDULAParameter = cEDULA != null ?
+                new ObjectParameter("CEDULA", cEDULA) :
+                new ObjectParameter("CEDULA", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaSolicitudesPendientesAprobar>("spConsultaSolicitudesPendientesAprobar", cEDULAParameter);
+        }
     }
 }

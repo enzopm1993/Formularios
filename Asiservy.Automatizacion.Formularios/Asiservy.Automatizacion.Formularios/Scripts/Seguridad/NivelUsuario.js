@@ -24,12 +24,17 @@ function Nuevo() {
 
 }
 
-function SeleccionNivelUsuario(id, usuario, nivel, estado) {
-    console.log(id, usuario, nivel, estado);
+function SeleccionNivelUsuario(id, usuario, nivel, estado, UsuarioAprueba) {
+    console.log(id, usuario, nivel, estado, UsuarioAprueba);
     $('#IdNivelUsuario').val(id);
     $('#IdUsuario').val(usuario);
     $('#Nivel').val(nivel);
-
+    if (nivel == '4') {
+        $("#divUsuarioAprueba").prop("hidden", false);
+        $("#UsuarioAprueba").val(UsuarioAprueba);
+    } else {
+        $("#divUsuarioAprueba").prop("hidden", true);
+    }
 
     if (estado == 'A') {
         $('#CheckEstadoRegistro').prop('checked', true);
@@ -56,4 +61,13 @@ function CargarNivelUsuario() {
             MensajeError(resultado, false);
         }
     });
+}
+
+function CambioNivel() {
+    if ($("#Nivel").val() == '4') {
+        $("#divUsuarioAprueba").prop("hidden", false);
+    } else {
+        $("#divUsuarioAprueba").prop("hidden", true);
+    }
+
 }
