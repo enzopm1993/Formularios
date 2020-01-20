@@ -97,7 +97,7 @@
             @Html.TextBoxFor(m => m.FechaRegreso, new { @type = "date", @id = "dateRegreso", @class = "form-control" })
 
         </div>
-        
+
 
     </div>
     <p hidden class="text-danger" id="ValidaFecha">Ingrese un rango de fecha</p>
@@ -105,7 +105,7 @@
     <br />
     <div class="row">
         <div class=" text-center col-12">
-            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="Guardar()" style="border-color:#2c3e50" type="button">
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/send24.png" />
             </button>
             <div id="spinnerCargando" hidden class="text-center">
@@ -120,5 +120,22 @@
     <br />
     <div class="text-center" style="max-height:250px">
         <h3 id="h3Mensaje"></h3>
+    </div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="modal-btn-si">Si</button>
+                <button type="button" class="btn btn-primary" id="modal-btn-no">No</button>
+            </div>
+        </div>
     </div>
 </div>

@@ -76,7 +76,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDGeneral = new clsDGeneral();
                 lsUsuario = User.Identity.Name.Split('_');
                 ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(lsUsuario[1]);
-                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente, lsUsuario[1]);
+                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPendiente(lsUsuario[1]);
                 return PartialView(ListaSolicitud);
             }
             catch (DbEntityValidationException e)
