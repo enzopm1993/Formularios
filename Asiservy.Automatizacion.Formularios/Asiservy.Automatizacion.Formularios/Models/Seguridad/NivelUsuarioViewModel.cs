@@ -19,7 +19,8 @@ namespace Asiservy.Automatizacion.Formularios.Models.Seguridad
         [Required(ErrorMessage ="Campo Requerido")]
         public Nullable<int> Nivel { get; set; }
         public string DescripcionNivel { get; set; }
-
+        public string UsuarioAprueba { get; set; }
+        
         public string EstadoRegistro { get; set; }
     }
 }

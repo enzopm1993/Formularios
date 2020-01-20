@@ -403,6 +403,49 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             return ListaSolicitudesPermiso;
         }
 
+        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPendiente(string dsIdUsuario)
+        {
+            entities = new ASIS_PRODEntities();
+            clsApiUsuario = new clsApiUsuario();
+            List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
+            var ListaPreliminar = entities.spConsultaSolicitudesPendientesAprobar(dsIdUsuario).ToList();
+            var ListaMotivoPermiso = this.ConsultarMotivos(null).ToList();
+            foreach (var x in ListaPreliminar)
+            {
+                var poMotivoPermiso = ListaMotivoPermiso.FirstOrDefault(y => y.CodigoMotivo == x.CodigoMotivo);
+                  ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
+                {
+
+                    IdSolicitudPermiso = x.IdSolicitudPermiso??0,
+                    CodigoLinea = x.CodigoLinea,
+                    DescripcionLinea = x.Linea,
+                    CodigoArea = x.CodigoArea,
+                    DescripcionArea = x.Area,
+                    CodigoCargo = x.CodigoCargo,
+                  //  DescripcionCargo = x.ca,
+                    Identificacion = x.Identificacion,
+                    NombreEmpleado = x.Nombre,
+                    CodigoMotivo = x.CodigoMotivo,
+                    DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.DescripcionMotivo : "",
+                    Observacion = x.Observacion,
+                    FechaSalida = x.FechaSalida,
+                    FechaRegreso = x.FechaRegreso,
+                    EstadoSolicitud = x.EstadoSolcitud,
+                    FechaBiometrico = x.FechaBiometrico,
+                    //Origen = x.,
+                    //CodigoDiagnostico = x.c,
+                   // ValidaMedico = x.ValidaMedico,
+                    FechaIngresoLog = x.FechaIngresoLog,
+                    UsuarioIngresoLog = x.UsuarioIngresoLog,
+                    TerminalIngresoLog = x.TerminalIngresoLog,
+                    UsuarioModificacionLog = x.UsuarioModificacionLog,
+                    FechaModificacionLog = x.FechaModificacionLog,
+                    TerminalModificacionLog = x.TerminalModificacionLog
+                });
+            }
+            return ListaSolicitudesPermiso;
+        }
+
         public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermiso(string dsEstadoSolcitud, string dsIdUsuario)
         {
             entities = new ASIS_PRODEntities();
@@ -455,7 +498,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                               x.NivelBase == NivelUsuario.Nivel).Select(x => x.NivelAprobar).ToList();
 
                             //VALIDAMOS QUE SEAN JEFES O EMPLEADOS
-                            if (NivelUsuario.Nivel != clsAtributos.NivelGerencia && NivelUsuario.Nivel != clsAtributos.NivelJefatura)
+                            if (NivelUsuario.Nivel != clsAtributos.NivelGerencia && NivelUsuario.Nivel != clsAtributos.NivelSubGerencia)
                             {
                                
                                 ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x =>
@@ -465,7 +508,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                                 && ListaLineas.Contains(x.CodigoLinea)).ToList();
                             }
                             //VALIDAMOS QUE SEA GERENCIA
-                            else if (NivelUsuario.Nivel != clsAtributos.NivelJefatura)
+                            else if (NivelUsuario.Nivel != clsAtributos.NivelSubGerencia)
                             {
 
                                 ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x =>
@@ -609,7 +652,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                               x.NivelBase == NivelUsuario.Nivel).Select(x => x.NivelAprobar).ToList();
 
                             //VALIDAMOS QUE SEAN JEFES O EMPLEADOS
-                            if (NivelUsuario.Nivel != clsAtributos.NivelGerencia && NivelUsuario.Nivel != clsAtributos.NivelJefatura)
+                            if (NivelUsuario.Nivel != clsAtributos.NivelGerencia && NivelUsuario.Nivel != clsAtributos.NivelSubGerencia)
                             {
 
                                 ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x =>
@@ -619,7 +662,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                                 && ListaLineas.Contains(x.CodigoLinea)).ToList();
                             }
                             //VALIDAMOS QUE SEA GERENCIA
-                            else if (NivelUsuario.Nivel != clsAtributos.NivelJefatura)
+                            else if (NivelUsuario.Nivel != clsAtributos.NivelSubGerencia)
                             {
 
                                 ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x =>

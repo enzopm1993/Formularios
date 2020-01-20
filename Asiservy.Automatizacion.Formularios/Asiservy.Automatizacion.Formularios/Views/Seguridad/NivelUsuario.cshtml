@@ -3,7 +3,11 @@
 @{
     ViewBag.Title = "NivelUsario";
 }
-
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 
 @using (Html.BeginForm())
 {
@@ -16,7 +20,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
 
-            <div class="col-md-2 col-sm-12">
+            <div class="col-md-3 col-sm-12">
                 <div class="form-group">
                     @Html.Label("Id", htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.TextBox("IdNivelUsuario", "0", new { @class = "form-control", @readonly = "readonly", @value = "0" })
@@ -31,11 +35,19 @@
                 </div>
             </div>
 
-            <div class="col-md-4 col-sm-12">
+            <div class="col-md-3 col-sm-12">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Nivel, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownListFor(model => model.Nivel, new SelectList(ViewBag.Nivel, "codigo", "descripcion"), "Seleccione", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Nivel, new SelectList(ViewBag.Nivel, "codigo", "descripcion"), "Seleccione", new { @class = "form-control",@onchange="CambioNivel()" })
                     @Html.ValidationMessageFor(model => model.Nivel, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12" id="divUsuarioAprueba" hidden>
+                <div class="form-group">
+                    <label class="control-label col-md-12">Aprueba</label>
+                    @Html.DropDownListFor(model => model.UsuarioAprueba, new SelectList(ViewBag.ListaUsuarios, "IdUsuario", "Usuario"), "Seleccione", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.UsuarioAprueba, "", new { @class = "text-danger" })
+
                 </div>
             </div>
         </div>

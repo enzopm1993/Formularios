@@ -34,7 +34,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                              EstadoRegistro = q.EstadoRegistro,
                              Nivel = q.Nivel,
                              DescripcionNivel =n.Descripcion,
-                             Usuario= e.NOMBRES
+                             Usuario= e.NOMBRES,
+                             UsuarioAprueba =q.CedulaAprueba
 
                             }).ToList();
                 
@@ -53,6 +54,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                 
                 if (poNivelUsuario != null)
                 {
+                    poNivelUsuario.CedulaAprueba = doNivelUsuario.CedulaAprueba;
                     poNivelUsuario.Nivel = doNivelUsuario.Nivel;
                     poNivelUsuario.EstadoRegistro = doNivelUsuario.EstadoRegistro;
                     poNivelUsuario.FechaModificacionLog = doNivelUsuario.FechaModificacionLog;
