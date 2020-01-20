@@ -2,11 +2,11 @@
     CargarUsuarioRol();
     NuevoUsuarioRol();
     $('#IdUsuario2').select2({
-        width: 'resolve' 
+        width: '100%' 
     });
     
     $('#IdRol2').select2({
-        width: 'resolve' 
+        width: '100%' 
     });
    
 });
@@ -14,8 +14,8 @@
 
 function NuevoUsuarioRol() {
     $('#IdUsuarioRol').val('0');   
-    $('#IdUsuario2').prop('selectedIndex', 0);
-    $('#IdRol2').prop('selectedIndex', 0);   
+    $('#IdUsuario2').prop('selectedIndex', 0).trigger('change');
+    $('#IdRol2').prop('selectedIndex', 0).trigger('change');   
     $('#IdUsuario').val('');
     $('#IdRol').val('');
     $('#IdUsuario2').prop('disabled',false);
@@ -27,12 +27,12 @@ function NuevoUsuarioRol() {
 
 function SelectUsuario() {
     if ($('#IdUsuario2').val() == "") {
-        MensajeAdvertencia("Usuario no tiene registrado una cedula", false);
+     //   MensajeAdvertencia("Usuario no tiene registrado una cedula", false);
         $('#IdUsuario2').val('');
-        $('#IdUsuario2').prop('selectedIndex', 0);
+        $('#IdUsuario2').prop('selectedIndex', 0).trigger('change');
 
     } else {
-        $('#IdUsuario').val($('#IdUsuario2').val());
+        $('#IdUsuario').val($('#IdUsuario2').val()).trigger('change');
 
     }
 }
@@ -48,8 +48,8 @@ function SeleccionUsuarioRol(id,usuario,rol,estado) {
     $('#IdUsuarioRol').val(id);
     $('#IdUsuario').val(usuario);
     $('#IdRol').val(rol);
-    $('#IdUsuario2').val(usuario);
-    $('#IdRol2').val(rol);
+    $('#IdUsuario2').val(usuario).trigger('change');
+    $('#IdRol2').val(rol).trigger('change');
     $('#IdUsuario2').prop('disabled', true);
     $('#IdRol2').prop('disabled', true);
     if (estado == 'A') {

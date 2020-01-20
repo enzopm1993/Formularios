@@ -438,7 +438,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                ViewBag.Select2 = "1";
                 CargarCombosOpcionRol();
                 return View();
             }

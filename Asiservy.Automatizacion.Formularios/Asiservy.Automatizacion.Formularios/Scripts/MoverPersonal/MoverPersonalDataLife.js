@@ -1,4 +1,21 @@
-﻿function ConsultarEmpleados() {
+﻿$(document).ready(function () {
+
+    $('#SelectAreaOrigen').select2();
+    $('#SelectRecursoOrigen').select2();
+    $('#SelectLineaOrigen').select2();
+    $('#SelectCargoOrigen').select2();
+
+    $('#SelectArea').select2();
+    $('#SelectRecurso').select2();
+    $('#SelectLinea').select2();
+    $('#SelectCargo').select2();
+
+    
+
+});
+
+
+function ConsultarEmpleados() {
     //ConsultarEmpleado = "ConsultarEmpleado";
 
     if ($('#SelectAreaOrigen').val() != "") {

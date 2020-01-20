@@ -1,4 +1,60 @@
-﻿function destruirDataTable() {
+﻿$(document).ready(function () {
+   
+    $('#SelectAreaRegresar').select2({
+        width: '100%'
+    });
+
+    $('#SelectRecursoRegresar').select2({
+        width: '100%'
+    });
+    $('#SelectLineaRegresar').select2({
+        width: '100%'
+    });
+
+    $('#SelectCargoRegresar').select2({
+        width: '100%'
+    });
+
+
+    $('#SelectAreaOrigen').select2({
+        width: '100%'
+    });
+
+    $('#SelectRecursoOrigen').select2({
+        width: '100%'
+    });
+    $('#SelectLineaOrigen').select2({
+        width: '100%'
+    });
+
+    $('#SelectCargoOrigen').select2({
+        width: '100%'
+    });
+
+
+
+    $('#SelectArea').select2({
+        width: '100%'
+    });
+
+    $('#SelectRecurso').select2({
+        width: '100%'
+    });
+    $('#SelectLinea').select2({
+        width: '100%'
+    });
+
+    $('#SelectCargo').select2({
+        width: '100%'
+    });
+
+
+});
+
+
+
+
+function destruirDataTable() {
     $('#tblDataTable').DataTable().destroy();
 }
 function construirDataTable() {

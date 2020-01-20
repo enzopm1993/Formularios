@@ -5,6 +5,14 @@
     //$('#IdOpcion').select2({
     //    width: 'resolve'
     //});
+    $("#IdRol").select2({
+        width: '100%' // need to override the changed default
+    });
+    $("#IdOpcion").select2({
+        width: '100%' // need to override the changed default
+    });
+    //$("#IdRol").select2();
+    //$("#IdOpcion").select2();
 });
 $.ajax({
     url: "../Seguridad/ConsultaOpcionRol",
@@ -26,10 +34,11 @@ function EditarFilaOpRol(IdOr, IdRol, IdOpcion, estado) {
     $('#IdOpcionh').val(IdOpcion);
     $('#IdOpcionRol').val(IdOr);
 
-    $("#IdRol").val(IdRol)
+    $('#IdRol').val(IdRol).trigger('change');
+   // $("#IdRol").val(IdRol)
     $('#IdRol').attr("disabled", true);
 
-    $("#IdOpcion").val(IdOpcion)
+    $("#IdOpcion").val(IdOpcion).trigger('change');
     $('#IdOpcion').attr("disabled", true);
     if (estado == 'A') {
         $("input[name=EstadoRegistro][value='A']").prop("checked", true);
