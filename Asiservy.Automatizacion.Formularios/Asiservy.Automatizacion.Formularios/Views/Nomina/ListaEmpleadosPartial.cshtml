@@ -2,27 +2,22 @@
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
-        <tr>      
+        <tr>
+            <th></th>
             <th>
                 <label>Cédula</label>
-
             </th>
             <th>
                 <label>Nombres</label>
             </th>
-            
             <th>
                 <label>Departamento</label>
-
             </th>
-           
             <th>
                 <label>Línea</label>
-
             </th>
             <th>
                 <label>Recurso</label>
-
             </th>
             <th>
                 <label>Estado SAP</label>
@@ -32,36 +27,42 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
+            <tr>
+                <td>
+                    @if (!item.EXISTE_SAP)
+                    {
+                        <input type="checkbox" data-cedula="@item.CEDULA" class="checkEmpleado" name="" />
+                    }
 
-            <td>
-                @Html.DisplayFor(modelItem => item.CEDULA)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NOMBRE_EMPLEADO)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DEPARTAMENTO)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LINEA)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RECURSO)
-            </td>
-            <td>
-                @if (!item.EXISTE_SAP)
-                {
-                    <a class="badge badge-success" href="#">Enviar a SAP</a>
-                }
-                else
-                {
-                    <label>Existe en SAP</label>
-                }
-            </td>
-        </tr>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CEDULA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NOMBRE_EMPLEADO)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DEPARTAMENTO)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LINEA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RECURSO)
+                </td>
+                <td>
+                    @if (!item.EXISTE_SAP)
+                    {
+                        <a class="badge badge-success enviarSap"  data-cedula="@item.CEDULA"  href="#">Enviar a SAP</a>
+                    }
+                    else
+                    {
+                        <label>Existe en SAP</label>
+                    }
+                </td>
+            </tr>
         }
-    </tbody>
+    </tbody>   
 
 </table>
 

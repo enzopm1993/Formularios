@@ -24,7 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                     result.HoraFin = control.HoraFin;
                     result.Observacion = control.Observacion;              
                     result.Turno = control.Turno;
-                    result.PesoEscurido = control.PesoEscurido;
+                    result.PesoEscrundido = control.PesoEscrundido;
                     result.PesoNeto = control.PesoNeto;
                     result.Lomo = control.Lomo;
                     result.Miga = control.Miga;
@@ -45,10 +45,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 }
                 else
                 {
-                    result.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                    result.FechaIngresoLog = DateTime.Now;
+                    control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                    control.FechaIngresoLog = DateTime.Now;
 
-                    entities.CONTROL_CONSUMO_INSUMO.Add(result);
+                    entities.CONTROL_CONSUMO_INSUMO.Add(control);
                  
                 }
 
@@ -196,11 +196,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
 
 
         #region CONSUMO DANIADO
-        public List<CONSUMO_DETALLE_DANIADO> ConsultaConsumoDaniado(int IdControl)
+        public List<spConsultaConsumoEnvasesFundas> ConsultaConsumoDaniado(int IdControl,string Tipo)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CONSUMO_DETALLE_DANIADO.Where(x => x.IdControlConsumoInsumos == IdControl && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                var lista = entities.spConsultaConsumoEnvasesFundas(IdControl, Tipo).ToList();
                 return lista;
             }
         }
@@ -208,7 +208,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var result = entities.CONSUMO_DETALLE_DANIADO.FirstOrDefault(x => x.IdConsumoDetalleDaniado == control.IdConsumoDetalleDaniado);
+                var result = entities.CONSUMO_DETALLE_DANIADO.FirstOrDefault(x => x.IdConsumoDetalleDaniado == control.IdConsumoDetalleDaniado || (x.IdControlConsumoInsumos==control.IdControlConsumoInsumos && x.Codigo==control.Codigo && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
                 if (result != null)
                 {
                     result.Latas = control.Latas;
@@ -245,6 +245,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
             }
         }
         #endregion
+
+        #region ADITIVOS
         public List<CONSUMO_DETALLE_ADITIVO> ConsultaConsumoDetalleAditivo(int IdControl)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -253,15 +255,98 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 return lista;
             }
         }
-
-        public List<CONSUMO_TIEMPO_MUERTO> ConsultaConsumoDetalleTiempoMuerto(int IdControl)
+        public RespuestaGeneral GuardarModificarAditivo(CONSUMO_DETALLE_ADITIVO control)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CONSUMO_TIEMPO_MUERTO.Where(x => x.IdControlConsumoInsumos == IdControl && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
-                return lista;
+                var result = entities.CONSUMO_DETALLE_ADITIVO.FirstOrDefault(x => x.IdConsumoAditivo == control.IdConsumoAditivo);
+                if (result != null)
+                {
+                    result.Aditivo = control.Aditivo;
+                    result.Peso= control.Peso;
+                    result.Lote = control.Lote;
+                    result.UsuarioModificacionLog = control.UsuarioIngresoLog;
+                    result.FechaModificacionLog = DateTime.Now;
+                    result.TerminalModificacionLog = control.TerminalIngresoLog;
+                }
+                else
+                {
+                    control.FechaIngresoLog = DateTime.Now;
+                    entities.CONSUMO_DETALLE_ADITIVO.Add(control);
+
+                }
+                entities.SaveChanges();
+                return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
+            }
+        }
+        public RespuestaGeneral EliminarAditivo(CONSUMO_DETALLE_ADITIVO control)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var result = entities.CONSUMO_DETALLE_ADITIVO.FirstOrDefault(x => x.IdConsumoAditivo == control.IdConsumoAditivo);
+                if (result != null)
+                {
+                    result.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    result.UsuarioModificacionLog = control.UsuarioIngresoLog;
+                    result.FechaModificacionLog = DateTime.Now;
+                    result.TerminalModificacionLog = control.TerminalIngresoLog;
+                    entities.SaveChanges();
+                }
+                return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
             }
         }
 
+        #endregion
+        #region TIEMPOS MUERTOS
+        public List<spConsultaConsumoTiempoMuerto> ConsultaConsumoDetalleTiempoMuerto(int IdControl)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.spConsultaConsumoTiempoMuerto(IdControl).ToList();
+                return lista;
+            }
+        }
+        public RespuestaGeneral GuardarModificarTiempoMuerto(CONSUMO_TIEMPO_MUERTO control)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var result = entities.CONSUMO_TIEMPO_MUERTO.FirstOrDefault(x => x.IdTiempoMuertos == control.IdTiempoMuertos);
+                if (result != null)
+                {
+                    result.HoraPara = control.HoraPara;
+                    result.HoraReinicio = control.HoraReinicio;
+                    result.Observacion = control.Observacion;
+                    result.Tipo = control.Tipo;
+                    result.UsuarioModificacionLog = control.UsuarioIngresoLog;
+                    result.FechaModificacionLog = DateTime.Now;
+                    result.TerminalModificacionLog = control.TerminalIngresoLog;
+                }
+                else
+                {
+                    control.FechaIngresoLog = DateTime.Now;
+                    entities.CONSUMO_TIEMPO_MUERTO.Add(control);
+
+                }
+                entities.SaveChanges();
+                return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
+            }
+        }
+        public RespuestaGeneral EliminarTiempoMuerto(CONSUMO_TIEMPO_MUERTO control)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var result = entities.CONSUMO_TIEMPO_MUERTO.FirstOrDefault(x => x.IdTiempoMuertos == control.IdTiempoMuertos);
+                if (result != null)
+                {
+                    result.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    result.UsuarioModificacionLog = control.UsuarioIngresoLog;
+                    result.FechaModificacionLog = DateTime.Now;
+                    result.TerminalModificacionLog = control.TerminalIngresoLog;
+                    entities.SaveChanges();
+                }
+                return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
+            }
+        }
+        #endregion
     }
 }
