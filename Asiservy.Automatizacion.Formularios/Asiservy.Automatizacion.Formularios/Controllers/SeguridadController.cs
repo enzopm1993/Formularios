@@ -589,7 +589,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDUsuarioRol = new clsDUsuarioRol();
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-                if (ModelState.IsValid)
+                ViewBag.Select2 = "1";
+                if (model.IdRol != null && model.IdRol2 != null && model.IdUsuario != null && model.IdUsuario2 != null)
                 {
                     string[] Usuario = User.Identity.Name.Split('_');
                     model.EstadoRegistro = model.EstadoRegistro == "true" ? "A" : "I";
@@ -603,7 +604,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 else
                 {
-                    ConsultaCombos();
+                    ConsultaCombos();                    
                     return View(model);
                 }
             }

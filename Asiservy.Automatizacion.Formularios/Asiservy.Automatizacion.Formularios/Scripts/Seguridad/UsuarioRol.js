@@ -9,34 +9,27 @@
 
 
 $('#NuevoUsuarioRol').click(function () {
-    $('#IdUsuarioRol').val('0');
-   // $("#IdUsuario2").prop('selectedIndex', 0).change();
-    // $("#IdRol2").prop('selectedIndex', 0).change();
-    $("#IdRol2").val(0);
-    $("#IdUsuario2").val(0);
+    
+  
+    $('#IdUsuarioRol').val(0); 
 
     $('#IdUsuario').val('');
     $('#IdRol').val('');
-    $('#IdUsuario2').attr('disabled', false);
-    $('#IdRol2').attr('disabled', false);
+    
     $('#CheckEstadoRegistro').prop('checked', true);
     $('#LabelEstado').text('Activo');
 
+    $('#IdUsuario2').attr('disabled', false);
+    $('#IdRol2').attr('disabled', false);
+
+   
     $("#IdRol2").prop('selectedIndex', 0).change();
     $("#IdUsuario2").prop('selectedIndex', 0).change();
-   
+
 });
 
-function SelectUsuario() {
-    if ($('#IdUsuario2').val() == "") {
-     //   MensajeAdvertencia("Usuario no tiene registrado una cedula", false);
-        $('#IdUsuario2').val('');
-        $('#IdUsuario2').prop('selectedIndex', 0).trigger('change');
-
-    } else {
-        $('#IdUsuario').val($('#IdUsuario2').val()).trigger('change');
-
-    }
+function SelectUsuario() {   
+        $('#IdUsuario').val($('#IdUsuario2').val()).trigger('change');    
 }
 
 function SelectRol() {
@@ -90,3 +83,4 @@ function CambioEstado(valor) {
         $('#LabelEstado').text('Inactivo');
 
 }
+

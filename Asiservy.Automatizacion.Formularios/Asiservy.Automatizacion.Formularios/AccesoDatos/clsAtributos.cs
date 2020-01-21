@@ -42,6 +42,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int RolPouch = 40;
         public static int RolEnlatado = 27;
         public static int AsistenteProduccion = 16;
+        public static int SeguridadIndustrial = 41;
 
         //Codigos de Lineas
         public static string CodLineaProduccion = "07";

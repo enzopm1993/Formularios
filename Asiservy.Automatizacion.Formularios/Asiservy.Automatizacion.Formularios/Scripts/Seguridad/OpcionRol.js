@@ -55,7 +55,7 @@ $('#NuevoRegistro').click(function () {
     $('#IdRolh').val("");
     $('#IdOpcionh').val("");
     $('#IdOpcionRol').val(0);
-    $("input[name=EstadoRegistro][value='A']").prop("checked", false);
+    $("input[name=EstadoRegistro][value='A']").prop("checked", true);
     $("input[name=EstadoRegistro][value='I']").prop("checked", false);
    // $("#IdRol").val("");
    // $("#IdOpcion").val("");
