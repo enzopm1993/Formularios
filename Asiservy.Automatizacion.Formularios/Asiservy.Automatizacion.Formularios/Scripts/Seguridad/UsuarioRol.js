@@ -1,29 +1,31 @@
 ﻿$(document).ready(function () {
     CargarUsuarioRol();
-    NuevoUsuarioRol();
-    $('#IdUsuario2').select2({
-        width: '100%' 
-    });
+    //NuevoUsuarioRol();
+    $('#IdUsuario2').select2();
     
-    $('#IdRol2').select2({
-        width: '100%' 
-    });
+    $('#IdRol2').select2();
    
 });
 
 
-function NuevoUsuarioRol() {
-    $('#IdUsuarioRol').val('0');   
-    $('#IdUsuario2').prop('selectedIndex', 0).trigger('change');
-    $('#IdRol2').prop('selectedIndex', 0).trigger('change');   
+$('#NuevoUsuarioRol').click(function () {
+    $('#IdUsuarioRol').val('0');
+   // $("#IdUsuario2").prop('selectedIndex', 0).change();
+    // $("#IdRol2").prop('selectedIndex', 0).change();
+    $("#IdRol2").val(0);
+    $("#IdUsuario2").val(0);
+
     $('#IdUsuario').val('');
     $('#IdRol').val('');
-    $('#IdUsuario2').prop('disabled',false);
-    $('#IdRol2').prop('disabled', false);
+    $('#IdUsuario2').attr('disabled', false);
+    $('#IdRol2').attr('disabled', false);
     $('#CheckEstadoRegistro').prop('checked', true);
     $('#LabelEstado').text('Activo');
 
-}
+    $("#IdRol2").prop('selectedIndex', 0).change();
+    $("#IdUsuario2").prop('selectedIndex', 0).change();
+   
+});
 
 function SelectUsuario() {
     if ($('#IdUsuario2').val() == "") {

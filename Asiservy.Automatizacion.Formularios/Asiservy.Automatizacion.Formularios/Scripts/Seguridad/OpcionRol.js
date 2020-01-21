@@ -48,14 +48,17 @@ function EditarFilaOpRol(IdOr, IdRol, IdOpcion, estado) {
     }
 
 }
-$('#Nuevo').click(function () {
+$('#NuevoRegistro').click(function () {
+    $("#IdRol").prop('selectedIndex', 0).change();
+    $("#IdOpcion").prop('selectedIndex', 0).change();
+
     $('#IdRolh').val("");
     $('#IdOpcionh').val("");
     $('#IdOpcionRol').val(0);
     $("input[name=EstadoRegistro][value='A']").prop("checked", false);
     $("input[name=EstadoRegistro][value='I']").prop("checked", false);
-    $("#IdRol").val("");
-    $("#IdOpcion").val("");
+   // $("#IdRol").val("");
+   // $("#IdOpcion").val("");
     $('#IdRol').attr("disabled", false);
     $('#IdOpcion').attr("disabled", false);
 });
