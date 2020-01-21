@@ -322,6 +322,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.select2 = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 ConsultarCombosEmpleadoCuchillo();
@@ -359,7 +360,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (!ModelState.IsValid || (model.CuchilloBlanco == null && model.CuchilloNegro == null && model.CuchilloRojo == null))
+                if (!ModelState.IsValid)
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
@@ -629,6 +630,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.select2 = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDCuchillo = new clsDCuchillo();
                 var CuchillosBlancosSobrantes = clsDCuchillo.CuchillosSobrantes(clsAtributos.CodigoColorCuchilloBlanco, DateTime.Now).Select(x => new ControlDeAsistenciaPrestadosViewModel.Cuchillos { Numero = x, Id = x, Color = 'B' }).ToList();
