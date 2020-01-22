@@ -38,5 +38,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> Empleados { get; set; }
         public Nullable<int> Cajas { get; set; }
         public string Observacion { get; set; }
+        public string CodigoMaterial { get; set; }
+        public Nullable<int> UnidadesRecibidas { get; set; }
+        public Nullable<int> UnidadesSobrantes { get; set; }
+        public Nullable<int> UnidadesProducidas { get; set; }
+        public string Marca { get; set; }
     }
 }

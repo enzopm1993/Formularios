@@ -739,23 +739,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlPesoEnlatadoSubDetalle>("spReporteControlPesoEnlatadoSubDetalle", fechaParameter);
         }
     
-        public virtual ObjectResult<sp_ConsultaAsistenciaGeneralDiaria> sp_ConsultaAsistenciaGeneralDiaria(string codLinea, Nullable<int> turno, Nullable<System.DateTime> fecha)
-        {
-            var codLineaParameter = codLinea != null ?
-                new ObjectParameter("codLinea", codLinea) :
-                new ObjectParameter("codLinea", typeof(string));
-    
-            var turnoParameter = turno.HasValue ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(int));
-    
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaGeneralDiaria>("sp_ConsultaAsistenciaGeneralDiaria", codLineaParameter, turnoParameter, fechaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaEmpleadoPrestadoPorLineaFecha> spConsultaEmpleadoPrestadoPorLineaFecha(Nullable<System.DateTime> fecha, string linea)
         {
             var fechaParameter = fecha.HasValue ?
@@ -1029,15 +1012,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoDetalleAditivo>("spConsultaConsumoDetalleAditivo", idControlParameter);
         }
     
-        public virtual ObjectResult<spConsultaConsumoDetalleLata> spConsultaConsumoDetalleLata(Nullable<int> idControl)
-        {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("IdControl", idControl) :
-                new ObjectParameter("IdControl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoDetalleLata>("spConsultaConsumoDetalleLata", idControlParameter);
-        }
-    
         public virtual ObjectResult<spConsultaConsumoDetallePouch> spConsultaConsumoDetallePouch(Nullable<int> idControl)
         {
             var idControlParameter = idControl.HasValue ?
@@ -1098,6 +1072,33 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoEnvasesFundas>("spConsultaConsumoEnvasesFundas", idControlParameter, tipoParameter);
         }
     
+        public virtual ObjectResult<spConsultaConsumoTiempoMuerto> spConsultaConsumoTiempoMuerto(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoTiempoMuerto>("spConsultaConsumoTiempoMuerto", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaSolicitudesPendientesAprobar> spConsultaSolicitudesPendientesAprobar(string cEDULA)
+        {
+            var cEDULAParameter = cEDULA != null ?
+                new ObjectParameter("CEDULA", cEDULA) :
+                new ObjectParameter("CEDULA", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaSolicitudesPendientesAprobar>("spConsultaSolicitudesPendientesAprobar", cEDULAParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaConsumoDetalleLata> spConsultaConsumoDetalleLata(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoDetalleLata>("spConsultaConsumoDetalleLata", idControlParameter);
+        }
+    
         public virtual ObjectResult<spConsultaControlConsumoInsumo> spConsultaControlConsumoInsumo(Nullable<System.DateTime> fecha, string linea, string turno)
         {
             var fechaParameter = fecha.HasValue ?
@@ -1115,22 +1116,25 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlConsumoInsumo>("spConsultaControlConsumoInsumo", fechaParameter, lineaParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<spConsultaConsumoTiempoMuerto> spConsultaConsumoTiempoMuerto(Nullable<int> idControl)
+        public virtual ObjectResult<sp_ConsultaAsistenciaGeneralDiaria> sp_ConsultaAsistenciaGeneralDiaria(string codLinea, Nullable<int> turno, Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
         {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("IdControl", idControl) :
-                new ObjectParameter("IdControl", typeof(int));
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("codLinea", codLinea) :
+                new ObjectParameter("codLinea", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoTiempoMuerto>("spConsultaConsumoTiempoMuerto", idControlParameter);
-        }
+            var turnoParameter = turno.HasValue ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(int));
     
-        public virtual ObjectResult<spConsultaSolicitudesPendientesAprobar> spConsultaSolicitudesPendientesAprobar(string cEDULA)
-        {
-            var cEDULAParameter = cEDULA != null ?
-                new ObjectParameter("CEDULA", cEDULA) :
-                new ObjectParameter("CEDULA", typeof(string));
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaSolicitudesPendientesAprobar>("spConsultaSolicitudesPendientesAprobar", cEDULAParameter);
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ConsultaAsistenciaGeneralDiaria>("sp_ConsultaAsistenciaGeneralDiaria", codLineaParameter, turnoParameter, fechaParameter, horaParameter);
         }
     }
 }
