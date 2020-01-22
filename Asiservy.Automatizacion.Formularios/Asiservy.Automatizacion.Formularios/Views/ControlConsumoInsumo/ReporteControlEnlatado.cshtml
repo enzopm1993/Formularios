@@ -3,11 +3,25 @@
     ViewBag.Title = "ReporteControlEnlatado";
 }
 
-<h4>ReporteControlEnlatado</h4>
+<h4>Reporte Control Enlatado</h4>
 <style>
     input, select, textarea {
         max-width: 100%;
     }
+    h5{
+       background-color:slategray;
+       color:aliceblue;
+    }
+    th {
+        font-size: 12px;
+    }
+    td {
+        font-size: 11px;
+    }
+   .letra10{
+       font-size:10px;
+   }
+
 </style>
 @ViewBag.Linea
 <hr />
@@ -29,7 +43,7 @@
     </div>
 
 </div>
-<hr />
+
 <div class="d-flex justify-content-center">
     <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
         <span class="sr-only">Loading...</span>
@@ -43,7 +57,7 @@
         </div>
     </div>
 </div>
-<div id="divImpresion" hidden>
+<div id="divAcciones" hidden>
     <div class="col-md-12 col-12  text-md-center text-center">
         <label class="">Acciones</label>
         <div class="form-group">
@@ -55,7 +69,8 @@
             </button>
         </div>
     </div>
-    <h5>CONTROL DE CONSUMO DE INSUMOS EN CONCERVAS</h5>
+</div>
+<div id="divImpresion"  hidden>      
     @Html.Partial("ReporteControlEnlatadoPartial")
 </div>
 

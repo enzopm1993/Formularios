@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaConsumoDetalleLata>
+
+<table class="table table-bordered">
+    <tr>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.Pallet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lotes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bultos)
+        </th>
+        <th>
+            Fecha Fabricación
+        </th>     
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Pallet)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lotes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bultos)
+        </td>
+        <td>
+            @item.FechaFabricacion.ToString("yyyy-MM-dd")
+        </td>
+
+    </tr>
+}
+
+</table>

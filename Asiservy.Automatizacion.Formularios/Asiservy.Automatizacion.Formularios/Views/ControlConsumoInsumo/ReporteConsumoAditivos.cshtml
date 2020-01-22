@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaConsumoDetalleAditivo>
+
+<table class="table table-bordered">
+    <tr>
+     
+        <th>
+            @Html.DisplayNameFor(model => model.Proveedor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Aditivo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Peso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lote)
+        </th>      
+      
+        
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Proveedor)
+        </td>
+        <td class="letra10">
+            @Html.DisplayFor(modelItem => item.DescripcionAditivo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Peso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lote)
+        </td>
+
+
+
+    </tr>
+}
+
+</table>
