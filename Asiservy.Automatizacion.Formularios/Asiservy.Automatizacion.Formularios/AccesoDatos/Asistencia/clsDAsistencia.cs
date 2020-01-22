@@ -22,7 +22,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())  
             {
-               if(db.ASISTENCIA.Where(z => (z.Cedula == cedula && z.Fecha == z.Fecha &&z.EstadoAsistencia==clsAtributos.EstadoPresente)&& (z.HoraSalida==null)).ToList().Count > 0)
+                var ConsultaAsistencia = db.ASISTENCIA.Where(x => x.Cedula == cedula && fecha == x.Fecha&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo && (x.EstadoAsistencia == clsAtributos.EstadoPresente || x.EstadoAsistencia == clsAtributos.EstadoAtraso)
+                  && x.HoraSalida == null).ToList();
+               if(ConsultaAsistencia.Count>0)
                 {
                     return true;
                 }
