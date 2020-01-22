@@ -61,6 +61,9 @@
     <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -117,6 +120,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Connected Services\DataLifeService\ServicioAsiservy.disco" />
     <None Include="Connected Services\DataLifeService\configuration91.svcinfo" />
     <None Include="Connected Services\DataLifeService\configuration.svcinfo" />
@@ -2117,6 +2121,10 @@
     <Content Include="Content\summernote\dist\summernote.js" />
     <Content Include="Content\summernote\dist\summernote.min.js" />
     <Content Include="Global.asax" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\Apexcharts\dist\apexcharts.amd.js" />
     <Content Include="Scripts\Apexcharts\dist\apexcharts.common.js" />
     <Content Include="Scripts\Apexcharts\dist\apexcharts.css" />
@@ -2138,6 +2146,7 @@
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ControlConsumoInsumo.js" />
+    <Content Include="Scripts\ControlConsumoInsumo\ReporteControlEnlatado.js" />
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
     <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
@@ -3411,6 +3420,8 @@
     <Content Include="Views\ControlConsumoInsumo\ControlConsumoDaniadoPartial.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ControlConsumoTiemposMuertos.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ControlConsumoAditivos.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteControlEnlatado.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteControlEnlatadoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
