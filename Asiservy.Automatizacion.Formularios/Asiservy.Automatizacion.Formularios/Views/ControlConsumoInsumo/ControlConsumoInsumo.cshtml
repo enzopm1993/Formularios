@@ -85,6 +85,14 @@
                         </div>
                         <div class="col-md-10 col-sm-9 col-8">
                             <h4>Datos del Proceso</h4>
+                            @if (ViewBag.LineaNegocio == "ENLATADO")
+                            {
+                                <select class="form-control" id="selectTipoProceso" onchange="CargarProcesoDetalleEnlatado()">
+                                    <option value="C">Cuerpo</option>
+                                    <option value="T">Tapa</option>
+                                </select>
+                            }
+
                         </div>
                     </div>
 
@@ -242,10 +250,23 @@
                             @Html.DropDownList("txtOrdenFabricacion", new SelectList(ViewBag.OrdenesFabricacion, "ORDEN_FABRICACION", "ORDEN_FABRICACION"), "seleccione", new { @class = "form-control", @Onchange = "CargarDatosOrdenFabricacion()" })
                         </div>
                     </div>
+
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Orden Venta</label>
                             <input class="form-control" id="txtOrdenVenta" disabled type="text" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Cliente</label>
+                            <input class="form-control" id="txtCliente" disabled type="text" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Marca</label>
+                            <input class="form-control" id="txtMarca" disabled type="text" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
@@ -262,44 +283,50 @@
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
+                            <label>Cod Producto</label>
+                            <input class="form-control" id="txtCodigoProducto"  type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
                             <label>Peso Neto</label>
-                            <input class="form-control" id="txtPesoNeto" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtPesoNeto" min="0" type="number" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Peso Escurrido</label>
-                            <input class="form-control" id="txtPesoEscrundido" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtPesoEscrundido" min="0" type="number" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Lomo</label>
-                            <input class="form-control" id="txtLomo" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtLomo" min="0" type="number" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Miga</label>
-                            <input class="form-control" id="txtMiga" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtMiga" min="0" type="number" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Aceite(g)</label>
-                            <input class="form-control" id="txtAceite" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtAceite" min="0" type="number" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Agua(g)</label>
-                            <input class="form-control" id="txtAgua" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtAgua" min="0" type="number" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Caldo Vegetal(g)</label>
-                            <input class="form-control" id="txtCaldoVegetal" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtCaldoVegetal" min="0" type="number" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
@@ -332,6 +359,24 @@
                             <input class="form-control" id="txtCajas" min="0" type="number" name="name" value="0" />
                         </div>
                     </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>U. Recibidas</label>
+                            <input class="form-control" id="txtUnidadesRecibidas" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Sobrantes</label>
+                            <input class="form-control" id="txtSobrantes" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>U. Producidas</label>
+                            <input class="form-control" id="txtUnidadesProducidas" min="0" type="number" name="name" value="0" />
+                        </div>
+                    </div>
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Observacion</label>
@@ -339,9 +384,8 @@
 
                         </div>
                     </div>
-                </div>
-
-            </div>
+                </div>    
+            </div>           
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="GenerarControlConsumo()" id="btnGenerarControlConsumo">Generar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -542,9 +586,13 @@
                     <input type="hidden" id="txtIdConsumoAditivos" name="name" value="0" />
                     <div class="col-6 col-sm-12 col-md-12">
                         <label>Aditivo</label>
-                        <select>
-                            <option value="value">text</option>
-                        </select>
+                        <select class="form-control" id="selectAditivo" onchange="CambiarAditivo()"></select>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <label>Proveedor</label>
+                        <select class="form-control" id="selectProveedor" onchange=""></select>
+
                     </div>
                     <div class="col-12 col-sm-12 col-md-12">
                         <label>Peso</label>
@@ -552,10 +600,9 @@
                     </div>
                     <div class="col-12 col-sm-12 col-md-12">
                         <label>Lote</label>
-                        <input type="text" id="txtPesoAditivo" class="form-control" name="name" value="" />
+                        <input type="text" id="txLoteAditivo" class="form-control" name="name" value="" />
                     </div>
-                </div>
-
+                </div>    
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="GuardarConsumoAditivos()" id="">Guardar</button>
@@ -572,7 +619,7 @@
             <div class="modal-header">
                 <input type="hidden" id="txtEliminarAditivos" name="name" value="" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabelAditivos">Eliminar Tiempo Muerto?</h4>
+                <h4 class="modal-title" id="myModalLabelAditivos">Eliminar Aditivo?</h4>
             </div>
             <div class="modal-body">
                 <p id="pModalAditivos"></p>

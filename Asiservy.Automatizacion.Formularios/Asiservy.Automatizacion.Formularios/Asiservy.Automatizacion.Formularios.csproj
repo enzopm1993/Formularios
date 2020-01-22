@@ -3205,6 +3205,7 @@
     <Compile Include="Models\Empleado\EmpleadoEsferoViewModel.cs" />
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
+    <Compile Include="Models\InsumosProduccion.cs" />
     <Compile Include="Models\Motivo.cs" />
     <Compile Include="Models\OrdenFabricacion.cs" />
     <Compile Include="Models\OrdenFabricacionAutoclave.cs" />

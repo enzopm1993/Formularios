@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Asiservy.Automatizacion.Formularios.Models;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
                 return null;
             }
             var Lista = JsonConvert.DeserializeObject(content);
+            return Lista;
+        }
+
+        public List<InsumosProduccion> ConsultaAditivos()
+        {
+            var client = new RestClient("http://192.168.0.31:8870");
+            RestRequest request;
+            request = new RestRequest("/api/Produccion/InsumosProduccion", Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var Lista = JsonConvert.DeserializeObject<List<InsumosProduccion>>(content);
             return Lista;
         }
     }

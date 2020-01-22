@@ -37,6 +37,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                     result.DesperdicioSolido = control.DesperdicioSolido;
                     result.Empleados = control.Empleados;
                     result.Cajas = control.Cajas;
+                    result.UnidadesProducidas = control.UnidadesProducidas;
+                    result.UnidadesRecibidas = control.UnidadesRecibidas;
+                    result.UnidadesSobrantes = control.UnidadesSobrantes;
+                    //result.CodigoMaterial = control.CodigoMaterial;
+                    result.CodigoProducto = control.CodigoProducto;
                     result.UsuarioModificacionLog = control.UsuarioIngresoLog;
                     result.FechaModificacionLog = DateTime.Now;
                     result.TerminalModificacionLog = control.TerminalIngresoLog;
@@ -247,11 +252,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
         #endregion
 
         #region ADITIVOS
-        public List<CONSUMO_DETALLE_ADITIVO> ConsultaConsumoDetalleAditivo(int IdControl)
+        public List<spConsultaConsumoDetalleAditivo> ConsultaConsumoDetalleAditivo(int IdControl)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CONSUMO_DETALLE_ADITIVO.Where(x => x.IdControlConsumoInsumos == IdControl && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+              //  var lista = entities.CONSUMO_DETALLE_ADITIVO.Where(x => x.IdControlConsumoInsumos == IdControl && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                var lista = entities.spConsultaConsumoDetalleAditivo(IdControl).ToList();
                 return lista;
             }
         }
