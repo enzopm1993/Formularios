@@ -59,6 +59,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public string CodigoMaterial { get; set; }
+        public Nullable<int> UnidadesRecibidas { get; set; }
+        public Nullable<int> UnidadesSobrantes { get; set; }
+        public Nullable<int> UnidadesProducidas { get; set; }
+        public string Marca { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONSUMO_DETALLE_ADITIVO> CONSUMO_DETALLE_ADITIVO { get; set; }
