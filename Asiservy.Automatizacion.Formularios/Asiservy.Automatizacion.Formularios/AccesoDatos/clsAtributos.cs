@@ -82,6 +82,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //Asistencia Origen donde se genera
         public static string Procesos = "PRO";
         public static string Prestado = "PRE";
+        public static string General = "GNR";
 
         //Clasificador de colores de cuchillos
         public static string CodigoGrupoColorCuchillo = "003";

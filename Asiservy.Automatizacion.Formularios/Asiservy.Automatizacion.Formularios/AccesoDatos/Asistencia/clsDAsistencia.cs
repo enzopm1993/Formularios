@@ -259,12 +259,27 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     //foreach (var item in PersonalMovidoAEstaLinea)
                     foreach (var item in PersonalMovidoAEstaLineaFiltrado)
                     {
-                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = Fecha, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A", CentroCostos = item.CentroCosto, Recurso = item.Recurso, Cargo = item.CodCargo });
+                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = Fecha, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A", CentroCostos = item.CentroCosto, Recurso = item.Recurso, Cargo = item.CodCargo, Generado=clsAtributos.General });
 
                     }
                     db.ASISTENCIA.AddRange(ControlAsistencia);
+                    if (ControlAsistencia.Count > 0)//solo si se va a crear al menos un registristro en asistencia se guarda en contro_asistencia
+                    {
+                        db.CONTROL_ASISTENCIA.Add(new CONTROL_ASISTENCIA
+                        {
+                            Fecha = Fecha,
+                            Linea = CodLinea,
+                            Turno = turno,
+                            Hora = Hora,
+                            EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                            Generado = clsAtributos.General,
+                            FechaIngresoLog = DateTime.Now,
+                            TerminalIngresoLog = terminal,
+                            UsuarioIngresoLog = usuario
+                        });
+                    }
                     db.SaveChanges();
-                    pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, Convert.ToInt32(turno), Fecha).ToList();
+                    pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, Convert.ToInt32(turno), Fecha,Hora).ToList();
                     //pListAsistenciaGeneral.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     foreach (var item in pListAsistenciaGeneral)
                     {
@@ -277,7 +292,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 }
                 else
                 {
-                    pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, Convert.ToInt32(turno), Fecha).ToList();
+                    var control_asistencia = db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == clsAtributos.Procesos).FirstOrDefault();
+                    pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, Convert.ToInt32(turno), Fecha,control_asistencia.Hora).ToList();
                     //pListAsistenciaGeneral.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     foreach (var item in pListAsistenciaGeneral)
                     {
