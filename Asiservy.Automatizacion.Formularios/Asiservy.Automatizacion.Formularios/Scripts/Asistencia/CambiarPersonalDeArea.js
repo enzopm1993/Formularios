@@ -205,7 +205,7 @@ function Mover(result) {
         $("#Guardar").prop("hidden", true);
         $("#btnGuardarEspera").prop("hidden", false);
     //**
-    console.log(resultado2);
+    //console.log(resultado2);
     $.ajax({
         url: '../Asistencia/MoverEmpleados',
         type: 'POST',
@@ -226,6 +226,9 @@ function Mover(result) {
             $("#btnGuardarEspera").prop("hidden", true);
             //**
             //MensajeCorrectoTiempo(resultado, true,10000);
+            if (resultado == "101") {
+                window.location.reload();
+            }else
             if (resultado == '1000') {
                 $('#mensajefeed').val(resultado);
                 $('#BodyMensajeCp').html('Empleados movidos con éxito');
