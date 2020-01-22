@@ -36,7 +36,7 @@ function CargarBandejaAprobacion() {
 
 $(document).ready(function () {
     CargarBandejaAprobacion();
-    ("#ModalEditarSolicitud").on("click", "#modal_close_log", function () {
+    $("#ModalEditarSolicitud").on("click", "#modal_close_log", function () {
         $("#ModalLogMarcacion").modal("hide");
         return false;
     });
