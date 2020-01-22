@@ -438,7 +438,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                ViewBag.Select2 = "1";
                 CargarCombosOpcionRol();
                 return View();
             }
@@ -556,7 +556,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                ViewBag.Select2 = "1";
                 ConsultaCombos();
                 return View();
             }           
@@ -589,7 +589,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDUsuarioRol = new clsDUsuarioRol();
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-                if (ModelState.IsValid)
+                ViewBag.Select2 = "1";
+                if (model.IdRol != null && model.IdRol2 != null && model.IdUsuario != null && model.IdUsuario2 != null)
                 {
                     string[] Usuario = User.Identity.Name.Split('_');
                     model.EstadoRegistro = model.EstadoRegistro == "true" ? "A" : "I";
@@ -603,7 +604,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 else
                 {
-                    ConsultaCombos();
+                    ConsultaCombos();                    
                     return View(model);
                 }
             }
@@ -677,7 +678,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                clsDNivelUsuario = new clsDNivelUsuario();
+                ViewBag.ListaUsuarios = clsDNivelUsuario.ConsultarNivelUsuario(null).Where(X=> X.Nivel==clsAtributos.NivelJefe);
                 ConsultarComboNivelUsuario();
                 return View();
             }
@@ -714,6 +716,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDNivelUsuario = new clsDNivelUsuario();
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.ListaUsuarios = clsDNivelUsuario.ConsultarNivelUsuario(null);
                 if (ModelState.IsValid)
                 {
                    
@@ -724,7 +727,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         IdNivelUsuario= model.IdNivelUsuario??0,
                         IdUsuario = model.IdUsuario,
                         Nivel = model.Nivel,
-                        EstadoRegistro=model.EstadoRegistro,
+                        CedulaAprueba = model.UsuarioAprueba,
+                        EstadoRegistro =model.EstadoRegistro,
                         FechaIngresoLog = DateTime.Now,
                         UsuarioIngresoLog = Usuario[0],
                         TerminalIngresoLog = Request.UserHostAddress

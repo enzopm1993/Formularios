@@ -1009,6 +1009,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDGeneral = new clsDGeneral();
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
+                ViewBag.Select2 = "1";
                 ViewBag.CentroCostos = clsDGeneral.ConsultaCentroCostos();
             }
             catch (Exception ex)
@@ -1293,6 +1294,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                liststring = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(liststring[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosFiltroCambioPersonal>;
                 if (dCedulas.ToList().Contains("horaswitch"))
                 {
@@ -1305,7 +1311,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 List<CAMBIO_PERSONAL> pListCambioPersonal = new List<CAMBIO_PERSONAL>();
                 //List<BITACORA_CAMBIO_PERSONAL> pListBitacoraCambioPersonal = new List<BITACORA_CAMBIO_PERSONAL>();
-                liststring = User.Identity.Name.Split('_');
+                
                 string psRespuesta = string.Empty;
                 if (dCedulas != null && dCedulas.Length > 0)
                 {

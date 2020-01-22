@@ -2,6 +2,8 @@
 $(document).ready(function () {
     CargarEmpleadoCuchilloPrestado();
     CargarEmpleadoPrestado();
+    $("#txtCuchilloBlanco").select2();
+    $("#txtCuchilloRojo").select2();
 
 });
 
@@ -172,7 +174,7 @@ function GuardarModificarCuchilloEmpleadoPrestado() {
 
 function seleccionarCuchilloEmpleadoPrestado(model) {
     $("#selectEmpleado").val(model.Cedula);
-    $("#txtCuchilloBlanco").val(model.CuchilloBlanco);
-    $("#txtCuchilloRojo").val(model.CuchilloRojo);
-    $("#txtCuchilloNegro").val(model.CuchilloNegro);
+    $("#txtCuchilloBlanco").val(model.CuchilloBlanco).trigger('change');
+    $("#txtCuchilloRojo").val(model.CuchilloRojo).trigger('change');
+    $("#txtCuchilloNegro").val(model.CuchilloNegro).trigger('change');
 }

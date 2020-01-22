@@ -8,35 +8,35 @@
 <div class=" ">
     @using (Html.BeginForm("EmpleadoTurno"))
     {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>
-                        @Html.DisplayNameFor(model => model[0].Cedula)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model[0].Nombre)
-                    </th>
-                    <th hidden>
-                        @Html.DisplayNameFor(model => model[0].CodLinea)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model[0].Linea)
-                    </th>
-                  
-                    <th>
-                        @Html.DisplayNameFor(model => model[0].Turno)
-                    </th>
+    <table class="table-bordered table" style="cursor: pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Cedula)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Nombre)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model[0].CodLinea)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Linea)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Turno)
+                </th>
 
 
 
-                </tr>
-            </thead>
-            <tbody>
+            </tr>
+        </thead>
+        <tbody>
 
-                @for (var i = 0; i < Model.Count(); i++)
-                {
+            @for (var i = 0; i < Model.Count(); i++)
+            {
                 <tr>
                     <td>
                         @{int j = i + 1;
@@ -46,7 +46,7 @@
                     <td>
                         @if (Model[i].Prestado)
                         {
-                            @Html.TextBoxFor(modelItem => modelItem[i].Cedula, new { @class = "form-control  text-warning", @readonly = "readonly", @style= "Color:'#FA8072'" })
+                            @Html.TextBoxFor(modelItem => modelItem[i].Cedula, new { @class = "form-control", @readonly = "readonly", @style = "background:darkseagreen;color: white" })
                         }
                         else
                         {
@@ -57,13 +57,13 @@
                     <td>
                         @if (Model[i].Prestado)
                         {
-                            <label class="text-warning"> @Model[i].Nombre</label>
+                            <label class=""> @Model[i].Nombre</label>
                         }
                         else
                         {
                             <label> @Model[i].Nombre</label>
                         }
-                       
+
                         @*@Html.TextBoxFor(modelItem => modelItem[i].Nombre, new { @class = "form-control", @readonly = "readonly" })*@
                     </td>
                     <td hidden>
@@ -72,20 +72,20 @@
                     <td>
                         @if (Model[i].Prestado)
                         {
-                        <label class="text-warning"> @Model[i].Linea</label>
+                            <label class="text-success"> @Model[i].Linea</label>
                         }
                         else
                         {
-                        <label>  @Model[i].Linea</label>
+                            <label>  @Model[i].Linea</label>
                         }
-                       
+
                         @*@Html.TextBoxFor(modelItem => modelItem[i].Linea, new { @class = "form-control", @readonly = "readonly" })*@
                     </td>
-                   
+
                     <td>
 
                         <div class="custom-control custom-radio" role="group">
-                            @Html.RadioButtonFor(modelItem => modelItem[i].Turno, "1", new { @onchange="GuardarEmpleadoTurno(this.id,'"+ Model[i].CodLinea + "')", @class = "custom-control-input", @id = Model[i].Cedula + "-1" })
+                            @Html.RadioButtonFor(modelItem => modelItem[i].Turno, "1", new { @onchange = "GuardarEmpleadoTurno(this.id,'" + Model[i].CodLinea + "')", @class = "custom-control-input", @id = Model[i].Cedula + "-1" })
                             <label class="custom-control-label" for="@Model[i].Cedula-1">Turno 1</label>
                         </div>
 
@@ -97,8 +97,8 @@
                     </td>
 
                 </tr>
-                }
-            </tbody>
-        </table>
+            }
+        </tbody>
+    </table>
     }
 </div>

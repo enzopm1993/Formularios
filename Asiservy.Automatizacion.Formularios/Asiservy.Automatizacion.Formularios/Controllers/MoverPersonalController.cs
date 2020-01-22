@@ -41,6 +41,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDGeneral = new clsDGeneral();
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
+                ViewBag.Select2 = "1";
                 ViewBag.CentroCostos = clsDGeneral.ConsultaCentroCostos();
             }
             catch (Exception ex)

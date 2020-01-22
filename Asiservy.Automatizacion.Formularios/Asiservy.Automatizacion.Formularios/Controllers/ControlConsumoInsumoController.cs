@@ -23,7 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDLogin clsDLogin = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
         clsDControlConsumoInsumo clsDControlConsumoInsumo = null;
-
+        clsDApiProduccion clsDApiProduccion = null;
 
         #region CONTROL CONSUMOS INSUMOS
         // GET: ControlConsumoInsumo
@@ -34,6 +34,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
+                ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
@@ -43,6 +44,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.Linea = Empleado.LINEA;
                 ViewBag.CodLinea = Empleado.CODIGOLINEA;
                 ViewBag.TipoTiemposMuertos = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoTipoTiemposMuertos);
+              
 
                 clsDLogin = new clsDLogin();
                 var rol = clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolPouch);
@@ -89,7 +91,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
               
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -130,7 +132,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -152,10 +154,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.CodigoProducto = result.CODIGO_PRODUCTO;
                 model.CodigoMaterial = result.CODIGO_MATERIAL;
                 model.Producto = result.NOMBRE_ADICIONAL;
-                model.Cliente = result.CLIENTE_CORTO;
+                model.Cliente = string.IsNullOrEmpty(result.CLIENTE_CORTO)?result.CLIENTE:result.CLIENTE_CORTO;
                 model.Envase = result.ENVASE;
                 model.Tapa = result.TAPA??"";
                 model.Destino = result.DESTINO;
+                model.Marca = result.MARCA;
                 
 
                 var Mensaje = clsDControlConsumoInsumo.GuardarModificarControl(model);
@@ -189,7 +192,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -228,18 +231,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #endregion
 
         #region CONSUMO DETALLE ENLATADO
-        public ActionResult ControlConsumoInsumoDetalleEnlatadoPartial(int IdControl)
+        public ActionResult ControlConsumoInsumoDetalleEnlatadoPartial(int IdControl,string Tipo)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
 
-                var model = clsDControlConsumoInsumo.ConsultaConsumoDetalleLata(IdControl);
+                var model = clsDControlConsumoInsumo.ConsultaConsumoDetalleLata(IdControl).Where(x=> x.Tipo == Tipo);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -274,7 +277,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -314,7 +317,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -358,7 +361,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -399,7 +402,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -439,7 +442,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -484,7 +487,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDLogin = new clsDLogin();
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -532,7 +535,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -571,7 +574,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -612,13 +615,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
-
+                clsDApiProduccion = new clsDApiProduccion();
                 var model = clsDControlConsumoInsumo.ConsultaConsumoDetalleAditivo(IdControl);
+                var Aditivos = clsDApiProduccion.ConsultaAditivos();
+                foreach (var x in model)
+                {
+                    x.DescripcionAditivo = Aditivos.FirstOrDefault(y=>y.CodigoInsumo==x.Aditivo).Descripcion;
+                }
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -654,7 +662,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -697,7 +705,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -706,6 +714,83 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 var Respuesta = clsDControlConsumoInsumo.EliminarAditivo(model);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public JsonResult ConsultarAditivos()
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDApiProduccion = new clsDApiProduccion();
+                var Aditivos = clsDApiProduccion.ConsultaAditivos()
+                               .GroupBy(x => new  { x.CodigoInsumo, x.Descripcion })
+                               .Select(x=> new InsumosProduccion {CodigoInsumo=x.Key.CodigoInsumo,Descripcion=x.Key.Descripcion })
+                                .Distinct().ToList();
+               // var prueba = Aditivos.GroupBy(x=>x.CodigoInsumo).Distinct().ToList();
+                return Json(Aditivos, JsonRequestBehavior.AllowGet);
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public JsonResult ConsultarAditivosProveedores(string CodigoInsumo)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDApiProduccion = new clsDApiProduccion();
+                var Proveedores = clsDApiProduccion.ConsultaAditivos()
+                                .Where(x=> x.CodigoInsumo==CodigoInsumo)
+                               .Select(x => new { Proveedor = x.Proveedor })
+                                .Distinct().ToList();
+                return Json(Proveedores, JsonRequestBehavior.AllowGet);
             }
 
             catch (DbEntityValidationException e)
@@ -737,7 +822,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');              
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -779,7 +864,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -822,7 +907,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[1]))
+                if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
@@ -854,6 +939,77 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
         #endregion
+
+        #region REPORTE DE ENLATADO
+        public ActionResult ReporteControlEnlatado()
+        {
+            try
+            {
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dataTableJS = "1";
+                ViewBag.select2 = "1";
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult ReporteControlEnlatadoPartial()
+        {
+            try
+            {
+                return PartialView();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+
+
+        }
+
+
+
+        public ActionResult ImprimirReporteEnlatado()
+        {
+            var report = new Rotativa.ActionAsPdf("ReporteControlEnlatadoPartial");
+            return report;
+
+        }
+
+        #endregion
+
+
         public JsonResult ConsultarOrdenesFabricacion(DateTime Fecha, string Linea)
         {
             try

@@ -530,6 +530,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.select2 = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
@@ -548,20 +549,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Codigo = Empleado.CODIGOLINEA });
                 }
+                else if (roles.FirstOrDefault(x => x.Value == clsAtributos.SeguridadIndustrial) != null)
+                {
+                    ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
+                }
                 else
                 {
                     ViewBag.Lineas = clsDGeneral.ConsultaLineas(Empleado.CODIGOLINEA);
-                }
-                //var rol = clsDLogin.ConsultaRolesUsuario(Usuario[1]).FirstOrDefault(x=>x.Value == clsAtributos.RolControladorGeneral || x.Value == clsAtributos.RolSupervisorGeneral);
-                //if (rol != null)
-                //{
-                //    ViewBag.Principal = "1";
-                //   // ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro= clsAtributos.EstadoRegistroActivo});
-                //    ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
-                //}
-                //else {
-                //    ViewBag.Lineas = clsDGeneral.ConsultaLineas(Empleado.CODIGOLINEA);
-                //}
+                }             
                 ViewBag.Linea = Empleado.LINEA;
                 return View();
             }

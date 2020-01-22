@@ -3,6 +3,9 @@
 $(document).ready(function () {
     CargarEmpleadoCuchillo();
     NuevoCuchilloEmpleado();
+    $("#SelectCuchilloBlanco").select2();
+    $("#SelectCuchilloRojo").select2();
+    $("#SelectCuchilloNegro").select2();
 });
 
 function Validar() {
@@ -16,10 +19,12 @@ function Validar() {
         jQuery("#validaCedula").html("Seleccione un Empleado");
         return false;
     }
-    if (CBlanco == '' && CRojo == '' && CNegro == '') {
-        MensajeAdvertencia("Seleccione al menos un cuhillo.");
-        return false;
-    }
+
+
+    //if (CBlanco == '' && CRojo == '' && CNegro == '') {
+    //    MensajeAdvertencia("Seleccione al menos un cuhillo.");
+    //    return false;
+    //}
     return true;
 
 }
@@ -77,9 +82,9 @@ function GrabarCuchilloEmpleado() {
 function NuevoCuchilloEmpleado() {
     $('#IdEmpleadoCuchillo').val("0");
     $("#SelectEmpleado").prop('selectedIndex', 0);
-    $('#SelectCuchilloBlanco').prop("selectedIndex",0);
-    $('#SelectCuchilloBlanco').prop("selectedIndex",0);
-    $('#SelectCuchilloNegro').prop("selectedIndex", 0);
+    $('#SelectCuchilloBlanco').prop("selectedIndex", 0).change();
+    $('#SelectCuchilloRojo').prop("selectedIndex", 0).change();
+    $('#SelectCuchilloNegro').prop("selectedIndex", 0).change();
     //$('#SelectCuchilloRojo').val(0);
     //$('#SelectCuchilloNegro').val(0);
     $('#NombreEmpleado').val("");
@@ -92,9 +97,23 @@ function SeleccionEmpleadoCuchillo(id, cedula, blanco, rojo, negro, estado, nomb
 
     $('#IdEmpleadoCuchillo').val(id);
     $('#SelectEmpleado').val(cedula);
-    $('#SelectCuchilloBlanco').val(blanco);
-    $('#SelectCuchilloRojo').val(rojo);
-    $('#SelectCuchilloNegro').val(negro);
+
+    if (blanco>0)
+        $('#SelectCuchilloBlanco').val(blanco).trigger('change');
+    else 
+        $('#SelectCuchilloBlanco').prop("selectedIndex", 0);
+
+    if (rojo > 0)
+        $('#SelectCuchilloRojo').val(rojo).trigger('change');
+    else
+        $('#SelectCuchilloRojo').prop("selectedIndex", 0);
+
+    if (negro > 0)
+        $('#SelectCuchilloNegro').val(negro).trigger('change');
+    else
+        $('#SelectCuchilloNegro').prop("selectedIndex", 0);
+
+  
     $('#NombreEmpleado').val(nombre);
     $('#Identificacion').val(cedula);
 

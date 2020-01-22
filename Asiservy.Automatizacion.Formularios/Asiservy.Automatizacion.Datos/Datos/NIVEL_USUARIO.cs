@@ -24,5 +24,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public string EstadoRegistro { get; set; }
+        public string CedulaAprueba { get; set; }
     }
 }

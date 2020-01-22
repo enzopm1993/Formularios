@@ -1,4 +1,71 @@
-﻿function CerrarModalMensaje() {
+﻿$(document).ready(function () {
+   
+    $('#SelectAreaRegresar').select2({
+        width: '100%'
+    });
+
+    $('#SelectRecursoRegresar').select2({
+        width: '100%'
+    });
+    $('#SelectLineaRegresar').select2({
+        width: '100%'
+    });
+
+    $('#SelectCargoRegresar').select2({
+        width: '100%'
+    });
+
+
+    $('#SelectAreaOrigen').select2({
+        width: '100%'
+    });
+
+    $('#SelectRecursoOrigen').select2({
+        width: '100%'
+    });
+    $('#SelectLineaOrigen').select2({
+        width: '100%'
+    });
+
+    $('#SelectCargoOrigen').select2({
+        width: '100%'
+    });
+
+
+
+    $('#SelectArea').select2({
+        width: '100%'
+    });
+
+    $('#SelectRecurso').select2({
+        width: '100%'
+    });
+    $('#SelectLinea').select2({
+        width: '100%'
+    });
+
+    $('#SelectCargo').select2({
+        width: '100%'
+    });
+
+
+});
+
+
+
+
+function destruirDataTable() {
+    $('#tblDataTable').DataTable().destroy();
+}
+function construirDataTable() {
+    $('#tblDataTable').DataTable(config.opcionesDT);
+}
+
+function cerrarmodalconfirm() {
+    $('#ModalMensajeCP').modal('hide');
+    ConsultarEmpleados();
+}
+function CerrarModalMensaje() {
     //javascript: window.location.reload();
     if ($('#mensajefeed').val() == '1000') {
         window.location.reload();
@@ -22,13 +89,18 @@ function MoverEmpleados() {
     //**
     if ($('#optcambiaremp').val() == 'prestar') {
         if ($('#selectLinea').val() != "" && $('#SelectArea').val() != "" && $('#SelectRecurso').val() != "" && $('#SelectCargo').val() != ""
-            && $('#txtFechaInicio').val() != "" && (($('#horaswitch').prop('checked')==false) || ($('#txtHoraInicio').val()!=""))) {
+            && $('#txtFechaInicio').val() != "" && (($('#horaswitch').prop('checked') == false) || ($('#txtHoraInicio').val() != ""))) {
+            //var valortable = ('#tblDataTable').val();
+            //console.log(valortable);
+            destruirDataTable();
+            
             $("input[type=checkbox]:checked").each(function (resultado) {
                 id = $(this).attr("id");
                 this.id = id.replace('Empleado-', '');
                 result.push(this.id);
                 i++;
             });
+            construirDataTable();
             //console.log(result);
             Mover(result);
         } else {
@@ -133,7 +205,7 @@ function Mover(result) {
         $("#Guardar").prop("hidden", true);
         $("#btnGuardarEspera").prop("hidden", false);
     //**
-    console.log(resultado2);
+    //console.log(resultado2);
     $.ajax({
         url: '../Asistencia/MoverEmpleados',
         type: 'POST',
@@ -154,6 +226,9 @@ function Mover(result) {
             $("#btnGuardarEspera").prop("hidden", true);
             //**
             //MensajeCorrectoTiempo(resultado, true,10000);
+            if (resultado == "101") {
+                window.location.reload();
+            }else
             if (resultado == '1000') {
                 $('#mensajefeed').val(resultado);
                 $('#BodyMensajeCp').html('Empleados movidos con éxito');

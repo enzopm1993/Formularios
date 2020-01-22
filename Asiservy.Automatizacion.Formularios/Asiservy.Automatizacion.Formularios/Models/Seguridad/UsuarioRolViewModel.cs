@@ -9,12 +9,12 @@ namespace Asiservy.Automatizacion.Formularios.Models.Seguridad
     public class UsuarioRolViewModel
     {
         public int IdUsuarioRol { get; set; }
-        [Required(ErrorMessage ="Campo Requerido")]
         public Nullable<int> IdRol { get; set; }
+        [Required(ErrorMessage = "Campo Requerido")]
         public Nullable<int> IdRol2 { get; set; }
         public string Rol { get; set; }
-        [Required(ErrorMessage = "Campo Requerido")]
         public string IdUsuario { get; set; }
+        [Required(ErrorMessage = "Campo Requerido")]
         public string IdUsuario2 { get; set; }
         public string Usuario { get; set; }
         public Nullable<System.DateTime> FechaCreacionlog { get; set; }

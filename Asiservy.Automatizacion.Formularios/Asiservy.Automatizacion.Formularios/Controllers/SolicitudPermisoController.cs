@@ -76,7 +76,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDGeneral = new clsDGeneral();
                 lsUsuario = User.Identity.Name.Split('_');
                 ViewBag.Linea = clsDGeneral.ConsultarLineaUsuario(lsUsuario[1]);
-                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPermiso(clsAtributos.EstadoSolicitudPendiente, lsUsuario[1]);
+                ListaSolicitud = clsDSolicitudPermiso.ConsultaSolicitudesPendiente(lsUsuario[1]);
                 return PartialView(ListaSolicitud);
             }
             catch (DbEntityValidationException e)
@@ -1216,14 +1216,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDGeneral = new clsDGeneral();
                 if(clsDLogin.ValidarUsuarioRol(lsUsuario[1],clsAtributos.AsistenteProduccion))
                     ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
-                if (clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolControladorGeneral) || clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolSupervisorGeneral))
+                else if (clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolControladorGeneral) || clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolSupervisorGeneral))
                     ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
-                if (clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolSupervisorLinea) || clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolControladorLinea))
+                else if (clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolSupervisorLinea) || clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolControladorLinea))
                 {
                     var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                     ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, empleado.CODIGOLINEA);
                 }
-                if(clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolRRHH))
+                else if(clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolRRHH))
                 {
                     ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
                 }else

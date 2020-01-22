@@ -5,7 +5,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdNivelUsuario)
+                Id
+            </th>
+            <th>
+                Identificación
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Usuario)
@@ -25,23 +28,26 @@
         {
             foreach (var item in Model)
             {
-                <tr onclick="SeleccionNivelUsuario('@item.IdNivelUsuario', '@item.IdUsuario', '@item.Nivel', '@item.EstadoRegistro')">
+        <tr onclick="SeleccionNivelUsuario('@item.IdNivelUsuario', '@item.IdUsuario', '@item.Nivel', '@item.EstadoRegistro','@item.UsuarioAprueba')">
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IdNivelUsuario)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Usuario)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DescripcionNivel)
-                    </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdNivelUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionNivel)
+            </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EstadoRegistro)
-                    </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoRegistro)
+            </td>
 
-                </tr>
+        </tr>
             }
         }
     </tbody>

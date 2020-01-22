@@ -14,7 +14,9 @@
         border-radius: 0.35rem;
         height: 30px;
     }
-
+    input, select, textarea {
+        max-width: 100%
+    }
 </style>
 <h5>Mover Personal en Nómina</h5>
 <div class="" style="padding-bottom:100px">
@@ -24,43 +26,37 @@
     <div class="row" id="divprestar">
         <div class="col-md-6 col-sm-12">
             <fieldset class="form-group" style="height:100%">
-                <legend>Origen</legend>
-                <center>
-                    <table>
-                        <tr>
-                            <td></td>
-                            <td>
+                <legend>Origen</legend>              
+                 
+                        <div class="col-md-12 col-12 col-sm-12 form-group">
+                            
                                 @Html.Label("Centro de Costos:")
                                 @Html.DropDownList("SelectAreaOrigen", new SelectList(ViewBag.CentroCostos, "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "ChangeCentroCostoOrigen(this.value)", @class = "form-control selectpicker", @data_live_search = "true" })
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
+                            
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12 form-group">
+                           
                                 @Html.Label("Recurso:")
                                 @Html.DropDownList("SelectRecursoOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el recurso", new { @onchange = "ChangeRecursoOrigen(this.value)", @class = "form-control" })
 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
+                           
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12 form-group">
+                           
                                 @Html.Label("Línea:")
                                 @Html.DropDownList("SelectLineaOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "ChangeLineaOrigen(this.value)", @class = "form-control" })
 
-                            </td>
-                        </tr>
+                            
+                        </div>
 
-                        <tr>
-                            <td></td>
-                            <td>
+                        <div class="col-md-12 col-12 col-sm-12 form-group">
+                         
                                 @Html.Label("Cargo")
                                 @Html.DropDownList("SelectCargoOrigen", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control" })
 
-                            </td>
-                        </tr>
-                    </table>
-                </center>
+                           
+                        </div>
+                   
                 <br />
                 <center> <input type="button" id="ConsultarEmpleados" value="Consultar" class="btn btn-primary" onclick="ConsultarEmpleados();" /></center>
             </fieldset>
@@ -70,53 +66,37 @@
 
             <fieldset class="form-group" style="height:100%">
                 <legend>Mover a</legend>
-                <center>
-                    <table>
-                        <tr>
-                            <td></td>
-                            <td>
+               
+                        <div class="col-md-12 col-12 col-sm-12 form-group">
+                           
                                 @Html.Label("Centro de Costos:")
                                 @Html.DropDownList("Area", new SelectList(ViewBag.CentroCostos, "Codigo", "Descripcion"), "Seleccione el Centro de Costos", new { @onchange = "ChangeCentroCosto(this.value)", @class = "form-control", @id = "SelectArea" })
 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12 form-group">
+                          
                                 @Html.Label("Recurso:")
                                 @Html.DropDownList("Recurso", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Recurso", new { @onchange = "ChangeRecurso(this.value)", @class = "form-control", @id = "SelectRecurso" })
 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
+                            
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12 form-group">
+                           
                                 @Html.Label("Línea:")
                                 @Html.DropDownList("Linea", new SelectList("", "Codigo", "Descripcion"), "Seleccione la Línea", new { @onchange = "ChangeLinea(this.value)", @class = "form-control", @id = "SelectLinea" })
 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
+                           
+                        </div>
+                        <div class="col-md-12 col-12 col-sm-12 form-group">
+                            
                                 @Html.Label("Cargo:")
                                 @Html.DropDownList("Cargo", new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "SelectCargo" })
 
-                            </td>
-                        </tr>
+                           
+                        </div>
                      
 
-                        <tr>
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"></td>
-                        </tr>
-                    </table>
-                </center>
+                      
                 <br /><br />
             </fieldset>
         </div>

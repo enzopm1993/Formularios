@@ -76,6 +76,7 @@ function CambioHoraFecha() {
 
 
 function Guardar() {
+   
     var result = new Array();
     var CodigoMotivo = $("#selectMotivo").val();
     var Observacion = $("#Observacion").val();
@@ -135,6 +136,7 @@ function Guardar() {
                 $("#h3Mensaje").html(resultado.Mensaje);
             }
             $("#spinnerCargando").prop("hidden", true);
+          //  $("#spinnerCargando").prop("hidden", true);
         },
         error: function (resultado) {
             //console.log(resultado);
@@ -147,3 +149,39 @@ function Guardar() {
 
 
 }
+
+
+var modalConfirm = function (callback) {   
+    $("#btnGuardar").on("click", function () {
+        var contador = 0;
+
+        $("#tblDataTable").DataTable().destroy();
+        $("input[type=checkbox]:checked").each(function (resultado) {
+            id = $(this).attr("id");
+            id = id.replace('Empleado-', '');           
+            if (id != "Empleado" && id != "switchHoraFecha") {
+               // result.push(id);
+                contador++;
+            }
+        });
+        $("#myModalLabel").html("Generar " + contador+" Solicitudes?")
+        $("#mi-modal").modal('show');
+    });
+
+    $("#modal-btn-si").on("click", function () {
+        callback(true);
+        $("#mi-modal").modal('hide');
+    });
+
+    $("#modal-btn-no").on("click", function () {
+//        callback(false);
+        $("#mi-modal").modal('hide');
+    });
+};
+
+modalConfirm(function (confirm) {
+    if (confirm) {
+        //Acciones si el usuario confirma
+        Guardar();
+    } 
+});

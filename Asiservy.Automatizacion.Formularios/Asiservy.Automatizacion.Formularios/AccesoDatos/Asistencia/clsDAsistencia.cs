@@ -22,7 +22,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())  
             {
-               if(db.ASISTENCIA.Where(z => (z.Cedula == cedula && z.Fecha == z.Fecha &&z.EstadoAsistencia==clsAtributos.EstadoPresente)&& (z.HoraSalida==null)).ToList().Count > 0)
+                var ConsultaAsistencia = db.ASISTENCIA.Where(x => x.Cedula == cedula && fecha == x.Fecha&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo && (x.EstadoAsistencia == clsAtributos.EstadoPresente || x.EstadoAsistencia == clsAtributos.EstadoAtraso)
+                  && x.HoraSalida == null).ToList();
+               if(ConsultaAsistencia.Count>0)
                 {
                     return true;
                 }
@@ -76,14 +78,34 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 var Asistencia = db.ASISTENCIA.FirstOrDefault(x => x.IdAsistencia == model.IdAsistencia);
                 if (Asistencia != null)
                 {
-                    Asistencia.Hora = model.Hora;
-                    Asistencia.EstadoAsistencia = model.EstadoAsistencia;
-                    Asistencia.Observacion = model.Observacion;
-                    Asistencia.FechaModificacionLog = DateTime.Now;
-                    Asistencia.UsuarioModificacionLog = model.UsuarioCreacionLog;
-                    Asistencia.TerminalModificacionLog = model.TerminalCreacionLog;
-                    db.SaveChanges();
-                    return clsAtributos.MsjRegistroGuardado;
+                    //Asistencia.Hora = model.Hora;
+                    //Asistencia.EstadoAsistencia = model.EstadoAsistencia;
+                    //Asistencia.Observacion = model.Observacion;
+                    //Asistencia.FechaModificacionLog = DateTime.Now;
+                    //Asistencia.UsuarioModificacionLog = model.UsuarioCreacionLog;
+                    //Asistencia.TerminalModificacionLog = model.TerminalCreacionLog;
+                    //db.SaveChanges();
+
+                   
+                    string Resultado = ActualizarAsistencia(new ASISTENCIA
+                    {
+                        Cedula = Asistencia.Cedula,
+                        Hora = model.Hora,
+                        Observacion = model.Observacion,
+                        EstadoAsistencia = model.EstadoAsistencia,
+                        UsuarioModificacionLog = model.UsuarioCreacionLog,
+                        TerminalModificacionLog = model.TerminalCreacionLog,
+                        FechaModificacionLog = DateTime.Now,
+                        Fecha = Asistencia.Fecha,
+                        CentroCostos = Asistencia.CentroCostos,
+                        Recurso = Asistencia.Recurso,
+                        Linea = Asistencia.Linea,
+                        Cargo = Asistencia.Cargo,
+                        Turno = Asistencia.Turno,
+                        EstadoRegistro = clsAtributos.EstadoRegistroActivo
+                    });
+                    return Resultado;
+                    //return clsAtributos.MsjRegistroGuardado;
                 }
                 else
                 {
@@ -237,12 +259,27 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     //foreach (var item in PersonalMovidoAEstaLinea)
                     foreach (var item in PersonalMovidoAEstaLineaFiltrado)
                     {
-                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = Fecha, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A", CentroCostos = item.CentroCosto, Recurso = item.Recurso, Cargo = item.CodCargo });
+                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.Cedula, Fecha = Fecha, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = item.CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A", CentroCostos = item.CentroCosto, Recurso = item.Recurso, Cargo = item.CodCargo, Generado=clsAtributos.General });
 
                     }
                     db.ASISTENCIA.AddRange(ControlAsistencia);
+                    if (ControlAsistencia.Count > 0)//solo si se va a crear al menos un registristro en asistencia se guarda en contro_asistencia
+                    {
+                        db.CONTROL_ASISTENCIA.Add(new CONTROL_ASISTENCIA
+                        {
+                            Fecha = Fecha,
+                            Linea = CodLinea,
+                            Turno = turno,
+                            Hora = Hora,
+                            EstadoRegistro = clsAtributos.EstadoRegistroActivo,
+                            Generado = clsAtributos.General,
+                            FechaIngresoLog = DateTime.Now,
+                            TerminalIngresoLog = terminal,
+                            UsuarioIngresoLog = usuario
+                        });
+                    }
                     db.SaveChanges();
-                    pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, Convert.ToInt32(turno), Fecha).ToList();
+                    pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, Convert.ToInt32(turno), Fecha,Hora).ToList();
                     //pListAsistenciaGeneral.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     foreach (var item in pListAsistenciaGeneral)
                     {
@@ -255,7 +292,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 }
                 else
                 {
-                    pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, Convert.ToInt32(turno), Fecha).ToList();
+                    var control_asistencia = db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == clsAtributos.Procesos).FirstOrDefault();
+                    pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, Convert.ToInt32(turno), Fecha,control_asistencia.Hora).ToList();
                     //pListAsistenciaGeneral.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     foreach (var item in pListAsistenciaGeneral)
                     {

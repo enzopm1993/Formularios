@@ -1,6 +1,10 @@
 ﻿@model Asiservy.Automatizacion.Datos.Datos.OPCION_ROL
 
-
+<style>
+    input, select, textarea {
+        max-width: 100%
+    }
+</style>
 
 <div style="padding-bottom:100px">
     @using (Html.BeginForm())
@@ -66,7 +70,7 @@
                         <button class="btn" id="btnGuardar" onclick="GuargarOpcion()" style="border-color:#2c3e50" type="submit">
                             <img style="width:100%" src="~/Content/icons/add24.png" />
                         </button>
-                        <button class="btn" id="Nuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
+                        <button class="btn" id="NuevoRegistro" onclick="" style="border-color:#2c3e50" type="button">
                             <img style="width:100%" src="~/Content/icons/clear24.png" />
                         </button>
                     </div>

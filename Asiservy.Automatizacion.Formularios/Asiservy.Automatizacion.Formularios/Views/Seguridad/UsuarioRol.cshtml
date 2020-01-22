@@ -5,24 +5,9 @@
 }
 
 <style>
-    /*.jsselect1 {
-        padding: 0rem 0.30rem;
-        height: 30px;
-        font-size: 13px;
-        display: block;
-        width: 100%;
-        font-weight: 400;
-        line-height: 1.5;
-        color: #6e707e;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #d1d3e2;
-        border-radius: 0.35rem;
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        font-weight: 400;
-        line-height: 1.5;
-    }*/
+    input, select, textarea {
+        max-width: 100%
+    }
 </style>
 
 @using (Html.BeginForm())
@@ -35,8 +20,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         @Html.EditorFor(model => model.IdUsuarioRol, new { htmlAttributes = new { @class = "form-control", @hidden = "hidden" } })
-        @Html.ValidationMessageFor(model => model.IdUsuarioRol, "", new { @class = "text-danger" })
-
+      
 
         <div class="row">
             <div class="offset-md-2 col-md-3 col-sm-12">
@@ -72,7 +56,7 @@
                 <button class="btn" id="btnGuardar" onclick="GuargarOpcion()" style="border-color:#2c3e50" type="submit">
                     <img style="width:100%" src="~/Content/icons/add24.png" />
                 </button>
-                <button class="btn" id="Nuevo" onclick="NuevoUsuarioRol()" style="border-color:#2c3e50" type="button">
+                <button class="btn" id="NuevoUsuarioRol" onclick="" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/clear24.png" />
                 </button>
             </div>

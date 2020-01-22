@@ -99,6 +99,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             List<string> NoSePudieornRegresar = new List<string>();
             string psTurno = string.Empty;
             EMPLEADO_TURNO poTurnoEmpleado = null;
+            spConsutaEmpleados Empleado = null;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 using (var transaction = db.Database.BeginTransaction())
@@ -183,7 +184,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             if (BuscarEnAsistencia != null)
                             {
                                 pListCambioPersonal.Remove(item);
-                                NoSePudieornMover.Add(item.Cedula + ": No se puede mover, por que su asistencia ya fue generada en la fecha indicada y tiene estado falta");
+                                Empleado = db.spConsutaEmpleados(item.Cedula).FirstOrDefault();
+                                NoSePudieornMover.Add(Empleado.NOMBRES+" con cédula N°:  "+item.Cedula + ": No se puede mover, por que su asistencia ya fue generada en la fecha indicada y tiene estado falta.");
                             }
 
                         }
@@ -197,6 +199,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             DateTime? FechaIngresada;
                             foreach (var item in pListCambioPersonal.ToArray())
                             {
+                                Empleado = db.spConsutaEmpleados(item.Cedula).FirstOrDefault();
                                 FechaIngresada = item.HoraInicio == null ? item.Fecha : item.Fecha.Value.Add(item.HoraInicio.Value);
                                 //busco si la persona esta en CAMBIO_PERSONAL con Vigente false(osea que ya ha sido regresado)
                                 BuscarPerCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula && !x.Vigente.Value).OrderByDescending(z=>z.IdCambioPersonal).FirstOrDefault();
@@ -205,7 +208,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                     if (FechaIngresada <= BuscarPerCambioPersonal.FechaFin.Value.Add(BuscarPerCambioPersonal.Horafin.Value))
                                     {
                                         pListCambioPersonal.Remove(item);
-                                        NoSePudieornMover.Add(item.Cedula + ": No se puede mover, por que ya habia sido movido en una fecha menor a la indicada");
+                                        
+                                        NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No se puede mover, por que ya habia sido movido en una fecha menor a la indicada.");
 
                                     }
                                 }
@@ -216,14 +220,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                     if (BuscarMovimientoPersonalDiario != null)
                                     {
                                         pListCambioPersonal.Remove(item);
-                                        NoSePudieornMover.Add(item.Cedula + ": No se pudo mover a Inicio de Jornada por que la asistencia ya fue marcada en la Línea donde pertenece");
+                                        NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No se pudo mover a Inicio de Jornada por que la asistencia ya fue marcada en la Línea donde pertenece.");
                                     }
                                     //validar que no haya sido generada la asistencia en la linea a la que pertenece el empleado en el dia que se lo piensa mover(por que es a inicio de jornada
                                     var buscarasistencia = db.ASISTENCIA.Where(x => x.Cedula == item.Cedula&&x.Fecha==item.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                                     if (buscarasistencia.Count > 0)
                                     {
                                         pListCambioPersonal.Remove(item);
-                                        NoSePudieornMover.Add(item.Cedula + ": No se pudo mover a inicio de jornada por que la asistencia ya habia sido generada en su linea ");
+                                        NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No se pudo mover a inicio de jornada por que la asistencia ya habia sido generada en su linea. ");
                                     }
                                 }
                                 else//significa que el usuario si ingreso una hora para mover al empleado
@@ -241,13 +245,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                             if (psHora <= BuscarMovimientoPersonalDiario.HoraFin)
                                             {
                                                 pListCambioPersonal.Remove(item);
-                                                NoSePudieornMover.Add(item.Cedula + ": No se pudo mover por que la hora ingresada es menor a la hora en que ya marco asistencia en la Línea a la que pertenece");
+                                                NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No se pudo mover por que la hora ingresada es menor a la hora en que ya marco asistencia en la Línea a la que pertenece.");
                                             }
                                         }else
                                         if (psHora < BuscarMovimientoPersonalDiario.HoraInicio)// && psHora>x.HoraInicio
                                         {
                                             pListCambioPersonal.Remove(item);
-                                            NoSePudieornMover.Add(item.Cedula + ": No se pudo mover por que la hora ingresada es menor a la hora en que ya marco asistencia en la Línea a la que pertenece");
+                                            NoSePudieornMover.Add(Empleado.NOMBRES + " con cédula N°:  " + item.Cedula + ": No se pudo mover por que la hora ingresada es menor a la hora en que ya marco asistencia en la Línea a la que pertenece.");
                                         }
                                         else
                                         {
@@ -281,7 +285,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             string Mensaje = string.Empty;
                             foreach (var item in NoSePudieornMover)
                             {
-                                Mensaje += item + "\n";
+                                Mensaje += item + "<br>";
                             }
                             //return "Los empleados: " + Mensaje + " No se pudieron mover a la fecha indicada por que la asistencia fue generada";
 
@@ -300,7 +304,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         CAMBIO_PERSONAL BuscarEnCambioPersonal = null;
                         string LineaDesc = string.Empty;
                         DateTime ValidaFecha;
-                        spConsutaEmpleados Empleado = null;
+                        
                         //**CONSULTO LA ASISTENCIA, si tiene asistencia falta, no le permito regresarlo(tiene que ir a marcarle presente y de ahi le permitira regresarlo) agregado 2020-01-15
                         ASISTENCIA buscaEnAsistencia = null;
                         foreach (var item in pListCambioPersonal.ToArray())
@@ -311,7 +315,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                 pListCambioPersonal.Remove(item);
                                 Empleado = db.spConsutaEmpleados(item.Cedula).FirstOrDefault();
                                 LineaDesc = db.spConsultaLinea(buscaEnAsistencia.Linea).FirstOrDefault().Descripcion;
-                                NoSePudieornRegresar.Add(Empleado.NOMBRES+" con cédula N°: "+ item.Cedula+", No se pudo regresar por que tiene asistencia con estado de falta en la fecha indicada en la línea: "+ LineaDesc + " \n");
+                                NoSePudieornRegresar.Add(Empleado.NOMBRES+" con cédula N°: "+ item.Cedula+", No se pudo regresar por que tiene asistencia con estado de falta en la fecha indicada en la línea: "+ LineaDesc + ". <br>");
 
                             }
                            
@@ -329,7 +333,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             else
                             {
                                 Empleado = db.spConsutaEmpleados(item.Cedula).FirstOrDefault();
-                                NoSePudieornRegresar.Add(Empleado.NOMBRES+"con cédula N°: "+ item.Cedula+ ":  No se pudo regresar por que la fecha de Fin debe ser mayor a la Fecha de inicio \n");
+                                NoSePudieornRegresar.Add(Empleado.NOMBRES+"con cédula N°: "+ item.Cedula+ ":  No se pudo regresar por que la fecha de Fin debe ser mayor a la Fecha de inicio. <br>");
                             }
                             
 
@@ -344,7 +348,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                 {
                                     listCedulas.Remove(item);
                                     Empleado = db.spConsutaEmpleados(item).FirstOrDefault();
-                                    NoSePudieornRegresar.Add(Empleado.NOMBRES + " con cédula N°: " + item + ": No se pudo regresar por que la hora de finalización de asistencia es mayor o igual a la fecha en la que se lo va a regresar \n");
+                                    NoSePudieornRegresar.Add(Empleado.NOMBRES + " con cédula N°: " + item + ": No se pudo regresar por que la hora de finalización de asistencia es mayor o igual a la fecha en la que se lo va a regresar. <br>");
 
                                 }
                             }

@@ -13,6 +13,7 @@ function CargarBandejaAprobacion() {
             if (resultado == "101") {
                 window.location.reload();
             }           
+         
             if (resultado == "0") {
                 $("#divTable").html("No existen registros");
                 $("#spinnerCargando").prop("hidden", true);
@@ -24,11 +25,13 @@ function CargarBandejaAprobacion() {
                 $('#tblDataTable').DataTable(config.opcionesDT);
             }
             $('#btnConsultar').prop("disabled", true);
+          
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
             $('#btnConsultar').prop("disabled", false);
             $("#spinnerCargando").prop("hidden", true);
+           
 
 
         }
@@ -100,6 +103,7 @@ function Anular() {
     {
         MensajeCorrecto("Debe ingresar un motivo");
     } else {
+        MostrarModalCargando();
         $.ajax({
             url: '../SolicitudPermiso/AnularSolicitud',
             type: 'GET',
@@ -108,18 +112,20 @@ function Anular() {
                 dsObservacion: " -Anulación: "+Observacion
             },
             success: function (resultado) {
+                CerrarModalCargando();
                 CargarBandejaAprobacion();
                 MensajeCorrecto(resultado + "\n Solicitud Anulada");
             }
             ,
             error: function () {
+                CerrarModalCargando();
                 MensajeError("No se ha podido obtener la información");
             }
         });
     }
 }
 
-function Observacion(valor) {
+function ObservacionModalAnular(valor) {
    // console.log(valor);
     document.getElementById("txtObservaccionAnulacion").value = "";
     document.getElementById("txtIdSolicitud").value = valor;
@@ -152,68 +158,3 @@ function Mostrar(valor) {
     });
 }
 
-
-
-//function checkTodos() {
-//    var i = 1;
-//    var bool = document.getElementById("checkTodos").checked;
-//        console.log('prueba');
-
-//    $('#TableBandeja tr').each(function () {       
-//        var desSol="solicitud"
-//        var x = $(this).find("td").eq(1).html();
-//        console.log(x);
-//        if (x != null) {
-//            desSol += i;
-//            document.getElementById(desSol).checked = bool;
-//            i++;
-//        }
-//    });
-//}
-
-
-
-//$(document).ready(function () {
-//    $("#search").keyup(function () {
-//        _this = this;
-//        // Show only matching TR, hide rest of them
-//        $.each($("#WebGrid tbody tr"), function () {
-//            if ($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
-//                $(this).hide();
-//            else
-//                $(this).show();
-//        });
-//    });
-//});
-
-
-
-//    $("body").on("click", ".Grid tfoot a", function () {
-//        $('#WebGridForm').attr('action', $(this).attr('href')).submit();
-//    return false;
-//});
-
-//$('table tbody tr  td').on('click', function () {
-//    $("#myModal").modal("show");
-//    $("#txtSolicitud").val($(this).closest('tr').children()[0].textContent);
-//    $("#txtFecha").val($(this).closest('tr').children()[1].textContent);
-//    $("#txtMotivo").val($(this).closest('tr').children()[2].textContent);
-//    $("#txtArea").val($(this).closest('tr').children()[3].textContent);
-//    $("#txtEmpleado").val($(this).closest('tr').children()[4].textContent);
-
-//    $("#txtSolicitud").prop('disabled', true);
-//    $("#txtFecha").prop('disabled', true);
-//    $("#txtMotivo").prop('disabled', true);
-//    $("#txtArea").prop('disabled', true);
-//    $("#txtEmpleado").prop('disabled', true);
-//});
-//comboFind
-
-
-//function LimpiarTexto() {
-//    $.each($("#TableBandejaRRHH tbody tr"), function () {
-//        $(this).show();
-//    });
-//    document.getElementById("search").innerText = "";
-//    $("#search").val("");
-//}

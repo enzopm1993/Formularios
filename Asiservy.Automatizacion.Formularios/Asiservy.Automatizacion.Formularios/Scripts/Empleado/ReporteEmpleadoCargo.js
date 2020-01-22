@@ -1,5 +1,10 @@
 ﻿
 
+$(document).ready(function () {    
+    $("#selectLinea").select2();
+});
+
+
 function CargarEmpleadoCargo() {
    // console.log($("#selectLinea").val());
     $("#divCard").prop("hidden", true);

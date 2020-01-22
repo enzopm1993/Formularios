@@ -1,8 +1,10 @@
 ﻿
 var ListadoControl = [];
+var ListadoAditivos = [];
 
 $(document).ready(function () {
     // CargarControlConsumo(); 
+    $("#selectAditivo").select2();
 });
 
 function CargarDatosOrdenFabricacion() {
@@ -31,13 +33,19 @@ function CargarDatosOrdenFabricacion() {
                 MensajeAdvertencia("No se pudo obtener información");
                 return;
             }
-           // console.log(resultado);
+           //console.log(resultado);
             $("#txtPesoNeto").val(parseInt(resultado.PESO_NETO));
             $("#txtPesoEscrundido").val(parseInt(resultado.PESO_ESCURRIDO));
             $("#txtLomo").val(parseInt(resultado.LOMOS));
             $("#txtMiga").val(parseInt(resultado.MIGAS));
             $("#txtCajas").val(parseInt(resultado.UNIDADES_X_CAJA));
             $("#txtOrdenVenta").val(parseInt(resultado.PEDIDO_VENTA));
+            $("#txtMarca").val(resultado.MARCA);
+            if (resultado.CLIENTE_CORTO != '') {
+                $("#txtCliente").val(resultado.CLIENTE_CORTO);
+            } else {
+                $("#txtCliente").val(resultado.CLIENTE);
+            }
 
             //$("#").val('');
         },
@@ -155,6 +163,8 @@ function NuevoControlConsumoInsumos() {
     $("#txtCaldoVegetal").val('0');
 
     $("#txtOrdenVenta").val('');
+    $("#txtCliente").val('');
+    $("#txtMarca").val('');
     $("#txtHoraInicio").val('');
     $("#txtHoraFin").val('');
     $("#txtDesperdicioSolido").val('0');
@@ -162,6 +172,10 @@ function NuevoControlConsumoInsumos() {
     $("#txtDesperdicioAceite").val('0');
     $("#txtEmpleados").val('0');
     $("#txtCajas").val('0');
+    $("#txtUnidadesRecibidas").val('0');
+    $("#txtSobrantes").val('0');
+    $("#txtUnidadesProducidas").val('0');   
+    $("#txtCodigoProducto").val('');
     $("#txtObservacion").val('');
 
 }
@@ -287,6 +301,10 @@ function GenerarControlConsumo() {
             DesperdicioAceite: $("#txtDesperdicioAceite").val(),
             Empleados: $("#txtEmpleados").val(),
             Cajas: $("#txtCajas").val(),
+            UnidadesRecibidas: $("#txtUnidadesRecibidas").val(),
+            UnidadesSobrantes: $("#txtSobrantes").val(),
+            UnidadesProducidas: $("#txtUnidadesProducidas").val(),
+            CodigoProducto:$("#txtCodigoProducto").val(),
             Observacion: $("#txtObservacion").val()
         },
         success: function (resultado) {
@@ -376,6 +394,8 @@ function SeleccionarControlDetalleConsumo(model) {
     $("#txtAgua").val(ListadoControl.Agua);
     $("#txtCaldoVegetal").val(ListadoControl.CaldoVegetal);
     $("#txtOrdenVenta").val(ListadoControl.OrdenVenta);
+    $("#txtCliente").val(ListadoControl.Cliente);
+    $("#txtMarca").val(ListadoControl.Marca);
     $("#txtHoraInicio").val(ListadoControl.HoraInicio);
     $("#txtHoraFin").val(ListadoControl.HoraFin);
     $("#txtDesperdicioSolido").val(ListadoControl.DesperdicioSolido);
@@ -383,6 +403,10 @@ function SeleccionarControlDetalleConsumo(model) {
     $("#txtDesperdicioAceite").val(ListadoControl.DesperdicioAceite);
     $("#txtEmpleados").val(ListadoControl.Empleados);
     $("#txtCajas").val(ListadoControl.Cajas);
+    $("#txtUnidadesRecibidas").val(ListadoControl.UnidadesRecibidas);
+    $("#txtSobrantes").val(ListadoControl.UnidadesSobrantes);
+    $("#txtUnidadesProducidas").val(ListadoControl.UnidadesProducidas);
+    $("#txtCodigoProducto").val(ListadoControl.CodigoProducto);
     $("#txtObservacion").val(ListadoControl.Observacion);
     //  $("#divCabecera1").prop("hidden", true);
     $("#btnAtras").prop("hidden", false);
@@ -401,6 +425,7 @@ function SeleccionarControlDetalleConsumo(model) {
     CargarProcesoDetalleDaniado();
     CargarProcesoDetalleTiemposMuertos();
     CargarProcesoDetalleAditivos();
+    ConsultarConsultarAditivos();
 }
 
 function CargarProcesoDetalleEnlatado() {
@@ -410,7 +435,8 @@ function CargarProcesoDetalleEnlatado() {
         url: "../ControlConsumoInsumo/ControlConsumoInsumoDetalleEnlatadoPartial",
         type: "GET",
         data: {
-            IdControl: ListadoControl.IdControlConsumoInsumos
+            IdControl: ListadoControl.IdControlConsumoInsumos,
+            Tipo: $("#selectTipoProceso").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -515,7 +541,8 @@ function GuardarConsumoEnlatado() {
             Pallet: $("#txtPallet").val(),
             Lotes: $("#txtLote").val(),
             Bultos: $("#txtBulto").val(),
-            FechaFabricacion: $("#txtFechaFabricacion").val()
+            FechaFabricacion: $("#txtFechaFabricacion").val(),
+            Tipo: $("#selectTipoProceso").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -847,6 +874,8 @@ function EditarConsumoDaniado(model) {
 
 
 
+
+
 /////////////////////TIEMPOS MUERTOS////////////////////////////
 
 function CargarProcesoDetalleTiemposMuertos() {
@@ -1003,6 +1032,61 @@ function EditarConsumoTiemposMuertos(model) {
 
 
 ///////////////// ADITIVOS  /////////////////////////////////////////////////////////////////////
+function ConsultarConsultarAditivos() {
+    $.ajax({
+        url: "../ControlConsumoInsumo/ConsultarAditivos",
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            ListadoAditivos = resultado;
+            $("#selectAditivo").empty();
+            $("#selectAditivo").append("<option value='' >-- Seleccionar Opción--</option>");
+            if (!$.isEmptyObject(ListadoAditivos)) {
+                $.each(ListadoAditivos, function (create, row) {
+                    $("#selectAditivo").append("<option value='" + row.CodigoInsumo + "'>" + row.Descripcion + "</option>")
+                });
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoDaniados").prop("hidden", true);
+        }
+    });
+}
+
+function CambiarAditivo() {
+    if ($("#selectAditivo").val() == "") {
+        return;
+    }
+    $.ajax({
+        url: "../ControlConsumoInsumo/ConsultarAditivosProveedores",
+        type: "GET",
+        data: {
+            CodigoInsumo: $("#selectAditivo").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            //ListadoAditivos = resultado;
+            $("#selectProveedor").empty();
+           // $("#selectProveedor").append("<option value='' >-- Seleccionar Opción--</option>");
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#selectProveedor").append("<option value='" + row.Proveedor + "'>" + row.Proveedor + "</option>")
+                });
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoDaniados").prop("hidden", true);
+        }
+    });
+
+}
+
 
 function CargarProcesoDetalleAditivos() {
     $("#spinnerCargandoAditivos").prop("hidden", false);
@@ -1039,27 +1123,32 @@ function CargarProcesoDetalleAditivos() {
 
 function ModalGenerarAditivos() {
     $("#txtIdConsumoAditivos").val(0);
-    $("#selectTipoAditivos").prop("selectedIndex", 0);
-    //$("#txtHoraPara").val("");
-    //$("#txtHoraReinicio").val("");
-    //$("#txtObservacionAditivos").val("");
+    $("#selectAditivo").prop("selectedIndex", 0).change();
+    $("#selectProveedor").empty();
+    $("#selectAditivo").prop("disabled", false);
+    $("#selectProveedor").prop("disabled", false);
+    $("#txtPesoAditivo").val('0');
+    $("#txLoteAditivo").val('');
     $("#ModalConsumoAditivos").modal("show");
 }
 
 function validarConsumoAditivos() {
     var valida = true;
-    if ($("#txtHoraPara").val() == "") {
-        $("#txtHoraPara").css('borderColor', '#FA8072');
+    if ($("#selectAditivo").val() == "") {
+        MensajeAdvertencia("Seleccione un aditivo");
+        $("#select2-selectAditivo-container").css('Color', '#FA8072');
         valida = false;
     } else {
-        $("#selectDaniado").css('borderColor', '#ced4da');
+        $("#select2-selectAditivo-container").css('Color', '#ced4da');
     }
-    if ($("#selectTipoAditivos").val() == "") {
-        $("#selectTipoAditivos").css('borderColor', '#FA8072');
+
+    if ($("#txtPesoAditivo").val() == "" || $("#txtPesoAditivo").val()<1) {
+        $("#txtPesoAditivo").css('borderColor', '#FA8072');
         valida = false;
     } else {
-        $("#selectTipoAditivos").css('borderColor', '#ced4da');
+        $("#txtPesoAditivo").css('borderColor', '#ced4da');
     }
+   
     return valida;
 }
 
@@ -1071,12 +1160,12 @@ function GuardarConsumoAditivos() {
         url: "../ControlConsumoInsumo/GuardarAditivos",
         type: "POST",
         data: {
-            IdTiempoMuertos: $("#txtIdConsumoAditivos").val(),
+            IdConsumoAditivo: $("#txtIdConsumoAditivos").val(),
             IdControlConsumoInsumos: ListadoControl.IdControlConsumoInsumos,
-            Tipo: $("#selectTipoAditivos").val(),
-            HoraPara: $("#txtHoraPara").val(),
-            HoraReinicio: $("#txtHoraReinicio").val(),
-            Observacion: $("#txtObservacionAditivos").val()
+            Proveedor: $("#selectProveedor").val(),
+            Aditivo: $("#selectAditivo").val(),
+            Peso: $("#txtPesoAditivo").val(),
+            Lote: $("#txLoteAditivo").val()
 
         },
         success: function (resultado) {
@@ -1104,7 +1193,7 @@ function InactivarAditivos() {
         url: "../ControlConsumoInsumo/EliminarAditivos",
         type: "POST",
         data: {
-            IdTiempoMuertos: $("#txtEliminarAditivos").val()
+            IdConsumoAditivo: $("#txtEliminarAditivos").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -1124,8 +1213,8 @@ function InactivarAditivos() {
 }
 
 function EliminarConsumoAditivos(model) {
-    $("#txtEliminarAditivos").val(model.IdTiempoMuertos);
-    $("#pModalAditivos").html("Hora de para: " + moment(model.HoraPara).format("HH:MM"));
+    $("#txtEliminarAditivos").val(model.IdConsumoAditivo);
+    $("#pModalAditivos").html("Aditivo: " + model.DescripcionAditivo);
     $("#modalEliminarAditivos").modal('show');
 }
 
@@ -1143,12 +1232,14 @@ $("#modal-Aditivos-btn-no").on("click", function () {
 
 
 function EditarConsumoAditivos(model) {
-    // console.log(model);
-    $("#txtIdConsumoAditivos").val(model.IdTiempoMuertos);
-    $("#selectTipoAditivos").val(model.CodTipo);
-    $("#txtHoraPara").val(model.HoraPara);
-    $("#txtHoraReinicio").val(model.HoraReinicio);
-    $("#txtObservacionAditivos").val(model.Observacion);
+      
+    $("#txtIdConsumoAditivos").val(model.IdConsumoAditivo); 
+   // $("#selectProveedor").val(model.Proveedor);
+    $("#selectAditivo").val(model.Aditivo).trigger('change');
+    $("#selectAditivo").prop("disabled", true);
+   $("#selectProveedor").prop("disabled", true);
+    $("#txtPesoAditivo").val(model.Peso);
+    $("#txLoteAditivo").val(model.Lote);
 
 
     $("#ModalConsumoAditivos").modal("show");
