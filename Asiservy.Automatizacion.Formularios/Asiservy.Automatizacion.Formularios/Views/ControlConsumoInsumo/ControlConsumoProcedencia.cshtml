@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaConsumoProcedenciaPescado>
+@using Newtonsoft.Json;
+
+
+<table class="table table-light table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Procedencia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lote)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </th>
+        <th></th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @if(item.Procedencia=="S")
+            {
+                @:Sala
+            }else
+             {
+                @:Congelado
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observacion)
+        </td>
+
+        <td>
+            @{string json = JsonConvert.SerializeObject(item); }
+            <button class="btn btn-link" onclick="EditarConsumoProcedencia(@json)">Editar</button>
+            |
+            <button class="btn btn-link" onclick="EliminarConsumoProcedencia(@json)">Eliminar</button>
+        </td>
+    </tr>
+    }
+
+</table>

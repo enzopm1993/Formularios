@@ -2,46 +2,52 @@
 
 <table class="table table-bordered">
     <tr>
-       
+
         <th>
-            @Html.DisplayNameFor(model => model.Codigo)
+            Tipo
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Latas)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tapas)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fundas)
-        </th>
-      
-        <th>
-            @Html.DisplayNameFor(model => model.TipoConsumo)
-        </th>
-       
+        @if (ViewBag.LineaNegocio == "ENLATADO")
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.Latas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tapas)
+            </th>
+        }
+        else
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.Fundas)
+            </th>
+        }
+
+
+
+
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-       
-        <td>
-            @Html.DisplayFor(modelItem => item.Codigo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Latas)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tapas)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fundas)
-        </td>
-       
+
         <td>
             @Html.DisplayFor(modelItem => item.TipoConsumo)
         </td>
-      
+        @if (ViewBag.LineaNegocio == "ENLATADO")
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.Latas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tapas)
+            </td>
+        }
+        else
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.Fundas)
+            </td>
+        }
     </tr>
 }
 

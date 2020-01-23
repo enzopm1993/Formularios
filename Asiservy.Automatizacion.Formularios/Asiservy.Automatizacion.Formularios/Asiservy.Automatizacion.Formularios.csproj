@@ -3211,6 +3211,7 @@
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\ControlCocheLinea\ControlCocheLineaViewModel.cs" />
     <Compile Include="Models\ControlHorasMaquina.cs" />
+    <Compile Include="Models\DatosProcesoEnlatado.cs" />
     <Compile Include="Models\Empleado\EmpleadoEsferoViewModel.cs" />
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
@@ -3426,6 +3427,8 @@
     <Content Include="Views\ControlConsumoInsumo\ReporteDaniadoPartial.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ReporteConsumoAditivos.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ReporteTiemposMuertos.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ControlConsumoProcedencia.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteProcedencia.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
