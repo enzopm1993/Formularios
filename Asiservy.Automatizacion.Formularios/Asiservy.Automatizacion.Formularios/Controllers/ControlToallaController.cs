@@ -33,8 +33,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDEmpleado = new clsDEmpleado();
                 liststring = User.Identity.Name.Split('_');
-                //ViewBag.Linea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
-                ViewBag.Linea = "52";
+                ViewBag.Linea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
+                //ViewBag.Linea = "52";
                 return View();
             }
             catch (Exception ex)
