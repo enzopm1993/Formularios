@@ -3422,6 +3422,10 @@
     <Content Include="Views\ControlConsumoInsumo\ControlConsumoAditivos.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ReporteControlEnlatado.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ReporteControlEnlatadoPartial.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteInsumoDetalleEnlatadoPartial.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteDaniadoPartial.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteConsumoAditivos.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteTiemposMuertos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
