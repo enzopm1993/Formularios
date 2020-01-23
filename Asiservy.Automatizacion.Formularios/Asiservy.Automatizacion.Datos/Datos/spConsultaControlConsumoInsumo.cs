@@ -23,8 +23,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Cliente { get; set; }
         public Nullable<int> PesoNeto { get; set; }
         public Nullable<int> PesoEscrundido { get; set; }
-        public Nullable<int> Lomo { get; set; }
-        public Nullable<int> Miga { get; set; }
+        public Nullable<decimal> Lomo { get; set; }
+        public Nullable<decimal> Miga { get; set; }
         public string Envase { get; set; }
         public string Tapa { get; set; }
         public Nullable<int> Aceite { get; set; }
@@ -43,5 +43,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> UnidadesSobrantes { get; set; }
         public Nullable<int> UnidadesProducidas { get; set; }
         public string Marca { get; set; }
+        public Nullable<int> UnidadesRecibidasTapa { get; set; }
+        public Nullable<int> UnidadesSobrantesTapa { get; set; }
+        public Nullable<int> UnidadesProducidasTapa { get; set; }
     }
 }
