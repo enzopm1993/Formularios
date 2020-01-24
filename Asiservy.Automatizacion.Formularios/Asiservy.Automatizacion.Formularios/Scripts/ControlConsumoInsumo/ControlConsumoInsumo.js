@@ -320,6 +320,7 @@ function GenerarControlConsumo() {
             Observacion: $("#txtObservacion").val()
         },
         success: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true); 
             if (resultado == "101") {
                 window.location.reload();
             } else if (resultado == "0") {
@@ -329,8 +330,7 @@ function GenerarControlConsumo() {
                 MensajeAdvertencia("No se encontró información de la OF")
                 return;
 
-            } else if ($("#txtIdControlConsumo").val() == '0') {
-                $("#spinnerCargando").prop("hidden", true);               
+            } else if ($("#txtIdControlConsumo").val() == '0') {                             
                 CargarControlConsumo();
                 MensajeCorrecto("Registro Generado con Éxito");
 
@@ -508,7 +508,7 @@ function GuardarConsumoDetalle() {
     if ($("#txtLineaNegocio").val() == "ENLATADO") {
         GuardarConsumoEnlatado();
     } else {
-
+        GuardarConsumoPouch();
     }
 }
 
@@ -636,7 +636,7 @@ $("#modal-Detalle-btn-si").on("click", function () {
     if ($("#txtLineaNegocio").val() == "ENLATADO") {
         InactivarDetalleEnlatado();
     } else {
-
+        InactivarDetallePouch();
     }    
     $("#txtEliminarProcesoDetalle").val('0');
     $("#modalEliminarProcesoDetalle").modal('hide');
@@ -652,7 +652,7 @@ function CargarProcesoDetallePouch() {
     $("#spinnerCargandoDetalle").prop("hidden", false);
     $("#divTableDetalle").html('');
     $.ajax({
-        url: "../ControlConsumoInsumo/ControlConsumoInsumoDetallePocuhPartial",
+        url: "../ControlConsumoInsumo/ControlConsumoInsumoDetallePouchPartial",
         type: "GET",
         data: {
             IdControl: ListadoControl.IdControlConsumoInsumos
@@ -684,11 +684,11 @@ function CargarProcesoDetallePouch() {
 
 function validarConsumoPouch() {
     var valida = true;
-    if ($("#txtCaja").val() == "") {
-        $("#txtCaja").css('borderColor', '#FA8072');
+    if ($("#txtPallet").val() == "") {
+        $("#txtPallet").css('borderColor', '#FA8072');
         valida = false;
     } else {
-        $("#txtCaja").css('borderColor', '#ced4da');
+        $("#txtPallet").css('borderColor', '#ced4da');
     }
     if ($("#txtLote").val() == "") {
         $("#txtLote").css('borderColor', '#FA8072');
@@ -718,7 +718,7 @@ function GuardarConsumoPouch() {
         data: {
             IdProcesoDetallePouch: $("#txtIdControlDetalleProceso").val(),
             IdControlConsumoInsumos: ListadoControl.IdControlConsumoInsumos,
-            Cajas: $("#txtCaja").val(),
+            Cajas: $("#txtPallet").val(),
             Lotes: $("#txtLote").val(),
            // Bultos: $("#txtBulto").val(),
             FechaFabricacion: $("#txtFechaFabricacion").val()
@@ -744,6 +744,50 @@ function GuardarConsumoPouch() {
 
 
 
+function EditarProcesoDetallePouch(model) {
+    // console.log(model);
+    $("#txtIdControlDetalleProceso").val(model.IdProcesoDetallePouch);
+    $("#txtPallet").val(model.Cajas);
+    $("#txtLote").val(model.Lotes);
+    //$("#txtBulto").val(model.Bultos);
+    $("#txtFechaFabricacion").val(moment(model.FechaFabricacion).format("YYYY-MM-DD"));
+
+    $("#ModalGenerarControlDetalle").modal("show");
+    //ModalGenerarControlDetalle();
+}
+
+
+
+function InactivarDetallePouch() {
+    $.ajax({
+        url: "../ControlConsumoInsumo/EliminarConsumoDetallePouch",
+        type: "POST",
+        data: {
+            IdProcesoDetallePouch: $("#txtEliminarProcesoDetalle").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+            }
+            CargarProcesoDetallePouch();
+            //   MensajeCorrecto("Registro Eliminado con Éxito");
+            $("#modalEliminarProcesoDetalle").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
+
+function EliminarProcesoDetallePouch(model) {
+    $("#txtEliminarProcesoDetalle").val(model.IdProcesoDetallePouch);
+    $("#pModalDetalle").html("Caja: " + model.Cajas);
+    $("#modalEliminarProcesoDetalle").modal('show');
+}
 
 
 

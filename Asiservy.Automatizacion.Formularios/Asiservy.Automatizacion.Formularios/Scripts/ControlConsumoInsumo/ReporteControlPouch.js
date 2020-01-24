@@ -35,7 +35,7 @@ function CargarControlConsumo() {
         type: "GET",
         data: {
             Fecha: txtFecha,
-            LineaNegocio: 'ENLATADO',
+            LineaNegocio: 'POUCH',
             Turno: selectTurno
         },
         success: function (resultado) {
@@ -118,7 +118,7 @@ function SeleccionarControlDetalleConsumo(model) {
     $("#divAcciones").prop("hidden", false);
 
     //if ($("#txtLineaNegocio").val() == "ENLATADO") {
-    //ReporteInsumoDetallPouchPartial();
+    ReporteInsumoDetallePouchPartial();
     //CargarProcesoDetalleTapa();
     //} else {
     //    CargarProcesoDetallePouch();
@@ -148,9 +148,9 @@ function AtrasControlPrincipal() {
 }
 
 
-function ReporteInsumoDetallPouchPartial() {
+function ReporteInsumoDetallePouchPartial() {
     //$("#spinnerCargandoDetalleL").prop("hidden", false);
-    $("#divTableDetalleCuerpo").html('');
+    $("#divTableDetalleFundas").html('');
     $.ajax({
         url: "../ControlConsumoInsumo/ReporteInsumoDetallPouchPartial",
         type: "GET",
@@ -162,9 +162,9 @@ function ReporteInsumoDetallPouchPartial() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                $("#divTableDetalleCuerpo").html("No existen registros");
+                $("#divTableDetalleFundas").html("No existen registros");
             } else {
-                $("#divTableDetalleCuerpo").html(resultado);
+                $("#divTableDetalleFundas").html(resultado);
             }
 
         },

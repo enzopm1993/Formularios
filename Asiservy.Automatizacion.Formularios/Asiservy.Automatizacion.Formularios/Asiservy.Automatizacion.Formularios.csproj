@@ -3433,6 +3433,7 @@
     <Content Include="Views\ControlConsumoInsumo\ReporteControlPouch.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ReporteControlPouchPartial.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ReporteInsumoDetallPouchPartial.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ControlConsumoInsumoDetallePouchPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

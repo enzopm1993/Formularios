@@ -183,7 +183,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 else
                 {
                     control.FechaIngresoLog = DateTime.Now;
-                    entities.CONSUMO_DETALLE_POUCH.Add(result);
+                    entities.CONSUMO_DETALLE_POUCH.Add(control);
 
                 }
                 entities.SaveChanges();

@@ -153,7 +153,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 //model.CodigoProducto = result.CODIGO_PRODUCTO;
                 model.CodigoMaterial = result.CODIGO_MATERIAL;
-                model.Producto = result.NOMBRE_ADICIONAL;
+                model.Producto = string.IsNullOrEmpty(result.NOMBRE_ADICIONAL)? result.NOMBRE_PRODUCTO : result.NOMBRE_ADICIONAL;
                 model.Cliente = string.IsNullOrEmpty(result.CLIENTE_CORTO)?result.CLIENTE:result.CLIENTE_CORTO;
                 model.Envase = result.ENVASE;
                 model.Tapa = result.TAPA??"";

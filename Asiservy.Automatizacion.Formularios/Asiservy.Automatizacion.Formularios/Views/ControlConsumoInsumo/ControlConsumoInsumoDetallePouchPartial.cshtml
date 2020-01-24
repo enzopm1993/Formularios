@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaConsumoDetallePouch>
+@using Newtonsoft.Json;
+
+
+<table class="table">
+    <tr>
+     
+        <th>
+            @Html.DisplayNameFor(model => model.Cajas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lotes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaFabricacion)
+        </th>
+       
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Cajas)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lotes)
+        </td>
+        <td>
+            @item.FechaFabricacion.ToString("yyyy-MM-dd")
+        </td>
+        <td>
+            @{string json = JsonConvert.SerializeObject(item); }
+            <button class="btn btn-link" onclick="EditarProcesoDetallePouch(@json)">Editar</button>
+            |
+            <button class="btn btn-link" onclick="EliminarProcesoDetallePouch(@json)">Eliminar</button>
+
+
+        </td>
+    </tr>
+    }
+
+</table>
