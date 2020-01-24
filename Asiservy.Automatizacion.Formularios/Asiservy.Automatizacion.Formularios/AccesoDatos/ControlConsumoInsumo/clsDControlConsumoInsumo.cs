@@ -206,11 +206,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
             }
         }
-        public List<CONSUMO_DETALLE_POUCH> ConsultaConsumoDetallePouch(int IdControl)
+        public List<spConsultaConsumoDetallePouch> ConsultaConsumoDetallePouch(int IdControl)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CONSUMO_DETALLE_POUCH.Where(x => x.IdControlConsumoInsumos == IdControl && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                var lista = entities.spConsultaConsumoDetallePouch(IdControl).ToList();
                 return lista;
             }
         }

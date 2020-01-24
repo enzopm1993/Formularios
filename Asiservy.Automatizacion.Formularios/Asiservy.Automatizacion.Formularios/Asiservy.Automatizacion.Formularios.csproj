@@ -2147,6 +2147,7 @@
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ControlConsumoInsumo.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ReporteControlEnlatado.js" />
+    <Content Include="Scripts\ControlConsumoInsumo\ReporteControlPouch.js" />
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
     <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
@@ -3429,6 +3430,9 @@
     <Content Include="Views\ControlConsumoInsumo\ReporteTiemposMuertos.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ControlConsumoProcedencia.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ReporteProcedencia.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteControlPouch.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteControlPouchPartial.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteInsumoDetallPouchPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
