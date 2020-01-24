@@ -189,19 +189,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_ConsultaMotivoSolicitudPermisoAsistencia", cedulaParameter);
         }
     
-        public virtual ObjectResult<spConsutaReporteEmpleadosTurnos> spConsutaReporteEmpleadosTurnos(string linea, string turno)
-        {
-            var lineaParameter = linea != null ?
-                new ObjectParameter("linea", linea) :
-                new ObjectParameter("linea", typeof(string));
-    
-            var turnoParameter = turno != null ?
-                new ObjectParameter("turno", turno) :
-                new ObjectParameter("turno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaReporteEmpleadosTurnos>("spConsutaReporteEmpleadosTurnos", lineaParameter, turnoParameter);
-        }
-    
         public virtual ObjectResult<spConsutaEmpleadoEsfero> spConsutaEmpleadoEsfero(string linea)
         {
             var lineaParameter = linea != null ?
@@ -1175,6 +1162,36 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Tipo", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAuditoriaSangre>("spReporteAuditoriaSangre", codLineaParameter, fECHAParameter, tipoParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaReporteEmpleadosTurnos> spConsutaReporteEmpleadosTurnos(string linea, string turno)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("turno", turno) :
+                new ObjectParameter("turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaReporteEmpleadosTurnos>("spConsutaReporteEmpleadosTurnos", lineaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spReporteControlToalla> spReporteControlToalla(Nullable<System.DateTime> fecha, string codLinea, string turno)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("CodLinea", codLinea) :
+                new ObjectParameter("CodLinea", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlToalla>("spReporteControlToalla", fechaParameter, codLineaParameter, turnoParameter);
         }
     }
 }
