@@ -13,6 +13,9 @@
                 Linea
             </th>
             <th>
+                Auditado
+            </th>
+            <th>
                 Veces
             </th>
             <th>
@@ -24,16 +27,19 @@
     <tbody>
         @foreach (var item in Model)
         {
-            var color = item.Veces == 1 ? "transparent" : item.Veces == 2 ? "#F7F266" : "#F9866E";
+            var color = item.Veces <= 1 ? "transparent" : item.Veces == 2 ? "#F7F266" : "#F9866E";
         <tr style="background-color:@color">
             <td>
                 @item.Cedula
             </td>
             <td>
-                @item.NOMBRES
+                @item.Nombres
             </td>
             <td>
                 @item.Linea
+            </td>
+            <td>
+                @item.Auditado
             </td>
             <td>
                 @item.Veces
