@@ -46,6 +46,9 @@ function CargarDatosOrdenFabricacion() {
             } else {
                 $("#txtCliente").val(resultado.CLIENTE);
             }
+            
+            $("#txtCodigoProducto").val(resultado.CODIGO_PRODUCTO);
+
 
             //$("#").val('');
         },
@@ -178,7 +181,7 @@ function NuevoControlConsumoInsumos() {
     $("#txtUnidadesRecibidasTapa").val('0');
     $("#txtSobrantesTapa").val('0');
     $("#txtUnidadesProducidasTapa").val('0'); 
-    $("#txtCodigoProducto").val('');
+ //   $("#txtCodigoProducto").val('');
     $("#txtObservacion").val('');
 
 }
@@ -252,12 +255,12 @@ function ValidarGenerarControlConsumo(){
     } else {
         $("#txtAgua").css('borderColor', '#ced4da');
     }
-    if ($("#txtCodigoProducto").val() == "") {
-        $("#txtCodigoProducto").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#txtCodigoProducto").css('borderColor', '#ced4da');
-    }
+    //if ($("#txtCodigoProducto").val() == "") {
+    //    $("#txtCodigoProducto").css('borderColor', '#FA8072');
+    //    valida = false;
+    //} else {
+    //    $("#txtCodigoProducto").css('borderColor', '#ced4da');
+    //}
     
     return valida;
 }
@@ -316,7 +319,7 @@ function GenerarControlConsumo() {
             UnidadesRecibidasTapa: $("#txtUnidadesRecibidasTapa").val(),
             UnidadesSobrantesTapa: $("#txtSobrantesTapa").val(),
             UnidadesProducidasTapa: $("#txtUnidadesProducidasTapa").val(),
-            CodigoProducto:$("#txtCodigoProducto").val(),
+          //  CodigoProducto:$("#txtCodigoProducto").val(),
             Observacion: $("#txtObservacion").val()
         },
         success: function (resultado) {
