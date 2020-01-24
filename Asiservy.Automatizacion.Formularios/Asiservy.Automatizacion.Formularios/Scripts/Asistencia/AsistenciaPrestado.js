@@ -4,6 +4,7 @@
 function GenerarAsistenciaPrestadosOk() {
     $("#modalprestados").modal("hide");
     $("#horaservidor").hide();
+    $("#lblHoraServidor").hide();
 
     GenerarAsistenciaDiariaMovidos($('#LineaPres').val(), $('#banderapres').val());
     console.log($('#LineaPres').val());
@@ -63,6 +64,7 @@ function Nuevo() {
 
 
     $('#horaservidor').hide();
+    $('#lblHoraServidor').hide();
     $('#mensajepersonal').hide();
     $('#GenerarAsistencia').hide();
     $('#TurnoGen').removeAttr('disabled');
@@ -131,6 +133,7 @@ function ConsultarSiExisteAsistencia() {
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
         $('#horaservidor').hide();
+        $('#lblHoraServidor').hide();
         $('#mensajeturno').show();
         return false;
     } else {
@@ -157,10 +160,17 @@ function ConsultarSiExisteAsistencia() {
         },
         success: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
+            if (resultado == '333') {
+                MensajeAdvertencia('La fecha no puede ser mayor a hoy', false);
+                $('#TurnoGen').prop('disabled', false);
+                $('#txtFecha').prop('disabled', false);
+                return false;
+            }
             $('#Existe').val(resultado);
 
             if (resultado == 0) {
                 $('#horaservidor').show();
+                $('#lblHoraServidor').show();
                 $('#GenerarAsistencia').show();
                 $('#TurnoGen').prop('disabled', 'disabled');
                 $('#txtFecha').prop('disabled', 'disabled');
@@ -169,6 +179,7 @@ function ConsultarSiExisteAsistencia() {
             }
             if (resultado == 1) {
                 $('#horaservidor').hide();
+                $('#lblHoraServidor').hide();
                 GenerarAsistenciaDiariaMovidos($('#CodLinea').val(), resultado);
                 $('#GenerarAsistencia').hide();
             }
@@ -191,6 +202,7 @@ function VerificarMovidosAMiLinea(IdLinea, bandera) {
     $("#spinnerCargando").prop("hidden", false);
     $('#GenerarAsistencia').hide();
     $('#horaservidor').hide();
+    $('#lblHoraServidor').hide();
     $('#banderapres').val(bandera);
     $.ajax({
         //url: '../Asistencia/VerificarPrestados',
@@ -208,6 +220,7 @@ function VerificarMovidosAMiLinea(IdLinea, bandera) {
             $("#spinnerCargando").prop("hidden", true);
             $('#GenerarAsistencia').show();
             $('#horaservidor').show();
+            $('#lblHoraServidor').show();
             $('#divmodalprestados').html(resultado);
 
             if ($('#txtPrestado').val() == 'true') {
@@ -302,18 +315,18 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
     //**
     if (ComboOCheck == 'check') {
         if ($('#TurnoGen').val() == '1') {
-            if (hora > toDate("07:00", "h:m")) {
+            if (hora > toDate($('#HoraControlAsistencia').val(), "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('2');
             }
-            if (hora <= toDate("07:00", "h:m")) {
+            if (hora <= toDate($('#HoraControlAsistencia').val(), "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('1');
             }
         }
         if ($('#TurnoGen').val() == '2') {
-            if (hora > toDate("07:00", "h:m")) {
+            if (hora > toDate($('#HoraControlAsistencia').val(), "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('2');
             }
-            if (hora <= toDate("07:00", "h:m")) {
+            if (hora <= toDate($('#HoraControlAsistencia').val(), "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('1');
             }
         }
@@ -361,14 +374,14 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
-                $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
+                //$('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
             }
             ,
             error: function (resultado) {
                 //MensajeError(resultado, false);
 
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
-                $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
+                //$('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
                 $("#LabelAsistencia-" + indice).css("background", "transparent");
                 $("#CheckAsistencia-" + indice).prop('checked', false);
             }
@@ -389,12 +402,12 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
-                $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
+                //$('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
             }
             ,
             error: function (resultado) {
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
-                $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
+                //$('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
                 PintarCHeck(indice);
                 MensajeError(resultado, false);
             }

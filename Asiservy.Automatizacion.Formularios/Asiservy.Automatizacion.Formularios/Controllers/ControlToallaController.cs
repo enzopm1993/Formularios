@@ -179,5 +179,58 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+        public ActionResult ReporteControlToalla()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                //clsDEmpleado = new clsDEmpleado();
+                //liststring = User.Identity.Name.Split('_');
+                //ViewBag.Linea = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault().CODIGOLINEA;
+                //ViewBag.Linea = "52";
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult PartialReporteToalla(DateTime Fecha, string CodLinea, string Turno)
+        {
+
+            try
+            {
+                ClsDControlToalla = new clsDControlToalla();
+                List<spReporteControlToalla> ListReporteToalla = ClsDControlToalla.ConsultarReporteControlToalla(Fecha,CodLinea,Turno);
+                return PartialView(ListReporteToalla);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = "sistemas"
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

@@ -144,6 +144,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlToalla
 
             }
         }
-
+        public List<spReporteControlToalla> ConsultarReporteControlToalla(DateTime Fecha, string Codlinea, string Turno)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spReporteControlToalla(Fecha,Codlinea,Turno).ToList();
+            }
+        }
     }
 }

@@ -1020,5 +1020,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return db.spConsultaMovimientoPersonalDiario(Fecha, Hora, Linea).ToList();
             }
         }
+        public CONTROL_ASISTENCIA ConsultarControlAsistencia(DateTime Fecha, string CodLinea, string turno,string Generado)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == Generado).FirstOrDefault();
+            }
+
+        }
     }
 }

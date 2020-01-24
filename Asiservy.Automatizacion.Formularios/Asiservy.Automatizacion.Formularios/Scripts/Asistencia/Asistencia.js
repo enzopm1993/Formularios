@@ -98,6 +98,7 @@ function Nuevo() {
     $('#TurnoGen').prop('selectedIndex', 0);
     $('#PartialAsistencia').empty();
     $('#horaservidor').hide();
+    $('#lblHoraServidor').hide();
 
 
     var d = new Date();
@@ -159,6 +160,7 @@ function ConsultarSiExisteAsistencia() {
     if ($('#TurnoGen').prop('selectedIndex') == 0) {
         $('#GenerarAsistencia').hide();
         $('#horaservidor').hide();
+        $('#lblHoraServidor').hide();
         $('#mensajeturno').show();
         return false;
     } else {
@@ -182,11 +184,18 @@ function ConsultarSiExisteAsistencia() {
         },
         success: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
+            //**
+            if (resultado == '333') {
+                MensajeAdvertencia('La fecha no puede ser mayor a hoy',false);
+                return false;
+            }
+            //**
             $('#Existe').val(resultado);
 
             if (resultado == 0) {
                 $('#GenerarAsistencia').show();
                 $('#horaservidor').show();
+                $('#lblHoraServidor').show();
                 $('#TurnoGen').prop('disabled', 'disabled');
                 $('#txtFecha').prop('disabled', 'disabled');
                 $('#ConsultaAsistencia').prop('disabled', 'disabled');
@@ -197,6 +206,7 @@ function ConsultarSiExisteAsistencia() {
                 $('#TurnoGen').prop('disabled', 'disabled');
                 $('#txtFecha').prop('disabled', 'disabled');
                 $('#horaservidor').hide();
+                $('#lblHoraServidor').hide();
                 $('#GenerarAsistencia').hide();
             }
         },
@@ -251,6 +261,7 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
     $("#spinnerCargando").prop("hidden", false);
     $('#GenerarAsistencia').hide();
     $('#horaservidor').hide();
+    $('#lblHoraServidor').hide();
     
     $.ajax({
         //url: '../Asistencia/VerificarPrestados',
@@ -268,6 +279,7 @@ function VerificarsiHayPrestados(IdLinea, bandera) {
             $("#spinnerCargando").prop("hidden", true);
             $('#GenerarAsistencia').show();
             $('#horaservidor').show();
+            $('#lblHoraServidor').show();
             if (resultado == '888') {
                 MensajeError("No es posible generar la asistencia, el período se encuentra cerrado");
             } else {
@@ -307,6 +319,7 @@ function GenerarAsistenciaDiaria(IdLinea, bandera)//genera asistencia diaria si 
 {
     $('#GenerarAsistencia').hide();
     $('#horaservidor').hide();
+    $('#lblHoraServidor').hide();
     $("#spinnerCargando").prop("hidden", false);
 
     var turno;
@@ -375,18 +388,18 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
     //**
     if (ComboOCheck == 'check') {
         if ($('#TurnoGen').val() == '1') {
-            if (hora > toDate("07:00", "h:m")) {
+            if (hora > toDate($('#HoraControlAsistencia').val(), "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('2');
             }
-            if (hora <= toDate("07:00", "h:m")) {
+            if (hora <= toDate($('#HoraControlAsistencia').val(), "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('1');
             }
         }
         if ($('#TurnoGen').val() == '2') {
-            if (hora > toDate("07:00", "h:m")) {
+            if (hora > toDate($('#HoraControlAsistencia').val(), "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('2');
             }
-            if (hora <= toDate("07:00", "h:m")) {
+            if (hora <= toDate($('#HoraControlAsistencia').val(), "h:m")) {
                 $('#ControlAsistencia_' + valor + '__EstadoAsistencia').val('1');
             }
         }
@@ -437,7 +450,7 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                 } else {
                     //MensajeCorrecto(resultado, true);
                     $('#CheckAsistencia-' + indice).prop("disabled", false);
-                    $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
+                    //$('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
                 }
                 
             }
@@ -446,7 +459,7 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                 MensajeError(resultado, false);
                 console.log(resultado);
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
-                $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
+               // $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
                 $("#LabelAsistencia-" + indice).css("background", "transparent");
                 $("#CheckAsistencia-" + indice).prop('checked', false);
             }
@@ -470,14 +483,14 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
                     MensajeError('No se puede cambiar asistencia, el periodo se encuentra cerrado');
                 } else {
                     $('#CheckAsistencia-' + indice).prop("disabled", false);
-                    $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
+                   // $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
                 }
                 
             }
             ,
             error: function (resultado) {
                 $('#CheckAsistencia-' + indice).prop("disabled", false);
-                $('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
+                //$('#ControlAsistencia_' + valor + '__EstadoAsistencia').prop("disabled", false);
                 PintarCHeck(indice);
                 MensajeError(resultado, false);
             }
