@@ -17,12 +17,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CONTROL_CONSUMO_INSUMO()
         {
-            this.CONSUMO_DETALLE_ADITIVO = new HashSet<CONSUMO_DETALLE_ADITIVO>();
             this.CONSUMO_DETALLE_DANIADO = new HashSet<CONSUMO_DETALLE_DANIADO>();
             this.CONSUMO_DETALLE_LATA = new HashSet<CONSUMO_DETALLE_LATA>();
             this.CONSUMO_DETALLE_POUCH = new HashSet<CONSUMO_DETALLE_POUCH>();
             this.CONSUMO_TIEMPO_MUERTO = new HashSet<CONSUMO_TIEMPO_MUERTO>();
             this.CONSUMO_PROCEDENCIA_PESCADO = new HashSet<CONSUMO_PROCEDENCIA_PESCADO>();
+            this.CONSUMO_DETALLE_ADITIVO = new HashSet<CONSUMO_DETALLE_ADITIVO>();
         }
     
         public int IdControlConsumoInsumos { get; set; }
@@ -69,8 +69,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> UnidadesProducidasTapa { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CONSUMO_DETALLE_ADITIVO> CONSUMO_DETALLE_ADITIVO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONSUMO_DETALLE_DANIADO> CONSUMO_DETALLE_DANIADO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONSUMO_DETALLE_LATA> CONSUMO_DETALLE_LATA { get; set; }
@@ -80,5 +78,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual ICollection<CONSUMO_TIEMPO_MUERTO> CONSUMO_TIEMPO_MUERTO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONSUMO_PROCEDENCIA_PESCADO> CONSUMO_PROCEDENCIA_PESCADO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CONSUMO_DETALLE_ADITIVO> CONSUMO_DETALLE_ADITIVO { get; set; }
     }
 }
