@@ -90,7 +90,12 @@ function SeleccionarControlDetalleConsumo(model) {
         $("#txtTurno").html("B");
     }
     $("#txtFecha2").html($("#txtFecha").val());
-    $("#txtHoras").html(moment(ListadoControl.HoraInicio).format("HH:MM") +" - "+ moment(ListadoControl.HoraFin).format("HH:MM"));
+    //console.log(ListadoControl.HoraInicio);
+    //console.log(moment(ListadoControl.HoraInicio).format("HH:MM"));
+
+    var horaInicio = moment(ListadoControl.HoraInicio).format("HH:MM");
+    var horaFin = moment(ListadoControl.HoraFin).format("HH:MM");
+    $("#txtHoras").html(horaInicio + " - " + horaFin);
     
 
 
@@ -340,6 +345,7 @@ function DatosDelProcesoEnlatado() {
             $("#txtTotalCajas").html(resultado.TotalCajas);
             $("#txtGrsXLata").html(resultado.Grs);
             $("#txtPersonal").html(resultado.Personal);
+            $("#txtSaldo").html(resultado.Saldo);
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);

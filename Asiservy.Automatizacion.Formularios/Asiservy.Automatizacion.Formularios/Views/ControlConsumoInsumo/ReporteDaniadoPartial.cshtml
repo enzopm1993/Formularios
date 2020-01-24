@@ -26,29 +26,51 @@
 
 
     </tr>
+    @{ 
+        int TotalLatas = 0;
+        int TotalTapas = 0;
+        int TotalFundas = 0;
+    }
+    @foreach (var item in Model)
+    {
+        TotalLatas = TotalLatas + item.Latas ?? 0;
+        TotalTapas = TotalTapas + item.Tapas ?? 0;
+        TotalFundas = TotalFundas + item.Fundas ?? 0;
+        <tr>
 
-@foreach (var item in Model) {
-    <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoConsumo)
+            </td>
+            @if (ViewBag.LineaNegocio == "ENLATADO")
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Latas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tapas)
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fundas)
+                </td>
+            }
+        </tr>
+    }
 
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoConsumo)
-        </td>
-        @if (ViewBag.LineaNegocio == "ENLATADO")
-        {
-            <td>
-                @Html.DisplayFor(modelItem => item.Latas)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tapas)
-            </td>
-        }
-        else
-        {
-            <td>
-                @Html.DisplayFor(modelItem => item.Fundas)
-            </td>
-        }
-    </tr>
-}
+        <tr>
+            <th>Total</th>
 
+            @if (ViewBag.LineaNegocio == "ENLATADO")
+            {
+                <th>@TotalLatas</th>
+                <th>@TotalTapas</th>
+            }
+            else
+            {
+                <th>@TotalFundas</th>
+            }
+
+        </tr>
 </table>
