@@ -4,10 +4,10 @@
     <tr>
        
         <th>
-            @Html.DisplayNameFor(model => model.HoraPara)
+           Para
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HoraReinicio)
+           Reinicio
         </th>      
         <th>
             @Html.DisplayNameFor(model => model.Tipo)
@@ -22,10 +22,22 @@
     <tr>
      
         <td>
-            @Html.DisplayFor(modelItem => item.HoraPara)
+            @{
+                if (item.HoraPara != null)
+                {
+                    var HoraPara = item.HoraPara.ToString("HH:mm");
+                    @HoraPara
+                }
+            }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HoraReinicio)
+            @{
+                if (item.HoraReinicio != null)
+                {
+                    var HoraPara = item.HoraReinicio.Value.ToString("HH:mm");
+                    @HoraPara
+                }
+            }
         </td>       
         <td>
             @Html.DisplayFor(modelItem => item.Tipo)

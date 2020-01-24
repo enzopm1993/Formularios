@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaConsumoDetallePouch>
+
+<table class="table table-bordered">
+    <tr>
+     
+        <th>
+            @Html.DisplayNameFor(model => model.Cajas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lotes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaFabricacion)
+        </th>
+       
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.Cajas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lotes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaFabricacion)
+            </td>
+           
+        </tr>
+    }
+
+</table>

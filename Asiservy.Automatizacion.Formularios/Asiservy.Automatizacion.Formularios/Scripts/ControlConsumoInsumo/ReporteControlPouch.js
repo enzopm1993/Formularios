@@ -10,8 +10,8 @@ $(document).ready(function () {
 function CargarControlConsumo() {
     $("#divCabecera2").prop("hidden", true);
     $("#btnAtras").prop("hidden", true);
-    $("#btnImprimir").prop("hidden", true); 
-    
+    $("#btnImprimir").prop("hidden", true);
+
     var txtFecha = $('#txtFecha').val();
     var selectTurno = $('#selectTurno').val();
     if ($("#txtFecha").val() == "") {
@@ -29,13 +29,13 @@ function CargarControlConsumo() {
 
     $("#spinnerCargando").prop("hidden", false);
     $("#chartCabecera2").html('');
-   // CargarOrdenFabricacion();
+    // CargarOrdenFabricacion();
     $.ajax({
         url: "../ControlConsumoInsumo/ControlConsumoInsumoPartial",
         type: "GET",
         data: {
             Fecha: txtFecha,
-            LineaNegocio: 'ENLATADO',
+            LineaNegocio: 'POUCH',
             Turno: selectTurno
         },
         success: function (resultado) {
@@ -65,7 +65,7 @@ function CargarControlConsumo() {
 
 
 function SeleccionarControlDetalleConsumo(model) {
-   // idControl = model.IdControlConsumoInsumos;
+    // idControl = model.IdControlConsumoInsumos;
     ListadoControl = model;
 
     $("#txtOrdenFabricacion").html(ListadoControl.OrdenFabricacion);
@@ -91,12 +91,14 @@ function SeleccionarControlDetalleConsumo(model) {
     }
     $("#txtFecha2").html($("#txtFecha").val());
     //console.log(ListadoControl.HoraInicio);
-    //console.log(moment(ListadoControl.HoraInicio).format("HH:MM"));
+    //console.log(moment(ListadoControl.HoraInicio).format("HH:mm"));
 
-    var horaInicio = moment(ListadoControl.HoraInicio).format("HH:MM");
-    var horaFin = moment(ListadoControl.HoraFin).format("HH:MM");
+    var horaInicio = moment(ListadoControl.HoraInicio).format("HH:mm");
+    var horaFin = moment(ListadoControl.HoraFin).format("HH:mm");
     $("#txtHoras").html(horaInicio + " - " + horaFin);
-    
+
+   // $("#txtHoras").html(moment(ListadoControl.HoraInicio).format("HH:MM") + " - " + moment(ListadoControl.HoraFin).format("HH:MM"));
+
 
 
     $("#txtDesperdicioSolido").html(ListadoControl.DesperdicioSolido);
@@ -116,15 +118,15 @@ function SeleccionarControlDetalleConsumo(model) {
     //$("#btnModalGenerar").prop("hidden", true);
     //$("#btnModalEditar").prop("hidden", false);
     $("#txtFecha").prop("disabled", true);
-    $("#selectTurno").prop("disabled", true);    
+    $("#selectTurno").prop("disabled", true);
     $("#divCabecera1").prop("hidden", true);
     $("#divCabecera2").prop("hidden", true);
     $("#divImpresion").prop("hidden", false);
     $("#divAcciones").prop("hidden", false);
 
     //if ($("#txtLineaNegocio").val() == "ENLATADO") {
-    CargarProcesoDetalleCuerpo();
-    CargarProcesoDetalleTapa();
+    ReporteInsumoDetallePouchPartial();
+    //CargarProcesoDetalleTapa();
     //} else {
     //    CargarProcesoDetallePouch();
     //}
@@ -141,8 +143,8 @@ function SeleccionarControlDetalleConsumo(model) {
 function AtrasControlPrincipal() {
     $("#txtFecha").prop("disabled", false);
     $("#selectTurno").prop("disabled", false);
-    $("#btnAtras").prop("hidden", true); 
-    $("#btnImprimir").prop("hidden", true); 
+    $("#btnAtras").prop("hidden", true);
+    $("#btnImprimir").prop("hidden", true);
 
     $("#divCabecera1").prop("hidden", false);
     $("#divCabecera2").prop("hidden", false);
@@ -153,64 +155,33 @@ function AtrasControlPrincipal() {
 }
 
 
-function CargarProcesoDetalleCuerpo() {
+function ReporteInsumoDetallePouchPartial() {
     //$("#spinnerCargandoDetalleL").prop("hidden", false);
-    $("#divTableDetalleCuerpo").html('');
+    $("#divTableDetalleFundas").html('');
     $.ajax({
-        url: "../ControlConsumoInsumo/ReporteInsumoDetalleEnlatadoPartial",
+        url: "../ControlConsumoInsumo/ReporteInsumoDetallPouchPartial",
         type: "GET",
         data: {
-            IdControl: ListadoControl.IdControlConsumoInsumos,
-            Tipo: 'C'
+            IdControl: ListadoControl.IdControlConsumoInsumos           
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
             if (resultado == "0") {
-                $("#divTableDetalleCuerpo").html("No existen registros");            
-            } else {            
-                $("#divTableDetalleCuerpo").html(resultado);
-            }
-            
-        },
-        error: function (resultado) {
-            MensajeError(resultado.responseText, false);
-      //      $('#btnConsultar').prop("disabled", false);
-            $("#spinnerCargandoDetalle").prop("hidden", true);
-        }
-    });
-}
-
-
-function CargarProcesoDetalleTapa() {  
-    $("#divTableDetalleTapa").html('');
-    $.ajax({
-        url: "../ControlConsumoInsumo/ReporteInsumoDetalleEnlatadoPartial",
-        type: "GET",
-        data: {
-            IdControl: ListadoControl.IdControlConsumoInsumos,
-            Tipo: 'T'
-        },
-        success: function (resultado) {
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado == "0") {
-                $("#divTableDetalleTapa").html("No existen registros");               
+                $("#divTableDetalleFundas").html("No existen registros");
             } else {
-                $("#divTableDetalleTapa").html(resultado);               
+                $("#divTableDetalleFundas").html(resultado);
             }
-     //       $('#btnConsultar').prop("disabled", true);
+
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-        //    $('#btnConsultar').prop("disabled", false);
+            //      $('#btnConsultar').prop("disabled", false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });
 }
-
 
 function ReporteConsumoAditivos() {
     $("#divTableDetalleConsumoAditivo").html('');
@@ -219,7 +190,7 @@ function ReporteConsumoAditivos() {
         type: "GET",
         data: {
             IdControl: ListadoControl.IdControlConsumoInsumos
-           
+
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -230,11 +201,11 @@ function ReporteConsumoAditivos() {
             } else {
                 $("#divTableDetalleConsumoAditivo").html(resultado);
             }
-      //      $('#btnConsultar').prop("disabled", true);
+            //      $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-    //        $('#btnConsultar').prop("disabled", false);
+            //        $('#btnConsultar').prop("disabled", false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });
@@ -260,11 +231,11 @@ function ReporteDaniadoPartial() {
             } else {
                 $("#divTableDetalleDaniado").html(resultado);
             }
-       //     $('#btnConsultar').prop("disabled", true);
+            //     $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-        //    $('#btnConsultar').prop("disabled", false);
+            //    $('#btnConsultar').prop("disabled", false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });
@@ -289,11 +260,11 @@ function ReporteTiemposMuertos() {
             } else {
                 $("#divTableDetalleTiemposMuertos").html(resultado);
             }
-         //   $('#btnConsultar').prop("disabled", true);
+            //   $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-       //     $('#btnConsultar').prop("disabled", false);
+            //     $('#btnConsultar').prop("disabled", false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });
@@ -317,11 +288,11 @@ function ReporteProcedencia() {
             } else {
                 $("#divTableDetalleProcedencia").html(resultado);
             }
-           // $('#btnConsultar').prop("disabled", true);
+            // $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-         //   $('#btnConsultar').prop("disabled", false);
+            //   $('#btnConsultar').prop("disabled", false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });

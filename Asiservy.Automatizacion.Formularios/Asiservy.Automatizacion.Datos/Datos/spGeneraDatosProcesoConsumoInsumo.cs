@@ -11,12 +11,16 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsutaReporteEmpleadosTurnos
+    public partial class spGeneraDatosProcesoConsumoInsumo
     {
-        public string CEDULA { get; set; }
-        public string NOMBRES { get; set; }
-        public string LINEA { get; set; }
-        public string TURNO { get; set; }
-        public Nullable<bool> PRESTADO { get; set; }
+        public Nullable<int> TotalCajas { get; set; }
+        public Nullable<int> CajaHora { get; set; }
+        public Nullable<int> CajaMinuto { get; set; }
+        public Nullable<int> Saldo { get; set; }
+        public Nullable<int> SaldoTapa { get; set; }
+        public Nullable<int> MinutoProceso { get; set; }
+        public Nullable<int> MinutoMantenimiento { get; set; }
+        public Nullable<decimal> Grs { get; set; }
+        public Nullable<int> Personal { get; set; }
     }
 }

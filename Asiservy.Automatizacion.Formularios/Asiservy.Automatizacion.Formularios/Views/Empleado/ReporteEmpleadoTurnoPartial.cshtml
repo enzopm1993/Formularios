@@ -30,7 +30,15 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CEDULA)
+                        @if (item.PRESTADO==true)
+                        {
+                            @Html.TextBoxFor(modelItem => item.CEDULA, new { @class = "form-control", @readonly = "readonly", @style = "background:darkseagreen;color: white" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(modelItem => item.CEDULA, new { @class = "form-control", @readonly = "readonly" })
+                        }
+
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.NOMBRES)
@@ -47,4 +55,3 @@
         }
     </tbody>
 </table>
-<script src="~/Scripts/General/dataTableJS.js"></script>

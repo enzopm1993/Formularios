@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaConsumoProcedenciaPescado>
+
+<table class="table table-bordered">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Procedencia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lote)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+
+            <td>
+                @if (item.Procedencia == "S")
+                {
+                    @:Sala
+                }
+                else
+                {
+                    @:Congelado
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+
+        </tr>
+    }
+
+</table>

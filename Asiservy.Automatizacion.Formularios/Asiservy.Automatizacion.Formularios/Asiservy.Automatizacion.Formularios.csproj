@@ -2147,6 +2147,7 @@
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ControlConsumoInsumo.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ReporteControlEnlatado.js" />
+    <Content Include="Scripts\ControlConsumoInsumo\ReporteControlPouch.js" />
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
     <Content Include="Scripts\ControlToalla\ReporteControlToalla.js" />
     <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
@@ -3212,6 +3213,7 @@
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\ControlCocheLinea\ControlCocheLineaViewModel.cs" />
     <Compile Include="Models\ControlHorasMaquina.cs" />
+    <Compile Include="Models\DatosProcesoEnlatado.cs" />
     <Compile Include="Models\Empleado\EmpleadoEsferoViewModel.cs" />
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
@@ -3427,6 +3429,12 @@
     <Content Include="Views\ControlConsumoInsumo\ReporteDaniadoPartial.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ReporteConsumoAditivos.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ReporteTiemposMuertos.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ControlConsumoProcedencia.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteProcedencia.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteControlPouch.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteControlPouchPartial.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteInsumoDetallPouchPartial.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ControlConsumoInsumoDetallePouchPartial.cshtml" />
     <Content Include="Views\ControlToalla\ReporteControlToalla.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

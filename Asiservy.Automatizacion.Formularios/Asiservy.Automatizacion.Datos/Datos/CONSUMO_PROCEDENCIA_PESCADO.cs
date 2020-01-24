@@ -10,15 +10,15 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class spConsultaConsumoDetalleAditivo
+    public partial class CONSUMO_PROCEDENCIA_PESCADO
     {
-        public int IdConsumoAditivo { get; set; }
+        public int IdProcedenciaPescado { get; set; }
         public int IdControlConsumoInsumos { get; set; }
-        public string Proveedor { get; set; }
-        public string Aditivo { get; set; }
-        public Nullable<int> Peso { get; set; }
+        public string Procedencia { get; set; }
         public string Lote { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -26,6 +26,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public string DescripcionAditivo { get; set; }
+    
+        public virtual CONTROL_CONSUMO_INSUMO CONTROL_CONSUMO_INSUMO { get; set; }
     }
 }

@@ -81,6 +81,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
             }
         }
 
+        public CONTROL_CONSUMO_INSUMO ConsultaControlConsumoInsumo(int IdControl)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.CONTROL_CONSUMO_INSUMO.FirstOrDefault(x=> x.IdControlConsumoInsumos==IdControl);
+                return lista;
+            }
+        }
 
         public List<spConsultaControlConsumoInsumo> ConsultaControlConsumoInsumo(DateTime Fecha, string LineaNegocio, string Turno)
         {
@@ -90,6 +98,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 return lista;               
             }
         }
+
+        public spGeneraDatosProcesoConsumoInsumo ConsultaDatosProceso(int IdControl)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.spGeneraDatosProcesoConsumoInsumo(IdControl).FirstOrDefault();
+                return lista;
+            }
+        }
+
         #endregion
 
 
@@ -165,7 +183,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 else
                 {
                     control.FechaIngresoLog = DateTime.Now;
-                    entities.CONSUMO_DETALLE_POUCH.Add(result);
+                    entities.CONSUMO_DETALLE_POUCH.Add(control);
 
                 }
                 entities.SaveChanges();
@@ -188,11 +206,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
             }
         }
-        public List<CONSUMO_DETALLE_POUCH> ConsultaConsumoDetallePouch(int IdControl)
+        public List<spConsultaConsumoDetallePouch> ConsultaConsumoDetallePouch(int IdControl)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CONSUMO_DETALLE_POUCH.Where(x => x.IdControlConsumoInsumos == IdControl && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                var lista = entities.spConsultaConsumoDetallePouch(IdControl).ToList();
                 return lista;
             }
         }
@@ -303,6 +321,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
         }
 
         #endregion
+
         #region TIEMPOS MUERTOS
         public List<spConsultaConsumoTiempoMuerto> ConsultaConsumoDetalleTiempoMuerto(int IdControl)
         {
@@ -342,6 +361,58 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 var result = entities.CONSUMO_TIEMPO_MUERTO.FirstOrDefault(x => x.IdTiempoMuertos == control.IdTiempoMuertos);
+                if (result != null)
+                {
+                    result.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    result.UsuarioModificacionLog = control.UsuarioIngresoLog;
+                    result.FechaModificacionLog = DateTime.Now;
+                    result.TerminalModificacionLog = control.TerminalIngresoLog;
+                    entities.SaveChanges();
+                }
+                return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
+            }
+        }
+        #endregion
+
+
+        #region PROCEDENCIA PESCADO
+        public List<spConsultaConsumoProcedenciaPescado> ConsultaConsumoDetalleProcedencia(int IdControl)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.spConsultaConsumoProcedenciaPescado(IdControl).ToList();
+                return lista;
+            }
+        }
+        public RespuestaGeneral GuardarModificarProcedencia(CONSUMO_PROCEDENCIA_PESCADO control)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var result = entities.CONSUMO_PROCEDENCIA_PESCADO.FirstOrDefault(x => x.IdProcedenciaPescado == control.IdProcedenciaPescado);
+                if (result != null)
+                {
+                    result.Lote = control.Lote;
+                    result.Procedencia = control.Procedencia;
+                    result.Observacion = control.Observacion;
+                    result.UsuarioModificacionLog = control.UsuarioIngresoLog;
+                    result.FechaModificacionLog = DateTime.Now;
+                    result.TerminalModificacionLog = control.TerminalIngresoLog;
+                }
+                else
+                {
+                    control.FechaIngresoLog = DateTime.Now;
+                    entities.CONSUMO_PROCEDENCIA_PESCADO.Add(control);
+
+                }
+                entities.SaveChanges();
+                return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
+            }
+        }
+        public RespuestaGeneral EliminarProcedencia(CONSUMO_PROCEDENCIA_PESCADO control)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var result = entities.CONSUMO_PROCEDENCIA_PESCADO.FirstOrDefault(x => x.IdProcedenciaPescado == control.IdProcedenciaPescado);
                 if (result != null)
                 {
                     result.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;

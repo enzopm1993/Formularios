@@ -14,7 +14,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class spReporteAuditoriaSangre
     {
         public string Cedula { get; set; }
-        public string NOMBRES { get; set; }
+        public string Nombres { get; set; }
+        public Nullable<int> Auditado { get; set; }
         public Nullable<int> Veces { get; set; }
         public string Linea { get; set; }
         public string Observacion { get; set; }

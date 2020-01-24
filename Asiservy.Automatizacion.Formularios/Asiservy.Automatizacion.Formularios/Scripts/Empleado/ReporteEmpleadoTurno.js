@@ -33,11 +33,14 @@ function CargarEmpleadoTurno() {
         },
         success: function (resultado) {
             var bitacora = $('#TableEmpleadoTurno');
-            if (resultado=="0")
+            if (resultado == "0")
                 bitacora.html('<div class="text-center"><h4>No Existen Registros</h4></div>');
-            else
+            else {
                 bitacora.html(resultado);
-
+                config.opcionesDT.pageLength = -1;
+                config.opcionesDT.order = [[2, "asc"]];
+                $('#tblDataTable').DataTable(config.opcionesDT);
+            }
             $("#spinnerCargando").prop("hidden", true);
 
         },
