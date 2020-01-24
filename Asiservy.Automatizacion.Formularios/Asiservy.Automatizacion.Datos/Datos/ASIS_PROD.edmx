@@ -1675,6 +1675,12 @@
           <Parameter Name="linea" Type="varchar" Mode="In" />
           <Parameter Name="turno" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spEnvioCorreo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Identificacion" Type="varchar" Mode="In" />
+          <Parameter Name="Asunto" Type="varchar" Mode="In" />
+          <Parameter Name="Mensaje" Type="varchar" Mode="In" />
+          <Parameter Name="RRHH" Type="bit" Mode="In" />
+        </Function>
         <Function Name="spGeneraDatosProcesoConsumoInsumo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdControl" Type="int" Mode="In" />
         </Function>
@@ -2503,7 +2509,13 @@
             <Parameter Name="turno" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spGeneraDatosProcesoConsumoInsumo" ReturnType="Collection(ASIS_PRODModel.spGeneraDatosProcesoConsumoInsumo)">
-            <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spEnvioCorreo" ReturnType="Collection(String)">
+            <Parameter Name="Identificacion" Mode="In" Type="String" />
+            <Parameter Name="Asunto" Mode="In" Type="String" />
+            <Parameter Name="Mensaje" Mode="In" Type="String" />
+            <Parameter Name="RRHH" Mode="In" Type="Boolean" />
           </FunctionImport>
 
         </EntityContainer>
@@ -7401,6 +7413,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spEnvioCorreo" FunctionName="ASIS_PRODModel.Store.spEnvioCorreo" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

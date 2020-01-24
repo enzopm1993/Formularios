@@ -1155,5 +1155,26 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGeneraDatosProcesoConsumoInsumo>("spGeneraDatosProcesoConsumoInsumo", idControlParameter);
         }
+    
+        public virtual ObjectResult<string> spEnvioCorreo(string identificacion, string asunto, string mensaje, Nullable<bool> rRHH)
+        {
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var asuntoParameter = asunto != null ?
+                new ObjectParameter("Asunto", asunto) :
+                new ObjectParameter("Asunto", typeof(string));
+    
+            var mensajeParameter = mensaje != null ?
+                new ObjectParameter("Mensaje", mensaje) :
+                new ObjectParameter("Mensaje", typeof(string));
+    
+            var rRHHParameter = rRHH.HasValue ?
+                new ObjectParameter("RRHH", rRHH) :
+                new ObjectParameter("RRHH", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spEnvioCorreo", identificacionParameter, asuntoParameter, mensajeParameter, rRHHParameter);
+        }
     }
 }
