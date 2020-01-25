@@ -214,6 +214,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ClsDControlToalla = new clsDControlToalla();
                 List<spReporteControlToalla> ListReporteToalla = ClsDControlToalla.ConsultarReporteControlToalla(Fecha,CodLinea,Turno);
+                var ListNombres= ListReporteToalla.Select(x => new  {x.CEDULA, x.NOMBRES }).Distinct();
+                List<spReporteControlToalla> LstNombres = new List<spReporteControlToalla>();
+                List<spReporteControlToalla> lstHoras = new List<spReporteControlToalla>();
+                foreach (var item in ListNombres)
+                {
+                    LstNombres.Add(new spReporteControlToalla {CEDULA=item.CEDULA, NOMBRES=item.NOMBRES });
+                }
+                ViewBag.Nombres = LstNombres.OrderBy(x=>x.NOMBRES).ToList(); /*ListReporteToalla.Select(x => new {x.CEDULA, x.NOMBRES}).Distinct();*/
+                var Horas = ListReporteToalla.Select(x => new  { x.HORA }).Distinct();
+                foreach (var item in Horas)
+                {
+                    lstHoras.Add(new spReporteControlToalla {HORA=item.HORA });
+                }
+                ViewBag.Horas = lstHoras;
+                ViewBag.ContHoras = lstHoras.Count();
+               
                 return PartialView(ListReporteToalla);
             }
             catch (Exception ex)
