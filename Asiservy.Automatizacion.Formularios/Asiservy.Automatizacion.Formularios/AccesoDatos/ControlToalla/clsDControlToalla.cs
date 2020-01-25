@@ -36,15 +36,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlToalla
                         List<DETALLE_CONTROL_TOALLA> ListEmpleado = new List<DETALLE_CONTROL_TOALLA>();
                         List<spConsultaMovimientoPersonalDiario> Empleados =new List<spConsultaMovimientoPersonalDiario>();
                         clsDAsistencia = new clsDAsistencia();
-                        if (Linea == "52") //linea 52=pouch
-                        {
-                            Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Fecha.Value, Hora.Value, Linea).Where(
-                            x => new string[7] { "133", "143", "258", "138", "126", "119", "147" }.Contains(x.CodCargo)).ToList();
-                        }
-                        else
-                        {
+                        //if (Linea == "52") //linea 52=pouch
+                        //{
+                        //    Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Fecha.Value, Hora.Value, Linea).Where(
+                        //    x => new string[7] { "133", "143", "258", "138", "126", "119", "147" }.Contains(x.CodCargo)).ToList();
+                        //}
+                        //else
+                        //{
                             Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Fecha.Value, Hora.Value, Linea).ToList();
-                        }
+                        //}
 
                         //var Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Convert.ToDateTime("2020-01-10"), TimeSpan.Parse("07:00"), "05").ToList();
 
