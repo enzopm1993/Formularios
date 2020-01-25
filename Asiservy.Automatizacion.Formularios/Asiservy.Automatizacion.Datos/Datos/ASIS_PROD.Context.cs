@@ -90,6 +90,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_CONSUMO_INSUMO> CONTROL_CONSUMO_INSUMO { get; set; }
         public virtual DbSet<CONSUMO_PROCEDENCIA_PESCADO> CONSUMO_PROCEDENCIA_PESCADO { get; set; }
         public virtual DbSet<CONSUMO_DETALLE_ADITIVO> CONSUMO_DETALLE_ADITIVO { get; set; }
+        public virtual DbSet<PRODUCTO_TERMINADO> PRODUCTO_TERMINADO { get; set; }
+        public virtual DbSet<PRODUCTO_TERMINADO_DANIADOS> PRODUCTO_TERMINADO_DANIADOS { get; set; }
+        public virtual DbSet<PRODUCTO_TERMINADO_MATERIALES> PRODUCTO_TERMINADO_MATERIALES { get; set; }
+        public virtual DbSet<PRODUCTO_TERMINADO_TIEMPO_PARADAS> PRODUCTO_TERMINADO_TIEMPO_PARADAS { get; set; }
+        public virtual DbSet<PRODUCTO_TERMINADO_DETALLE> PRODUCTO_TERMINADO_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1192,6 +1197,55 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlToalla>("spReporteControlToalla", fechaParameter, codLineaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaProductoTerminadoDaniados> spConsultaProductoTerminadoDaniados(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminadoDaniados>("spConsultaProductoTerminadoDaniados", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaProductoTerminadoMateriales> spConsultaProductoTerminadoMateriales(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminadoMateriales>("spConsultaProductoTerminadoMateriales", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaProductoTerminadoTiempoPara> spConsultaProductoTerminadoTiempoPara(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminadoTiempoPara>("spConsultaProductoTerminadoTiempoPara", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaProductoTerminado> spConsultaProductoTerminado(Nullable<System.DateTime> fecha, string linea)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminado>("spConsultaProductoTerminado", fechaParameter, lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaProductoTerminadoDetalle> spConsultaProductoTerminadoDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminadoDetalle>("spConsultaProductoTerminadoDetalle", idControlParameter);
         }
     }
 }
