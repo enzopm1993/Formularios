@@ -3138,6 +3138,7 @@
     <Compile Include="AccesoDatos\Empleado\clsDControlMiga.cs" />
     <Compile Include="AccesoDatos\AuditoriaSangre\clsDAuditoriaSangre.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
+    <Compile Include="AccesoDatos\EntregaProductoTerminado\clsDEntregaProductoTerminado.cs" />
     <Compile Include="AccesoDatos\General\clsApiUsuario.cs" />
     <Compile Include="AccesoDatos\General\clsDApiOrdenFabricacion.cs" />
     <Compile Include="AccesoDatos\General\clsDApiProduccion.cs" />
@@ -3187,6 +3188,7 @@
     <Compile Include="Controllers\ControlPesoEnlatadoController.cs" />
     <Compile Include="Controllers\ControlToallaController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
+    <Compile Include="Controllers\EntregaProductoTerminadoController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HuesoController.cs" />
@@ -3446,6 +3448,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Comunicados\" />
+    <Folder Include="Views\EntregaProductoTerminado\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

@@ -1062,7 +1062,7 @@ function InactivarTiemposMuertos() {
 
 function EliminarConsumoTiemposMuertos(model) {
     $("#txtEliminarTiemposMuertos").val(model.IdTiempoMuertos);
-    $("#pModalTiemposMuertos").html("Hora de para: " + moment(model.HoraPara).format("HH:MM"));
+    $("#pModalTiemposMuertos").html("Hora de para: " + moment(model.HoraPara).format("HH:mm"));
     $("#modalEliminarTiemposMuertos").modal('show');
 }
 
