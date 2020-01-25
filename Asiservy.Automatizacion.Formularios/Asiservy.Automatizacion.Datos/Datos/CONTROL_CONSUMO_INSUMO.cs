@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
             this.CONSUMO_TIEMPO_MUERTO = new HashSet<CONSUMO_TIEMPO_MUERTO>();
             this.CONSUMO_PROCEDENCIA_PESCADO = new HashSet<CONSUMO_PROCEDENCIA_PESCADO>();
             this.CONSUMO_DETALLE_ADITIVO = new HashSet<CONSUMO_DETALLE_ADITIVO>();
+            this.CONTROL_CONSUMO_INSUMO_DETALLE = new HashSet<CONTROL_CONSUMO_INSUMO_DETALLE>();
         }
     
         public int IdControlConsumoInsumos { get; set; }
@@ -80,5 +81,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual ICollection<CONSUMO_PROCEDENCIA_PESCADO> CONSUMO_PROCEDENCIA_PESCADO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONSUMO_DETALLE_ADITIVO> CONSUMO_DETALLE_ADITIVO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CONTROL_CONSUMO_INSUMO_DETALLE> CONTROL_CONSUMO_INSUMO_DETALLE { get; set; }
     }
 }
