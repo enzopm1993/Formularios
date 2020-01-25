@@ -31,6 +31,8 @@
                 $('#DivReporteToalla').empty();
                 $('#mensajeregistros').text('No existen Registros');
                 console.clear();
+            } else{
+                $('#mensajeregistros').text('');
             }
             //Nuevo();
             //$("#btnGuardar").prop("disabled", false);
