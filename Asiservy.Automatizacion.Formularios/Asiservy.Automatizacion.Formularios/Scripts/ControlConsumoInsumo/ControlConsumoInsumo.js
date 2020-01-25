@@ -47,7 +47,7 @@ function CargarDatosOrdenFabricacion() {
                 $("#txtCliente").val(resultado.CLIENTE);
             }
             
-            $("#txtCodigoProducto").val(resultado.CODIGO_PRODUCTO);
+           // $("#txtCodigoProducto").val(resultado.CODIGO_PRODUCTO);
 
 
             //$("#").val('');
@@ -181,7 +181,7 @@ function NuevoControlConsumoInsumos() {
     $("#txtUnidadesRecibidasTapa").val('0');
     $("#txtSobrantesTapa").val('0');
     $("#txtUnidadesProducidasTapa").val('0'); 
- //   $("#txtCodigoProducto").val('');
+   $("#txtCodigoProducto").val('');
     $("#txtObservacion").val('');
 
 }
@@ -255,12 +255,12 @@ function ValidarGenerarControlConsumo(){
     } else {
         $("#txtAgua").css('borderColor', '#ced4da');
     }
-    //if ($("#txtCodigoProducto").val() == "") {
-    //    $("#txtCodigoProducto").css('borderColor', '#FA8072');
-    //    valida = false;
-    //} else {
-    //    $("#txtCodigoProducto").css('borderColor', '#ced4da');
-    //}
+    if ($("#txtCodigoProducto").val() == "") {
+        $("#txtCodigoProducto").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtCodigoProducto").css('borderColor', '#ced4da');
+    }
     
     return valida;
 }
@@ -319,7 +319,7 @@ function GenerarControlConsumo() {
             UnidadesRecibidasTapa: $("#txtUnidadesRecibidasTapa").val(),
             UnidadesSobrantesTapa: $("#txtSobrantesTapa").val(),
             UnidadesProducidasTapa: $("#txtUnidadesProducidasTapa").val(),
-          //  CodigoProducto:$("#txtCodigoProducto").val(),
+           CodigoProducto:$("#txtCodigoProducto").val(),
             Observacion: $("#txtObservacion").val()
         },
         success: function (resultado) {
@@ -390,11 +390,149 @@ $("#modal-btn-no").on("click", function () {
     $("#modalEliminarControl").modal('hide');
 });
 
+/////////////////// CONSUMO INSUMO DETALLE ///////////////////////////////////////////////////////////////
+
+function CargarControlConsumoInsumoDetalle() {
+    $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", false);
+    $("#divTableConsumoInsumoDetalle").html('');
+    $.ajax({
+        url: "../ControlConsumoInsumo/ControlConsumoInsumoDetallePartial",
+        type: "GET",
+        data: {
+            IdControl: ListadoControl.IdControlConsumoInsumos
+            //  Tipo: $("#txtLineaNegocio").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#divTableConsumoInsumoDetalle").html("No existen registros");
+                $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", true);
+            } else {
+                $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", true);
+                $("#divTableConsumoInsumoDetalle").html(resultado);
+                //config.opcionesDT.pageLength = 10;
+                //      config.opcionesDT.order = [[0, "asc"]];
+                //    $('#tblDataTable').DataTable(config.opcionesDT);
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", true);
+        }
+    });
+}
+
+function ModalGenerarConsumoInsumoDetalle() {
+    $("#txtIdControlConsumoInsumoDetalle").val(0);
+    $("#txtHoraInicioDetalle").val("");
+    $("#txtHoraFinDetalle").val("");
+    $("#ModalGenerarControlConsumoInsumoDetalle").modal("show");
+    
+ }
+
+function ValidarGenerarControlConsumoDetalle() {
+    var valida = true;
+    if ($("#txtHoraInicioDetalle").val() == "") {
+        $("#txtHoraInicioDetalle").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtHoraInicioDetalle").css('borderColor', '#ced4da');
+    }
+    if ($("#txtHoraFinDetalle").val() == "") {
+        $("#txtHoraFinDetalle").css('borderColor', '#FA8072');
+        valida = false;
+    }else {
+    $("#txtHoraFinDetalle").css('borderColor', '#ced4da');
+}
+
+    return valida;
+}
+function GenerarControlConsumoDetalle() {    
+    if (!ValidarGenerarControlConsumoDetalle()) {
+        return;
+    }
+    $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", false);
+    $.ajax({
+        url: "../ControlConsumoInsumo/ControlConsumoInsumoDetalle",
+        type: "POST",
+        data: {
+            IdControlConsumoInsumoDetalle: $("#txtIdControlConsumoInsumoDetalle").val(),
+            IdControlConsumoInsumos: ListadoControl.IdControlConsumoInsumos,
+            HoraInicio: $("#txtHoraInicioDetalle").val(),
+            HoraFin: $("#txtHoraFinDetalle").val(),
+        },
+        success: function (resultado) {
+            $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", true);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            CargarControlConsumoInsumoDetalle();
+            $("#ModalGenerarControlConsumoInsumoDetalle").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", true);
+        }
+    });
+}
+
+
+function EditarConsumoInsumoDetalle(model) {
+    // console.log(model);
+    $("#txtIdControlConsumoInsumoDetalle").val(model.IdControlConsumoInsumoDetalle);
+    $("#txtHoraInicioDetalle").val(model.HoraInicio);
+    $("#txtHoraFinDetalle").val(model.HoraFin);
+    $("#ModalGenerarControlConsumoInsumoDetalle").modal("show");
+    //ModalGenerarControlDetalle();
+}
+
+function InactivarControlConsumoDetalle() {
+    $.ajax({
+        url: "../ControlConsumoInsumo/EliminarControlConsumoInsumoDetalle",
+        type: "POST",
+        data: {
+            IdControlConsumoInsumoDetalle: $("#txtEliminarDetalle").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+            }
+            CargarControlConsumoInsumoDetalle();
+            $("#modalEliminarControl").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $('#btnConsultar').prop("disabled", false);
+            $("#spinnerCargando").prop("hidden", true);
+        }
+    });
+}
+
+function EliminarProcesoConsumoInsumoDetalle(model) {
+    $("#txtEliminarDetalle").val(model.IdControlConsumoInsumoDetalle);
+    //$("#pModalDetalle").html("Hora: " + moment(model.HoraInicio).format('HH:mm') + ' - ' + moment(model.HoraFin).format('HH:mm'));
+    $("#modalEliminarControlDetalle").modal('show');
+}
+
+$("#modal-detalle-si").on("click", function () {
+    InactivarControlConsumoDetalle();
+    $("#modalEliminarControlDetalle").modal('hide');
+});
+
+$("#modal-detalle-no").on("click", function () {
+    $("#modalEliminarControlDetalle").modal('hide');
+});
+
+
+
 
 
 /////////////DETALLE DEL PROCESO ENLATADO///////////////////////////////////////////////////////////////////////
-
-
 function SeleccionarControlDetalleConsumo(model) {
     //console.log(model);
     ListadoControl = model;
@@ -440,6 +578,7 @@ function SeleccionarControlDetalleConsumo(model) {
     } else {
         CargarProcesoDetallePouch();
     }
+    CargarControlConsumoInsumoDetalle();
     CargarProcesoDetalleDaniado();
     CargarProcesoDetalleTiemposMuertos();
     CargarProcesoDetalleProcedencia();
