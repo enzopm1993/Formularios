@@ -405,6 +405,7 @@
           <Property Name="UnidadesRecibidasTapa" Type="int" />
           <Property Name="UnidadesSobrantesTapa" Type="int" />
           <Property Name="UnidadesProducidasTapa" Type="int" />
+          <Property Name="GrsLataReal" Type="decimal" Precision="6" Scale="2" />
         </EntityType>
         <EntityType Name="CONTROL_CONSUMO_INSUMO_DETALLE">
           <Key>
@@ -2786,7 +2787,7 @@
             <End Role="CONTROL_CONSUMO_INSUMO_DETALLE" EntitySet="CONTROL_CONSUMO_INSUMO_DETALLE" />
           </AssociationSet>
           <FunctionImport Name="spConsultaControlConsumoInsumoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlConsumoInsumoDetalle)">
-            <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
 
         </EntityContainer>
@@ -4886,6 +4887,7 @@
           <NavigationProperty Name="CONSUMO_PROCEDENCIA_PESCADO" Relationship="ASIS_PRODModel.FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_PROCEDENCIA_PESCADO" />
           <NavigationProperty Name="CONSUMO_DETALLE_ADITIVO" Relationship="ASIS_PRODModel.FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_DETALLE_ADITIVO" />
           <NavigationProperty Name="CONTROL_CONSUMO_INSUMO_DETALLE" Relationship="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONTROL_CONSUMO_INSUMO_DETALLE" />
+          <Property Name="GrsLataReal" Type="Decimal" Precision="6" Scale="2" />
         </EntityType>
         <Association Name="FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO">
           <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
@@ -7732,6 +7734,7 @@
           <EntitySetMapping Name="CONTROL_CONSUMO_INSUMO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO">
               <MappingFragment StoreEntitySet="CONTROL_CONSUMO_INSUMO">
+                <ScalarProperty Name="GrsLataReal" ColumnName="GrsLataReal" />
                 <ScalarProperty Name="UnidadesProducidasTapa" ColumnName="UnidadesProducidasTapa" />
                 <ScalarProperty Name="UnidadesSobrantesTapa" ColumnName="UnidadesSobrantesTapa" />
                 <ScalarProperty Name="UnidadesRecibidasTapa" ColumnName="UnidadesRecibidasTapa" />

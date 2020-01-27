@@ -68,6 +68,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> UnidadesRecibidasTapa { get; set; }
         public Nullable<int> UnidadesSobrantesTapa { get; set; }
         public Nullable<int> UnidadesProducidasTapa { get; set; }
+        public Nullable<decimal> GrsLataReal { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONSUMO_DETALLE_DANIADO> CONSUMO_DETALLE_DANIADO { get; set; }
