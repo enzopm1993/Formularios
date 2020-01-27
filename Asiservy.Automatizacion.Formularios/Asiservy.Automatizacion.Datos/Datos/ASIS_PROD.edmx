@@ -1724,6 +1724,7 @@
         <Function Name="spConsultaDistribucionPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
         </Function>
         <Function Name="spConsultaEmpacadoras" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
@@ -1775,6 +1776,9 @@
           <Parameter Name="Hora" Type="time" Mode="In" />
         </Function>
         <Function Name="spConsultaPersonalNominaPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spConsultaPresentesPorAreaLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="date" Mode="In" />
+        </Function>
         <Function Name="spConsultaProductoTerminado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
@@ -2381,6 +2385,7 @@
           <FunctionImport Name="spConsultaDistribucionPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaDistribucionPorLinea)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="CONTROL_ENFUNDADO" EntityType="ASIS_PRODModel.CONTROL_ENFUNDADO" />
           <EntitySet Name="CONTROL_ENFUNDADO_DETALLE" EntityType="ASIS_PRODModel.CONTROL_ENFUNDADO_DETALLE" />
@@ -2813,6 +2818,9 @@
           </FunctionImport>
           <EntitySet Name="ENTREGA_UNIFORME" EntityType="ASIS_PRODModel.ENTREGA_UNIFORME" />
           <FunctionImport Name="spConsultaUniformeEntregar" ReturnType="Collection(ASIS_PRODModel.spConsultaUniformeEntregar)">
+          <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaPresentesPorAreaLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaPresentesPorAreaLinea_Result)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
 
@@ -5383,6 +5391,11 @@
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
           <Property Type="Time" Name="HoraEntregada" Nullable="true" />
           <Property Type="Boolean" Name="EstadoEntrega" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="spConsultaPresentesPorAreaLinea_Result">
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="60" />
+          <Property Type="Int32" Name="Presentes" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -8224,6 +8237,15 @@
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="HoraEntregada" ColumnName="HoraEntregada" />
                 <ScalarProperty Name="EstadoEntrega" ColumnName="EstadoEntrega" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaPresentesPorAreaLinea" FunctionName="ASIS_PRODModel.Store.spConsultaPresentesPorAreaLinea">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaPresentesPorAreaLinea_Result">
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="Presentes" ColumnName="Presentes" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -31,6 +31,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return db.spConsultaDistribucionPorLinea(Fecha, Linea).ToList();
             }
         }
+        public List<spConsultaPresentesPorAreaLinea_Result> spConsultaPresentesPorAreaLinea( DateTime Fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaPresentesPorAreaLinea(Fecha).ToList();
+            }
+        }
         public void GuardarModificarEmpleadoTurno(EmpleadoViewModel model)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())

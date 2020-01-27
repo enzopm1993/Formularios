@@ -747,6 +747,72 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
+
+        public ActionResult ReportePersonalPresente()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+                return View();
+
+
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult ReportePersonalPresentePartial( DateTime Fecha)
+        {
+            try
+            {
+                if (Fecha == null)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+
+                ViewBag.dataTableJS = "1";
+
+                clsDEmpleado = new clsDEmpleado();
+                var model = clsDEmpleado.spConsultaPresentesPorAreaLinea(Fecha);
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+
+                // SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
 

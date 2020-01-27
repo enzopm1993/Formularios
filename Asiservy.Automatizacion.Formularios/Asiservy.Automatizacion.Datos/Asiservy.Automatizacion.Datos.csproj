@@ -411,6 +411,9 @@
     <Compile Include="Datos\spConsultaPersonalNominaPorLinea.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaPresentesPorAreaLinea_Result.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultaProductoTerminado.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
