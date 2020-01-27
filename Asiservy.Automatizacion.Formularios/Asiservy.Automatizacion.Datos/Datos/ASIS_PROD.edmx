@@ -1724,6 +1724,7 @@
         <Function Name="spConsultaDistribucionPorLinea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
         </Function>
         <Function Name="spConsultaEmpacadoras" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
@@ -2378,10 +2379,6 @@
           <FunctionImport Name="spConsultaReporteControlCochePorLineas" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteControlCochePorLineas)">
           <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaDistribucionPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaDistribucionPorLinea)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="linea" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="CONTROL_ENFUNDADO" EntityType="ASIS_PRODModel.CONTROL_ENFUNDADO" />
           <EntitySet Name="CONTROL_ENFUNDADO_DETALLE" EntityType="ASIS_PRODModel.CONTROL_ENFUNDADO_DETALLE" />
           <AssociationSet Name="FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO" Association="ASIS_PRODModel.FK_CONTROL_ENFUNDADO_DETALLE_CONTROL_ENFUNDADO">
@@ -2815,6 +2812,11 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="spConsultaDistribucionPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaDistribucionPorLinea)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
 
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -3184,16 +3186,6 @@
           <Property Type="String" Name="Linea3" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Linea4" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Linea5" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="Total" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="spConsultaDistribucionPorLinea">
-          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="PuestoTrabajo" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="Presente" Nullable="true" />
-          <Property Type="Int32" Name="Falta" Nullable="true" />
-          <Property Type="Int32" Name="PermisoMedico" Nullable="true" />
-          <Property Type="Int32" Name="CambioArea" Nullable="true" />
-          <Property Type="Int32" Name="PermisoGeneral" Nullable="true" />
           <Property Type="Int32" Name="Total" Nullable="true" />
         </ComplexType>
         <EntityType Name="CONTROL_ENFUNDADO">
@@ -5383,6 +5375,16 @@
           <Property Type="String" Name="LineaNegocio" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="spConsultaDistribucionPorLinea">
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="PuestoTrabajo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Presente" Nullable="true" />
+          <Property Type="Int32" Name="Falta" Nullable="true" />
+          <Property Type="Int32" Name="PermisoMedico" Nullable="true" />
+          <Property Type="Int32" Name="CambioArea" Nullable="true" />
+          <Property Type="Int32" Name="PermisoGeneral" Nullable="true" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5938,20 +5940,6 @@
                 <ScalarProperty Name="Linea3" ColumnName="Linea3" />
                 <ScalarProperty Name="Linea4" ColumnName="Linea4" />
                 <ScalarProperty Name="Linea5" ColumnName="Linea5" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaDistribucionPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaDistribucionPorLinea">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaDistribucionPorLinea">
-                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
-                <ScalarProperty Name="PuestoTrabajo" ColumnName="PuestoTrabajo" />
-                <ScalarProperty Name="Presente" ColumnName="Presente" />
-                <ScalarProperty Name="Falta" ColumnName="Falta" />
-                <ScalarProperty Name="PermisoMedico" ColumnName="PermisoMedico" />
-                <ScalarProperty Name="CambioArea" ColumnName="CambioArea" />
-                <ScalarProperty Name="PermisoGeneral" ColumnName="PermisoGeneral" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
               </ComplexTypeMapping>
             </ResultMapping>
@@ -8222,6 +8210,20 @@
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
                 <ScalarProperty Name="LineaNegocio" ColumnName="LineaNegocio" />
                 <ScalarProperty Name="Linea" ColumnName="Linea" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaDistribucionPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaDistribucionPorLinea">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaDistribucionPorLinea">
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="PuestoTrabajo" ColumnName="PuestoTrabajo" />
+                <ScalarProperty Name="Presente" ColumnName="Presente" />
+                <ScalarProperty Name="Falta" ColumnName="Falta" />
+                <ScalarProperty Name="PermisoMedico" ColumnName="PermisoMedico" />
+                <ScalarProperty Name="CambioArea" ColumnName="CambioArea" />
+                <ScalarProperty Name="PermisoGeneral" ColumnName="PermisoGeneral" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
