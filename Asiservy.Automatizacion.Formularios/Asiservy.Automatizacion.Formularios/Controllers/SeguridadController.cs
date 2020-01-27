@@ -590,7 +590,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.Select2 = "1";
-                if (model.IdRol != null && model.IdRol2 != null && model.IdUsuario != null && model.IdUsuario2 != null)
+                if (model.IdRol != null  && model.IdUsuario != null )
                 {
                     string[] Usuario = User.Identity.Name.Split('_');
                     model.EstadoRegistro = model.EstadoRegistro == "true" ? "A" : "I";

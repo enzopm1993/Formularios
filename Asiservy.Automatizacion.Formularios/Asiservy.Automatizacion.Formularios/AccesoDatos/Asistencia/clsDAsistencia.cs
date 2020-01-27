@@ -292,7 +292,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 }
                 else
                 {
-                    var control_asistencia = db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == clsAtributos.Procesos).FirstOrDefault();
+                    var control_asistencia = db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == clsAtributos.General).FirstOrDefault();
                     pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, Convert.ToInt32(turno), Fecha,control_asistencia.Hora).ToList();
                     //pListAsistenciaGeneral.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     foreach (var item in pListAsistenciaGeneral)
@@ -1019,6 +1019,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             {
                 return db.spConsultaMovimientoPersonalDiario(Fecha, Hora, Linea).ToList();
             }
+        }
+        public CONTROL_ASISTENCIA ConsultarControlAsistencia(DateTime Fecha, string CodLinea, string turno,string Generado)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == Generado).FirstOrDefault();
+            }
+
         }
     }
 }

@@ -30,18 +30,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlToalla
             {
                 if (estadoRegistro == clsAtributos.EstadoRegistroActivo && Id==null)
                 {
-                    var buscarregistroToalla = db.CONTROL_TOALLA.Where(x => x.Fecha == Fecha && x.Turno == Turno && x.Hora == Hora &&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                    var buscarregistroToalla = db.CONTROL_TOALLA.Where(x => x.Fecha == Fecha && x.Turno == Turno&&x.Linea==Linea && x.Hora == Hora &&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                     if (buscarregistroToalla == null)
                     {
                         List<DETALLE_CONTROL_TOALLA> ListEmpleado = new List<DETALLE_CONTROL_TOALLA>();
+                        List<spConsultaMovimientoPersonalDiario> Empleados =new List<spConsultaMovimientoPersonalDiario>();
                         clsDAsistencia = new clsDAsistencia();
                         //if (Linea == "52") //linea 52=pouch
                         //{
-                        //    //var Empleados=clsDAsistencia.ConsultaMovimientoPersonalDiario(Fecha.Value, Hora.Value, Linea).Where(
-                        //    //x => new string[7] { "133", "143", "258", "138", "126", "119", "147" }.Contains(x.CodCargo));.ToList();
+                        //    Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Fecha.Value, Hora.Value, Linea).Where(
+                        //    x => new string[7] { "133", "143", "258", "138", "126", "119", "147" }.Contains(x.CodCargo)).ToList();
+                        //}
+                        //else
+                        //{
+                            Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Fecha.Value, Hora.Value, Linea).ToList();
                         //}
 
-                        var Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Convert.ToDateTime("2020-01-10"), TimeSpan.Parse("07:00"), "05").ToList();
+                        //var Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Convert.ToDateTime("2020-01-10"), TimeSpan.Parse("07:00"), "05").ToList();
 
                         foreach (var item in Empleados)
                         {
@@ -139,6 +144,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlToalla
 
             }
         }
-
+        public List<spReporteControlToalla> ConsultarReporteControlToalla(DateTime Fecha, string Codlinea, string Turno)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spReporteControlToalla(Fecha,Codlinea,Turno).ToList();
+            }
+        }
     }
 }

@@ -1,0 +1,57 @@
+﻿@using Asiservy.Automatizacion.Datos.Datos;
+@model List<Asiservy.Automatizacion.Datos.Datos.spReporteControlToalla>
+<input type="hidden" id="contreg" value="@ViewBag.ContHoras"/>
+<table class="table table-striped table-bordered table-hover" id="tblDataTable">
+    <thead>
+        <tr>
+            <th rowspan="2" style="vertical-align : middle;text-align:center;">NOMBRES</th>
+            <th colspan="@ViewBag.ContHoras" class="text-center"> HORA</th>
+
+
+            @*@for (int i = 1; i < ViewBag.ContHoras; i++)
+            {
+                <th> </th>
+            }*@
+            <th rowspan="2" style="vertical-align : middle;text-align:center;">TOTAL DE TOALLAS ENTREGADAS</th>
+        </tr>
+        <tr>
+            @*<th>
+
+            </th>*@
+            @foreach (var item in ViewBag.Horas as List<spReporteControlToalla>)
+            {
+                <td class="text-center"><strong>@item.HORA</strong></td>
+            }
+            @*<th></th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in @ViewBag.Nombres as List<spReporteControlToalla>)
+        {
+            <tr>
+                <td>
+                    @item.NOMBRES
+                </td>
+                @foreach (var Horas in ViewBag.Horas as List<spReporteControlToalla>)
+                {
+                    var numero = (from n in Model
+                                  where n.CEDULA == item.CEDULA && n.HORA == Horas.HORA
+                                  select n.NumeroToallas).FirstOrDefault();
+                    <td class="text-center">
+                        @numero
+
+                    </td>
+                }
+                @{ 
+                    int? TotalToallas = (from t in Model
+                                        where t.CEDULA == item.CEDULA
+                                        select t.TotalToallas).FirstOrDefault();
+                }
+                <td class="text-center">
+                    @TotalToallas
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/Scripts/General/dataTableJS.js"></script>

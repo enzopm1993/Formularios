@@ -1,24 +1,25 @@
-﻿<div class="text-center">
-    <h4>CONTROL DE CONSUMO DE INSUMOS EN CONCERVAS</h4>
+﻿<hr />
+<div class="text-center">
+    <h4 class="" style="color:black">CONTROL DE CONSUMO DE INSUMOS EN CONSERVAS</h4>
 
 
     <div class="row" id="">
         <div class="col-6 col-sm-6 col-md-4">
             <div class="form-group">
-                <label>Fecha Produccion:</label>
-                <label style="border-bottom:solid">22-01-22</label>
+                <label><b>Fecha Produccion:</b></label>
+                <label style="border-bottom:ridge" id="txtFecha2"></label>
             </div>
         </div>
         <div class="col-6 col-sm-6 col-md-4">
             <div class="form-group">
-                <label>Turno:</label>
-                <label style="border-bottom:solid">A</label>
+                <label><b>Turno:</b></label>
+                <label style="border-bottom:ridge" id="txtTurno"></label>
             </div>
         </div>
         <div class="col-6 col-sm-6 col-md-4">
             <div class="form-group">
-                <label>Linea:</label>
-                <label style="border-bottom:solid"></label>
+                <label><b>Linea:</b></label>
+                <label style="border-bottom:ridge" id="">Enlatado</label>
 
             </div>
         </div>
@@ -66,19 +67,84 @@
 <div class="row">
     <div class="col-md-6" style="">
         <h5>Cuerpo</h5>
+        <div>Recibidos:<label id="txtRecibidos"></label></div>
         <div id="divTableDetalleCuerpo" class=""></div>
+        <div>Producido: <label id="txtProducido"></label></div>
+        <div>Saldo:<label id="txtSaldo"></label></div>
         <h5>Tapa</h5>
         <div id="divTableDetalleTapa" class=""></div>
     </div>
 
     <div class="col-md-6" style="">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <h5>Dañados</h5>
                 <div id="divTableDetalleDaniado" class=""></div>
             </div>
+            <div class="col-md-6">
+                <h5>Desperdicios del Proceso</h5>
+                <div id="" class="">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>Solidos</td>
+                            <td><label id="txtDesperdicioSolido"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Liquidos</td>
+                            <td><label id="txtDesperdicioLiquido"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Aceite</td>
+                            <td> <label id="txtDesperdicioAceite"></label></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center"><h5>Datos del Proceso</h5></div>
+                <div id="divTableDetalleDatosProceso" class="">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>Hora Inicio-Fin</td>
+                            <td> <label id="txtHoras"></label> </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Tiempos Muertos</td>
+                            <td>(P): <label id="txtTiempoMuertoProceso"></label></td>
+
+                        </tr>
+                        <tr>
+                            <td>(M): <label id="txtTiempoMuertoMantenimiento"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Cajas Hora</td>
+                            <td> <label id="txtCajasHora"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Cajas Minutos</td>
+                            <td> <label id="txtCajasMinutos"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Total Cajas</td>
+                            <td> <label id="txtTotalCajas"></label></td>
+                        </tr>
+
+                        <tr>
+                            <td>Grs X Lata</td>
+                            <td> <label id="txtGrsXLata"></label></td>
+                        </tr>
+
+                        <tr>
+                            <td>Personal</td>
+                            <td> <label id="txtPersonal"></label></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
         <div class="row" style="">
             <div class="col-md-12">
                 <h5>Consumo Aditivos</h5>
@@ -86,8 +152,8 @@
             </div>
         </div>
     </div>
-
 </div>
+
 <div class="row">
     <div class="col-md-12">
         <div class="text-center">
@@ -98,18 +164,37 @@
 </div>
 
 
+<div class="row">
+    <div class="col-md-6">
+        <div class="text-center">
+            <h5>Procedencia</h5>
+        </div>
+        <div id="divTableDetalleProcedencia"></div>
+    </div>
+    <div class="col-md-6">
+        <div class="text-center">
+            <h5>Observaciones</h5>
+        </div>
+        <div id="divTableDetalleObservaciones">
+            <textarea rows="10"  id="txtObservaciones" disabled class="form-control" style="resize:none"></textarea>
+        </div>
+    </div>
+</div>
+
+
 <br /><br />
-                  <div class="row text-center">
-                      <div class="col-md-4">
-                          <img style="height:100px; width:230px" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Firma_Len%C3%ADn_Moreno_Garc%C3%A9s.png" alt="Alternate Text" />
-                          <label style="display: block !important;border-top:ridge">Supervisor Enlatado</label>
-                      </div>
-                      <div class="col-md-4">
-                          <img style="height:100px; width:230px" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Firma_Len%C3%ADn_Moreno_Garc%C3%A9s.png" alt="Alternate Text" />
-                          <label style="display: block !important;border-top:ridge">Control Calidad</label>
-                      </div>
-                      <div class="col-md-4">
-                          <img style="height:100px; width:230px" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Firma_Len%C3%ADn_Moreno_Garc%C3%A9s.png" alt="Alternate Text" />
-                          <label style="display: block !important;border-top:ridge">Jefe Producción</label>
-                      </div>
-                  </div>
+<br /><br />
+<div class="row text-center">
+    <div class="col-md-4">
+        @*<img style="height:100px; width:230px" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Firma_Len%C3%ADn_Moreno_Garc%C3%A9s.png" alt="Alternate Text" />*@
+        <label style="display: block !important;border-top:ridge">Supervisor Enlatado</label>
+    </div>
+    <div class="col-md-4">
+        @*<img style="height:100px; width:230px" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Firma_Len%C3%ADn_Moreno_Garc%C3%A9s.png" alt="Alternate Text" />*@
+        <label style="display: block !important;border-top:ridge">Control Calidad</label>
+    </div>
+    <div class="col-md-4">
+        @*<img style="height:100px; width:230px" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Firma_Len%C3%ADn_Moreno_Garc%C3%A9s.png" alt="Alternate Text" />*@
+        <label style="display: block !important;border-top:ridge">Jefe Producción</label>
+    </div>
+</div>

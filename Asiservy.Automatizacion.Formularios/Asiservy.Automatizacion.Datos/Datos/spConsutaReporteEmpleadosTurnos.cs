@@ -17,5 +17,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string NOMBRES { get; set; }
         public string LINEA { get; set; }
         public string TURNO { get; set; }
+        public Nullable<bool> PRESTADO { get; set; }
     }
 }

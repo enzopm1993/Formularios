@@ -1,0 +1,199 @@
+﻿
+<hr />
+<div class="text-center">
+    <h4 class="" style="color:black">CONTROL DE CONSUMO DE INSUMOS EN POUCH</h4>
+
+
+    <div class="row" id="">
+        <div class="col-6 col-sm-6 col-md-4">
+            <div class="form-group">
+                <label><b>Fecha Produccion:</b></label>
+                <label style="border-bottom:ridge" id="txtFecha2"></label>
+            </div>
+        </div>
+        <div class="col-6 col-sm-6 col-md-4">
+            <div class="form-group">
+                <label><b>Turno:</b></label>
+                <label style="border-bottom:ridge" id="txtTurno"></label>
+            </div>
+        </div>
+        <div class="col-6 col-sm-6 col-md-4">
+            <div class="form-group">
+                <label><b>Linea:</b></label>
+                <label style="border-bottom:ridge" id="">Pouch</label>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div style="border:ridge">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-center" colspan="4"><b>Especificaciones del Producto</b></th>
+            </tr>
+        </thead>
+        <tr>
+            <td><b>Destino:</b> <label id="txtDestino"></label></td>
+            <td><b>Producto:</b> <label id="txtProducto"></label></td>
+            <td><b>Envase:</b> <label id="txtEnvase"></label></td>
+            <td class="text-center"><b>Pedido de Venta</b></td>
+        </tr>
+        <tr>
+            <td><b>Cliente: </b><label id="txtCliente"></label></td>
+            <td><b>Codigo:</b> <label id="txtCodigoProducto"></label></td>
+            <td><b>Tapa:</b> <label id="txtTapa"></label></td>
+            <td class="text-center"><label id="txtOrdenVenta"></label></td>
+        </tr>
+        <tr>
+            <td><b>Peso Neto: </b><label id="txtPesoNeto"></label></td>
+            <td><b>Lomo(g): </b><label id="txtLomo"></label></td>
+            <td><b>Aceite(g): </b><label id="txtAceite"></label></td>
+            <td class="text-center"><b>Orden de Fabricación</b></td>
+        </tr>
+        <tr>
+            <td><b>Peso Escurrido:</b> <label id="txtPesoEscurrido"></label></td>
+            <td><b>Miga(g):</b> <label id="txtMiga"></label></td>
+            <td><b>Agua(g):</b> <label id="txtAgua"></label></td>
+            <td class="text-center"><label id="txtOrdenFabricacion"></label></td>
+        </tr>
+    </table>
+</div>
+<br />
+<div class="text-center">
+    <h5>Datos de proceso</h5>
+</div>
+<div class="row">
+    <div class="col-md-6" style="">
+        <h5>Fundas</h5>
+        <div>Recibidos:<label id="txtRecibidos"></label></div>
+        <div id="divTableDetalleFundas" class=""></div>
+        <div>Producido: <label id="txtProducido"></label></div>
+        <div>Saldo:<label id="txtSaldo"></label></div>       
+    </div>
+
+    <div class="col-md-6" style="">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Dañados</h5>
+                <div id="divTableDetalleDaniado" class=""></div>
+            </div>
+            <div class="col-md-6">
+                <h5>Desperdicios del Proceso</h5>
+                <div id="" class="">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>Solidos</td>
+                            <td><label id="txtDesperdicioSolido"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Liquidos</td>
+                            <td><label id="txtDesperdicioLiquido"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Aceite</td>
+                            <td> <label id="txtDesperdicioAceite"></label></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center"><h5>Datos del Proceso</h5></div>
+                <div id="divTableDetalleDatosProceso" class="">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>Hora Inicio-Fin</td>
+                            <td> <label id="txtHoras"></label> </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Tiempos Muertos</td>
+                            <td>(P): <label id="txtTiempoMuertoProceso"></label></td>
+
+                        </tr>
+                        <tr>
+                            <td>(M): <label id="txtTiempoMuertoMantenimiento"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Cajas Hora</td>
+                            <td> <label id="txtCajasHora"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Cajas Minutos</td>
+                            <td> <label id="txtCajasMinutos"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Total Cajas</td>
+                            <td> <label id="txtTotalCajas"></label></td>
+                        </tr>
+
+                        <tr>
+                            <td>Grs X Lata</td>
+                            <td> <label id="txtGrsXLata"></label></td>
+                        </tr>
+
+                        <tr>
+                            <td>Personal</td>
+                            <td> <label id="txtPersonal"></label></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="">
+            <div class="col-md-12">
+                <h5>Consumo Aditivos</h5>
+                <div id="divTableDetalleConsumoAditivo" class=""></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="text-center">
+            <h5>Tiempos Muertos</h5>
+        </div>
+        <div id="divTableDetalleTiemposMuertos"></div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="text-center">
+            <h5>Procedencia</h5>
+        </div>
+        <div id="divTableDetalleProcedencia"></div>
+    </div>
+    <div class="col-md-6">
+        <div class="text-center">
+            <h5>Observaciones</h5>
+        </div>
+        <div id="divTableDetalleObservaciones">
+            <textarea rows="10" id="txtObservaciones" disabled class="form-control" style="resize:none"></textarea>
+        </div>
+    </div>
+</div>
+
+
+<br /><br />
+<br /><br />
+<div class="row text-center">
+    <div class="col-md-4">
+        @*<img style="height:100px; width:230px" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Firma_Len%C3%ADn_Moreno_Garc%C3%A9s.png" alt="Alternate Text" />*@
+        <label style="display: block !important;border-top:ridge">Supervisor Enlatado</label>
+    </div>
+    <div class="col-md-4">
+        @*<img style="height:100px; width:230px" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Firma_Len%C3%ADn_Moreno_Garc%C3%A9s.png" alt="Alternate Text" />*@
+        <label style="display: block !important;border-top:ridge">Control Calidad</label>
+    </div>
+    <div class="col-md-4">
+        @*<img style="height:100px; width:230px" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Firma_Len%C3%ADn_Moreno_Garc%C3%A9s.png" alt="Alternate Text" />*@
+        <label style="display: block !important;border-top:ridge">Jefe Producción</label>
+    </div>
+</div>

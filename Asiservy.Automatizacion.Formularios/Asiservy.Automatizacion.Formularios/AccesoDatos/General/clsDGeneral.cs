@@ -137,78 +137,84 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         {
             try
             {
-                string Correo = System.Configuration.ConfigurationSettings.AppSettings["Correo"];
-                string Clave = System.Configuration.ConfigurationSettings.AppSettings["CorreoClave"];
-
-                string CorreosDestino= string.Empty;
-                if(!string.IsNullOrEmpty(Empleado.CorreoEmpresa) && Empleado.CorreoEmpresa != "*")
+                using (ASIS_PRODEntities db = new ASIS_PRODEntities())
                 {
-                    CorreosDestino = Empleado.CorreoEmpresa;
+                    var Mensaje = db.spEnvioCorreo(Empleado.CEDULA,asunto,mensaje,RRHH).FirstOrDefault();
+                    return Mensaje;
                 }
-                if(!string.IsNullOrEmpty(Empleado.CorreoPersonal) && Empleado.CorreoPersonal != "*")
-                {
-                    if(!string.IsNullOrEmpty(CorreosDestino) && Empleado.CorreoEmpresa != Empleado.CorreoPersonal)
-                    {
-                        CorreosDestino = CorreosDestino + "," + Empleado.CorreoPersonal;
-                    }
-                    else
-                    {
-                        CorreosDestino = Empleado.CorreoPersonal;
-                    }
-                }
-                if (!string.IsNullOrEmpty(CorreosDestino))
-                {
-                    clsDParametro clsDParametro = new clsDParametro();
-                    string text = "MENSAJE DEL SISTEMA\n\n" + mensaje;
 
-                    AlternateView plainView =
-                        AlternateView.CreateAlternateViewFromString(text,
-                                                Encoding.UTF8,
-                                                MediaTypeNames.Text.Plain);
+                //string Correo = System.Configuration.ConfigurationSettings.AppSettings["Correo"];
+                //string Clave = System.Configuration.ConfigurationSettings.AppSettings["CorreoClave"];
+
+                //string CorreosDestino= string.Empty;
+                //if(!string.IsNullOrEmpty(Empleado.CorreoEmpresa) && Empleado.CorreoEmpresa != "*")
+                //{
+                //    CorreosDestino = Empleado.CorreoEmpresa;
+                //}
+                //if(!string.IsNullOrEmpty(Empleado.CorreoPersonal) && Empleado.CorreoPersonal != "*")
+                //{
+                //    if(!string.IsNullOrEmpty(CorreosDestino) && Empleado.CorreoEmpresa != Empleado.CorreoPersonal)
+                //    {
+                //        CorreosDestino = CorreosDestino + "," + Empleado.CorreoPersonal;
+                //    }
+                //    else
+                //    {
+                //        CorreosDestino = Empleado.CorreoPersonal;
+                //    }
+                //}
+                //if (!string.IsNullOrEmpty(CorreosDestino))
+                //{
+                //    clsDParametro clsDParametro = new clsDParametro();
+                //    string text = "MENSAJE DEL SISTEMA\n\n" + mensaje;
+
+                //    AlternateView plainView =
+                //        AlternateView.CreateAlternateViewFromString(text,
+                //                                Encoding.UTF8,
+                //                                MediaTypeNames.Text.Plain);
 
 
-                    string html = "<H3>MENSAJE DEL SISTEMA</H3>" + mensaje +
-                  "<img src='cid:imagen' />";
-                    AlternateView htmlView =
-                    AlternateView.CreateAlternateViewFromString(html,
-                                Encoding.UTF8,
-                                MediaTypeNames.Text.Html);
+                //    string html = "<H3>MENSAJE DEL SISTEMA</H3>" + mensaje +
+                //  "<img src='cid:imagen' />";
+                //    AlternateView htmlView =
+                //    AlternateView.CreateAlternateViewFromString(html,
+                //                Encoding.UTF8,
+                //                MediaTypeNames.Text.Html);
 
-                    //LinkedResource img = new LinkedResource(@"C:\Desarrollo\Asiservy.Automatizacion.Formularios\Asiservy.Automatizacion.Formularios\Content\images\asilogo.jpg",
-                    //        MediaTypeNames.Image.Jpeg);
-                    //img.ContentId = "imagen";
-                    //htmlView.LinkedResources.Add(img);
+                //    //LinkedResource img = new LinkedResource(@"C:\Desarrollo\Asiservy.Automatizacion.Formularios\Asiservy.Automatizacion.Formularios\Content\images\asilogo.jpg",
+                //    //        MediaTypeNames.Image.Jpeg);
+                //    //img.ContentId = "imagen";
+                //    //htmlView.LinkedResources.Add(img);
 
-                    MailMessage correo = new MailMessage(Correo, CorreosDestino);
-                    if(RRHH)
-                    {
-                        clsDClasificador clsDClasificador = new clsDClasificador();
-                        var correos = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoCorreosElectronicosCopias);
-                        string correoCopias = string.Empty;
-                        foreach (var c in correos)
-                        {
-                            correoCopias = correoCopias + c.Descripcion + ",";
-                        }
-                        if(string.IsNullOrEmpty(correoCopias))
-                            correo.Subject = correoCopias;
+                //    MailMessage correo = new MailMessage(Correo, CorreosDestino);
+                //    if(RRHH)
+                //    {
+                //        clsDClasificador clsDClasificador = new clsDClasificador();
+                //        var correos = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoCorreosElectronicosCopias);
+                //        string correoCopias = string.Empty;
+                //        foreach (var c in correos)
+                //        {
+                //            correoCopias = correoCopias + c.Descripcion + ",";
+                //        }
+                //        if(string.IsNullOrEmpty(correoCopias))
+                //            correo.Subject = correoCopias;
 
-                    }
-                    correo.Subject = asunto;
-                    correo.AlternateViews.Add(htmlView);
-                    correo.AlternateViews.Add(plainView);
+                //    }
+                //    correo.Subject = asunto;
+                //    correo.AlternateViews.Add(htmlView);
+                //    correo.AlternateViews.Add(plainView);
 
-                    SmtpClient servidor = new SmtpClient("smtp.office365.com", 587);
-                    NetworkCredential credenciales = new NetworkCredential(Correo, Clave);
-                    servidor.Credentials = credenciales;
-                    servidor.EnableSsl = true;
-                    servidor.Send(correo);
-                    return "Correo Enviado con Éxito";
-                }
-                else
-                {
-                    return "Empleado no tiene correo electronico asignado";
-                }
-                   
+                //    SmtpClient servidor = new SmtpClient("smtp.office365.com", 587);
+                //    NetworkCredential credenciales = new NetworkCredential(Correo, Clave);
+                //    servidor.Credentials = credenciales;
+                //    servidor.EnableSsl = true;
+                //    servidor.Send(correo);
+                //    return "Correo Enviado con Éxito";
+                //}
+                //else
+                //{
+                //    return "Empleado no tiene correo electronico asignado";
+                //}
+
             }           
             catch (SmtpException ex)
             {

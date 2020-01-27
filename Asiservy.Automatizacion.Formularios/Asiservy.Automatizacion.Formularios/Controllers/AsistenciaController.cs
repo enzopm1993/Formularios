@@ -322,6 +322,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                if (Fecha > DateTime.Now)
+                {
+                    return Json("333", JsonRequestBehavior.AllowGet);
+                }
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
                 int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaGeneral(liststring[1], Turno, Fecha);
@@ -350,6 +354,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                if (Fecha > DateTime.Now)
+                {
+                    return Json("333",JsonRequestBehavior.AllowGet);
+                }
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
                 int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistencia(liststring[1], Turno, Fecha);
@@ -377,6 +385,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                if (Fecha > DateTime.Now)
+                {
+                    return Json("333", JsonRequestBehavior.AllowGet);
+                }
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
                 int AsitenciaExiste = clsDAsistencia.ConsultarExistenciaAsistenciaPrestados(liststring[1], Turno, Fecha);
@@ -497,9 +509,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
                 clsDAsistencia = new clsDAsistencia();
+                
                 //falta modificar el script para enbviar fecha y hora
                 var AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaGeneralDiaria(CodLinea, BanderaExiste, liststring[0], Request.UserHostAddress, turno, Fecha, HoraServidor);
-
+                //**
+                ViewBag.HoraControlAsistencia = clsDAsistencia.ConsultarControlAsistencia(Fecha, CodLinea, turno, clsAtributos.General).Hora;
+                //**
                 return PartialView(AsistenciaViewModel);
             }
             catch (Exception ex)
@@ -568,7 +583,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDAsistencia = new clsDAsistencia();
                 ControlDeAsistenciaPrestadosViewModel AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiariaMovidos(CodLinea, BanderaExiste, liststring[0], Request.UserHostAddress, Turno, Fecha, Hora);
 
-
+                //**
+                ViewBag.HoraControlAsistencia = clsDAsistencia.ConsultarControlAsistencia(Fecha, CodLinea, Turno,clsAtributos.Prestado).Hora;
+                //**
                 //Control de Cuchillos
                 clsDCuchillo = new clsDCuchillo();
                 List<ControlCuchilloViewModel> ControlCuchillos = clsDCuchillo.ConsultaControlCuchillos(Fecha);
@@ -609,7 +626,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDAsistencia = new clsDAsistencia();
                 ControlDeAsistenciaViewModel AsistenciaViewModel = clsDAsistencia.ObtenerAsistenciaDiaria(CodLinea, BanderaExiste, liststring[0], Request.UserHostAddress, Turno, Fecha, HoraServidor.Value);
 
-
+                //**
+                ViewBag.HoraControlAsistencia = clsDAsistencia.ConsultarControlAsistencia(Fecha, CodLinea, Turno,clsAtributos.Procesos).Hora;
+                //**
                 //Control de Cuchillos
                 clsDCuchillo = new clsDCuchillo();
                 List<ControlCuchilloViewModel> modelCuchillo = new List<ControlCuchilloViewModel>();

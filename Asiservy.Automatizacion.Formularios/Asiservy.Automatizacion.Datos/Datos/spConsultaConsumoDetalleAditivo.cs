@@ -18,7 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Proveedor { get; set; }
         public string Aditivo { get; set; }
         public Nullable<int> Peso { get; set; }
-        public Nullable<int> Lote { get; set; }
+        public string Lote { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

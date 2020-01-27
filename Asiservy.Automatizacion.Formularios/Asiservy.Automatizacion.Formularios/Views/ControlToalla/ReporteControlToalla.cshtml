@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "ReporteControlToalla";
+}
+
+<h5>Reporte Control Toalla</h5>
+
+
+<div class="row">
+    <div class="col-md-3 col-sm-6">
+        <div class="form-group">
+            <label>Fecha:</label>
+            @Html.TextBox("Fecha", null, new { @class = "form-control input-large", type = "date" })
+            <label id="msjerrorFecha" class="text-danger" style="display:none">Debe seleccionar una fecha de inicio</label>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="form-group">
+            <label>Turno:</label>
+            <select id="Turno" class="form-control">
+                <option value="">Seleccione</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+            <label id="msjerrorTurno" class="text-danger" style="display:none">Debe seleccionar un Turno</label>
+        </div>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <center>
+            <div class="form-group">
+
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="" onclick="ConsultarReporteToalla()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>
+
+
+                <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="Limpiar" onclick="Limpiar()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/clear24.png" />
+                </button>
+                @*<input type="button" value="Guardar" id="GuardarProyeccion" class="btn btn-primary" onclick="IngresarProyeccionProgramacion()" />
+                    <input type="button" value="Nuevo" id="Limpiar" class="btn btn-info" onclick="Limpiar()" />*@
+            </div>
+        </center>
+    </div>
+
+
+</div>
+<br />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+<div id="DivReporteToalla" style="padding-bottom:1%" class="table-responsive">
+
+</div>
+
+<center><h4 id="mensajeregistros" class="text-warning"></h4></center>

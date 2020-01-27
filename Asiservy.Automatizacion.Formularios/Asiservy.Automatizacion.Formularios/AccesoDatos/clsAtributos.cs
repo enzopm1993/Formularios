@@ -43,6 +43,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int RolEnlatado = 27;
         public static int AsistenteProduccion = 16;
         public static int SeguridadIndustrial = 41;
+        public static int RolEtiquetadoLata = 36;
+        public static int RolEtiquetadoPouch = 37;
+        public static int RolLimpiezaPouch= 38;
 
         //Codigos de Lineas
         public static string CodLineaProduccion = "07";
