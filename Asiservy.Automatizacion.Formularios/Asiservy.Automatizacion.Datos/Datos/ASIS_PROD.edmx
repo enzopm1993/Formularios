@@ -5382,6 +5382,7 @@
           <Property Type="String" Name="Nombres" Nullable="true" MaxLength="80" />
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
           <Property Type="Time" Name="HoraEntregada" Nullable="true" />
+          <Property Type="Boolean" Name="EstadoEntrega" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -8222,6 +8223,7 @@
                 <ScalarProperty Name="Nombres" ColumnName="Nombres" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="HoraEntregada" ColumnName="HoraEntregada" />
+                <ScalarProperty Name="EstadoEntrega" ColumnName="EstadoEntrega" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

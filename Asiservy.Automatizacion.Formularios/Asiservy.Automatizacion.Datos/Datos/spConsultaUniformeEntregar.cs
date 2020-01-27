@@ -20,5 +20,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Nombres { get; set; }
         public System.DateTime Fecha { get; set; }
         public Nullable<System.TimeSpan> HoraEntregada { get; set; }
+        public bool EstadoEntrega { get; set; }
     }
 }
