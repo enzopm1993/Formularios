@@ -2788,10 +2788,6 @@
           <FunctionImport Name="spConsultaProductoTerminadoTiempoPara" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminadoTiempoPara)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaProductoTerminado" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminado)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="linea" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="PRODUCTO_TERMINADO_DETALLE" EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" />
           <AssociationSet Name="FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE">
             <End Role="PRODUCTO_TERMINADO" EntitySet="PRODUCTO_TERMINADO" />
@@ -2813,7 +2809,11 @@
           </FunctionImport>
           <EntitySet Name="ENTREGA_UNIFORME" EntityType="ASIS_PRODModel.ENTREGA_UNIFORME" />
           <FunctionImport Name="spConsultaUniformeEntregar" ReturnType="Collection(ASIS_PRODModel.spConsultaUniformeEntregar)">
+          <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaProductoTerminado" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminado)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
 
         </EntityContainer>
@@ -5250,23 +5250,6 @@
           <Property Type="DateTime" Name="HoraFin" Nullable="false" Precision="23" />
           <Property Type="String" Name="Causa" Nullable="true" MaxLength="250" />
         </ComplexType>
-        <ComplexType Name="spConsultaProductoTerminado">
-          <Property Type="Int32" Name="IdProductoTerminado" Nullable="false" />
-          <Property Type="DateTime" Name="FechaPaletizado" Nullable="false" />
-          <Property Type="DateTime" Name="FechaProduccion" Nullable="false" />
-          <Property Type="DateTime" Name="FechaVencimiento" Nullable="true" />
-          <Property Type="DateTime" Name="FechaPaletizado1" Nullable="false" />
-          <Property Type="Int32" Name="CodigoSap" Nullable="false" />
-          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
-          <Property Type="Int32" Name="OrdenVenta" Nullable="false" />
-          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodigoProducto" Nullable="true" MaxLength="12" />
-          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Etiqueta" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="LineaNegocio" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <EntityType Name="PRODUCTO_TERMINADO_DETALLE">
           <Key>
             <PropertyRef Name="IdProductoTerminadoDetalle" />
@@ -5383,6 +5366,22 @@
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
           <Property Type="Time" Name="HoraEntregada" Nullable="true" />
           <Property Type="Boolean" Name="EstadoEntrega" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="spConsultaProductoTerminado">
+          <Property Type="Int32" Name="IdProductoTerminado" Nullable="false" />
+          <Property Type="DateTime" Name="FechaPaletizado" Nullable="false" />
+          <Property Type="DateTime" Name="FechaProduccion" Nullable="false" />
+          <Property Type="DateTime" Name="FechaVencimiento" Nullable="true" />
+          <Property Type="Int32" Name="CodigoSap" Nullable="false" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
+          <Property Type="Int32" Name="OrdenVenta" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoProducto" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Etiqueta" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="LineaNegocio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -8096,27 +8095,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaProductoTerminado" FunctionName="ASIS_PRODModel.Store.spConsultaProductoTerminado">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaProductoTerminado">
-                <ScalarProperty Name="IdProductoTerminado" ColumnName="IdProductoTerminado" />
-                <ScalarProperty Name="FechaPaletizado" ColumnName="FechaPaletizado" />
-                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
-                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
-                <ScalarProperty Name="FechaPaletizado1" ColumnName="FechaPaletizado1" />
-                <ScalarProperty Name="CodigoSap" ColumnName="CodigoSap" />
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
-                <ScalarProperty Name="Producto" ColumnName="Producto" />
-                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
-                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
-                <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="LineaNegocio" ColumnName="LineaNegocio" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="PRODUCTO_TERMINADO_DETALLE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE">
               <MappingFragment StoreEntitySet="PRODUCTO_TERMINADO_DETALLE">
@@ -8224,6 +8202,26 @@
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="HoraEntregada" ColumnName="HoraEntregada" />
                 <ScalarProperty Name="EstadoEntrega" ColumnName="EstadoEntrega" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaProductoTerminado" FunctionName="ASIS_PRODModel.Store.spConsultaProductoTerminado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaProductoTerminado">
+                <ScalarProperty Name="IdProductoTerminado" ColumnName="IdProductoTerminado" />
+                <ScalarProperty Name="FechaPaletizado" ColumnName="FechaPaletizado" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="CodigoSap" ColumnName="CodigoSap" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="LineaNegocio" ColumnName="LineaNegocio" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

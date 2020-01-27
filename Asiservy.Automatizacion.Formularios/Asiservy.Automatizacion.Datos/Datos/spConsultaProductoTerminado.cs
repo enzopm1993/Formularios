@@ -17,7 +17,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime FechaPaletizado { get; set; }
         public System.DateTime FechaProduccion { get; set; }
         public Nullable<System.DateTime> FechaVencimiento { get; set; }
-        public System.DateTime FechaPaletizado1 { get; set; }
         public int CodigoSap { get; set; }
         public int OrdenFabricacion { get; set; }
         public int OrdenVenta { get; set; }
