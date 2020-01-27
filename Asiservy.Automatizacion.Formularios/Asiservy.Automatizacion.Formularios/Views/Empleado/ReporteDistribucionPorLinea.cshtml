@@ -11,7 +11,7 @@
 <h3>Distribucion del personal por linea</h3>
 <div class="">
     <div class="row">
-        <div class="col-md-5 col-6">
+        <div class="col-md-4 col-6">
             <div class="form-group">
 
                 @if (ViewBag.SupervisorGeneral != null)
@@ -23,7 +23,6 @@
                     @Html.DropDownList("Linea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.LineaEmpleado), "Seleccione", new { @class = "form-control", @readonly = "@readonly", @onchange = "CambioLinea(this.id)", @id = "selectLinea" })
                     <script>
                     function CambioLinea(id) {
-
                         $('#' + id).val('@ViewBag.LineaEmpleado');
                     }
                     </script>
@@ -31,9 +30,15 @@
                 }
             </div>
         </div>
-        <div class="col-md-5 col-6">
+        <div class="col-md-4 col-6">
             <input type="date" class="form-control" name="name" id="txtFecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <p id="validaFecha" hidden class="text-danger">Ingrese una fecha</p>
+        </div>
+        <div class="col-md-2 col-6">
+            <select class="form-control" id="selectTurno">
+                <option value="1">A</option>
+                <option value="2">B</option>
+            </select>
         </div>
         <div class="col-md-2 col-6">
 

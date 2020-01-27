@@ -62,7 +62,7 @@ function CargarOrdenFabricacion() {
     $("#txtOrdenFabricacion").empty();
     $("#txtOrdenFabricacion").append("<option value='' >-- Seleccionar Opción--</option>");
     $.ajax({
-        url: "../EntregaProductoTerminado/ConsultaOrdenFabricacionPorFechaProductoTerminado",
+        url: "../EntregaProductoTerminado/ConsultarOrdenesFabricacion",
         type: "GET",
         data: {
             Fecha: valor,
@@ -207,13 +207,11 @@ function GenerarControlConsumo() {
     } else {
         $("#txtFechaPaletizado").css('borderColor', '#ced4da');
     }  
-
-    if ($("#txtIdEntregaProductoTerminado").val() == '0') {
-        $("#chartCabecera2").html('');
-    }
-
     if (!ValidarGenerarEntregaProducto()) {
         return;
+    }
+    if ($("#txtIdEntregaProductoTerminado").val() == '0') {
+        $("#chartCabecera2").html('');
     }
     $("#spinnerCargando").prop("hidden", false);
     $.ajax({
@@ -224,12 +222,9 @@ function GenerarControlConsumo() {
             FechaProduccion: txtFecha,
             FechaPaletizado: $("#txtFechaPaletizado").val(),
             FechaVencimiento: $("#txtFechaVencimiento").val(),
-           // CodigoSap: $("#txtOrdenFabricacion").val(),
             OrdenFabricacion: $("#txtOrdenFabricacion").val(),
-            //OrdenVenta: $("#txtPesoNeto").val(),
-            //Producto: $("#txtPesoEscrundido").val(),
-            CodigoProducto: $("#txtLomo").val(),
-            LineaNegocio: $("#txtLineaNegocio"),
+            CodigoProducto: $("#txtCodigoProducto").val(),
+            LineaNegocio: $("#txtLineaNegocio").val(),
             //Cliente: $("#txtMiga").val(),
             //Etiqueta: $("#txtAceite").val(),            
             Observacion: $("#txtObservacion").val()

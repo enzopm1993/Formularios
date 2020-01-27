@@ -147,6 +147,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.Cliente = string.IsNullOrEmpty(result.CLIENTE_CORTO) ? result.CLIENTE : result.CLIENTE_CORTO;
                 model.Producto = result.NOMBRE_PRODUCTO;
                 model.CodigoSap = int.Parse(result.CODIGO_MATERIAL);
+                model.OrdenVenta = string.IsNullOrEmpty(result.PEDIDO_VENTA)?0:int.Parse(result.PEDIDO_VENTA);
                 //model.Etiqueta
                 //model.LineaNegocio= result.
                 model.Linea = empleado.CODIGOLINEA;
