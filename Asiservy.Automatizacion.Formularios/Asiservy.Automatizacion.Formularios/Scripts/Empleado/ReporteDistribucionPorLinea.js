@@ -4,6 +4,7 @@ function CargarReporteDistribucion() {
     $("#validaFecha").prop("hidden", true);
     var linea = $('#selectLinea').val();   
     var fecha = $("#txtFecha").val();
+    var selectTurno = $("#selectTurno").val();
     if (fecha == '') {
         $("#validaFecha").prop("hidden", false);
         return;
@@ -17,7 +18,8 @@ function CargarReporteDistribucion() {
             type: "GET",
             data: {
                 Linea: linea,
-                Fecha: fecha
+                Fecha: fecha,
+                Turno: selectTurno
                
             },
             success: function (resultado) {

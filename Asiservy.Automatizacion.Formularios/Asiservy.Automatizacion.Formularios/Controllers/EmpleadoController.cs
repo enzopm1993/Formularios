@@ -709,7 +709,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
        
-        public ActionResult ReporteDistribucionPorLineaPartial(string Linea, DateTime Fecha)
+        public ActionResult ReporteDistribucionPorLineaPartial(string Linea, DateTime Fecha,string Turno)
         {
             try
             {
@@ -723,8 +723,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
-                ViewBag.InicioJornada = clsDEmpleado.ConsultaFechaInicioJornada(Linea, Fecha);
-                var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea, Fecha);
+                ViewBag.InicioJornada = clsDEmpleado.ConsultaFechaInicioJornada(Linea, Fecha, Turno);
+                var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea, Fecha, Turno);
                 return PartialView(model);
             }
             catch (Exception ex)

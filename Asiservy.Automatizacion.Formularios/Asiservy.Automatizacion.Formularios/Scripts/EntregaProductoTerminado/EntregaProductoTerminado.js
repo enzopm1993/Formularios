@@ -1,11 +1,14 @@
 ﻿
 var ListadoControl = [];
-
+$(document).ready(function () {
+     CargarProductoTerminado();
+    
+});
 
 function CargarDatosOrdenFabricacion() {
 
     if ($("#txtOrdenFabricacion").val() == "") {
-        NuevoControlConsumoInsumos();
+        NuevaEntrega();
         return;
     }
     $.ajax({
@@ -59,7 +62,7 @@ function CargarOrdenFabricacion() {
     $("#txtOrdenFabricacion").empty();
     $("#txtOrdenFabricacion").append("<option value='' >-- Seleccionar Opción--</option>");
     $.ajax({
-        url: "../EntregaProductoTerminado/ConsultaOrdenFabricacionPorFechaProductoTerminado",
+        url: "../EntregaProductoTerminado/ConsultarOrdenesFabricacion",
         type: "GET",
         data: {
             Fecha: valor,
@@ -96,16 +99,19 @@ function CargarProductoTerminado() {
     $("#divCabecera2").prop("hidden", true);
     $("#btnAtras").prop("hidden", true);
     $("#btnModalEditar").prop("hidden", true);
-    var txtFecha = $('#txtFecha').val();
-   
+    var txtFecha = $('#txtFecha').val();   
     if ($("#txtFecha").val() == "") {
         $("#txtFecha").css('borderColor', '#FA8072');
         return;
     } else {
         $("#txtFecha").css('borderColor', '#ced4da');
-    }
-   
-
+    }  
+    if ($("#txtFechaPaletizado").val() == "") {
+        $("#txtFechaPaletizado").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#txtFechaPaletizado").css('borderColor', '#ced4da');
+    }  
     $("#spinnerCargando").prop("hidden", false);
     $("#chartCabecera2").html('');
     CargarOrdenFabricacion();
@@ -113,7 +119,7 @@ function CargarProductoTerminado() {
         url: "../EntregaProductoTerminado/EntregaProductoTerminadoPartial",
         type: "GET",
         data: {
-            Fecha: txtFecha,
+            Fecha: $("#txtFechaPaletizado").val(),
             LineaNegocio: $("#txtLineaNegocio").val()
           
         },
@@ -141,7 +147,6 @@ function CargarProductoTerminado() {
     });
 }
 
-
 function ModalGenerarControl(edit) {
     if (!edit) {
         var txtFecha = $('#txtFecha').val();      
@@ -156,4 +161,111 @@ function ModalGenerarControl(edit) {
         }   
     }
     $("#ModalGenerarControl").modal("show");
+}
+
+
+
+function ValidarGenerarEntregaProducto() {
+    var valida = true;   
+
+    if ($("#txtOrdenFabricacion").val() == "") {
+        $("#txtOrdenFabricacion").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtOrdenFabricacion").css('borderColor', '#ced4da');
+    }
+   
+    if ($("#txtCodigoProducto").val() == "") {
+        $("#txtCodigoProducto").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtCodigoProducto").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtFechaVencimiento").val() == "") {
+        $("#txtFechaVencimiento").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtFechaVencimiento").css('borderColor', '#ced4da');
+    }
+
+    return valida;
+}
+
+function GenerarControlConsumo() {
+    var txtFecha = $('#txtFecha').val();
+  
+    if ($("#txtFecha").val() == "") {
+        $("#txtFecha").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#txtFecha").css('borderColor', '#ced4da');
+    }
+    if ($("#txtFechaPaletizado").val() == "") {
+        $("#txtFechaPaletizado").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#txtFechaPaletizado").css('borderColor', '#ced4da');
+    }  
+    if (!ValidarGenerarEntregaProducto()) {
+        return;
+    }
+    if ($("#txtIdEntregaProductoTerminado").val() == '0') {
+        $("#chartCabecera2").html('');
+    }
+    $("#spinnerCargando").prop("hidden", false);
+    $.ajax({
+        url: "../EntregaProductoTerminado/EntregaProductoTerminado",
+        type: "POST",
+        data: {
+            IdProductoTerminado: $("#txtIdEntregaProductoTerminado").val(),
+            FechaProduccion: txtFecha,
+            FechaPaletizado: $("#txtFechaPaletizado").val(),
+            FechaVencimiento: $("#txtFechaVencimiento").val(),
+            OrdenFabricacion: $("#txtOrdenFabricacion").val(),
+            CodigoProducto: $("#txtCodigoProducto").val(),
+            LineaNegocio: $("#txtLineaNegocio").val(),
+            //Cliente: $("#txtMiga").val(),
+            //Etiqueta: $("#txtAceite").val(),            
+            Observacion: $("#txtObservacion").val()
+        },
+        success: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
+            if (resultado == "101") {
+                window.location.reload();
+            } else if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            } else if (resultado == "1") {
+                MensajeAdvertencia("No se encontró información de la OF")
+                return;
+
+            } else if ($("#txtIdEntregaProductoTerminado").val() == '0') {
+                CargarProductoTerminado();
+                MensajeCorrecto("Registro Generado con Éxito");
+
+            } else {
+
+                MensajeCorrecto("Registro Actualizado con Éxito");
+            }
+            $("#ModalGenerarControl").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $('#btnConsultar').prop("disabled", false);
+            $("#spinnerCargando").prop("hidden", true);
+        }
+    });
+}
+
+
+function NuevaEntrega() {
+    $("#txtIdEntregaProductoTerminado").val('0');
+    $("#txtOrdenFabricacion").val('');
+    $("#txtOrdenFabricacion").prop("disabled", false);
+    $("#txtOrdenVenta").val('');
+    $("#txtCliente").val('');
+    $("#txtEtiqueta").val('');
+    $("#txtCodigoProducto").val('');
+    $("#txtObservacion").val('');   
 }

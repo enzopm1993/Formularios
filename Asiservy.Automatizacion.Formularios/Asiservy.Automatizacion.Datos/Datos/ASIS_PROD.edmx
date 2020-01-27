@@ -2820,6 +2820,15 @@
           <FunctionImport Name="spConsultaUniformeEntregar" ReturnType="Collection(ASIS_PRODModel.spConsultaUniformeEntregar)">
           <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="spConsultaProductoTerminado" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminado)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaDistribucionPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaDistribucionPorLinea)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="spConsultaPresentesPorAreaLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaPresentesPorAreaLinea_Result)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
@@ -5391,6 +5400,32 @@
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
           <Property Type="Time" Name="HoraEntregada" Nullable="true" />
           <Property Type="Boolean" Name="EstadoEntrega" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="spConsultaProductoTerminado">
+          <Property Type="Int32" Name="IdProductoTerminado" Nullable="false" />
+          <Property Type="DateTime" Name="FechaPaletizado" Nullable="false" />
+          <Property Type="DateTime" Name="FechaProduccion" Nullable="false" />
+          <Property Type="DateTime" Name="FechaVencimiento" Nullable="true" />
+          <Property Type="Int32" Name="CodigoSap" Nullable="false" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
+          <Property Type="Int32" Name="OrdenVenta" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoProducto" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Etiqueta" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="LineaNegocio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spConsultaDistribucionPorLinea">
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="PuestoTrabajo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Presente" Nullable="true" />
+          <Property Type="Int32" Name="Falta" Nullable="true" />
+          <Property Type="Int32" Name="PermisoMedico" Nullable="true" />
+          <Property Type="Int32" Name="CambioArea" Nullable="true" />
+          <Property Type="Int32" Name="PermisoGeneral" Nullable="true" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
         </ComplexType>
         <ComplexType Name="spConsultaPresentesPorAreaLinea_Result">
           <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
@@ -8237,6 +8272,40 @@
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="HoraEntregada" ColumnName="HoraEntregada" />
                 <ScalarProperty Name="EstadoEntrega" ColumnName="EstadoEntrega" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaProductoTerminado" FunctionName="ASIS_PRODModel.Store.spConsultaProductoTerminado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaProductoTerminado">
+                <ScalarProperty Name="IdProductoTerminado" ColumnName="IdProductoTerminado" />
+                <ScalarProperty Name="FechaPaletizado" ColumnName="FechaPaletizado" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="CodigoSap" ColumnName="CodigoSap" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="LineaNegocio" ColumnName="LineaNegocio" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaDistribucionPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaDistribucionPorLinea">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaDistribucionPorLinea">
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="PuestoTrabajo" ColumnName="PuestoTrabajo" />
+                <ScalarProperty Name="Presente" ColumnName="Presente" />
+                <ScalarProperty Name="Falta" ColumnName="Falta" />
+                <ScalarProperty Name="PermisoMedico" ColumnName="PermisoMedico" />
+                <ScalarProperty Name="CambioArea" ColumnName="CambioArea" />
+                <ScalarProperty Name="PermisoGeneral" ColumnName="PermisoGeneral" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

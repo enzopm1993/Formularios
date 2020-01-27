@@ -134,7 +134,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
+                clsDEmpleado = new clsDEmpleado();
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                var result = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(model.OrdenFabricacion+"").FirstOrDefault();
+                 if(result==null)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+
+                }
+                model.Cliente = string.IsNullOrEmpty(result.CLIENTE_CORTO) ? result.CLIENTE : result.CLIENTE_CORTO;
+                model.Producto = result.NOMBRE_PRODUCTO;
+                model.CodigoSap = int.Parse(result.CODIGO_MATERIAL);
+                model.OrdenVenta = string.IsNullOrEmpty(result.PEDIDO_VENTA)?0:int.Parse(result.PEDIDO_VENTA);
+                //model.Etiqueta
+                //model.LineaNegocio= result.
+                model.Linea = empleado.CODIGOLINEA;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;     
                 var Mensaje = clsDEntregaProductoTerminado.GuardarModificarControl(model);
