@@ -168,8 +168,8 @@ function NuevoControlConsumoInsumos() {
     $("#txtOrdenVenta").val('');
     $("#txtCliente").val('');
     $("#txtMarca").val('');
-    $("#txtHoraInicio").val('');
-    $("#txtHoraFin").val('');
+    //$("#txtHoraInicio").val('');
+    //$("#txtHoraFin").val('');
     $("#txtDesperdicioSolido").val('0');
     $("#txtDesperdicioLiquido").val('0');
     $("#txtDesperdicioAceite").val('0');
@@ -183,7 +183,9 @@ function NuevoControlConsumoInsumos() {
     $("#txtUnidadesProducidasTapa").val('0'); 
    $("#txtCodigoProducto").val('');
     $("#txtObservacion").val('');
+    $("#txtGrs").val('');
 
+    
 }
 
 function ModalGenerarControl(edit) {
@@ -207,12 +209,12 @@ function ModalGenerarControl(edit) {
 
 function ValidarGenerarControlConsumo(){
     var valida = true;
-    if ($("#txtHoraInicio").val() == "") {
-        $("#txtHoraInicio").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#txtHoraInicio").css('borderColor', '#ced4da');
-    }
+    //if ($("#txtHoraInicio").val() == "") {
+    //    $("#txtHoraInicio").css('borderColor', '#FA8072');
+    //    valida = false;
+    //} else {
+    //    $("#txtHoraInicio").css('borderColor', '#ced4da');
+    //}
 
     if ($("#txtPesoNeto").val() == "") {
         $("#txtPesoNeto").css('borderColor', '#FA8072');
@@ -306,8 +308,8 @@ function GenerarControlConsumo() {
             Aceite: $("#txtAceite").val(),
             Agua: $("#txtAgua").val(),
             CaldoVegetal: $("#txtCaldoVegetal").val(),
-            HoraInicio: $("#txtHoraInicio").val(),
-            HoraFin: $("#txtHoraFin").val(),
+            //HoraInicio: $("#txtHoraInicio").val(),
+            //HoraFin: $("#txtHoraFin").val(),
             DesperdicioSolido: $("#txtDesperdicioSolido").val(),
             DesperdicioLiquido: $("#txtDesperdicioLiquido").val(),
             DesperdicioAceite: $("#txtDesperdicioAceite").val(),
@@ -319,7 +321,8 @@ function GenerarControlConsumo() {
             UnidadesRecibidasTapa: $("#txtUnidadesRecibidasTapa").val(),
             UnidadesSobrantesTapa: $("#txtSobrantesTapa").val(),
             UnidadesProducidasTapa: $("#txtUnidadesProducidasTapa").val(),
-           CodigoProducto:$("#txtCodigoProducto").val(),
+            CodigoProducto: $("#txtCodigoProducto").val(),   
+            GrsReal: $("#txtGrs").val(),
             Observacion: $("#txtObservacion").val()
         },
         success: function (resultado) {
@@ -549,8 +552,8 @@ function SeleccionarControlDetalleConsumo(model) {
     $("#txtOrdenVenta").val(ListadoControl.OrdenVenta);
     $("#txtCliente").val(ListadoControl.Cliente);
     $("#txtMarca").val(ListadoControl.Marca);
-    $("#txtHoraInicio").val(ListadoControl.HoraInicio);
-    $("#txtHoraFin").val(ListadoControl.HoraFin);
+    //$("#txtHoraInicio").val(ListadoControl.HoraInicio);
+    //$("#txtHoraFin").val(ListadoControl.HoraFin);
     $("#txtDesperdicioSolido").val(ListadoControl.DesperdicioSolido);
     $("#txtDesperdicioLiquido").val(ListadoControl.DesperdicioLiquido);
     $("#txtDesperdicioAceite").val(ListadoControl.DesperdicioAceite);
@@ -564,6 +567,8 @@ function SeleccionarControlDetalleConsumo(model) {
     $("#txtUnidadesProducidasTapa").val(ListadoControl.UnidadesProducidasTapa);
     $("#txtCodigoProducto").val(ListadoControl.CodigoProducto);
     $("#txtObservacion").val(ListadoControl.Observacion);
+    $("#txtGrs").val(ListadoControl.GrsReal);
+
     //  $("#divCabecera1").prop("hidden", true);
     $("#btnAtras").prop("hidden", false);
     $("#btnModalEliminar").prop("hidden", false);
@@ -1602,3 +1607,37 @@ function EditarConsumoAditivos(model) {
     //ModalGenerarControlDetalle();
 }
 
+
+function SoloDecimales(evt, input) {
+    // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
+    var key = window.Event ? evt.which : evt.keyCode;
+    var chark = String.fromCharCode(key);
+    var tempValue = input.value + chark;
+    if (key >= 48 && key <= 57) {
+        if (filter(tempValue) === false) {
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        if (key == 8 || key == 13 || key == 0) {
+            return true;
+        } else if (key == 46) {
+            if (filter(tempValue) === false) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+}
+function filter(__val__) {
+    var preg = /^([0-9]+\.?[0-9]{0,2})$/;
+    if (preg.test(__val__) === true) {
+        return true;
+    } else {
+        return false;
+    }
+}

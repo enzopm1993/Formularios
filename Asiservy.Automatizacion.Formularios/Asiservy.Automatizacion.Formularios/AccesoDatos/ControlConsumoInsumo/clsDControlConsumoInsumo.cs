@@ -40,7 +40,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                     result.UnidadesProducidas = control.UnidadesProducidas;
                     result.UnidadesRecibidas = control.UnidadesRecibidas;
                     result.UnidadesSobrantes = control.UnidadesSobrantes;
-                    //result.CodigoMaterial = control.CodigoMaterial;
+                    result.GrsLataReal = control.GrsLataReal;
                     result.CodigoProducto = control.CodigoProducto;
                     result.UsuarioModificacionLog = control.UsuarioIngresoLog;
                     result.FechaModificacionLog = DateTime.Now;

@@ -136,7 +136,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if(model==null||model.OrdenFabricacion==0||model.HoraInicio==null||model.PesoNeto==null||model.PesoEscrundido==null)
+                if(model==null||model.OrdenFabricacion==0||model.PesoNeto==null||model.PesoEscrundido==null)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
