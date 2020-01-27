@@ -223,5 +223,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //CLASIFICADOR DE TIPO DE TIEMPOS MUERRTOS
         public static string CodigoGrupoTipoTiemposMuertos = "026";
+
+        //CLASIFICADOR DE TIPO DE PROCEDENCIA CONSUMO INSUMO
+        public static string CodigoGrupoProcedenciaConsumoInsumo = "027";
     }
 }

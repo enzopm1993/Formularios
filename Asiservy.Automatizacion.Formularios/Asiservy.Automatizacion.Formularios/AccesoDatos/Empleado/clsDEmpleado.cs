@@ -272,5 +272,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return EmpleadosSinCuchillo;
             }
         }
+
+        public TimeSpan? ConsultaFechaInicioJornada(string Linea, DateTime Fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var result = db.CONTROL_ASISTENCIA.FirstOrDefault(x => x.Fecha == Fecha && x.Linea == Linea);
+                if (result != null)
+                { return result.Hora; }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }

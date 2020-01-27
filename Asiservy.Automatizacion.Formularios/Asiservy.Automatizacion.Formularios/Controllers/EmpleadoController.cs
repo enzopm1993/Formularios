@@ -659,7 +659,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDLogin = new clsDLogin();
                 clsDGeneral = new clsDGeneral();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
-                ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;
+                ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;              
+                
                 List<int?> roles = clsDLogin.ConsultaRolesUsuario(Usuario[1]);
                 if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.RolControladorGeneral) != null)
                 {
@@ -722,6 +723,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
+                ViewBag.InicioJornada = clsDEmpleado.ConsultaFechaInicioJornada(Linea, Fecha);
                 var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea, Fecha);
                 return PartialView(model);
             }

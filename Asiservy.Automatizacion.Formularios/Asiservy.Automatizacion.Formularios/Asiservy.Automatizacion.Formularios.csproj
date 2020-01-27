@@ -2150,6 +2150,7 @@
     <Content Include="Scripts\ControlConsumoInsumo\ReporteControlPouch.js" />
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
     <Content Include="Scripts\ControlToalla\ReporteControlToalla.js" />
+    <Content Include="Scripts\EntregaProductoTerminado\EntregaProductoTerminado.js" />
     <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
@@ -3440,6 +3441,8 @@
     <Content Include="Views\ControlToalla\ReporteControlToalla.cshtml" />
     <Content Include="Views\ControlToalla\PartialReporteToalla.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ControlConsumoInsumoDetallePartial.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\EntregaProductoTerminadoPartial.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\EntregaProductoTerminado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3450,7 +3453,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Comunicados\" />
-    <Folder Include="Views\EntregaProductoTerminado\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

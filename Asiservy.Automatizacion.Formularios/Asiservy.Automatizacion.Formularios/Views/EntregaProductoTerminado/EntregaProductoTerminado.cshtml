@@ -1,0 +1,375 @@
+﻿
+@{
+    ViewBag.Title = "EntregaProductoTerminado";
+}
+
+<h4>Entrega Producto Terminado</h4>
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+
+@ViewBag.Linea
+<hr />
+<div class="row" id="divCabecera1">
+    <div class="col-md-4 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Fecha Producción</label>
+            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarProductoTerminado()" id="txtFecha" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-4 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Fecha Paletizado</label>
+            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarProductoTerminado()" id="txtFechaPaletizado" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-4 col-12  text-md-left text-center">
+        <label class="">Acciones</label>
+
+        <div class="form-group">
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControl(false)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="ModalEliminarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ModalGenerarControl(true)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/edit24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>
+        </div>
+    </div>
+
+</div>
+<hr />
+<div class="d-flex justify-content-center">
+    <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div id="divCabecera2" hidden>
+    <div class="card shadow">
+        <div class="card-body">
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
+
+<div id="divDetalleProceso" hidden>
+    <div class="row">
+        <div class="col-md-6 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControlDetalle()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            <h4>Datos del Proceso</h4>
+                            @if (ViewBag.LineaNegocio == "ENLATADO")
+                            {
+                                <select class="form-control" id="selectTipoProceso" onchange="CargarProcesoDetalleEnlatado()">
+                                    <option value="C">Cuerpo</option>
+                                    <option value="T">Tapa</option>
+                                </select>
+                            }
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableDetalle" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerarDaniado" onclick="ModalGenerarDanadio()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            @if (ViewBag.LineaNegocio == "ENLATADO")
+                            {
+                                <h4>Mermas de Envases </h4>
+                            }
+                            else
+                            {
+                                <h4>Mermas de Fundas</h4>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoDaniados" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableDaniados" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-6 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarConsumoInsumoDetalle()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            <h4>Detalle del Proceso</h4>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoConsumoInsumoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableConsumoInsumoDetalle" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-6 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerarAditivos" onclick="ModalGenerarAditivos()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            <h4>Aditivos</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoAditivos" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableAditivos" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerarTiemposMuertos" onclick="ModalGenerarTiemposMuertos()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            <h4>Tiempos Muertos</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoTiemposMuertos" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableTiemposMuertos" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerarProcedencia" onclick="ModalGenerarProcedencia()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            <h4>Procedencia</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoTiemposMuertos" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableProcedencia" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<div class="modal" tabindex="-1" id="ModalGenerarControl" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Control Consumo de Insumos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdEntregaProductoTerminado" name="name" value="0" />
+                    <input type="hidden" id="txtLineaNegocio" name="name" value="@ViewBag.LineaNegocio" />
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Orden Fabricación</label>
+                            @*<input class="form-control" id="txtOrdenFabricacion" type="text" name="name" value="0" />*@
+                            @Html.DropDownList("txtOrdenFabricacion", new SelectList(ViewBag.OrdenesFabricacion, "ORDEN_FABRICACION", "ORDEN_FABRICACION"), "seleccione", new { @class = "form-control", @Onchange = "CargarDatosOrdenFabricacion()" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Orden Venta</label>
+                            <input class="form-control" id="txtOrdenVenta" disabled type="text" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Cod SAP</label>
+                            <input class="form-control" id="txtCodigoMaterial" disabled type="text" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Cliente</label>
+                            <input class="form-control" id="txtCliente" disabled type="text" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Producto</label>
+                            <input class="form-control" id="txtProducto" disabled type="text" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Cod Producto</label>
+                            <input class="form-control" id="txtCodigoProducto" type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Etiqueta</label>
+                            <input class="form-control" id="txtEtiqueta" type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Observacion</label>
+                            <textarea class="form-control" cols="12" id="txtObservacion" maxlength="250" type="text" name="name" value=""></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarControlConsumo()" id="btnGenerarControlConsumo">Generar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

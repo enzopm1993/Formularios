@@ -44,6 +44,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.Linea = Empleado.LINEA;
                 ViewBag.CodLinea = Empleado.CODIGOLINEA;
                 ViewBag.TipoTiemposMuertos = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoTipoTiemposMuertos);
+                ViewBag.Procedencia = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoProcedenciaConsumoInsumo);
               
 
                 clsDLogin = new clsDLogin();

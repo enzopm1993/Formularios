@@ -11,6 +11,9 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion;
 using System.Globalization;
 using Asiservy.Automatizacion.Formularios.Models;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
+using System.Configuration;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -53,7 +56,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 Session["Modulos"] = resultado[2];
                 var Roles = PsLogin.ConsultaRolesUsuario(lsUsuario[1]);
                 Notificaciones(Roles);
-
+                string strConnString = ConfigurationManager.ConnectionStrings["ASIS_PRODEntities"].ConnectionString;
+                
+                ViewBag.BaseDatos = "";
 
                 return View();
 

@@ -871,13 +871,17 @@
                     <input type="hidden" id="txtIdConsumoProcedencia" name="name" value="0" />
                     <div class="col-6 col-sm-12 col-md-12">
                         <label>Hora Para</label>
-                        <select class="form-control" id="selectProcedencia">
+                        @Html.DropDownList("selectProcedencia", new SelectList(ViewBag.Procedencia, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+
+
+
+                        @*<select class="form-control" id="selectProcedencia">
                             <option value="S">Sala</option>
                             <option value="C">Congelado</option>
                             <option value="R">Refrigerado</option>
 
 
-                        </select>
+                        </select>*@
                     </div>
                     <div class="col-6 col-sm-12 col-md-12">
                         <label>Lote</label>
