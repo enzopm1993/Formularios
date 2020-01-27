@@ -56,9 +56,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 Session["Modulos"] = resultado[2];
                 var Roles = PsLogin.ConsultaRolesUsuario(lsUsuario[1]);
                 Notificaciones(Roles);
-                string strConnString = ConfigurationManager.ConnectionStrings["ASIS_PRODEntities"].ConnectionString;
-                
-                ViewBag.BaseDatos = "";
+                //  string strConnString = ConfigurationManager.ConnectionStrings["ASIS_PRODEntities"].ConnectionString;
+                clsDGeneral = new clsDGeneral();
+                ViewBag.BaseDatos = clsDGeneral.getDataBase();
 
                 return View();
 

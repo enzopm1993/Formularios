@@ -2151,7 +2151,8 @@
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
     <Content Include="Scripts\ControlToalla\ReporteControlToalla.js" />
     <Content Include="Scripts\EntregaProductoTerminado\EntregaProductoTerminado.js" />
-    <Content Include="Scripts\EntregaUniformes\EntregaUniformes.js" />
+    <Content Include="Scripts\EntregaUniforme\BandejaEntregaUniforme.js" />
+    <Content Include="Scripts\EntregaUniforme\EntregaUniforme.js" />
     <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
@@ -3447,6 +3448,9 @@
     <Content Include="Views\EntregaProductoTerminado\EntregaProductoTerminadoPartial.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\EntregaProductoTerminado.cshtml" />
     <Content Include="Views\EntregaUniforme\EntregaUniforme.cshtml" />
+    <Content Include="Views\EntregaUniforme\EntregaUniformePartial.cshtml" />
+    <Content Include="Views\EntregaUniforme\BandejaEntregaUniforme.cshtml" />
+    <Content Include="Views\EntregaUniforme\BandejaEntregaUniformePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

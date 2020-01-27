@@ -8,7 +8,7 @@
     }
 </style>
 
-<h5>Entrega Uniforme</h5>
+<h4>Entrega Uniforme</h4>
 
 <div class="" style="padding-bottom:5%">
 
@@ -18,7 +18,7 @@
         <div class="col-md-4 col-sm-6 col-6">
             <div class="form-group">
                 <label>Fecha</label>
-                <input type="date" class="form-control" id="txtFecha" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                <input type="date" class="form-control" id="txtFecha" onchange="ConsultarEntregaUniformes()" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             </div>
         </div>
         <div class="col-md-4 col-sm-12">
@@ -41,10 +41,12 @@
     </div>
     <div class="row">
         <div class="col text-center">
-            <button data-toggle="tooltip" data-placement="top" title="Agregar" class="btn" id="" onclick="AgregarEntregaUniforme()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/add24-2.png" />
+            <button data-toggle="tooltip" data-placement="top" title="Agregar" class="btn" id="" onclick="GenerarEntregaUniforme()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
             </button>
-
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="" onclick="NuevaEntregaUniforme()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
         </div>
     </div>
 
@@ -65,32 +67,26 @@
 
 
 
-<div class="modal" tabindex="-1" id="ModalEntregaUniforme" role="dialog" data-backdrop="static">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarEntregaUniforme">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Entrega de Uniforme</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <input type="hidden" id="txtEliminarEntregaUniforme" name="name" value="0" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelDetalle">Esta seguro de Eliminar?</h4>
+
             </div>
             <div class="modal-body">
-                <div class="row">                   
-                    <div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>Hora</label>
-                            <input type="time" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("HH:mm")" />
-                        </div>
-                    </div>
-                </div>
+                <h5 id="pModalDetalle"></h5>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="GenerarEntregaUniforme()" id="btnGenerar">Generar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-danger" id="modal-Detalle-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-Detalle-btn-no">No</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 
