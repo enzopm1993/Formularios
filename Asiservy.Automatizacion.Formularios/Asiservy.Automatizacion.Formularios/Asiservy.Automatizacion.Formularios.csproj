@@ -2151,6 +2151,7 @@
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
     <Content Include="Scripts\ControlToalla\ReporteControlToalla.js" />
     <Content Include="Scripts\EntregaProductoTerminado\EntregaProductoTerminado.js" />
+    <Content Include="Scripts\EntregaUniformes\EntregaUniformes.js" />
     <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
@@ -3140,6 +3141,7 @@
     <Compile Include="AccesoDatos\AuditoriaSangre\clsDAuditoriaSangre.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
     <Compile Include="AccesoDatos\EntregaProductoTerminado\clsDEntregaProductoTerminado.cs" />
+    <Compile Include="AccesoDatos\EntregaUniforme\clsDEntregaUniforme.cs" />
     <Compile Include="AccesoDatos\General\clsApiUsuario.cs" />
     <Compile Include="AccesoDatos\General\clsDApiOrdenFabricacion.cs" />
     <Compile Include="AccesoDatos\General\clsDApiProduccion.cs" />
@@ -3190,6 +3192,7 @@
     <Compile Include="Controllers\ControlToallaController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\EntregaProductoTerminadoController.cs" />
+    <Compile Include="Controllers\EntregaUniformeController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HuesoController.cs" />
@@ -3443,6 +3446,7 @@
     <Content Include="Views\ControlConsumoInsumo\ControlConsumoInsumoDetallePartial.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\EntregaProductoTerminadoPartial.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\EntregaProductoTerminado.cshtml" />
+    <Content Include="Views\EntregaUniforme\EntregaUniforme.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
