@@ -15,6 +15,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdProcedenciaPescado { get; set; }
         public int IdControlConsumoInsumos { get; set; }
+        public string CodProcedencia { get; set; }
         public string Procedencia { get; set; }
         public string Lote { get; set; }
         public string Observacion { get; set; }

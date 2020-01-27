@@ -2705,9 +2705,6 @@
             <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
             <End Role="CONSUMO_PROCEDENCIA_PESCADO" EntitySet="CONSUMO_PROCEDENCIA_PESCADO" />
           </AssociationSet>
-          <FunctionImport Name="spConsultaConsumoProcedenciaPescado" ReturnType="Collection(ASIS_PRODModel.spConsultaConsumoProcedenciaPescado)">
-          <Parameter Name="IdControl" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaControlConsumoInsumo" ReturnType="Collection(ASIS_PRODModel.spConsultaControlConsumoInsumo)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
@@ -2788,6 +2785,9 @@
           </AssociationSet>
           <FunctionImport Name="spConsultaControlConsumoInsumoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlConsumoInsumoDetalle)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaConsumoProcedenciaPescado" ReturnType="Collection(ASIS_PRODModel.spConsultaConsumoProcedenciaPescado)">
+            <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
 
         </EntityContainer>
@@ -4967,20 +4967,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="spConsultaConsumoProcedenciaPescado">
-          <Property Type="Int32" Name="IdProcedenciaPescado" Nullable="false" />
-          <Property Type="Int32" Name="IdControlConsumoInsumos" Nullable="false" />
-          <Property Type="String" Name="Procedencia" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="Lote" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <ComplexType Name="spConsultaControlConsumoInsumo">
           <Property Type="Int32" Name="IdControlConsumoInsumos" Nullable="false" />
           <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
@@ -5328,6 +5314,21 @@
           <Property Type="Int32" Name="IdControlConsumoInsumos" Nullable="false" />
           <Property Type="DateTime" Name="HoraInicio" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="HoraFin" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spConsultaConsumoProcedenciaPescado">
+          <Property Type="Int32" Name="IdProcedenciaPescado" Nullable="false" />
+          <Property Type="Int32" Name="IdControlConsumoInsumos" Nullable="false" />
+          <Property Type="String" Name="CodProcedencia" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Procedencia" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Lote" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -7798,24 +7799,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaConsumoProcedenciaPescado" FunctionName="ASIS_PRODModel.Store.spConsultaConsumoProcedenciaPescado">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaConsumoProcedenciaPescado">
-                <ScalarProperty Name="IdProcedenciaPescado" ColumnName="IdProcedenciaPescado" />
-                <ScalarProperty Name="IdControlConsumoInsumos" ColumnName="IdControlConsumoInsumos" />
-                <ScalarProperty Name="Procedencia" ColumnName="Procedencia" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaControlConsumoInsumo" FunctionName="ASIS_PRODModel.Store.spConsultaControlConsumoInsumo">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlConsumoInsumo">
@@ -8135,6 +8118,25 @@
                 <ScalarProperty Name="IdControlConsumoInsumos" ColumnName="IdControlConsumoInsumos" />
                 <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
                 <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaConsumoProcedenciaPescado" FunctionName="ASIS_PRODModel.Store.spConsultaConsumoProcedenciaPescado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaConsumoProcedenciaPescado">
+                <ScalarProperty Name="IdProcedenciaPescado" ColumnName="IdProcedenciaPescado" />
+                <ScalarProperty Name="IdControlConsumoInsumos" ColumnName="IdControlConsumoInsumos" />
+                <ScalarProperty Name="CodProcedencia" ColumnName="CodProcedencia" />
+                <ScalarProperty Name="Procedencia" ColumnName="Procedencia" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
