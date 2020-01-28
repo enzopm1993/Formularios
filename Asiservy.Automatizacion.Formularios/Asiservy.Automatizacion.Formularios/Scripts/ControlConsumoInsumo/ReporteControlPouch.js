@@ -167,10 +167,7 @@ function ReporteInsumoDetallePouchPartial() {
     });
 }
 
-
 function ReporteConsumoInsumoDetalle() {
-    //$("#spinnerCargandoDetalleL").prop("hidden", false);
-    //$("#divTableDetalleFundas").html('');
     $.ajax({
         url: "../ControlConsumoInsumo/ConsultaDetalleConsumoInsumo",
         type: "GET",
@@ -183,17 +180,18 @@ function ReporteConsumoInsumoDetalle() {
             }
             if (resultado == "0") {
                 $("#txtHoras").html("No existen registros");
-                //$("#divTableDetalleFundas").html("No existen registros");
             } else {
-                console.log(resultado);
-                //$("#divTableDetalleFundas").html(resultado);
+                var horas = '';
+                $.each(resultado, function (index, value) {
+                    horas = horas + moment(value.HoraInicio).format("HH:mm") + '-' + moment(value.HoraFin).format("HH:mm") + '; '
+                });
+                $("#txtHoras").html(horas);
             }
-
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-            //      $('#btnConsultar').prop("disabled", false);
-            $("#spinnerCargandoDetalle").prop("hidden", true);
+
+          //  $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });
 }

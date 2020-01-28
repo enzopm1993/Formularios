@@ -243,8 +243,6 @@ function ReporteConsumoAditivos() {
 
 
 function ReporteConsumoInsumoDetalle() {
-    //$("#spinnerCargandoDetalleL").prop("hidden", false);
-    //$("#divTableDetalleFundas").html('');
     $.ajax({
         url: "../ControlConsumoInsumo/ConsultaDetalleConsumoInsumo",
         type: "GET",
@@ -257,24 +255,17 @@ function ReporteConsumoInsumoDetalle() {
             }
             if (resultado == "0") {
                 $("#txtHoras").html("No existen registros");
-                //$("#divTableDetalleFundas").html("No existen registros");
             } else {
-              //  console.log(resultado);
                 var horas='';
                 $.each(resultado, function (index, value) {
-                   // alert(index + ": " + moment(value.HoraInicio).format("HH:mm"));
                     horas = horas + moment(value.HoraInicio).format("HH:mm") + '-' + moment(value.HoraFin).format("HH:mm")+'; ' 
-                });
-               // alert(horas);
-                $("#txtHoras").html(horas);
-                //$("#divTableDetalleFundas").html(resultado);
+                });               
+                $("#txtHoras").html(horas);            
             }
-
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
-            //      $('#btnConsultar').prop("disabled", false);
-            $("#spinnerCargandoDetalle").prop("hidden", true);
+            MensajeError(resultado.responseText, false);         
+         //   $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });
 }
