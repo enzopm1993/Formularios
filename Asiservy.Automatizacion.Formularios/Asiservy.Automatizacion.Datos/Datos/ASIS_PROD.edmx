@@ -1118,8 +1118,8 @@
           <Key>
             <PropertyRef Name="IdProductosDaniados" />
           </Key>
-          <Property Name="IdProductosDaniados" Type="int" Nullable="false" />
-          <Property Name="IdProductoTerminado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdProductosDaniados" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdProductoTerminado" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Codigo" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
