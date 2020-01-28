@@ -3,6 +3,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
+using Asiservy.Automatizacion.Formularios.Models.MantenimientoPallet;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -1733,14 +1734,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #endregion
 
-        #region DETALLE_PALLET
-        public ActionResult DetallePallet()
+        #region MANTENIMIENTO_PALLET
+        public ActionResult MantenimientoPallet()
         {
             try
             {
+                
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                ViewBag.select2 = "1";
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Proveedor = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoProveedorPallet);
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -1762,9 +1765,79 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home", "Home");
             }
         }
-
+        public JsonResult GuardarPallet(PALLET pallet)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                pallet.FechaIngresoLog = DateTime.Now;
+                pallet.UsuarioIngresoLog = lsUsuario[0];
+                pallet.TerminalIngresoLog = Request.UserHostAddress;
+                
+                
+                clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
+                string resultado = clsDControlConsumoInsumo.GuardarPallet(pallet);
+                return Json(resultado,JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
-
+        public ActionResult PartialMantenimientoPallet()
+        {
+            try
+            {
+                clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
+                var Pallets = clsDControlConsumoInsumo.ConsultarPallets();
+                clsDClasificador = new clsDClasificador();
+                List<CLASIFICADOR> ListProveedores = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoProveedorPallet);
+                List<PalletViewModel> ListPallets = (from p in Pallets
+                                   join pr in ListProveedores on p.Proveedor equals pr.Codigo
+                                   select new PalletViewModel {IdPallet=p.IdPallet,Envase=p.Envase,EstadoRegistro=p.EstadoRegistro,FechaIngresoLog=p.FechaIngresoLog,
+                                   FechaModificacionLog=p.FechaModificacionLog,IdProveedor=p.Proveedor,Lamina=p.Lamina,Numero_Pallet=p.Numero_Pallet,
+                                   Proveedor=pr.Descripcion,TerminalIngresoLog=p.TerminalIngresoLog,TerminalModificacionLog=p.TerminalModificacionLog,
+                                   Unidades=p.Unidades,UsuarioIngresoLog=p.UsuarioIngresoLog,UsuarioModificacionLog=p.UsuarioModificacionLog} ).ToList();
+                return PartialView(ListPallets);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
         public JsonResult ConsultarOrdenesFabricacion(DateTime Fecha, string Linea)
         {
             try

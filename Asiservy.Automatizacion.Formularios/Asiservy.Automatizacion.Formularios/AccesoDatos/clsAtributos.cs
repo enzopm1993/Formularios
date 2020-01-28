@@ -232,5 +232,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //CLASIFICADOR DE MATERIALES PRODUCTOS TERMINADOS
         public static string CodigoGrupoMaterialesProductoTerminado = "030";
+
+        //CLASIFICADOR PROVEEDORES DE PALLET 
+        public static string CodigoGrupoProveedorPallet = "028";
     }
 }
