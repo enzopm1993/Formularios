@@ -24,5 +24,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public string TerminalIngresoLog { get; set; }
+        public string CodigoMotivo { get; set; }
+        public Nullable<bool> CambioEstado { get; set; }
     }
 }

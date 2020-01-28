@@ -135,6 +135,8 @@
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CodigoMotivo" Type="varchar" MaxLength="30" />
+          <Property Name="CambioEstado" Type="bit" />
         </EntityType>
         <EntityType Name="CAMBIO_PERSONAL">
           <Key>
@@ -2876,6 +2878,8 @@
           <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoMotivo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CambioEstado" Type="Boolean" />
         </EntityType>
         <ComplexType Name="spConsultaLinea">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="5" />
@@ -5597,6 +5601,8 @@
           <EntitySetMapping Name="BITACORA_SOLICITUD">
             <EntityTypeMapping TypeName="ASIS_PRODModel.BITACORA_SOLICITUD">
               <MappingFragment StoreEntitySet="BITACORA_SOLICITUD">
+                <ScalarProperty Name="CambioEstado" ColumnName="CambioEstado" />
+                <ScalarProperty Name="CodigoMotivo" ColumnName="CodigoMotivo" />
                 <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
                 <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
                 <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
