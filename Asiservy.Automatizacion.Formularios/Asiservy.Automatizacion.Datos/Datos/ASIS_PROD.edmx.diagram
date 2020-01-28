@@ -87,10 +87,8 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_ADITIVO" Width="1.5" PointX="13.625" PointY="38.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO" Width="1.5" PointX="28.375" PointY="29" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DANIADOS" Width="1.5" PointX="30.625" PointY="36.875" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_MATERIALES" Width="1.5" PointX="30.625" PointY="32.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_TIEMPO_PARADAS" Width="1.5" PointX="30.625" PointY="23.625" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO_DETALLE" Width="1.5" PointX="13.625" PointY="62.375" />
@@ -101,6 +99,8 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" Width="1.5" PointX="30.625" PointY="41" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PALLET" Width="1.5" PointX="5.375" PointY="26.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DANIADOS" Width="1.5" PointX="30.625" PointY="28.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
