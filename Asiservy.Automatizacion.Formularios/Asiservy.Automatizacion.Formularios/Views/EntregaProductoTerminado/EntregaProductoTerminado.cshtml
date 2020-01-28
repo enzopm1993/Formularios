@@ -82,14 +82,7 @@
                             </div>
                         </div>
                         <div class="col-md-10 col-sm-9 col-8">
-                            <h4>Datos del Proceso</h4>
-                            @if (ViewBag.LineaNegocio == "ENLATADO")
-                            {
-                                <select class="form-control" id="selectTipoProceso" onchange="CargarProcesoDetalleEnlatado()">
-                                    <option value="C">Cuerpo</option>
-                                    <option value="T">Tapa</option>
-                                </select>
-                            }
+                            <h4>Datos del Proceso</h4>                           
 
                         </div>
                     </div>
@@ -124,15 +117,8 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="col-md-10 col-sm-9 col-8">
-                            @if (ViewBag.LineaNegocio == "ENLATADO")
-                            {
-                                <h4>Mermas de Envases </h4>
-                            }
-                            else
-                            {
-                                <h4>Mermas de Fundas</h4>
-                            }
+                        <div class="col-md-10 col-sm-9 col-8">   
+                                <h4>Mermas</h4>                          
                         </div>
                     </div>
                 </div>
@@ -378,6 +364,64 @@
 </div>
 
 
+@* CONSUMO DE ENVASES  *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarConsumoDaniado">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarProcesoDaniado" name="name" value="0" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelDaniado">Esta seguro de Eliminar?</h4>
+
+            </div>
+            <div class="modal-body">
+                <h5 id="pModalDaniado"></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-Daniado-btn-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-Daniado-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" id="ModalConsumoDaniado" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @if (ViewBag.LineaNegocio == "ENLATADO")
+                {
+                    <h4>Consumo de Envases </h4>
+                }
+                else
+                {
+                    <h4>Consumo de Fundas</h4>
+                }
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdConsumoDaniado" name="name" value="0" />
+                    <div class="col-12 col-sm-12 col-md-6">
+                        <label>Motivo</label>
+                        @Html.DropDownList("selectDaniado", new SelectList(ViewBag.Daniado, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                    </div>                   
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Cantidad</label>
+                        <input type="number" min="0" id="txtCantidad" class="form-control" name="name" value="" />
+                    </div>                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GuardarConsumoDaniado()" id="">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @* TIEMPOS MUERTOS *@
 

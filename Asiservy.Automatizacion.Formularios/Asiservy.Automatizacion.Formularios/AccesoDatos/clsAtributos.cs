@@ -226,5 +226,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //CLASIFICADOR DE TIPO DE PROCEDENCIA CONSUMO INSUMO
         public static string CodigoGrupoProcedenciaConsumoInsumo = "027";
+
+        //CLASIFICADOR DE CONSUMO PRODUCTOS TERMINADOS
+        public static string CodigoGrupoConsumoProductoTerminado= "029";
+
+        //CLASIFICADOR DE MATERIALES PRODUCTOS TERMINADOS
+        public static string CodigoGrupoMaterialesProductoTerminado = "030";
     }
 }

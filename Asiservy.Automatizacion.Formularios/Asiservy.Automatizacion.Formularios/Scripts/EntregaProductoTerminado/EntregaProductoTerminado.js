@@ -299,6 +299,7 @@ function SeleccionarControlEntregaProductoTerminado(model) {
     
     CargarEntregaProductoTerminadoDetalle();
     CargarProcesoDetalleTiemposMuertos();
+    CargarProcesoDetalleDaniado();
 }
 
 
@@ -424,7 +425,7 @@ function GenerarControlConsumoDetalle() {
 
 
 function EditarConsumoInsumoDetalle(model) {
-    console.log(model);
+    //console.log(model);
     $("#txtIdEntregaProductoTerminadoDetalle").val(model.IdProductoTerminadoDetalle);
     $("#txtHoraInicioDetalle").val(model.HoraInicio);
     $("#txtHoraFinDetalle").val(model.HoraFin);
@@ -473,6 +474,147 @@ $("#modal-detalle-no").on("click", function () {
 });
 
 
+
+
+
+////////CONSUMO DE DANIADOS //////////////////////////////
+function CargarProcesoDetalleDaniado() {
+    $("#spinnerCargandoDaniados").prop("hidden", false);
+    $("#divTableDaniados").html('');
+    $.ajax({
+        url: "../EntregaProductoTerminado/ControlConsumoDaniadoPartial",
+        type: "GET",
+        data: {
+            IdControl: ListadoControl.IdProductoTerminado           
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#divTableDaniados").html("No existen registros");
+                $("#spinnerCargandoDaniados").prop("hidden", true);
+            } else {
+                $("#spinnerCargandoDaniados").prop("hidden", true);
+                $("#divTableDaniados").html(resultado);
+                //config.opcionesDT.pageLength = 10;
+                //      config.opcionesDT.order = [[0, "asc"]];
+                //    $('#tblDataTable').DataTable(config.opcionesDT);
+            }
+
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoDaniados").prop("hidden", true);
+        }
+    });
+}
+
+function ModalGenerarDanadio() {
+    $("#txtIdControlDetalleProceso").val(0);
+    $("#selectDaniado").prop("selectedIndex", 0);
+    $("#txtCantidad").val(0);  
+    $("#ModalConsumoDaniado").modal("show");
+}
+
+function validarConsumoDaniado() {
+    var valida = true;
+    if ($("#selectDaniado").val() == "") {
+        $("#selectDaniado").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectDaniado").css('borderColor', '#ced4da');
+    }
+    if ($("#txtCantidad").val() == "") {
+        $("#txtCantidad").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtCantidad").css('borderColor', '#ced4da');
+    }
+    return valida;
+}
+
+function GuardarConsumoDaniado() {
+    if (!validarConsumoDaniado()) {
+        return;
+    }
+    $.ajax({
+        url: "../EntregaProductoTerminado/GuardarConsumoDaniado",
+        type: "POST",
+        data: {
+            IdProductosDaniados: $("#txtIdControlDetalleProceso").val(),
+            IdProductoTerminado: ListadoControl.IdProductoTerminado,
+            Codigo: $("#selectDaniado").val(),
+            Cantidad: $("#txtCantidad").val()
+            
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            CargarProcesoDetalleDaniado();
+            $("#ModalConsumoDaniado").modal("hide");
+            //   MensajeCorrecto("Registro Guardado Correctamente");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#ModalConsumoDaniado").modal("hide");
+        }
+    });
+}
+
+
+function InactivarConsumoDaniado() {
+    $.ajax({
+        url: "../ControlConsumoInsumo/EliminarConsumoDaniado",
+        type: "POST",
+        data: {
+            IdProductosDaniados: $("#txtEliminarProcesoDaniado").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+            }
+            CargarProcesoDetalleDaniado();
+            //  MensajeCorrecto("Registro Eliminado con Éxito");
+            $("#modalEliminarProcesoDetalle").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
+function EliminarConsumoDaniado(model) {
+    $("#txtEliminarProcesoDaniado").val(model.IdProductosDaniados);
+    $("#pModalDaniado").html("Merma: " + model.TipoConsumo);
+    $("#modalEliminarConsumoDaniado").modal('show');
+}
+
+
+$("#modal-Daniado-btn-si").on("click", function () {
+    InactivarConsumoDaniado();
+    $("#txtEliminarProcesoDaniado").val('0');
+    $("#modalEliminarConsumoDaniado").modal('hide');
+});
+
+$("#modal-Daniado-btn-no").on("click", function () {
+    $("#txtEliminarProcesoDaniado").val('0');
+    $("#modalEliminarConsumoDaniado").modal('hide');
+});
+
+
+function EditarConsumoDaniado(model) {
+    // console.log(model);
+    $("#txtEliminarProcesoDaniado").val(model.IdProductosDaniados);
+    $("#selectDaniado").val(model.Codigo);
+    $("#txtCantidad").val(model.Cantidad);  
+    $("#ModalConsumoDaniado").modal("show");
+    //ModalGenerarControlDetalle();
+}
 
 
 

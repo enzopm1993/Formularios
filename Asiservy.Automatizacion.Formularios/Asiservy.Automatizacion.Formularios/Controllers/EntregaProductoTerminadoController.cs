@@ -42,7 +42,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 ViewBag.Linea = Empleado.LINEA;
                 ViewBag.CodLinea = Empleado.CODIGOLINEA;
-        
+                ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoProductoTerminado);
+
                 clsDLogin = new clsDLogin();
                 var rol = clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolEtiquetadoLata);
                 if (rol)
@@ -355,6 +356,127 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         #endregion
 
 
+        #region CONSUMO DAÑADOS
+        public ActionResult ControlConsumoDaniadoPartial(int IdControl)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoDaniados(IdControl);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }              
+
+                return PartialView(model);
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+        [HttpPost]
+        public ActionResult GuardarConsumoDaniado(PRODUCTO_TERMINADO_DANIADOS model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                var Respuesta = clsDEntregaProductoTerminado.GuardarModificarDaniados(model);
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult EliminarConsumoDaniado(PRODUCTO_TERMINADO_DANIADOS model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                var Respuesta = clsDEntregaProductoTerminado.EliminarProductoTerminadoDaniado(model);
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        #endregion
 
 
         #region TIEMPOS MUERTOS
