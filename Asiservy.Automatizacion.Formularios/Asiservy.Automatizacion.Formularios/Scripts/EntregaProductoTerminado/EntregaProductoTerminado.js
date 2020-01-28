@@ -424,7 +424,7 @@ function GenerarControlConsumoDetalle() {
 
 
 function EditarConsumoInsumoDetalle(model) {
-    // console.log(model);
+    console.log(model);
     $("#txtIdEntregaProductoTerminadoDetalle").val(model.IdProductoTerminadoDetalle);
     $("#txtHoraInicioDetalle").val(model.HoraInicio);
     $("#txtHoraFinDetalle").val(model.HoraFin);

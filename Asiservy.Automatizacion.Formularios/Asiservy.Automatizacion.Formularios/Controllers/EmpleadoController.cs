@@ -542,8 +542,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.AsistenteProduccion || x.Value == clsAtributos.RolControladorGeneral) != null)
                 {
                     ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
-                    ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
-
+                    var lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                    lineas.Add(new Models.Seguridad.Clasificador { Codigo = "T", Descripcion = "Todos" });
+                    ViewBag.Lineas = lineas;
                 }
                 else if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorLinea || x.Value == clsAtributos.RolControladorLinea) != null)
                 {

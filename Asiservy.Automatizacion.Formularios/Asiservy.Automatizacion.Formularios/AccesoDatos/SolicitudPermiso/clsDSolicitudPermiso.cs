@@ -895,6 +895,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             List<BitacoraSolicitud> ListaBitacoraFinal = null;
             clsDEmpleado = new clsDEmpleado();
             clsDGeneral = new clsDGeneral();
+            //var motivos = clsDGeneral.
+           
+
             using (var context = new ASIS_PRODEntities())
             {
 
@@ -904,6 +907,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                                  idBitacoraSolicitud=bitacora.IdBitacoraSolicitud,
                                  idSolicitud=bitacora.IdSolicitud,
                                  Cedula=bitacora.Cedula,
+                                 CodMotivo=bitacora.CodigoMotivo,
                                  CodEstadoSolicitud=bitacora.EstadoSolicitud,
                                  EstadoSolicitud=estado.Descripcion,
                                  FechaRegreso=bitacora.FechaRegreso,

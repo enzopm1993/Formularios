@@ -1270,6 +1270,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json(new { Failed = true, Mensaje = "Ingrese parametros de consulta" }, JsonRequestBehavior.AllowGet);
                 }
                 List<BitacoraSolicitud> model = clsDSolicitudPermiso.ConsultaBitacoraSolicitud(dsIdSolicitud, dsCedula, ddFechaDesde, ddFechaHasta);
+                var motivos = clsDSolicitudPermiso.ConsultarMotivos(null).ToList();
+                foreach (var x in model)
+                {
+                    if(!string.IsNullOrEmpty(x.CodMotivo))
+                        x.Motivo = motivos.FirstOrDefault(y=> y.CodigoMotivo==x.CodMotivo).DescripcionMotivo;
+                }
                 return PartialView(model);
 
             }

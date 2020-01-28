@@ -12,6 +12,8 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public string Cedula { get; set; }
         public string Nombres { get; set; }
         public string CodEstadoSolicitud { get; set; }
+        public string CodMotivo { get; set; }
+        public string Motivo { get; set; }
         public string EstadoSolicitud { get; set; }
         public string Linea { get; set; }
         public string Observacion { get; set; }
