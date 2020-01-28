@@ -107,7 +107,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 return lista;
             }
         }
-
+        //public List<spConsultaControlConsumoInsumoDetalle> ConsultaConsumoDetalle(int IdControl)
+        //{
+        //    using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+        //    {
+        //        var lista = entities.spConsultaControlConsumoInsumoDetalle(IdControl).ToList();
+        //        return lista;
+        //    }
+        //}
         #endregion
 
         #region CONTROL CONSUMO INSUMOS DETALLE

@@ -3,13 +3,7 @@
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.HoraInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HoraFin)
-            </th>
+        <tr>          
             <th>
                 O. Fabricación
             </th>
@@ -60,21 +54,7 @@
         {
             string json = JsonConvert.SerializeObject(item);
             <tr onclick="SeleccionarControlDetalleConsumo(@json)">
-                <td>
-                    @if (item.HoraInicio != null)
-                    {
-                        var HoraInicio = item.HoraInicio.Value.ToString("HH:mm");
-                        @HoraInicio
-                    }
-
-                </td>
-                <td>
-                    @if (item.HoraFin != null)
-                    {
-                        var HoraFin = item.HoraFin.Value.ToString("HH:mm");
-                        @HoraFin
-                    }
-                </td>
+               
                 <td>
                     @Html.DisplayFor(modelItem => item.OrdenFabricacion)
                 </td>

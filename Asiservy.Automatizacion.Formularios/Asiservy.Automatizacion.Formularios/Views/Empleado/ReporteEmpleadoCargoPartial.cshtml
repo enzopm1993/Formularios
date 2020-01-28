@@ -11,7 +11,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Nombres)
             </th>
-
+            <th>
+                Centro Costo
+            </th>
+            <th>
+                Recurso
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cargo)
             </th>
@@ -40,6 +45,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CentroCosto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recurso)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cargo)
@@ -74,7 +85,7 @@
 
             </td>
             <td>
-                @if (item.Salida != null && item.Salida.Value.Year>1900)
+                @if (item.Salida != null && item.Salida.Value.Year > 1900)
                 {
                     @item.Salida.Value.ToString("dd-MM-yyyy")
                 }

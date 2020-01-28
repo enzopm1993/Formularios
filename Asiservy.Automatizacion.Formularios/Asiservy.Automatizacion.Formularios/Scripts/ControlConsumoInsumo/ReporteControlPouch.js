@@ -90,33 +90,15 @@ function SeleccionarControlDetalleConsumo(model) {
         $("#txtTurno").html("B");
     }
     $("#txtFecha2").html($("#txtFecha").val());
-    //console.log(ListadoControl.HoraInicio);
-    //console.log(moment(ListadoControl.HoraInicio).format("HH:mm"));
-
-    var horaInicio = moment(ListadoControl.HoraInicio).format("HH:mm");
-    var horaFin = moment(ListadoControl.HoraFin).format("HH:mm");
-    $("#txtHoras").html(horaInicio + " - " + horaFin);
-
-   // $("#txtHoras").html(moment(ListadoControl.HoraInicio).format("HH:MM") + " - " + moment(ListadoControl.HoraFin).format("HH:MM"));
-
-
-
-    $("#txtDesperdicioSolido").html(ListadoControl.DesperdicioSolido);
+      $("#txtDesperdicioSolido").html(ListadoControl.DesperdicioSolido);
     $("#txtDesperdicioLiquido").html(ListadoControl.DesperdicioLiquido);
     $("#txtDesperdicioAceite").html(ListadoControl.DesperdicioAceite);
-    //$("#txtEmpleados").val(ListadoControl.Empleados);
-    //$("#txtCajas").val(ListadoControl.Cajas);
     $("#txtRecibidos").html(ListadoControl.UnidadesRecibidas);
-    //$("#txtSobrantes").val(ListadoControl.UnidadesSobrantes);
-    $("#txtProducido").html(ListadoControl.UnidadesProducidas);
+     $("#txtProducido").html(ListadoControl.UnidadesProducidas);
     $("#txtCodigoProducto").html(ListadoControl.CodigoProducto);
     $("#txtObservaciones").html(ListadoControl.Observacion);
-
     $("#btnAtras").prop("hidden", false);
     $("#btnImprimir").prop("hidden", false);
-    //$("#btnModalEliminar").prop("hidden", false);
-    //$("#btnModalGenerar").prop("hidden", true);
-    //$("#btnModalEditar").prop("hidden", false);
     $("#txtFecha").prop("disabled", true);
     $("#selectTurno").prop("disabled", true);
     $("#divCabecera1").prop("hidden", true);
@@ -135,6 +117,8 @@ function SeleccionarControlDetalleConsumo(model) {
     ReporteTiemposMuertos();
     DatosDelProcesoEnlatado();
     ReporteProcedencia();
+    ReporteConsumoInsumoDetalle();
+
     //ConsultarConsultarAditivos();
 }
 
@@ -172,6 +156,37 @@ function ReporteInsumoDetallePouchPartial() {
                 $("#divTableDetalleFundas").html("No existen registros");
             } else {
                 $("#divTableDetalleFundas").html(resultado);
+            }
+
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            //      $('#btnConsultar').prop("disabled", false);
+            $("#spinnerCargandoDetalle").prop("hidden", true);
+        }
+    });
+}
+
+
+function ReporteConsumoInsumoDetalle() {
+    //$("#spinnerCargandoDetalleL").prop("hidden", false);
+    //$("#divTableDetalleFundas").html('');
+    $.ajax({
+        url: "../ControlConsumoInsumo/ConsultaDetalleConsumoInsumo",
+        type: "GET",
+        data: {
+            IdControl: ListadoControl.IdControlConsumoInsumos
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#txtHoras").html("No existen registros");
+                //$("#divTableDetalleFundas").html("No existen registros");
+            } else {
+                console.log(resultado);
+                //$("#divTableDetalleFundas").html(resultado);
             }
 
         },

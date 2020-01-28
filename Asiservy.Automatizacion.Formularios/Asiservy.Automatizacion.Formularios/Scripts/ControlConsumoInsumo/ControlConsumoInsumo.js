@@ -183,7 +183,7 @@ function NuevoControlConsumoInsumos() {
     $("#txtUnidadesProducidasTapa").val('0'); 
    $("#txtCodigoProducto").val('');
     $("#txtObservacion").val('');
-    $("#txtGrs").val('');
+    $("#txtGrs").val('0');
 
     
 }
