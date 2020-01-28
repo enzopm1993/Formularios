@@ -1114,8 +1114,8 @@
           <Key>
             <PropertyRef Name="IdProductoTerminadoDetalle" />
           </Key>
-          <Property Name="IdProductoTerminadoDetalle" Type="int" Nullable="false" />
-          <Property Name="IdProductoTerminado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdProductoTerminadoDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdProductoTerminado" Type="int" Nullable="false" />
           <Property Name="Turno" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="Personal" Type="int" Nullable="false" />
           <Property Name="HoraInicio" Type="datetime" Nullable="false" />
@@ -2770,11 +2770,6 @@
           <FunctionImport Name="spConsultaProductoTerminadoTiempoPara" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminadoTiempoPara)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="PRODUCTO_TERMINADO_DETALLE" EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" />
-          <AssociationSet Name="FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE">
-            <End Role="PRODUCTO_TERMINADO" EntitySet="PRODUCTO_TERMINADO" />
-            <End Role="PRODUCTO_TERMINADO_DETALLE" EntitySet="PRODUCTO_TERMINADO_DETALLE" />
-          </AssociationSet>
           <FunctionImport Name="spConsultaProductoTerminadoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminadoDetalle)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -2825,8 +2820,13 @@
             <Parameter Name="turno" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spConsultaConsumoDetalleAditivo" ReturnType="Collection(ASIS_PRODModel.spConsultaConsumoDetalleAditivo)">
-            <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="PRODUCTO_TERMINADO_DETALLE" EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" />
+          <AssociationSet Name="FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE">
+            <End Role="PRODUCTO_TERMINADO" EntitySet="PRODUCTO_TERMINADO" />
+            <End Role="PRODUCTO_TERMINADO_DETALLE" EntitySet="PRODUCTO_TERMINADO_DETALLE" />
+          </AssociationSet>
 
         </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -5133,37 +5133,6 @@
           <Property Type="DateTime" Name="HoraFin" Nullable="false" Precision="23" />
           <Property Type="String" Name="Causa" Nullable="true" MaxLength="250" />
         </ComplexType>
-        <EntityType Name="PRODUCTO_TERMINADO_DETALLE">
-          <Key>
-            <PropertyRef Name="IdProductoTerminadoDetalle" />
-          </Key>
-          <Property Name="IdProductoTerminadoDetalle" Type="Int32" Nullable="false" />
-          <Property Name="IdProductoTerminado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Personal" Type="Int32" Nullable="false" />
-          <Property Name="HoraInicio" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="HoraFin" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PRODUCTO_TERMINADO" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" FromRole="PRODUCTO_TERMINADO_DETALLE" ToRole="PRODUCTO_TERMINADO" />
-        </EntityType>
-        <Association Name="FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE">
-          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO" Role="PRODUCTO_TERMINADO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" Role="PRODUCTO_TERMINADO_DETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCTO_TERMINADO">
-              <PropertyRef Name="IdProductoTerminado" />
-            </Principal>
-            <Dependent Role="PRODUCTO_TERMINADO_DETALLE">
-              <PropertyRef Name="IdProductoTerminado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spConsultaProductoTerminadoDetalle">
           <Property Type="Int32" Name="IdProductoTerminadoDetalle" Nullable="false" />
           <Property Type="Int32" Name="IdProductoTerminado" Nullable="false" />
@@ -5412,6 +5381,37 @@
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="DescripcionAditivo" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <EntityType Name="PRODUCTO_TERMINADO_DETALLE">
+          <Key>
+            <PropertyRef Name="IdProductoTerminadoDetalle" />
+          </Key>
+          <Property Name="IdProductoTerminadoDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProductoTerminado" Type="Int32" Nullable="false" />
+          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Personal" Type="Int32" Nullable="false" />
+          <Property Name="HoraInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HoraFin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PRODUCTO_TERMINADO" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" FromRole="PRODUCTO_TERMINADO_DETALLE" ToRole="PRODUCTO_TERMINADO" />
+        </EntityType>
+        <Association Name="FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE">
+          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO" Role="PRODUCTO_TERMINADO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" Role="PRODUCTO_TERMINADO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_TERMINADO">
+              <PropertyRef Name="IdProductoTerminado" />
+            </Principal>
+            <Dependent Role="PRODUCTO_TERMINADO_DETALLE">
+              <PropertyRef Name="IdProductoTerminado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7983,25 +7983,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="PRODUCTO_TERMINADO_DETALLE">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE">
-              <MappingFragment StoreEntitySet="PRODUCTO_TERMINADO_DETALLE">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="Personal" ColumnName="Personal" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="IdProductoTerminado" ColumnName="IdProductoTerminado" />
-                <ScalarProperty Name="IdProductoTerminadoDetalle" ColumnName="IdProductoTerminadoDetalle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spConsultaProductoTerminadoDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaProductoTerminadoDetalle">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaProductoTerminadoDetalle">
@@ -8275,6 +8256,25 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="PRODUCTO_TERMINADO_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE">
+              <MappingFragment StoreEntitySet="PRODUCTO_TERMINADO_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="Personal" ColumnName="Personal" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="IdProductoTerminado" ColumnName="IdProductoTerminado" />
+                <ScalarProperty Name="IdProductoTerminadoDetalle" ColumnName="IdProductoTerminadoDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

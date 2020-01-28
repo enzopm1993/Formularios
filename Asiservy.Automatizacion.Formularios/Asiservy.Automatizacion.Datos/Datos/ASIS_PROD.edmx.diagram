@@ -93,13 +93,13 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" Width="1.5" PointX="30.625" PointY="41" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO_DETALLE" Width="1.5" PointX="13.625" PointY="62.375" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ENTREGA_UNIFORME" Width="1.5" PointX="26.375" PointY="5.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_LATA" Width="1.5" PointX="13.625" PointY="42.625" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" Width="1.5" PointX="30.625" PointY="41" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
