@@ -182,7 +182,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var result = entities.PRODUCTO_TERMINADO_DANIADOS.FirstOrDefault(x => x.IdProductosDaniados == control.IdProductosDaniados);
+                var result = entities.PRODUCTO_TERMINADO_DANIADOS.FirstOrDefault(x => x.IdProductosDaniados == control.IdProductosDaniados | (x.IdProductoTerminado == control.IdProductoTerminado && x.Codigo == control.Codigo && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
                 if (result != null)
                 {
                     result.Cantidad = control.Cantidad;

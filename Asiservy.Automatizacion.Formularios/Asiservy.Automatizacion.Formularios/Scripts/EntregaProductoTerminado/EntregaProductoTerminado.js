@@ -590,7 +590,7 @@ function InactivarConsumoDaniado() {
 
 function EliminarConsumoDaniado(model) {
     $("#txtEliminarProcesoDaniado").val(model.IdProductosDaniados);
-    $("#pModalDaniado").html("Merma: " + model.TipoConsumo);
+    $("#pModalDaniado").html("Merma: " + model.Merma);
     $("#modalEliminarConsumoDaniado").modal('show');
 }
 
@@ -609,7 +609,8 @@ $("#modal-Daniado-btn-no").on("click", function () {
 
 function EditarConsumoDaniado(model) {
     // console.log(model);
-    $("#txtEliminarProcesoDaniado").val(model.IdProductosDaniados);
+   // $("#txtEliminarProcesoDaniado").val(model.IdProductosDaniados);    
+    $("#txtIdConsumoDaniado").val(model.IdProductosDaniados);
     $("#selectDaniado").val(model.Codigo);
     $("#txtCantidad").val(model.Cantidad);  
     $("#ModalConsumoDaniado").modal("show");
