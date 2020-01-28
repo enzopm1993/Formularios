@@ -580,7 +580,7 @@ function SeleccionarControlDetalleConsumo(model) {
     $("#btnModalGenerar").prop("hidden", true);
     $("#btnModalEditar").prop("hidden", false);
     $("#txtFecha").prop("disabled", true);
-    $("#selectTurno").prop("disabled", true);    
+    
     $("#divCabecera2").prop("hidden", true);
     $("#divDetalleProceso").prop("hidden", false);
     if ($("#txtLineaNegocio").val() == "ENLATADO") {

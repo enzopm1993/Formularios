@@ -1,39 +1,41 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProductoTerminado>
+@using Newtonsoft.Json;
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
-        <tr> 
+        <tr>
             <th>
                 Producción
-            </th>           
-            <th>
-               Codigo SAP
             </th>
             <th>
-               O.F.
+                Codigo SAP
+            </th>
+            <th>
+                O.F.
             </th>
             <th>
                 O.V.
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Producto)
-            </th>          
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Observacion)
-            </th>         
-           
+            </th>
+
         </tr>
     </thead>
     <tbody>
 
         @foreach (var item in Model)
         {
-            <tr>
-              
-               
+            string json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarControlEntregaProductoTerminado(@json)">
+
+
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaProduccion)
-                </td>     
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CodigoSap)
                 </td>
@@ -45,12 +47,12 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Producto)
-                </td>               
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Observacion)
                 </td>
-               
-             
+
+
             </tr>
         }
     </tbody>
