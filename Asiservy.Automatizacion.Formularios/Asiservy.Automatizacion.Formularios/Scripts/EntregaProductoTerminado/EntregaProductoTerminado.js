@@ -281,6 +281,8 @@ function SeleccionarControlEntregaProductoTerminado(model) {
     $("#txtCliente").val(ListadoControl.Cliente);   
     $("#txtCodigoMaterial").val(ListadoControl.CodigoSap);   
     $("#txtEtiqueta").val(ListadoControl.Etiqueta);   
+    $("#txtProducto").val(ListadoControl.Producto);
+    $("#txtFechaVencimiento").val(moment(ListadoControl.FechaVencimiento).format("YYYY-MM-DD"));   
     
     $("#txtCodigoProducto").val(ListadoControl.CodigoProducto);
     $("#txtObservacion").val(ListadoControl.Observacion);
@@ -294,18 +296,9 @@ function SeleccionarControlEntregaProductoTerminado(model) {
    // $("#selectTurno").prop("disabled", true);
     $("#divCabecera2").prop("hidden", true);
     $("#divDetalleProceso").prop("hidden", false);
-    //if ($("#txtLineaNegocio").val() == "ENLATADO") {
-    //    CargarProcesoDetalleEnlatado();
-    //} else {
-    //    CargarProcesoDetallePouch();
-    //}
-    //CargarEntregaProductoTerminadoDetalle();
-    //CargarProcesoDetalleDaniado();
-    //CargarProcesoDetalleTiemposMuertos();
-    //CargarProcesoDetalleProcedencia();
-    //CargarProcesoDetalleAditivos();
-    //ConsultarConsultarAditivos();
+    
     CargarEntregaProductoTerminadoDetalle();
+    CargarProcesoDetalleTiemposMuertos();
 }
 
 
@@ -432,7 +425,7 @@ function GenerarControlConsumoDetalle() {
 
 function EditarConsumoInsumoDetalle(model) {
     // console.log(model);
-    $("#txtIdEntregaProductoTerminadoDetalle").val(model.IdEntregaProductoTerminadoDetalle);
+    $("#txtIdEntregaProductoTerminadoDetalle").val(model.IdProductoTerminadoDetalle);
     $("#txtHoraInicioDetalle").val(model.HoraInicio);
     $("#txtHoraFinDetalle").val(model.HoraFin);
     $("#ModalGenerarEntregaProductoTerminadoDetalle").modal("show");
@@ -444,7 +437,7 @@ function InactivarControlConsumoDetalle() {
         url: "../EntregaProductoTerminado/EliminarEntregaProductoTerminadoDetalle",
         type: "POST",
         data: {
-            IdEntregaProductoTerminadoDetalle: $("#txtEliminarDetalle").val()
+            IdProductoTerminadoDetalle: $("#txtEliminarDetalle").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -465,7 +458,7 @@ function InactivarControlConsumoDetalle() {
 }
 
 function EliminarProcesoConsumoInsumoDetalle(model) {
-    $("#txtEliminarDetalle").val(model.IdEntregaProductoTerminadoDetalle);
+    $("#txtEliminarDetalle").val(model.IdProductoTerminadoDetalle);
     //$("#pModalDetalle").html("Hora: " + moment(model.HoraInicio).format('HH:mm') + ' - ' + moment(model.HoraFin).format('HH:mm'));
     $("#modalEliminarControlDetalle").modal('show');
 }
@@ -478,3 +471,163 @@ $("#modal-detalle-si").on("click", function () {
 $("#modal-detalle-no").on("click", function () {
     $("#modalEliminarControlDetalle").modal('hide');
 });
+
+
+
+
+
+
+
+/////////////////////TIEMPOS MUERTOS////////////////////////////
+
+function CargarProcesoDetalleTiemposMuertos() {
+    $("#spinnerCargandoTiemposMuertos").prop("hidden", false);
+    $("#divTableTiemposMuertos").html('');
+    $.ajax({
+        url: "../EntregaProductoTerminado/ControlConsumoTiemposMuertos",
+        type: "GET",
+        data: {
+            IdControl: ListadoControl.IdProductoTerminado
+            //  Tipo: $("#txtLineaNegocio").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#divTableTiemposMuertos").html("No existen registros");
+                $("#spinnerCargandoTiemposMuertos").prop("hidden", true);
+            } else {
+                $("#spinnerCargandoTiemposMuertos").prop("hidden", true);
+                $("#divTableTiemposMuertos").html(resultado);
+                //config.opcionesDT.pageLength = 10;
+                //      config.opcionesDT.order = [[0, "asc"]];
+                //    $('#tblDataTable').DataTable(config.opcionesDT);
+            }
+
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoDaniados").prop("hidden", true);
+        }
+    });
+}
+
+function ModalGenerarTiemposMuertos() {
+    $("#txtIdConsumoTiemposMuertos").val(0);
+   // $("#selectTipoTiemposMuertos").prop("selectedIndex", 0);
+    $("#txtHoraPara").val("");
+    $("#txtHoraReinicio").val("");
+    $("#txtObservacionTiemposMuertos").val("");
+    $("#ModalConsumoTiemposMuertos").modal("show");
+}
+
+function validarConsumoTiemposMuertos() {
+    var valida = true;
+    if ($("#txtHoraPara").val() == "") {
+        $("#txtHoraPara").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtHoraPara").css('borderColor', '#ced4da');
+    }
+    if ($("#txtHoraReinicio").val() == "") {
+        $("#txtHoraReinicio").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtHoraReinicio").css('borderColor', '#ced4da');
+    }
+   
+    return valida;
+}
+
+function GuardarConsumoTiemposMuertos() {
+    if (!validarConsumoTiemposMuertos()) {
+        return;
+    }
+    $.ajax({
+        url: "../EntregaProductoTerminado/GuardarTiemposMuertos",
+        type: "POST",
+        data: {
+            IdTiempoParada: $("#txtIdConsumoTiemposMuertos").val(),
+            IdProductoTerminado: ListadoControl.IdProductoTerminado,
+       //     Tipo: $("#selectTipoTiemposMuertos").val(),
+            HoraInicio: $("#txtHoraPara").val(),
+            HoraFin: $("#txtHoraReinicio").val(),
+            Causa: $("#txtObservacionTiemposMuertos").val()
+
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            }
+            CargarProcesoDetalleTiemposMuertos();
+            $("#ModalConsumoTiemposMuertos").modal("hide");
+            //   MensajeCorrecto("Registro Guardado Correctamente");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#ModalConsumoTiemposMuertos").modal("hide");
+        }
+    });
+}
+
+
+function InactivarTiemposMuertos() {
+    $.ajax({
+        url: "../EntregaProductoTerminado/EliminarTiemposMuertos",
+        type: "POST",
+        data: {
+            IdTiempoParada: $("#txtEliminarTiemposMuertos").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+            }
+            CargarProcesoDetalleTiemposMuertos();
+            //  MensajeCorrecto("Registro Eliminado con Éxito");
+            $("#modalEliminarTiemposMuertos").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
+function EliminarConsumoTiemposMuertos(model) {
+    $("#txtEliminarTiemposMuertos").val(model.IdTiempoParada);
+    $("#pModalTiemposMuertos").html("Hora de para: " + moment(model.HoraInicio).format("HH:mm"));
+    $("#modalEliminarTiemposMuertos").modal('show');
+}
+
+
+$("#modal-TiemposMuertos-btn-si").on("click", function () {
+    InactivarTiemposMuertos();
+    $("#txtEliminarTiemposMuertos").val('0');
+    $("#modalEliminarTiemposMuertos").modal('hide');
+});
+
+$("#modal-TiemposMuertos-btn-no").on("click", function () {
+    $("#txtEliminarTiemposMuertos").val('0');
+    $("#modalEliminarTiemposMuertos").modal('hide');
+});
+
+
+function EditarConsumoTiemposMuertos(model) {
+    // console.log(model);
+    $("#txtIdConsumoTiemposMuertos").val(model.IdTiempoParada);
+    //   $("#selectTipoTiemposMuertos").val(model.CodTipo);
+    $("#txtHoraPara").val(model.HoraInicio);
+    $("#txtHoraReinicio").val(model.HoraFin);
+    $("#txtObservacionTiemposMuertos").val(model.Causa);
+
+
+    $("#ModalConsumoTiemposMuertos").modal("show");
+    //ModalGenerarControlDetalle();
+}

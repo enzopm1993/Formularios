@@ -1418,7 +1418,7 @@ $("#modal-Procedencia-btn-no").on("click", function () {
 function EditarConsumoProcedencia(model) {
     // console.log(model);
     $("#txtIdConsumoProcedencia").val(model.IdProcedenciaPescado);
-    $("#selectProcedencia").val(model.Procedencia);
+    $("#selectProcedencia").val(model.CodProcedencia);
     $("#txtLoteProcedencia").val(model.Lote);
     $("#txtObservacionProcedencia").val(model.Observacion);
 

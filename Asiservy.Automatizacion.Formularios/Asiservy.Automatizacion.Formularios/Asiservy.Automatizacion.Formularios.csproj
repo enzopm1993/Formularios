@@ -3455,6 +3455,7 @@
     <Content Include="Views\Empleado\ReportePersonalPresente.cshtml" />
     <Content Include="Views\Empleado\ReportePersonalPresentePartial.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\EntregaProductoTerminadoDetallePartial.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\ControlConsumoTiemposMuertos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -26,6 +26,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
                 if (result != null)
                 {
                     result.FechaVencimiento = control.FechaVencimiento;
+                    result.CodigoProducto = control.CodigoProducto;
+                    result.Observacion = control.Observacion;
                     result.UsuarioModificacionLog = control.UsuarioIngresoLog;
                     result.FechaModificacionLog = DateTime.Now;
                     result.TerminalModificacionLog = control.TerminalIngresoLog;
