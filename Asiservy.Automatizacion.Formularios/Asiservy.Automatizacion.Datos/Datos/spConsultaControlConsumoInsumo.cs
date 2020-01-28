@@ -46,5 +46,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> UnidadesRecibidasTapa { get; set; }
         public Nullable<int> UnidadesSobrantesTapa { get; set; }
         public Nullable<int> UnidadesProducidasTapa { get; set; }
+        public Nullable<int> SaldoInicialLamina { get; set; }
+        public Nullable<int> SaldoInicialUnidad { get; set; }
+        public Nullable<int> SaldoFinalLamina { get; set; }
+        public Nullable<int> SaldoFinalUnidad { get; set; }
     }
 }
