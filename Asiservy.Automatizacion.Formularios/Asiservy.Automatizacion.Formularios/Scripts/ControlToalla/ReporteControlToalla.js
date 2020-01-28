@@ -30,7 +30,7 @@
             if ($('#contreg').val() == '0') {
                 $('#DivReporteToalla').empty();
                 $('#mensajeregistros').text('No existen Registros');
-                console.clear();
+                //console.clear();
             } else{
                 $('#mensajeregistros').text('');
             }
