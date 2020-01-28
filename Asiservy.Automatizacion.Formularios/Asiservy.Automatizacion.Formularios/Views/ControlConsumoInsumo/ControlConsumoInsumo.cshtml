@@ -155,7 +155,46 @@
             </div>
         </div>
 
-        <div class="col-md-12 col-12 col-sm-12">
+
+
+        <div class="col-md-6 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarConsumoInsumoDetalle()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-sm-9 col-8">
+                            <h4>Detalle del Proceso</h4>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoConsumoInsumoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableConsumoInsumoDetalle" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-6 col-12 col-sm-12">
             <div class="card shadow">
                 <div class="card-header">
                     <div class="row">
@@ -304,112 +343,112 @@
                             <input class="form-control" id="txtMarca" disabled type="text" name="name" value="0" />
                         </div>
                     </div>
-                    <div class="col-md-6 col-6 col-sm-6">
-                        <div class="form-group">
-                            <label>Hora Inicio</label>
-                            <input class="form-control" id="txtHoraInicio" type="datetime-local" name="name" value="0" />
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-6 col-sm-6">
-                        <div class="form-group">
-                            <label>Hora Fin</label>
-                            <input class="form-control" id="txtHoraFin" type="datetime-local" name="name" value="0" />
-                        </div>
-                    </div>
+                    @*<div class="col-md-6 col-6 col-sm-6">
+            <div hidden class="form-group">
+                <label>Hora Inicio</label>
+                <input class="form-control" id="txtHoraInicio"  type="datetime-local" name="name" value="0" />
+            </div>
+        </div>
+        <div hidden class="col-md-6 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Hora Fin</label>
+                <input class="form-control" id="txtHoraFin"  type="datetime-local" name="name" value="0" />
+            </div>
+        </div>*@
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Cod Producto</label>
-                            <input class="form-control" id="txtCodigoProducto" disabled type="text" name="name" value="" />
+                            <input class="form-control" id="txtCodigoProducto" type="text" name="name" value="" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Peso Neto</label>
-                            <input class="form-control" id="txtPesoNeto" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtPesoNeto" min="0" type="number" name="name" value="0" onkeypress = "return SoloNumeros(event,this)"/>
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Peso Escurrido</label>
-                            <input class="form-control" id="txtPesoEscrundido" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtPesoEscrundido" min="0" type="number" name="name" value="0" onkeypress = "return SoloNumeros(event,this)"/>
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Lomo</label>
-                            <input class="form-control" id="txtLomo" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtLomo" min="0" type="number" name="name" value="0" onkeypress=" return SoloDecimales(event,this)"/>
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Miga</label>
-                            <input class="form-control" id="txtMiga" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtMiga" min="0" type="number" name="name" value="0"onkeypress=" return SoloDecimales(event,this)" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Aceite(g)</label>
-                            <input class="form-control" id="txtAceite" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtAceite" min="0" type="number" onkeypress=" return SoloDecimales(event,this)" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Agua(g)</label>
-                            <input class="form-control" id="txtAgua" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtAgua" min="0" type="number" onkeypress=" return SoloDecimales(event,this)" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Caldo Vegetal(g)</label>
-                            <input class="form-control" id="txtCaldoVegetal" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtCaldoVegetal" min="0" type="number" name="name" value="0" onkeypress = "return SoloNumeros(event,this)"/>
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Desperdicio Solido</label>
-                            <input class="form-control" id="txtDesperdicioSolido" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtDesperdicioSolido" min="0" type="number" name="name" value="0"onkeypress = "return SoloNumeros(event,this)" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Desperdicio Liquido</label>
-                            <input class="form-control" id="txtDesperdicioLiquido" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtDesperdicioLiquido" min="0" type="number" name="name" value="0"onkeypress = "return SoloNumeros(event,this)" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Desperdicio Aceite</label>
-                            <input class="form-control" id="txtDesperdicioAceite" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtDesperdicioAceite" min="0" type="number" name="name" value="0" onkeypress = "return SoloNumeros(event,this)"/>
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Empleados</label>
-                            <input class="form-control" id="txtEmpleados" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtEmpleados" min="0" type="number" name="name" value="0" onkeypress = "return SoloNumeros(event,this)"/>
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
-                            <label>Cajas</label>
-                            <input class="form-control" id="txtCajas" min="0" type="number" name="name" value="0" />
+                            <label>U. Cajas</label>
+                            <input class="form-control" id="txtCajas" min="0" type="number" name="name" value="0" onkeypress = "return SoloNumeros(event,this)"/>
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>U. Recibidas</label>
-                            <input class="form-control" id="txtUnidadesRecibidas" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtUnidadesRecibidas" min="0" type="number" name="name" value="0" onkeypress = "return SoloNumeros(event,this)"/>
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Sobrantes</label>
-                            <input class="form-control" id="txtSobrantes" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtSobrantes" min="0" type="number" name="name" value="0"onkeypress = "return SoloNumeros(event,this)" />
                         </div>
                     </div>
                     <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>U. Producidas</label>
-                            <input class="form-control" id="txtUnidadesProducidas" min="0" type="number" name="name" value="0" />
+                            <input class="form-control" id="txtUnidadesProducidas" min="0" type="number" name="name" value="0"onkeypress = "return SoloNumeros(event,this)" />
                         </div>
                     </div>
                     @if (ViewBag.LineaNegocio == "ENLATADO")
@@ -417,27 +456,32 @@
                         <div class="col-md-4 col-6 col-sm-6">
                             <div class="form-group">
                                 <label>U. Recibidas Tapa</label>
-                                <input class="form-control" id="txtUnidadesRecibidasTapa" min="0" type="number" name="name" value="0" />
+                                <input class="form-control" id="txtUnidadesRecibidasTapa" min="0" type="number" name="name" value="0" onkeypress = "return SoloNumeros(event,this)"/>
                             </div>
                         </div>
                         <div class="col-md-4 col-6 col-sm-6">
                             <div class="form-group">
                                 <label>Sobrantes Tapa</label>
-                                <input class="form-control" id="txtSobrantesTapa" min="0" type="number" name="name" value="0" />
+                                <input class="form-control" id="txtSobrantesTapa" min="0" type="number" name="name" value="0"onkeypress = "return SoloNumeros(event,this)" />
                             </div>
                         </div>
                         <div class="col-md-4 col-6 col-sm-6">
                             <div class="form-group">
                                 <label>U. Producidas Tapa</label>
-                                <input class="form-control" id="txtUnidadesProducidasTapa" min="0" type="number" name="name" value="0" />
+                                <input class="form-control" id="txtUnidadesProducidasTapa" min="0" type="number" name="name" value="0" onkeypress = "return SoloNumeros(event,this)"/>
                             </div>
                         </div>
                     }
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Grs Real</label>
+                            <input class="form-control" id="txtGrs" min="0" type="number" onkeypress=" return SoloDecimales(event,this)" name="name" value="0" />
+                        </div>
+                    </div>
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Observacion</label>
                             <textarea class="form-control" cols="12" id="txtObservacion" maxlength="250" type="text" name="name" value=""></textarea>
-
                         </div>
                     </div>
                 </div>
@@ -450,7 +494,59 @@
     </div>
 </div>
 
+@* DETALLE *@
 
+<div class="modal" tabindex="-1" id="ModalGenerarControlConsumoInsumoDetalle" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Control Consumo de Insumos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdControlConsumoInsumoDetalle" name="name" value="0" />
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Hora Inicio</label>
+                            <input class="form-control" id="txtHoraInicioDetalle" type="datetime-local" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Hora Fin</label>
+                            <input class="form-control" id="txtHoraFinDetalle" type="datetime-local" name="name" value="0" />
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarControlConsumoDetalle()" id="btnGenerarControlConsumo">Generar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar el Detalle de Consumo Insumos</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @* DETALLE DE PROCESO DE CONTROL DE CONSUMO *@
@@ -475,7 +571,7 @@
                         {
                             <label>Cajas</label>
                         }
-                        <input type="number" id="txtPallet" name="name" value="0" min="0" class="form-control" />
+                        <input type="number" id="txtPallet" name="name" value="0" min="0" onkeypress = "return SoloNumeros(event,this)" class="form-control" />
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
                         <label>Lote</label>
@@ -486,7 +582,7 @@
                     {
                         <div class="col-md-6 col-6 col-sm-6">
                             <label>Bultos</label>
-                            <input type="number" min="0" id="txtBulto" class="form-control" name="name" value="" />
+                            <input type="number" min="0" id="txtBulto" class="form-control" name="name" value="" onkeypress = "return SoloNumeros(event,this)"/>
                         </div>
                     }
 
@@ -600,12 +696,12 @@
                     {
                         <div class="col-md-6 col-6 col-sm-6">
                             <label>Latas</label>
-                            <input type="number" min="0" id="txtLatas" class="form-control" name="name" value="" />
+                            <input type="number" min="0" id="txtLatas" class="form-control" name="name" value="" onkeypress = "return SoloNumeros(event,this)"/>
                         </div>
 
                         <div class="col-md-6 col-6 col-sm-6">
                             <label>Tapas</label>
-                            <input type="number" min="0" id="txtTapas" class="form-control" name="name" value="" />
+                            <input type="number" min="0" id="txtTapas" class="form-control" name="name" value="" onkeypress = "return SoloNumeros(event,this)"/>
                         </div>
                     }
                     else
@@ -723,7 +819,7 @@
 
                     <div class="col-12 col-sm-12 col-md-12">
                         <label>Observación</label>
-                        <textarea id="txtObservacionTiemposMuertos"maxlength="250" class="form-control"></textarea>
+                        <textarea id="txtObservacionTiemposMuertos" maxlength="250" class="form-control"></textarea>
                     </div>
 
 
@@ -775,17 +871,24 @@
                     <input type="hidden" id="txtIdConsumoProcedencia" name="name" value="0" />
                     <div class="col-6 col-sm-12 col-md-12">
                         <label>Hora Para</label>
-                        <select class="form-control" id="selectProcedencia">
+                        @Html.DropDownList("selectProcedencia", new SelectList(ViewBag.Procedencia, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+
+
+
+                        @*<select class="form-control" id="selectProcedencia">
                             <option value="S">Sala</option>
                             <option value="C">Congelado</option>
-                        </select>
+                            <option value="R">Refrigerado</option>
+
+
+                        </select>*@
                     </div>
                     <div class="col-6 col-sm-12 col-md-12">
                         <label>Lote</label>
                         <input type="text" class="form-control" id="txtLoteProcedencia" name="name" value="" />
                     </div>
 
-                   <div class="col-12 col-sm-12 col-md-12">
+                    <div class="col-12 col-sm-12 col-md-12">
                         <label>Observación</label>
                         <textarea id="txtObservacionProcedencia" maxlength="250" class="form-control"></textarea>
                     </div>

@@ -18,17 +18,8 @@
     @foreach (var item in Model)
     {
         <tr>
-
-
             <td>
-                @if (item.Procedencia == "S")
-                {
-                    @:Sala
-                }
-                else
-                {
-                    @:Congelado
-                }
+                @item.Procedencia
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Lote)

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProductoTerminado>
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr> 
+            <th>
+                Producción
+            </th>           
+            <th>
+               Codigo SAP
+            </th>
+            <th>
+               O.F.
+            </th>
+            <th>
+                O.V.
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>          
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>         
+           
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+              
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaProduccion)
+                </td>     
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoSap)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenVenta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto)
+                </td>               
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+               
+             
+            </tr>
+        }
+    </tbody>
+</table>

@@ -10,15 +10,16 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class spConsultaConsumoProcedenciaPescado
+    public partial class ENTREGA_UNIFORME
     {
-        public int IdProcedenciaPescado { get; set; }
-        public int IdControlConsumoInsumos { get; set; }
-        public string CodProcedencia { get; set; }
-        public string Procedencia { get; set; }
-        public string Lote { get; set; }
-        public string Observacion { get; set; }
+        public int IdEntregaUniforme { get; set; }
+        public string Linea { get; set; }
+        public string Cedula { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public Nullable<System.TimeSpan> HoraEntregada { get; set; }
+        public bool EstadoEntrega { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

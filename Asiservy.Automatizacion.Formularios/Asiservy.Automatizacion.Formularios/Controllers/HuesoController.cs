@@ -373,7 +373,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("0", JsonRequestBehavior.AllowGet);
 
                 }
-                respuesta= clsDControlHueso.GuardarModificarControl(model);
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                respuesta = clsDControlHueso.GuardarModificarControl(model);
                 return Json(respuesta, JsonRequestBehavior.AllowGet);
 
             }

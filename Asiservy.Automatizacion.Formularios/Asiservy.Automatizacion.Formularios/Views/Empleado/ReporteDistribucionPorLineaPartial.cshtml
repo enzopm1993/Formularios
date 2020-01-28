@@ -1,5 +1,13 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaDistribucionPorLinea>
-
+@if (@ViewBag.InicioJornada != null)
+{
+    TimeSpan hora = @ViewBag.InicioJornada;
+    <h5 class="text-primary">INICIO DE JORNADA: @hora</h5>
+}
+else
+{
+    <h5 class="text-warning">NO SE HA GENERADO LA ASISTENCIA</h5>
+}
 <table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
@@ -7,7 +15,7 @@
                 @Html.DisplayNameFor(model => model.Cargo)
             </th>
             <th>
-               Cargo 
+                Cargo
             </th>
             <th class="text-center">
                 @Html.DisplayNameFor(model => model.Presente)
@@ -31,7 +39,7 @@
         </tr>
     </thead>
     <tbody>
-        @{ 
+        @{
             int TotalPresente = 0;
             int TotalFalta = 0;
             int TotalPermisoMedico = 0;
@@ -50,11 +58,11 @@
                 </td>
                 <td class="text-center">
                     @Html.DisplayFor(modelItem => item.Presente)
-                    @{ TotalPresente = TotalPresente + item.Presente??0;}
+                    @{ TotalPresente = TotalPresente + item.Presente ?? 0;}
                 </td>
                 <td class="text-center">
                     @Html.DisplayFor(modelItem => item.Falta)
-                    @{ TotalFalta = TotalFalta + item.Falta??0;}
+                    @{ TotalFalta = TotalFalta + item.Falta ?? 0;}
 
                 </td>
                 <td class="text-center">

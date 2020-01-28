@@ -40,7 +40,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                     result.UnidadesProducidas = control.UnidadesProducidas;
                     result.UnidadesRecibidas = control.UnidadesRecibidas;
                     result.UnidadesSobrantes = control.UnidadesSobrantes;
-                    //result.CodigoMaterial = control.CodigoMaterial;
+                    result.GrsLataReal = control.GrsLataReal;
                     result.CodigoProducto = control.CodigoProducto;
                     result.UsuarioModificacionLog = control.UsuarioIngresoLog;
                     result.FechaModificacionLog = DateTime.Now;
@@ -104,6 +104,64 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 var lista = entities.spGeneraDatosProcesoConsumoInsumo(IdControl).FirstOrDefault();
+                return lista;
+            }
+        }
+
+        #endregion
+
+        #region CONTROL CONSUMO INSUMOS DETALLE
+        public RespuestaGeneral GuardarModificarControlDetalle(CONTROL_CONSUMO_INSUMO_DETALLE control)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var result = entities.CONTROL_CONSUMO_INSUMO_DETALLE.FirstOrDefault(x => x.IdControlConsumoInsumoDetalle == control.IdControlConsumoInsumoDetalle);
+                if (result != null)
+                {
+                    result.HoraInicio = control.HoraInicio;
+                    result.HoraFin = control.HoraFin;
+                    result.UsuarioModificacionLog = control.UsuarioIngresoLog;
+                    result.FechaModificacionLog = DateTime.Now;
+                    result.TerminalModificacionLog = control.TerminalIngresoLog;
+
+
+                }
+                else
+                {
+                    control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                    control.FechaIngresoLog = DateTime.Now;
+                    entities.CONTROL_CONSUMO_INSUMO_DETALLE.Add(control);
+                }
+                entities.SaveChanges();
+                return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
+
+
+            }
+        }
+
+        public RespuestaGeneral EliminarControlConsumoInsumoDetalle(CONTROL_CONSUMO_INSUMO_DETALLE control)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var result = entities.CONTROL_CONSUMO_INSUMO_DETALLE.FirstOrDefault(x => x.IdControlConsumoInsumoDetalle == control.IdControlConsumoInsumoDetalle);
+                if (result != null)
+                {
+                    result.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    result.UsuarioModificacionLog = control.UsuarioIngresoLog;
+                    result.FechaModificacionLog = DateTime.Now;
+                    result.TerminalModificacionLog = control.TerminalIngresoLog;
+                    entities.SaveChanges();
+                }
+                return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
+            }
+        }
+
+      
+        public List<spConsultaControlConsumoInsumoDetalle> ConsultaControlConsumoInsumoDetalle(int IdControl)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.spConsultaControlConsumoInsumoDetalle(IdControl).ToList();
                 return lista;
             }
         }

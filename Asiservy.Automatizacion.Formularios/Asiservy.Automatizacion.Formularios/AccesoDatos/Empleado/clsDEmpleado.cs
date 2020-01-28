@@ -24,11 +24,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 return db.spConsultaPersonalNominaPorLinea().ToList();
             }
         }
-        public List<spConsultaDistribucionPorLinea> spConsultaDistribucionPorLinea(string Linea, DateTime Fecha)
+        public List<spConsultaDistribucionPorLinea> spConsultaDistribucionPorLinea(string Linea, DateTime Fecha,string Turno)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.spConsultaDistribucionPorLinea(Fecha, Linea).ToList();
+                return db.spConsultaDistribucionPorLinea(Fecha, Linea, Turno).ToList();
+            }
+        }
+        public List<spConsultaPresentesPorAreaLinea_Result> spConsultaPresentesPorAreaLinea( DateTime Fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.spConsultaPresentesPorAreaLinea(Fecha).ToList();
             }
         }
         public void GuardarModificarEmpleadoTurno(EmpleadoViewModel model)
@@ -270,6 +277,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                                             }).ToList();
            
                 return EmpleadosSinCuchillo;
+            }
+        }
+
+        public TimeSpan? ConsultaFechaInicioJornada(string Linea, DateTime Fecha, string Turno)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var result = db.CONTROL_ASISTENCIA.FirstOrDefault(x => x.Fecha == Fecha && x.Linea == Linea && x.Turno== Turno);
+                if (result != null)
+                { return result.Hora; }
+                else
+                {
+                    return null;
+                }
             }
         }
     }

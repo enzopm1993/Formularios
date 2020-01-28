@@ -10,15 +10,16 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class spConsultaConsumoProcedenciaPescado
+    public partial class PRODUCTO_TERMINADO_MATERIALES
     {
-        public int IdProcedenciaPescado { get; set; }
-        public int IdControlConsumoInsumos { get; set; }
-        public string CodProcedencia { get; set; }
-        public string Procedencia { get; set; }
-        public string Lote { get; set; }
-        public string Observacion { get; set; }
+        public int IdMateriales { get; set; }
+        public int IdProductoTerminado { get; set; }
+        public string CodigoMaterial { get; set; }
+        public int Recibido { get; set; }
+        public int Desechado { get; set; }
+        public int Usado { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -26,5 +27,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        public virtual PRODUCTO_TERMINADO PRODUCTO_TERMINADO { get; set; }
     }
 }

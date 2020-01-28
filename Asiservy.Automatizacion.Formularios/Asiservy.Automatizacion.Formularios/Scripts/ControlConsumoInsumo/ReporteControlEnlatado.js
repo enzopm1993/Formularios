@@ -93,8 +93,8 @@ function SeleccionarControlDetalleConsumo(model) {
     //console.log(ListadoControl.HoraInicio);
     //console.log(moment(ListadoControl.HoraInicio).format("HH:MM"));
 
-    var horaInicio = moment(ListadoControl.HoraInicio).format("HH:MM");
-    var horaFin = moment(ListadoControl.HoraFin).format("HH:MM");
+    var horaInicio = moment(ListadoControl.HoraInicio).format("HH:mm");
+    var horaFin = moment(ListadoControl.HoraFin).format("HH:mm");
     $("#txtHoras").html(horaInicio + " - " + horaFin);
     
 

@@ -659,7 +659,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDLogin = new clsDLogin();
                 clsDGeneral = new clsDGeneral();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
-                ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;
+                ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;              
+                
                 List<int?> roles = clsDLogin.ConsultaRolesUsuario(Usuario[1]);
                 if (roles.FirstOrDefault(x => x.Value == clsAtributos.RolSupervisorGeneral || x.Value == clsAtributos.RolControladorGeneral) != null)
                 {
@@ -708,7 +709,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
        
-        public ActionResult ReporteDistribucionPorLineaPartial(string Linea, DateTime Fecha)
+        public ActionResult ReporteDistribucionPorLineaPartial(string Linea, DateTime Fecha,string Turno)
         {
             try
             {
@@ -722,7 +723,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
-                var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea, Fecha);
+                ViewBag.InicioJornada = clsDEmpleado.ConsultaFechaInicioJornada(Linea, Fecha, Turno);
+                var model = clsDEmpleado.spConsultaDistribucionPorLinea(Linea, Fecha, Turno);
                 return PartialView(model);
             }
             catch (Exception ex)
@@ -745,6 +747,72 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
+
+        public ActionResult ReportePersonalPresente()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+                return View();
+
+
+            }
+            catch (Exception ex)
+            {
+
+                SetErrorMessage(ex.Message);
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult ReportePersonalPresentePartial( DateTime Fecha)
+        {
+            try
+            {
+                if (Fecha == null)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+
+                ViewBag.dataTableJS = "1";
+
+                clsDEmpleado = new clsDEmpleado();
+                var model = clsDEmpleado.spConsultaPresentesPorAreaLinea(Fecha);
+
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+
+                // SetErrorMessage(ex.Message);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                Usuario = User.Identity.Name.Split('_');
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = Usuario[0]
+                });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
 

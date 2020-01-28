@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaUniformeEntregar>
+@using Newtonsoft.Json;
+
+<table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Linea)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombres)
+            </th>
+            <th>
+                Hora
+            </th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Linea)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cedula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombres)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraEntregada)
+                </td>
+                <td>
+                    @if (item.EstadoEntrega)
+                    {
+                        @:ENTREGADO
+                    }
+                    else
+                    {
+                        @:PENDIENTE
+                    }
+                </td>
+                <td>
+                    @if (!item.EstadoEntrega)
+                    {
+                        string json = JsonConvert.SerializeObject(item); 
+                        <button class="btn btn-link text-danger" onclick="EliminarEntregaUniforme(@json)">Eliminar</button>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

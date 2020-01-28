@@ -237,7 +237,27 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
 
+        public string getDataBase()
+        {
+            String dbname = "";
+            try
+            {
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ASIS_PRODEntities"].ConnectionString;
+                System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"(?<=\bconnection string="")[^""]*");
+                System.Text.RegularExpressions.Match match = regex.Match(connectionString);
+                string title = match.Value;
 
+                System.Data.SqlClient.SqlConnectionStringBuilder builder = new System.Data.SqlClient.SqlConnectionStringBuilder(title);
+
+                dbname = builder.InitialCatalog;
+            }
+            catch (Exception ex)
+            {
+                dbname = "";
+            }
+
+            return dbname;
+        }
 
     }
 }

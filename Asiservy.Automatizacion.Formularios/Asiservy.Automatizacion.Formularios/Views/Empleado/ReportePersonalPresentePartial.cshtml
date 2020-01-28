@@ -1,0 +1,38 @@
+﻿
+@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaPresentesPorAreaLinea_Result>
+<table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+           
+            <th>
+                Línea
+            </th>           
+            <th class="text-center">
+                Cargo
+            </th>
+            <th class="text-center">
+                Presentes
+            </th>     
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Linea)
+                </td>
+                <td >
+                    @Html.DisplayFor(modelItem => item.Cargo)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Presentes)
+                </td>               
+            </tr>
+        }
+    </tbody>
+   
+</table>
