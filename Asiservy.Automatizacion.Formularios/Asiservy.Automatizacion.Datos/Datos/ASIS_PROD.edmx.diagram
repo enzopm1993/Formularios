@@ -100,6 +100,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" Width="1.5" PointX="30.625" PointY="41" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PALLET" Width="1.5" PointX="5.375" PointY="26.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -237,6 +237,9 @@
     <Compile Include="Datos\OPCION_ROL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\PALLET.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\PARAMETRO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
