@@ -50,6 +50,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 poBitacora.Observacion = poSolicitud.Observacion;
                 poBitacora.EstadoSolicitud = poSolicitud.EstadoSolicitud;
                 poBitacora.FechaIngresoLog = DateTime.Now;
+                poBitacora.CambioEstado = true;
                 poBitacora.UsuarioIngresoLog = doSolicitud.UsuarioModificacionLog;
                 poBitacora.TerminalIngresoLog = doSolicitud.TerminalModificacionLog;
                 entities.BITACORA_SOLICITUD.Add(poBitacora);  
@@ -113,7 +114,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         poSolicitud.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
                         psMensaje = "Registro Actualizado Correctamente";
 
-                        poBitacora.IdSolicitud = poSolicitud.IdSolicitudPermiso;
+                        poBitacora.IdSolicitud = poSolicitud.IdSolicitudPermiso;                       
                         poBitacora.Cedula = poSolicitud.Identificacion;
                         poBitacora.Observacion = poSolicitud.Observacion;
                         poBitacora.EstadoSolicitud = poSolicitud.EstadoSolicitud;
@@ -161,7 +162,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
                     }
 
-
+                    poBitacora.CambioEstado = false;
+                    poBitacora.CodigoMotivo = poSolicitud.CodigoMotivo;
                     poBitacora.FechaIngresoLog = DateTime.Now;
                     poBitacora.UsuarioIngresoLog = doSolicitud.UsuarioIngresoLog ?? doSolicitud.UsuarioModificacionLog;
                     poBitacora.TerminalIngresoLog = doSolicitud.TerminalIngresoLog ?? doSolicitud.TerminalModificacionLog;
@@ -337,6 +339,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         Observacion = "Marcación de salida",
                         FechaIngresoLog = DateTime.Now,
                         FechaSalida= Solicitud.FechaSalida,
+                        CambioEstado= false,
+                        CodigoMotivo = Solicitud.CodigoMotivo,
                         FechaRegreso = Solicitud.FechaRegreso,
                         TerminalIngresoLog = model.TerminalIngresoLog,
                         UsuarioIngresoLog =model.UsuarioIngresoLog,
@@ -1073,6 +1077,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
                         poBitacora.IdSolicitud = sol.IdSolicitudPermiso;
                         poBitacora.Cedula = sol.Identificacion;
+                        poBitacora.CodigoMotivo = sol.CodigoMotivo;
+                        poBitacora.CambioEstado = true;
                         poBitacora.Observacion = sol.Observacion;
                         poBitacora.EstadoSolicitud = sol.EstadoSolicitud;
                         poBitacora.FechaIngresoLog = DateTime.Now;
