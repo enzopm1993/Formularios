@@ -18,12 +18,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public CONTROL_CONSUMO_INSUMO()
         {
             this.CONSUMO_DETALLE_DANIADO = new HashSet<CONSUMO_DETALLE_DANIADO>();
-            this.CONSUMO_DETALLE_LATA = new HashSet<CONSUMO_DETALLE_LATA>();
             this.CONSUMO_DETALLE_POUCH = new HashSet<CONSUMO_DETALLE_POUCH>();
             this.CONSUMO_TIEMPO_MUERTO = new HashSet<CONSUMO_TIEMPO_MUERTO>();
             this.CONSUMO_PROCEDENCIA_PESCADO = new HashSet<CONSUMO_PROCEDENCIA_PESCADO>();
             this.CONSUMO_DETALLE_ADITIVO = new HashSet<CONSUMO_DETALLE_ADITIVO>();
             this.CONTROL_CONSUMO_INSUMO_DETALLE = new HashSet<CONTROL_CONSUMO_INSUMO_DETALLE>();
+            this.CONSUMO_DETALLE_LATA = new HashSet<CONSUMO_DETALLE_LATA>();
         }
     
         public int IdControlConsumoInsumos { get; set; }
@@ -69,11 +69,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> UnidadesSobrantesTapa { get; set; }
         public Nullable<int> UnidadesProducidasTapa { get; set; }
         public Nullable<decimal> GrsLataReal { get; set; }
+        public Nullable<int> SaldoInicialLamina { get; set; }
+        public Nullable<int> SaldoInicialUnidad { get; set; }
+        public Nullable<int> SaldoFinalLamina { get; set; }
+        public Nullable<int> SaldoFinalUnidad { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONSUMO_DETALLE_DANIADO> CONSUMO_DETALLE_DANIADO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CONSUMO_DETALLE_LATA> CONSUMO_DETALLE_LATA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONSUMO_DETALLE_POUCH> CONSUMO_DETALLE_POUCH { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -84,5 +86,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual ICollection<CONSUMO_DETALLE_ADITIVO> CONSUMO_DETALLE_ADITIVO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONTROL_CONSUMO_INSUMO_DETALLE> CONTROL_CONSUMO_INSUMO_DETALLE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CONSUMO_DETALLE_LATA> CONSUMO_DETALLE_LATA { get; set; }
     }
 }

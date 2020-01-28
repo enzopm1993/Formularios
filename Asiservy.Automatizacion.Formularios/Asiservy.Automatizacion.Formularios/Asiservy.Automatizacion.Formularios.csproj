@@ -3458,6 +3458,8 @@
     <Content Include="Views\Empleado\ReportePersonalPresentePartial.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\MantenimientoPallet.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\PartialMantenimientoPallet.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\EntregaProductoTerminadoDetallePartial.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\ControlConsumoTiemposMuertos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

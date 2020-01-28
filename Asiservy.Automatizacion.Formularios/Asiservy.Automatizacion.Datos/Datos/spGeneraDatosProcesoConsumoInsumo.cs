@@ -13,14 +13,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spGeneraDatosProcesoConsumoInsumo
     {
-        public Nullable<int> TotalCajas { get; set; }
+        public Nullable<decimal> TotalCajas { get; set; }
         public Nullable<int> CajaHora { get; set; }
         public Nullable<int> CajaMinuto { get; set; }
-        public Nullable<int> Saldo { get; set; }
-        public Nullable<int> SaldoTapa { get; set; }
+        public int Saldo { get; set; }
+        public int SaldoTapa { get; set; }
         public Nullable<int> MinutoProceso { get; set; }
-        public Nullable<int> MinutoMantenimiento { get; set; }
-        public Nullable<decimal> Grs { get; set; }
-        public Nullable<int> Personal { get; set; }
+        public int MinutoMantenimiento { get; set; }
+        public decimal Grs { get; set; }
+        public int Personal { get; set; }
     }
 }

@@ -183,8 +183,7 @@ function NuevoControlConsumoInsumos() {
     $("#txtUnidadesProducidasTapa").val('0'); 
    $("#txtCodigoProducto").val('');
     $("#txtObservacion").val('');
-    $("#txtGrs").val('');
-
+    $("#txtGrs").val('0');   
     
 }
 
@@ -569,13 +568,19 @@ function SeleccionarControlDetalleConsumo(model) {
     $("#txtObservacion").val(ListadoControl.Observacion);
     $("#txtGrs").val(ListadoControl.GrsReal);
 
+    $("#txtSaldoInicialLamina").val(ListadoControl.SaldoInicialLamina);
+    $("#txtSaldoInicialUnidad").val(ListadoControl.SaldoInicialUnidad);
+    $("#txtSaldoFinalLamina").val(ListadoControl.SaldoFinalLamina);
+    $("#txtSaldoFinalUnidad").val(ListadoControl.SaldoFinalUnidad);
+    
+
     //  $("#divCabecera1").prop("hidden", true);
     $("#btnAtras").prop("hidden", false);
     $("#btnModalEliminar").prop("hidden", false);
     $("#btnModalGenerar").prop("hidden", true);
     $("#btnModalEditar").prop("hidden", false);
     $("#txtFecha").prop("disabled", true);
-    $("#selectTurno").prop("disabled", true);    
+    
     $("#divCabecera2").prop("hidden", true);
     $("#divDetalleProceso").prop("hidden", false);
     if ($("#txtLineaNegocio").val() == "ENLATADO") {
@@ -647,6 +652,42 @@ function ModalGenerarControlDetalle() {
     $("#txtBulto").val('');
     $("#txtFechaFabricacion").val('');
     $("#ModalGenerarControlDetalle").modal("show");
+}
+
+
+function ModalGenerarControlDetalleSaldo() {    
+    $("#ModalGenerarControlDetalleSaldo").modal("show");
+}
+
+function GuardarConsumoDetalleSaldo() {
+    $.ajax({
+        url: "../ControlConsumoInsumo/ControlConsumoInsumoSaldo",
+        type: "POST",
+        data: {
+            IdControlConsumoInsumos: ListadoControl.IdControlConsumoInsumos,
+            SaldoInicialLamina: $("#txtSaldoInicialLamina").val(),
+            SaldoInicialUnidad: $("#txtSaldoInicialUnidad").val(),
+            SaldoFinalLamina: $("#txtSaldoFinalLamina").val(),
+            SaldoFinalUnidad: $("#txtSaldoFinalUnidad").val()
+            
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#divDetalleProceso").html("No existen registros");
+            }
+            
+            $("#ModalGenerarControlDetalleSaldo").modal("hide");
+            // MensajeCorrecto("Registro Guardado Correctamente");           
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#ModalGenerarControlDetalleSaldo").modal("hide");
+
+        }
+    });
 }
 
 
@@ -793,8 +834,9 @@ $("#modal-Detalle-btn-no").on("click", function () {
     $("#txtEliminarProcesoDetalle").val('0');
     $("#modalEliminarProcesoDetalle").modal('hide');
 });
-/////////////POUCH/////////////////////////////////
 
+
+/////////////POUCH/////////////////////////////////
 function CargarProcesoDetallePouch() {
     $("#spinnerCargandoDetalle").prop("hidden", false);
     $("#divTableDetalle").html('');
@@ -1376,7 +1418,7 @@ $("#modal-Procedencia-btn-no").on("click", function () {
 function EditarConsumoProcedencia(model) {
     // console.log(model);
     $("#txtIdConsumoProcedencia").val(model.IdProcedenciaPescado);
-    $("#selectProcedencia").val(model.Procedencia);
+    $("#selectProcedencia").val(model.CodProcedencia);
     $("#txtLoteProcedencia").val(model.Lote);
     $("#txtObservacionProcedencia").val(model.Observacion);
 

@@ -64,6 +64,28 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
             }
         }
 
+        public RespuestaGeneral GuardarModificarControlSaldo(CONTROL_CONSUMO_INSUMO control)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var result = entities.CONTROL_CONSUMO_INSUMO.FirstOrDefault(x => x.IdControlConsumoInsumos == control.IdControlConsumoInsumos);
+                if (result != null)
+                {
+                    result.SaldoInicialLamina = control.SaldoInicialLamina;
+                    result.SaldoInicialUnidad= control.SaldoInicialUnidad;
+                    result.SaldoFinalLamina = control.SaldoFinalLamina;
+                    result.SaldoFinalUnidad = control.SaldoFinalUnidad;
+                    result.UsuarioModificacionLog = control.UsuarioIngresoLog;
+                    result.FechaModificacionLog = DateTime.Now;
+                    result.TerminalModificacionLog = control.TerminalIngresoLog;
+                }   
+                entities.SaveChanges();
+                return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
+
+
+            }
+        }
+
         public RespuestaGeneral EliminarControlConsumoInsumo(CONTROL_CONSUMO_INSUMO control)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -107,7 +129,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 return lista;
             }
         }
-
+        //public List<spConsultaControlConsumoInsumoDetalle> ConsultaConsumoDetalle(int IdControl)
+        //{
+        //    using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+        //    {
+        //        var lista = entities.spConsultaControlConsumoInsumoDetalle(IdControl).ToList();
+        //        return lista;
+        //    }
+        //}
         #endregion
 
         #region CONTROL CONSUMO INSUMOS DETALLE

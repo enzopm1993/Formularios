@@ -93,9 +93,9 @@ function SeleccionarControlDetalleConsumo(model) {
     //console.log(ListadoControl.HoraInicio);
     //console.log(moment(ListadoControl.HoraInicio).format("HH:MM"));
 
-    var horaInicio = moment(ListadoControl.HoraInicio).format("HH:mm");
-    var horaFin = moment(ListadoControl.HoraFin).format("HH:mm");
-    $("#txtHoras").html(horaInicio + " - " + horaFin);
+    //var horaInicio = moment(ListadoControl.HoraInicio).format("HH:mm");
+    //var horaFin = moment(ListadoControl.HoraFin).format("HH:mm");
+    //$("#txtHoras").html(horaInicio + " - " + horaFin);
     
 
 
@@ -133,6 +133,7 @@ function SeleccionarControlDetalleConsumo(model) {
     ReporteTiemposMuertos();
     DatosDelProcesoEnlatado();
     ReporteProcedencia();
+    ReporteConsumoInsumoDetalle();
     //ConsultarConsultarAditivos();
 }
 
@@ -241,6 +242,33 @@ function ReporteConsumoAditivos() {
 }
 
 
+function ReporteConsumoInsumoDetalle() {
+    $.ajax({
+        url: "../ControlConsumoInsumo/ConsultaDetalleConsumoInsumo",
+        type: "GET",
+        data: {
+            IdControl: ListadoControl.IdControlConsumoInsumos
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#txtHoras").html("No existen registros");
+            } else {
+                var horas='';
+                $.each(resultado, function (index, value) {
+                    horas = horas + moment(value.HoraInicio).format("HH:mm") + '-' + moment(value.HoraFin).format("HH:mm")+'; ' 
+                });               
+                $("#txtHoras").html(horas);            
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);         
+         //   $("#spinnerCargandoDetalle").prop("hidden", true);
+        }
+    });
+}
 
 function ReporteDaniadoPartial() {
     $("#divTableDetalleDaniado").html('');
