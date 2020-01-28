@@ -483,5 +483,49 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
             }
         }
         #endregion
+
+        #region Mantenimiento Pallet
+        public string GuardarPallet(PALLET pallet)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                if (pallet.IdPallet == 0)
+                {
+                    var BuscarPallet = db.PALLET.Where(x => x.Proveedor == pallet.Proveedor && x.Envase == pallet.Envase).FirstOrDefault();
+                    if (BuscarPallet != null)
+                    {
+                        return "El pallet ingresado ya existe";
+                    }
+                    else
+                    {
+                        db.PALLET.Add(pallet);
+                        db.SaveChanges();
+                        return "Registro ingresado con éxito";
+                    }
+                }
+                else
+                {
+                    
+                    var modificarpallet=db.PALLET.Find(pallet.IdPallet);
+                    modificarpallet.Numero_Pallet = pallet.Numero_Pallet;
+                    modificarpallet.Lamina = pallet.Lamina;
+                    modificarpallet.Unidades = pallet.Unidades;
+                    modificarpallet.FechaModificacionLog = pallet.FechaIngresoLog;
+                    modificarpallet.UsuarioModificacionLog = pallet.UsuarioModificacionLog;
+                    modificarpallet.TerminalModificacionLog = pallet.TerminalModificacionLog;
+                    db.SaveChanges();
+                    return "Registro actualizado con éxito";
+                }
+                
+            }
+        }
+        public List<PALLET> ConsultarPallets()
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.PALLET.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+            }
+        }
+        #endregion
     }
 }

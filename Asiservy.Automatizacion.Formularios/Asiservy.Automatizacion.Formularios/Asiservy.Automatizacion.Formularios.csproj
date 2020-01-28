@@ -2146,6 +2146,7 @@
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ControlConsumoInsumo.js" />
+    <Content Include="Scripts\ControlConsumoInsumo\MantenimientoPallet.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ReporteControlEnlatado.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ReporteControlPouch.js" />
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
@@ -3226,6 +3227,7 @@
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
     <Compile Include="Models\InsumosProduccion.cs" />
+    <Compile Include="Models\MantenimientoPallet\PalletViewModel.cs" />
     <Compile Include="Models\Motivo.cs" />
     <Compile Include="Models\OrdenFabricacion.cs" />
     <Compile Include="Models\OrdenFabricacionAutoclave.cs" />
@@ -3454,6 +3456,8 @@
     <Content Include="Views\EntregaUniforme\BandejaEntregaUniformePartial.cshtml" />
     <Content Include="Views\Empleado\ReportePersonalPresente.cshtml" />
     <Content Include="Views\Empleado\ReportePersonalPresentePartial.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\MantenimientoPallet.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\PartialMantenimientoPallet.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
