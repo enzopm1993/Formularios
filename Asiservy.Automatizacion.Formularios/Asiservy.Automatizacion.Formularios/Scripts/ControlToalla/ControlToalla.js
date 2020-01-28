@@ -203,6 +203,10 @@ function GuardarControl() {
         MensajeAdvertencia("Debe ingresar la fecha", false);
         return false;
     }
+    if ($('#txtHora').val() == '') {
+        MensajeAdvertencia("Debe ingresar la hora", false);
+        return false;
+    }
     $("#btnGuardar").prop("disabled", true);
     $('#spinnerCargando').prop("hidden", false);
     //var DivControl = $('#DivTableControlCoche');

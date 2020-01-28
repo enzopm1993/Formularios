@@ -1,7 +1,14 @@
 ﻿@using Asiservy.Automatizacion.Datos.Datos;
 @model List<Asiservy.Automatizacion.Datos.Datos.spReporteControlToalla>
 <input type="hidden" id="contreg" value="@ViewBag.ContHoras"/>
-<table class="table table-striped table-bordered table-hover" id="tblDataTable">
+@{ 
+    string idtabla = string.Empty;
+}
+@if  (@ViewBag.ContHoras>0)
+{
+    idtabla = "tblDataTable";
+}
+<table class="table table-striped table-bordered table-hover" id="@idtabla">
     <thead>
         <tr>
             <th rowspan="2" style="vertical-align : middle;text-align:center;">NOMBRES</th>
