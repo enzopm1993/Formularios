@@ -20,6 +20,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Linea { get; set; }
         public string CodCargo { get; set; }
         public string Cargo { get; set; }
+        public string CodCentroCosto { get; set; }
+        public string CentroCosto { get; set; }
+        public string CodRecurso { get; set; }
+        public string Recurso { get; set; }
         public Nullable<int> Dias { get; set; }
         public string Meses { get; set; }
         public Nullable<System.DateTime> INGRESO { get; set; }

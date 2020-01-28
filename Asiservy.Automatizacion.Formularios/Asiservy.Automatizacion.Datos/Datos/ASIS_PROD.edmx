@@ -2624,9 +2624,6 @@
           <EntitySet Name="MOVER_PERSONAL" EntityType="ASIS_PRODModel.MOVER_PERSONAL" />
           <FunctionImport Name="spConsultarMovimientoPersonalEnNominaPendiente" ReturnType="Collection(ASIS_PRODModel.spConsultarMovimientoPersonalEnNominaPendiente)" />
           <EntitySet Name="CAMBIO_PERSONAL" EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" />
-          <FunctionImport Name="spConsultaEmpleadoCargoPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea)">
-          <Parameter Name="Linea" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spReporteCambioPersonal" ReturnType="Collection(ASIS_PRODModel.spReporteCambioPersonal)">
             <Parameter Name="CodLinea" Mode="In" Type="String" />
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
@@ -2732,9 +2729,6 @@
             <Parameter Name="linea" Mode="In" Type="String" />
             <Parameter Name="turno" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spGeneraDatosProcesoConsumoInsumo" ReturnType="Collection(ASIS_PRODModel.spGeneraDatosProcesoConsumoInsumo)">
-          <Parameter Name="IdControl" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="spEnvioCorreo" ReturnType="Collection(String)">
             <Parameter Name="Identificacion" Mode="In" Type="String" />
             <Parameter Name="Asunto" Mode="In" Type="String" />
@@ -2821,7 +2815,13 @@
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spConsultaPresentesPorAreaLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaPresentesPorAreaLinea_Result)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaEmpleadoCargoPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea)">
+          <Parameter Name="Linea" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGeneraDatosProcesoConsumoInsumo" ReturnType="Collection(ASIS_PRODModel.spGeneraDatosProcesoConsumoInsumo)">
+            <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
 
         </EntityContainer>
@@ -4410,19 +4410,6 @@
           <Property Name="CodCargoOrigen" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="RecursoOrigen" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
-        <ComplexType Name="spConsultaEmpleadoCargoPorLinea">
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="CodArea" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="60" />
-          <Property Type="Int32" Name="Dias" Nullable="true" />
-          <Property Type="String" Name="Meses" Nullable="false" MaxLength="84" />
-          <Property Type="DateTime" Name="INGRESO" Nullable="true" Precision="23" />
-          <Property Type="DateTime" Name="Salida" Nullable="true" Precision="23" />
-        </ComplexType>
         <ComplexType Name="spReporteCambioPersonal">
           <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
@@ -5026,17 +5013,6 @@
           <Property Type="Int32" Name="UnidadesSobrantesTapa" Nullable="true" />
           <Property Type="Int32" Name="UnidadesProducidasTapa" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="spGeneraDatosProcesoConsumoInsumo">
-          <Property Type="Int32" Name="TotalCajas" Nullable="true" />
-          <Property Type="Int32" Name="CajaHora" Nullable="true" />
-          <Property Type="Int32" Name="CajaMinuto" Nullable="true" />
-          <Property Type="Int32" Name="Saldo" Nullable="true" />
-          <Property Type="Int32" Name="SaldoTapa" Nullable="true" />
-          <Property Type="Int32" Name="MinutoProceso" Nullable="true" />
-          <Property Type="Int32" Name="MinutoMantenimiento" Nullable="true" />
-          <Property Type="Decimal" Name="Grs" Nullable="true" Precision="5" Scale="2" />
-          <Property Type="Int32" Name="Personal" Nullable="true" />
-        </ComplexType>
         <EntityType Name="CONSUMO_DETALLE_ADITIVO">
           <Key>
             <PropertyRef Name="IdConsumoAditivo" />
@@ -5395,6 +5371,34 @@
           <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Cargo" Nullable="true" MaxLength="60" />
           <Property Type="Int32" Name="Presentes" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spConsultaEmpleadoCargoPorLinea">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CodArea" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="CodCentroCosto" Nullable="false" MaxLength="7" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodRecurso" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Dias" Nullable="true" />
+          <Property Type="String" Name="Meses" Nullable="false" MaxLength="84" />
+          <Property Type="DateTime" Name="INGRESO" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Salida" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spGeneraDatosProcesoConsumoInsumo">
+          <Property Type="Decimal" Name="TotalCajas" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="CajaHora" Nullable="true" />
+          <Property Type="Int32" Name="CajaMinuto" Nullable="true" />
+          <Property Type="Int32" Name="Saldo" Nullable="false" />
+          <Property Type="Int32" Name="SaldoTapa" Nullable="false" />
+          <Property Type="Int32" Name="MinutoProceso" Nullable="true" />
+          <Property Type="Int32" Name="MinutoMantenimiento" Nullable="false" />
+          <Property Type="Decimal" Name="Grs" Nullable="false" Precision="5" Scale="2" />
+          <Property Type="Int32" Name="Personal" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -7278,23 +7282,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaEmpleadoCargoPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaEmpleadoCargoPorLinea">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
-                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
-                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
-                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
-                <ScalarProperty Name="Dias" ColumnName="Dias" />
-                <ScalarProperty Name="Meses" ColumnName="Meses" />
-                <ScalarProperty Name="INGRESO" ColumnName="INGRESO" />
-                <ScalarProperty Name="Salida" ColumnName="Salida" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spReporteCambioPersonal" FunctionName="ASIS_PRODModel.Store.spReporteCambioPersonal">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteCambioPersonal">
@@ -7890,21 +7877,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spGeneraDatosProcesoConsumoInsumo" FunctionName="ASIS_PRODModel.Store.spGeneraDatosProcesoConsumoInsumo">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spGeneraDatosProcesoConsumoInsumo">
-                <ScalarProperty Name="TotalCajas" ColumnName="TotalCajas" />
-                <ScalarProperty Name="CajaHora" ColumnName="CajaHora" />
-                <ScalarProperty Name="CajaMinuto" ColumnName="CajaMinuto" />
-                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
-                <ScalarProperty Name="SaldoTapa" ColumnName="SaldoTapa" />
-                <ScalarProperty Name="MinutoProceso" ColumnName="MinutoProceso" />
-                <ScalarProperty Name="MinutoMantenimiento" ColumnName="MinutoMantenimiento" />
-                <ScalarProperty Name="Grs" ColumnName="Grs" />
-                <ScalarProperty Name="Personal" ColumnName="Personal" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spEnvioCorreo" FunctionName="ASIS_PRODModel.Store.spEnvioCorreo" />
           <EntitySetMapping Name="CONSUMO_DETALLE_ADITIVO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONSUMO_DETALLE_ADITIVO">
@@ -8244,6 +8216,42 @@
                 <ScalarProperty Name="Linea" ColumnName="Linea" />
                 <ScalarProperty Name="Cargo" ColumnName="Cargo" />
                 <ScalarProperty Name="Presentes" ColumnName="Presentes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaEmpleadoCargoPorLinea" FunctionName="ASIS_PRODModel.Store.spConsultaEmpleadoCargoPorLinea">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEmpleadoCargoPorLinea">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="CodArea" ColumnName="CodArea" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="CodCentroCosto" ColumnName="CodCentroCosto" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="CodRecurso" ColumnName="CodRecurso" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="Dias" ColumnName="Dias" />
+                <ScalarProperty Name="Meses" ColumnName="Meses" />
+                <ScalarProperty Name="INGRESO" ColumnName="INGRESO" />
+                <ScalarProperty Name="Salida" ColumnName="Salida" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGeneraDatosProcesoConsumoInsumo" FunctionName="ASIS_PRODModel.Store.spGeneraDatosProcesoConsumoInsumo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spGeneraDatosProcesoConsumoInsumo">
+                <ScalarProperty Name="TotalCajas" ColumnName="TotalCajas" />
+                <ScalarProperty Name="CajaHora" ColumnName="CajaHora" />
+                <ScalarProperty Name="CajaMinuto" ColumnName="CajaMinuto" />
+                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+                <ScalarProperty Name="SaldoTapa" ColumnName="SaldoTapa" />
+                <ScalarProperty Name="MinutoProceso" ColumnName="MinutoProceso" />
+                <ScalarProperty Name="MinutoMantenimiento" ColumnName="MinutoMantenimiento" />
+                <ScalarProperty Name="Grs" ColumnName="Grs" />
+                <ScalarProperty Name="Personal" ColumnName="Personal" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
