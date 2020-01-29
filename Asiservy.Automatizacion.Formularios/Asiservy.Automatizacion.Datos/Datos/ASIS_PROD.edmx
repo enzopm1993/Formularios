@@ -2777,9 +2777,6 @@
             <End Role="PRODUCTO_TERMINADO" EntitySet="PRODUCTO_TERMINADO" />
             <End Role="PRODUCTO_TERMINADO_TIEMPO_PARADAS" EntitySet="PRODUCTO_TERMINADO_TIEMPO_PARADAS" />
           </AssociationSet>
-          <FunctionImport Name="spConsultaProductoTerminadoMateriales" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminadoMateriales)">
-          <Parameter Name="IdControl" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaProductoTerminadoTiempoPara" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminadoTiempoPara)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -2847,6 +2844,9 @@
             <End Role="PRODUCTO_TERMINADO_DANIADOS" EntitySet="PRODUCTO_TERMINADO_DANIADOS" />
           </AssociationSet>
           <FunctionImport Name="spConsultaProductoTerminadoDaniados" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminadoDaniados)">
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaProductoTerminadoMateriales" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminadoMateriales)">
             <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
 
@@ -5107,14 +5107,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="spConsultaProductoTerminadoMateriales">
-          <Property Type="Int32" Name="IdMateriales" Nullable="false" />
-          <Property Type="Int32" Name="IdProductoTerminado" Nullable="false" />
-          <Property Type="String" Name="CodigoMaterial" Nullable="false" MaxLength="10" />
-          <Property Type="Int32" Name="Recibido" Nullable="false" />
-          <Property Type="Int32" Name="Desechado" Nullable="false" />
-          <Property Type="Int32" Name="Usado" Nullable="false" />
-        </ComplexType>
         <ComplexType Name="spConsultaProductoTerminadoTiempoPara">
           <Property Type="Int32" Name="IdTiempoParada" Nullable="false" />
           <Property Type="Int32" Name="IdProductoTerminado" Nullable="false" />
@@ -5454,6 +5446,15 @@
           <Property Type="String" Name="Codigo" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="Merma" Nullable="true" MaxLength="100" />
           <Property Type="Int32" Name="Cantidad" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="spConsultaProductoTerminadoMateriales">
+          <Property Type="Int32" Name="IdMateriales" Nullable="false" />
+          <Property Type="Int32" Name="IdProductoTerminado" Nullable="false" />
+          <Property Type="String" Name="CodigoMaterial" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Material" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Recibido" Nullable="false" />
+          <Property Type="Int32" Name="Desechado" Nullable="false" />
+          <Property Type="Int32" Name="Usado" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -7978,18 +7979,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaProductoTerminadoMateriales" FunctionName="ASIS_PRODModel.Store.spConsultaProductoTerminadoMateriales">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaProductoTerminadoMateriales">
-                <ScalarProperty Name="IdMateriales" ColumnName="IdMateriales" />
-                <ScalarProperty Name="IdProductoTerminado" ColumnName="IdProductoTerminado" />
-                <ScalarProperty Name="CodigoMaterial" ColumnName="CodigoMaterial" />
-                <ScalarProperty Name="Recibido" ColumnName="Recibido" />
-                <ScalarProperty Name="Desechado" ColumnName="Desechado" />
-                <ScalarProperty Name="Usado" ColumnName="Usado" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaProductoTerminadoTiempoPara" FunctionName="ASIS_PRODModel.Store.spConsultaProductoTerminadoTiempoPara">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaProductoTerminadoTiempoPara">
@@ -8337,6 +8326,19 @@
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
                 <ScalarProperty Name="Merma" ColumnName="Merma" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaProductoTerminadoMateriales" FunctionName="ASIS_PRODModel.Store.spConsultaProductoTerminadoMateriales">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaProductoTerminadoMateriales">
+                <ScalarProperty Name="IdMateriales" ColumnName="IdMateriales" />
+                <ScalarProperty Name="IdProductoTerminado" ColumnName="IdProductoTerminado" />
+                <ScalarProperty Name="CodigoMaterial" ColumnName="CodigoMaterial" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="Recibido" ColumnName="Recibido" />
+                <ScalarProperty Name="Desechado" ColumnName="Desechado" />
+                <ScalarProperty Name="Usado" ColumnName="Usado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

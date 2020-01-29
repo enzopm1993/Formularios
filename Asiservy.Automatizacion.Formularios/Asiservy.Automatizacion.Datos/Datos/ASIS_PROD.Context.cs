@@ -1127,15 +1127,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlToalla>("spReporteControlToalla", fechaParameter, codLineaParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<spConsultaProductoTerminadoMateriales> spConsultaProductoTerminadoMateriales(Nullable<int> idControl)
-        {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("IdControl", idControl) :
-                new ObjectParameter("IdControl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminadoMateriales>("spConsultaProductoTerminadoMateriales", idControlParameter);
-        }
-    
         public virtual ObjectResult<spConsultaProductoTerminadoTiempoPara> spConsultaProductoTerminadoTiempoPara(Nullable<int> idControl)
         {
             var idControlParameter = idControl.HasValue ?
@@ -1280,6 +1271,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IdControl", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminadoDaniados>("spConsultaProductoTerminadoDaniados", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaProductoTerminadoMateriales> spConsultaProductoTerminadoMateriales(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminadoMateriales>("spConsultaProductoTerminadoMateriales", idControlParameter);
         }
     }
 }
