@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProductoTerminadoMateriales>
+@using Newtonsoft.Json;
+
+
+<table class="table">
+    <tr>     
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoMaterial)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Recibido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Desechado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Usado)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>          
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoMaterial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recibido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Desechado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usado)
+            </td>
+            <td>
+                @{string json = JsonConvert.SerializeObject(item); }
+                <button class="btn btn-link" onclick="EditarConsumoMaterial(@json)">Editar</button>
+                |
+                <button class="btn btn-link" onclick="EliminarConsumoMaterial(@json)">Eliminar</button>
+            </td>
+        </tr>
+    }
+
+</table>
