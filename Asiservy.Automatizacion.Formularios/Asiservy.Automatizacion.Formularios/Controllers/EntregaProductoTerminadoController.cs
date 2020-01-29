@@ -92,8 +92,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
-
-                var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(Fecha, LineaNegocio);
+                clsDEmpleado = new clsDEmpleado();
+                var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminado(Fecha, LineaNegocio, Empleado.CODIGOLINEA);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

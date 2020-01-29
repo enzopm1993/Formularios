@@ -10,11 +10,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
     public class clsDEntregaProductoTerminado
     {
         #region PRODUCTO TERMINADO
-        public List<spConsultaProductoTerminado> ConsultaControlProductoTerminado(DateTime Fecha, string Linea)
+        public List<spConsultaProductoTerminado> ConsultaControlProductoTerminado(DateTime Fecha, string LineaNegocio,string Linea)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.spConsultaProductoTerminado(Fecha, Linea).ToList();
+                var lista = entities.spConsultaProductoTerminado(Fecha, LineaNegocio).Where(x=> x.Linea == Linea).ToList();
                 return lista;
             }
         }
@@ -129,7 +129,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var result = entities.PRODUCTO_TERMINADO_MATERIALES.FirstOrDefault(x => x.IdMateriales == control.IdMateriales);
+                var result = entities.PRODUCTO_TERMINADO_MATERIALES.FirstOrDefault(x => x.IdMateriales == control.IdMateriales 
+                                                                                || (x.IdProductoTerminado==control.IdProductoTerminado
+                                                                                    && x.CodigoMaterial == control.CodigoMaterial
+                                                                                    && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
                 if (result != null)
                 {
                     result.Recibido = control.Recibido;

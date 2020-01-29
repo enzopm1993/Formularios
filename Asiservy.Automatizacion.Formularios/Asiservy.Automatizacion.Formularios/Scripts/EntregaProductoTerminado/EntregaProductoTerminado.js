@@ -362,8 +362,10 @@ function CargarProcesoDetalleMaterial() {
 
 function ModalGenerarMaterial() {
     $("#txtIdConsumoMaterial").val(0);
-    $("#selectMaterial").prop("selectedIndex", 0);
-    $("#txtCantidad").val(0);
+    $("#selectMaterial").prop("selectedIndex", 0);   
+    $("#txtUsado").val('0');
+    $("#txtDesechado").val('0');
+    $("#txtRecibido").val('0');
     $("#ModalConsumoMaterial").modal("show");
 }
 
@@ -375,12 +377,25 @@ function validarConsumoMaterial() {
     } else {
         $("#selectMaterial").css('borderColor', '#ced4da');
     }
-    if ($("#txtCantidad").val() == "") {
-        $("#txtCantidad").css('borderColor', '#FA8072');
+    if ($("#txtRecibido").val() == "") {
+        $("#txtRecibido").css('borderColor', '#FA8072');
         valida = false;
     } else {
-        $("#txtCantidad").css('borderColor', '#ced4da');
+        $("#txtRecibido").css('borderColor', '#ced4da');
     }
+    if ($("#txtDesechado").val() == "") {
+        $("#txtDesechado").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtDesechado").css('borderColor', '#ced4da');
+    }
+    if ($("#txtUsado").val() == "") {
+        $("#txtUsado").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtUsado").css('borderColor', '#ced4da');
+    }
+
     return valida;
 }
 
@@ -392,10 +407,12 @@ function GuardarConsumoMaterial() {
         url: "../EntregaProductoTerminado/GuardarConsumoMaterial",
         type: "POST",
         data: {
-            IdProductosMaterial: $("#txtIdConsumoMaterial").val(),
-            IdProductoTerminado: ListadoControl.IdProductoTerminado,
-            Codigo: $("#selectMaterial").val(),
-            Cantidad: $("#txtCantidad").val()
+            IdMateriales: $("#txtIdConsumoMaterial").val(),
+            IdProductoTerminado: ListadoControl.IdProductoTerminado, 
+            CodigoMaterial: $("#selectMaterial").val(),
+            Recibido: $("#txtRecibido").val(),
+            Desechado: $("#txtDesechado").val(),
+            Usado: $("#txtUsado").val()
 
         },
         success: function (resultado) {
@@ -419,7 +436,7 @@ function InactivarConsumoMaterial() {
         url: "../EntregaProductoTerminado/EliminarConsumoMaterial",
         type: "POST",
         data: {
-            IdProductosMaterial: $("#txtEliminarProcesoMaterial").val()
+            IdMateriales: $("#txtEliminarProcesoMaterial").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -439,8 +456,8 @@ function InactivarConsumoMaterial() {
 }
 
 function EliminarConsumoMaterial(model) {
-    $("#txtEliminarProcesoMaterial").val(model.IdProductosMaterial);
-    $("#pModalMaterial").html("Merma: " + model.Merma);
+    $("#txtEliminarProcesoMaterial").val(model.IdMateriales);
+    $("#pModalMaterial").html("Material: " + model.Material);
     $("#modalEliminarConsumoMaterial").modal('show');
 }
 
@@ -460,9 +477,11 @@ $("#modal-Material-btn-no").on("click", function () {
 function EditarConsumoMaterial(model) {
     // console.log(model);
     // $("#txtEliminarProcesoMaterial").val(model.IdProductosMaterial);    
-    $("#txtIdConsumoMaterial").val(model.IdProductosMaterial);
-    $("#selectMaterial").val(model.Codigo);
-    $("#txtCantidad").val(model.Cantidad);
+    $("#txtIdConsumoMaterial").val(model.IdMateriales);
+    $("#selectMaterial").val(model.CodigoMaterial);
+    $("#txtUsado").val(model.Usado);
+    $("#txtDesechado").val(model.Desechado);
+    $("#txtRecibido").val(model.Recibido);
     $("#ModalConsumoMaterial").modal("show");
     //ModalGenerarControlDetalle();
 }
