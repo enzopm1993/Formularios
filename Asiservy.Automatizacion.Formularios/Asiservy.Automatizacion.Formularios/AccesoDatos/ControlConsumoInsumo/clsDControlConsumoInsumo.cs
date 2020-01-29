@@ -1,10 +1,12 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
+using Asiservy.Automatizacion.Formularios.Models.MantenimientoPallet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
 {
@@ -553,6 +555,40 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 return db.PALLET.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+            }
+        }
+        public List<SelectListItem> ConsultarPalletsCombo()
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+               var lstpallets= db.PALLET.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                List<SelectListItem> SliPallet = new List<SelectListItem>();
+                clsDClasificador clsDClasificador = new clsDClasificador();
+                List<CLASIFICADOR> ListProveedores = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoProveedorPallet);
+                List<PalletViewModel> ListPallets = (from p in lstpallets
+                                                     join pr in ListProveedores on p.Proveedor equals pr.Codigo
+                                                     select new PalletViewModel
+                                                     {
+                                                         IdPallet = p.IdPallet,
+                                                         Envase = p.Envase,
+                                                         EstadoRegistro = p.EstadoRegistro,
+                                                         FechaIngresoLog = p.FechaIngresoLog,
+                                                         FechaModificacionLog = p.FechaModificacionLog,
+                                                         IdProveedor = p.Proveedor,
+                                                         Lamina = p.Lamina,
+                                                         Numero_Pallet = p.Numero_Pallet,
+                                                         Proveedor = pr.Descripcion,
+                                                         TerminalIngresoLog = p.TerminalIngresoLog,
+                                                         TerminalModificacionLog = p.TerminalModificacionLog,
+                                                         Unidades = p.Unidades,
+                                                         UsuarioIngresoLog = p.UsuarioIngresoLog,
+                                                         UsuarioModificacionLog = p.UsuarioModificacionLog
+                                                     }).ToList();
+                foreach (var item in ListPallets)
+                {
+                    SliPallet.Add(new SelectListItem { Value = item.IdPallet.ToString(), Text = item.Proveedor+"-"+item.Envase });
+                }
+                return SliPallet;
             }
         }
         #endregion
