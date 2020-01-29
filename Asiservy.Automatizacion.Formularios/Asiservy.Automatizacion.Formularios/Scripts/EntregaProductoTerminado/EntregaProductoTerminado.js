@@ -275,7 +275,9 @@ function SeleccionarControlEntregaProductoTerminado(model) {
  //  console.log(model);
     ListadoControl = model;
     $("#txtIdEntregaProductoTerminado").val(ListadoControl.IdProductoTerminado);
-    $("#txtOrdenFabricacion").val(ListadoControl.OrdenFabricacion);
+    $("#txtOrdenFabricacion").empty();
+    $("#txtOrdenFabricacion").append("<option value='" + ListadoControl.OrdenFabricacion + "'>" + ListadoControl.OrdenFabricacion + "</option>")
+ //   $("#txtOrdenFabricacion").val(ListadoControl.OrdenFabricacion);
     $("#txtOrdenFabricacion").prop("disabled", true);    
     $("#txtOrdenVenta").val(ListadoControl.OrdenVenta);
     $("#txtCliente").val(ListadoControl.Cliente);   
@@ -293,10 +295,12 @@ function SeleccionarControlEntregaProductoTerminado(model) {
     $("#btnModalGenerar").prop("hidden", true);
     $("#btnModalEditar").prop("hidden", false);
     $("#txtFecha").prop("disabled", true);
+    $("#txtFechaPaletizado").prop("disabled", true);
    // $("#selectTurno").prop("disabled", true);
     $("#divCabecera2").prop("hidden", true);
     $("#divDetalleProceso").prop("hidden", false);
-    
+
+    CargarProcesoDetalleMaterial();
     CargarEntregaProductoTerminadoDetalle();
     CargarProcesoDetalleTiemposMuertos();
     CargarProcesoDetalleDaniado();
@@ -307,6 +311,8 @@ function SeleccionarControlEntregaProductoTerminado(model) {
 function AtrasControlPrincipal() {
     $("#btnModalGenerar").prop("hidden", false);
     $("#txtFecha").prop("disabled", false);
+    $("#txtFechaPaletizado").prop("disabled", false);
+
   //  $("#selectTurno").prop("disabled", false);
     $("#btnAtras").prop("hidden", true);
     $("#btnModalEliminar").prop("hidden", true);
@@ -318,6 +324,174 @@ function AtrasControlPrincipal() {
     NuevaEntrega();
     CargarProductoTerminado();
 }
+
+
+
+////////CONSUMO DE MATERIALES //////////////////////////////
+function CargarProcesoDetalleMaterial() {
+    $("#spinnerCargandoMaterial").prop("hidden", false);
+    $("#divTableMaterial").html('');
+    $.ajax({
+        url: "../EntregaProductoTerminado/ControlConsumoMaterialPartial",
+        type: "GET",
+        data: {
+            IdControl: ListadoControl.IdProductoTerminado
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#divTableMaterial").html("No existen registros");
+                $("#spinnerCargandoMaterial").prop("hidden", true);
+            } else {
+                $("#spinnerCargandoMaterial").prop("hidden", true);
+                $("#divTableMaterial").html(resultado);
+                //config.opcionesDT.pageLength = 10;
+                //      config.opcionesDT.order = [[0, "asc"]];
+                //    $('#tblDataTable').DataTable(config.opcionesDT);
+            }
+
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoMaterial").prop("hidden", true);
+        }
+    });
+}
+
+function ModalGenerarMaterial() {
+    $("#txtIdConsumoMaterial").val(0);
+    $("#selectMaterial").prop("selectedIndex", 0);   
+    $("#txtUsado").val('0');
+    $("#txtDesechado").val('0');
+    $("#txtRecibido").val('0');
+    $("#ModalConsumoMaterial").modal("show");
+}
+
+function validarConsumoMaterial() {
+    var valida = true;
+    if ($("#selectMaterial").val() == "") {
+        $("#selectMaterial").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectMaterial").css('borderColor', '#ced4da');
+    }
+    if ($("#txtRecibido").val() == "") {
+        $("#txtRecibido").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtRecibido").css('borderColor', '#ced4da');
+    }
+    if ($("#txtDesechado").val() == "") {
+        $("#txtDesechado").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtDesechado").css('borderColor', '#ced4da');
+    }
+    if ($("#txtUsado").val() == "") {
+        $("#txtUsado").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtUsado").css('borderColor', '#ced4da');
+    }
+
+    return valida;
+}
+
+function GuardarConsumoMaterial() {
+    if (!validarConsumoMaterial()) {
+        return;
+    }
+    $.ajax({
+        url: "../EntregaProductoTerminado/GuardarConsumoMaterial",
+        type: "POST",
+        data: {
+            IdMateriales: $("#txtIdConsumoMaterial").val(),
+            IdProductoTerminado: ListadoControl.IdProductoTerminado, 
+            CodigoMaterial: $("#selectMaterial").val(),
+            Recibido: $("#txtRecibido").val(),
+            Desechado: $("#txtDesechado").val(),
+            Usado: $("#txtUsado").val()
+
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            CargarProcesoDetalleMaterial();
+            $("#ModalConsumoMaterial").modal("hide");
+            //   MensajeCorrecto("Registro Guardado Correctamente");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#ModalConsumoMaterial").modal("hide");
+        }
+    });
+}
+
+
+function InactivarConsumoMaterial() {
+    $.ajax({
+        url: "../EntregaProductoTerminado/EliminarConsumoMaterial",
+        type: "POST",
+        data: {
+            IdMateriales: $("#txtEliminarProcesoMaterial").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+            }
+            CargarProcesoDetalleMaterial();
+            //  MensajeCorrecto("Registro Eliminado con Éxito");
+            $("#modalEliminarProcesoDetalle").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
+function EliminarConsumoMaterial(model) {
+    $("#txtEliminarProcesoMaterial").val(model.IdMateriales);
+    $("#pModalMaterial").html("Material: " + model.Material);
+    $("#modalEliminarConsumoMaterial").modal('show');
+}
+
+
+$("#modal-Material-btn-si").on("click", function () {
+    InactivarConsumoMaterial();
+    $("#txtEliminarProcesoMaterial").val('0');
+    $("#modalEliminarConsumoMaterial").modal('hide');
+});
+
+$("#modal-Material-btn-no").on("click", function () {
+    $("#txtEliminarProcesoMaterial").val('0');
+    $("#modalEliminarConsumoMaterial").modal('hide');
+});
+
+
+function EditarConsumoMaterial(model) {
+    // console.log(model);
+    // $("#txtEliminarProcesoMaterial").val(model.IdProductosMaterial);    
+    $("#txtIdConsumoMaterial").val(model.IdMateriales);
+    $("#selectMaterial").val(model.CodigoMaterial);
+    $("#txtUsado").val(model.Usado);
+    $("#txtDesechado").val(model.Desechado);
+    $("#txtRecibido").val(model.Recibido);
+    $("#ModalConsumoMaterial").modal("show");
+    //ModalGenerarControlDetalle();
+}
+
+
+
+
+
+
+
 
 //////////////////////////////// DETALLE HORAS ///////////////////////////////////////
 
@@ -566,7 +740,7 @@ function GuardarConsumoDaniado() {
 
 function InactivarConsumoDaniado() {
     $.ajax({
-        url: "../ControlConsumoInsumo/EliminarConsumoDaniado",
+        url: "../EntregaProductoTerminado/EliminarConsumoDaniado",
         type: "POST",
         data: {
             IdProductosDaniados: $("#txtEliminarProcesoDaniado").val()
@@ -590,7 +764,7 @@ function InactivarConsumoDaniado() {
 
 function EliminarConsumoDaniado(model) {
     $("#txtEliminarProcesoDaniado").val(model.IdProductosDaniados);
-    $("#pModalDaniado").html("Merma: " + model.TipoConsumo);
+    $("#pModalDaniado").html("Merma: " + model.Merma);
     $("#modalEliminarConsumoDaniado").modal('show');
 }
 
@@ -609,7 +783,8 @@ $("#modal-Daniado-btn-no").on("click", function () {
 
 function EditarConsumoDaniado(model) {
     // console.log(model);
-    $("#txtEliminarProcesoDaniado").val(model.IdProductosDaniados);
+   // $("#txtEliminarProcesoDaniado").val(model.IdProductosDaniados);    
+    $("#txtIdConsumoDaniado").val(model.IdProductosDaniados);
     $("#selectDaniado").val(model.Codigo);
     $("#txtCantidad").val(model.Cantidad);  
     $("#ModalConsumoDaniado").modal("show");

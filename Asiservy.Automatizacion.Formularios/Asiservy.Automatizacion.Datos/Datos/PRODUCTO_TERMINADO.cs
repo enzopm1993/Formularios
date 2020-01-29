@@ -17,10 +17,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PRODUCTO_TERMINADO()
         {
-            this.PRODUCTO_TERMINADO_DANIADOS = new HashSet<PRODUCTO_TERMINADO_DANIADOS>();
             this.PRODUCTO_TERMINADO_MATERIALES = new HashSet<PRODUCTO_TERMINADO_MATERIALES>();
             this.PRODUCTO_TERMINADO_TIEMPO_PARADAS = new HashSet<PRODUCTO_TERMINADO_TIEMPO_PARADAS>();
             this.PRODUCTO_TERMINADO_DETALLE = new HashSet<PRODUCTO_TERMINADO_DETALLE>();
+            this.PRODUCTO_TERMINADO_DANIADOS = new HashSet<PRODUCTO_TERMINADO_DANIADOS>();
         }
     
         public int IdProductoTerminado { get; set; }
@@ -46,12 +46,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PRODUCTO_TERMINADO_DANIADOS> PRODUCTO_TERMINADO_DANIADOS { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCTO_TERMINADO_MATERIALES> PRODUCTO_TERMINADO_MATERIALES { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCTO_TERMINADO_TIEMPO_PARADAS> PRODUCTO_TERMINADO_TIEMPO_PARADAS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCTO_TERMINADO_DETALLE> PRODUCTO_TERMINADO_DETALLE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PRODUCTO_TERMINADO_DANIADOS> PRODUCTO_TERMINADO_DANIADOS { get; set; }
     }
 }

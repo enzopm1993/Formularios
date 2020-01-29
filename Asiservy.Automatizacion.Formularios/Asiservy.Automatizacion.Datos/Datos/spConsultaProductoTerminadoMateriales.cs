@@ -16,6 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdMateriales { get; set; }
         public int IdProductoTerminado { get; set; }
         public string CodigoMaterial { get; set; }
+        public string Material { get; set; }
         public int Recibido { get; set; }
         public int Desechado { get; set; }
         public int Usado { get; set; }

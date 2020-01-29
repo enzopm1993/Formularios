@@ -163,7 +163,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     }
 
                     poBitacora.CambioEstado = false;
-                    poBitacora.CodigoMotivo = poSolicitud.CodigoMotivo;
+                    poBitacora.CodigoMotivo = doSolicitud.CodigoMotivo;
                     poBitacora.FechaIngresoLog = DateTime.Now;
                     poBitacora.UsuarioIngresoLog = doSolicitud.UsuarioIngresoLog ?? doSolicitud.UsuarioModificacionLog;
                     poBitacora.TerminalIngresoLog = doSolicitud.TerminalIngresoLog ?? doSolicitud.TerminalModificacionLog;

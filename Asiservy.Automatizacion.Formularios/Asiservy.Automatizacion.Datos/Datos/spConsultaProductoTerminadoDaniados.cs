@@ -16,6 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdProductosDaniados { get; set; }
         public int IdProductoTerminado { get; set; }
         public string Codigo { get; set; }
+        public string Merma { get; set; }
         public int Cantidad { get; set; }
     }
 }
