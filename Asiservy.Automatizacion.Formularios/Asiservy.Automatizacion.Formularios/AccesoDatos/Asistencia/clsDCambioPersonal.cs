@@ -266,7 +266,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 
                                             db.MOVIMIENTO_PERSONAL_DIARIO.Add(new MOVIMIENTO_PERSONAL_DIARIO { Cedula=item.Cedula,CodLinea=psLinea,CentroCosto=psCentroCosto,
                                             CodCargo=psCargo,Recurso=psRecurso,FechaInicio=psfecha,HoraInicio=psHora,EstadoRegistro=clsAtributos.EstadoRegistroActivo,
-                                            FechaIngresoLog=DateTime.Now,UsuarioIngresoLog=psusuario,TerminalIngresoLog=psusuario, Asistencia=false, Turno=psTurno});
+                                            FechaIngresoLog=DateTime.Now,UsuarioIngresoLog=psusuario,TerminalIngresoLog=psterminal, Asistencia=false, Turno=psTurno});
                                             db.SaveChanges();
 
                                         }
