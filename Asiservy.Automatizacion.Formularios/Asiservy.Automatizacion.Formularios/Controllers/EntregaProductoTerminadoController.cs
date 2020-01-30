@@ -51,13 +51,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     //ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoDaniadoPouch);
                     ViewBag.LineaNegocio = "ENLATADO";
-                    ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaAutoclave(DateTime.Now).Where(x => x.LineaNegocio == clsAtributos.LineaNegocioEnlatado).ToList();
+                  //  ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProductoTerminado(DateTime.Now).Where(x => x.LineaNegocio == clsAtributos.LineaNegocioEnlatado).ToList();
                 }
                 else
                 {
                     // ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoDaniadoLata);
                     ViewBag.LineaNegocio = "POUCH";
-                    ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaAutoclave(DateTime.Now).Where(x => x.LineaNegocio == clsAtributos.LineaNegocioPouch).ToList();
+                  //  ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProductoTerminado(DateTime.Now).Where(x => x.LineaNegocio == clsAtributos.LineaNegocioPouch).ToList();
                 }
                 return View();
             }

@@ -276,7 +276,8 @@ function ReporteDaniadoPartial() {
         url: "../ControlConsumoInsumo/ReporteDaniadoPartial",
         type: "GET",
         data: {
-            IdControl: ListadoControl.IdControlConsumoInsumos
+            IdControl: ListadoControl.IdControlConsumoInsumos,
+            Tipo:"ENLATADO"
 
         },
         success: function (resultado) {

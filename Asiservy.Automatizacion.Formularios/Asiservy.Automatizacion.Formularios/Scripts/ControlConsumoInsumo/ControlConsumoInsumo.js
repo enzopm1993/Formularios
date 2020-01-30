@@ -183,7 +183,7 @@ function NuevoControlConsumoInsumos() {
     $("#txtUnidadesProducidasTapa").val('0'); 
    $("#txtCodigoProducto").val('');
     $("#txtObservacion").val('');
-    $("#txtGrs").val('0');   
+    $("#txtGrsReal").val('0');   
     
 }
 
@@ -266,7 +266,9 @@ function ValidarGenerarControlConsumo(){
     return valida;
 }
 
-function GenerarControlConsumo() {  
+function GenerarControlConsumo() { 
+
+    //alert($("#txtGrsReal").val());
     var txtFecha = $('#txtFecha').val();
     var selectTurno = $('#selectTurno').val();   
     if ($("#txtFecha").val() == "") {
@@ -321,7 +323,7 @@ function GenerarControlConsumo() {
             UnidadesSobrantesTapa: $("#txtSobrantesTapa").val(),
             UnidadesProducidasTapa: $("#txtUnidadesProducidasTapa").val(),
             CodigoProducto: $("#txtCodigoProducto").val(),   
-            GrsReal: $("#txtGrs").val(),
+            GrsLataReal: $("#txtGrsReal").val(),
             Observacion: $("#txtObservacion").val()
         },
         success: function (resultado) {
@@ -536,7 +538,7 @@ $("#modal-detalle-no").on("click", function () {
 
 /////////////DETALLE DEL PROCESO ENLATADO///////////////////////////////////////////////////////////////////////
 function SeleccionarControlDetalleConsumo(model) {
-    //console.log(model);
+   // console.log(model);
     ListadoControl = model;
     $("#txtIdControlConsumo").val(ListadoControl.IdControlConsumoInsumos);
     $("#txtOrdenFabricacion").val(ListadoControl.OrdenFabricacion);
@@ -566,7 +568,7 @@ function SeleccionarControlDetalleConsumo(model) {
     $("#txtUnidadesProducidasTapa").val(ListadoControl.UnidadesProducidasTapa);
     $("#txtCodigoProducto").val(ListadoControl.CodigoProducto);
     $("#txtObservacion").val(ListadoControl.Observacion);
-    $("#txtGrs").val(ListadoControl.GrsReal);
+    $("#txtGrsReal").val(ListadoControl.GrsLataReal);
 
     $("#txtSaldoInicialLamina").val(ListadoControl.SaldoInicialLamina);
     $("#txtSaldoInicialUnidad").val(ListadoControl.SaldoInicialUnidad);
