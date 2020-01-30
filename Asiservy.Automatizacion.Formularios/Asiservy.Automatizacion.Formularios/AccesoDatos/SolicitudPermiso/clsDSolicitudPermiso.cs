@@ -67,6 +67,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 {
                     EstadoSolictud = "Anulado";
                 }
+                else if (poSolicitud.EstadoSolicitud == clsAtributos.EstadoSolicitudRevisado)
+                {
+                    EstadoSolictud = "Revisado";
+                }
                 var poEmpleado = clsDEmpleado.ConsultaEmpleado(poSolicitud.Identificacion).FirstOrDefault();      
                 var Motivo = ConsultarMotivos(poSolicitud.CodigoMotivo).FirstOrDefault();
                 String MensajeBody = "Empleado: " + poEmpleado.NOMBRES + "\n</br>"
