@@ -67,6 +67,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 {
                     EstadoSolictud = "Anulado";
                 }
+                else if (poSolicitud.EstadoSolicitud == clsAtributos.EstadoSolicitudRevisado)
+                {
+                    EstadoSolictud = "Revisado";
+                }
                 var poEmpleado = clsDEmpleado.ConsultaEmpleado(poSolicitud.Identificacion).FirstOrDefault();      
                 var Motivo = ConsultarMotivos(poSolicitud.CodigoMotivo).FirstOrDefault();
                 String MensajeBody = "Empleado: " + poEmpleado.NOMBRES + "\n</br>"
@@ -394,7 +398,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     EstadoSolicitud = x.CodEstadoSolicitud,
                     DescripcionEstadoSolicitud = x.EstadoSolcitud,
                     FechaBiometrico = x.FechaBiometrico,
-                    //Origen = x.Origen,
+                    Origen = x.Origen,
                     //CodigoDiagnostico = x.CodigoDiagnostico,
                     FechaIngresoLog = x.FechaIngresoLog,
                     UsuarioIngresoLog = x.UsuarioIngresoLog,
@@ -604,116 +608,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         public int ConsultaSolicitudesPermisoNotificaciones(string dsEstadoSolcitud, string dsIdUsuario)
         {
-            entities = new ASIS_PRODEntities();
-            clsApiUsuario = new clsApiUsuario();
-            List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
-
-            List<SOLICITUD_PERMISO> ListaPreliminar = new List<SOLICITUD_PERMISO>();
-            //Validacion de estados
-            if (dsEstadoSolcitud == clsAtributos.EstadoSolicitudTodos)
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                clsApiUsuario = new clsApiUsuario();
+                List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
+                var ListaPreliminar = entities.spConsultaSolicitudesPendientesAprobar(dsIdUsuario).ToList();
+                return ListaPreliminar.Count;
             }
-            else if (dsEstadoSolcitud == clsAtributos.EstadoSolicitudPendiente)
-            {
-                //SI NO VIENE LA CEDULA ENVIAMOS TODOS
-                if (string.IsNullOrEmpty(dsIdUsuario))
-                {
-                    ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x =>
-                    x.EstadoSolicitud == dsEstadoSolcitud &&
-                    x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
-                }
-                else
-                {
-                    //CONSULTAMOS LOS NIVELES DE USUARIOS ASIGNADOS PARA ESE USUARIO
-                    var NivelUsuario = entities.NIVEL_USUARIO.FirstOrDefault(x => x.IdUsuario == dsIdUsuario);
-                    clsDEmpleado = new clsDEmpleado();
-                    //CONSULTAMOS LA LINEA A LA QUE PERTENECE EL USUARIO
-                    var Linea = clsDEmpleado.ConsultaEmpleado(dsIdUsuario).FirstOrDefault();
-                    if (Linea != null)
-                    {
-                        List<string> ListaLineas = new List<string>();
-                        ListaLineas.Add(Linea.CODIGOLINEA);
-                        //SI LA LINEA ES DE PRODUCCION VAMOS A CONSULTAR EL CLASIFICADOR DE TODAS LAS LINEAS QUE LE PERTENECEN A ESTE.
-                        if (Linea.CODIGOLINEA == clsAtributos.CodLineaProduccion)
-                        {
-                            var LineasPertenece = (entities.CLASIFICADOR.Where(x =>
-                            x.Grupo == clsAtributos.CodGrupoLineasAprobarSolicitudProduccion
-                            && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                            && x.Codigo != "0"
-                            )).ToList();
-                            if (LineasPertenece != null)
-                            {
-                                foreach (var x in LineasPertenece)
-                                    ListaLineas.Add(x.Codigo + "");
-                                //ListaLineas.Add(clsAtributos.CodLineaProduccionEmpaque);
-                                //ListaLineas.Add(clsAtributos.CodLineaProduccionRecuperadoControl);
-                            }
-                        }
-                        if (NivelUsuario != null)
-                        {
-                            var nivelesAprobacion = entities.NIVEL_APROBACION.Where(x =>
-                              x.NivelBase == NivelUsuario.Nivel).Select(x => x.NivelAprobar).ToList();
-
-                            //VALIDAMOS QUE SEAN JEFES O EMPLEADOS
-                            if (NivelUsuario.Nivel != clsAtributos.NivelGerencia && NivelUsuario.Nivel != clsAtributos.NivelSubGerencia)
-                            {
-
-                                ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x =>
-                                x.EstadoSolicitud == dsEstadoSolcitud &&
-                                x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
-                                nivelesAprobacion.Contains(x.Nivel)
-                                && ListaLineas.Contains(x.CodigoLinea)).ToList();
-                            }
-                            //VALIDAMOS QUE SEA GERENCIA
-                            else if (NivelUsuario.Nivel != clsAtributos.NivelSubGerencia)
-                            {
-
-                                ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x =>
-                                x.EstadoSolicitud == dsEstadoSolcitud &&
-                                x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
-                                nivelesAprobacion.Contains(x.Nivel)).ToList();
-                            }
-                            //VALIDAMOS QUE SEA SUBGERENCIA
-                            else
-                            {
-                                //NIVEL DE JEFATURA- VALIDAMOS LOS QUE SON SOLO SUS EMPLEADOS 
-                                foreach (var n in nivelesAprobacion)
-                                {
-                                    List<SOLICITUD_PERMISO> Sol = null;
-                                    if (n.Value == clsAtributos.NivelEmpleado)
-                                    {
-                                        Sol = entities.SOLICITUD_PERMISO.Where(x =>
-                                         x.EstadoSolicitud == dsEstadoSolcitud &&
-                                         x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
-                                         //nivelesAprobacion.Contains(x.Nivel) &&
-                                         ListaLineas.Contains(x.CodigoLinea) && x.Nivel == clsAtributos.NivelEmpleado
-                                         ).ToList();
-                                    }
-                                    else
-                                    {
-                                        Sol = entities.SOLICITUD_PERMISO.Where(x =>
-                                         x.EstadoSolicitud == dsEstadoSolcitud &&
-                                         x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
-                                         //nivelesAprobacion.Contains(x.Nivel) &&
-                                         x.Nivel == n.Value
-                                         ).ToList();
-                                    }
-                                    if (Sol != null)
-                                        ListaPreliminar.AddRange(Sol);
-                                }
-
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x => x.EstadoSolicitud == dsEstadoSolcitud && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
-            }            
-
-            return ListaPreliminar.Count;
         }
 
 

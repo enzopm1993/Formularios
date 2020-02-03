@@ -22,8 +22,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 var result = entities.CONTROL_CONSUMO_INSUMO.FirstOrDefault(x => x.IdControlConsumoInsumos == control.IdControlConsumoInsumos);
                 if (result != null)
                 {
-                    result.HoraInicio = control.HoraInicio;
-                    result.HoraFin = control.HoraFin;
+                    //result.HoraInicio = control.HoraInicio;
+                    //result.HoraFin = control.HoraFin;
                     result.Observacion = control.Observacion;              
                     result.Turno = control.Turno;
                     result.PesoEscrundido = control.PesoEscrundido;
@@ -44,6 +44,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                     result.UnidadesSobrantes = control.UnidadesSobrantes;
                     result.GrsLataReal = control.GrsLataReal;
                     result.CodigoProducto = control.CodigoProducto;
+                    result.UnidadesProducidasTapa = control.UnidadesProducidasTapa;
+                    result.UnidadesRecibidasTapa = control.UnidadesRecibidasTapa;
+                    result.UnidadesSobrantesTapa = control.UnidadesSobrantesTapa;
+                   // result.gr = control.CodigoProducto;
                     result.UsuarioModificacionLog = control.UsuarioIngresoLog;
                     result.FechaModificacionLog = DateTime.Now;
                     result.TerminalModificacionLog = control.TerminalIngresoLog;
