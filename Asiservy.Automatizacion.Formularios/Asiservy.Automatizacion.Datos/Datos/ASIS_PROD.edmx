@@ -237,6 +237,7 @@
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="Tipo" Type="char" MaxLength="1" />
           <Property Name="PalletProveedor" Type="int" />
+          <Property Name="PalletProveedorTapa" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="CONSUMO_DETALLE_POUCH">
           <Key>
@@ -2807,9 +2808,6 @@
           <FunctionImport Name="spGeneraDatosProcesoConsumoInsumo" ReturnType="Collection(ASIS_PRODModel.spGeneraDatosProcesoConsumoInsumo)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaConsumoDetalleLata" ReturnType="Collection(ASIS_PRODModel.spConsultaConsumoDetalleLata)">
-          <Parameter Name="IdControl" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaConsumoDetalleAditivo" ReturnType="Collection(ASIS_PRODModel.spConsultaConsumoDetalleAditivo)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -2857,6 +2855,9 @@
           <FunctionImport Name="spConsultaMarcacionBiometricoxFecha" ReturnType="Collection(ASIS_PRODModel.spConsultaMarcacionBiometricoxFecha)">
             <Parameter Name="cedula" Mode="In" Type="String" />
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaConsumoDetalleLata" ReturnType="Collection(ASIS_PRODModel.spConsultaConsumoDetalleLata)">
+            <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
 
         </EntityContainer>
@@ -5195,22 +5196,6 @@
           <Property Type="Decimal" Name="Grs" Nullable="false" Precision="5" Scale="2" />
           <Property Type="Int32" Name="Personal" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="spConsultaConsumoDetalleLata">
-          <Property Type="Int32" Name="IdProcesoDetalleLata" Nullable="false" />
-          <Property Type="Int32" Name="IdControlConsumoInsumos" Nullable="false" />
-          <Property Type="Int32" Name="Pallet" Nullable="false" />
-          <Property Type="String" Name="Lotes" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="Bultos" Nullable="false" />
-          <Property Type="DateTime" Name="FechaFabricacion" Nullable="false" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Tipo" Nullable="true" MaxLength="1" />
-        </ComplexType>
         <ComplexType Name="spConsultaConsumoDetalleAditivo">
           <Property Type="Int32" Name="IdConsumoAditivo" Nullable="false" />
           <Property Type="Int32" Name="IdControlConsumoInsumos" Nullable="false" />
@@ -5407,6 +5392,7 @@
           <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="PalletProveedor" Type="Int32" />
           <NavigationProperty Name="CONTROL_CONSUMO_INSUMO" Relationship="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" FromRole="CONSUMO_DETALLE_LATA" ToRole="CONTROL_CONSUMO_INSUMO" />
+          <Property Name="PalletProveedorTapa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO">
           <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
@@ -5473,6 +5459,24 @@
           <Property Type="DateTime" Name="FechaMarca" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="IngresoMarca" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="SalidaMarca" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spConsultaConsumoDetalleLata">
+          <Property Type="Int32" Name="IdProcesoDetalleLata" Nullable="false" />
+          <Property Type="Int32" Name="IdControlConsumoInsumos" Nullable="false" />
+          <Property Type="Int32" Name="Pallet" Nullable="false" />
+          <Property Type="String" Name="Lotes" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="Bultos" Nullable="false" />
+          <Property Type="DateTime" Name="FechaFabricacion" Nullable="false" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Tipo" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="PalletProveedor" Nullable="true" />
+          <Property Type="String" Name="PalletProveedorTapa" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -8113,26 +8117,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaConsumoDetalleLata" FunctionName="ASIS_PRODModel.Store.spConsultaConsumoDetalleLata">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaConsumoDetalleLata">
-                <ScalarProperty Name="IdProcesoDetalleLata" ColumnName="IdProcesoDetalleLata" />
-                <ScalarProperty Name="IdControlConsumoInsumos" ColumnName="IdControlConsumoInsumos" />
-                <ScalarProperty Name="Pallet" ColumnName="Pallet" />
-                <ScalarProperty Name="Lotes" ColumnName="Lotes" />
-                <ScalarProperty Name="Bultos" ColumnName="Bultos" />
-                <ScalarProperty Name="FechaFabricacion" ColumnName="FechaFabricacion" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaConsumoDetalleAditivo" FunctionName="ASIS_PRODModel.Store.spConsultaConsumoDetalleAditivo">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaConsumoDetalleAditivo">
@@ -8309,6 +8293,7 @@
           <EntitySetMapping Name="CONSUMO_DETALLE_LATA">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONSUMO_DETALLE_LATA">
               <MappingFragment StoreEntitySet="CONSUMO_DETALLE_LATA">
+                <ScalarProperty Name="PalletProveedorTapa" ColumnName="PalletProveedorTapa" />
                 <ScalarProperty Name="PalletProveedor" ColumnName="PalletProveedor" />
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
@@ -8370,6 +8355,28 @@
                 <ScalarProperty Name="FechaMarca" ColumnName="FechaMarca" />
                 <ScalarProperty Name="IngresoMarca" ColumnName="IngresoMarca" />
                 <ScalarProperty Name="SalidaMarca" ColumnName="SalidaMarca" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaConsumoDetalleLata" FunctionName="ASIS_PRODModel.Store.spConsultaConsumoDetalleLata">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaConsumoDetalleLata">
+                <ScalarProperty Name="IdProcesoDetalleLata" ColumnName="IdProcesoDetalleLata" />
+                <ScalarProperty Name="IdControlConsumoInsumos" ColumnName="IdControlConsumoInsumos" />
+                <ScalarProperty Name="Pallet" ColumnName="Pallet" />
+                <ScalarProperty Name="Lotes" ColumnName="Lotes" />
+                <ScalarProperty Name="Bultos" ColumnName="Bultos" />
+                <ScalarProperty Name="FechaFabricacion" ColumnName="FechaFabricacion" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="PalletProveedor" ColumnName="PalletProveedor" />
+                <ScalarProperty Name="PalletProveedorTapa" ColumnName="PalletProveedorTapa" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
