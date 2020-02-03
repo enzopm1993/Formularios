@@ -111,21 +111,25 @@
                 </td>
                 <td>
                     <center>
-                        @if (item.Observacion == "No ha marcado en el biométrico")
+                        @*@if (item.Observacion == "No ha marcado en el biométrico")
                         {
                             <img src="~/Content/images/actualizar.png" width="30" id="actualizar-@cont" height="30" style="cursor: pointer" onclick="ConsultarBiometrico('@cont','@item.Cedula')" />
-                        }
+                        }*@
+                        <i id="actualizar-@cont" class="fas fa-sync" style="cursor: pointer; color:green" onclick="ConsultarBiometrico('@cont','@item.Cedula')"></i>
+                        <i id="actualizar2-@cont" class="fas fa-sync fa-spin" style="color:green" hidden></i>
                     </center>
                 </td>
 
                 <td class="text-center align-content-center">
                     @{ var cuchillo = (from c in Model.ControlDeCuchillos
                                         where c.Cedula == item.Cedula
-                                        select c).FirstOrDefault();}
-
+                                        select c).FirstOrDefault();
+                        var oculto = (item.Cargo == "134" || item.Cargo == "089") ? "" : "hidden";
+                        }
+                   
                     @if (cuchillo != null)
-                    {
-                    <div class="col-xs-2 text-xs-center">
+                    { 
+                    <div class="col-xs-2 text-xs-center" @oculto >
                         @if (cuchillo.CuchilloBlanco != 0)
                         {
                             Model.CuchillosBlancosSobrantes.Add(new Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id = cuchillo.CuchilloBlanco, Numero = cuchillo.CuchilloBlanco });
@@ -143,7 +147,7 @@
                     }
                     else
                     {
-                    <div class="col-xs-2 text-xs-center">
+                    <div class="col-xs-2 text-xs-center" @oculto>
                         @Html.DropDownList("Blanco" + item.Cedula, new SelectList(Model.CuchillosBlancosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'B','" + item.Cedula + "',this.id,'" + @cont + "')" })
 
                     </div>
@@ -157,7 +161,7 @@
 
                     @if (cuchillo != null)
                     {
-                        <div class="col-xs-2 text-xs-center">
+                        <div class="col-xs-2 text-xs-center" @oculto>
                             @if (cuchillo.CuchilloRojo != 0)
                             {
                                 Model.CuchillosRojosSobrantes.Add(new Asiservy.Automatizacion.Formularios.Models.Asistencia.ControlDeAsistenciaPrestadosViewModel.Cuchillos { Id = cuchillo.CuchilloRojo, Numero = cuchillo.CuchilloRojo });
@@ -174,7 +178,7 @@
                     }
                     else
                     {
-                        <div class="col-xs-2 text-xs-center">
+                        <div class="col-xs-2 text-xs-center" @oculto>
                             @Html.DropDownList("Rojo" + item.Cedula, new SelectList(Model.CuchillosRojosSobrantes, "Id", "Numero"), "Seleccione", new { @class = "browser-default custom-select", @onchange = "GuardarModificarCuchilloEmpleadoPrestado(this.value,'R','" + item.Cedula + "',this.id,'" + @cont + "')" })
 
                         </div>

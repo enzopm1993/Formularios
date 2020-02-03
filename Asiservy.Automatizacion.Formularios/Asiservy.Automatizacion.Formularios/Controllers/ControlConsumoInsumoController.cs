@@ -86,7 +86,48 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
+        [Authorize]
+        public ActionResult ReporteControlEnvasesEnlatado()
+        {
+            try
+            {
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dataTableJS = "1";
+                //ViewBag.select2 = "1";
+                //lsUsuario = User.Identity.Name.Split('_');
+                //clsDEmpleado = new clsDEmpleado();
+                //clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                //clsDClasificador = new clsDClasificador();
+                //var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
 
+                //ViewBag.Linea = Empleado.LINEA;
+                //ViewBag.CodLinea = Empleado.CODIGOLINEA;
+              
+
+
+                
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+
+        }
         public ActionResult ControlConsumoInsumoPartial(DateTime Fecha, string LineaNegocio, string Turno)
         {
             try

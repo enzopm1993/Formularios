@@ -24,7 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlToalla
                 return db.spConsultaDetalleToalla(IdCabToalla).ToList();
             }
         }
-        public string GuardarControlToallaCab(int? Id,string Turno, DateTime? Fecha, TimeSpan? Hora, string Linea, string Observacion, string psterminal, string psusuario, string estadoRegistro)
+        public string GuardarControlToallaCab(int? Id,string Turno, DateTime? Fecha, DateTime? Hora, string Linea, string Observacion, string psterminal, string psusuario, string estadoRegistro)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -43,7 +43,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlToalla
                         //}
                         //else
                         //{
-                            Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Fecha.Value, Hora.Value.Add(new TimeSpan(0,15,0)), Linea).Where(x=>x.Turno==Turno).ToList();
+                            Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Fecha.Value, Hora.Value.TimeOfDay.Add(new TimeSpan(0,15,0)), Linea).Where(x=>x.Turno==Turno).ToList();
                         //}
 
                         //var Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Convert.ToDateTime("2020-01-10"), TimeSpan.Parse("07:00"), "05").ToList();

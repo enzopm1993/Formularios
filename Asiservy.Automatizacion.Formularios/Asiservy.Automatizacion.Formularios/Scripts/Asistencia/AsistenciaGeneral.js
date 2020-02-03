@@ -405,27 +405,35 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
 //LAST AAGREGADOS
 function ConsultarBiometrico(fila, cedula) {
     //alert("hola");
+    $('#actualizar-' + fila).prop('hidden', true);
+    $('#actualizar2-' + fila).prop('hidden', false);
     var indice = fila - 1;
     $.ajax({
         url: '../Asistencia/ConsultarBiometrico',
         type: 'POST',
         dataType: "json",
         data: {
-            Cedula: cedula
+            Cedula: cedula,
+            Fecha: $('#txtFecha').val()
         },
         success: function (resultado) {
-            if (resultado) {
-                $("#" + fila).css("background", "transparent");
+            $('#actualizar-' + fila).prop('hidden', false);
+            $('#actualizar2-' + fila).prop('hidden', true);
+            if (resultado.Marcacion && $('#ControlAsistencia_' + indice + '__Hora').val() != '' && $('#CheckAsistencia-' + fila).prop('checked') == false) {
+                $("#" + fila).css("background", "white");
                 $('#' + fila + ' :input').prop("disabled", false);
-                $('#actualizar-' + fila).hide();
+                //$('#actualizar-' + fila).hide();
                 $('#ControlAsistencia_' + indice + '__Observacion').val("");
-
+                $('#ControlAsistencia_' + indice + '__Hora').val(moment(resultado.Hora).format("hh:mm"));
             }
+            $('#ControlAsistencia_' + indice + '__EstadoAsistencia').prop('disabled', true)
 
         }
         ,
         error: function (result) {
-            Console.log(result);
+            $('#Actualizar-' + fila).prop('hidden', false);
+            $('#Actualizar2-' + fila).prop('hidden', true);
+            //Console.log(result);
             //MensajeError(result, false);
         }
     });

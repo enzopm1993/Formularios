@@ -155,6 +155,7 @@ function ConsultarDetallexIDToalla(idCabeceraToalla,fecha,turno,hora,observacion
 
             $('#spinnerCargando').prop("hidden", true);
             $('#DivDetToalla').html(resultado);
+            
             $('#DivDetToalla').show();
         },
         error: function (resultado) {

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaDetalleToalla>
 
-<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer; width:100%" id="tblDataTable2">
     <thead>
         <tr>
             <th hidden>
@@ -51,3 +51,7 @@
     </tbody>
 </table>
 
+
+<script>
+    $('#tblDataTable2').DataTable(config.opcionesDT);
+</script>

@@ -3462,6 +3462,7 @@
     <Content Include="Views\EntregaProductoTerminado\ControlConsumoTiemposMuertos.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\ControlConsumoDaniadoPartial.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\ControlConsumoMaterialPartial.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteControlEnvasesEnlatado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

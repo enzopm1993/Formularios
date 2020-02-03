@@ -114,7 +114,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult GuardarControlToalla(int? id,string Turno,DateTime Fecha,TimeSpan Hora, string Linea,string Observacion,string estadoreg)
+        public JsonResult GuardarControlToalla(int? id,string Turno,DateTime Fecha,DateTime Hora, string Linea,string Observacion,string estadoreg)
         {
             try
             {

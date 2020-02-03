@@ -126,10 +126,12 @@
                         </td>
                         <td>
                             <center>
-                                @if (item.Observacion == "No ha marcado en el biométrico")
-                                {
-                                    <img src="~/Content/images/actualizar.png" width="30" id="actualizar-@cont" height="30" style="cursor: pointer" onclick="ConsultarBiometrico('@cont','@item.Cedula')" />
-                                }
+                                @*@if (item.Observacion == "No ha marcado en el biométrico")
+        {*@
+                                @*<img src="~/Content/images/actualizar.png" width="30" id="actualizar-@cont" height="30" style="cursor: pointer" onclick="ConsultarBiometrico('@cont','@item.Cedula')" />*@
+                                <i id="actualizar-@cont" class="fas fa-sync" style="cursor: pointer; color:green" onclick="ConsultarBiometrico('@cont','@item.Cedula')"></i>
+                                <i id="actualizar2-@cont" class="fas fa-sync fa-spin" style="color:green" hidden></i>
+                                @*}*@
                             </center>
                         </td>
 

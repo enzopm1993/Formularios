@@ -15,7 +15,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public class clsDGeneral
     {
-       
+        public class Biometrico
+        {
+            public bool Marcacion { get; set; }
+            public TimeSpan? Hora { get; set; }
+        }
         public List<spConsultaCargos> ConsultaCargos(string dsCodigo)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -130,6 +134,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     return true;
                 else
                     return false;
+            }
+        }
+        public Biometrico ConsultarBiometricoxFecha(string cedula,DateTime Fecha)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+               
+                spConsultaMarcacionBiometricoxFecha resultado = db.spConsultaMarcacionBiometricoxFecha(cedula,Fecha).FirstOrDefault();
+
+                if (resultado == null)
+                {
+                    return new Biometrico { Marcacion=false,Hora=null };
+                }
+                else
+                {
+                    var respuesta= resultado.IngresoMarca == null? new Biometrico { Marcacion = false, Hora = null }:new Biometrico { Marcacion = true, Hora = resultado.IngresoMarca.Value.TimeOfDay };
+                    return respuesta;
+                    
+                }
             }
         }
 

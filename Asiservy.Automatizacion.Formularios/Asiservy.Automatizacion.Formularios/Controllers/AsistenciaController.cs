@@ -691,12 +691,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public JsonResult ConsultarBiometrico(string cedula)
+        public JsonResult ConsultarBiometrico(string cedula,DateTime Fecha)
         {
             try
             {
                 clsDGeneral = new clsDGeneral();
-                var resultado = clsDGeneral.ConsultarSiMarcoBiometrico(cedula);
+                var resultado = clsDGeneral.ConsultarBiometricoxFecha(cedula,Fecha);
                 return Json(resultado, JsonRequestBehavior.AllowGet);
 
             }
