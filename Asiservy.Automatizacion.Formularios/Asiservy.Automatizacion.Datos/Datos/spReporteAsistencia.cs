@@ -18,5 +18,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> Fecha { get; set; }
         public Nullable<System.TimeSpan> Hora { get; set; }
         public string EstadoAsistencia { get; set; }
+        public string CentroCosto { get; set; }
+        public string Recurso { get; set; }
+        public string Linea { get; set; }
+        public string Cargo { get; set; }
     }
 }

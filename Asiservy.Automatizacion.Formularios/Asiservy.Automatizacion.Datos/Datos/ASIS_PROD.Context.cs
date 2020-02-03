@@ -277,27 +277,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlEnfundadoDetalle>("spConsultaControlEnfundadoDetalle", idParameter);
         }
     
-        public virtual ObjectResult<spReporteAsistencia> spReporteAsistencia(Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin, string turno, string linea)
-        {
-            var fechaInicioParameter = fechaInicio.HasValue ?
-                new ObjectParameter("FechaInicio", fechaInicio) :
-                new ObjectParameter("FechaInicio", typeof(System.DateTime));
-    
-            var fechaFinParameter = fechaFin.HasValue ?
-                new ObjectParameter("FechaFin", fechaFin) :
-                new ObjectParameter("FechaFin", typeof(System.DateTime));
-    
-            var turnoParameter = turno != null ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(string));
-    
-            var lineaParameter = linea != null ?
-                new ObjectParameter("Linea", linea) :
-                new ObjectParameter("Linea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAsistencia>("spReporteAsistencia", fechaInicioParameter, fechaFinParameter, turnoParameter, lineaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaLimpiadorasControlHueso> spConsultaLimpiadorasControlHueso(string linea, Nullable<System.DateTime> fecha)
         {
             var lineaParameter = linea != null ?
@@ -1293,6 +1272,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IdControl", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoDetalleLata>("spConsultaConsumoDetalleLata", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spReporteAsistencia> spReporteAsistencia(Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin, string turno, string linea)
+        {
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAsistencia>("spReporteAsistencia", fechaInicioParameter, fechaFinParameter, turnoParameter, lineaParameter);
         }
     }
 }

@@ -2425,12 +2425,6 @@
           <FunctionImport Name="spConsultaControlEnfundadoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlEnfundadoDetalle)">
           <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spReporteAsistencia" ReturnType="Collection(ASIS_PRODModel.spReporteAsistencia)">
-            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
-            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
-            <Parameter Name="Turno" Mode="In" Type="String" />
-            <Parameter Name="Linea" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="MODULO" EntityType="ASIS_PRODModel.MODULO" />
           <FunctionImport Name="spConsultaLimpiadorasControlHueso" ReturnType="Collection(ASIS_PRODModel.spConsultaLimpiadorasControlHueso)">
             <Parameter Name="linea" Mode="In" Type="String" />
@@ -2857,7 +2851,13 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spConsultaConsumoDetalleLata" ReturnType="Collection(ASIS_PRODModel.spConsultaConsumoDetalleLata)">
-            <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spReporteAsistencia" ReturnType="Collection(ASIS_PRODModel.spReporteAsistencia)">
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+            <Parameter Name="Linea" Mode="In" Type="String" />
           </FunctionImport>
 
         </EntityContainer>
@@ -3297,13 +3297,6 @@
           <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
           <Property Type="Int32" Name="Fundas" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="spReporteAsistencia">
-          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
-          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
-          <Property Type="Time" Name="Hora" Nullable="true" />
-          <Property Type="String" Name="EstadoAsistencia" Nullable="true" MaxLength="1" />
         </ComplexType>
         <EntityType Name="MODULO">
           <Key>
@@ -5478,6 +5471,17 @@
           <Property Type="Int32" Name="PalletProveedor" Nullable="true" />
           <Property Type="String" Name="PalletProveedorTapa" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="spReporteAsistencia">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" />
+          <Property Type="Time" Name="Hora" Nullable="true" />
+          <Property Type="String" Name="EstadoAsistencia" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="100" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6098,17 +6102,6 @@
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Fundas" ColumnName="Fundas" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spReporteAsistencia" FunctionName="ASIS_PRODModel.Store.spReporteAsistencia">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteAsistencia">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="EstadoAsistencia" ColumnName="EstadoAsistencia" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -8377,6 +8370,21 @@
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="PalletProveedor" ColumnName="PalletProveedor" />
                 <ScalarProperty Name="PalletProveedorTapa" ColumnName="PalletProveedorTapa" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spReporteAsistencia" FunctionName="ASIS_PRODModel.Store.spReporteAsistencia">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteAsistencia">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="EstadoAsistencia" ColumnName="EstadoAsistencia" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
