@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public string CEDULA { get; set; }
         public string NOMBRES { get; set; }
-        public Nullable<System.TimeSpan> HORA { get; set; }
+        public Nullable<System.DateTime> HORA { get; set; }
         public Nullable<int> NumeroToallas { get; set; }
         public Nullable<int> TotalToallas { get; set; }
         public string Observacion { get; set; }

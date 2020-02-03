@@ -1060,23 +1060,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaReporteEmpleadosTurnos>("spConsutaReporteEmpleadosTurnos", lineaParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<spReporteControlToalla> spReporteControlToalla(Nullable<System.DateTime> fecha, string codLinea, string turno)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var codLineaParameter = codLinea != null ?
-                new ObjectParameter("CodLinea", codLinea) :
-                new ObjectParameter("CodLinea", typeof(string));
-    
-            var turnoParameter = turno != null ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlToalla>("spReporteControlToalla", fechaParameter, codLineaParameter, turnoParameter);
-        }
-    
         public virtual ObjectResult<spConsultaProductoTerminadoTiempoPara> spConsultaProductoTerminadoTiempoPara(Nullable<int> idControl)
         {
             var idControlParameter = idControl.HasValue ?
@@ -1293,6 +1276,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Linea", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAsistencia>("spReporteAsistencia", fechaInicioParameter, fechaFinParameter, turnoParameter, lineaParameter);
+        }
+    
+        public virtual ObjectResult<spReporteControlToalla> spReporteControlToalla(Nullable<System.DateTime> fecha, string codLinea, string turno)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("CodLinea", codLinea) :
+                new ObjectParameter("CodLinea", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlToalla>("spReporteControlToalla", fechaParameter, codLineaParameter, turnoParameter);
         }
     }
 }
