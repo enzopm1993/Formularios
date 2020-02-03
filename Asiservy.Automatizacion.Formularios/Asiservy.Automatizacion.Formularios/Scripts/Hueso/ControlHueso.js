@@ -11,6 +11,27 @@ function Clear(id) {
     
 }
 
+$("#btnOrden").on("click", function () {
+    $("#ModalOrdenes").modal('show');
+});
+
+$("#modal-orden-si").on("click", function () {
+    if ($("#SelectOrdenFabricacion").val() == '') {
+        $('#validaOrden').prop("hidden", false);
+        return;
+    }
+    $("#txtOrdenFabricacion").val($("#SelectOrdenFabricacion").val());
+    CargarLotes($("#SelectOrdenFabricacion").val());
+    $("#ModalOrdenes").modal('hide');
+    $('#validaOrden').prop("hidden", true);
+});
+
+$("#modal-orden-no").on("click", function () {
+    $("#ModalOrdenes").modal('hide');
+});
+
+
+
 function CargarOrdenFabricacion(valor) {
     if (valor == '' || valor == null)
         return;
@@ -31,7 +52,7 @@ function CargarOrdenFabricacion(valor) {
                     $("#SelectOrdenFabricacion").append("<option value='" + row.Orden + "'>" + row.Orden + "</option>")
                 });
             }
-            CargarControlHueso();
+          //  CargarControlHueso();
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -112,12 +133,14 @@ function NuevoControlHueso() {
     
     $('#SelectOrdenFabricacion').prop("disabled", false);
     $('#txtFechaProduccion').prop("disabled", false);
+    $("#txtOrdenFabricacion").val('');
 
     $("#SelectLote").empty();
     $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>"); 
     $("#SelectOrdenFabricacion").empty();
     $("#SelectOrdenFabricacion").append("<option value='0' >-- Seleccionar Opción--</option>"); 
     CargarOrdenFabricacion($('#txtFechaProduccion').val());
+    $("txtFechaOrden").val($("#txtFechaProduccion").val());
     CargarControlHueso();
     $("#btnGenerar").prop("hidden", false);
     $("#btnInactivar").prop("hidden", true);
@@ -240,8 +263,9 @@ function CargarControlHueso() {
             var bitacora = $('#DivTableControlHuesoDetalle');
             bitacora.html('');
             $('#btnNuevo').prop("disabled", false);
-           
-
+            CargarOrdenFabricacion($("#txtFechaProduccion").val());
+            $("#txtFechaOrden").val($("#txtFechaProduccion").val());
+            
 
         },
         error: function (resultado) {
