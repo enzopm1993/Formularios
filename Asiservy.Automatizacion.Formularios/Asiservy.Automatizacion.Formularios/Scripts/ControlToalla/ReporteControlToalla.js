@@ -36,7 +36,10 @@
             }
             //Nuevo();
             //$("#btnGuardar").prop("disabled", false);
-
+            config.opcionesDT.pageLength = 15;
+            config.opcionesDT.order = false;
+            config.opcionesDT.ordering = false;
+            $('#tblDataTable').DataTable(config.opcionesDT);
         },
         error: function (resultado) {
 

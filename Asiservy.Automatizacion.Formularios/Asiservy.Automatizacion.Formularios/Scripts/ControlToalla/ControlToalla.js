@@ -157,6 +157,11 @@ function ConsultarDetallexIDToalla(idCabeceraToalla,fecha,turno,hora,observacion
             $('#DivDetToalla').html(resultado);
             
             $('#DivDetToalla').show();
+
+            config.opcionesDT.pageLength = 15;
+            config.opcionesDT.order = false;
+            config.opcionesDT.ordering = false;
+            $('#tblDataTable2').DataTable(config.opcionesDT);
         },
         error: function (resultado) {
             $('#spinnerCargando').prop("hidden", true);
@@ -185,7 +190,10 @@ function cargarpartial() {
             $('#DivControl').html(resultado);
             //Nuevo();
             //$("#btnGuardar").prop("disabled", false);
-
+            config.opcionesDT.pageLength = 15;
+            config.opcionesDT.order = false;
+            config.opcionesDT.ordering = false;
+            $('#tblDataTable').DataTable(config.opcionesDT);
         },
         error: function (resultado) {
 

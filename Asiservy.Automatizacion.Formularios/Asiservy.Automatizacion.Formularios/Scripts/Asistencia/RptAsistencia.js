@@ -37,6 +37,7 @@ function ConsultarAsistencia() {
             Turno: $('#Turno').val()
         },
         success: function (resultado) {
+            $('#mensajeregistros').html('');
             $("#spinnerCargando").prop("hidden", true);
             $('#divRptAsistencia').html(resultado);
             if ($('#contempleados').val() == '0') {

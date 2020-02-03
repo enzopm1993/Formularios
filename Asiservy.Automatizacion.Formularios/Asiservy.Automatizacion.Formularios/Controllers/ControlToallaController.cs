@@ -64,7 +64,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ClsDControlToalla = new clsDControlToalla();
-                List<CONTROL_TOALLA> ListCabCOntrolToalla = ClsDControlToalla.ConsultarCabToalla(Fecha.Value,Linea, Turno);
+                List<CONTROL_TOALLA> ListCabCOntrolToalla = ClsDControlToalla.ConsultarCabToalla(Fecha.Value,Linea, Turno).OrderByDescending(X=>X.Hora).ToList();
                 return PartialView(ListCabCOntrolToalla);
             }
             catch (DbEntityValidationException e)
