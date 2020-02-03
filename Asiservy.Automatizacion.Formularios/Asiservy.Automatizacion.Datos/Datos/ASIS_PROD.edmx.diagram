@@ -70,9 +70,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MOVER_PERSONAL" Width="1.5" PointX="18.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" Width="1.5" PointX="24.375" PointY="5.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_TOALLA" Width="1.5" PointX="25.375" PointY="1" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_TOALLA" Width="1.5" PointX="27.625" PointY="1.25" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_POUCH" Width="1.5" PointX="13.625" PointY="29.625" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ASISTENCIA" Width="1.5" PointX="25.375" PointY="11.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ASISTENCIA" Width="1.5" PointX="20.375" PointY="0.75" />
@@ -94,13 +91,16 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO_DETALLE" Width="1.5" PointX="13.625" PointY="62.375" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ENTREGA_UNIFORME" Width="1.5" PointX="26.375" PointY="5.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_LATA" Width="1.5" PointX="13.625" PointY="42.625" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" Width="1.5" PointX="30.625" PointY="41" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PALLET" Width="1.5" PointX="5.375" PointY="26.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DANIADOS" Width="1.5" PointX="30.625" PointY="28.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_LATA" Width="1.5" PointX="13.625" PointY="66.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_TOALLA" Width="1.5" PointX="25.375" PointY="1" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_TOALLA" Width="1.5" PointX="27.625" PointY="1.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
