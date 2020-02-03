@@ -1,4 +1,12 @@
-﻿function ConsultarAsistencia() {
+﻿function Limpiar() {
+    $('#Linea').prop('selectedIndex', 0);
+    $('#Turno').prop('selectedIndex', 0);
+    
+    $('#FechaDesde').val(moment().format('YYYY-MM-DD'));
+    $('#FechaHasta').val(moment().format('YYYY-MM-DD'));
+    
+}
+function ConsultarAsistencia() {
     if ($('#FechaDesde').val() == '') {
         $('#msjerrorFecha1').show();
         return false;
@@ -35,6 +43,10 @@
                 $('#divRptAsistencia').empty();
                 $('#mensajeregistros').html('No existen Registros a Mostrar');
             }
+            config.opcionesDT.pageLength = 15;
+            config.opcionesDT.order = false;
+            config.opcionesDT.ordering = false;
+            $('#tblDataTable').DataTable(config.opcionesDT);
             //MensajeCorrecto("Registro ingresado con éxito", false);
         },
         error: function (resultado) {
