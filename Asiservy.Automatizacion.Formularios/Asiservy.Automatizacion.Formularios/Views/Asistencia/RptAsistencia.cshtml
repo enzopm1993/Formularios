@@ -1,6 +1,7 @@
 ﻿@*@model Asiservy.Automatizacion.Datos.Datos.spReporteAsistencia*@
 @{
     ViewBag.Title = "RptAsistencia";
+    var fechaactual = DateTime.Now.ToString("yyyy-MM-dd");
 }
 
 <link href="~/Content/AsistenciaCss/RptAsistencia.css" rel="stylesheet" />
@@ -11,14 +12,14 @@
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Fecha desde:</label>
-            @Html.TextBox("FechaDesde", null, new { @class = "form-control input-large", type = "date" })
+            @Html.TextBox("FechaDesde", null, new { @class = "form-control input-large", type = "date", @Value = fechaactual })
             <label id="msjerrorFecha1" class="text-danger" style="display:none">Debe seleccionar una fecha de inicio</label>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="form-group">
             <label>Fecha Hasta:</label>
-            @Html.TextBox("FechaHasta", null, new { @class = "form-control input-large", type = "date" })
+            @Html.TextBox("FechaHasta", null, new { @class = "form-control input-large", type = "date",@Value= fechaactual })
             <label id="msjerrorFecha2" class="text-danger" style="display:none">Debe seleccionar una fecha fin</label>
         </div>
     </div>

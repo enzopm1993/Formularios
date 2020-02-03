@@ -9,6 +9,10 @@ namespace Asiservy.Automatizacion.Formularios.Models.Asistencia
     {
         public string Cedula { get; set; }
         public string Nombre { get; set; }
+        public string CentroCosto { get; set; }
+        public string Recurso { get; set; }
+        public string Linea { get; set; }
+        public string Cargo { get; set; }
         #region IEquatable<ConsultaOpcionesxRolViewModel> Members
 
         public bool Equals(EmpleadoRpt other)

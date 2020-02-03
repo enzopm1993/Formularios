@@ -27,8 +27,12 @@
 <table class="table-bordered table-hover" id="tblDataTable" style="min-width:100%">
     <thead>
         <tr>
-            <th  style="border-bottom:0"></th>
-            <th style="border-bottom:0"></th>
+            <th style="border-bottom:0" class="text-center">Cédula</th>
+            <th style="border-bottom:0" class="text-center">Nombres</th>
+            <th style="border-bottom:0" class="text-center">Centro de Costos</th>
+            <th style="border-bottom:0" class="text-center">Recurso</th>
+            <th style="border-bottom:0" class="text-center">Línea</th>
+            <th style="border-bottom:0" class="text-center">Cargo</th>
             @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
             {
 
@@ -45,7 +49,11 @@
     </thead>
     <tbody>
         <tr>
-            <th  style="border-bottom:0"></th>
+            <th style="border-bottom:0; border-top:0"></th>
+            <th style="border-top:0"></th>
+            <th style="border-top:0"></th>
+            <th style="border-top:0"></th>
+            <th style="border-top:0"></th>
             <th style="border-top:0"></th>
             @{fechaInicial = (DateTime)ViewBag.FechaInicio; }
             @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
@@ -70,10 +78,14 @@
         {
            
             <tr>
-                <td>@cont</td>
+                <td>@item.Cedula</td>
                 <td>
                     @item.Nombre
                 </td>
+                <td>@item.CentroCosto</td>
+                <td>@item.Recurso</td>
+                <td>@item.Linea</td>
+                <td>@item.Cargo</td>
                 @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
                 {
                     <td class="text-center">
@@ -113,62 +125,3 @@
 
 </div>
 <input type="hidden" id="contempleados" value="@Enumerable.Count(ViewBag.Empleados)"/>
-<script>
-    $('#tblDataTable').DataTable({
-        "language": {
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
-            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sSearch": "Buscar:",
-            "sUrl": "",
-            "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst": "Primero",
-                "sLast": "Último",
-                "sNext": "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            },
-            "buttons": {
-                "pageLength": "<img style='width:100%' src='../../Content/icons/show24.png' />"
-            }
-        },
-        "ordering": false,
-        "aaSorting": [],
-        "pageLength": 10,
-        "lengthMenu": [[10, 20, -1], [10, 20, "All"]],
-        "pagingType": "full_numbers",
-        "dom": 'Bfrtip',
-        "order": [[0, "desc"], [1, "desc"]],
-        "buttons": [
-            {
-                extend: 'pageLength',
-                text: ' <img style="width:100%" src="../../Content/icons/show24.png" />',
-                titleAttr: 'Mostrar'
-            }, {
-                extend: 'copyHtml5',
-                text: ' <img style="width:100%" src="../../Content/icons/copy24.png" />',
-                titleAttr: 'Copiar'
-            },
-            {
-                extend: 'excelHtml5',
-                text: '<img style="width:100%" src="../../Content/icons/excel24.png" />',
-                titleAttr: 'Excel'
-            },
-            {
-                extend: 'print',
-                text: '<img style="width:100%" src="../../Content/icons/print24.png" />',
-                titleAttr: 'Imprimir'
-            }
-        ]
-    });
-</script>

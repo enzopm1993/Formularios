@@ -851,8 +851,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
-                clsDGeneral = new clsDGeneral();
-                ViewBag.Lineas = new SelectList(clsDGeneral.ConsultaLineas("0"), "codigo", "descripcion");
+                clsDClasificador = new clsDClasificador();
+                //ViewBag.Lineas = new SelectList(clsDGeneral.ConsultaLineas("0"), "codigo", "descripcion");
+                var Clasificador = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion);
+                Clasificador.Add(new CLASIFICADOR {Codigo="0", Descripcion="Todas" });
+                SelectList Lineas= new SelectList(Clasificador, "Codigo", "Descripcion");
+
+                ViewBag.Lineas = Lineas;
 
                 return View();
             }
@@ -883,14 +888,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.FechaInicio = FechaInicio;
                 ViewBag.FechaFinal = FechaFin;
                 clsDAsistencia = new clsDAsistencia();
-                var resultado = clsDAsistencia.ConsultarRptAsistencia(FechaInicio, FechaFin, Linea, Turno);
+                List<spReporteAsistencia> resultado = clsDAsistencia.ConsultarRptAsistencia(FechaInicio, FechaFin, Linea, Turno);
                 List<EmpleadoRpt> Empleado = new List<EmpleadoRpt>();
 
                 foreach (var item in resultado)
                 {
-                    Empleado.Add(new EmpleadoRpt { Cedula = item.Cedula, Nombre = item.NOMBRES });
+                    Empleado.Add(new EmpleadoRpt { Cedula = item.Cedula, Nombre = item.NOMBRES, CentroCosto=item.CentroCosto,Recurso=item.Recurso,Linea =item.Linea,Cargo=item.Cargo });
                 }
-                ViewBag.Empleados = Empleado.Distinct().OrderBy(z => z.Nombre);
+                ViewBag.Empleados = Empleado.Distinct().OrderBy(z => z.Linea).ThenBy(x=>x.Nombre);
                 return PartialView(resultado);
             }
             catch (Exception ex)
