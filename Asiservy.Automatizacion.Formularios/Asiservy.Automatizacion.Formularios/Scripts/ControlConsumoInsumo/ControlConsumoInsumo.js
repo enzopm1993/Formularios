@@ -60,11 +60,12 @@ function CargarDatosOrdenFabricacion() {
 }
 
 function CargarOrdenFabricacion() {
-    valor = $("#txtFecha").val();   
-    if (valor == '' || valor == null)
-        return;
     $("#txtOrdenFabricacion").empty();
     $("#txtOrdenFabricacion").append("<option value='' >-- Seleccionar Opción--</option>");
+    valor = $("#txtFechaProduccion").val();   
+    if (valor == '' || valor == null)
+        return;
+   
     $.ajax({
         url: "../ControlConsumoInsumo/ConsultarOrdenesFabricacion",
         type: "GET",
@@ -77,7 +78,7 @@ function CargarOrdenFabricacion() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Faltan Parametros");
+                MensajeAdvertencia("No existen ordenes para esa fecha");
                 return;
             }
            // LimpiarDetalle();
@@ -119,7 +120,7 @@ function CargarControlConsumo() {
  
     $("#spinnerCargando").prop("hidden", false);
     $("#chartCabecera2").html('');
-    CargarOrdenFabricacion();
+    //CargarOrdenFabricacion();
     $.ajax({
         url: "../ControlConsumoInsumo/ControlConsumoInsumoPartial",
         type: "GET",
@@ -582,6 +583,8 @@ function SeleccionarControlDetalleConsumo(model) {
     $("#btnModalGenerar").prop("hidden", true);
     $("#btnModalEditar").prop("hidden", false);
     $("#txtFecha").prop("disabled", true);
+    $("#txtFechaProduccion").prop("disabled", true);
+    $("#selectTurno").prop("disabled", true);
     
     $("#divCabecera2").prop("hidden", true);
     $("#divDetalleProceso").prop("hidden", false);
@@ -599,6 +602,15 @@ function SeleccionarControlDetalleConsumo(model) {
 }
 
 function CargarProcesoDetalleEnlatado() {
+
+    if ($("#selectTipoProceso").val() == "T") {
+        $("#txtProveedor").prop("hidden", true);
+        $("#txtProveedorTapa").prop("hidden", false);
+    }
+    else {
+        $("#txtProveedor").prop("hidden", false);
+        $("#txtProveedorTapa").prop("hidden", true);
+    }
     $("#spinnerCargandoDetalle").prop("hidden", false);
     $("#divTableDetalle").html('');
     $.ajax({
@@ -635,6 +647,7 @@ function CargarProcesoDetalleEnlatado() {
 function AtrasControlPrincipal() {
     $("#btnModalGenerar").prop("hidden", false);
     $("#txtFecha").prop("disabled", false);
+    $("#txtFechaProduccion").prop("disabled", false);
     $("#selectTurno").prop("disabled", false);
     $("#btnAtras").prop("hidden", true);
     $("#btnModalEliminar").prop("hidden", true);
@@ -648,11 +661,7 @@ function AtrasControlPrincipal() {
 }
 
 function ModalGenerarControlDetalle() {    
-    $("#txtIdControlDetalleProceso").val('0');
-    $("#txtPallet").val('');
-    $("#txtLote").val('');
-    $("#txtBulto").val('');
-    $("#txtFechaFabricacion").val('');
+    NuevoProcesoDetalle();
     $("#ModalGenerarControlDetalle").modal("show");
 }
 
@@ -748,7 +757,9 @@ function GuardarConsumoEnlatado() {
             Lotes: $("#txtLote").val(),
             Bultos: $("#txtBulto").val(),
             FechaFabricacion: $("#txtFechaFabricacion").val(),
-            Tipo: $("#selectTipoProceso").val()
+            Tipo: $("#selectTipoProceso").val(),
+            PalletProveedor:$("#txtProveedor").val(),
+            PalletProveedorTapa: $("#txtProveedorTapa").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -758,6 +769,7 @@ function GuardarConsumoEnlatado() {
                 $("#divDetalleProceso").html("No existen registros");              
             }
             CargarProcesoDetalleEnlatado();
+            NuevoProcesoDetalle();
             $("#ModalGenerarControlDetalle").modal("hide");
            // MensajeCorrecto("Registro Guardado Correctamente");           
         },
@@ -774,7 +786,9 @@ function NuevoProcesoDetalle() {
     $("#txtPallet").val('0');
     $("#txtLote").val('0');
     $("#txtBulto").val('0');
-    $("#txtFechaFabricacion").val(model.FechaFabricacion);
+    $("#txtFechaFabricacion").val('');
+    $("#txtProveedor").val('')
+    $("#txtProveedorTapa").prop("selectedIndex", 0);
 }
 
 function EditarProcesoDetalle(model) {
@@ -784,7 +798,8 @@ function EditarProcesoDetalle(model) {
     $("#txtLote").val(model.Lotes);
     $("#txtBulto").val(model.Bultos);
     $("#txtFechaFabricacion").val(moment(model.FechaFabricacion).format("YYYY-MM-DD"));
-
+    $("#txtProveedor").val(model.PalletProveedor);
+    $("#txtPalletProveedorTapa").val(model.PalletProveedorTapa);
     $("#ModalGenerarControlDetalle").modal("show");
     //ModalGenerarControlDetalle();
 }

@@ -13,13 +13,19 @@
 @ViewBag.Linea
 <hr />
 <div class="row" id="divCabecera1">
-    <div class="col-md-4 col-6 col-sm-6">
+    <div class="col-md-3 col-6 col-sm-6">
         <div class="form-group">
             <label>Fecha</label>
             <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarControlConsumo()" id="txtFecha" class="form-control" />
         </div>
     </div>
-    <div class="col-md-4 col-6 col-sm-6">
+    <div class="col-md-3 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Fecha Orden Fabricación</label>
+            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarOrdenFabricacion()" id="txtFechaProduccion" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-3 col-6 col-sm-6">
         <div class="form-group">
             <label>Turno</label>
             <select class="form-control" id="selectTurno" onchange="CargarControlConsumo()">
@@ -29,7 +35,7 @@
             </select>
         </div>
     </div>
-    <div class="col-md-4 col-12  text-md-left text-center">
+    <div class="col-md-3 col-12  text-md-left text-center">
         <label class="">Acciones</label>
 
         <div class="form-group">
@@ -595,7 +601,18 @@
                         <label>Fecha Fabricación</label>
                         <input type="date" id="txtFechaFabricacion" class="form-control" name="name" value="" />
                     </div>
+                    @if (ViewBag.LineaNegocio == "ENLATADO")
+                    {
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <label>Pallet Proveedor</label>                        
+                        @Html.DropDownList("txtProveedor", (IEnumerable<SelectListItem>)ViewBag.Proveedores, "Seleccione",new {@class="form-control"})
+                        <input hidden type="text" size="50" id="txtProveedorTapa" class="form-control" name="name" value="" />
+                    </div>
+
+                       
+                    }
                 </div>
+
 
             </div>
             <div class="modal-footer">

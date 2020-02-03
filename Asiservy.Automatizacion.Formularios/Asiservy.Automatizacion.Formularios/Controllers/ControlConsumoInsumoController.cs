@@ -58,10 +58,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 else
                 {
+                    clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
                     ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoDaniadoLata);
                     ViewBag.LineaNegocio = "ENLATADO";
                     ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaAutoclave(DateTime.Now).Where(x => x.LineaNegocio == clsAtributos.LineaNegocioEnlatado).ToList();
-
+                    ViewBag.Proveedores = clsDControlConsumoInsumo.ConsultarPalletsCombo();
                 }
                 return View();
             }
