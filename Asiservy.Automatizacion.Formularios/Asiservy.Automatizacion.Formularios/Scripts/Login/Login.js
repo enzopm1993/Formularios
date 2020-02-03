@@ -1,4 +1,9 @@
-﻿$(document).keypress(function (e) {
+﻿var BD = [];
+$(document).ready(function (){
+    ConsultaDB();
+});
+
+$(document).keypress(function (e) {
     if (e.keyCode == 13) {
         $('#btnIngresar').click();
     }
@@ -63,3 +68,28 @@ $("#btnIngresar").on("click", function () {
         }
     });
 });
+
+
+function ConsultaDB()
+{
+    $("#selectBD").empty();
+    $("#selectBD").append("<option value='' >-- Cambiar de Ambiente--</option>");
+    $.ajax({
+         type: "GET",
+        url: "../Login/ConsultarBD",        
+        success: function (resultado) {
+            BD = resultado;
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#selectBD").append("<option value='" + row.Descripcion + "'>" + row.Mensaje + "</option>")
+                });
+            }
+        }
+    });
+}
+
+function CambiarAmbienteDB(value) {
+    if (value != "") {
+        window.location.replace(value);
+    }
+}

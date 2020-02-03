@@ -42,7 +42,16 @@
             color: aliceblue;
             text-decoration: none;
         }
-    </style>
+        select {
+            background: transparent;
+            border: groove;
+            font-size: 14px;
+            height: 30px;
+            padding: 5px;
+            width: 250px;
+            /*color: aliceblue;*/
+        }
+    </style>   
     <div class="container relative1">
         <div class="absolute1" hidden id="response">
         </div>
@@ -50,7 +59,7 @@
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
-                    <h3>Iniciar Sesión</h3>
+                    <h3>@ViewBag.BD</h3>
                 </div>
                 <div class="card-body">
                     <form>
@@ -60,7 +69,7 @@
                                     <img style="border-radius:20px; background:#ffffff; width:80%" src="~/Content/icons/user32.png" />
                                 </span>
                             </div>
-                            <input id="txtUsuario" style="text-transform:uppercase" onkeypress = "return sololetras(event)" type="text" class="form-control" placeholder="Usuario">
+                            <input id="txtUsuario" style="text-transform:uppercase" onkeypress="return sololetras(event)" type="text" class="form-control" placeholder="Usuario">
 
                         </div>
                         <div class="input-group form-group">
@@ -74,8 +83,8 @@
                             <input id="txtPassword" type="password" class="form-control" placeholder="Contraseña">
                         </div>
                         @*<div class="row align-items-center remember">
-                                <input type="checkbox">Remember Me
-                            </div>*@
+            <input type="checkbox">Remember Me
+        </div>*@
                         <div class="form-group text-center">
                             <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn btn-outline-light" id="btnNuevo" onclick="Nuevo()" style="border-color:#2c3e50" type="button">
                                 <i class="fas fa-broom"> Limpiar</i>
@@ -91,18 +100,25 @@
                             </button>
                         </div>
                        
+                        <div class="row">
+                            <div class="text-center col-12 col-md-12 col-sm-12">
+                                <select class="" id="selectBD" onchange="CambiarAmbienteDB(this.value)"></select>
+                            </div>
+                        </div>
+
+
                     </form>
                 </div>
                 <div class="card-footer text-center">
-
-                    <img style="width:70%" src="~/Content/images/logo1.png" />
+                    <img style="width:70%" src="~/Content/images/logo1.png" />                   
                 </div>
+               
             </div>
         </div>
     </div>
 
     <!-- Modal -->
-   
+
 </body>
 </html>
 

@@ -58,8 +58,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 Notificaciones(Roles);
                 //  string strConnString = ConfigurationManager.ConnectionStrings["ASIS_PRODEntities"].ConnectionString;
                 clsDGeneral = new clsDGeneral();
-                ViewBag.BaseDatos = clsDGeneral.getDataBase();
-
+               // ViewBag.BaseDatos = clsDGeneral.getDataBase();
+                var BD = clsDGeneral.getDataBase();
+                if (BD == clsAtributos.DesarrolloBD)
+                {
+                    Session["BaseDatos"] = "Desarrollo";
+                }
+                if (BD == clsAtributos.PreProduccionBD)
+                {
+                    Session["BaseDatos"] = "Demo";
+                }
+                if (BD == clsAtributos.ProduccionBD)
+                {
+                    Session["BaseDatos"] = "Produccion";
+                }
                 return View();
 
             }

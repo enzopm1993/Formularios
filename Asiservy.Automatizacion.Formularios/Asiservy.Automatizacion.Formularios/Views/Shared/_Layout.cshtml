@@ -131,10 +131,11 @@
             <div id="content">
                 @if (User.Identity.IsAuthenticated)
                 {
-             
+
                     <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <h5>@ViewBag.BaseDatos</h5>
+                    @{string BD = (string)Session["BaseDatos"];}
+                    <h5 class="text-center text-primary"><b>@BD</b></h5>
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>

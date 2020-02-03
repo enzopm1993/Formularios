@@ -27,5 +27,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public string Tipo { get; set; }
+        public Nullable<int> PalletProveedor { get; set; }
+        public string PalletProveedorTapa { get; set; }
     }
 }

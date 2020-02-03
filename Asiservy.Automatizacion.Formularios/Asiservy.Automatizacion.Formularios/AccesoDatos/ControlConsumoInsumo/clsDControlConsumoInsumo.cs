@@ -215,6 +215,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                     result.Lotes = control.Lotes;
                     result.Pallet = control.Pallet;
                     result.Bultos = control.Bultos;
+                    result.PalletProveedor = control.PalletProveedor;
+                    result.PalletProveedorTapa = control.PalletProveedorTapa;
                     result.FechaFabricacion = control.FechaFabricacion;
                     result.UsuarioModificacionLog = control.UsuarioIngresoLog;
                     result.FechaModificacionLog = DateTime.Now;
