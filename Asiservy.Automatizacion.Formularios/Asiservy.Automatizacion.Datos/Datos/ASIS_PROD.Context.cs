@@ -79,8 +79,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_MIGA> CONTROL_MIGA { get; set; }
         public virtual DbSet<MOVER_PERSONAL> MOVER_PERSONAL { get; set; }
         public virtual DbSet<CAMBIO_PERSONAL> CAMBIO_PERSONAL { get; set; }
-        public virtual DbSet<CONTROL_TOALLA> CONTROL_TOALLA { get; set; }
-        public virtual DbSet<DETALLE_CONTROL_TOALLA> DETALLE_CONTROL_TOALLA { get; set; }
         public virtual DbSet<CONSUMO_DETALLE_POUCH> CONSUMO_DETALLE_POUCH { get; set; }
         public virtual DbSet<ASISTENCIA> ASISTENCIA { get; set; }
         public virtual DbSet<CONTROL_ASISTENCIA> CONTROL_ASISTENCIA { get; set; }
@@ -98,6 +96,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<PALLET> PALLET { get; set; }
         public virtual DbSet<PRODUCTO_TERMINADO_DANIADOS> PRODUCTO_TERMINADO_DANIADOS { get; set; }
         public virtual DbSet<CONSUMO_DETALLE_LATA> CONSUMO_DETALLE_LATA { get; set; }
+        public virtual DbSet<CONTROL_TOALLA> CONTROL_TOALLA { get; set; }
+        public virtual DbSet<DETALLE_CONTROL_TOALLA> DETALLE_CONTROL_TOALLA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1280,6 +1280,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("FechaHasta", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaSolcitudesPermisos>("spConsultaSolcitudesPermisos", lineaParameter, areaParameter, estadoParameter, garitaParameter, fechaDesdeParameter, fechaHastaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaMarcacionBiometricoxFecha> spConsultaMarcacionBiometricoxFecha(string cedula, Nullable<System.DateTime> fecha)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMarcacionBiometricoxFecha>("spConsultaMarcacionBiometricoxFecha", cedulaParameter, fechaParameter);
         }
     }
 }

@@ -396,6 +396,9 @@
     <Compile Include="Datos\spConsultaLineaXRecursoyCentroCosto.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaMarcacionBiometricoxFecha.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultaMovimientoPersonalDiario.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
