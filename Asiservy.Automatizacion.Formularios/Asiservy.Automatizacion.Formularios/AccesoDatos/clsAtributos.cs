@@ -7,6 +7,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public static class clsAtributos
     {
+        //BASES DE DATOS
+        public static string DesarrolloBD = "ASIS_DESARROLLO"; 
+        public static string PreProduccionBD = "ASIS_PRE_PROD"; 
+        public static string ProduccionBD = "ASISERVY_PROD";
+
         //Mensajes de sistemas
         public static string MsjRegistroGuardado = "Registro Guardado Correctamente";
         public static string MsjRegistroError = "Registro no pudo ser Grabado";
