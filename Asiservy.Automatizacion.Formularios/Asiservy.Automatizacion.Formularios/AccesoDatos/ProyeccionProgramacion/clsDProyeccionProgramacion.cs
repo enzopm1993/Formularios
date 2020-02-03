@@ -54,7 +54,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var pro = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == fecha);
+                var pro = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == fecha && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
 
                 List<spConsultaProyeccionProgramacion> Listado = new List<spConsultaProyeccionProgramacion>();
                 if(pro!=null)
