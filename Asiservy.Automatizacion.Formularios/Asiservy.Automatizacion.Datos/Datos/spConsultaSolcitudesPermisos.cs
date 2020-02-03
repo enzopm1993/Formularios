@@ -36,5 +36,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public string Origen { get; set; }
     }
 }
