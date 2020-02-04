@@ -849,12 +849,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.Select2 = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 clsDClasificador = new clsDClasificador();
                 //ViewBag.Lineas = new SelectList(clsDGeneral.ConsultaLineas("0"), "codigo", "descripcion");
                 var Clasificador = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion);
-                Clasificador.Add(new CLASIFICADOR {Codigo="0", Descripcion="Todas" });
+                Clasificador.Add(new CLASIFICADOR {Codigo="0", Descripcion="TODAS" });
                 SelectList Lineas= new SelectList(Clasificador, "Codigo", "Descripcion");
 
                 ViewBag.Lineas = Lineas;

@@ -129,6 +129,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
+       
+
         public ActionResult ControlConsumoInsumoPartial(DateTime Fecha, string LineaNegocio, string Turno)
         {
             try

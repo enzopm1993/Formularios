@@ -1,4 +1,11 @@
-﻿function Limpiar() {
+﻿$(document).ready(function () {
+ 
+    $("#Linea").select2({
+        width: '100%' // need to override the changed default
+    });
+
+});
+function Limpiar() {
     $('#Linea').prop('selectedIndex', 0);
     $('#Turno').prop('selectedIndex', 0);
     
