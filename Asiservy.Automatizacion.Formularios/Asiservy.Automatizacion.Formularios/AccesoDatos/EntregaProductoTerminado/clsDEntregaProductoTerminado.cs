@@ -285,6 +285,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
             }
         }
 
+        public void AprobarEntregaProductoTerminado(int IdControl)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var model = entities.PRODUCTO_TERMINADO.FirstOrDefault(x => x.IdProductoTerminado == IdControl);
+                if (model != null)
+                {
+                    model.EstadoReporte = true;
+                    entities.SaveChanges();
+                }
+            }
+        }
+
 
         #endregion
     }
