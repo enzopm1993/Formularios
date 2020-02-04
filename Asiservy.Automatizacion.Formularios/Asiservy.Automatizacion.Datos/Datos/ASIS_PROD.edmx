@@ -2863,7 +2863,7 @@
           <FunctionImport Name="spConsultaProductoTerminadoBandejaCC" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminadoBandejaCC)">
           <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="spReporteCambioPersonal" ReturnType="Collection(ASIS_PRODModel.spReporteCambioPersonal_Result)">
+          <FunctionImport Name="spReporteCambioPersonal" ReturnType="Collection(ASIS_PRODModel.spReporteCambioPersonal)">
             <Parameter Name="CodLinea" Mode="In" Type="String" />
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
@@ -5493,7 +5493,7 @@
           <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
           <Property Type="Boolean" Name="EstadoReporte" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="spReporteCambioPersonal_Result">
+        <ComplexType Name="spReporteCambioPersonal">
           <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
           <Property Type="String" Name="CentroCostosOrigen" Nullable="true" MaxLength="100" />
@@ -8425,7 +8425,7 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spReporteCambioPersonal" FunctionName="ASIS_PRODModel.Store.spReporteCambioPersonal">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteCambioPersonal_Result">
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteCambioPersonal">
                 <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
                 <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
                 <ScalarProperty Name="CentroCostosOrigen" ColumnName="CentroCostosOrigen" />

@@ -11,7 +11,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spReporteCambioPersonal_Result
+    public partial class spReporteCambioPersonal
     {
         public string CEDULA { get; set; }
         public string NOMBRES { get; set; }
