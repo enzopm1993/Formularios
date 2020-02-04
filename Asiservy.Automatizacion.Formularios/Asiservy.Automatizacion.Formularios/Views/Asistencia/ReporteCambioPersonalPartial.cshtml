@@ -41,6 +41,10 @@
             </th>
             <th>Fecha Regreso</th>
             <th>Hora Regreso</th>
+            <th>Usuario Creación</th>
+            <th>Usuario Modificación</th>
+            <th>Fecha Creación</th>
+            <th>Fecha Modificación</th>
         </tr>
     </thead>
     <tbody>
@@ -96,6 +100,10 @@
                 <td>
                     @item.HoraRegreso
                 </td>
+                <td>@item.UsuarioIngresoLog</td>
+                <td>@item.UsuarioModificacionLog</td>
+                <td>@item.FechaIngresoLog</td>
+                <td>@item.FechaModificacionLog</td>
             </tr>
         }
     </tbody>
