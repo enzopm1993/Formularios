@@ -73,7 +73,7 @@ function CargarOrdenFabricacion() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Faltan Parametros");
+                MensajeAdvertencia("No existe ordenes de fabricación para esta fecha");
                 return;
             }
             // LimpiarDetalle();

@@ -1115,6 +1115,7 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="EstadoReporte" Type="bit" />
         </EntityType>
         <EntityType Name="PRODUCTO_TERMINADO_DANIADOS">
           <Key>
@@ -1610,6 +1611,7 @@
           <Parameter Name="codLinea" Type="varchar" Mode="In" />
           <Parameter Name="Turno" Type="int" Mode="In" />
           <Parameter Name="Fecha" Type="date" Mode="In" />
+          <Parameter Name="Hora" Type="time" Mode="In" />
         </Function>
         <Function Name="sp_ConsultaAsistenciaGeneralDiaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codLinea" Type="varchar" Mode="In" />
@@ -1812,6 +1814,9 @@
         <Function Name="spConsultaProductoTerminado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spConsultaProductoTerminadoBandejaCC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="date" Mode="In" />
         </Function>
         <Function Name="spConsultaProductoTerminadoDaniados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdControl" Type="int" Mode="In" />
@@ -2686,11 +2691,6 @@
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="HORA" Mode="In" Type="Time" />
           </FunctionImport>
-          <FunctionImport Name="sp_ConsultaAsistenciaDiariaPersonalMovido" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido)">
-            <Parameter Name="codLinea" Mode="In" Type="String" />
-            <Parameter Name="Turno" Mode="In" Type="Int32" />
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <EntitySet Name="CONSUMO_DETALLE_DANIADO" EntityType="ASIS_PRODModel.CONSUMO_DETALLE_DANIADO" />
           <FunctionImport Name="spConsultaConsumoEnvasesFundas" ReturnType="Collection(ASIS_PRODModel.spConsultaConsumoEnvasesFundas)">
             <Parameter Name="IdControl" Mode="In" Type="Int32" />
@@ -2747,17 +2747,8 @@
             <Parameter Name="linea" Mode="In" Type="String" />
             <Parameter Name="turno" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="PRODUCTO_TERMINADO" EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO" />
           <EntitySet Name="PRODUCTO_TERMINADO_MATERIALES" EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_MATERIALES" />
           <EntitySet Name="PRODUCTO_TERMINADO_TIEMPO_PARADAS" EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_TIEMPO_PARADAS" />
-          <AssociationSet Name="FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO" Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO">
-            <End Role="PRODUCTO_TERMINADO" EntitySet="PRODUCTO_TERMINADO" />
-            <End Role="PRODUCTO_TERMINADO_MATERIALES" EntitySet="PRODUCTO_TERMINADO_MATERIALES" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO" Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO">
-            <End Role="PRODUCTO_TERMINADO" EntitySet="PRODUCTO_TERMINADO" />
-            <End Role="PRODUCTO_TERMINADO_TIEMPO_PARADAS" EntitySet="PRODUCTO_TERMINADO_TIEMPO_PARADAS" />
-          </AssociationSet>
           <FunctionImport Name="spConsultaProductoTerminadoTiempoPara" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminadoTiempoPara)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -2779,10 +2770,6 @@
           <FunctionImport Name="spConsultaUniformeEntregar" ReturnType="Collection(ASIS_PRODModel.spConsultaUniformeEntregar)">
           <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaProductoTerminado" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminado)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="linea" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaDistribucionPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaDistribucionPorLinea)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
@@ -2801,16 +2788,8 @@
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="PRODUCTO_TERMINADO_DETALLE" EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" />
-          <AssociationSet Name="FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE">
-            <End Role="PRODUCTO_TERMINADO" EntitySet="PRODUCTO_TERMINADO" />
-            <End Role="PRODUCTO_TERMINADO_DETALLE" EntitySet="PRODUCTO_TERMINADO_DETALLE" />
-          </AssociationSet>
           <EntitySet Name="PALLET" EntityType="ASIS_PRODModel.PALLET" />
           <EntitySet Name="PRODUCTO_TERMINADO_DANIADOS" EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_DANIADOS" />
-          <AssociationSet Name="FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO" Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO">
-            <End Role="PRODUCTO_TERMINADO" EntitySet="PRODUCTO_TERMINADO" />
-            <End Role="PRODUCTO_TERMINADO_DANIADOS" EntitySet="PRODUCTO_TERMINADO_DANIADOS" />
-          </AssociationSet>
           <FunctionImport Name="spConsultaProductoTerminadoDaniados" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminadoDaniados)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -2848,19 +2827,48 @@
           <FunctionImport Name="spConsultaConsumoDetalleLata" ReturnType="Collection(ASIS_PRODModel.spConsultaConsumoDetalleLata)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spReporteControlToalla" ReturnType="Collection(ASIS_PRODModel.spReporteControlToalla)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="CodLinea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="PRODUCTO_TERMINADO" EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO" />
+          <AssociationSet Name="FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO" Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO">
+            <End Role="PRODUCTO_TERMINADO" EntitySet="PRODUCTO_TERMINADO" />
+            <End Role="PRODUCTO_TERMINADO_DANIADOS" EntitySet="PRODUCTO_TERMINADO_DANIADOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE">
+            <End Role="PRODUCTO_TERMINADO" EntitySet="PRODUCTO_TERMINADO" />
+            <End Role="PRODUCTO_TERMINADO_DETALLE" EntitySet="PRODUCTO_TERMINADO_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO" Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO">
+            <End Role="PRODUCTO_TERMINADO" EntitySet="PRODUCTO_TERMINADO" />
+            <End Role="PRODUCTO_TERMINADO_MATERIALES" EntitySet="PRODUCTO_TERMINADO_MATERIALES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO" Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO">
+            <End Role="PRODUCTO_TERMINADO" EntitySet="PRODUCTO_TERMINADO" />
+            <End Role="PRODUCTO_TERMINADO_TIEMPO_PARADAS" EntitySet="PRODUCTO_TERMINADO_TIEMPO_PARADAS" />
+          </AssociationSet>
+          <FunctionImport Name="sp_ConsultaAsistenciaDiariaPersonalMovido" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido)">
+            <Parameter Name="codLinea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="Int32" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Hora" Mode="In" Type="Time" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaProductoTerminado" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminado)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="spReporteAsistencia" ReturnType="Collection(ASIS_PRODModel.spReporteAsistencia)">
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
             <Parameter Name="Turno" Mode="In" Type="String" />
             <Parameter Name="Linea" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spReporteControlToalla" ReturnType="Collection(ASIS_PRODModel.spReporteControlToalla)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="CodLinea" Mode="In" Type="String" />
-            <Parameter Name="Turno" Mode="In" Type="String" />
+          <FunctionImport Name="spConsultaProductoTerminadoBandejaCC" ReturnType="Collection(ASIS_PRODModel.spConsultaProductoTerminadoBandejaCC)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
-
-        </EntityContainer>
+          </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
@@ -4633,29 +4641,6 @@
           <Property Type="String" Name="Recurso" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="Cargo" Nullable="true" MaxLength="30" />
         </ComplexType>
-        <ComplexType Name="sp_ConsultaAsistenciaDiariaPersonalMovido">
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="IdAsistencia" Nullable="true" />
-          <Property Type="Int32" Name="Bloquear" Nullable="true" />
-          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="EstadoAsistencia" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
-          <Property Type="Time" Name="Hora" Nullable="true" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="Linea" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaCreacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioCreacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalCreacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="Time" Name="HoraSalida" Nullable="true" />
-          <Property Type="String" Name="CentroCostos" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="30" />
-        </ComplexType>
         <EntityType Name="CONSUMO_DETALLE_DANIADO">
           <Key>
             <PropertyRef Name="IdConsumoDetalleDaniado" />
@@ -4938,36 +4923,6 @@
           <Property Type="String" Name="TURNO" Nullable="true" MaxLength="1" />
           <Property Type="Boolean" Name="PRESTADO" Nullable="true" />
         </ComplexType>
-        <EntityType Name="PRODUCTO_TERMINADO">
-          <Key>
-            <PropertyRef Name="IdProductoTerminado" />
-          </Key>
-          <Property Name="IdProductoTerminado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FechaPaletizado" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="FechaProduccion" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="FechaVencimiento" Type="DateTime" Precision="0" />
-          <Property Name="CodigoSap" Type="Int32" Nullable="false" />
-          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
-          <Property Name="OrdenVenta" Type="Int32" Nullable="false" />
-          <Property Name="Producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoProducto" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="Cliente" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Etiqueta" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="LineaNegocio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Linea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PRODUCTO_TERMINADO_MATERIALES" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO" FromRole="PRODUCTO_TERMINADO" ToRole="PRODUCTO_TERMINADO_MATERIALES" />
-          <NavigationProperty Name="PRODUCTO_TERMINADO_TIEMPO_PARADAS" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO" FromRole="PRODUCTO_TERMINADO" ToRole="PRODUCTO_TERMINADO_TIEMPO_PARADAS" />
-          <NavigationProperty Name="PRODUCTO_TERMINADO_DETALLE" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" FromRole="PRODUCTO_TERMINADO" ToRole="PRODUCTO_TERMINADO_DETALLE" />
-          <NavigationProperty Name="PRODUCTO_TERMINADO_DANIADOS" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO" FromRole="PRODUCTO_TERMINADO" ToRole="PRODUCTO_TERMINADO_DANIADOS" />
-        </EntityType>
         <EntityType Name="PRODUCTO_TERMINADO_MATERIALES">
           <Key>
             <PropertyRef Name="IdMateriales" />
@@ -5005,30 +4960,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PRODUCTO_TERMINADO" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO" FromRole="PRODUCTO_TERMINADO_TIEMPO_PARADAS" ToRole="PRODUCTO_TERMINADO" />
         </EntityType>
-        <Association Name="FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO">
-          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO" Role="PRODUCTO_TERMINADO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO_MATERIALES" Role="PRODUCTO_TERMINADO_MATERIALES" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCTO_TERMINADO">
-              <PropertyRef Name="IdProductoTerminado" />
-            </Principal>
-            <Dependent Role="PRODUCTO_TERMINADO_MATERIALES">
-              <PropertyRef Name="IdProductoTerminado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO">
-          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO" Role="PRODUCTO_TERMINADO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO_TIEMPO_PARADAS" Role="PRODUCTO_TERMINADO_TIEMPO_PARADAS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCTO_TERMINADO">
-              <PropertyRef Name="IdProductoTerminado" />
-            </Principal>
-            <Dependent Role="PRODUCTO_TERMINADO_TIEMPO_PARADAS">
-              <PropertyRef Name="IdProductoTerminado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spConsultaProductoTerminadoTiempoPara">
           <Property Type="Int32" Name="IdTiempoParada" Nullable="false" />
           <Property Type="Int32" Name="IdProductoTerminado" Nullable="false" />
@@ -5122,22 +5053,6 @@
           <Property Type="Time" Name="HoraEntregada" Nullable="true" />
           <Property Type="Boolean" Name="EstadoEntrega" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="spConsultaProductoTerminado">
-          <Property Type="Int32" Name="IdProductoTerminado" Nullable="false" />
-          <Property Type="DateTime" Name="FechaPaletizado" Nullable="false" />
-          <Property Type="DateTime" Name="FechaProduccion" Nullable="false" />
-          <Property Type="DateTime" Name="FechaVencimiento" Nullable="true" />
-          <Property Type="Int32" Name="CodigoSap" Nullable="false" />
-          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
-          <Property Type="Int32" Name="OrdenVenta" Nullable="false" />
-          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodigoProducto" Nullable="true" MaxLength="12" />
-          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Etiqueta" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="LineaNegocio" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <ComplexType Name="spConsultaDistribucionPorLinea">
           <Property Type="String" Name="Cargo" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="PuestoTrabajo" Nullable="true" MaxLength="50" />
@@ -5216,18 +5131,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PRODUCTO_TERMINADO" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" FromRole="PRODUCTO_TERMINADO_DETALLE" ToRole="PRODUCTO_TERMINADO" />
         </EntityType>
-        <Association Name="FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE">
-          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO" Role="PRODUCTO_TERMINADO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" Role="PRODUCTO_TERMINADO_DETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCTO_TERMINADO">
-              <PropertyRef Name="IdProductoTerminado" />
-            </Principal>
-            <Dependent Role="PRODUCTO_TERMINADO_DETALLE">
-              <PropertyRef Name="IdProductoTerminado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="PALLET">
           <Key>
             <PropertyRef Name="IdPallet" />
@@ -5263,18 +5166,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PRODUCTO_TERMINADO" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO" FromRole="PRODUCTO_TERMINADO_DANIADOS" ToRole="PRODUCTO_TERMINADO" />
         </EntityType>
-        <Association Name="FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO">
-          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO" Role="PRODUCTO_TERMINADO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO_DANIADOS" Role="PRODUCTO_TERMINADO_DANIADOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PRODUCTO_TERMINADO">
-              <PropertyRef Name="IdProductoTerminado" />
-            </Principal>
-            <Dependent Role="PRODUCTO_TERMINADO_DANIADOS">
-              <PropertyRef Name="IdProductoTerminado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spConsultaProductoTerminadoDaniados">
           <Property Type="Int32" Name="IdProductosDaniados" Nullable="false" />
           <Property Type="Int32" Name="IdProductoTerminado" Nullable="false" />
@@ -5463,6 +5354,133 @@
           <Property Type="Int32" Name="PalletProveedor" Nullable="true" />
           <Property Type="String" Name="PalletProveedorTapa" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="spReporteControlToalla">
+          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="DateTime" Name="HORA" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="NumeroToallas" Nullable="true" />
+          <Property Type="Int32" Name="TotalToallas" Nullable="true" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <EntityType Name="PRODUCTO_TERMINADO">
+          <Key>
+            <PropertyRef Name="IdProductoTerminado" />
+          </Key>
+          <Property Name="IdProductoTerminado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaPaletizado" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaProduccion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaVencimiento" Type="DateTime" Precision="0" />
+          <Property Name="CodigoSap" Type="Int32" Nullable="false" />
+          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
+          <Property Name="OrdenVenta" Type="Int32" Nullable="false" />
+          <Property Name="Producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoProducto" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Cliente" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Etiqueta" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LineaNegocio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Linea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoReporte" Type="Boolean" />
+          <NavigationProperty Name="PRODUCTO_TERMINADO_DANIADOS" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO" FromRole="PRODUCTO_TERMINADO" ToRole="PRODUCTO_TERMINADO_DANIADOS" />
+          <NavigationProperty Name="PRODUCTO_TERMINADO_DETALLE" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" FromRole="PRODUCTO_TERMINADO" ToRole="PRODUCTO_TERMINADO_DETALLE" />
+          <NavigationProperty Name="PRODUCTO_TERMINADO_MATERIALES" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO" FromRole="PRODUCTO_TERMINADO" ToRole="PRODUCTO_TERMINADO_MATERIALES" />
+          <NavigationProperty Name="PRODUCTO_TERMINADO_TIEMPO_PARADAS" Relationship="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO" FromRole="PRODUCTO_TERMINADO" ToRole="PRODUCTO_TERMINADO_TIEMPO_PARADAS" />
+        </EntityType>
+        <Association Name="FK_PRODUCTO_TERMINADO_DANIADOS_PRODUCTO_TERMINADO">
+          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO" Role="PRODUCTO_TERMINADO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO_DANIADOS" Role="PRODUCTO_TERMINADO_DANIADOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_TERMINADO">
+              <PropertyRef Name="IdProductoTerminado" />
+            </Principal>
+            <Dependent Role="PRODUCTO_TERMINADO_DANIADOS">
+              <PropertyRef Name="IdProductoTerminado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE">
+          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO" Role="PRODUCTO_TERMINADO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO_DETALLE" Role="PRODUCTO_TERMINADO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_TERMINADO">
+              <PropertyRef Name="IdProductoTerminado" />
+            </Principal>
+            <Dependent Role="PRODUCTO_TERMINADO_DETALLE">
+              <PropertyRef Name="IdProductoTerminado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO">
+          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO" Role="PRODUCTO_TERMINADO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO_MATERIALES" Role="PRODUCTO_TERMINADO_MATERIALES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_TERMINADO">
+              <PropertyRef Name="IdProductoTerminado" />
+            </Principal>
+            <Dependent Role="PRODUCTO_TERMINADO_MATERIALES">
+              <PropertyRef Name="IdProductoTerminado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO">
+          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO" Role="PRODUCTO_TERMINADO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.PRODUCTO_TERMINADO_TIEMPO_PARADAS" Role="PRODUCTO_TERMINADO_TIEMPO_PARADAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_TERMINADO">
+              <PropertyRef Name="IdProductoTerminado" />
+            </Principal>
+            <Dependent Role="PRODUCTO_TERMINADO_TIEMPO_PARADAS">
+              <PropertyRef Name="IdProductoTerminado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_ConsultaAsistenciaDiariaPersonalMovido">
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="IdAsistencia" Nullable="true" />
+          <Property Type="Int32" Name="Bloquear" Nullable="true" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="EstadoAsistencia" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
+          <Property Type="Time" Name="Hora" Nullable="true" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaCreacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioCreacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalCreacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="Time" Name="HoraSalida" Nullable="true" />
+          <Property Type="String" Name="CentroCostos" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="spConsultaProductoTerminado">
+          <Property Type="Int32" Name="IdProductoTerminado" Nullable="false" />
+          <Property Type="DateTime" Name="FechaPaletizado" Nullable="false" />
+          <Property Type="DateTime" Name="FechaProduccion" Nullable="false" />
+          <Property Type="DateTime" Name="FechaVencimiento" Nullable="true" />
+          <Property Type="Int32" Name="CodigoSap" Nullable="false" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
+          <Property Type="Int32" Name="OrdenVenta" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoProducto" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Etiqueta" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="LineaNegocio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="EstadoReporte" Nullable="true" />
+        </ComplexType>
         <ComplexType Name="spReporteAsistencia">
           <Property Type="String" Name="Cedula" Nullable="true" MaxLength="15" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="200" />
@@ -5474,15 +5492,24 @@
           <Property Type="String" Name="Linea" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Cargo" Nullable="true" MaxLength="100" />
         </ComplexType>
-        <ComplexType Name="spReporteControlToalla">
-          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
-          <Property Type="DateTime" Name="HORA" Nullable="true" Precision="23" />
-          <Property Type="Int32" Name="NumeroToallas" Nullable="true" />
-          <Property Type="Int32" Name="TotalToallas" Nullable="true" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
+        <ComplexType Name="spConsultaProductoTerminadoBandejaCC">
+          <Property Type="Int32" Name="IdProductoTerminado" Nullable="false" />
+          <Property Type="DateTime" Name="FechaPaletizado" Nullable="false" />
+          <Property Type="DateTime" Name="FechaProduccion" Nullable="false" />
+          <Property Type="DateTime" Name="FechaVencimiento" Nullable="true" />
+          <Property Type="Int32" Name="CodigoSap" Nullable="false" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
+          <Property Type="Int32" Name="OrdenVenta" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoProducto" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Etiqueta" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="LineaNegocio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="EstadoReporte" Nullable="true" />
         </ComplexType>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -7585,33 +7612,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_ConsultaAsistenciaDiariaPersonalMovido" FunctionName="ASIS_PRODModel.Store.sp_ConsultaAsistenciaDiariaPersonalMovido">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido">
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="IdAsistencia" ColumnName="IdAsistencia" />
-                <ScalarProperty Name="Bloquear" ColumnName="Bloquear" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="EstadoAsistencia" ColumnName="EstadoAsistencia" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
-                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
-                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
-                <ScalarProperty Name="CentroCostos" ColumnName="CentroCostos" />
-                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
-                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CONSUMO_DETALLE_DANIADO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONSUMO_DETALLE_DANIADO">
               <MappingFragment StoreEntitySet="CONSUMO_DETALLE_DANIADO">
@@ -7853,33 +7853,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="PRODUCTO_TERMINADO">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.PRODUCTO_TERMINADO">
-              <MappingFragment StoreEntitySet="PRODUCTO_TERMINADO">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="LineaNegocio" ColumnName="LineaNegocio" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
-                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
-                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
-                <ScalarProperty Name="Producto" ColumnName="Producto" />
-                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="CodigoSap" ColumnName="CodigoSap" />
-                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
-                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
-                <ScalarProperty Name="FechaPaletizado" ColumnName="FechaPaletizado" />
-                <ScalarProperty Name="IdProductoTerminado" ColumnName="IdProductoTerminado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PRODUCTO_TERMINADO_MATERIALES">
             <EntityTypeMapping TypeName="ASIS_PRODModel.PRODUCTO_TERMINADO_MATERIALES">
               <MappingFragment StoreEntitySet="PRODUCTO_TERMINADO_MATERIALES">
@@ -8016,26 +7989,6 @@
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="HoraEntregada" ColumnName="HoraEntregada" />
                 <ScalarProperty Name="EstadoEntrega" ColumnName="EstadoEntrega" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaProductoTerminado" FunctionName="ASIS_PRODModel.Store.spConsultaProductoTerminado">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaProductoTerminado">
-                <ScalarProperty Name="IdProductoTerminado" ColumnName="IdProductoTerminado" />
-                <ScalarProperty Name="FechaPaletizado" ColumnName="FechaPaletizado" />
-                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
-                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
-                <ScalarProperty Name="CodigoSap" ColumnName="CodigoSap" />
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
-                <ScalarProperty Name="Producto" ColumnName="Producto" />
-                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
-                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
-                <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="LineaNegocio" ColumnName="LineaNegocio" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -8361,6 +8314,94 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spReporteControlToalla" FunctionName="ASIS_PRODModel.Store.spReporteControlToalla">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteControlToalla">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="HORA" ColumnName="HORA" />
+                <ScalarProperty Name="NumeroToallas" ColumnName="NumeroToallas" />
+                <ScalarProperty Name="TotalToallas" ColumnName="TotalToallas" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="PRODUCTO_TERMINADO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.PRODUCTO_TERMINADO">
+              <MappingFragment StoreEntitySet="PRODUCTO_TERMINADO">
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="LineaNegocio" ColumnName="LineaNegocio" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="CodigoSap" ColumnName="CodigoSap" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="FechaPaletizado" ColumnName="FechaPaletizado" />
+                <ScalarProperty Name="IdProductoTerminado" ColumnName="IdProductoTerminado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_ConsultaAsistenciaDiariaPersonalMovido" FunctionName="ASIS_PRODModel.Store.sp_ConsultaAsistenciaDiariaPersonalMovido">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_ConsultaAsistenciaDiariaPersonalMovido">
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="IdAsistencia" ColumnName="IdAsistencia" />
+                <ScalarProperty Name="Bloquear" ColumnName="Bloquear" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="EstadoAsistencia" ColumnName="EstadoAsistencia" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
+                <ScalarProperty Name="CentroCostos" ColumnName="CentroCostos" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaProductoTerminado" FunctionName="ASIS_PRODModel.Store.spConsultaProductoTerminado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaProductoTerminado">
+                <ScalarProperty Name="IdProductoTerminado" ColumnName="IdProductoTerminado" />
+                <ScalarProperty Name="FechaPaletizado" ColumnName="FechaPaletizado" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="CodigoSap" ColumnName="CodigoSap" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="LineaNegocio" ColumnName="LineaNegocio" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spReporteAsistencia" FunctionName="ASIS_PRODModel.Store.spReporteAsistencia">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteAsistencia">
@@ -8376,15 +8417,24 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spReporteControlToalla" FunctionName="ASIS_PRODModel.Store.spReporteControlToalla">
+          <FunctionImportMapping FunctionImportName="spConsultaProductoTerminadoBandejaCC" FunctionName="ASIS_PRODModel.Store.spConsultaProductoTerminadoBandejaCC">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteControlToalla">
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="HORA" ColumnName="HORA" />
-                <ScalarProperty Name="NumeroToallas" ColumnName="NumeroToallas" />
-                <ScalarProperty Name="TotalToallas" ColumnName="TotalToallas" />
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaProductoTerminadoBandejaCC">
+                <ScalarProperty Name="IdProductoTerminado" ColumnName="IdProductoTerminado" />
+                <ScalarProperty Name="FechaPaletizado" ColumnName="FechaPaletizado" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="CodigoSap" ColumnName="CodigoSap" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="LineaNegocio" ColumnName="LineaNegocio" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

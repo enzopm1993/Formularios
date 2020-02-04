@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "EntregaProductoTerminado";
+}
+
+<h4>Bandeja Control Calidad</h4>
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-4">
+        <label>Fecha Paletizado</label>
+        <input type="date" class="form-control" id="txtFechaPaletizado" onchange="CargarProductoTerminado()" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+    </div>
+</div>
+
+
+<hr />
+
+<div id="divCabecera2" hidden>
+    <div class="card shadow">
+        <div class="card-body">
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>

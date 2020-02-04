@@ -59,8 +59,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
                 return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
             }
         }
-
-
         #endregion
 
         #region PRODUCTO TERMINADO DETALLE
@@ -273,6 +271,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
                 return new RespuestaGeneral { Mensaje = clsAtributos.MsjRegistroGuardado, Respuesta = true };
             }
         }
+        #endregion
+
+
+
+        #region BANDEJA CC
+        public List<spConsultaProductoTerminadoBandejaCC> ConsultaControlProductoTerminadoBandejaCC(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.spConsultaProductoTerminadoBandejaCC(Fecha).ToList();
+                return lista;
+            }
+        }
+
+
         #endregion
     }
 }

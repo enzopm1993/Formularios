@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="col-md-10 col-sm-9 col-8">
-                            <h4>Datos del Proceso</h4>
+                            <h4>Datos de Materiales</h4>
 
                         </div>
                     </div>
@@ -103,41 +103,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-6 col-12 col-sm-12">
-            <div class="card shadow">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-2 col-sm-3 col-4">
-                            <div class="form-group">
-                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
-                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerarDaniado" onclick="ModalGenerarDanadio()" style="border-color:#2c3e50" type="button">
-                                    <img style="width:100%" src="~/Content/icons/add24.png" />
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-10 col-sm-9 col-8">
-                            <h4>Mermas</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div id="chart">
-                        <div class="d-flex justify-content-center">
-                            <div id="spinnerCargandoDaniados" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                        </div>
-
-                        <div id="divTableDaniados" class="table-responsive">
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+        </div>    
 
 
 
@@ -175,7 +141,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-12 col-sm-12">
+        <div class="col-md-12 col-12 col-sm-12">
             <div class="card shadow">
                 <div class="card-header">
                     <div class="row">
@@ -228,13 +194,19 @@
                 <div class="row">
                     <input type="hidden" id="txtIdEntregaProductoTerminado" name="name" value="0" />
                     <input type="hidden" id="txtLineaNegocio" name="name" value="@ViewBag.LineaNegocio" />
+
+                    @*<div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Fecha Orden Fabricación</label>
+                            <input type="date" class="form-control" id="txtFechaOrdenFabricacion" onchange="CargarOrdenFabricacion()" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                           
+                        </div>
+                    </div>*@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Orden Fabricación</label>
-                           @*<input class="form-control" id="txtOrdenFabricacion" type="text" name="name" value="0" />*@
-                            <select class="form-control" id="txtOrdenFabricacion" onchange="CargarDatosOrdenFabricacion()">
-                                
-                            </select>
+                            @*<input class="form-control" id="txtOrdenFabricacion" type="text" name="name" value="0" />*@
+                            <select class="form-control" id="txtOrdenFabricacion" onchange="CargarDatosOrdenFabricacion()"></select>
                             @*@Html.DropDownList("txtOrdenFabricacion", new SelectList(ViewBag.OrdenesFabricacion, "ORDEN_FABRICACION", "ORDEN_FABRICACION"), "seleccione", new { @class = "form-control", @Onchange = "CargarDatosOrdenFabricacion()" })*@
                         </div>
                     </div>
@@ -350,7 +322,7 @@
                 <div class="row">
                     <input type="hidden" id="txtIdConsumoMaterial" name="name" value="0" />
                     <div class="col-12 col-sm-12 col-md-6">
-                        <label>Motivo</label>
+                        <label>Material</label>
                         @Html.DropDownList("selectMaterial", new SelectList(ViewBag.Material, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">

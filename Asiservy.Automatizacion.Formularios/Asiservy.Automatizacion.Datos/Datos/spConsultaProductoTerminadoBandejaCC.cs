@@ -11,7 +11,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsultaProductoTerminado
+    public partial class spConsultaProductoTerminadoBandejaCC
     {
         public int IdProductoTerminado { get; set; }
         public System.DateTime FechaPaletizado { get; set; }
