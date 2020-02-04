@@ -2152,6 +2152,7 @@
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
     <Content Include="Scripts\ControlToalla\ReporteControlToalla.js" />
     <Content Include="Scripts\Empleado\ReportePersonalPresente.js" />
+    <Content Include="Scripts\EntregaProductoTerminado\BandejaControlCalidad.js" />
     <Content Include="Scripts\EntregaProductoTerminado\EntregaProductoTerminado.js" />
     <Content Include="Scripts\EntregaUniforme\BandejaEntregaUniforme.js" />
     <Content Include="Scripts\EntregaUniforme\EntregaUniforme.js" />
@@ -3463,6 +3464,8 @@
     <Content Include="Views\EntregaProductoTerminado\ControlConsumoDaniadoPartial.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\ControlConsumoMaterialPartial.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ReporteControlEnvasesEnlatado.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\BandejaControlCalidadPartial.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\BandejaControlCalidad.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

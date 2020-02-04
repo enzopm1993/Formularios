@@ -56,7 +56,7 @@ function CargarDatosOrdenFabricacion() {
 
 
 function CargarOrdenFabricacion() {
-    valor = $("#txtFechaOrdenFabricacion").val();
+    valor = $("#txtFecha").val();
     if (valor == '' || valor == null)
         return;
     $("#txtOrdenFabricacion").empty();

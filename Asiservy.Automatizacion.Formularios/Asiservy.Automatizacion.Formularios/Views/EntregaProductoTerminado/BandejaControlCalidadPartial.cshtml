@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProductoTerminadoBandejaCC>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdProductoTerminado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaPaletizado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaProduccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaVencimiento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoSap)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrdenFabricacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrdenVenta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Producto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodigoProducto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cliente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Etiqueta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LineaNegocio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Linea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstadoReporte)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdProductoTerminado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaPaletizado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaProduccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaVencimiento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoSap)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrdenVenta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Producto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoProducto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cliente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Etiqueta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LineaNegocio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Linea)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstadoReporte)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
