@@ -52,7 +52,7 @@ function MarcarSalida(IdSolicitudPermiso,fecha,fechaSalida) {
             FechaSalida: fechaSalida
         },
         success: function (Resultado) {
-            if (resultado == "101") {
+            if (Resultado == "101") {
                 window.location.reload();
             }
             if (Resultado == "1") {

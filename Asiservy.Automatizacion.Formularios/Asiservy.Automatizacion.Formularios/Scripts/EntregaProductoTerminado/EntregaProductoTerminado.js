@@ -56,7 +56,7 @@ function CargarDatosOrdenFabricacion() {
 
 
 function CargarOrdenFabricacion() {
-    valor = $("#txtFecha").val();
+    valor = $("#txtFechaOrdenFabricacion").val();
     if (valor == '' || valor == null)
         return;
     $("#txtOrdenFabricacion").empty();
@@ -73,7 +73,7 @@ function CargarOrdenFabricacion() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Faltan Parametros");
+                MensajeAdvertencia("No existe ordenes de fabricación para esta fecha");
                 return;
             }
             // LimpiarDetalle();

@@ -17,7 +17,7 @@
     <div class="col-md-4 col-6 col-sm-6">
         <div class="form-group">
             <label>Fecha Producción</label>
-            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarOrdenFabricacion()" id="txtFecha" class="form-control" />
+            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="" id="txtFecha" class="form-control" />
         </div>
     </div>
     <div class="col-md-4 col-6 col-sm-6">
@@ -228,13 +228,19 @@
                 <div class="row">
                     <input type="hidden" id="txtIdEntregaProductoTerminado" name="name" value="0" />
                     <input type="hidden" id="txtLineaNegocio" name="name" value="@ViewBag.LineaNegocio" />
+
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Fecha Orden Fabricación</label>
+                            <input type="date" class="form-control" id="txtFechaOrdenFabricacion" onchange="CargarOrdenFabricacion()" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                           
+                        </div>
+                    </div>
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Orden Fabricación</label>
-                           @*<input class="form-control" id="txtOrdenFabricacion" type="text" name="name" value="0" />*@
-                            <select class="form-control" id="txtOrdenFabricacion" onchange="CargarDatosOrdenFabricacion()">
-                                
-                            </select>
+                            @*<input class="form-control" id="txtOrdenFabricacion" type="text" name="name" value="0" />*@
+                            <select class="form-control" id="txtOrdenFabricacion" onchange="CargarDatosOrdenFabricacion()"></select>
                             @*@Html.DropDownList("txtOrdenFabricacion", new SelectList(ViewBag.OrdenesFabricacion, "ORDEN_FABRICACION", "ORDEN_FABRICACION"), "seleccione", new { @class = "form-control", @Onchange = "CargarDatosOrdenFabricacion()" })*@
                         </div>
                     </div>
