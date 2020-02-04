@@ -26,6 +26,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Etiqueta { get; set; }
         public string Observacion { get; set; }
         public string LineaNegocio { get; set; }
+        public string CodLinea { get; set; }
         public string Linea { get; set; }
         public Nullable<bool> EstadoReporte { get; set; }
     }

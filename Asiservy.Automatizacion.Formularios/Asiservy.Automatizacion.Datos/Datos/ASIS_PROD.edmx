@@ -5506,7 +5506,8 @@
           <Property Type="String" Name="Etiqueta" Nullable="true" MaxLength="150" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
           <Property Type="String" Name="LineaNegocio" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
           <Property Type="Boolean" Name="EstadoReporte" Nullable="true" />
         </ComplexType>
         </Schema>
@@ -8433,6 +8434,7 @@
                 <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
                 <ScalarProperty Name="LineaNegocio" ColumnName="LineaNegocio" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
                 <ScalarProperty Name="Linea" ColumnName="Linea" />
                 <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
               </ComplexTypeMapping>
