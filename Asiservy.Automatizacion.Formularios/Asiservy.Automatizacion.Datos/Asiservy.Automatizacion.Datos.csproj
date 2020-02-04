@@ -516,7 +516,7 @@
     <Compile Include="Datos\spReporteAuditoriaSangre.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\spReporteCambioPersonal.cs">
+    <Compile Include="Datos\spReporteCambioPersonal_Result.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spReporteControlEnfundadoPorEnfundadora.cs">

@@ -11,7 +11,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spReporteCambioPersonal
+    public partial class spReporteCambioPersonal_Result
     {
         public string CEDULA { get; set; }
         public string NOMBRES { get; set; }
@@ -28,5 +28,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string HoraMovido { get; set; }
         public Nullable<System.DateTime> FechaRegreso { get; set; }
         public Nullable<System.TimeSpan> HoraRegreso { get; set; }
+        public string UsuarioIngresoLog { get; set; }
+        public Nullable<System.DateTime> FechaIngresoLog { get; set; }
+        public string UsuarioModificacionLog { get; set; }
+        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
     }
 }
