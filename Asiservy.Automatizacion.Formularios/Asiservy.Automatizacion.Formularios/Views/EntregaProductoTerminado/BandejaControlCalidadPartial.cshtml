@@ -1,36 +1,32 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProductoTerminadoBandejaCC>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
     <tr>
+       
         <th>
-            @Html.DisplayNameFor(model => model.IdProductoTerminado)
+            Fecha Paletizado
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FechaPaletizado)
+            Fecha Producción
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FechaProduccion)
+           Fecha Vencimiento
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FechaVencimiento)
+           Codigo Sap
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CodigoSap)
+            O. Fabricación
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OrdenFabricacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrdenVenta)
+           O. Venta
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Producto)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CodigoProducto)
+            Codigo
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Cliente)
@@ -55,17 +51,20 @@
 
 @foreach (var item in Model) {
     <tr>
+       
         <td>
-            @Html.DisplayFor(modelItem => item.IdProductoTerminado)
+            @item.FechaPaletizado.ToString("yyyy-MM-dd")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FechaPaletizado)
+            @item.FechaProduccion.ToString("yyyy-MM-dd")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FechaProduccion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaVencimiento)
+            @if (item.FechaVencimiento != null)
+            {
+                var fecha = item.FechaVencimiento.Value.ToString("yyyy-MM-dd");
+                @fecha
+            }
+
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CodigoSap)
