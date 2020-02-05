@@ -34,10 +34,10 @@ function CargarDatosOrdenFabricacion() {
                 return;
             }
            //console.log(resultado);
-            $("#txtPesoNeto").val(parseInt(resultado.PESO_NETO));
-            $("#txtPesoEscrundido").val(parseInt(resultado.PESO_ESCURRIDO));
-            $("#txtLomo").val(parseInt(resultado.LOMOS));
-            $("#txtMiga").val(parseInt(resultado.MIGAS));
+            $("#txtPesoNeto").val(resultado.PESO_NETO);
+            $("#txtPesoEscrundido").val(resultado.PESO_ESCURRIDO);
+            $("#txtLomo").val(resultado.LOMOS);
+            $("#txtMiga").val(resultado.MIGAS);
             $("#txtCajas").val(parseInt(resultado.UNIDADES_X_CAJA));
             $("#txtOrdenVenta").val(parseInt(resultado.PEDIDO_VENTA));
             $("#txtMarca").val(resultado.MARCA);
