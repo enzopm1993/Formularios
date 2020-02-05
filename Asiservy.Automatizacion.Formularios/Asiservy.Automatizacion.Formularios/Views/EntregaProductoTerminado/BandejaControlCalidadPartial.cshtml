@@ -1,110 +1,110 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProductoTerminadoBandejaCC>
+@using Newtonsoft.Json
 
+<table class="table table-light table-striped table-hover" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
 
-<table class="table">
-    <tr>
-       
-        <th>
-            Fecha Paletizado
-        </th>
-        <th>
-            Fecha Producción
-        </th>
-        <th>
-           Fecha Vencimiento
-        </th>
-        <th>
-           Codigo Sap
-        </th>
-        <th>
-            O. Fabricación
-        </th>
-        <th>
-           O. Venta
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Producto)
-        </th>
-        <th>
-            Codigo
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cliente)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Etiqueta)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Observacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LineaNegocio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Linea)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EstadoReporte)
-        </th>
-        <th></th>
-    </tr>
+            <th>
+                Fecha Paletizado
+            </th>
+            <th>
+                Fecha Producción
+            </th>
+            <th>
+                Fecha Vencimiento
+            </th>
+            <th>
+                Codigo Sap
+            </th>
+            <th>
+                O. Fabricación
+            </th>
+            <th>
+                O. Venta
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th>
+                Codigo
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Etiqueta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LineaNegocio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Linea)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoReporte)
+            </th>
 
-@foreach (var item in Model) {
-    <tr>
-       
-        <td>
-            @item.FechaPaletizado.ToString("yyyy-MM-dd")
-        </td>
-        <td>
-            @item.FechaProduccion.ToString("yyyy-MM-dd")
-        </td>
-        <td>
-            @if (item.FechaVencimiento != null)
-            {
-                var fecha = item.FechaVencimiento.Value.ToString("yyyy-MM-dd");
-                @fecha
-            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarBandeja(@json)">
 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CodigoSap)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrdenFabricacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrdenVenta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Producto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CodigoProducto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cliente)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Etiqueta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Observacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LineaNegocio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Linea)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstadoReporte)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+                <td>
+                    @item.FechaPaletizado.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @item.FechaProduccion.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @if (item.FechaVencimiento != null)
+                    {
+                        var fecha = item.FechaVencimiento.Value.ToString("yyyy-MM-dd");
+                        @fecha
+                    }
 
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoSap)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenVenta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Etiqueta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LineaNegocio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Linea)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoReporte)
+                </td>
+
+            </tr>
+        }
+    </tbody>
 </table>

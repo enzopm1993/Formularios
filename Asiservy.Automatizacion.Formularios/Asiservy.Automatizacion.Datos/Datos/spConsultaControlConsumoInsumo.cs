@@ -21,8 +21,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Producto { get; set; }
         public string Destino { get; set; }
         public string Cliente { get; set; }
-        public Nullable<int> PesoNeto { get; set; }
-        public Nullable<int> PesoEscrundido { get; set; }
+        public Nullable<decimal> PesoNeto { get; set; }
+        public Nullable<decimal> PesoEscrundido { get; set; }
         public Nullable<decimal> Lomo { get; set; }
         public Nullable<decimal> Miga { get; set; }
         public string Envase { get; set; }

@@ -41,3 +41,11 @@ function CargarProductoTerminado() {
         }
     });
 }
+
+function SeleccionarBandeja(model) {
+    console.log(model);
+    $("#ModalApruebaProductoTerminado").modal("show");
+    $("#txtOrdenFrabricacion").val(model.OrdenFabricacion);
+    $("#txtProducto").val(model.Producto);
+
+}

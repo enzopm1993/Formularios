@@ -354,6 +354,13 @@
         //    window.setTimeout("lessMinutes();", 1000)
         //}
 
+        @{ 
+            var usuario = string.Empty;
+            if(!string.IsNullOrEmpty(User.Identity.Name))
+            {
+                usuario = User.Identity.Name.Split('_')[1];
+            }
+        }
 
         var urlOpcion = '@ViewBag.JavaScrip';
         urlOpcion = urlOpcion.split("/");
@@ -362,7 +369,7 @@
             type: "GET",
             data:
             {
-                Usuario: '@User.Identity.Name.Split('_')[1]',
+                Usuario: '@usuario',
                 Opcion: urlOpcion[1]
             },
             success: function (resultado) {
