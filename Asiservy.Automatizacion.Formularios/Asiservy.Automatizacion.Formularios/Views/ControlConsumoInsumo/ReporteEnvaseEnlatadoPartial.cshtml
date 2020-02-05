@@ -1,0 +1,23 @@
+﻿@model Asiservy.Automatizacion.Formularios.Models.ControlConsumoInsumos.ReporteEnvaseEnlatadoViewModel
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Mermas</th>
+            <th>Cuerpo</th>
+            <th>Tapas</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.DetalleMermas)
+        {
+            <tr>
+                <td> @item.Merma</td>
+                <td>@item.Cuerpo</td>
+                <td>@item.Tapa</td>
+            </tr>
+           
+        }
+    </tbody>
+</table>

@@ -48,5 +48,34 @@
     });
 }
 function SeleccionarControlDetalleConsumo(CabControl) {
-    console.log(CabControl);
+    //console.log(CabControl);
+    $.ajax({
+        url: "../ControlConsumoInsumo/ReporteEnvaseEnlatadoPartial",
+        type: "GET",
+        data: {
+            IdCabeceraControlEnvEnlatado:CabControl
+        },
+        success: function (resultado) {
+            $("#DivControlEnvasesEnlatado").hide();
+            $('#DivDetalleReporte').html(resultado);
+            //if (resultado == "101") {
+            //    window.location.reload();
+            //}
+            //if (resultado == "0") {
+            //    $("#mensajeReg").html("No existen registros");
+            //    $("#spinnerCargando").prop("hidden", true);
+            //} else {
+            //    $("#spinnerCargando").prop("hidden", true);
+            //    $("#DivControlEnvasesEnlatado").html(resultado);
+            //    config.opcionesDT.pageLength = 10;
+            //    $('#tblDataTable').DataTable(config.opcionesDT);
+            //}
+
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+
+            //$("#spinnerCargando").prop("hidden", true);
+        }
+    });
 }

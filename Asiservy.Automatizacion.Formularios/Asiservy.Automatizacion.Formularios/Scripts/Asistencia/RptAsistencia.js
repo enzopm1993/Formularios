@@ -14,6 +14,7 @@ function Limpiar() {
     
 }
 function ConsultarAsistencia() {
+    $('#divRptAsistencia').empty();
     if ($('#FechaDesde').val() == '') {
         $('#msjerrorFecha1').show();
         return false;

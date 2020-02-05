@@ -8,7 +8,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.ControlConsumoInsumos
     public class DetalleMermasViewModel
     {
         public string Merma { get; set; }
-        public int Cuerpo { get; set; }
-        public int Tapa { get; set; }
+        public int? Cuerpo { get; set; }
+        public int? Tapa { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
+using Asiservy.Automatizacion.Formularios.Models.ControlConsumoInsumos;
 using Asiservy.Automatizacion.Formularios.Models.MantenimientoPallet;
 using System;
 using System.Collections.Generic;
@@ -595,6 +596,35 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                     SliPallet.Add(new SelectListItem { Value = item.IdPallet.ToString(), Text = item.Proveedor+"-"+item.Envase });
                 }
                 return SliPallet;
+            }
+        }
+        #endregion
+        #region 
+        public ReporteEnvaseEnlatadoViewModel ConsultaReporteControlEnvEnlatado(int IdCabeceraControl)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                ReporteEnvaseEnlatadoViewModel Resultado = new ReporteEnvaseEnlatadoViewModel();
+                Resultado.CabeceraControl = db.CONTROL_CONSUMO_INSUMO.Find(IdCabeceraControl);
+
+                Resultado.DetalleCuerpo = (from c in db.CONSUMO_DETALLE_LATA
+                                           join cl in db.PALLET on c.PalletProveedor equals cl.IdPallet
+                                           select new DetalleCuerpo
+                                           {
+                                               Proveedor = cl.Proveedor + "-" + cl.Envase,
+                                               Bulto = c.Bultos
+                                           ,
+                                               Fecha = c.FechaFabricacion,
+                                               Linea = ""
+                                           }
+                                         ).ToList();
+                Resultado.DetalleMermas = (from c in db.CLASIFICADOR
+                                           join d in db.CONSUMO_DETALLE_DANIADO on new { codigo = c.Codigo, grupo = c.Grupo } equals new { codigo = d.Codigo, grupo = "024" } into mermas
+                                           from m in mermas.DefaultIfEmpty()
+                                           where c.Codigo != "0"
+                                           select new DetalleMermasViewModel { Merma = c.Descripcion, Cuerpo = m.Latas, Tapa = m.Tapas }).ToList();
+
+                return Resultado;
             }
         }
         #endregion
