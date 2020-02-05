@@ -44,9 +44,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Linea)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.EstadoReporte)
-            </th>
+            </th>*@
 
         </tr>
     </thead>
@@ -100,9 +100,19 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Linea)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EstadoReporte)
-                </td>
+                @*<td>
+                    @{
+                        if(item.EstadoReporte == null || item.EstadoReporte == false)
+                        {
+                            @:PENDIENTE
+                        }
+                        else
+                        {
+                            @:APROBADO
+                        }
+
+                    }
+                </td>*@
 
             </tr>
         }

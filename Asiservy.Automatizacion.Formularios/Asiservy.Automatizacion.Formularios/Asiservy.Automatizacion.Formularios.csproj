@@ -3470,6 +3470,8 @@
     <Content Include="Views\ControlConsumoInsumo\ReporteControlEnvasesEnlatado.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\BandejaControlCalidadPartial.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\BandejaControlCalidad.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\ReporteEntregaProductoTerminado.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\ReporteEntregaProductoTerminadoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

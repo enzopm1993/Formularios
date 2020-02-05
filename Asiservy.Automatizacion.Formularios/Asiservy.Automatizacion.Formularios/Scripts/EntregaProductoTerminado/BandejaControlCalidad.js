@@ -49,3 +49,25 @@ function SeleccionarBandeja(model) {
     $("#txtProducto").val(model.Producto);
 
 }
+
+
+function AprobarEntregaProductoTermiando() {
+    $.ajax({
+        url: "../EntregaProductoTerminado/ApruebaEntregaProductoTerminado",
+        type: "GET",
+        data: {
+            IdControl: "0"
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            MensajeCorrecto(resultado);  
+            CargarProductoTerminado();
+            $("#ModalApruebaProductoTerminado").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);           
+        }
+    });
+}
