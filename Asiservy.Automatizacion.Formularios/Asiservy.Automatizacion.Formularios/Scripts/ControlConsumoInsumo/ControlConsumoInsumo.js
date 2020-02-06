@@ -1582,7 +1582,7 @@ function validarConsumoAditivos() {
         $("#select2-selectAditivo-container").css('Color', '#ced4da');
     }
 
-    if ($("#txtPesoAditivo").val() == "" || $("#txtPesoAditivo").val()<1) {
+    if ($("#txtPesoAditivo").val() == "" || $("#txtPesoAditivo").val()<0) {
         $("#txtPesoAditivo").css('borderColor', '#FA8072');
         valida = false;
     } else {

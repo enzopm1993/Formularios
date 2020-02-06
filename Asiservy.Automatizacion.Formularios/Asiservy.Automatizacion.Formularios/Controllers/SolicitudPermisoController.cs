@@ -1151,17 +1151,38 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         public ActionResult ConsultaSolicitudes(string dsLinea, string dsArea, string dsEstado, bool dsGarita=false, DateTime? ddFechaDesde=null, DateTime? ddFechaHasta = null)
         {
-            lsUsuario = User.Identity.Name.Split('_');
-            if (string.IsNullOrEmpty(lsUsuario[0]))
+            try
             {
-                return Json("101", JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDSolicitudPermiso poSolicitudPermiso = new clsDSolicitudPermiso();
+                int RolGarita = ValidarRolGarita();
+                if (RolGarita > 0)
+                    ViewBag.Garita = RolGarita;
+                var pListSolicitudPermiso = poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(dsLinea, dsArea, dsEstado, dsGarita, ddFechaDesde, ddFechaHasta);
+                return PartialView(pListSolicitudPermiso);
             }
-            clsDSolicitudPermiso poSolicitudPermiso = new clsDSolicitudPermiso();
-            int RolGarita = ValidarRolGarita();
-            if (RolGarita > 0)
-                ViewBag.Garita = RolGarita;
-            var pListSolicitudPermiso = poSolicitudPermiso.ConsultaSolicitudesPermisoReporte(dsLinea, dsArea, dsEstado, dsGarita, ddFechaDesde, ddFechaHasta);
-            return PartialView(pListSolicitudPermiso);
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [Authorize]
