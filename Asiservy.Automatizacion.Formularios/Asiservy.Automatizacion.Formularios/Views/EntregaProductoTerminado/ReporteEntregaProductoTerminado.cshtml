@@ -1,3 +1,217 @@
 ﻿
 
 
+@{
+    ViewBag.Title = "ReporteEntregaProductoTerminado";
+}
+
+<h4>Reporte Entrega Producto Terminado</h4>
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    h5 {
+        background-color: slategray;
+        color: aliceblue;
+    }
+
+    th {
+        font-size: 12px;
+    }
+
+    td {
+        font-size: 11px;
+    }
+
+    .letra10 {
+        font-size: 10px;
+    }
+
+    label {
+        color: black;
+    }
+</style>
+
+
+@ViewBag.Linea
+<hr />
+<div class="row" id="divCabecera1">
+    <div class="col-md-4 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Fecha Paletizado</label>
+            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarProductoTerminado()" id="txtFechaPaletizado" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-4 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Fecha Paletizado</label>
+            @Html.DropDownList("txtLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @onchange = "CargarProductoTerminado()" })
+        </div>
+    </div>
+    <div class="col-md-4 col-12  text-md-left text-center">
+        <label class="">Acciones</label>
+
+        <div class="form-group">
+            <button hidden data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnImprimir" onclick="printDiv()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/print24.png" />
+            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+<hr />
+<div id="divCabecera2">
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div id="divTable" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card shadow" style="padding:20px" id="divDetalleProceso" hidden>
+    <div class="text-center">
+        <h4 class="" style="color:black">ENTREGA DE PRODUCTO TERMINADO <label class="text-danger" id="txtEstado"></label></h4>
+
+    </div>
+
+    <div style="border:ridge">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-12">
+                <br />
+                <table class="table table-borderless text-right">
+                    <tr>
+                        <td>Fecha de Producción:</td>
+                        <td><input type="text" class="form-control" id="txtFechaProduccion" disabled name="name" value="" /></td>
+                    </tr>
+                    <tr>
+
+                        <td> Fecha de Paletizado:</td>
+                        <td><input type="text" class="form-control" id="txtFechaPaletizado2" disabled name="name" value="" /></td>
+                    </tr>
+                    <tr>
+
+                        <td> Fecha de Vencimiento:</td>
+                        <td><input type="text" class="form-control" id="txtFechaVencimiento" disabled name="name" value="" /></td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="col-md-6 col-sm-12 col-12">
+                <br />
+                <table class="table table-borderless text-right">
+                    <tr>
+                        <td> Código SAP:</td>
+                        <td><input type="text" class="form-control" id="txtCodigoSap" disabled name="name" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td> O. Fabricación:</td>
+                        <td><input type="text" class="form-control" id="txtOrdenFabricacion" disabled name="name" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td> Producto:</td>
+                        <td><input type="text" class="form-control" id="txtProducto" disabled name="name" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>  Código Producto:</td>
+                        <td><input type="text" class="form-control" id="txtCodigoProducto" disabled name="name" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>    Cliente:</td>
+                        <td><input type="text" class="form-control" id="txtCliente" disabled name="name" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>  Etiqueta:</td>
+                        <td><input type="text" class="form-control" id="txtEtiqueta" disabled name="name" value="" /></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6 col-12 col-sm-12">
+            <div class="text-center">
+                <h5>Materiales</h5>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div id="spinnerCargandoConsumoInsumoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div id="divTableMaterial" class="table-responsive">
+
+            </div>
+        </div>
+        <div class="col-md-6 col-12 col-sm-12">
+            <div class="text-center">
+                <h5>Tiempos Proceso</h5>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div id="spinnerCargandoConsumoInsumoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div id="divTableEntregaProductoDetalle" class="table-responsive">
+
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <h5>Tiempos Muertos</h5>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div id="spinnerCargandoTiemposMuertos" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div id="divTableTiemposMuertos" class="table-responsive">
+
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-12" >
+            <label>Observaciones</label>
+            <div style="border:ridge">
+                <textarea class="form-control" rows="5" id="txtObservacion" style="border:none; resize:none"></textarea>
+            </div>
+        </div>
+    </div>
+    <br /><br />
+    <br /><br />
+    <div class="row text-center">
+        <div class="col-md-3">
+
+            <label style="display: block !important;border-top:ridge">Supervisor Etiquetado</label>
+        </div>
+        <div class="col-md-3">
+
+            <label style="display: block !important;border-top:ridge">Control Calidad</label>
+        </div>
+        <div class="col-md-3">
+
+            <label style="display: block !important;border-top:ridge">Jefe de Bodega</label>
+        </div>
+        <div class="col-md-3">
+
+            <label style="display: block !important;border-top:ridge">Jefe Producción</label>
+        </div>
+    </div>
+
+</div>
+

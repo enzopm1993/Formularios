@@ -835,30 +835,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
-                lsUsuario = User.Identity.Name.Split('_');
-                clsDEmpleado = new clsDEmpleado();
-                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 clsDClasificador = new clsDClasificador();
-                var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                ViewBag.Linea = Empleado.LINEA;
-                ViewBag.CodLinea = Empleado.CODIGOLINEA;
-                ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoProductoTerminado);
-                ViewBag.Material = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoMaterialesProductoTerminado);
+                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoLineasEntregaProductoTerminado);
 
-                clsDLogin = new clsDLogin();
-                var rol = clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolEtiquetadoLata);
-                if (rol)
-                {
-                    //ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoDaniadoPouch);
-                    ViewBag.LineaNegocio = "ENLATADO";
-                    //  ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProductoTerminado(DateTime.Now).Where(x => x.LineaNegocio == clsAtributos.LineaNegocioEnlatado).ToList();
-                }
-                else
-                {
-                    // ViewBag.Daniado = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoConsumoDaniadoLata);
-                    ViewBag.LineaNegocio = "POUCH";
-                    //  ViewBag.OrdenesFabricacion = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProductoTerminado(DateTime.Now).Where(x => x.LineaNegocio == clsAtributos.LineaNegocioPouch).ToList();
-                }
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -895,6 +874,128 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 var model = clsDEntregaProductoTerminado.ReporteConsultaControlProductoTerminado(Fecha, Linea);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return PartialView(model);
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult ReporteControlConsumoMaterialPartial(int IdControl)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDLogin = new clsDLogin();
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+                var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoMateriales(IdControl);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+
+                return PartialView(model);
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult ReporteEntregaProductoTerminadoDetallePartial(int IdControl)
+        {
+            try
+            {
+
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+
+                var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoDetalle(IdControl);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return PartialView(model);
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult ReporteControlConsumoTiemposMuertos(int IdControl)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDEntregaProductoTerminado = new clsDEntregaProductoTerminado();
+
+                var model = clsDEntregaProductoTerminado.ConsultaControlProductoTerminadoTiempoPara(IdControl);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

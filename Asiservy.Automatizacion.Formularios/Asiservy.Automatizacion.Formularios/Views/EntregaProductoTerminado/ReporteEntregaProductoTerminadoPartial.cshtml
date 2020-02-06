@@ -1,103 +1,102 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProductoTerminadoReporte>
+@using Newtonsoft.Json
 
-<table class="table">
-    <tr>
-       
-        <th>
-            @Html.DisplayNameFor(model => model.FechaPaletizado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaProduccion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaVencimiento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CodigoSap)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrdenFabricacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrdenVenta)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Producto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CodigoProducto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cliente)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Etiqueta)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Observacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LineaNegocio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Linea)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EstadoReporte)
-        </th>
-        <th></th>
-    </tr>
+<table class="table table-light table-striped table-hover" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
 
-@foreach (var item in Model) {
-    <tr>       
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaPaletizado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaProduccion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaVencimiento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CodigoSap)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrdenFabricacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrdenVenta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Producto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CodigoProducto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cliente)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Etiqueta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Observacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LineaNegocio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Linea)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstadoReporte)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+            <th>
+                Fecha Paletizado
+            </th>
+            <th>
+                Fecha Produccion
+            </th>
+            <th>
+                Fecha Vencimiento
+            </th>
+            <th>
+                Codigo Sap
+            </th>
+            <th>
+                O. Fabricación
+            </th>
+            <th>
+                O. Venta
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th>
+                Codigo Producto
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Etiqueta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoReporte)
+            </th>
 
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarControlEntregaProductoTerminado(@json)">
+                <td>
+                    @item.FechaPaletizado.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @item.FechaProduccion.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @item.FechaVencimiento.Value.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoSap)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenVenta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Etiqueta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+                <td>
+                    @{
+                        if (item.EstadoReporte == null || item.EstadoReporte == false)
+                        {
+                            @:PENDIENTE
+                        }
+                        else
+                        {
+                            @:APROBADO
+                        }
+
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
 </table>
