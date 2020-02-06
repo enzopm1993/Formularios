@@ -346,6 +346,23 @@
           <Property Name="Especie" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="Producto" Type="varchar" MaxLength="150" Nullable="false" />
         </EntityType>
+        <EntityType Name="CONTROL_BALANZA">
+          <Key>
+            <PropertyRef Name="IdControlBalanza" />
+          </Key>
+          <Property Name="IdControlBalanza" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cedula" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Linea" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CONTROL_COCHE_LINEA">
           <Key>
             <PropertyRef Name="IdControlCocheLinea" />
@@ -1701,6 +1718,9 @@
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsultaControlBalanza" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="date" Mode="In" />
+        </Function>
         <Function Name="spConsultaControlConsumoInsumo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
@@ -1999,6 +2019,7 @@
           <EntitySet Name="CONTROL_ASISTENCIA" EntityType="Self.CONTROL_ASISTENCIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_AUDITORIASANGRE" EntityType="Self.CONTROL_AUDITORIASANGRE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_AVANCE_API" EntityType="Self.CONTROL_AVANCE_API" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CONTROL_BALANZA" EntityType="Self.CONTROL_BALANZA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_COCHE_LINEA" EntityType="Self.CONTROL_COCHE_LINEA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_CONSUMO_INSUMO" EntityType="Self.CONTROL_CONSUMO_INSUMO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_CONSUMO_INSUMO_DETALLE" EntityType="Self.CONTROL_CONSUMO_INSUMO_DETALLE" Schema="dbo" store:Type="Tables" />
@@ -2876,7 +2897,11 @@
             <End Role="CONSUMO_DETALLE_ADITIVO" EntitySet="CONSUMO_DETALLE_ADITIVO" />
           </AssociationSet>
           <FunctionImport Name="spConsultaConsumoDetalleAditivo" ReturnType="Collection(ASIS_PRODModel.spConsultaConsumoDetalleAditivo)">
-            <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="CONTROL_BALANZA" EntityType="ASIS_PRODModel.CONTROL_BALANZA" />
+          <FunctionImport Name="spConsultaControlBalanza" ReturnType="Collection(ASIS_PRODModel.spConsultaControlBalanza)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -5544,6 +5569,31 @@
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="DescripcionAditivo" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <EntityType Name="CONTROL_BALANZA">
+          <Key>
+            <PropertyRef Name="IdControlBalanza" />
+          </Key>
+          <Property Name="IdControlBalanza" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Linea" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="spConsultaControlBalanza">
+          <Property Type="Int32" Name="IdControlBalanza" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="Codigo" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="20" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -8501,6 +8551,36 @@
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="DescripcionAditivo" ColumnName="DescripcionAditivo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CONTROL_BALANZA">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_BALANZA">
+              <MappingFragment StoreEntitySet="CONTROL_BALANZA">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdControlBalanza" ColumnName="IdControlBalanza" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlBalanza" FunctionName="ASIS_PRODModel.Store.spConsultaControlBalanza">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlBalanza">
+                <ScalarProperty Name="IdControlBalanza" ColumnName="IdControlBalanza" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

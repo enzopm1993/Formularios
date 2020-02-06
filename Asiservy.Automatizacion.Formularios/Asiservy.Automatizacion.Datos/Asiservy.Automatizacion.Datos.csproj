@@ -123,6 +123,9 @@
     <Compile Include="Datos\CONTROL_AVANCE_API.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CONTROL_BALANZA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CONTROL_COCHE_LINEA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -325,6 +328,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaControlAvanceDiarioPorLinea.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\spConsultaControlBalanza.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaControlConsumoInsumo.cs">

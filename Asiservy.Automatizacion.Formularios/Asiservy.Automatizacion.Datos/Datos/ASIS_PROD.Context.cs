@@ -98,6 +98,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_CONSUMO_INSUMO> CONTROL_CONSUMO_INSUMO { get; set; }
         public virtual DbSet<CONSUMO_PROCEDENCIA_PESCADO> CONSUMO_PROCEDENCIA_PESCADO { get; set; }
         public virtual DbSet<CONSUMO_DETALLE_ADITIVO> CONSUMO_DETALLE_ADITIVO { get; set; }
+        public virtual DbSet<CONTROL_BALANZA> CONTROL_BALANZA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1319,6 +1320,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IdControl", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoDetalleAditivo>("spConsultaConsumoDetalleAditivo", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlBalanza> spConsultaControlBalanza(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlBalanza>("spConsultaControlBalanza", fechaParameter);
         }
     }
 }
