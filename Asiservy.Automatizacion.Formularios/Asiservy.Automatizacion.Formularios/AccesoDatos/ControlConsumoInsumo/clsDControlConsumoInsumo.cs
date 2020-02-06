@@ -609,21 +609,37 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
 
                 Resultado.DetalleCuerpo = (from c in db.CONSUMO_DETALLE_LATA
                                            join cl in db.PALLET on c.PalletProveedor equals cl.IdPallet
+                                           join clasificador in db.CLASIFICADOR on new {Codigo=cl.Proveedor, Grupo="028" } equals new {clasificador.Codigo, clasificador.Grupo }
+                                           where c.EstadoRegistro==clsAtributos.EstadoRegistroActivo && c.IdControlConsumoInsumos==IdCabeceraControl
                                            select new DetalleCuerpo
                                            {
-                                               Proveedor = cl.Proveedor + "-" + cl.Envase,
-                                               Bulto = c.Bultos
-                                           ,
+                                               Proveedor = clasificador.Descripcion + "-" + cl.Envase,
+                                               Bulto = c.Bultos,
                                                Fecha = c.FechaFabricacion,
-                                               Linea = ""
+                                               Linea = "",
+                                               Pallet=c.Pallet,
+                                               Lote=c.Lotes,
+                                               PalletProveedor=c.PalletProveedor
                                            }
                                          ).ToList();
                 Resultado.DetalleMermas = (from c in db.CLASIFICADOR
-                                           join d in db.CONSUMO_DETALLE_DANIADO on new { codigo = c.Codigo, grupo = c.Grupo } equals new { codigo = d.Codigo, grupo = "024" } into mermas
+                                           join d in db.CONSUMO_DETALLE_DANIADO on new { codigo = c.Codigo, IdControlConsumoInsumos=IdCabeceraControl,estado=c.EstadoRegistro } equals new { codigo = d.Codigo, IdControlConsumoInsumos = d.IdControlConsumoInsumos, estado=clsAtributos.EstadoRegistroActivo } into mermas
                                            from m in mermas.DefaultIfEmpty()
-                                           where c.Codigo != "0"
+                                           where c.Codigo != "0" && c.Grupo=="024" &&c.EstadoRegistro==clsAtributos.EstadoRegistroActivo
                                            select new DetalleMermasViewModel { Merma = c.Descripcion, Cuerpo = m.Latas, Tapa = m.Tapas }).ToList();
 
+                int? IdPalletProveedor = (from d in Resultado.DetalleCuerpo
+                                         where d.Pallet == 0
+                                         select d.PalletProveedor).FirstOrDefault();
+                Resultado.ToTalUnidadesSaldoInicial = Resultado.CabeceraControl.SaldoInicialLamina>0?(from p in db.PALLET
+                                                       where p.IdPallet == IdPalletProveedor
+                                                       select p.Unidades).FirstOrDefault()*Resultado.CabeceraControl.SaldoInicialLamina: Resultado.CabeceraControl.SaldoInicialLamina;
+
+                IdPalletProveedor = (from d in Resultado.DetalleCuerpo
+                                          select d.PalletProveedor).LastOrDefault();
+                Resultado.TotalUnidadesSaldoFinal = Resultado.CabeceraControl.SaldoFinalLamina > 0 ? (from p in db.PALLET
+                                                                                                          where p.IdPallet == IdPalletProveedor
+                                                                                                          select p.Unidades).FirstOrDefault() * Resultado.CabeceraControl.SaldoInicialLamina : Resultado.CabeceraControl.SaldoInicialLamina;
                 return Resultado;
             }
         }

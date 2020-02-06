@@ -10,6 +10,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.ControlConsumoInsumos
         public CONTROL_CONSUMO_INSUMO CabeceraControl { get; set; }
         public List<DetalleCuerpo> DetalleCuerpo { get; set; }
         public  List<DetalleMermasViewModel> DetalleMermas { get; set; }
-
+        public int? ToTalUnidadesSaldoInicial { get; set; }
+        public int? TotalUnidadesSaldoFinal { get; set; }
     }
 }
