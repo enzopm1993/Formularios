@@ -2041,6 +2041,7 @@
     <Content Include="Content\images\cuchillo03.png" />
     <Content Include="Content\images\fondo5.jpg" />
     <Content Include="Content\images\fondo6.jpg" />
+    <Content Include="Content\images\loader.gif" />
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\pageError.png" />
     <Content Include="Content\images\pez-salto.gif" />
@@ -3476,6 +3477,7 @@
     <Content Include="Views\EntregaProductoTerminado\ReporteControlConsumoMaterialPartial.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\ReporteEntregaProductoTerminadoDetallePartial.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\ReporteControlConsumoTiemposMuertos.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteEnvaseEnlatadoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

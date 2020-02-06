@@ -2,14 +2,36 @@
     input, select, textarea {
         max-width: 100%;
     }
+    #cargac {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        /*left: 0;*/
+        height: 100%;
+        width: 100%;
+        background: rgba( 255, 255, 255, .8 ) url('../../Content/images/loader.gif') 50% 50% no-repeat;
+        background-position-x:35%;
+    }
+    /* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+    /*body.loading .loadall {
+        overflow: hidden;
+    }*/
+
+    /* Anytime the body has the loading class, our
+   modal element will be visible */
+    .bloquear {
+        display: block;
+    }
 </style>
 @{
     ViewBag.Title = "ReporteControlEnvasesEnlatado";
 }
-
+<div class="loadall" id="cargac"></div>
 <h4>Reporte Control Envases Enlatado</h4>
 <br />
-<div class="row">
+<div class="row" id="DivFiltros">
     <div class="col-md-4 col-sm-6 form-group">
         <label>Fecha:</label>
         <input type="date" id="txtFecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarControlEnvaseEnlatado()" class="form-control" />
@@ -25,6 +47,13 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-12 text-center">
+        <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button" hidden>
+            <img style="width:100%" src="~/Content/icons/atras24.png" />
+        </button>
+    </div>
+    </div>
 
 <div class="d-flex justify-content-center">
     <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
@@ -33,5 +62,9 @@
 </div>
 <br />
 <div id="DivControlEnvasesEnlatado">
-    <h4 class="text-warning text-center" id="mensajeReg"></h4>
+    
+</div>
+<h4 class="text-warning text-center" id="mensajeReg"></h4>
+<div id="DivDetalleReporte" style="padding-bottom:50px">
+
 </div>

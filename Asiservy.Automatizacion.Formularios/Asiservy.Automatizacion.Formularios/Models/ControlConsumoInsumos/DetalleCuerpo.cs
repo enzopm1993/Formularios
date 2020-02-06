@@ -12,5 +12,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.ControlConsumoInsumos
         public int Bulto { get; set; }
         public DateTime Fecha { get; set; }
         public string Linea { get; set; }
+        public int Pallet { get; set; }
+        public int? PalletProveedor { get; set; }
     }
 }
