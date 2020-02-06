@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "ControlBalanza";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%
+    }
+</style>
+<h4>Control de Balanza</h4>
+
+<input type="hidden" id="selectLinea" name="name" value="@ViewBag.Linea" />
+
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-6">
+        <label>Fecha</label>
+        <input type="date" class="form-control" id="txtFecha" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarControlBalanza()" />
+    </div>
+    <div class="col-md-4 col-sm-6 col-6">
+        <label>Empleado</label>
+        <div class="input-group">
+            @Html.TextBox("NombreEmpleado", null, new { style = "width: 65%;", @readonly = "readonly" })
+            @Html.Hidden("Identificacion")
+            <button type="button" onclick="CargarEmpleados();" id="CargarEmpleadoPG">
+                <img src="~/Content/images/buscar.png" />
+            </button>
+        </div>
+    </div>
+    <div class="col-md-2 col-sm-6 col-6">
+        <label>Codigo</label>
+        <input type="text" class="form-control" id="txtCodigo" name="name" value="" />
+    </div>
+    <div class="col-md-3 col-12  text-md-left text-center">
+        <label class="">Acciones</label>
+
+        <div class="form-group">
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnModalGenerar" onclick="GuardarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnModalGenerar" onclick="Limpiar()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+<hr />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+
+
+<div id="DivTableControl" class="table-responsive">
+
+</div>
+
+
+<div id="ModelCargarEmpleados"></div>
+<br /><br />
+
+<script src="~/Scripts/SolicitudPermiso/Empleado.js"></script>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar Control de Balanza</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
