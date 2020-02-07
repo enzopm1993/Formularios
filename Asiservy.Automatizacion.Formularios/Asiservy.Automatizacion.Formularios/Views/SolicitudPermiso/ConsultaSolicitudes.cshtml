@@ -56,7 +56,7 @@
             <td>@diaSalida, @item.FechaSalida.Value.ToString("dd-MM-yyyy HH:mm")</td>
             @if (ViewBag.Garita != null)
             {
-                <td> <input type="button" name="name" value="Marcar Salida" class="btn btn-outline-info" onclick="MarcarSalida(@item.IdSolicitudPermiso,'@item.FechaBiometrico','@item.FechaSalida')" /> </td>
+                <td> <input type="button" name="name" value="Marcar Salida" class="btn btn-outline-info" id="txtMarcarSalida-@item.IdSolicitudPermiso" onclick="MarcarSalida(@item.IdSolicitudPermiso,'@item.FechaBiometrico','@item.FechaSalida')" /> </td>
             }
             else
             {

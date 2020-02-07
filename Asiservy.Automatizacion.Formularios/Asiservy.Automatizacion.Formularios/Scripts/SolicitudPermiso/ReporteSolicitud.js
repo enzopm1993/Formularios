@@ -42,7 +42,7 @@ function MarcarSalida(IdSolicitudPermiso,fecha,fechaSalida) {
         MensajeAdvertencia("No ha marcado en el biometríco");
         return;
     }
-
+    $("#txtMarcarSalida-" + IdSolicitudPermiso).prop("disabled", true);
     $.ajax({
         type: "POST",
         url: '../SolicitudPermiso/MarcarSalidaSolicitudPermiso',
