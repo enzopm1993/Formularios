@@ -542,7 +542,9 @@ function SeleccionarControlDetalleConsumo(model) {
    // console.log(model);
     ListadoControl = model;
     $("#txtIdControlConsumo").val(ListadoControl.IdControlConsumoInsumos);
-    $("#txtOrdenFabricacion").val(ListadoControl.OrdenFabricacion);
+    //$("#txtOrdenFabricacion").val(ListadoControl.OrdenFabricacion);
+    $("#txtOrdenFabricacion").empty();
+    $("#txtOrdenFabricacion").append("<option value='" + model.OrdenFabricacion + "'>" + model.OrdenFabricacion + "</option>")
     $("#txtOrdenFabricacion").prop("disabled", true);
     $("#txtPesoNeto").val(ListadoControl.PesoNeto);
     $("#txtPesoEscrundido").val(ListadoControl.PesoEscrundido);
@@ -658,6 +660,7 @@ function AtrasControlPrincipal() {
     ListadoControl = [];
     NuevoControlConsumoInsumos();
     CargarControlConsumo();
+    CargarOrdenFabricacion();
 }
 
 function ModalGenerarControlDetalle() {    
