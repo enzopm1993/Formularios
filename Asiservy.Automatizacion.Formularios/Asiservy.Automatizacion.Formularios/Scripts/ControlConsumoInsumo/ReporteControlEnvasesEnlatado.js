@@ -1,4 +1,9 @@
-﻿function Atras() {
+﻿
+
+$(document).ready(function () {
+    CargarControlEnvaseEnlatado();
+});
+function Atras() {
     $('DivDetalleReporte').empty();
     $('#DivFiltros').show();
     $('#btnAtras').prop('hidden', true);

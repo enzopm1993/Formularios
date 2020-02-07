@@ -3195,6 +3195,7 @@
     <Compile Include="Controllers\ControlHoraMaquinaController.cs" />
     <Compile Include="Controllers\ControlMaterialQuebradizoController.cs" />
     <Compile Include="Controllers\ControlPesoEnlatadoController.cs" />
+    <Compile Include="Controllers\ControlPesoyCodificacionController.cs" />
     <Compile Include="Controllers\ControlToallaController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\EntregaProductoTerminadoController.cs" />
@@ -3472,6 +3473,7 @@
     <Content Include="Views\EntregaProductoTerminado\BandejaControlCalidadPartial.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\BandejaControlCalidad.cshtml" />
     <Content Include="Views\ControlConsumoInsumo\ReporteEnvaseEnlatadoPartial.cshtml" />
+    <Content Include="Views\ControlPesoyCodificacion\ControlPesoCodificacionLomosyMigas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
