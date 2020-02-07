@@ -9,6 +9,7 @@ function Limpiar() {
     $("#NombreEmpleado").val('');
     $("#Identificacion").val('');   
     $("#txtCodigo").val('');
+    $("#txtObservacion").val('');
 }
 
 function CargarControlBalanza() {
@@ -86,11 +87,13 @@ function GuardarControl() {
             Fecha: $('#txtFecha').val(),
             Cedula: $("#Identificacion").val(),
             Codigo: $("#txtCodigo").val(),
+            Observacion: $("#txtObservacion").val(),
             Linea: $("#selectLinea").val()
         },
         success: function (resultado) {
             MensajeCorrecto(resultado);
             CargarControlBalanza();
+            Limpiar();
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -102,6 +105,7 @@ function EditarControlBalanza(model) {
     $("#NombreEmpleado").val(model.Nombre);
     $("#Identificacion").val(model.Cedula);
     $("#txtCodigo").val(model.Codigo);
+    $("#txtObservacion").val(model.Observacion);
 }
 
 

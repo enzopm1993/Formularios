@@ -24,6 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlBalanza
                 if(model!= null)
                 {
                     model.Codigo = Control.Codigo;
+                    model.Observacion = Control.Observacion;
                     model.FechaModificacionLog = DateTime.Now;
                     model.TerminalModificacionLog = Control.TerminalIngresoLog;
                     model.UsuarioModificacionLog = Control.UsuarioIngresoLog;
@@ -51,6 +52,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlBalanza
                     model.UsuarioModificacionLog = Control.UsuarioIngresoLog;
                     db.SaveChanges();
                 }
+            }
+        }
+        public List<spReporteConsultaControlBalanza> ConsultarReporteControlBalance(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var listado = db.spReporteConsultaControlBalanza(FechaDesde,FechaHasta).ToList();
+                return listado;
             }
         }
     }

@@ -2146,6 +2146,7 @@
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
+    <Content Include="Scripts\ControlBalanza\ReporteControlBalanza.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ControlConsumoInsumo.js" />
     <Content Include="Scripts\ControlConsumoInsumo\MantenimientoPallet.js" />
@@ -3483,6 +3484,8 @@
     <Content Include="Views\ControlConsumoInsumo\ReporteEnvaseEnlatadoPartial.cshtml" />
     <Content Include="Views\ControlBalanza\ControlBalanzaPartial.cshtml" />
     <Content Include="Views\ControlBalanza\ControlBalanza.cshtml" />
+    <Content Include="Views\ControlBalanza\ReporteControlBalanza.cshtml" />
+    <Content Include="Views\ControlBalanza\ReporteControlBalanzaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

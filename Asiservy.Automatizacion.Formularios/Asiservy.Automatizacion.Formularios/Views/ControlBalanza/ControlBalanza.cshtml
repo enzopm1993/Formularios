@@ -12,25 +12,31 @@
 <input type="hidden" id="selectLinea" name="name" value="@ViewBag.Linea" />
 
 <div class="row">
-    <div class="col-md-3 col-sm-6 col-6">
+    <div class="col-md-3 col-sm-6 col-12">
         <label>Fecha</label>
         <input type="date" class="form-control" id="txtFecha" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarControlBalanza()" />
     </div>
-    <div class="col-md-4 col-sm-6 col-6">
+    <div class="col-md-3 col-sm-6 col-12">
         <label>Empleado</label>
         <div class="input-group">
-            @Html.TextBox("NombreEmpleado", null, new { style = "width: 65%;", @readonly = "readonly" })
+            @Html.TextBox("NombreEmpleado", null, new { style = "width: 85%;", @readonly = "readonly" })
             @Html.Hidden("Identificacion")
-            <button type="button" onclick="CargarEmpleados();" id="CargarEmpleadoPG">
+            <button type="button" onclick="CargarEmpleados();" style="width:15%" id="CargarEmpleadoPG">
                 <img src="~/Content/images/buscar.png" />
             </button>
         </div>
     </div>
-    <div class="col-md-2 col-sm-6 col-6">
+    <div class="col-md-2 col-sm-6 col-12">
         <label>Codigo</label>
         <input type="text" class="form-control" id="txtCodigo" name="name" value="" />
     </div>
-    <div class="col-md-3 col-12  text-md-left text-center">
+    <div class="col-md-4 col-sm-6 col-12">
+        <label>Observacion</label>
+        <input type="text" class="form-control" id="txtObservacion" name="name" value="" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-12 text-center">
         <label class="">Acciones</label>
 
         <div class="form-group">
@@ -44,7 +50,6 @@
         </div>
     </div>
 </div>
-
 
 
 

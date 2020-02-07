@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlBalanza>
-@using Newtonsoft.Json;
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteConsultaControlBalanza>
+
+
 <table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
-
             <th>
                 @Html.DisplayNameFor(model => model.Cedula)
             </th>
@@ -19,8 +19,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
-
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -39,15 +37,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Codigo)
             </td>
-
             <td>
                 @Html.DisplayFor(modelItem => item.Observacion)
-            </td>
-            <td>
-                @{string json = JsonConvert.SerializeObject(item); }
-                <button class="btn btn-link" onclick="EditarControlBalanza(@json)">Editar</button>
-                |
-                <button class="btn btn-link" onclick="EliminarControlBalanza(@json)">Eliminar</button>
             </td>
         </tr>
         }
