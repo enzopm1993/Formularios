@@ -19,5 +19,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime Fecha { get; set; }
         public string Codigo { get; set; }
         public string Linea { get; set; }
+        public string Observacion { get; set; }
     }
 }

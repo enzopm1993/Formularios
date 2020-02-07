@@ -1330,5 +1330,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlBalanza>("spConsultaControlBalanza", fechaParameter);
         }
+    
+        public virtual ObjectResult<spReporteConsultaControlBalanza> spReporteConsultaControlBalanza(Nullable<System.DateTime> fechadesde, Nullable<System.DateTime> fechahasta)
+        {
+            var fechadesdeParameter = fechadesde.HasValue ?
+                new ObjectParameter("fechadesde", fechadesde) :
+                new ObjectParameter("fechadesde", typeof(System.DateTime));
+    
+            var fechahastaParameter = fechahasta.HasValue ?
+                new ObjectParameter("fechahasta", fechahasta) :
+                new ObjectParameter("fechahasta", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteConsultaControlBalanza>("spReporteConsultaControlBalanza", fechadesdeParameter, fechahastaParameter);
+        }
     }
 }
