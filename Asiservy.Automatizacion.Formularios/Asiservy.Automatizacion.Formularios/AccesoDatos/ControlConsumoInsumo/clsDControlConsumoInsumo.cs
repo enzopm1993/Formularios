@@ -525,6 +525,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
         #endregion
 
         #region Mantenimiento Pallet
+        public string EliminarPallet(PALLET pallet)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var BuscarPallet = db.PALLET.Find(pallet.IdPallet);
+                BuscarPallet.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                BuscarPallet.UsuarioModificacionLog = pallet.UsuarioIngresoLog;
+                BuscarPallet.TerminalModificacionLog = pallet.TerminalIngresoLog;
+                BuscarPallet.FechaModificacionLog = DateTime.Now;
+                db.SaveChanges();
+                return "Registro Inactivado con éxito";
+
+            }
+        }
         public string GuardarPallet(PALLET pallet)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -551,8 +565,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                     modificarpallet.Lamina = pallet.Lamina;
                     modificarpallet.Unidades = pallet.Unidades;
                     modificarpallet.FechaModificacionLog = pallet.FechaIngresoLog;
-                    modificarpallet.UsuarioModificacionLog = pallet.UsuarioModificacionLog;
-                    modificarpallet.TerminalModificacionLog = pallet.TerminalModificacionLog;
+                    modificarpallet.UsuarioModificacionLog = pallet.UsuarioIngresoLog;
+                    modificarpallet.TerminalModificacionLog = pallet.TerminalIngresoLog;
                     db.SaveChanges();
                     return "Registro actualizado con éxito";
                 }
