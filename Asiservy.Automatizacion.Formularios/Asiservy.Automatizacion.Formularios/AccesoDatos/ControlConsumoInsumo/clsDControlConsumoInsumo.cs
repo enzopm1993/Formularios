@@ -488,6 +488,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 if (result != null)
                 {
                     result.Lote = control.Lote;
+                    result.Lomo = control.Lomo;
+                    result.Miga = control.Miga;
                     result.Procedencia = control.Procedencia;
                     result.Observacion = control.Observacion;
                     result.UsuarioModificacionLog = control.UsuarioIngresoLog;

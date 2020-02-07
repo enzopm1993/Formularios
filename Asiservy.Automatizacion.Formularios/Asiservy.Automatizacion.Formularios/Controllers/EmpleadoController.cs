@@ -552,7 +552,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 else if (roles.FirstOrDefault(x => x.Value == clsAtributos.SeguridadIndustrial) != null)
                 {
-                    ViewBag.Lineas = clsDGeneral.ConsultaLineas("0");
+                    var lineas = clsDGeneral.ConsultaLineas("0");
+                    lineas.Add(new spConsultaLinea { Codigo = "T", Descripcion = "Todos" });
+                    ViewBag.Lineas = lineas;
                 }
                 else
                 {

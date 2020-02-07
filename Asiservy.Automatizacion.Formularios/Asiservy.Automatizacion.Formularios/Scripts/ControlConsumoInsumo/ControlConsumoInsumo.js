@@ -1334,6 +1334,9 @@ function ModalGenerarProcedencia() {
     $("#txtIdConsumoProcedencia").val(0);
     $("#selectProcedencia").prop("selectedIndex",0);
     $("#txtLoteProcedencia").val("");
+    $("#txtLomoProcedencia").val("0");
+    $("#txtMigaProcedencia").val("0");
+    
     $("#ModalConsumoProcedencia").modal("show");
 }
 
@@ -1351,6 +1354,18 @@ function validarConsumoProcedencia() {
     } else {
         $("#selectProcedencia").css('borderColor', '#ced4da');
     }
+    if ($("#txtLomoProcedencia").val() == "") {
+        $("#txtLomoProcedencia").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtLomoProcedencia").css('borderColor', '#ced4da');
+    }
+    if ($("#txtMigaProcedencia").val() == "") {
+        $("#txtMigaProcedencia").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtMigaProcedencia").css('borderColor', '#ced4da');
+    }
     return valida;
 }
 
@@ -1366,7 +1381,10 @@ function GuardarConsumoProcedencia() {
             IdControlConsumoInsumos: ListadoControl.IdControlConsumoInsumos,
             Procedencia: $("#selectProcedencia").val(),
             Lote: $("#txtLoteProcedencia").val(),            
-            Observacion: $("#txtObservacionProcedencia").val()
+            Observacion: $("#txtObservacionProcedencia").val(),
+             Lomo:$("#txtLomoProcedencia").val(),
+             Miga:$("#txtMigaProcedencia").val()
+
 
         },
         success: function (resultado) {
@@ -1437,6 +1455,8 @@ function EditarConsumoProcedencia(model) {
     $("#txtIdConsumoProcedencia").val(model.IdProcedenciaPescado);
     $("#selectProcedencia").val(model.CodProcedencia);
     $("#txtLoteProcedencia").val(model.Lote);
+    $("#txtLomoProcedencia").val(model.Lomo);
+    $("#txtMigaProcedencia").val(model.Miga);
     $("#txtObservacionProcedencia").val(model.Observacion);
 
 
@@ -1562,7 +1582,7 @@ function validarConsumoAditivos() {
         $("#select2-selectAditivo-container").css('Color', '#ced4da');
     }
 
-    if ($("#txtPesoAditivo").val() == "" || $("#txtPesoAditivo").val()<1) {
+    if ($("#txtPesoAditivo").val() == "" || $("#txtPesoAditivo").val()<0) {
         $("#txtPesoAditivo").css('borderColor', '#FA8072');
         valida = false;
     } else {

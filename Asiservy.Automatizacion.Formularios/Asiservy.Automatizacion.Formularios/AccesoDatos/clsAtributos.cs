@@ -240,5 +240,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         //CLASIFICADOR PROVEEDORES DE PALLET 
         public static string CodigoGrupoProveedorPallet = "028";
+
+        //CLASIFICADOR DE LINEAS DE ENTREGA DE PRODUCTO TERMINADO
+        public static string CodigoGrupoLineasEntregaProductoTerminado = "031";
+
     }
 }

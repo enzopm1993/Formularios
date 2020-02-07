@@ -1848,6 +1848,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         #endregion
+
         public ActionResult PartialMantenimientoPallet()
         {
             try
