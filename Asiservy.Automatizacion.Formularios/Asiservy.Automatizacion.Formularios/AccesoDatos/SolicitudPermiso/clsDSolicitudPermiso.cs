@@ -352,15 +352,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
                     };
                     entities.BITACORA_SOLICITUD.Add(bitacora);
-                                                         
-                    //INGRESAR MARCACIÓN DE SALIDA DEL BIOMÉTRICO
-                    StatusOnlyControl resultOnlyControl;
-                    using (OnlyControlService.wsrvTcontrolSoapClient service = new OnlyControlService.wsrvTcontrolSoapClient())
-                    {
-                        string content = service.InsertaMarcacion(clsAtributos.keyLlaveAcceso, Solicitud.Identificacion, DateTime.Now, "SALIDA", "192.168.31.2");
-                        resultOnlyControl = JsonConvert.DeserializeObject<StatusOnlyControl>(content);
-                    }
+
                     
+                    if (Solicitud.Origen == "M")
+                    {
+                        //INGRESAR MARCACIÓN DE SALIDA DEL BIOMÉTRICO
+                        StatusOnlyControl resultOnlyControl;
+                        using (OnlyControlService.wsrvTcontrolSoapClient service = new OnlyControlService.wsrvTcontrolSoapClient())
+                        {
+                            string content = service.InsertaMarcacion(clsAtributos.keyLlaveAcceso, Solicitud.Identificacion, DateTime.Now, "SALIDA", "192.168.31.2");
+                            resultOnlyControl = JsonConvert.DeserializeObject<StatusOnlyControl>(content);
+                        }
+
+                    }
+
+
                 }
                 entities.SaveChanges();
                 return clsAtributos.MsjRegistroGuardado;
