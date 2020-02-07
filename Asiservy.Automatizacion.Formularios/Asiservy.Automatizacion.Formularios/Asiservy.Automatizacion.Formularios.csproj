@@ -2041,6 +2041,7 @@
     <Content Include="Content\images\cuchillo03.png" />
     <Content Include="Content\images\fondo5.jpg" />
     <Content Include="Content\images\fondo6.jpg" />
+    <Content Include="Content\images\loader.gif" />
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\pageError.png" />
     <Content Include="Content\images\pez-salto.gif" />
@@ -2144,6 +2145,8 @@
     <Content Include="Scripts\Asistencia\CambiarPersonalDeArea.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
+    <Content Include="Scripts\ControlBalanza\ReporteControlBalanza.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ControlConsumoInsumo.js" />
     <Content Include="Scripts\ControlConsumoInsumo\MantenimientoPallet.js" />
@@ -2155,6 +2158,7 @@
     <Content Include="Scripts\Empleado\ReportePersonalPresente.js" />
     <Content Include="Scripts\EntregaProductoTerminado\BandejaControlCalidad.js" />
     <Content Include="Scripts\EntregaProductoTerminado\EntregaProductoTerminado.js" />
+    <Content Include="Scripts\EntregaProductoTerminado\ReporteEntregaProductoTerminado.js" />
     <Content Include="Scripts\EntregaUniforme\BandejaEntregaUniforme.js" />
     <Content Include="Scripts\EntregaUniforme\EntregaUniforme.js" />
     <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
@@ -3133,6 +3137,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
+    <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
     <Compile Include="AccesoDatos\ControlConsumoInsumo\clsDControlConsumoInsumo.cs" />
     <Compile Include="AccesoDatos\ControlCuchillo\clsDCuchillo.cs" />
     <Compile Include="AccesoDatos\ControlCocheLinea\clsDControlCocheLinea.cs" />
@@ -3187,6 +3192,7 @@
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
+    <Compile Include="Controllers\ControlBalanzaController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
     <Compile Include="Controllers\ControlConsumoInsumoController.cs" />
     <Compile Include="Controllers\ControlCuchilloController.cs" />
@@ -3194,6 +3200,7 @@
     <Compile Include="Controllers\ControlHoraMaquinaController.cs" />
     <Compile Include="Controllers\ControlMaterialQuebradizoController.cs" />
     <Compile Include="Controllers\ControlPesoEnlatadoController.cs" />
+    <Compile Include="Controllers\ControlPesoyCodificacionController.cs" />
     <Compile Include="Controllers\ControlToallaController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\EntregaProductoTerminadoController.cs" />
@@ -3470,6 +3477,17 @@
     <Content Include="Views\ControlConsumoInsumo\ReporteControlEnvasesEnlatado.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\BandejaControlCalidadPartial.cshtml" />
     <Content Include="Views\EntregaProductoTerminado\BandejaControlCalidad.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\ReporteEntregaProductoTerminado.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\ReporteEntregaProductoTerminadoPartial.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\ReporteControlConsumoMaterialPartial.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\ReporteEntregaProductoTerminadoDetallePartial.cshtml" />
+    <Content Include="Views\EntregaProductoTerminado\ReporteControlConsumoTiemposMuertos.cshtml" />
+    <Content Include="Views\ControlConsumoInsumo\ReporteEnvaseEnlatadoPartial.cshtml" />
+    <Content Include="Views\ControlPesoyCodificacion\ControlPesoCodificacionLomosyMigas.cshtml" />
+    <Content Include="Views\ControlBalanza\ControlBalanzaPartial.cshtml" />
+    <Content Include="Views\ControlBalanza\ControlBalanza.cshtml" />
+    <Content Include="Views\ControlBalanza\ReporteControlBalanza.cshtml" />
+    <Content Include="Views\ControlBalanza\ReporteControlBalanzaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

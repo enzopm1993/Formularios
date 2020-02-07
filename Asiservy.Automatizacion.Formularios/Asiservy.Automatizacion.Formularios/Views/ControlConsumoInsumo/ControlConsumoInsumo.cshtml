@@ -937,18 +937,25 @@
 
 
                         @*<select class="form-control" id="selectProcedencia">
-                                <option value="S">Sala</option>
-                                <option value="C">Congelado</option>
-                                <option value="R">Refrigerado</option>
+                <option value="S">Sala</option>
+                <option value="C">Congelado</option>
+                <option value="R">Refrigerado</option>
 
 
-                            </select>*@
+            </select>*@
                     </div>
                     <div class="col-6 col-sm-12 col-md-12">
                         <label>Lote</label>
                         <input type="text" class="form-control" id="txtLoteProcedencia" name="name" value="" />
                     </div>
-
+                    <div class="col-6 col-sm-12 col-md-12">
+                        <label>Lomo</label>
+                        <input type="number" class="form-control" id="txtLomoProcedencia" name="name" value="0" onkeypress="SoloDecimales(event,this)" />
+                    </div>
+                    <div class="col-6 col-sm-12 col-md-12">
+                        <label>Miga</label>
+                        <input type="number" class="form-control" id="txtMigaProcedencia" name="name" value="0" onkeypress="SoloDecimales(event,this)"/>
+                    </div>
                     <div class="col-12 col-sm-12 col-md-12">
                         <label>Observación</label>
                         <textarea id="txtObservacionProcedencia" maxlength="250" class="form-control"></textarea>

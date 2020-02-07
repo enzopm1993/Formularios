@@ -11,6 +11,7 @@
             <th>Envases</th>
             <th>Lámina</th>
             <th>Unidad</th>
+            @*<td></td>*@
         </tr>
     </thead>
     <tbody>
@@ -24,6 +25,7 @@
                 <td>@item.Envase</td>
                 <td> @item.Lamina</td>
                 <td>@item.Unidades</td>
+                @*<td><i class="fas fa-window-close" style="color:red" onclick="EliminarPallet('@item.IdPallet')"></i></td>*@
             </tr>
         }
     </tbody>

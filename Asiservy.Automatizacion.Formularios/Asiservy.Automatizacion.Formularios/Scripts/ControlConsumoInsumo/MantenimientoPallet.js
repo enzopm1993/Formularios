@@ -3,6 +3,28 @@
    
     CargarPallets();
 });
+function EliminarPallet() {
+    //alert('eliminar' + idpallet);
+    $.ajax({
+        url: "../ControlConsumoInsumo/EliminarPallet",
+        type: "POST",
+        data: {
+            IdPallet: $('#IdPallet').val(),
+            
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            MensajeCorrecto(resultado, false);
+            CargarPallets();
+            Nuevo();
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
 function EditarPallet(IdPallet, IdProveedor, Proveedor, Numero_Pallet, Envase, Lamina, Unidades) {
     $('#IdPallet').val(IdPallet);
     $('#cmbProveedor').val(IdProveedor);
@@ -12,6 +34,7 @@ function EditarPallet(IdPallet, IdProveedor, Proveedor, Numero_Pallet, Envase, L
     $('#txtunidades').val(Unidades);
     $('#txtenvase').prop('disabled', true);
     $('#cmbProveedor').prop('disabled', true);
+    $('#btnEliminar').prop('disabled', false);
 }
 function Nuevo() {
     $('#txtPallet').val('');
@@ -27,6 +50,7 @@ function Nuevo() {
     $('#msjenvase').hide();
     $('#msjlamina').hide();
     $('#msjunidades').hide();
+    $('#btnEliminar').prop('disabled', true);
 }
 
 function GuardarPallet() {

@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
+using Asiservy.Automatizacion.Formularios.Models.ControlConsumoInsumos;
 using Asiservy.Automatizacion.Formularios.Models.MantenimientoPallet;
 using System;
 using System.Collections.Generic;
@@ -487,6 +488,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 if (result != null)
                 {
                     result.Lote = control.Lote;
+                    result.Lomo = control.Lomo;
+                    result.Miga = control.Miga;
                     result.Procedencia = control.Procedencia;
                     result.Observacion = control.Observacion;
                     result.UsuarioModificacionLog = control.UsuarioIngresoLog;
@@ -522,6 +525,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
         #endregion
 
         #region Mantenimiento Pallet
+        public string EliminarPallet(PALLET pallet)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var BuscarPallet = db.PALLET.Find(pallet.IdPallet);
+                BuscarPallet.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                BuscarPallet.UsuarioModificacionLog = pallet.UsuarioIngresoLog;
+                BuscarPallet.TerminalModificacionLog = pallet.TerminalIngresoLog;
+                BuscarPallet.FechaModificacionLog = DateTime.Now;
+                db.SaveChanges();
+                return "Registro Inactivado con éxito";
+
+            }
+        }
         public string GuardarPallet(PALLET pallet)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -548,8 +565,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                     modificarpallet.Lamina = pallet.Lamina;
                     modificarpallet.Unidades = pallet.Unidades;
                     modificarpallet.FechaModificacionLog = pallet.FechaIngresoLog;
-                    modificarpallet.UsuarioModificacionLog = pallet.UsuarioModificacionLog;
-                    modificarpallet.TerminalModificacionLog = pallet.TerminalModificacionLog;
+                    modificarpallet.UsuarioModificacionLog = pallet.UsuarioIngresoLog;
+                    modificarpallet.TerminalModificacionLog = pallet.TerminalIngresoLog;
                     db.SaveChanges();
                     return "Registro actualizado con éxito";
                 }
@@ -595,6 +612,51 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                     SliPallet.Add(new SelectListItem { Value = item.IdPallet.ToString(), Text = item.Proveedor+"-"+item.Envase });
                 }
                 return SliPallet;
+            }
+        }
+        #endregion
+        #region 
+        public ReporteEnvaseEnlatadoViewModel ConsultaReporteControlEnvEnlatado(int IdCabeceraControl)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                ReporteEnvaseEnlatadoViewModel Resultado = new ReporteEnvaseEnlatadoViewModel();
+                Resultado.CabeceraControl = db.CONTROL_CONSUMO_INSUMO.Find(IdCabeceraControl);
+
+                Resultado.DetalleCuerpo = (from c in db.CONSUMO_DETALLE_LATA
+                                           join cl in db.PALLET on c.PalletProveedor equals cl.IdPallet
+                                           join clasificador in db.CLASIFICADOR on new {Codigo=cl.Proveedor, Grupo="028" } equals new {clasificador.Codigo, clasificador.Grupo }
+                                           where c.EstadoRegistro==clsAtributos.EstadoRegistroActivo && c.IdControlConsumoInsumos==IdCabeceraControl
+                                           select new DetalleCuerpo
+                                           {
+                                               Proveedor = clasificador.Descripcion + "-" + cl.Envase,
+                                               Bulto = c.Bultos,
+                                               Fecha = c.FechaFabricacion,
+                                               Linea = "",
+                                               Pallet=c.Pallet,
+                                               Lote=c.Lotes,
+                                               PalletProveedor=c.PalletProveedor
+                                           }
+                                         ).ToList();
+                Resultado.DetalleMermas = (from c in db.CLASIFICADOR
+                                           join d in db.CONSUMO_DETALLE_DANIADO on new { codigo = c.Codigo, IdControlConsumoInsumos=IdCabeceraControl,estado=c.EstadoRegistro } equals new { codigo = d.Codigo, IdControlConsumoInsumos = d.IdControlConsumoInsumos, estado=clsAtributos.EstadoRegistroActivo } into mermas
+                                           from m in mermas.DefaultIfEmpty()
+                                           where c.Codigo != "0" && c.Grupo=="024" &&c.EstadoRegistro==clsAtributos.EstadoRegistroActivo
+                                           select new DetalleMermasViewModel { Merma = c.Descripcion, Cuerpo = m.Latas, Tapa = m.Tapas }).ToList();
+
+                int? IdPalletProveedor = (from d in Resultado.DetalleCuerpo
+                                         where d.Pallet == 0
+                                         select d.PalletProveedor).FirstOrDefault();
+                Resultado.ToTalUnidadesSaldoInicial = Resultado.CabeceraControl.SaldoInicialLamina>0?(from p in db.PALLET
+                                                       where p.IdPallet == IdPalletProveedor
+                                                       select p.Unidades).FirstOrDefault()*Resultado.CabeceraControl.SaldoInicialLamina: Resultado.CabeceraControl.SaldoInicialLamina;
+
+                IdPalletProveedor = (from d in Resultado.DetalleCuerpo
+                                          select d.PalletProveedor).LastOrDefault();
+                Resultado.TotalUnidadesSaldoFinal = Resultado.CabeceraControl.SaldoFinalLamina > 0 ? (from p in db.PALLET
+                                                                                                          where p.IdPallet == IdPalletProveedor
+                                                                                                          select p.Unidades).FirstOrDefault() * Resultado.CabeceraControl.SaldoInicialLamina : Resultado.CabeceraControl.SaldoInicialLamina;
+                return Resultado;
             }
         }
         #endregion

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaControlBalanza>
+@using Newtonsoft.Json;
+<table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @item.Fecha.ToString("yyyy-MM-dd")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+            <td>
+                @{string json = JsonConvert.SerializeObject(item); }
+                <button class="btn btn-link" onclick="EditarControlBalanza(@json)">Editar</button>
+                |
+                <button class="btn btn-link" onclick="EliminarControlBalanza(@json)">Eliminar</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

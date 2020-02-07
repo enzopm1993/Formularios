@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaProductoTerminadoMateriales>
+
+<table class="table table-bordered">
+    <tr>      
+        <th>
+            @Html.DisplayNameFor(model => model.Material)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Recibido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Desechado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Usado)
+        </th>
+        
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Material)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Recibido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Desechado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Usado)
+        </td>
+       
+    </tr>
+}
+
+</table>

@@ -75,8 +75,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_ASISTENCIA" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_DANIADO" Width="1.5" PointX="13.625" PointY="47.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_TIEMPO_MUERTO" Width="1.5" PointX="13.625" PointY="52.5" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_PROCEDENCIA_PESCADO" Width="1.5" PointX="13.625" PointY="57.25" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_ADITIVO" Width="1.5" PointX="13.625" PointY="38.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_MATERIALES" Width="1.5" PointX="30.625" PointY="32.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PRODUCTO_TERMINADO_TIEMPO_PARADAS" Width="1.5" PointX="30.625" PointY="23.625" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO_DETALLE" Width="1.5" PointX="13.625" PointY="62.375" />
@@ -94,13 +92,16 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Width="1.5" PointX="11.375" PointY="44.5" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_PROCEDENCIA_PESCADO" Width="1.5" PointX="13.625" PointY="57.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_ADITIVO" Width="1.5" PointX="13.625" PointY="42.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_BALANZA" Width="1.5" PointX="27.375" PointY="10.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

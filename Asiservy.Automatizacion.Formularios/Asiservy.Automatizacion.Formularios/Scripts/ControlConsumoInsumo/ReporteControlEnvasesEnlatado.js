@@ -1,4 +1,17 @@
-﻿function CargarControlEnvaseEnlatado() {
+﻿
+
+$(document).ready(function () {
+    CargarControlEnvaseEnlatado();
+});
+function Atras() {
+    $('DivDetalleReporte').empty();
+    $('#DivFiltros').show();
+    $('#btnAtras').prop('hidden', true);
+
+    $("#DivControlEnvasesEnlatado").show();
+    $('#Detpartial').empty();
+}
+function CargarControlEnvaseEnlatado() {
     var txtFecha = $('#txtFecha').val();
     var selectTurno = $('#selectTurno').val();
     if ($("#txtFecha").val() == "") {
@@ -30,9 +43,11 @@
                 window.location.reload();
             }
             if (resultado == "0") {
+                $('#DivControlEnvasesEnlatado').empty();
                 $("#mensajeReg").html("No existen registros");
                 $("#spinnerCargando").prop("hidden", true);
             } else {
+                $("#mensajeReg").html("");
                 $("#spinnerCargando").prop("hidden", true);
                 $("#DivControlEnvasesEnlatado").html(resultado);
                 config.opcionesDT.pageLength = 10;
@@ -48,5 +63,42 @@
     });
 }
 function SeleccionarControlDetalleConsumo(CabControl) {
-    console.log(CabControl);
+    //console.log(CabControl);
+    $('#cargac').show();
+    
+    //$('#principal').addClass("carga");
+
+    $.ajax({
+        url: "../ControlConsumoInsumo/ReporteEnvaseEnlatadoPartial",
+        type: "GET",
+        data: {
+            IdCabeceraControlEnvEnlatado:CabControl.IdControlConsumoInsumos
+        },
+        success: function (resultado) {
+            $('#btnAtras').prop('hidden',false)
+            $('#cargac').hide();
+            $('#DivFiltros').hide();
+            $("#DivControlEnvasesEnlatado").hide();
+            $('#DivDetalleReporte').html(resultado);
+            //if (resultado == "101") {
+            //    window.location.reload();
+            //}
+            //if (resultado == "0") {
+            //    $("#mensajeReg").html("No existen registros");
+            //    $("#spinnerCargando").prop("hidden", true);
+            //} else {
+            //    $("#spinnerCargando").prop("hidden", true);
+            //    $("#DivControlEnvasesEnlatado").html(resultado);
+            //    config.opcionesDT.pageLength = 10;
+            //    $('#tblDataTable').DataTable(config.opcionesDT);
+            //}
+
+        },
+        error: function (resultado) {
+            $('#cargac').hide();
+            MensajeError(resultado.responseText, false);
+
+            //$("#spinnerCargando").prop("hidden", true);
+        }
+    });
 }

@@ -297,8 +297,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.EntregaProductoTermina
                 }
             }
         }
+        #endregion
 
-
+        #region REPORTE
+        public List<spConsultaProductoTerminadoReporte> ReporteConsultaControlProductoTerminado(DateTime Fecha, string Linea)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.spConsultaProductoTerminadoReporte(Fecha, Linea).ToList();
+                return lista;
+            }
+        }
         #endregion
     }
 }

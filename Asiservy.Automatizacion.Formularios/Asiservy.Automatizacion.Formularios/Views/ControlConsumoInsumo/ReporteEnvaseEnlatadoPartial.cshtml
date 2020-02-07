@@ -1,0 +1,217 @@
+﻿@model Asiservy.Automatizacion.Formularios.Models.ControlConsumoInsumos.ReporteEnvaseEnlatadoViewModel
+<style>
+    table.tabla_sin {
+        /*border-collapse: collapse;*/
+        line-height: 0;
+        color: black;
+        
+    }
+
+
+    td.celda_sin {
+        /*padding: 0;*/
+    }
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width:100%;
+    }
+
+        /*.card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+    .container {
+        padding: 2px 16px;
+    }*/
+</style>
+
+
+<div class="container-fluid" id="Detpartial">
+    <div class="card">
+        <div id="CabeceraCOntrolEnv" class="row">
+            <div class="col-md-4">
+                <strong>Fecha: </strong>@Model.CabeceraControl.Fecha.ToShortDateString()
+                <br />
+                <strong>Envase:</strong> @Model.CabeceraControl.Envase
+            </div>
+            <div class="col-md-6">
+                <strong>Producto:</strong> @Model.CabeceraControl.Producto
+                <br />
+                <strong>Orden de Producción:</strong> @Model.CabeceraControl.OrdenFabricacion
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="card">
+        <div id="contenedor" class="row">
+            <div class="col-md-7 col-sm-12">
+                <br />
+                <div id="DivDetalleLata" class="table-responsive" style="padding-bottom:10px">
+                    <table class="tabla_sin table-striped" border="1">
+                        <thead>
+                            <tr>
+                                <th>Proveedor</th>
+                                <th>N° Pallet</th>
+                                <th>Lote</th>
+                                <th>Bulto</th>
+                                <th>Fecha</th>
+                                <th>Línea</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.DetalleCuerpo)
+                            {
+                                <tr>
+                                    <td>@item.Proveedor</td>
+                                    <td>@item.Pallet</td>
+                                    <td>@item.Lote</td>
+                                    <td>@item.Bulto</td>
+                                    <td>@item.Fecha.ToShortDateString()</td>
+                                    <td>@item.Linea</td>
+                                </tr>
+                            }
+                            @for (int i = 0; i < 28 - Model.DetalleCuerpo.Count; i++)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+                <div id="Totales" class="table-responsive">
+                    <table class="tabla_sin" border="1">
+                        <thead>
+                            <tr>
+                                <th colspan="3" class="text-center">Cálculo de consumo de envases(unid)</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="2" style="vertical-align : middle; text-align:center">Ingreso de envases</td>
+                                <td> Pallet</td>
+                                <td style="width:100px"> @Model.CabeceraControl.UnidadesRecibidas</td>
+
+                            </tr>
+                            <tr>
+                                <td>Saldo Inicial</td>
+                                <td>@Model.ToTalUnidadesSaldoInicial</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-center">Total Ingresos</td>
+                                <td>@{var total = Model.CabeceraControl.UnidadesRecibidas + Model.ToTalUnidadesSaldoInicial; } @total</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-center">(-) Saldo Final</td>
+                                <td>@Model.TotalUnidadesSaldoFinal</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-center"> (-) Merma</td>
+                                <td>@{var TotalMermas = Model.DetalleMermas.Sum(x => x.Cuerpo);} @TotalMermas</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-center">TOTAL PROCESADO</td>
+                                <td>@{var TotalProcesado = total - Model.TotalUnidadesSaldoFinal - TotalMermas;} @TotalProcesado</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-12" style="padding-left:-100px">
+                <br />
+                <div id="SaldoInicial" class="table-responsive">
+
+                    <table class="tabla_sin" border="1">
+                        <thead>
+                            <tr>
+                                <th width="159px">Saldo Inicial</th>
+                                <th>Cuerpo</th>
+                                <th width="57px">Tapa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>N° Láminas</td>
+                                <td>@Model.CabeceraControl.SaldoInicialLamina</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>N° Unidades</td>
+                                <td>@Model.CabeceraControl.SaldoInicialUnidad</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Total Unidades</td>
+                              
+                                <td>@Model.ToTalUnidadesSaldoInicial</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="SaldoFinal" class="table-responsive">
+                    <br />
+                    <table class="tabla_sin" border="1">
+                        <thead>
+                            <tr>
+                                <th width="159px">Saldo Final</th>
+                                <th>Cuerpo</th>
+                                <th width="57px">Tapa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>N° Láminas</td>
+                                <td>@Model.CabeceraControl.SaldoFinalLamina</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>N° Unidades</td>
+                                <td>@Model.CabeceraControl.SaldoFinalUnidad</td>
+                                <td>@Model.TotalUnidadesSaldoFinal</td>
+                            </tr>
+                            <tr>
+                                <td>Total Unidades</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="Mermas" class="table-responsive">
+                    <br />
+                    <table class="tabla_sin" border="1">
+                        <thead>
+                            <tr>
+                                <th>Mermas</th>
+                                <th>Cuerpo</th>
+                                <th>Tapas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.DetalleMermas)
+                            {
+                                <tr>
+                                    <td> @item.Merma</td>
+                                    <td>@item.Cuerpo</td>
+                                    <td>@item.Tapa</td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -88,6 +88,9 @@ function ConsultarSolicitudes() {
         success: function (data) {
             $('#RptSolicitudes').html(data);
             $("#spinnerCargando").prop("hidden", true);
+            config.opcionesDT.pageLength = -1;
+            config.opcionesDT.order = [[2, "asc"]];
+            $('#tblDataTable').DataTable(config.opcionesDT);
 
         },
         error: function (result)

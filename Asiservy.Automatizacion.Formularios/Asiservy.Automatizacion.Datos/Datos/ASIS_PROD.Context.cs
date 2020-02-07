@@ -84,8 +84,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_ASISTENCIA> CONTROL_ASISTENCIA { get; set; }
         public virtual DbSet<CONSUMO_DETALLE_DANIADO> CONSUMO_DETALLE_DANIADO { get; set; }
         public virtual DbSet<CONSUMO_TIEMPO_MUERTO> CONSUMO_TIEMPO_MUERTO { get; set; }
-        public virtual DbSet<CONSUMO_PROCEDENCIA_PESCADO> CONSUMO_PROCEDENCIA_PESCADO { get; set; }
-        public virtual DbSet<CONSUMO_DETALLE_ADITIVO> CONSUMO_DETALLE_ADITIVO { get; set; }
         public virtual DbSet<PRODUCTO_TERMINADO_MATERIALES> PRODUCTO_TERMINADO_MATERIALES { get; set; }
         public virtual DbSet<PRODUCTO_TERMINADO_TIEMPO_PARADAS> PRODUCTO_TERMINADO_TIEMPO_PARADAS { get; set; }
         public virtual DbSet<CONTROL_CONSUMO_INSUMO_DETALLE> CONTROL_CONSUMO_INSUMO_DETALLE { get; set; }
@@ -98,6 +96,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<DETALLE_CONTROL_TOALLA> DETALLE_CONTROL_TOALLA { get; set; }
         public virtual DbSet<PRODUCTO_TERMINADO> PRODUCTO_TERMINADO { get; set; }
         public virtual DbSet<CONTROL_CONSUMO_INSUMO> CONTROL_CONSUMO_INSUMO { get; set; }
+        public virtual DbSet<CONSUMO_PROCEDENCIA_PESCADO> CONSUMO_PROCEDENCIA_PESCADO { get; set; }
+        public virtual DbSet<CONSUMO_DETALLE_ADITIVO> CONSUMO_DETALLE_ADITIVO { get; set; }
+        public virtual DbSet<CONTROL_BALANZA> CONTROL_BALANZA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1053,15 +1054,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlConsumoInsumoDetalle>("spConsultaControlConsumoInsumoDetalle", idControlParameter);
         }
     
-        public virtual ObjectResult<spConsultaConsumoProcedenciaPescado> spConsultaConsumoProcedenciaPescado(Nullable<int> idControl)
-        {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("IdControl", idControl) :
-                new ObjectParameter("IdControl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoProcedenciaPescado>("spConsultaConsumoProcedenciaPescado", idControlParameter);
-        }
-    
         public virtual ObjectResult<spConsultaUniformeEntregar> spConsultaUniformeEntregar(Nullable<System.DateTime> fecha)
         {
             var fechaParameter = fecha.HasValue ?
@@ -1113,15 +1105,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IdControl", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGeneraDatosProcesoConsumoInsumo>("spGeneraDatosProcesoConsumoInsumo", idControlParameter);
-        }
-    
-        public virtual ObjectResult<spConsultaConsumoDetalleAditivo> spConsultaConsumoDetalleAditivo(Nullable<int> idControl)
-        {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("IdControl", idControl) :
-                new ObjectParameter("IdControl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoDetalleAditivo>("spConsultaConsumoDetalleAditivo", idControlParameter);
         }
     
         public virtual ObjectResult<spConsultaProductoTerminadoDaniados> spConsultaProductoTerminadoDaniados(Nullable<int> idControl)
@@ -1306,6 +1289,59 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlConsumoInsumo>("spConsultaControlConsumoInsumo", fechaParameter, lineaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaProductoTerminadoReporte> spConsultaProductoTerminadoReporte(Nullable<System.DateTime> fecha, string linea)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProductoTerminadoReporte>("spConsultaProductoTerminadoReporte", fechaParameter, lineaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaConsumoProcedenciaPescado> spConsultaConsumoProcedenciaPescado(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoProcedenciaPescado>("spConsultaConsumoProcedenciaPescado", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaConsumoDetalleAditivo> spConsultaConsumoDetalleAditivo(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoDetalleAditivo>("spConsultaConsumoDetalleAditivo", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaControlBalanza> spConsultaControlBalanza(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlBalanza>("spConsultaControlBalanza", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spReporteConsultaControlBalanza> spReporteConsultaControlBalanza(Nullable<System.DateTime> fechadesde, Nullable<System.DateTime> fechahasta)
+        {
+            var fechadesdeParameter = fechadesde.HasValue ?
+                new ObjectParameter("fechadesde", fechadesde) :
+                new ObjectParameter("fechadesde", typeof(System.DateTime));
+    
+            var fechahastaParameter = fechahasta.HasValue ?
+                new ObjectParameter("fechahasta", fechahasta) :
+                new ObjectParameter("fechahasta", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteConsultaControlBalanza>("spReporteConsultaControlBalanza", fechadesdeParameter, fechahastaParameter);
         }
     }
 }
