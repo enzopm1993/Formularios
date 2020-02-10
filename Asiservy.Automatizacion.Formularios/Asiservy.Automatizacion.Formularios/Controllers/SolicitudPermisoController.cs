@@ -595,7 +595,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json(respuestaGeneral, JsonRequestBehavior.AllowGet);
                 }
                 solicitudPermiso.CodigoLinea = model.CodigoLinea;
-                solicitudPermiso.Observacion = model.Observacion;
+                ///solicitudPermiso.Observacion = model.Observacion;
+                solicitudPermiso.Observacion = model.Observacion == null ? "" : model.Observacion.ToUpper();
+
                 if (model.FechaSalidaEntrada == null)
                 {
                     solicitudPermiso.FechaSalida = model.FechaSalida ?? DateTime.MinValue;
