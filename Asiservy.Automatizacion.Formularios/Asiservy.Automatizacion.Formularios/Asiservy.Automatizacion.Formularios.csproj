@@ -2238,6 +2238,7 @@
     <Content Include="Scripts\i18n\defaults-zh_CN.min.js" />
     <Content Include="Scripts\i18n\defaults-zh_TW.js" />
     <Content Include="Scripts\i18n\defaults-zh_TW.min.js" />
+    <Content Include="Scripts\MapeoProductoTunel\MapeoProductoTunel.js" />
     <Content Include="Scripts\MoverPersonal\BandejaMovimientoPersonalRRHH.js" />
     <Content Include="Scripts\MoverPersonal\MoverPersonalDataLife.js" />
     <Content Include="Scripts\ControlCuchillo\ControlCuchillo.js" />
@@ -3210,6 +3211,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HuesoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MapeoProductoTunelController.cs" />
     <Compile Include="Controllers\MensajeController.cs" />
     <Compile Include="Controllers\MoverPersonalController.cs" />
     <Compile Include="Controllers\NominaController.cs" />
@@ -3489,6 +3491,8 @@
     <Content Include="Views\ControlBalanza\ControlBalanza.cshtml" />
     <Content Include="Views\ControlBalanza\ReporteControlBalanza.cshtml" />
     <Content Include="Views\ControlBalanza\ReporteControlBalanzaPartial.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\MapeoProductoTunel.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\MapeoProductoTunelPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
