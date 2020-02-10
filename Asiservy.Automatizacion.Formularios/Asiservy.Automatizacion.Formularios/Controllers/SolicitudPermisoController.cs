@@ -1307,7 +1307,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 lsUsuario = User.Identity.Name.Split('_');
                 string Mensaje1 = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(new { Failed = true, Mensaje = Mensaje1 }, JsonRequestBehavior.AllowGet);
+                return Json(Mensaje1, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -1316,7 +1316,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 lsUsuario = User.Identity.Name.Split('_');
                 string Mensaje1 = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(new { Failed = true, Mensaje = Mensaje1 }, JsonRequestBehavior.AllowGet);
+                return Json(Mensaje1, JsonRequestBehavior.AllowGet);
             }           
         }
         #endregion

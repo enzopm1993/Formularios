@@ -26,9 +26,8 @@ function ConsultarBitacora() {
             }
         },
         error: function (result) {
-           /* console.log(JSON.stringify(result.responseText))*/;
-            MensajeError(resultado.Mensaje, false);
             $("#spinnerCargando").prop("hidden", true);
+            MensajeError(result.responseText, false);
 
         }
     });

@@ -18,16 +18,19 @@
                 @Html.DisplayNameFor(model => model.Linea)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Observacion)
+                Motivo
             </th>
             <th>
-               Fecha Desde
+                Fecha Desde
             </th>
             <th>
                 Fecha Hasta
             </th>
             <th>
-                Estado Solciitud
+                Estado Solcitud
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
             </th>
             <th>
                 Usuario Ingreso
@@ -59,14 +62,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Linea)
             </td>
-
             <td>
-                @Html.DisplayFor(modelItem => item.Observacion)
+                @Html.DisplayFor(modelItem => item.Motivo)
             </td>
             <td>
                 @if (item.FechaSalida != null)
                 {
-                @item.FechaSalida.Value.ToString("dd-MM-yyyy HH:mm")
+                    @item.FechaSalida.Value.ToString("dd-MM-yyyy HH:mm")
                 }
             </td>
             <td>
@@ -78,6 +80,9 @@
 
             <td>
                 @Html.DisplayFor(modelItem => item.EstadoSolicitud)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
