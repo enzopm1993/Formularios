@@ -99,6 +99,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONSUMO_DETALLE_ADITIVO> CONSUMO_DETALLE_ADITIVO { get; set; }
         public virtual DbSet<CONTROL_BALANZA> CONTROL_BALANZA { get; set; }
         public virtual DbSet<CONTROL_CONSUMO_INSUMO> CONTROL_CONSUMO_INSUMO { get; set; }
+        public virtual DbSet<MAPEO_PRODUCTO_TUNEL> MAPEO_PRODUCTO_TUNEL { get; set; }
+        public virtual DbSet<MAPEO_PRODUCTO_TUNEL_DETALLE> MAPEO_PRODUCTO_TUNEL_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
