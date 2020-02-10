@@ -987,6 +987,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                             sol.EstadoSolicitud = clsAtributos.EstadoSolicitudPendiente;                           
                         }
                         entities.SOLICITUD_PERMISO.Add(sol);
+                        entities.SaveChanges();
 
                         var idSol = entities.SOLICITUD_PERMISO.FirstOrDefault(y=> y.Identificacion==x && y.FechaSalida == sol.FechaSalida && y.FechaRegreso == sol.FechaRegreso && y.CodigoMotivo == sol.CodigoMotivo);
 
