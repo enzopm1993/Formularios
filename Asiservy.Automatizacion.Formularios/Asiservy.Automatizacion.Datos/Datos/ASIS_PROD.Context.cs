@@ -1063,23 +1063,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaUniformeEntregar>("spConsultaUniformeEntregar", fechaParameter);
         }
     
-        public virtual ObjectResult<spConsultaDistribucionPorLinea> spConsultaDistribucionPorLinea(Nullable<System.DateTime> fecha, string linea, string turno)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            var lineaParameter = linea != null ?
-                new ObjectParameter("linea", linea) :
-                new ObjectParameter("linea", typeof(string));
-    
-            var turnoParameter = turno != null ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaDistribucionPorLinea>("spConsultaDistribucionPorLinea", fechaParameter, lineaParameter, turnoParameter);
-        }
-    
         public virtual ObjectResult<spConsultaPresentesPorAreaLinea_Result> spConsultaPresentesPorAreaLinea(Nullable<System.DateTime> fecha)
         {
             var fechaParameter = fecha.HasValue ?
@@ -1325,6 +1308,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fechahasta", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteConsultaControlBalanza>("spReporteConsultaControlBalanza", fechadesdeParameter, fechahastaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaDistribucionPorLinea> spConsultaDistribucionPorLinea(Nullable<System.DateTime> fecha, string linea, string turno)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaDistribucionPorLinea>("spConsultaDistribucionPorLinea", fechaParameter, lineaParameter, turnoParameter);
         }
     
         public virtual ObjectResult<spConsultaControlConsumoInsumo> spConsultaControlConsumoInsumo(Nullable<System.DateTime> fecha, string linea, string turno)
