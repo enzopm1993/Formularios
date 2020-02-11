@@ -1705,6 +1705,7 @@
         </Function>
         <Function Name="sp_obtener_asistenia_inicio_vs_actual" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="actual" Type="bit" Mode="In" />
         </Function>
         <Function Name="sp_ObtenerCuchillosSobrantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ColorCuchillo" Type="char" Mode="In" />
@@ -2981,7 +2982,8 @@
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_obtener_asistenia_inicio_vs_actual" ReturnType="Collection(ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="actual" Mode="In" Type="Boolean" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">

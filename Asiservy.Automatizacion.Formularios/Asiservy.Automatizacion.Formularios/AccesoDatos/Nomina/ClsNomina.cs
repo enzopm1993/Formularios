@@ -1,0 +1,59 @@
+﻿using Asiservy.Automatizacion.Datos.Datos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
+{
+    public class ClsNomina
+    {
+        public ModeloVistaTablasPersonalPreesente ObtenerTablasPersonalAsistente(DateTime fecha)
+        {
+            ModeloVistaTablasPersonalPreesente objTablas = new ModeloVistaTablasPersonalPreesente();
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var asistentesIniciales = db.sp_obtener_asistenia_inicio_vs_actual(fecha,false).ToList();
+                var asistentesActuales = db.sp_obtener_asistenia_inicio_vs_actual(fecha, true).ToList();
+
+                objTablas.ListaAsistenciaInicial = new List<ModeloVistaPersonalPresente>();
+                foreach (sp_obtener_asistenia_inicio_vs_actual_Result item in asistentesIniciales)
+                {
+                    objTablas.ListaAsistenciaInicial.Add(new ModeloVistaPersonalPresente {
+                        CodCentroCosto = item.CodCentroCosto,
+                        CentroCosto = item.CentroCosto,
+                        CodRecurso = item.CodRecurso,
+                        Recurso = item.Recurso,
+                        CodCargo = item.CodCargo,
+                        Cargo = item.Cargo,
+                        CodLinea = item.CodLinea,
+                        Linea = item.Linea,
+                        Cedula = item.Cedula,
+                        Nombre = item.Nombre
+                    });
+                }
+
+                objTablas.ListaAsistenciaActual = new List<ModeloVistaPersonalPresente>();
+                foreach (sp_obtener_asistenia_inicio_vs_actual_Result item in asistentesActuales)
+                {
+                    objTablas.ListaAsistenciaActual.Add(new ModeloVistaPersonalPresente
+                    {
+                        CodCentroCosto = item.CodCentroCosto,
+                        CentroCosto = item.CentroCosto,
+                        CodRecurso = item.CodRecurso,
+                        Recurso = item.Recurso,
+                        CodCargo = item.CodCargo,
+                        Cargo = item.Cargo,
+                        CodLinea = item.CodLinea,
+                        Linea = item.Linea,
+                        Cedula = item.Cedula,
+                        Nombre = item.Nombre
+                    });
+                }
+            }
+
+            return objTablas;
+        }
+
+    }
+}
