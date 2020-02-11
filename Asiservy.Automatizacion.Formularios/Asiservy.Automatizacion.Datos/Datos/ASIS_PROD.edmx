@@ -1703,6 +1703,9 @@
           <Parameter Name="CodigoGrupoEnfermedad" Type="varchar" Mode="In" />
           <Parameter Name="CodigoSubGrupoEnfermedad" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_obtener_asistenia_inicio_vs_actual" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="date" Mode="In" />
+        </Function>
         <Function Name="sp_ObtenerCuchillosSobrantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ColorCuchillo" Type="char" Mode="In" />
           <Parameter Name="Fecha" Type="date" Mode="In" />
@@ -2975,7 +2978,10 @@
             <End Role="CONSUMO_PROCEDENCIA_PESCADO" EntitySet="CONSUMO_PROCEDENCIA_PESCADO" />
           </AssociationSet>
           <FunctionImport Name="spConsultaConsumoProcedenciaPescado" ReturnType="Collection(ASIS_PRODModel.spConsultaConsumoProcedenciaPescado)">
-            <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_obtener_asistenia_inicio_vs_actual" ReturnType="Collection(ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -5736,6 +5742,18 @@
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="Decimal" Name="Lomo" Nullable="true" Precision="10" Scale="2" />
           <Property Type="Decimal" Name="Miga" Nullable="true" Precision="10" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="sp_obtener_asistenia_inicio_vs_actual_Result">
+          <Property Type="String" Name="CodCentroCosto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodRecurso" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -8783,6 +8801,22 @@
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="Lomo" ColumnName="Lomo" />
                 <ScalarProperty Name="Miga" ColumnName="Miga" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_obtener_asistenia_inicio_vs_actual" FunctionName="ASIS_PRODModel.Store.sp_obtener_asistenia_inicio_vs_actual">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result">
+                <ScalarProperty Name="CodCentroCosto" ColumnName="CodCentroCosto" />
+                <ScalarProperty Name="CodRecurso" ColumnName="CodRecurso" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
