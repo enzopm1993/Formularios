@@ -62,15 +62,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var BD = clsDGeneral.getDataBase();
                 if (BD == clsAtributos.DesarrolloBD)
                 {
-                    Session["BaseDatos"] = "Desarrollo";
+                    Session["BaseDatos"] = "DESARROLLO";
                 }
                 if (BD == clsAtributos.PreProduccionBD)
                 {
-                    Session["BaseDatos"] = "Demo";
+                    Session["BaseDatos"] = "DEMO";
                 }
                 if (BD == clsAtributos.ProduccionBD)
                 {
-                    Session["BaseDatos"] = "Produccion";
+                    Session["BaseDatos"] = "PRODUCCIÓN";
                 }
                 return View();
 

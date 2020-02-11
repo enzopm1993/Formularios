@@ -27,7 +27,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDCuchillo clsDCuchillo = null;
         //clsApiUsuario clsApiUsuario=null;
         //clsDSolicitudPermiso ClsDSolicitudPermiso = null;
-        clsDLogin clsDLogin = null;
+        //clsDLogin clsDLogin = null;
         #region Métodos
         protected void SetSuccessMessage(string message)
         {

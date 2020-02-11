@@ -213,6 +213,12 @@
     <Compile Include="Datos\MANTENIMIENTO_PREPARACION.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\MAPEO_PRODUCTO_TUNEL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\MAPEO_PRODUCTO_TUNEL_DETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\MATERIAL_LINEA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

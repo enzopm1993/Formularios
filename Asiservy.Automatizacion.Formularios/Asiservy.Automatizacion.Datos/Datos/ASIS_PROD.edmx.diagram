@@ -91,7 +91,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_DETALLE_PRODUCTO_TERMINADO_DETALLE" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_MATERIALES_PRODUCTO_TERMINADO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PRODUCTO_TERMINADO_TIEMPO_PARADAS_PRODUCTO_TERMINADO" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_PROCEDENCIA_PESCADO" Width="1.5" PointX="13.625" PointY="57.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_DETALLE_ADITIVO" Width="1.5" PointX="13.625" PointY="42.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_BALANZA" Width="1.5" PointX="27.375" PointY="10.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Width="1.5" PointX="11.375" PointY="44.5" />
@@ -99,9 +98,13 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" Width="1.5" PointX="29.375" PointY="6.375" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" Width="1.5" PointX="31.625" PointY="6" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONSUMO_PROCEDENCIA_PESCADO" Width="1.5" PointX="13.625" PointY="57.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
