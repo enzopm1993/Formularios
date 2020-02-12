@@ -241,7 +241,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     {
                         //var FueMovidoAOtraArea = clsDCambioPersonal.ConsultarCambioPersonal(item.CEDULA);
                         //if (FueMovidoAOtraArea == null)
-                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = Fecha, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A", CentroCostos = item.CODIGOAREA, Recurso = item.RECURSO, Cargo = item.CODIGOCARGO });
+                        ControlAsistencia.Add(new ASISTENCIA { Cedula = item.CEDULA, Fecha = Fecha, EstadoAsistencia = clsAtributos.EstadoFalta, Linea = CodLinea, Turno = turno, Observacion = "", UsuarioCreacionLog = usuario, TerminalCreacionLog = terminal, FechaCreacionLog = DateTime.Now, EstadoRegistro = "A", CentroCostos = item.CODIGOAREA, Recurso = item.RECURSO, Cargo = item.CODIGOCARGO,Generado=clsAtributos.General });
 
                     }
                     var PersonalMovidoAEstaLinea = clsDCambioPersonal.ConsultarCambioPersonalxLinea(CodLinea, turno, Fecha, Hora);

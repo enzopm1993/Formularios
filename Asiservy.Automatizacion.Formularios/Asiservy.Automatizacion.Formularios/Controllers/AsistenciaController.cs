@@ -1324,15 +1324,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosFiltroCambioPersonal>;
-                if (dCedulas.ToList().Contains("horaswitch"))
+                if (tipo=="prestar" &&(dCedulas.Count()==0 &&string.IsNullOrEmpty(dlinea)&& string.IsNullOrEmpty(darea)&& string.IsNullOrEmpty(drecurso)&& string.IsNullOrEmpty(dcargo)))
                 {
-
-                    List<string> array = dCedulas.ToList();
-                    array.Remove("horaswitch");
-                    dCedulas = array.ToArray();
-
+                    return Json("5555", JsonRequestBehavior.AllowGet);
                 }
+                if (tipo == "regresar" && (dCedulas.Count() == 0 && string.IsNullOrEmpty(dlinea) && string.IsNullOrEmpty(darea) && string.IsNullOrEmpty(drecurso) && string.IsNullOrEmpty(dcargo)&& dhora==null))
+                {
+                    return Json("5555", JsonRequestBehavior.AllowGet);
+                }
+                List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosFiltroCambioPersonal>;
+                
 
                 List<CAMBIO_PERSONAL> pListCambioPersonal = new List<CAMBIO_PERSONAL>();
                 //List<BITACORA_CAMBIO_PERSONAL> pListBitacoraCambioPersonal = new List<BITACORA_CAMBIO_PERSONAL>();

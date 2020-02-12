@@ -2153,6 +2153,7 @@
     <Content Include="Scripts\ControlConsumoInsumo\ReporteControlEnlatado.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ReporteControlEnvasesEnlatado.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ReporteControlPouch.js" />
+    <Content Include="Scripts\ControlPesoyCodificacion\ControlPesoCodificacionLomosyMigas.js" />
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
     <Content Include="Scripts\ControlToalla\ReporteControlToalla.js" />
     <Content Include="Scripts\Empleado\ReportePersonalPresente.js" />
@@ -3146,6 +3147,7 @@
     <Compile Include="AccesoDatos\ControlHueso\clsDControlHueso.cs" />
     <Compile Include="AccesoDatos\ControlMaterialQuebradizo\clsDControlMaterialQuebradizo.cs" />
     <Compile Include="AccesoDatos\ControlPesoEnlatado\clsDControlPesoEnlatado.cs" />
+    <Compile Include="AccesoDatos\ControlPesoyCodificacionLomosyMigas\ClsdControlPesoCodificacionLomosyMigas.cs" />
     <Compile Include="AccesoDatos\ControlToalla\clsDControlToalla.cs" />
     <Compile Include="AccesoDatos\Empleado\clsDControlMiga.cs" />
     <Compile Include="AccesoDatos\AuditoriaSangre\clsDAuditoriaSangre.cs" />
@@ -3234,6 +3236,7 @@
     <Compile Include="Models\ControlConsumoInsumos\DetalleMermasViewModel.cs" />
     <Compile Include="Models\ControlConsumoInsumos\ReporteEnvaseEnlatadoViewModel.cs" />
     <Compile Include="Models\ControlHorasMaquina.cs" />
+    <Compile Include="Models\ControlPesoyCodificacion\ControlUsosViewModel.cs" />
     <Compile Include="Models\DatosProcesoEnlatado.cs" />
     <Compile Include="Models\Empleado\EmpleadoEsferoViewModel.cs" />
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
@@ -3488,6 +3491,10 @@
     <Content Include="Views\ControlBalanza\ControlBalanza.cshtml" />
     <Content Include="Views\ControlBalanza\ReporteControlBalanza.cshtml" />
     <Content Include="Views\ControlBalanza\ReporteControlBalanzaPartial.cshtml" />
+    <Content Include="Views\ControlPesoyCodificacion\CargarPartialControlDetalles.cshtml" />
+    <Content Include="Views\ControlPesoyCodificacion\CargarHorasControl.cshtml" />
+    <Content Include="Views\ControlPesoyCodificacion\PartialConsultarMuestrasPorHora.cshtml" />
+    <Content Include="Views\ControlPesoyCodificacion\PartialConsultarUsos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

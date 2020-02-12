@@ -1,0 +1,26 @@
+﻿@model List<Asiservy.Automatizacion.Datos.Datos.DETALLE_HORAS_CONTROL_PESO_CODIFICACION>
+@using Newtonsoft.Json;
+@if (Model != null)
+{<br />
+    <table class="table table-striped table-hover" style="cursor:pointer">
+        <thead>
+            <tr>
+                <th hidden>Id</th>
+                <th>N° Muestra</th>
+                <th>Cantidad</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                string json = JsonConvert.SerializeObject(new {item.IdDetalleHorasControlPesoCodificacion,item.NumeroMuestra, item.Cantidad });
+                <tr onclick="EditarMuestraHora(@json)">
+                    <td hidden>@item.IdDetalleHorasControlPesoCodificacion</td>
+                    <td>@item.NumeroMuestra</td>
+                    <td>@item.Cantidad</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

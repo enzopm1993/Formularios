@@ -1,0 +1,226 @@
+﻿<div id="DivDetallesControl">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" style="font-size:0.8rem">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#DetalleMuestrasxHoras">Detalle Muestras por Hora</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#DescripcionDeUso">Descripción de uso</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#DetalleLotes">Detalle de Lote</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane container-fluid active" id="DetalleMuestrasxHoras">
+            <br />
+            <div class="row">
+
+                <input type="hidden" id="IdHora" value="" />
+                <div class="col-md-6 col-sm-6 form-group">
+                    <label>
+                        Hora:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                    </label>
+                    <input type="datetime-local" id="txtHora" class="form-control" />
+                    <label class="text-danger" id="msjtxthora"></label>
+                </div>
+                <div class="col-md-6 col-sm-6 form-group">
+                    <label>T° Agua de Termoencogido:</label>
+                    <input type="number" id="txtTemperaturaAgua" class="form-control" />
+                    <label class="text-danger" id="msjtxtTemperaturaAgua"></label>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class=" col-12 text-center">
+                    <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargandoHoras">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Espere...
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Agregar" class="btn" id="btnAgregarDetHoras" onclick="GuardarHoras()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/add24.png" />
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarHora" onclick="ConfirmarEliminarHora()" style="border-color:#2c3e50" type="button" disabled>
+                        <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnlimpiarHora" onclick="LimpiarControlesHora()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/clear24.png" />
+                    </button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-12">
+                    <div id="DivDetalleMuestrasporHora" class="table-responsive">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane container-fluid fade" id="DescripcionDeUso">
+            <br />
+            <div class="row">
+
+                <input type="hidden" id="IdDescripcionUso" value="" />
+                <div class="col-md-6 col-sm-6 form-group">
+                    <label>
+                        Uso:
+                    </label>
+                    @Html.DropDownList("cmbUso", new SelectList(ViewBag.Usos, "Codigo", "Descripcion"), "Seleccione..", new { @class = "form-control" })
+                    <label class="text-danger" id="msjtcmbUso"></label>
+                </div>
+                <div class="col-md-6 col-sm-6 form-group">
+                    <label>Cantidad:</label>
+                    <input type="number" id="txtCantidadUso" class="form-control" />
+                    <label class="text-danger" id="msjtxtCantidadUso"></label>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class=" col-12 text-center">
+                    <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargandoUsos">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Espere...
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Agregar" class="btn" id="btnAgregarDetUsos" onclick="GuardarUsos()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/add24.png" />
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarUsos" onclick="ConfirmarEliminarUsos()" style="border-color:#2c3e50" type="button" disabled>
+                        <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnlimpiarUsos" onclick="LimpiarControlesUsos()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/clear24.png" />
+                    </button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-12">
+                    <div id="DivDetalleUsos" class="table-responsive">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane container fade" id="DetalleLotes">...</div>
+
+    </div>
+</div>
+
+<!-- Modal para muestras x hora -->
+<div class="modal fade" id="ModalMuestrasHoras" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Muestras por Hora</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-12">
+                        <input type="hidden" id="IdDetalleModalHora" />
+                        <input type="hidden" id="IdDetalleHoraModificar" value="" />
+                        <label>Hora:</label>
+                        <input type="datetime-local" id="HoraModal" class="form-control" disabled />
+                    </div>
+                    <div class="form-group col-12">
+                        <label>Número muestra:</label>
+                        <input type="number" id="NMuestraModal" class="form-control" />
+                    </div>
+                    <div class="form-group col-12">
+                        <label>Cantidad:</label>
+                        <input type="number" id="CantidadModal" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class=" col-12 text-center">
+                        <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarMuestraHoraCargando">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Espere...
+                        </button>
+                        <button data-toggle="tooltip" data-placement="top" title="Agregar" class="btn" id="btnGuardarMuestraHora" onclick="GuardarMuestraHora()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/add24.png" />
+                        </button>
+                        <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarMuestraHora" onclick="ConfirmarEliminarMuestraHora()" style="border-color:#2c3e50" type="button" disabled>
+                            <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                        </button>
+                        <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnlimpiarMuestraHora" onclick="LimpiarControlesMuestraHora()" style="border-color:#2c3e50" type="button">
+                            <img style="width:100%" src="~/Content/icons/clear24.png" />
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <div id="DivMuestrasPorHora">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                @*<button type="button" class="btn btn-primary">Guardar</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Fin Modal para muestras x hora -->
+<!-- Modal confirmación eliminar horas -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarHora" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title" id="MensajeEliminarHora"></h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="modal-btn-si" onclick="EliminarHora()">Si</button>
+                <button type="button" class="btn btn-primary" id="modal-btn-no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal confirmación eliminar horas -->
+<!-- Modal confirmación eliminar muestras de horas -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarMuestraHora" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title" id="MensajeEliminarMuestraHora"></h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="modal-btn-si" onclick="EliminarMuestraHora()">Si</button>
+                <button type="button" class="btn btn-primary" id="modal-btn-no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal confirmación eliminar muestras de horas -->
+<!-- Modal confirmación eliminar Usos -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarUso" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title" id="MensajeEliminarUso"></h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="modal-btn-si" onclick="EliminarUso()">Si</button>
+                <button type="button" class="btn btn-primary" id="modal-btn-no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal confirmación eliminar Usos -->
