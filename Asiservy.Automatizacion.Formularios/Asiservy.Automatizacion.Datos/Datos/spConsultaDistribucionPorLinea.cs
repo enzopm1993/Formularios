@@ -17,6 +17,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string PuestoTrabajo { get; set; }
         public Nullable<int> Presente { get; set; }
         public Nullable<int> PresenteOtro { get; set; }
+        public Nullable<int> PresenteOtraLinea { get; set; }
         public Nullable<int> Falta { get; set; }
         public Nullable<int> PermisoMedico { get; set; }
         public Nullable<int> CambioArea { get; set; }
