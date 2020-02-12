@@ -238,7 +238,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 EstadoSolicitud = x.CodEstadoSolicitud,
                 DescripcionEstadoSolicitud = x.EstadoSolcitud,
                 FechaBiometrico = x.FechaBiometrico,
-                //Origen = x.Origen,
+                Origen = x.Origen,
                 //CodigoDiagnostico = x.CodigoDiagnostico,
                 FechaIngresoLog = x.FechaIngresoLog,
                 UsuarioIngresoLog = x.UsuarioIngresoLog,
