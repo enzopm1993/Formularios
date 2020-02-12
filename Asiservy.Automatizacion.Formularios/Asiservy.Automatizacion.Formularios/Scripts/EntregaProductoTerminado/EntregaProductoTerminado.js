@@ -30,8 +30,8 @@ function CargarDatosOrdenFabricacion() {
                 return;
             }
             //console.log(resultado);
-            
-            $("#txtEtiqueta").val(parseInt(resultado.CODIGO_MATERIAL));
+
+            $("#txtEtiqueta").val(parseInt(resultado.NOMBRE_ETIQUETA));
             $("#txtCodigoMaterial").val(parseInt(resultado.CODIGO_MATERIAL));
             $("#txtOrdenVenta").val(parseInt(resultado.PEDIDO_VENTA));
             if (resultado.CLIENTE_CORTO != '') {
@@ -226,7 +226,7 @@ function GenerarControlConsumo() {
             CodigoProducto: $("#txtCodigoProducto").val(),
             LineaNegocio: $("#txtLineaNegocio").val(),
             //Cliente: $("#txtMiga").val(),
-            //Etiqueta: $("#txtAceite").val(),            
+            Etiqueta: $("#txtEtiqueta").val(),            
             Observacion: $("#txtObservacion").val()
         },
         success: function (resultado) {
