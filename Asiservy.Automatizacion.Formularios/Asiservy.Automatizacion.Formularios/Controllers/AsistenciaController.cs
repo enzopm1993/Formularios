@@ -25,6 +25,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDError clsDError = null;
         clsDClasificador clsDClasificador = null;
         clsDCuchillo clsDCuchillo = null;
+        clsDLogin clsDLogin = null;
         //clsApiUsuario clsApiUsuario=null;
         //clsDSolicitudPermiso ClsDSolicitudPermiso = null;
         //clsDLogin clsDLogin = null;
@@ -930,9 +931,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 clsDClasificador = new clsDClasificador();
                 clsDEmpleado = new clsDEmpleado();
-                this.ConsultaComboLineas();
-                ViewBag.Estado = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                clsDLogin = new clsDLogin();
+                liststring = User.Identity.Name.Split('_');
+                var Empleado = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault();
+                ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;
 
+                List<int?> roles = clsDLogin.ConsultaRolesUsuario(liststring[1]);
+                if (roles.FirstOrDefault(x => x.Value == clsAtributos.AsistenteProduccion) != null)
+                {
+                  //  ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
+                    ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                }
+                else
+                {
+                    ViewBag.Lineas = clsDGeneral.ConsultaLineas(null);
+                }                
+
+                ViewBag.Estado = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 return View();
             }
             catch (Exception ex)
