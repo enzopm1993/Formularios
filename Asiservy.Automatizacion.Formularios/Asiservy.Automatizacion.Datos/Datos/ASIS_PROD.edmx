@@ -138,6 +138,25 @@
           <Property Name="CodigoMotivo" Type="varchar" MaxLength="30" />
           <Property Name="CambioEstado" Type="bit" />
         </EntityType>
+        <EntityType Name="CABECERA_CONTROL_PESO_CODIFICACION">
+          <Key>
+            <PropertyRef Name="IdCabeceraControlPesoYCodificacion" />
+          </Key>
+          <Property Name="IdCabeceraControlPesoYCodificacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaProduccion" Type="date" Nullable="false" />
+          <Property Name="Turno" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Observacion" Type="varchar" MaxLength="50" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
+          <Property Name="FechaCreacionLog" Type="datetime" />
+          <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="SaldoAnterior" Type="int" />
+          <Property Name="SolicitudProceso" Type="int" />
+          <Property Name="Utilizadas" Type="int" />
+        </EntityType>
         <EntityType Name="CAMBIO_PERSONAL">
           <Key>
             <PropertyRef Name="IdCambioPersonal" />
@@ -744,6 +763,22 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="DETALLE_CONTROL_PESO_CODIFICACION">
+          <Key>
+            <PropertyRef Name="IdDetalleControlPeso" />
+          </Key>
+          <Property Name="IdDetalleControlPeso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Hora" Type="datetime" />
+          <Property Name="IdCabeceraControlPesoCodificacion" Type="int" />
+          <Property Name="TemperaturaAguaTermoencogido" Type="int" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
+          <Property Name="FechaCreacionLog" Type="datetime" />
+          <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="DETALLE_CONTROL_TOALLA">
           <Key>
             <PropertyRef Name="IdDetalleControlToalla" />
@@ -752,6 +787,57 @@
           <Property Name="IdControlToalla" Type="int" Nullable="false" />
           <Property Name="Cedula" Type="varchar" MaxLength="15" />
           <Property Name="NumeroToallas" Type="int" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
+          <Property Name="FechaCreacionLog" Type="datetime" />
+          <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DETALLE_HORAS_CONTROL_PESO_CODIFICACION">
+          <Key>
+            <PropertyRef Name="IdDetalleHorasControlPesoCodificacion" />
+          </Key>
+          <Property Name="IdDetalleHorasControlPesoCodificacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumeroMuestra" Type="int" />
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="IdDetalleControlPesoCodificacion" Type="int" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
+          <Property Name="FechaCreacionLog" Type="datetime" />
+          <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DETALLE_LOTE_CONTROL_PESO_CODIFICACION">
+          <Key>
+            <PropertyRef Name="IdDetalleLote" />
+          </Key>
+          <Property Name="IdDetalleLote" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCabeceraControlPesoCodificacion" Type="int" />
+          <Property Name="OrdenFabricacion" Type="varchar" MaxLength="100" />
+          <Property Name="Lote" Type="varchar" MaxLength="10" />
+          <Property Name="Lomo" Type="bit" />
+          <Property Name="Miga" Type="bit" />
+          <Property Name="Especie" Type="varchar" MaxLength="50" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
+          <Property Name="FechaCreacionLog" Type="datetime" />
+          <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalCreacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DETALLE_USO_CONTROL_PESO_CODIFICACION">
+          <Key>
+            <PropertyRef Name="IdDescripcionUso" />
+          </Key>
+          <Property Name="IdDescripcionUso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCabeceraControlPesoCodificacion" Type="int" />
+          <Property Name="Codigo" Type="varchar" MaxLength="10" />
+          <Property Name="Cantidad" Type="int" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" />
           <Property Name="FechaCreacionLog" Type="datetime" />
           <Property Name="UsuarioCreacionLog" Type="varchar" MaxLength="50" />
@@ -1542,6 +1628,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DETALLE_CONTRO_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
+          <End Role="CABECERA_CONTROL_PESO_CODIFICACION" Type="Self.CABECERA_CONTROL_PESO_CODIFICACION" Multiplicity="0..1" />
+          <End Role="DETALLE_CONTROL_PESO_CODIFICACION" Type="Self.DETALLE_CONTROL_PESO_CODIFICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABECERA_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdCabeceraControlPesoYCodificacion" />
+            </Principal>
+            <Dependent Role="DETALLE_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdCabeceraControlPesoCodificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA">
           <End Role="CONTROL_TOALLA" Type="Self.CONTROL_TOALLA" Multiplicity="1" />
           <End Role="DETALLE_CONTROL_TOALLA" Type="Self.DETALLE_CONTROL_TOALLA" Multiplicity="*" />
@@ -1551,6 +1649,42 @@
             </Principal>
             <Dependent Role="DETALLE_CONTROL_TOALLA">
               <PropertyRef Name="IdControlToalla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLE_HORAS_CONTROL_PESO_CODIFICACION_DETALLE_CONTROL_PESO_CODIFICACION">
+          <End Role="DETALLE_CONTROL_PESO_CODIFICACION" Type="Self.DETALLE_CONTROL_PESO_CODIFICACION" Multiplicity="0..1" />
+          <End Role="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" Type="Self.DETALLE_HORAS_CONTROL_PESO_CODIFICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DETALLE_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdDetalleControlPeso" />
+            </Principal>
+            <Dependent Role="DETALLE_HORAS_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdDetalleControlPesoCodificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLE_LOTE_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
+          <End Role="CABECERA_CONTROL_PESO_CODIFICACION" Type="Self.CABECERA_CONTROL_PESO_CODIFICACION" Multiplicity="0..1" />
+          <End Role="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" Type="Self.DETALLE_LOTE_CONTROL_PESO_CODIFICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABECERA_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdCabeceraControlPesoYCodificacion" />
+            </Principal>
+            <Dependent Role="DETALLE_LOTE_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdCabeceraControlPesoCodificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLE_USO_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
+          <End Role="CABECERA_CONTROL_PESO_CODIFICACION" Type="Self.CABECERA_CONTROL_PESO_CODIFICACION" Multiplicity="0..1" />
+          <End Role="DETALLE_USO_CONTROL_PESO_CODIFICACION" Type="Self.DETALLE_USO_CONTROL_PESO_CODIFICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABECERA_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdCabeceraControlPesoYCodificacion" />
+            </Principal>
+            <Dependent Role="DETALLE_USO_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdCabeceraControlPesoCodificacion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2070,6 +2204,7 @@
           <EntitySet Name="BITACORA_MOVER_EMPLEADO" EntityType="Self.BITACORA_MOVER_EMPLEADO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_PROYECCION" EntityType="Self.BITACORA_PROYECCION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_SOLICITUD" EntityType="Self.BITACORA_SOLICITUD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CABECERA_CONTROL_PESO_CODIFICACION" EntityType="Self.CABECERA_CONTROL_PESO_CODIFICACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CAMBIO_PERSONAL" EntityType="Self.CAMBIO_PERSONAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLASIFICADOR" EntityType="Self.CLASIFICADOR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONSUMO_DETALLE_ADITIVO" EntityType="Self.CONSUMO_DETALLE_ADITIVO" Schema="dbo" store:Type="Tables" />
@@ -2101,7 +2236,11 @@
           <EntitySet Name="CONTROL_PESO_ENLATADO_SUBDETALLE" EntityType="Self.CONTROL_PESO_ENLATADO_SUBDETALLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTROL_TOALLA" EntityType="Self.CONTROL_TOALLA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CUCHILLO" EntityType="Self.CUCHILLO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DETALLE_CONTROL_PESO_CODIFICACION" EntityType="Self.DETALLE_CONTROL_PESO_CODIFICACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DETALLE_CONTROL_TOALLA" EntityType="Self.DETALLE_CONTROL_TOALLA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" EntityType="Self.DETALLE_HORAS_CONTROL_PESO_CODIFICACION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" EntityType="Self.DETALLE_LOTE_CONTROL_PESO_CODIFICACION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DETALLE_USO_CONTROL_PESO_CODIFICACION" EntityType="Self.DETALLE_USO_CONTROL_PESO_CODIFICACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EMPLEADO_CUCHILLO" EntityType="Self.EMPLEADO_CUCHILLO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EMPLEADO_CUCHILLO_PRESTADO" EntityType="Self.EMPLEADO_CUCHILLO_PRESTADO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EMPLEADO_ESFERO" EntityType="Self.EMPLEADO_ESFERO" Schema="dbo" store:Type="Tables" />
@@ -2192,9 +2331,25 @@
             <End Role="CONTROL_PESO_ENLATADO_DETALLE" EntitySet="CONTROL_PESO_ENLATADO_DETALLE" />
             <End Role="CONTROL_PESO_ENLATADO_SUBDETALLE" EntitySet="CONTROL_PESO_ENLATADO_SUBDETALLE" />
           </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_CONTRO_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" Association="Self.FK_DETALLE_CONTRO_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
+            <End Role="CABECERA_CONTROL_PESO_CODIFICACION" EntitySet="CABECERA_CONTROL_PESO_CODIFICACION" />
+            <End Role="DETALLE_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_CONTROL_PESO_CODIFICACION" />
+          </AssociationSet>
           <AssociationSet Name="FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA" Association="Self.FK_DETALLE_CONTROL_TOALLA_CONTROL_TOALLA">
             <End Role="CONTROL_TOALLA" EntitySet="CONTROL_TOALLA" />
             <End Role="DETALLE_CONTROL_TOALLA" EntitySet="DETALLE_CONTROL_TOALLA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_HORAS_CONTROL_PESO_CODIFICACION_DETALLE_CONTROL_PESO_CODIFICACION" Association="Self.FK_DETALLE_HORAS_CONTROL_PESO_CODIFICACION_DETALLE_CONTROL_PESO_CODIFICACION">
+            <End Role="DETALLE_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_CONTROL_PESO_CODIFICACION" />
+            <End Role="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_LOTE_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" Association="Self.FK_DETALLE_LOTE_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
+            <End Role="CABECERA_CONTROL_PESO_CODIFICACION" EntitySet="CABECERA_CONTROL_PESO_CODIFICACION" />
+            <End Role="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_USO_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" Association="Self.FK_DETALLE_USO_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
+            <End Role="CABECERA_CONTROL_PESO_CODIFICACION" EntitySet="CABECERA_CONTROL_PESO_CODIFICACION" />
+            <End Role="DETALLE_USO_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_USO_CONTROL_PESO_CODIFICACION" />
           </AssociationSet>
           <AssociationSet Name="FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" Association="Self.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL">
             <End Role="MAPEO_PRODUCTO_TUNEL" EntitySet="MAPEO_PRODUCTO_TUNEL" />
@@ -2985,6 +3140,27 @@
             <Parameter Name="linea" Mode="In" Type="String" />
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="CABECERA_CONTROL_PESO_CODIFICACION" EntityType="ASIS_PRODModel.CABECERA_CONTROL_PESO_CODIFICACION" />
+          <EntitySet Name="DETALLE_CONTROL_PESO_CODIFICACION" EntityType="ASIS_PRODModel.DETALLE_CONTROL_PESO_CODIFICACION" />
+          <EntitySet Name="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" EntityType="ASIS_PRODModel.DETALLE_HORAS_CONTROL_PESO_CODIFICACION" />
+          <EntitySet Name="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" EntityType="ASIS_PRODModel.DETALLE_LOTE_CONTROL_PESO_CODIFICACION" />
+          <EntitySet Name="DETALLE_USO_CONTROL_PESO_CODIFICACION" EntityType="ASIS_PRODModel.DETALLE_USO_CONTROL_PESO_CODIFICACION" />
+          <AssociationSet Name="FK_DETALLE_CONTRO_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" Association="ASIS_PRODModel.FK_DETALLE_CONTRO_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
+            <End Role="CABECERA_CONTROL_PESO_CODIFICACION" EntitySet="CABECERA_CONTROL_PESO_CODIFICACION" />
+            <End Role="DETALLE_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_CONTROL_PESO_CODIFICACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_LOTE_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" Association="ASIS_PRODModel.FK_DETALLE_LOTE_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
+            <End Role="CABECERA_CONTROL_PESO_CODIFICACION" EntitySet="CABECERA_CONTROL_PESO_CODIFICACION" />
+            <End Role="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_USO_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" Association="ASIS_PRODModel.FK_DETALLE_USO_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
+            <End Role="CABECERA_CONTROL_PESO_CODIFICACION" EntitySet="CABECERA_CONTROL_PESO_CODIFICACION" />
+            <End Role="DETALLE_USO_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_USO_CONTROL_PESO_CODIFICACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_HORAS_CONTROL_PESO_CODIFICACION_DETALLE_CONTROL_PESO_CODIFICACION" Association="ASIS_PRODModel.FK_DETALLE_HORAS_CONTROL_PESO_CODIFICACION_DETALLE_CONTROL_PESO_CODIFICACION">
+            <End Role="DETALLE_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_CONTROL_PESO_CODIFICACION" />
+            <End Role="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -5758,6 +5934,148 @@
           <Property Type="Int32" Name="Vacaciones" Nullable="true" />
           <Property Type="Int32" Name="Total" Nullable="true" />
         </ComplexType>
+        <EntityType Name="CABECERA_CONTROL_PESO_CODIFICACION">
+          <Key>
+            <PropertyRef Name="IdCabeceraControlPesoYCodificacion" />
+          </Key>
+          <Property Name="IdCabeceraControlPesoYCodificacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaProduccion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SaldoAnterior" Type="Int32" />
+          <Property Name="SolicitudProceso" Type="Int32" />
+          <Property Name="Utilizadas" Type="Int32" />
+          <NavigationProperty Name="DETALLE_CONTROL_PESO_CODIFICACION" Relationship="ASIS_PRODModel.FK_DETALLE_CONTRO_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" FromRole="CABECERA_CONTROL_PESO_CODIFICACION" ToRole="DETALLE_CONTROL_PESO_CODIFICACION" />
+          <NavigationProperty Name="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" Relationship="ASIS_PRODModel.FK_DETALLE_LOTE_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" FromRole="CABECERA_CONTROL_PESO_CODIFICACION" ToRole="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" />
+          <NavigationProperty Name="DETALLE_USO_CONTROL_PESO_CODIFICACION" Relationship="ASIS_PRODModel.FK_DETALLE_USO_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" FromRole="CABECERA_CONTROL_PESO_CODIFICACION" ToRole="DETALLE_USO_CONTROL_PESO_CODIFICACION" />
+        </EntityType>
+        <EntityType Name="DETALLE_CONTROL_PESO_CODIFICACION">
+          <Key>
+            <PropertyRef Name="IdDetalleControlPeso" />
+          </Key>
+          <Property Name="IdDetalleControlPeso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Hora" Type="DateTime" Precision="3" />
+          <Property Name="IdCabeceraControlPesoCodificacion" Type="Int32" />
+          <Property Name="TemperaturaAguaTermoencogido" Type="Int32" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CABECERA_CONTROL_PESO_CODIFICACION" Relationship="ASIS_PRODModel.FK_DETALLE_CONTRO_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" FromRole="DETALLE_CONTROL_PESO_CODIFICACION" ToRole="CABECERA_CONTROL_PESO_CODIFICACION" />
+          <NavigationProperty Name="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" Relationship="ASIS_PRODModel.FK_DETALLE_HORAS_CONTROL_PESO_CODIFICACION_DETALLE_CONTROL_PESO_CODIFICACION" FromRole="DETALLE_CONTROL_PESO_CODIFICACION" ToRole="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" />
+        </EntityType>
+        <EntityType Name="DETALLE_HORAS_CONTROL_PESO_CODIFICACION">
+          <Key>
+            <PropertyRef Name="IdDetalleHorasControlPesoCodificacion" />
+          </Key>
+          <Property Name="IdDetalleHorasControlPesoCodificacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroMuestra" Type="Int32" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="IdDetalleControlPesoCodificacion" Type="Int32" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DETALLE_CONTROL_PESO_CODIFICACION" Relationship="ASIS_PRODModel.FK_DETALLE_HORAS_CONTROL_PESO_CODIFICACION_DETALLE_CONTROL_PESO_CODIFICACION" FromRole="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" ToRole="DETALLE_CONTROL_PESO_CODIFICACION" />
+        </EntityType>
+        <EntityType Name="DETALLE_LOTE_CONTROL_PESO_CODIFICACION">
+          <Key>
+            <PropertyRef Name="IdDetalleLote" />
+          </Key>
+          <Property Name="IdDetalleLote" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCabeceraControlPesoCodificacion" Type="Int32" />
+          <Property Name="OrdenFabricacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Lote" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Lomo" Type="Boolean" />
+          <Property Name="Miga" Type="Boolean" />
+          <Property Name="Especie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CABECERA_CONTROL_PESO_CODIFICACION" Relationship="ASIS_PRODModel.FK_DETALLE_LOTE_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" FromRole="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" ToRole="CABECERA_CONTROL_PESO_CODIFICACION" />
+        </EntityType>
+        <EntityType Name="DETALLE_USO_CONTROL_PESO_CODIFICACION">
+          <Key>
+            <PropertyRef Name="IdDescripcionUso" />
+          </Key>
+          <Property Name="IdDescripcionUso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCabeceraControlPesoCodificacion" Type="Int32" />
+          <Property Name="Codigo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="EstadoRegistro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaCreacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalCreacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CABECERA_CONTROL_PESO_CODIFICACION" Relationship="ASIS_PRODModel.FK_DETALLE_USO_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" FromRole="DETALLE_USO_CONTROL_PESO_CODIFICACION" ToRole="CABECERA_CONTROL_PESO_CODIFICACION" />
+        </EntityType>
+        <Association Name="FK_DETALLE_CONTRO_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
+          <End Type="ASIS_PRODModel.CABECERA_CONTROL_PESO_CODIFICACION" Role="CABECERA_CONTROL_PESO_CODIFICACION" Multiplicity="0..1" />
+          <End Type="ASIS_PRODModel.DETALLE_CONTROL_PESO_CODIFICACION" Role="DETALLE_CONTROL_PESO_CODIFICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABECERA_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdCabeceraControlPesoYCodificacion" />
+            </Principal>
+            <Dependent Role="DETALLE_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdCabeceraControlPesoCodificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLE_LOTE_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
+          <End Type="ASIS_PRODModel.CABECERA_CONTROL_PESO_CODIFICACION" Role="CABECERA_CONTROL_PESO_CODIFICACION" Multiplicity="0..1" />
+          <End Type="ASIS_PRODModel.DETALLE_LOTE_CONTROL_PESO_CODIFICACION" Role="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABECERA_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdCabeceraControlPesoYCodificacion" />
+            </Principal>
+            <Dependent Role="DETALLE_LOTE_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdCabeceraControlPesoCodificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLE_USO_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
+          <End Type="ASIS_PRODModel.CABECERA_CONTROL_PESO_CODIFICACION" Role="CABECERA_CONTROL_PESO_CODIFICACION" Multiplicity="0..1" />
+          <End Type="ASIS_PRODModel.DETALLE_USO_CONTROL_PESO_CODIFICACION" Role="DETALLE_USO_CONTROL_PESO_CODIFICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABECERA_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdCabeceraControlPesoYCodificacion" />
+            </Principal>
+            <Dependent Role="DETALLE_USO_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdCabeceraControlPesoCodificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLE_HORAS_CONTROL_PESO_CODIFICACION_DETALLE_CONTROL_PESO_CODIFICACION">
+          <End Type="ASIS_PRODModel.DETALLE_CONTROL_PESO_CODIFICACION" Role="DETALLE_CONTROL_PESO_CODIFICACION" Multiplicity="0..1" />
+          <End Type="ASIS_PRODModel.DETALLE_HORAS_CONTROL_PESO_CODIFICACION" Role="DETALLE_HORAS_CONTROL_PESO_CODIFICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DETALLE_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdDetalleControlPeso" />
+            </Principal>
+            <Dependent Role="DETALLE_HORAS_CONTROL_PESO_CODIFICACION">
+              <PropertyRef Name="IdDetalleControlPesoCodificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8824,6 +9142,97 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CABECERA_CONTROL_PESO_CODIFICACION">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CABECERA_CONTROL_PESO_CODIFICACION">
+              <MappingFragment StoreEntitySet="CABECERA_CONTROL_PESO_CODIFICACION">
+                <ScalarProperty Name="Utilizadas" ColumnName="Utilizadas" />
+                <ScalarProperty Name="SolicitudProceso" ColumnName="SolicitudProceso" />
+                <ScalarProperty Name="SaldoAnterior" ColumnName="SaldoAnterior" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="IdCabeceraControlPesoYCodificacion" ColumnName="IdCabeceraControlPesoYCodificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DETALLE_CONTROL_PESO_CODIFICACION">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.DETALLE_CONTROL_PESO_CODIFICACION">
+              <MappingFragment StoreEntitySet="DETALLE_CONTROL_PESO_CODIFICACION">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="TemperaturaAguaTermoencogido" ColumnName="TemperaturaAguaTermoencogido" />
+                <ScalarProperty Name="IdCabeceraControlPesoCodificacion" ColumnName="IdCabeceraControlPesoCodificacion" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="IdDetalleControlPeso" ColumnName="IdDetalleControlPeso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DETALLE_HORAS_CONTROL_PESO_CODIFICACION">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.DETALLE_HORAS_CONTROL_PESO_CODIFICACION">
+              <MappingFragment StoreEntitySet="DETALLE_HORAS_CONTROL_PESO_CODIFICACION">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="IdDetalleControlPesoCodificacion" ColumnName="IdDetalleControlPesoCodificacion" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="NumeroMuestra" ColumnName="NumeroMuestra" />
+                <ScalarProperty Name="IdDetalleHorasControlPesoCodificacion" ColumnName="IdDetalleHorasControlPesoCodificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DETALLE_LOTE_CONTROL_PESO_CODIFICACION">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.DETALLE_LOTE_CONTROL_PESO_CODIFICACION">
+              <MappingFragment StoreEntitySet="DETALLE_LOTE_CONTROL_PESO_CODIFICACION">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="Miga" ColumnName="Miga" />
+                <ScalarProperty Name="Lomo" ColumnName="Lomo" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="IdCabeceraControlPesoCodificacion" ColumnName="IdCabeceraControlPesoCodificacion" />
+                <ScalarProperty Name="IdDetalleLote" ColumnName="IdDetalleLote" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DETALLE_USO_CONTROL_PESO_CODIFICACION">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.DETALLE_USO_CONTROL_PESO_CODIFICACION">
+              <MappingFragment StoreEntitySet="DETALLE_USO_CONTROL_PESO_CODIFICACION">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalCreacionLog" ColumnName="TerminalCreacionLog" />
+                <ScalarProperty Name="UsuarioCreacionLog" ColumnName="UsuarioCreacionLog" />
+                <ScalarProperty Name="FechaCreacionLog" ColumnName="FechaCreacionLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="IdCabeceraControlPesoCodificacion" ColumnName="IdCabeceraControlPesoCodificacion" />
+                <ScalarProperty Name="IdDescripcionUso" ColumnName="IdDescripcionUso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
