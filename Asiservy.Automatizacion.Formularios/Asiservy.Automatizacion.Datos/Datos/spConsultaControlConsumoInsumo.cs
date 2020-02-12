@@ -27,9 +27,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<decimal> Miga { get; set; }
         public string Envase { get; set; }
         public string Tapa { get; set; }
-        public Nullable<int> Aceite { get; set; }
-        public Nullable<int> Agua { get; set; }
-        public Nullable<int> CaldoVegetal { get; set; }
+        public Nullable<decimal> Aceite { get; set; }
+        public Nullable<decimal> Agua { get; set; }
+        public Nullable<decimal> CaldoVegetal { get; set; }
         public Nullable<int> DesperdicioSolido { get; set; }
         public Nullable<int> DesperdicioLiquido { get; set; }
         public Nullable<int> DesperdicioAceite { get; set; }

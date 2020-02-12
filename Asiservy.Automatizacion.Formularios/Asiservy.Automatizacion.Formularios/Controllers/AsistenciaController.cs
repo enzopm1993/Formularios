@@ -25,9 +25,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDError clsDError = null;
         clsDClasificador clsDClasificador = null;
         clsDCuchillo clsDCuchillo = null;
+        clsDLogin clsDLogin = null;
         //clsApiUsuario clsApiUsuario=null;
         //clsDSolicitudPermiso ClsDSolicitudPermiso = null;
-        clsDLogin clsDLogin = null;
+        //clsDLogin clsDLogin = null;
         #region Métodos
         protected void SetSuccessMessage(string message)
         {
@@ -930,9 +931,27 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 clsDClasificador = new clsDClasificador();
                 clsDEmpleado = new clsDEmpleado();
-                this.ConsultaComboLineas();
-                ViewBag.Estado = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                clsDLogin = new clsDLogin();
+                liststring = User.Identity.Name.Split('_');
+                var Empleado = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault();
+                ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;
 
+                List<int?> roles = clsDLogin.ConsultaRolesUsuario(liststring[1]);
+                if (roles.FirstOrDefault(x => x.Value == clsAtributos.AsistenteProduccion) != null)
+                {
+                  //  ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
+                   var poLineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                    poLineas.Add(new Models.Seguridad.Clasificador { Codigo = "T", Descripcion = "Todas" });
+                    ViewBag.Lineas = poLineas;
+                }
+                else
+                {
+                    var poLineas = clsDGeneral.ConsultaLineas(null);
+                    poLineas.Add(new spConsultaLinea { Codigo = "T", Descripcion = "Todas" });
+                    ViewBag.Lineas = poLineas;
+                }                
+
+                ViewBag.Estado = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 return View();
             }
             catch (Exception ex)

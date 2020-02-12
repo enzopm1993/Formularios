@@ -238,7 +238,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 EstadoSolicitud = x.CodEstadoSolicitud,
                 DescripcionEstadoSolicitud = x.EstadoSolcitud,
                 FechaBiometrico = x.FechaBiometrico,
-                //Origen = x.Origen,
+                Origen = x.Origen,
                 //CodigoDiagnostico = x.CodigoDiagnostico,
                 FechaIngresoLog = x.FechaIngresoLog,
                 UsuarioIngresoLog = x.UsuarioIngresoLog,
@@ -352,15 +352,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
                     };
                     entities.BITACORA_SOLICITUD.Add(bitacora);
-                                                         
-                    //INGRESAR MARCACIÓN DE SALIDA DEL BIOMÉTRICO
-                    StatusOnlyControl resultOnlyControl;
-                    using (OnlyControlService.wsrvTcontrolSoapClient service = new OnlyControlService.wsrvTcontrolSoapClient())
+
+                    if (Solicitud.Origen == "M")
                     {
-                        string content = service.InsertaMarcacion(clsAtributos.keyLlaveAcceso, Solicitud.Identificacion, DateTime.Now, "SALIDA", "192.168.31.2");
-                        resultOnlyControl = JsonConvert.DeserializeObject<StatusOnlyControl>(content);
+                        //INGRESAR MARCACIÓN DE SALIDA DEL BIOMÉTRICO
+                        StatusOnlyControl resultOnlyControl;
+                        using (OnlyControlService.wsrvTcontrolSoapClient service = new OnlyControlService.wsrvTcontrolSoapClient())
+                        {
+                            string content = service.InsertaMarcacion(clsAtributos.keyLlaveAcceso, Solicitud.Identificacion, DateTime.Now, "SALIDA", "192.168.31.2");
+                            resultOnlyControl = JsonConvert.DeserializeObject<StatusOnlyControl>(content);
+                        }
+
                     }
-                    
+
                 }
                 entities.SaveChanges();
                 return clsAtributos.MsjRegistroGuardado;
@@ -796,6 +800,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             List<BitacoraSolicitud> ListaBitacoraFinal = null;
             clsDEmpleado = new clsDEmpleado();
             clsDGeneral = new clsDGeneral();
+            
             //var motivos = clsDGeneral.
            
 
@@ -835,12 +840,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     ListaBitacora = ListaBitacora.Where(x => x.FechaIngresoLog >= ddFechaDesde && x.FechaIngresoLog <= ddFechaHasta);
                 }
                 ListaBitacoraFinal = ListaBitacora.ToList();
+                // var motivos = clsDGeneral.moti
+                var Motivo = ConsultarMotivos(null);
                 foreach (var x in ListaBitacoraFinal)
                 {
+                    var poMotivo = Motivo.FirstOrDefault(y=> y.CodigoMotivo==x.CodMotivo);
                     var empleado = clsDEmpleado.ConsultaEmpleado(x.Cedula).FirstOrDefault();
                     var linea = clsDGeneral.ConsultaLineas(empleado.CODIGOLINEA).FirstOrDefault();
                     x.Nombres = empleado.NOMBRES;
-                    x.Linea = linea.Descripcion;                    
+                    x.Linea = linea.Descripcion;
+                    x.Motivo = poMotivo!=null?poMotivo.DescripcionMotivo:"";
                 }
 
 
@@ -978,11 +987,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                             sol.EstadoSolicitud = clsAtributos.EstadoSolicitudPendiente;                           
                         }
                         entities.SOLICITUD_PERMISO.Add(sol);
+                        entities.SaveChanges();
+
+                        var idSol = entities.SOLICITUD_PERMISO.FirstOrDefault(y=> y.Identificacion==x && y.FechaSalida == sol.FechaSalida && y.FechaRegreso == sol.FechaRegreso && y.CodigoMotivo == sol.CodigoMotivo);
+
 
                         BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
-                        poBitacora.IdSolicitud = sol.IdSolicitudPermiso;
+                        poBitacora.IdSolicitud = idSol!=null ? idSol.IdSolicitudPermiso:0;
                         poBitacora.Cedula = sol.Identificacion;
                         poBitacora.CodigoMotivo = sol.CodigoMotivo;
+                        poBitacora.FechaSalida = sol.FechaSalida;
+                        poBitacora.FechaRegreso = sol.FechaRegreso;
                         poBitacora.CambioEstado = true;
                         poBitacora.Observacion = sol.Observacion;
                         poBitacora.EstadoSolicitud = sol.EstadoSolicitud;

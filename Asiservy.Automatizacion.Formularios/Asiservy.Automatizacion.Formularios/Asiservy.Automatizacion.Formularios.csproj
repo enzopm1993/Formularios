@@ -2239,6 +2239,7 @@
     <Content Include="Scripts\i18n\defaults-zh_CN.min.js" />
     <Content Include="Scripts\i18n\defaults-zh_TW.js" />
     <Content Include="Scripts\i18n\defaults-zh_TW.min.js" />
+    <Content Include="Scripts\MapeoProductoTunel\MapeoProductoTunel.js" />
     <Content Include="Scripts\MoverPersonal\BandejaMovimientoPersonalRRHH.js" />
     <Content Include="Scripts\MoverPersonal\MoverPersonalDataLife.js" />
     <Content Include="Scripts\ControlCuchillo\ControlCuchillo.js" />
@@ -3163,8 +3164,12 @@
     <Compile Include="AccesoDatos\General\clsDGeneral.cs" />
     <Compile Include="AccesoDatos\General\clsDParametro.cs" />
     <Compile Include="AccesoDatos\GenerarDatosServicio\clsDGenerarDatosServicio.cs" />
+    <Compile Include="AccesoDatos\MapeoProductoTunel\clsDMapeoProductoTunel.cs" />
     <Compile Include="AccesoDatos\MoverPersonal\ClsDMoverPersonal.cs" />
+    <Compile Include="AccesoDatos\Nomina\ClsNomina.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaAsistencia.cs" />
+    <Compile Include="AccesoDatos\Nomina\ModeloVistaPersonalPresente.cs" />
+    <Compile Include="AccesoDatos\Nomina\ModeloVistaTablasPersonalPreesente.cs" />
     <Compile Include="AccesoDatos\Periodo\clsDPeriodo.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDModulo.cs" />
@@ -3207,10 +3212,12 @@
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\EntregaProductoTerminadoController.cs" />
     <Compile Include="Controllers\EntregaUniformeController.cs" />
+    <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HuesoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MapeoProductoTunelController.cs" />
     <Compile Include="Controllers\MensajeController.cs" />
     <Compile Include="Controllers\MoverPersonalController.cs" />
     <Compile Include="Controllers\NominaController.cs" />
@@ -3491,6 +3498,8 @@
     <Content Include="Views\ControlBalanza\ControlBalanza.cshtml" />
     <Content Include="Views\ControlBalanza\ReporteControlBalanza.cshtml" />
     <Content Include="Views\ControlBalanza\ReporteControlBalanzaPartial.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\MapeoProductoTunel.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\MapeoProductoTunelPartial.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\CargarPartialControlDetalles.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\CargarHorasControl.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarMuestrasPorHora.cshtml" />
@@ -3505,6 +3514,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Comunicados\" />
+    <Folder Include="Views\General\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

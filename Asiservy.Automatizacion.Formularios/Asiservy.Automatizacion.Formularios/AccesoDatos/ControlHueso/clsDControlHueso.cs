@@ -221,13 +221,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                                 Producto = detalle.Producto
                             });
                         }
+                        else
+                        {
+                            modelControlAvanceApi.Promedio = decimal.Parse(detalle.Promedio);
+                            modelControlAvanceApi.Talla = detalle.Talla;
+                            modelControlAvanceApi.Especie = detalle.Especie;
+                            modelControlAvanceApi.Lote = detalle.Lote;
+                            modelControlAvanceApi.Limpieza = detalle.Limpieza;
+                            modelControlAvanceApi.Peso = int.Parse(double.Parse(detalle.Peso).ToString());
+                            modelControlAvanceApi.Piezas = int.Parse(double.Parse(detalle.Piezas).ToString());                           
+                        }
                     }
                 }
                 if (ListadoControlAvanceApi.Any())
                 {
-                    entities.CONTROL_AVANCE_API.AddRange(ListadoControlAvanceApi);
-                    entities.SaveChanges();
-                }               
+                    entities.CONTROL_AVANCE_API.AddRange(ListadoControlAvanceApi);                   
+                }
+                entities.SaveChanges();
             }
         }
 

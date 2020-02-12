@@ -19,6 +19,7 @@
 
             @if (ViewBag.Garita != null)
             {
+                <th> Médico </th>
                 <th> Acción </th>
             }
             else
@@ -56,6 +57,11 @@
             <td>@diaSalida, @item.FechaSalida.Value.ToString("dd-MM-yyyy HH:mm")</td>
             @if (ViewBag.Garita != null)
             {
+                <td class="text-center">@if (item.Origen == "M") {
+                    <i class="fas fa-briefcase-medical" style="color:blue"></i>
+                    }
+                </td>
+
                 <td> <input type="button" name="name" value="Marcar Salida" class="btn btn-outline-info" onclick="MarcarSalida(@item.IdSolicitudPermiso,'@item.FechaBiometrico','@item.FechaSalida')" /> </td>
             }
             else

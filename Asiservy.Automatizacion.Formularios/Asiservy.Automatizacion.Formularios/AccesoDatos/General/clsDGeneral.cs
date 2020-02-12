@@ -239,7 +239,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 //}
 
             }           
-            catch (SmtpException ex)
+            catch (SmtpException)
             {
                 return "Error en envió de correo electrónico";
 
