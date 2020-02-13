@@ -12,7 +12,7 @@
 <style type="text/css">
     input, select, textarea {
         max-width: 100%
-    }  
+    }
 
     divBorder {
         border: 3px solid;
@@ -25,8 +25,6 @@
         padding-top: 10px;
         word-wrap: break-word;
     }
-
-       
 </style>
 <br />
 <div style="padding:0 5% 5% 5%" class="container-fluid">
@@ -37,157 +35,169 @@
             <label>Fecha: @DateTime.Now.ToShortDateString()</label>
         </div>
     </div>
- 
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8 col-12 border rounded border-primary">
-            @using (Html.BeginForm("SolicitudPermiso", "SolicitudPermiso"))
-            {
-            <div class="row">
-                @if (ViewBag.ControladorLinea != null)
+    <form id="formSolicitudPermiso" action="../SolicitudPermiso/SolicitudPermiso" method="post">>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 col-12 border rounded border-primary">
+                @using (Html.BeginForm("SolicitudPermiso", "SolicitudPermiso"))
                 {
-                    <input type="hidden" id="txtControladorLinea" value="1" />
-                    <div class="col-md-4 col-6">
-                        <div class="form-group">
-                            <label>Línea</label>
-                            @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), "Seleccione la Línea", new { @onchange = "CambioLineas(this.id)", @class = "form-control", @id = "selectLinea" })
-                            @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
+                    <div class="row">
+                        @if (ViewBag.ControladorLinea != null)
+                        {
+                            <input type="hidden" id="txtControladorLinea" value="1" />
+                            <div class="col-md-4 col-6">
+                                <div class="form-group">
+                                    <label>Línea</label>
+                                    @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), "Seleccione la Línea", new { @onchange = "CambioLineas(this.id)", @class = "form-control", @id = "selectLinea" })
+                                    @Html.ValidationMessageFor(m => m.CodigoLinea, "", new { @class = "input-validation-error text-danger has-error" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-6">
+                                <div class="form-group">
+                                    <label>Área</label>
+                                    @Html.DropDownListFor(m => m.CodigoArea, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
+                                    @Html.ValidationMessageFor(m => m.CodigoArea, "", new { @class = "input-validation-error text-danger has-error" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.DescripcionCargo)
+                                    @Html.DropDownListFor(m => m.CodigoCargo, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "selectCargo" })
+                                    @Html.ValidationMessageFor(m => m.CodigoCargo, "", new { @class = "input-validation-error text-danger has-error" })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            if (ViewBag.PermisoCompartido != null)
+                            {
+                                @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), new { @onchange = "CambioLineas(this.id)", @class = "form-control", @id = "selectLinea", @hidden = "hidden" })
+
+                            }
+                            <input type="hidden" id="txtControladorLinea" value="0" />
+                        }
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-6 col-12">
+                            <label>Empleado</label>
+                            <div class="input-group">
+                                @if (ViewBag.ControladorLinea != null || ViewBag.PermisoCompartido != null)
+                                {
+                                    @Html.TextBoxFor(m => m.NombreEmpleado, null, new { style = "width: 65%;", @readonly = "readonly" })
+                                    @Html.HiddenFor(m => m.Identificacion)
+                                    <button type="button" onclick="CargarEmpleados('CargarEmpleadoPG');" id="CargarEmpleadoPG">
+                                        <img src="~/Content/images/buscar.png" />
+                                    </button><br />
+                                    @Html.ValidationMessageFor(m => m.Identificacion, "", new { @class = "input-validation-error text-danger has-error" })
+                                }
+                                else
+                                {
+                                    @Html.TextBox("Identificacion", ViewData["Identificacion"], new { @hidden = "hidden" })
+                                    <input type="text" readonly value="@ViewBag.NombreEmpleado" class="form-control" />
+                                    @Html.ValidationMessageFor(m => m.Identificacion, "", new { @class = "input-validation-error text-danger has-error" })
+
+                                }
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.DescripcionMotivo, new { @class = "" })
+                                @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "DescripcionMotivo"), "Seleccione el Motivo", new { @class = "form-control", @id = "selectMotivo" })
+                                @Html.ValidationMessageFor(m => m.CodigoMotivo, "", new { @class = "input-validation-error text-danger has-error" })
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-md-4 col-6">
-                        <div class="form-group">
-                            <label>Área</label>
-                            @Html.DropDownListFor(m => m.CodigoArea, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Área", new { @onchange = "CambioArea(this.value)", @class = "form-control", @id = "selectArea" })
-                            @Html.ValidationMessageFor(m => m.CodigoArea, "", new { @class = "input-validation-error text-danger has-error" })
+
+                    <div class="form-group">
+                        <label>Observación</label>
+                        @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control", @maxlength = "500", @style = "text-transform:uppercase" })
+                    </div>
+                    @Html.ValidationMessage("CustomError", "", new { @class = "input-validation-error text-danger has-error" })
+
+                    <div class="col-12 text-center">
+                        <label>Fecha - Hora</label>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
+                            <label class="custom-control-label" for="switchHoraFecha" id="LabelFecha"></label>
                         </div>
+                    </div>
+                    <div class="row" id="DivHora">
+
+                        <div class="col-md-4 col-sm-12">
+                            <label>Fecha</label>
+                            @Html.TextBoxFor(m => m.FechaSalidaEntrada, new { @type = "date", @id = "dateSalidaRegreso", @class = "form-control" })
+                        </div>
+                        <div class="col-md-4 col-sm-5">
+                            <label>Hora Desde</label>
+                            @Html.TextBoxFor(m => m.HoraSalida, new { @type = "time", @id = "timeHoraSalida", @class = "form-control" })
+                            @*<input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />*@
+                        </div>
+                        <div class="col-md-4  col-sm-5">
+                            <label>Hora Hasta</label>
+                            @Html.TextBoxFor(m => m.HoraRegreso, new { @type = "time", @id = "timeHoraRegreso", @class = "form-control" })
+                            @*<input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />*@
+                        </div>
+
+                    </div>
+                    <div class="row" id="DivFecha">
+                        <div class="col-md-6 col-sm-12">
+                            <label>Fecha Desde</label>
+                            @Html.TextBoxFor(m => m.FechaSalida, new { @type = "date", @id = "dateSalida", @class = "form-control" })
+                            @*<input class="form-control" type="date" name="name" value="" id="datetimeDesde" />*@
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label>Fecha Hasta</label>
+                            @Html.TextBoxFor(m => m.FechaRegreso, new { @type = "date", @id = "dateRegreso", @class = "form-control" })
+
+                        </div>
+                    </div>
+                    <br />
+                    @*<center><input type="submit" class="btn btn-info" name="name" value="Generar" id="GuardarSolicitudGeneral" /></center>*@
+                    <div class="row">
+                        <div class=" text-center col-12">
+                            <button hidden class="btn" id="GuardarSolicitudGeneral2" style="border-color:#2c3e50" type="submit">
+                                <img style="width:100%" src="~/Content/icons/send24.png" />
+                            </button>
+                            <button class="btn" id="GuardarSolicitudGeneral" style="border-color:#2c3e50" type="button">
+                                <img style="width:100%" src="~/Content/icons/send24.png" />
+                            </button>
+                        </div>
+
                     </div>
 
-                    <div class="col-md-4 col-12">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.DescripcionCargo)
-                            @Html.DropDownListFor(m => m.CodigoCargo, new SelectList("", "Codigo", "Descripcion"), "Seleccione el Cargo", new { @class = "form-control", @id = "selectCargo" })
-                            @Html.ValidationMessageFor(m => m.CodigoCargo, "", new { @class = "input-validation-error text-danger has-error" })
-                        </div>
-                    </div>
+                    <br />
                 }
-                else
-                {
-                    if (ViewBag.PermisoCompartido != null)
-                    {
-                        @Html.DropDownListFor(m => m.CodigoLinea, new SelectList(ViewBag.Lineas, "Codigo", "Descripcion", ViewBag.CodLinea), new { @onchange = "CambioLineas(this.id)", @class = "form-control", @id = "selectLinea", @hidden="hidden" })
-
-                    }
-                    <input type="hidden" id="txtControladorLinea" value="0" />
-                }
-
             </div>
-                <div class="row">
-
-                    <div class="col-md-6 col-12">
-                        <label>Empleado</label>
-                        <div class="input-group">
-                            @if (ViewBag.ControladorLinea != null || ViewBag.PermisoCompartido !=null)
-                            {
-                                @Html.TextBoxFor(m => m.NombreEmpleado, null, new { style = "width: 65%;", @readonly = "readonly" })
-                                @Html.HiddenFor(m => m.Identificacion)
-                                <button type="button" onclick="CargarEmpleados('CargarEmpleadoPG');" id="CargarEmpleadoPG">
-                                    <img src="~/Content/images/buscar.png" />
-                                </button><br />
-                                @Html.ValidationMessageFor(m => m.Identificacion, "", new { @class = "input-validation-error text-danger has-error" })
-                            }
-                            else
-                            {
-                                @Html.TextBox("Identificacion", ViewData["Identificacion"], new { @hidden = "hidden" })
-                                <input type="text" readonly value="@ViewBag.NombreEmpleado" class="form-control" />
-                                @Html.ValidationMessageFor(m => m.Identificacion, "", new { @class = "input-validation-error text-danger has-error" })
-
-                            }
-                        </div>
-
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.DescripcionMotivo, new { @class = "" })
-                            @Html.DropDownListFor(m => m.CodigoMotivo, new SelectList(ViewBag.MotivosPermiso, "CodigoMotivo", "DescripcionMotivo"), "Seleccione el Motivo", new { @class = "form-control", @id = "selectMotivo" })
-                            @Html.ValidationMessageFor(m => m.CodigoMotivo, "", new { @class = "input-validation-error text-danger has-error" })
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    <label>Observación</label>
-                    @Html.TextAreaFor(m => m.Observacion, new { @class = "form-control", @maxlength = "500", @style = "text-transform:uppercase" })
-                </div>
-                @Html.ValidationMessage("CustomError", "", new { @class = "input-validation-error text-danger has-error" })
-
-                <div class="col-12 text-center">
-                    <label>Fecha - Hora</label>
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="switchHoraFecha" onchange="CambioHoraFecha();">
-                        <label class="custom-control-label" for="switchHoraFecha" id="LabelFecha"></label>
-                    </div>
-                </div>
-                <div class="row" id="DivHora">
-
-                    <div class="col-md-4 col-sm-12">
-                        <label>Fecha</label>
-                        @Html.TextBoxFor(m => m.FechaSalidaEntrada, new { @type = "date", @id = "dateSalidaRegreso", @class = "form-control" })
-                    </div>
-                    <div class="col-md-4 col-sm-5">
-                        <label>Hora Desde</label>
-                        @Html.TextBoxFor(m => m.HoraSalida, new { @type = "time", @id = "timeHoraSalida", @class = "form-control" })
-                        @*<input class="form-control" type="time" name="name" value="" id="timeHoraDesde" readonly />*@
-                    </div>
-                    <div class="col-md-4  col-sm-5">
-                        <label>Hora Hasta</label>
-                        @Html.TextBoxFor(m => m.HoraRegreso, new { @type = "time", @id = "timeHoraRegreso", @class = "form-control" })
-                        @*<input class="form-control" type="time" name="name" value="" id="timeHoraHasta" readonly />*@
-                    </div>
-
-                </div>
-                <div class="row" id="DivFecha" >
-                    <div class="col-md-6 col-sm-12">
-                        <label>Fecha Desde</label>
-                        @Html.TextBoxFor(m => m.FechaSalida, new { @type = "date", @id = "dateSalida", @class = "form-control" })
-                        @*<input class="form-control" type="date" name="name" value="" id="datetimeDesde" />*@
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <label>Fecha Hasta</label>
-                        @Html.TextBoxFor(m => m.FechaRegreso, new { @type = "date", @id = "dateRegreso", @class = "form-control" })
-
-                    </div>
-                </div>
-                <br />
-                @*<center><input type="submit" class="btn btn-info" name="name" value="Generar" id="GuardarSolicitudGeneral" /></center>*@
-                <div class="row">
-                    <div class=" text-center col-12">
-                        <button class="btn" id="GuardarSolicitudGeneral" onclick="GuardarSolicitud(this.id)" style="border-color:#2c3e50" type="submit">
-                            <img style="width:100%" src="~/Content/icons/send24.png" />
-                        </button>
-
-                    </div>
-                    
-                </div>
-                
-                <br />
-            }
+            <div class="col-md-1"></div>
         </div>
-        <div class="col-md-1"></div>
-    </div>
-
+    </form>
 
 </div>
 <div id="ModelCargarEmpleados"></div>
 <br /><br />
-<script>
-    function GuardarSolicitud(id) {
-        
-        $("#" + id).prop("hidden", true);
-        $("#" + id).submit();
-    }
-</script>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="modal-btn-si">Si</button>
+                <button type="button" class="btn btn-primary" id="modal-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="~/Scripts/SolicitudPermiso/Empleado.js"></script>
 <script src="~/Scripts/General/CargarCombosLineas.js"></script>

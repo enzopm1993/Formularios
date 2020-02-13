@@ -757,7 +757,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     ConsultaCombosMotivos(false);
                     ValidacionSolicitudPermiso();
-                    SetErrorMessage("La observación es obligatoria para este tipo de solicitud.");
+                    ModelState.AddModelError("CustomError", "La observación es obligatoria para este tipo de solicitud.");
                     return View(model);
                 }
                 psMensajeValidarFecha = ValidarFechas(model);
