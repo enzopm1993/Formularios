@@ -658,12 +658,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public JsonResult GuardarSalidaAsistencia(string Cedula, DateTime Fecha, TimeSpan? Hora, string Tipo, int IdMovimiento, string Turno, string CodLinea)
+        public JsonResult GuardarSalidaAsistencia(string Cedula, DateTime Fecha,DateTime FechaGenAsistencia, TimeSpan? Hora, string Tipo, int IdMovimiento, string Turno, string CodLinea)
         {
             try
             {
                 clsDAsistencia = new clsDAsistencia();
-                var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula, Fecha, Hora.Value, Tipo, IdMovimiento, Turno, CodLinea);
+                var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula, Fecha, FechaGenAsistencia, Hora.Value, Tipo, IdMovimiento, Turno, CodLinea);
                 return Json(resultado, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

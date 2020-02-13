@@ -153,6 +153,7 @@ function GuardarSalida(Fila, Cedula, idMovimientoPersonalDiario,VieneDeHora) {
         data: {
             Cedula: Cedula,
             Fecha: FechaFinalizacion,
+            FechaGenAsistencia: $('#txtFecha').val(),
             Hora: $('#txtHorasalida' + Fila).val(),
             Tipo: psTipo,
             IdMovimiento: idMovimientoPersonalDiario,

@@ -520,7 +520,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return ControlDeAsistenciaPrestadosViewModel;
             }
         }
-        public string GuardarAsistenciaSalida(string Cedula, DateTime Fecha, TimeSpan Hora, string Tipo, int IdMovimientoPersonalDiario, string Turno, string CodLinea)
+        public string GuardarAsistenciaSalida(string Cedula, DateTime Fecha,DateTime FechaGenAsistencia, TimeSpan Hora, string Tipo, int IdMovimientoPersonalDiario, string Turno, string CodLinea)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -529,7 +529,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     //MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonal = db.MOVIMIENTO_PERSONAL_DIARIO.Where(z => z.Cedula == Cedula && z.FechaInicio == Fecha && z.HoraFin == null).FirstOrDefault();
                     MOVIMIENTO_PERSONAL_DIARIO BuscarMovimientoPersonal = db.MOVIMIENTO_PERSONAL_DIARIO.Find(IdMovimientoPersonalDiario);
                     //ASISTENCIA BuscarAsistencia = db.ASISTENCIA.Where(a => a.Cedula == Cedula && a.Fecha == Fecha).FirstOrDefault();
-                    ASISTENCIA BuscarAsistencia = db.ASISTENCIA.Where(a => a.Cedula == Cedula && a.Fecha == Fecha && a.Turno == Turno).FirstOrDefault();
+                    ASISTENCIA BuscarAsistencia = db.ASISTENCIA.Where(a => a.Cedula == Cedula && a.Fecha == FechaGenAsistencia && a.Turno == Turno).FirstOrDefault();
                     if (BuscarMovimientoPersonal != null)
                     {
                         //valido que la fecha y hora de finalizar asistencia ingresada por el usuario sea mayor a la fecha y hora en que inicio en la linea
@@ -592,17 +592,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     //**ingresar en MOVIMIENTO_PERSONAL_DIARIO  (entrada > fecha1 && entrada < fecha2)
                     if (psAsistencia.EstadoAsistencia == clsAtributos.EstadoFalta)//si en asistencia, despues de haberle dado asistencia le cambian el estado a falta
                     {
-                        //var BuscarMovimientoPersonalActivo= (from m in db.MOVIMIENTO_PERSONAL_DIARIO
-                        //                                     where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                        //                                     select m).FirstOrDefault();
-
-                        //traigo el último registro ingresado en MOVIMIENTO_PERSONAL con la fecha indicada
-
-                        //var BuscarMovimientoPersonalActivo = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
-                        //                                      where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                        //                                      orderby m.IdCambioPersonal descending
-                        //                                      select m).FirstOrDefault();
-
                         //Busco en MOVIMIENTO
                         var BuscarMovimientoPersonalActivo = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
                                                               where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo & m.Cedula == psAsistencia.Cedula
@@ -661,12 +650,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = null;
                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaFin = null;
                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraFin = null;
-                            //BuscarMovimientoPersonalDiario[indice].EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                            //BuscarMovimientoPersonalDiario[indice].FechaInicio = psAsistencia.Fecha;
-                            //BuscarMovimientoPersonalDiario[indice].HoraInicio = psAsistencia.Hora;
-                            //BuscarMovimientoPersonalDiario[indice].UsuarioModificacionLog = psAsistencia.UsuarioModificacionLog;
-                            //BuscarMovimientoPersonalDiario[indice].TerminalModificacionLog = psAsistencia.TerminalModificacionLog;
-                            //BuscarMovimientoPersonalDiario[indice].FechaModificacionLog = DateTime.Now;
                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).FechaInicio = psAsistencia.Fecha;
                             BuscarMovimientoPersonalDiario.Find(x => x.IdCambioPersonal == BuscarRegInactivos.IdCambioPersonal).HoraInicio = psAsistencia.Hora;
