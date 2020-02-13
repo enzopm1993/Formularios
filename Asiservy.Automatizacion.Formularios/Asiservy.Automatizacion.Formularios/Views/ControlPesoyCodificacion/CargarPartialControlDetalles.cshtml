@@ -109,10 +109,74 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane container fade" id="DetalleLotes">...</div>
+        <div class="tab-pane container-fluid fade" id="DetalleLotes">
+            <br />
+            <div class="row">
+                <input type="hidden" id="IdDetalleLote" value="" />
+                <div class="col-md-6 col-sm-6 form-group">
+                    <label>
+                        Orden de fabricación:
+                    </label>
+                    @Html.DropDownList("cmbOrdenFabricacion", new SelectList(Enumerable.Empty<SelectListItem>()), "Seleccione..", new { @class = "form-control" })
+                    <label class="text-danger" id="msjtcmbOrdenFabricacion"></label>
+                </div>
+                <div class="col-md-6 col-sm-6 form-group">
+                    <label>
+                        Lote:
+                    </label>
+                    @Html.DropDownList("cmbLote", new SelectList(Enumerable.Empty<SelectListItem>()), "Seleccione..", new { @class = "form-control" })
+                    <label class="text-danger" id="msjtcmbLote"></label>
+                </div>
+                <div class="col-md-6 col-sm-6 form-group">
+                    <label>Producto:</label> <br />
+                    <div class="form-check-inline">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="chkLomo" value="">Lomo
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="chkMiga" value="">Miga
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 form-group">
+                    <label>
+                        Especie:
+                    </label>
+                    <input type="text" id="txtEspecie" class="form-control" disabled/>
+                    <label class="text-danger" id="msjtEspecie"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class=" col-12 text-center">
+                    <button class="btn btn-primary" type="button" disabled hidden id="btnGuardarCargandoLotes">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Espere...
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Agregar" class="btn" id="btnAgregarDetLotes" onclick="GuardarLotes()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/add24.png" />
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarLotes" onclick="ConfirmarEliminarLotes()" style="border-color:#2c3e50" type="button" disabled>
+                        <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnlimpiarLotes" onclick="LimpiarControlesLotes()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/clear24.png" />
+                    </button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-12">
+                    <div id="DivDetalleLotes" class="table-responsive">
 
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+  
 
 <!-- Modal para muestras x hora -->
 <div class="modal fade" id="ModalMuestrasHoras" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static">
