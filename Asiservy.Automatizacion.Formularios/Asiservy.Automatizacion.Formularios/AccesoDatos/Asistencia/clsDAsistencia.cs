@@ -237,7 +237,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     //List<spConsutaEmpleadosFiltro> ListaEmpleados = db.spConsutaEmpleadosFiltro("0", CodLinea, "0").Where(x => x.CODIGOCARGO != "221").ToList();
                     List<spConsultarEmpleadosxTurno> ListaEmpleados = db.spConsultarEmpleadosxTurno(CodLinea, turno, Fecha, Hora).ToList();//corregir parametros null mandar fecha y hora
                     ControlAsistencia = new List<ASISTENCIA>();
-                    foreach (var item in ListaEmpleados)
+                    var AsistenciaBuscar = db.ASISTENCIA.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();//traigo la asistencia de todas las lineas en la fecha ingresada
+                    List<spConsultarEmpleadosxTurno> PersonalMovidoAEstaLineaFiltrado1 = (from p in ListaEmpleados
+                                                                                         join asis in AsistenciaBuscar
+                                                                                         on p.CEDULA equals asis.Cedula into pp
+                                                                                         from asis in pp.DefaultIfEmpty()
+                                                                                         where asis == null
+                                                                                         select p).ToList();
+                    foreach (var item in PersonalMovidoAEstaLineaFiltrado1)
                     {
                         //var FueMovidoAOtraArea = clsDCambioPersonal.ConsultarCambioPersonal(item.CEDULA);
                         //if (FueMovidoAOtraArea == null)
@@ -248,7 +255,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     //**
                     //SI YA SE GENERO LA ASISTENCIA EN LINEA_X Y LE DOY PRESENTE A LAS 7AM Y LUEGO  PRESTO A ESA PERSONA A LAS 7:30 A CONTROL_RECUPERADO Y CONTROL, Y EN
                     //XONTROL RECUPERADO Y CONTRO GENERO LA ASISTENCIA GENERAL A LAS 8AM (ESA PERSONA NO DEBE SALIR)
-                    var AsistenciaBuscar = db.ASISTENCIA.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();//traigo la asistencia de todas las lineas en la fecha ingresada
                     List<spConsultarCambioPersonalxLineaxTurno> PersonalMovidoAEstaLineaFiltrado = (from p in PersonalMovidoAEstaLinea
                                                                                                     join asis in AsistenciaBuscar
                                                                                                     on p.Cedula equals asis.Cedula into pp
