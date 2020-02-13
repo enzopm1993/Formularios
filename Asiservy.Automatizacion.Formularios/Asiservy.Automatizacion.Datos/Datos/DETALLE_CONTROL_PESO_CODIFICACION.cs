@@ -32,8 +32,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CABECERA_CONTROL_PESO_CODIFICACION CABECERA_CONTROL_PESO_CODIFICACION { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DETALLE_HORAS_CONTROL_PESO_CODIFICACION> DETALLE_HORAS_CONTROL_PESO_CODIFICACION { get; set; }
+        public virtual CABECERA_CONTROL_PESO_CODIFICACION CABECERA_CONTROL_PESO_CODIFICACION { get; set; }
     }
 }
