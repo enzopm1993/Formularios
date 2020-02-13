@@ -138,7 +138,7 @@ function CargarOrdenFabricacionDetalle(orden) {
         return;
 
     $.ajax({
-        url: "../General/ConsultarOrdenesFabricacion",
+        url: "../ControlPesoEnlatado/ConsultarOrdenesFabricacion",
         type: "GET",
         data: {
             Fecha: valor,
