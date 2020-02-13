@@ -37,7 +37,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                              Usuario= e.NOMBRES,
                              UsuarioAprueba =q.CedulaAprueba
 
-                            }).ToList();
+                            }).Distinct().ToList();
                 
                 return Lista;
 
