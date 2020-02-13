@@ -38,8 +38,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 poSolicitud.FechaModificacionLog = doSolicitud.FechaModificacionLog;
                 poSolicitud.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
                 poSolicitud.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
-                poSolicitud.ValidaMedico = doSolicitud.ValidaMedico??poSolicitud.ValidaMedico;
-                if (doSolicitud.EnvioOnlyControl == true){
+                poSolicitud.ValidaMedico = doSolicitud.ValidaMedico ?? poSolicitud.ValidaMedico;
+                if (doSolicitud.EnvioOnlyControl == true)
+                {
                     poSolicitud.EnvioOnlyControl = doSolicitud.EnvioOnlyControl;
                 }
                 psMensaje = "Registro Actualizado Correctamente";
@@ -53,8 +54,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 poBitacora.CambioEstado = true;
                 poBitacora.UsuarioIngresoLog = doSolicitud.UsuarioModificacionLog;
                 poBitacora.TerminalIngresoLog = doSolicitud.TerminalModificacionLog;
-                entities.BITACORA_SOLICITUD.Add(poBitacora);  
-            entities.SaveChanges();
+                entities.BITACORA_SOLICITUD.Add(poBitacora);
+                entities.SaveChanges();
 
                 bool RRHH = false;
                 string EstadoSolictud = string.Empty;
@@ -71,7 +72,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 {
                     EstadoSolictud = "Revisado";
                 }
-                var poEmpleado = clsDEmpleado.ConsultaEmpleado(poSolicitud.Identificacion).FirstOrDefault();      
+                var poEmpleado = clsDEmpleado.ConsultaEmpleado(poSolicitud.Identificacion).FirstOrDefault();
                 var Motivo = ConsultarMotivos(poSolicitud.CodigoMotivo).FirstOrDefault();
                 String MensajeBody = "Empleado: " + poEmpleado.NOMBRES + "\n</br>"
                       + " Motivo:" + Motivo.DescripcionMotivo + "\n</br>"
@@ -79,28 +80,29 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                       + "Fecha Salida: " + poSolicitud.FechaSalida + "\n</br>"
                       + "Fecha Regreso: " + poSolicitud.FechaRegreso + "</br>\n Estado: " + EstadoSolictud + " </br>"
                       + "Realizado por: " + doSolicitud.UsuarioModificacionLog + "</br>";
-                if(poSolicitud.EstadoSolicitud == clsAtributos.EstadoSolicitudAnulado)
+                if (poSolicitud.EstadoSolicitud == clsAtributos.EstadoSolicitudAnulado)
                 {
-                    MensajeBody = MensajeBody + "Motivo: " + poSolicitud.Observacion+ "</br></br>";
+                    MensajeBody = MensajeBody + "Motivo: " + poSolicitud.Observacion + "</br></br>";
                 }
                 else
                 {
                     MensajeBody = MensajeBody + "</br>";
                 }
-               
+
                 mensajeCorreo = clsDGeneral.EnvioCorreo(poEmpleado, "Solicitud Permiso",
                 MensajeBody, RRHH);
             }
 
-            return psMensaje+"--"+ mensajeCorreo;
+            return psMensaje + "--" + mensajeCorreo;
         }
-        
+
         public string GuargarModificarSolicitud(SOLICITUD_PERMISO doSolicitud)
         {
             string psMensaje = string.Empty;
             BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
 
-            using (ASIS_PRODEntities entities = new ASIS_PRODEntities()) {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
                 using (var transaction = entities.Database.BeginTransaction())
                 {
                     var poSolicitud = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == doSolicitud.IdSolicitudPermiso);
@@ -118,7 +120,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         poSolicitud.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
                         psMensaje = "Registro Actualizado Correctamente";
 
-                        poBitacora.IdSolicitud = poSolicitud.IdSolicitudPermiso;                       
+                        poBitacora.IdSolicitud = poSolicitud.IdSolicitudPermiso;
                         poBitacora.Cedula = poSolicitud.Identificacion;
                         poBitacora.Observacion = poSolicitud.Observacion;
                         poBitacora.EstadoSolicitud = poSolicitud.EstadoSolicitud;
@@ -195,59 +197,56 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
             RestRequest request = null;
             if (!string.IsNullOrEmpty(Codmotivo))
-                 request = new RestRequest("/api/Motivos/"+ Codmotivo, Method.GET);
+                request = new RestRequest("/api/Motivos/" + Codmotivo, Method.GET);
             else
-                 request = new RestRequest("/api/Motivos", Method.GET);
+                request = new RestRequest("/api/Motivos", Method.GET);
 
             IRestResponse response = client.Execute(request);
             var content = response.Content; // raw content as string
             List<Motivo> ListaMotivo = JsonConvert.DeserializeObject<List<Motivo>>(content);
-
-
             return ListaMotivo;
         }
 
-        public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermisoReporte(string dsLinea, string dsArea, string dsEstado, bool dbGarita=false, DateTime? FechaDesde = null, DateTime? FechaHasta = null)
+        public List<spConsultaSolcitudesPermisos> ConsultaSolicitudesPermisoReporte(string dsLinea, string dsArea, string dsEstado, bool dbGarita = false, DateTime? FechaDesde = null, DateTime? FechaHasta = null)
         {
             entities = new ASIS_PRODEntities();
             clsApiUsuario = new clsApiUsuario();
             List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
-           // IEnumerable<SOLICITUD_PERMISO> Lista;
-
+            // IEnumerable<SOLICITUD_PERMISO> Lista;
             var ListadoSolicitudes = entities.spConsultaSolcitudesPermisos(dsLinea, dsArea, dsEstado, dbGarita, FechaDesde, FechaHasta).ToList();
-            var motivos = ConsultarMotivos(null).ToList();
-            foreach (var x in ListadoSolicitudes)
-            {
-                var DescripcionMotivo = motivos.FirstOrDefault(y => y.CodigoMotivo == x.CodigoMotivo);
-                ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
-                {
-                IdSolicitudPermiso = x.IdSolicitudPermiso,
-                //CodigoLinea = x.CodigoLinea,
-                DescripcionLinea = x.Linea,
-                //CodigoArea = x.CodigoArea,
-                DescripcionArea = x.Area,
-                //CodigoCargo = x.CodigoCargo,
-                //DescripcionCargo = poEmpleado != null ? poEmpleado.CARGO : "",
-                //Identificacion = x.Identificacion,
-                NombreEmpleado = x.Nombre,
-                //CodigoMotivo = x.CodigoMotivo,
-                DescripcionMotivo = DescripcionMotivo!=null ? DescripcionMotivo.DescripcionMotivo : "",
-                Observacion = x.Observacion,
-                FechaSalida = x.FechaSalida,
-                FechaRegreso = x.FechaRegreso,
-                EstadoSolicitud = x.CodEstadoSolicitud,
-                DescripcionEstadoSolicitud = x.EstadoSolcitud,
-                FechaBiometrico = x.FechaBiometrico,
-                Origen = x.Origen,
-                //CodigoDiagnostico = x.CodigoDiagnostico,
-                FechaIngresoLog = x.FechaIngresoLog,
-                UsuarioIngresoLog = x.UsuarioIngresoLog,
-                TerminalIngresoLog = x.TerminalIngresoLog,
-                UsuarioModificacionLog = x.UsuarioModificacionLog,
-                FechaModificacionLog = x.FechaModificacionLog,
-                TerminalModificacionLog = x.TerminalModificacionLog
-            });
-        }
+            //    var motivos = ConsultarMotivos(null).ToList();
+            //    foreach (var x in ListadoSolicitudes)
+            //    {
+            //        var DescripcionMotivo = motivos.FirstOrDefault(y => y.CodigoMotivo == x.CodigoMotivo);
+            //        ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
+            //        {
+            //        IdSolicitudPermiso = x.IdSolicitudPermiso,
+            //        //CodigoLinea = x.CodigoLinea,
+            //        DescripcionLinea = x.Linea,
+            //        //CodigoArea = x.CodigoArea,
+            //        DescripcionArea = x.Area,
+            //        //CodigoCargo = x.CodigoCargo,
+            //        //DescripcionCargo = poEmpleado != null ? poEmpleado.CARGO : "",
+            //        //Identificacion = x.Identificacion,
+            //        NombreEmpleado = x.Nombre,
+            //        //CodigoMotivo = x.CodigoMotivo,
+            //        DescripcionMotivo = DescripcionMotivo!=null ? DescripcionMotivo.DescripcionMotivo : "",
+            //        Observacion = x.Observacion,
+            //        FechaSalida = x.FechaSalida,
+            //        FechaRegreso = x.FechaRegreso,
+            //        EstadoSolicitud = x.CodEstadoSolicitud,
+            //        DescripcionEstadoSolicitud = x.EstadoSolcitud,
+            //        FechaBiometrico = x.FechaBiometrico,
+            //        Origen = x.Origen,
+            //        //CodigoDiagnostico = x.CodigoDiagnostico,
+            //        FechaIngresoLog = x.FechaIngresoLog,
+            //        UsuarioIngresoLog = x.UsuarioIngresoLog,
+            //        TerminalIngresoLog = x.TerminalIngresoLog,
+            //        UsuarioModificacionLog = x.UsuarioModificacionLog,
+            //        FechaModificacionLog = x.FechaModificacionLog,
+            //        TerminalModificacionLog = x.TerminalModificacionLog
+            //    });
+            //}
             //if (dsEstado == clsAtributos.EstadoSolicitudTodos)
             //{
             //    Lista = entities.SOLICITUD_PERMISO.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
@@ -323,35 +322,37 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             //        TerminalModificacionLog = x.TerminalModificacionLog
             //    });
             //}
-            return ListaSolicitudesPermiso;
+            return ListadoSolicitudes;
         }
 
         public string MarcarHoraSalidaSolicitudPermiso(SOLICITUD_PERMISO model)
         {
-            using(ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var Solicitud= entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == model.IdSolicitudPermiso);
+                var Solicitud = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == model.IdSolicitudPermiso);
                 if (Solicitud != null)
                 {
                     Solicitud.FechaBiometrico = model.FechaBiometrico ?? DateTime.Now;
                     Solicitud.FechaModificacionLog = DateTime.Now;
                     Solicitud.TerminalModificacionLog = model.TerminalIngresoLog;
                     Solicitud.UsuarioModificacionLog = model.UsuarioIngresoLog;
-                    BITACORA_SOLICITUD bitacora = new BITACORA_SOLICITUD {
+                    BITACORA_SOLICITUD bitacora = new BITACORA_SOLICITUD
+                    {
                         IdSolicitud = Solicitud.IdSolicitudPermiso,
-                        EstadoSolicitud =Solicitud.EstadoSolicitud,
+                        EstadoSolicitud = Solicitud.EstadoSolicitud,
                         Observacion = "Marcación de salida",
                         FechaIngresoLog = DateTime.Now,
-                        FechaSalida= Solicitud.FechaSalida,
-                        CambioEstado= false,
+                        FechaSalida = Solicitud.FechaSalida,
+                        CambioEstado = false,
                         CodigoMotivo = Solicitud.CodigoMotivo,
                         FechaRegreso = Solicitud.FechaRegreso,
                         TerminalIngresoLog = model.TerminalIngresoLog,
-                        UsuarioIngresoLog =model.UsuarioIngresoLog,
-                        Cedula= Solicitud.Identificacion
+                        UsuarioIngresoLog = model.UsuarioIngresoLog,
+                        Cedula = Solicitud.Identificacion
 
                     };
                     entities.BITACORA_SOLICITUD.Add(bitacora);
+
 
                     if (Solicitud.Origen == "M")
                     {
@@ -365,12 +366,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
                     }
 
+
                 }
                 entities.SaveChanges();
                 return clsAtributos.MsjRegistroGuardado;
             }
         }
-     
+
 
         public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermisosRRHH()
         {
@@ -400,7 +402,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     FechaSalida = x.FechaSalida,
                     FechaRegreso = x.FechaRegreso,
                     EstadoSolicitud = x.CodEstadoSolicitud,
-                    DescripcionEstadoSolicitud = x.EstadoSolcitud,
+                    DescripcionEstadoSolicitud = x.EstadoSolicitud,
                     FechaBiometrico = x.FechaBiometrico,
                     Origen = x.Origen,
                     //CodigoDiagnostico = x.CodigoDiagnostico,
@@ -425,16 +427,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             foreach (var x in ListaPreliminar)
             {
                 var poMotivoPermiso = ListaMotivoPermiso.FirstOrDefault(y => y.CodigoMotivo == x.CodigoMotivo);
-                  ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
+                ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
                 {
 
-                    IdSolicitudPermiso = x.IdSolicitudPermiso??0,
+                    IdSolicitudPermiso = x.IdSolicitudPermiso ?? 0,
                     CodigoLinea = x.CodigoLinea,
                     DescripcionLinea = x.Linea,
                     CodigoArea = x.CodigoArea,
                     DescripcionArea = x.Area,
                     CodigoCargo = x.CodigoCargo,
-                  //  DescripcionCargo = x.ca,
+                    //  DescripcionCargo = x.ca,
                     Identificacion = x.Identificacion,
                     NombreEmpleado = x.Nombre,
                     CodigoMotivo = x.CodigoMotivo,
@@ -446,7 +448,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     FechaBiometrico = x.FechaBiometrico,
                     //Origen = x.,
                     //CodigoDiagnostico = x.c,
-                   // ValidaMedico = x.ValidaMedico,
+                    // ValidaMedico = x.ValidaMedico,
                     FechaIngresoLog = x.FechaIngresoLog,
                     UsuarioIngresoLog = x.UsuarioIngresoLog,
                     TerminalIngresoLog = x.TerminalIngresoLog,
@@ -463,14 +465,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             entities = new ASIS_PRODEntities();
             clsApiUsuario = new clsApiUsuario();
             List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
-                                                                                               
+
             List<SOLICITUD_PERMISO> ListaPreliminar = new List<SOLICITUD_PERMISO>();
             //Validacion de estados
             if (dsEstadoSolcitud == clsAtributos.EstadoSolicitudTodos)
             {
                 ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
             }
-            else if(dsEstadoSolcitud==clsAtributos.EstadoSolicitudPendiente)
+            else if (dsEstadoSolcitud == clsAtributos.EstadoSolicitudPendiente)
             {
                 //SI NO VIENE LA CEDULA ENVIAMOS TODOS
                 if (string.IsNullOrEmpty(dsIdUsuario))
@@ -479,7 +481,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     x.EstadoSolicitud == dsEstadoSolcitud &&
                     x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 }
-                else {
+                else
+                {
                     //CONSULTAMOS LOS NIVELES DE USUARIOS ASIGNADOS PARA ESE USUARIO
                     var NivelUsuario = entities.NIVEL_USUARIO.FirstOrDefault(x => x.IdUsuario == dsIdUsuario);
                     clsDEmpleado = new clsDEmpleado();
@@ -492,27 +495,28 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         //SI LA LINEA ES DE PRODUCCION VAMOS A CONSULTAR EL CLASIFICADOR DE TODAS LAS LINEAS QUE LE PERTENECEN A ESTE.
                         if (Linea.CODIGOLINEA == clsAtributos.CodLineaProduccion)
                         {
-                            var LineasPertenece = (entities.CLASIFICADOR.Where(x=> 
+                            var LineasPertenece = (entities.CLASIFICADOR.Where(x =>
                             x.Grupo == clsAtributos.CodGrupoLineasAprobarSolicitudProduccion
                             && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
-                            && x.Codigo!="0"
+                            && x.Codigo != "0"
                             )).ToList();
-                            if(LineasPertenece != null)
+                            if (LineasPertenece != null)
                             {
                                 foreach (var x in LineasPertenece)
-                                    ListaLineas.Add(x.Codigo+"");
+                                    ListaLineas.Add(x.Codigo + "");
                                 //ListaLineas.Add(clsAtributos.CodLineaProduccionEmpaque);
                                 //ListaLineas.Add(clsAtributos.CodLineaProduccionRecuperadoControl);
                             }
                         }
-                        if(NivelUsuario != null) {
+                        if (NivelUsuario != null)
+                        {
                             var nivelesAprobacion = entities.NIVEL_APROBACION.Where(x =>
                               x.NivelBase == NivelUsuario.Nivel).Select(x => x.NivelAprobar).ToList();
 
                             //VALIDAMOS QUE SEAN JEFES O EMPLEADOS
                             if (NivelUsuario.Nivel != clsAtributos.NivelGerencia && NivelUsuario.Nivel != clsAtributos.NivelSubGerencia)
                             {
-                               
+
                                 ListaPreliminar = entities.SOLICITUD_PERMISO.Where(x =>
                                 x.EstadoSolicitud == dsEstadoSolcitud &&
                                 x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
@@ -530,9 +534,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                             }
                             //VALIDAMOS QUE SEA SUBGERENCIA
                             else
-                            {        
+                            {
                                 //NIVEL DE JEFATURA- VALIDAMOS LOS QUE SON SOLO SUS EMPLEADOS 
-                                foreach(var n in nivelesAprobacion)
+                                foreach (var n in nivelesAprobacion)
                                 {
                                     List<SOLICITUD_PERMISO> Sol = null;
                                     if (n.Value == clsAtributos.NivelEmpleado)
@@ -553,10 +557,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                                          x.Nivel == n.Value
                                          ).ToList();
                                     }
-                                    if(Sol!=null)
+                                    if (Sol != null)
                                         ListaPreliminar.AddRange(Sol);
                                 }
-                                
+
                             }
                         }
                     }
@@ -575,10 +579,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 var poMotivoPermiso = ListaMotivoPermiso.FirstOrDefault(y => y.CodigoMotivo == x.CodigoMotivo);
                 var poEmpleado = entities.spConsutaEmpleados(x.Identificacion).FirstOrDefault();
                 var Biometrico = entities.spConsultaUltimaMarcacionBiometrico(x.Identificacion).FirstOrDefault();
-              //  var fechaBiometrico = entities.spConsultaUltimaMarcacionBiometrico(x.Identificacion).FirstOrDefault();
+                //  var fechaBiometrico = entities.spConsultaUltimaMarcacionBiometrico(x.Identificacion).FirstOrDefault();
                 ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
                 {
-                    
+
                     IdSolicitudPermiso = x.IdSolicitudPermiso,
                     CodigoLinea = x.CodigoLinea,
                     DescripcionLinea = poEmpleado != null ? poEmpleado.LINEA : "",
@@ -594,7 +598,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     FechaSalida = x.FechaSalida,
                     FechaRegreso = x.FechaRegreso,
                     EstadoSolicitud = x.EstadoSolicitud,
-                    FechaBiometrico = Biometrico!= null ?Biometrico.Marcacion:null,
+                    FechaBiometrico = Biometrico != null ? Biometrico.Marcacion : null,
                     Origen = x.Origen,
                     CodigoDiagnostico = x.CodigoDiagnostico,
                     ValidaMedico = x.ValidaMedico,
@@ -606,7 +610,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     TerminalModificacionLog = x.TerminalModificacionLog
                 });
             }
-            
+
             return ListaSolicitudesPermiso;
         }
 
@@ -630,10 +634,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             var lista = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == id && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
 
 
-            List<JUSTICA_SOLICITUD> ListadoJustificaciones =  new List<JUSTICA_SOLICITUD>();
+            List<JUSTICA_SOLICITUD> ListadoJustificaciones = new List<JUSTICA_SOLICITUD>();
             var detalle = entities.JUSTICA_SOLICITUD.Where(y => y.IdSolicitudPermiso == lista.IdSolicitudPermiso).ToList();
-           
-             
+
+
             foreach (var d in detalle)
             {
                 ListadoJustificaciones.Add(new JUSTICA_SOLICITUD
@@ -654,7 +658,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
 
             for (int i = detalle.Count; i < 5; i++)
-                ListadoJustificaciones.Add(new JUSTICA_SOLICITUD { CodigoMotivo="0"});
+                ListadoJustificaciones.Add(new JUSTICA_SOLICITUD { CodigoMotivo = "0" });
 
 
             var poMotivoPermiso = entities.spConsutaMotivosPermiso("0").FirstOrDefault(m => m.CodigoMotivo == lista.CodigoMotivo);
@@ -673,8 +677,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 CodigoMotivo = lista.CodigoMotivo,
                 DescripcionMotivo = poMotivoPermiso != null ? poMotivoPermiso.Descripcion : "",
                 Observacion = lista.Observacion,
-                CodigoClasificador =lista.CodigoClasificador+"",
-                 NombreMedico=lista.NombreMedico,
+                CodigoClasificador = lista.CodigoClasificador + "",
+                NombreMedico = lista.NombreMedico,
                 FechaSalida = lista.FechaSalida,
                 FechaRegreso = lista.FechaRegreso,
                 EstadoSolicitud = lista.EstadoSolicitud,
@@ -688,23 +692,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 UsuarioModificacionLog = lista.UsuarioModificacionLog,
                 FechaModificacionLog = lista.FechaModificacionLog,
                 TerminalModificacionLog = lista.TerminalModificacionLog,
-                JustificaSolicitudes=ListadoJustificaciones
+                JustificaSolicitudes = ListadoJustificaciones
             };
-           
+
             return ListaSolicitudesPermiso;
         }
 
         public string ConsultaMotivoPermisoxEmpleado(string cedula)
         {
-            string poMotivoPermiso=string.Empty;
-            using (ASIS_PRODEntities db=new ASIS_PRODEntities())
+            string poMotivoPermiso = string.Empty;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 string CodMotivo = db.sp_ConsultaMotivoSolicitudPermisoAsistencia(cedula).FirstOrDefault();
                 if (!string.IsNullOrEmpty(CodMotivo))
                 {
-                     poMotivoPermiso = ConsultarMotivos(CodMotivo).FirstOrDefault().DescripcionMotivo;
+                    poMotivoPermiso = ConsultarMotivos(CodMotivo).FirstOrDefault().DescripcionMotivo;
                 }
-               
+
                 return poMotivoPermiso;
             }
         }
@@ -713,10 +717,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                List<SolicitudPermisoViewModel> ListaSolicitudesPermiso= new List<SolicitudPermisoViewModel>();
-                IEnumerable<SOLICITUD_PERMISO> ListaSolicitudes = entities.SOLICITUD_PERMISO;                
+                List<SolicitudPermisoViewModel> ListaSolicitudesPermiso = new List<SolicitudPermisoViewModel>();
+                IEnumerable<SOLICITUD_PERMISO> ListaSolicitudes = entities.SOLICITUD_PERMISO;
 
-                if(filtros !=null)
+                if (filtros != null)
                 {
                     if (!string.IsNullOrEmpty(filtros.Identificacion))
                     {
@@ -734,7 +738,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     {
                         ListaSolicitudes = ListaSolicitudes.Where(x => x.Origen == filtros.Origen);
                     }
-                    if (filtros.ValidaMedico!=null && filtros.ValidaMedico==true)
+                    if (filtros.ValidaMedico != null && filtros.ValidaMedico == true)
                     {
                         ListaSolicitudes = ListaSolicitudes.Where(x => x.ValidaMedico == filtros.ValidaMedico);
                     }
@@ -748,7 +752,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     var poMotivoPermiso = ConsultarMotivos(lista.CodigoMotivo).FirstOrDefault();
                     //ConsultarMotivos(codmot)
                     var poEmpleado = entities.spConsutaEmpleados(lista.Identificacion).FirstOrDefault();
-                    ListaSolicitudesPermiso.Add( new SolicitudPermisoViewModel
+                    ListaSolicitudesPermiso.Add(new SolicitudPermisoViewModel
                     {
                         IdSolicitudPermiso = lista.IdSolicitudPermiso,
                         CodigoLinea = lista.CodigoLinea,
@@ -775,7 +779,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         UsuarioModificacionLog = lista.UsuarioModificacionLog,
                         FechaModificacionLog = lista.FechaModificacionLog,
                         TerminalModificacionLog = lista.TerminalModificacionLog
-                       
+
                     });
                 }
                 return ListaSolicitudesPermiso;
@@ -786,10 +790,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         {
             int piNivel = clsAtributos.NivelEmpleado;
             entities = new ASIS_PRODEntities();
-            var poNivelUsuario= entities.NIVEL_USUARIO.FirstOrDefault(x => x.IdUsuario == dsUsuario);
-            if(poNivelUsuario!=null)
+            var poNivelUsuario = entities.NIVEL_USUARIO.FirstOrDefault(x => x.IdUsuario == dsUsuario);
+            if (poNivelUsuario != null)
             {
-                piNivel = poNivelUsuario.Nivel??clsAtributos.NivelEmpleado;
+                piNivel = poNivelUsuario.Nivel ?? clsAtributos.NivelEmpleado;
             }
             return piNivel;
         }
@@ -800,33 +804,34 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             List<BitacoraSolicitud> ListaBitacoraFinal = null;
             clsDEmpleado = new clsDEmpleado();
             clsDGeneral = new clsDGeneral();
-            
+
             //var motivos = clsDGeneral.
-           
+
 
             using (var context = new ASIS_PRODEntities())
             {
 
                 var query = (from bitacora in context.BITACORA_SOLICITUD
                              join estado in context.ESTADO_SOLICITUD on bitacora.EstadoSolicitud equals estado.Estado
-                             select new BitacoraSolicitud() {
-                                 idBitacoraSolicitud=bitacora.IdBitacoraSolicitud,
-                                 idSolicitud=bitacora.IdSolicitud,
-                                 Cedula=bitacora.Cedula,
-                                 CodMotivo=bitacora.CodigoMotivo,
-                                 CodEstadoSolicitud=bitacora.EstadoSolicitud,
-                                 EstadoSolicitud=estado.Descripcion,
-                                 FechaRegreso=bitacora.FechaRegreso,
-                                 FechaSalida=bitacora.FechaSalida,
-                                 Observacion=bitacora.Observacion,
-                                 FechaIngresoLog=bitacora.FechaIngresoLog,
-                                 TerminalIngresoLog=bitacora.TerminalIngresoLog,
-                                 UsuarioIngresoLog=bitacora.UsuarioIngresoLog
+                             select new BitacoraSolicitud()
+                             {
+                                 idBitacoraSolicitud = bitacora.IdBitacoraSolicitud,
+                                 idSolicitud = bitacora.IdSolicitud,
+                                 Cedula = bitacora.Cedula,
+                                 CodMotivo = bitacora.CodigoMotivo,
+                                 CodEstadoSolicitud = bitacora.EstadoSolicitud,
+                                 EstadoSolicitud = estado.Descripcion,
+                                 FechaRegreso = bitacora.FechaRegreso,
+                                 FechaSalida = bitacora.FechaSalida,
+                                 Observacion = bitacora.Observacion,
+                                 FechaIngresoLog = bitacora.FechaIngresoLog,
+                                 TerminalIngresoLog = bitacora.TerminalIngresoLog,
+                                 UsuarioIngresoLog = bitacora.UsuarioIngresoLog
                              });
                 if (!string.IsNullOrEmpty(dsIdSolicitud))
                 {
                     int id = int.Parse(dsIdSolicitud);
-                    ListaBitacora = query.Where(x => x.idSolicitud == id).OrderByDescending(x=>x.FechaIngresoLog);
+                    ListaBitacora = query.Where(x => x.idSolicitud == id).OrderByDescending(x => x.FechaIngresoLog);
                 }
                 else if (!string.IsNullOrEmpty(dsCedula))
                 {
@@ -844,12 +849,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 var Motivo = ConsultarMotivos(null);
                 foreach (var x in ListaBitacoraFinal)
                 {
-                    var poMotivo = Motivo.FirstOrDefault(y=> y.CodigoMotivo==x.CodMotivo);
+                    var poMotivo = Motivo.FirstOrDefault(y => y.CodigoMotivo == x.CodMotivo);
                     var empleado = clsDEmpleado.ConsultaEmpleado(x.Cedula).FirstOrDefault();
                     var linea = clsDGeneral.ConsultaLineas(empleado.CODIGOLINEA).FirstOrDefault();
                     x.Nombres = empleado.NOMBRES;
                     x.Linea = linea.Descripcion;
-                    x.Motivo = poMotivo!=null?poMotivo.DescripcionMotivo:"";
+                    x.Motivo = poMotivo != null ? poMotivo.DescripcionMotivo : "";
                 }
 
 
@@ -871,14 +876,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             //    IdSolicitudPermiso = poSolicitud.IdSolicitudPermiso,
             //    Observacion = poSolicitud.Observacion
             //});
-            foreach(var x in poSolicitud.JUSTICA_SOLICITUD)
+            foreach (var x in poSolicitud.JUSTICA_SOLICITUD)
             {
                 if (x.FechaSalida != null && x.FechaRegreso != null && x.EnvioOnlyControl != true)
                 {
                     ListadoSolicitudes.Add(new SOLICITUD_PERMISO
                     {
-                        FechaRegreso = x.FechaRegreso??poSolicitud.FechaRegreso,
-                        FechaSalida = x.FechaSalida??poSolicitud.FechaSalida,
+                        FechaRegreso = x.FechaRegreso ?? poSolicitud.FechaRegreso,
+                        FechaSalida = x.FechaSalida ?? poSolicitud.FechaSalida,
                         CodigoMotivo = x.CodigoMotivo,
                         IdSolicitudPermiso = x.IdJustificaSolicitud,
                         Observacion = poSolicitud.Observacion
@@ -891,7 +896,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             {
                 bool envioTodoDia = false;
                 TimeSpan Tiempo = x.FechaRegreso - x.FechaSalida;
-                if(x.FechaSalida==x.FechaRegreso || Tiempo.Days >= 1)
+                if (x.FechaSalida == x.FechaRegreso || Tiempo.Days >= 1)
                 {
                     envioTodoDia = true;
                 }
@@ -904,10 +909,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 }
                 if (resultOnlyControl.codigo == "0")
                 {
-                    var JustificaSolicitud = entities.JUSTICA_SOLICITUD.FirstOrDefault(y=> y.IdJustificaSolicitud==x.IdSolicitudPermiso);
+                    var JustificaSolicitud = entities.JUSTICA_SOLICITUD.FirstOrDefault(y => y.IdJustificaSolicitud == x.IdSolicitudPermiso);
                     JustificaSolicitud.EnvioOnlyControl = true;
                     entities.SaveChanges();
-                    Respuestas.Add(new RespuestaGeneral { Mensaje = "Secundaria: ("+x.IdSolicitudPermiso+")->"+resultOnlyControl.mensaje, Respuesta = true, Observacion = "" });
+                    Respuestas.Add(new RespuestaGeneral { Mensaje = "Secundaria: (" + x.IdSolicitudPermiso + ")->" + resultOnlyControl.mensaje, Respuesta = true, Observacion = "" });
                 }
                 else
                 {
@@ -915,7 +920,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 }
             }
 
-            if(!Respuestas.Any(x=> x.Respuesta==false))
+            if (!Respuestas.Any(x => x.Respuesta == false))
             {
                 bool envioTodoDia = false;
                 TimeSpan Tiempo = poSolicitud.FechaRegreso - poSolicitud.FechaSalida;
@@ -933,15 +938,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 {
                     doSolicitud.EnvioOnlyControl = true;
                     CambioEstadoSolicitud(doSolicitud);
-                  //  entities.SaveChanges();
+                    //  entities.SaveChanges();
                     Respuestas.Add(new RespuestaGeneral { Mensaje = "Principal: (" + poSolicitud.IdSolicitudPermiso + ")-> " + resultOnlyControl.mensaje, Respuesta = true, Observacion = "" });
                 }
                 else
                 {
                     Respuestas.Add(new RespuestaGeneral { Mensaje = "Principal: (" + poSolicitud.IdSolicitudPermiso + ")-> " + resultOnlyControl.mensaje, Respuesta = false, Observacion = "" });
-                } 
+                }
             }
-            else{
+            else
+            {
                 Respuestas.Add(new RespuestaGeneral { Mensaje = "Principal: (" + poSolicitud.IdSolicitudPermiso + ")-> " + "Algunas solicitudes secundarias no se enviaron", Respuesta = false, Observacion = "" });
             }
 
@@ -952,9 +958,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
         public List<SP_PKI_SOLICITUDES> ConsultaPKI_General()
         {
-            using(ASIS_PRODEntities db=new ASIS_PRODEntities())
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-               return  db.SP_PKI_SOLICITUDES().ToList();
+                return db.SP_PKI_SOLICITUDES().ToList();
             }
         }
 
@@ -966,10 +972,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 using (var transaction = entities.Database.BeginTransaction())
                 {
                     string Cedula = model.Identificacion;
-                    int Nivel = model.Nivel??clsAtributos.NivelEmpleado;
-                    clsDEmpleado = new clsDEmpleado();                  
-                    
-                    foreach(var x in Cedulas)
+                    int Nivel = model.Nivel ?? clsAtributos.NivelEmpleado;
+                    clsDEmpleado = new clsDEmpleado();
+
+                    foreach (var x in Cedulas)
                     {
                         var poEmpleados = clsDEmpleado.ConsultaEmpleado(x).FirstOrDefault();
                         SOLICITUD_PERMISO sol = model;
@@ -980,20 +986,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         sol.Identificacion = x;
                         if (sol.Nivel == clsAtributos.NivelEmpleado)
                         {
-                            sol.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;                            
+                            sol.EstadoSolicitud = clsAtributos.EstadoSolicitudAprobado;
                         }
                         else
                         {
-                            sol.EstadoSolicitud = clsAtributos.EstadoSolicitudPendiente;                           
+                            sol.EstadoSolicitud = clsAtributos.EstadoSolicitudPendiente;
                         }
                         entities.SOLICITUD_PERMISO.Add(sol);
                         entities.SaveChanges();
 
-                        var idSol = entities.SOLICITUD_PERMISO.FirstOrDefault(y=> y.Identificacion==x && y.FechaSalida == sol.FechaSalida && y.FechaRegreso == sol.FechaRegreso && y.CodigoMotivo == sol.CodigoMotivo);
+                        var idSol = entities.SOLICITUD_PERMISO.FirstOrDefault(y => y.Identificacion == x && y.FechaSalida == sol.FechaSalida && y.FechaRegreso == sol.FechaRegreso && y.CodigoMotivo == sol.CodigoMotivo);
 
 
                         BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
-                        poBitacora.IdSolicitud = idSol!=null ? idSol.IdSolicitudPermiso:0;
+                        poBitacora.IdSolicitud = idSol != null ? idSol.IdSolicitudPermiso : 0;
                         poBitacora.Cedula = sol.Identificacion;
                         poBitacora.CodigoMotivo = sol.CodigoMotivo;
                         poBitacora.FechaSalida = sol.FechaSalida;
@@ -1008,7 +1014,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         entities.SaveChanges();
                         Cantidad++;
                     }
-                    
+
                     transaction.Commit();
                     return Cantidad;
                 }
@@ -1019,7 +1025,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                
+
 
                 var listSolicitudes = entities.sp_SolicitudesRealizadas(cedula).ToList();
 
@@ -1027,17 +1033,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 List<SolicitudPermisoViewModel> listaRetorna = new List<SolicitudPermisoViewModel>();
 
                 foreach (var itemBase in listSolicitudes)
-                {                   
+                {
 
-                    listaRetorna.Add(new SolicitudPermisoViewModel {
+                    listaRetorna.Add(new SolicitudPermisoViewModel
+                    {
                         IdSolicitudPermiso = itemBase.ID
-                        ,DescripcionMotivo = itemBase.MOTIVO
-                        ,Observacion = itemBase.OBSERVACION
-                        ,FechaSalida = itemBase.FECHA_DESDE
-                        ,FechaRegreso = itemBase.FECHA_HASTA
-                        ,DescripcionEstadoSolicitud = itemBase.ESTADO
-                        ,UsuarioIngresoLog = itemBase.USUARIO_CREA
-                        ,FechaIngresoLog = itemBase.FECHA_CREACION
+                        ,
+                        DescripcionMotivo = itemBase.MOTIVO
+                        ,
+                        Observacion = itemBase.OBSERVACION
+                        ,
+                        FechaSalida = itemBase.FECHA_DESDE
+                        ,
+                        FechaRegreso = itemBase.FECHA_HASTA
+                        ,
+                        DescripcionEstadoSolicitud = itemBase.ESTADO
+                        ,
+                        UsuarioIngresoLog = itemBase.USUARIO_CREA
+                        ,
+                        FechaIngresoLog = itemBase.FECHA_CREACION
                     });
 
                 }
@@ -1046,4 +1060,4 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
     }
-} 
+}
