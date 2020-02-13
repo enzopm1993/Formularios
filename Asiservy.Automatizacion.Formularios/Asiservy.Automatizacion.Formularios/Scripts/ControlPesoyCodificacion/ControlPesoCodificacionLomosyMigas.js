@@ -1,6 +1,49 @@
-﻿$(document).ready(function () {
+﻿var GlobalLotes;
+$(document).ready(function () {
     CargarCabeceraControl();
 });
+//region DetalleLotes
+function ConsultarLotes() {
+    if ($('#cmbOrdenFabricacion').prop('selectedIndex') != 0) {
+        $.ajax({
+            url: "../General/ConsultarLotesPorOf",
+            type: "GET",
+            data: {
+                Orden: $('#cmbOrdenFabricacion').val()
+            },
+            success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
+                //MensajeCorrecto(resultado, false);
+                else {
+                    //MensajeCorrecto(resultado[1],false);
+                    //$('#DivDetalleUsos').empty();
+                    //$('#DivDetalleUsos').html(resultado);
+                    GlobalLotes = resultado;
+                    $.each(GlobalLotes, function (i, item) {
+                        $('#cmbLote').append($('<option>', {
+                            value: item.descripcion,
+                            text: item.descripcion
+                        }));
+                    });
+                }
+            },
+            error: function (resultado) {
+                MensajeError(resultado.responseText, false);
+
+            }
+        });
+    } else {
+        $('#cmbLote').empty();
+        $('#cmbLote').append($('<option>', {
+            value:'',
+            text: 'Seleccione..'
+        }));
+    }
+    
+}
+//endregion
 //region Detalle Descripcion de Uso
 function LimpiarControlesUsos() {
     $('#cmbUso').prop('selectedIndex',0);
@@ -389,7 +432,8 @@ function CargarDetallesControl() {
         url: "../ControlPesoyCodificacion/CargarPartialControlDetalles",
         type: "GET",
         data: {
-            IdCabeceraCOntrol: $('#IdCabControlPeso').val()
+            IdCabeceraCOntrol: $('#IdCabControlPeso').val(),
+            Fecha: $('#txtFechaCebeceraControl').val()
         },
         success: function (resultado) {
             if (resultado == "101") {

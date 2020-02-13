@@ -9,6 +9,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.Models.ControlPesoyCodificacion;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
+using Asiservy.Automatizacion.Formularios.Models;
+
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class ControlPesoyCodificacionController : Controller
@@ -18,6 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         //clsDGeneral clsDGeneral = null;
         //clsDEmpleado clsDEmpleado = null;
         clsDClasificador clsDClasificador = null;
+        clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
         //clsDLogin clsDLogin = null;
         ClsdControlPesoCodificacionLomosyMigas ClsdControlPesoCodificacionLomosyMigas = null;
         #region Métodos
@@ -237,7 +241,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult CargarPartialControlDetalles(int? IdCabeceraCOntrol)
+        public ActionResult CargarPartialControlDetalles(int? IdCabeceraCOntrol,DateTime Fecha)
         {
             try
             {
@@ -250,6 +254,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDClasificador = new clsDClasificador();
                 
                 ViewBag.Usos= clsDClasificador.ConsultarClasificador("032");
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                dynamic result = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProduccion(Fecha);
+                List<OrdenFabricacion> Listado = new List<OrdenFabricacion>();
+                foreach (var x in result)
+                {
+                    Listado.Add(new OrdenFabricacion { Orden = x.OrdenFabricacion });
+                }
+                ViewBag.Ordenesfab = Listado;
                 //clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
 
                 //var model = clsDControlConsumoInsumo.ConsultaControlConsumoInsumo(Fecha, LineaNegocio, Turno);

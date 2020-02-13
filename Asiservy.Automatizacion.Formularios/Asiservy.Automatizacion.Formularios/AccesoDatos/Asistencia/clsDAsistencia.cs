@@ -570,6 +570,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                     if (BuscarAsistencia != null)
                     {
                         BuscarAsistencia.HoraSalida = null;
+                        BuscarAsistencia.FechaFin = null;
                     }
                 }
 
@@ -848,7 +849,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                                     }
                                 }
                                 //pregunto si el empleado que fue movido tiene fecha de regreso a donde pertenece igual a la fecha que se marco asistencia
-                                if (item.FechaFin != null && item.Horafin != null && psAsistencia.Fecha == item.Fecha)
+                                if (item.FechaFin != null && item.Horafin != null && psAsistencia.Fecha == item.FechaFin)//13/02/2020 CAMBIE ITEM.FECHA POR ITEM.FECHAFIN
                                 {
                                     //consulto linea,cargo,recurso y centro de costo donde el empleado pertenece en DataLife
                                     BuscarEmpleadoDataL = ClsdEmpleado.ConsultarEmpleadoxCedula(psAsistencia.Cedula);

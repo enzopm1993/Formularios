@@ -118,7 +118,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 List<ClasificadorGenerico> Listado = new List<ClasificadorGenerico>();
                 foreach (var x in result)
                 {
-                    Listado.Add(new ClasificadorGenerico { descripcion = x.Lote });
+                    Listado.Add(new ClasificadorGenerico { descripcion = x.Lote, Especie=x.Especie });
                 }
 
                 return Json(Listado, JsonRequestBehavior.AllowGet);

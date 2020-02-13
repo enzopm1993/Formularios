@@ -117,7 +117,7 @@
                     <label>
                         Orden de fabricación:
                     </label>
-                    @Html.DropDownList("cmbOrdenFabricacion", new SelectList(Enumerable.Empty<SelectListItem>()), "Seleccione..", new { @class = "form-control" })
+                    @Html.DropDownList("cmbOrdenFabricacion", new SelectList(ViewBag.Ordenesfab, "Orden", "Orden"), "Seleccione..", new { @class = "form-control",@onchange= "ConsultarLotes()" })
                     <label class="text-danger" id="msjtcmbOrdenFabricacion"></label>
                 </div>
                 <div class="col-md-6 col-sm-6 form-group">

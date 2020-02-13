@@ -9,5 +9,7 @@ namespace Asiservy.Automatizacion.Formularios.Models
     {
         public int codigo { get; set; }
         public string descripcion { get; set; }
+
+        public string Especie { get; set; }
     }
 }
