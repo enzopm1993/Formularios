@@ -20,7 +20,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDEmpleado clsDEmpleado = null;
         clsDClasificador clsDClasificador = null;
         clsDMapeoProductoTunel clsDMapeoProductoTunel = null;
-        clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
 
 
         // GET: MapeoProductoTunel

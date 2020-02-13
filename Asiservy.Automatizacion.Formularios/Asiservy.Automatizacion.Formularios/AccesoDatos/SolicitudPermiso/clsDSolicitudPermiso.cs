@@ -207,6 +207,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             return ListaMotivo;
         }
 
+        public DateTime? ConsultarUltimaMarcacion(string Cedula)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.spConsultaUltimaMarcacion(Cedula).FirstOrDefault();
+            }
+        }
+
         public List<spConsultaSolcitudesPermisos> ConsultaSolicitudesPermisoReporte(string dsLinea, string dsArea, string dsEstado, bool dbGarita = false, DateTime? FechaDesde = null, DateTime? FechaHasta = null)
         {
             entities = new ASIS_PRODEntities();

@@ -29,6 +29,22 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return ListaUsuarios;
         }
 
+        public object ConsultaLotesPorOrdenFabricacion(int OrdenFabricacion)
+        {
+            var client = new RestClient("http://192.168.0.31:8003");
+            // client.Authenticator = new HttpBasicAuthenticator(username, password);
+
+            var request = new RestRequest("/api/Produccion/LotesPorOrden/" + OrdenFabricacion, Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            var ListaUsuarios = JsonConvert.DeserializeObject(content);
+            return ListaUsuarios;
+        }
+
         public List<OrdenFabricacionAvance> ConsultaLotesPorOrdenFabricacionLinea2(int OrdernFabricacion, string Linea)
         {
             var client = new RestClient("http://192.168.0.31:8870");

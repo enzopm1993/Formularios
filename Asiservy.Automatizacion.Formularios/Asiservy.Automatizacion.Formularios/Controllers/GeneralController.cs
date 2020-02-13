@@ -100,6 +100,50 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         /// <summary>
+        /// CONSULTA DE LOS LOTES POR UNA ORDEN DE FABRICACION
+        /// </summary>
+        /// <param name="Orden"></param>
+        /// <returns></returns>
+        public JsonResult ConsultarLotesPorOf(int Orden)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                dynamic result = clsDApiOrdenFabricacion.ConsultaLotesPorOrdenFabricacion(Orden);
+                List<ClasificadorGenerico> Listado = new List<ClasificadorGenerico>();
+                foreach (var x in result)
+                {
+                    Listado.Add(new ClasificadorGenerico { descripcion = x.Lote });
+                }
+
+                return Json(Listado, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        /// <summary>
         /// PRODUCTO SEMI ELABORADO
         /// </summary>
         public JsonResult ConsultaOFNivel2(DateTime Fecha, string Orden)
@@ -188,7 +232,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 List<OrdenFabricacion> Listado = new List<OrdenFabricacion>();
                 foreach (var x in result)
                 {
-                    Listado.Add(new OrdenFabricacion { Orden = x.OrdenFabricacion });
+                    Listado.Add(new OrdenFabricacion { Orden = x.ORDEN_FABRICACION });
                 }
                 return Json(Listado, JsonRequestBehavior.AllowGet);
             }

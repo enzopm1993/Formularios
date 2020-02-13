@@ -1094,7 +1094,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
        
         [HttpPost]
-        public JsonResult MarcarSalidaSolicitudPermiso(int IdSolicitudPermiso, DateTime FechaBiometrico,DateTime FechaSalida)
+        public JsonResult MarcarSalidaSolicitudPermiso(int IdSolicitudPermiso, string Cedula,DateTime FechaSalida)
         {
             try
             {
@@ -1102,6 +1102,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDSolicitudPermiso = new clsDSolicitudPermiso();
+                DateTime? FechaBiom = clsDSolicitudPermiso.ConsultarUltimaMarcacion(Cedula);
+                DateTime FechaBiometrico = new DateTime();
+                if (FechaBiom==null)
+                {
+                    return Json("102", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    FechaBiometrico = FechaBiom??DateTime.Now;
                 }
 
                 clsDParametro clsDParametro = new clsDParametro();
@@ -1116,11 +1127,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
                 }
-
-
-
                 lsUsuario = User.Identity.Name.Split('_');
-
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                 SOLICITUD_PERMISO solicitud = new SOLICITUD_PERMISO();
                 solicitud.IdSolicitudPermiso = IdSolicitudPermiso;
@@ -1128,7 +1135,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 solicitud.UsuarioIngresoLog = lsUsuario[0];
                 solicitud.FechaIngresoLog = DateTime.Now;
                 solicitud.TerminalIngresoLog = Request.UserHostAddress;
-
                 string Mensaje= clsDSolicitudPermiso.MarcarHoraSalidaSolicitudPermiso(solicitud);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }

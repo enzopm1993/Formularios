@@ -31,7 +31,7 @@ function CargarOrdenFabricacion() {
         return;
 
     $.ajax({
-        url: "../MapeoProductoTunel/ConsultarOrdenesFabricacion",
+        url: "../General/ConsultaSoloOFNivel3",
         type: "GET",
         data: {
             Fecha: valor            
@@ -47,7 +47,7 @@ function CargarOrdenFabricacion() {
             // LimpiarDetalle();
             if (!$.isEmptyObject(resultado)) {
                 $.each(resultado, function (create, row) {
-                    $("#SelectOrdenFabricacion").append("<option value='" + row.ORDEN_FABRICACION + "'>" + row.ORDEN_FABRICACION + "</option>")
+                    $("#SelectOrdenFabricacion").append("<option value='" + row.Orden + "'>" + row.Orden + "</option>")
                 });
                 $('#validaFecha').prop("hidden", true);
             } else {
@@ -71,7 +71,7 @@ function CargarLotes(valor) {
         return;
     }
     $.ajax({
-        url: "../MapeoProductoTunel/ConsultarLotesPorLinea",
+        url: "../General/ConsultarLotesPorOf",
         type: "GET",
         data: {
             Orden: valor
@@ -124,4 +124,36 @@ function CargarMapeoProductoTunel() {
             $("#spinnerCargando").prop("hidden", true);
         }
     });
+}
+
+function Validar() {
+    var valida = true;
+    if ($("#txtFecha").val() == "") {
+        $("#txtFecha").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtFecha").css('borderColor', '#ced4da');
+    }
+    if ($("#txtOrdenFabricacion").val() == "") {
+        $("#txtOrdenFabricacion").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtOrdenFabricacion").css('borderColor', '#ced4da');
+    }
+    if ($("#SelectLote").val() == "") {
+        $("#SelectLote").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#SelectLote").css('borderColor', '#ced4da');
+    }
+    return valida;
+}
+
+function GenerarControl() {
+    if (!Validar()) {
+        return;
+    }
+
+
+    alert("generado");
 }
