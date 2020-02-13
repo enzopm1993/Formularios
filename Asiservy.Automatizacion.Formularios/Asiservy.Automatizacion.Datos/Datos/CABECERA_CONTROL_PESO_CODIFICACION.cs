@@ -18,8 +18,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public CABECERA_CONTROL_PESO_CODIFICACION()
         {
             this.DETALLE_CONTROL_PESO_CODIFICACION = new HashSet<DETALLE_CONTROL_PESO_CODIFICACION>();
-            this.DETALLE_LOTE_CONTROL_PESO_CODIFICACION = new HashSet<DETALLE_LOTE_CONTROL_PESO_CODIFICACION>();
             this.DETALLE_USO_CONTROL_PESO_CODIFICACION = new HashSet<DETALLE_USO_CONTROL_PESO_CODIFICACION>();
+            this.DETALLE_LOTE_CONTROL_PESO_CODIFICACION = new HashSet<DETALLE_LOTE_CONTROL_PESO_CODIFICACION>();
         }
     
         public int IdCabeceraControlPesoYCodificacion { get; set; }
@@ -40,8 +40,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DETALLE_CONTROL_PESO_CODIFICACION> DETALLE_CONTROL_PESO_CODIFICACION { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DETALLE_LOTE_CONTROL_PESO_CODIFICACION> DETALLE_LOTE_CONTROL_PESO_CODIFICACION { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DETALLE_USO_CONTROL_PESO_CODIFICACION> DETALLE_USO_CONTROL_PESO_CODIFICACION { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DETALLE_LOTE_CONTROL_PESO_CODIFICACION> DETALLE_LOTE_CONTROL_PESO_CODIFICACION { get; set; }
     }
 }

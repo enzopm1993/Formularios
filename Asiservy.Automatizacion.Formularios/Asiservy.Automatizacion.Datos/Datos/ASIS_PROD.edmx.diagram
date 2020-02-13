@@ -108,12 +108,12 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_CONTROL_PESO_CODIFICACION" Width="1.5" PointX="16.375" PointY="34.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_CONTROL_PESO_CODIFICACION" Width="1.5" PointX="18.625" PointY="39.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_HORAS_CONTROL_PESO_CODIFICACION" Width="1.5" PointX="20.875" PointY="39.25" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_LOTE_CONTROL_PESO_CODIFICACION" Width="1.5" PointX="18.625" PointY="34.5" />
         <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_USO_CONTROL_PESO_CODIFICACION" Width="1.5" PointX="18.625" PointY="30.375" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTRO_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_LOTE_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_USO_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_HORAS_CONTROL_PESO_CODIFICACION_DETALLE_CONTROL_PESO_CODIFICACION" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_LOTE_CONTROL_PESO_CODIFICACION" Width="1.5" PointX="18.625" PointY="43.625" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_LOTE_CONTROL_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
