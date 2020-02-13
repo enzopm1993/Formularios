@@ -3,6 +3,10 @@ $(document).ready(function () {
     CargarCabeceraControl();
 });
 //region DetalleLotes
+function ConsultarEspecie() {
+    //var filtro = Enumerable.From(GlobalLotes).where("$descripcion=="+)
+    //$('#txtEspecie').val();
+}
 function ConsultarLotes() {
     if ($('#cmbOrdenFabricacion').prop('selectedIndex') != 0) {
         $.ajax({
@@ -400,7 +404,7 @@ function GuardarHoras() {
         });  
 }
 function CargarHorasControl() {
-    
+    console.log('entro al método');
     $.ajax({
         url: "../ControlPesoyCodificacion/CargarHorasControl",
         type: "GET",
@@ -416,6 +420,8 @@ function CargarHorasControl() {
        
             else {
                 //$('#DivDetalleMuestrasporHora').empty('');
+                console.log(resultado);
+                console.log($('#IdCabControlPeso').val());
                 $('#DivDetalleMuestrasporHora').html(resultado);
 
             }
@@ -442,7 +448,8 @@ function CargarDetallesControl() {
             //MensajeCorrecto(resultado, false);
             else {
                 $('#DivCargarDetalles').html(resultado);
-                
+                CargarHorasControl();
+                ConsultarUsos();
             }
         },
         error: function (resultado) {
@@ -476,8 +483,7 @@ function CargarCabeceraControl() {
                 $('#txtSolicitudProceso').val(resultado[2].SolicitudProceso);
                 $('#txtUtilizadas').val(resultado[2].Utilizadas);
                 CargarDetallesControl();
-                CargarHorasControl();
-                ConsultarUsos();
+               
             } else {
                 //$('#DivDetallesControl').prop('hidden', true);
                 $('#DivDetallesControl').empty();
