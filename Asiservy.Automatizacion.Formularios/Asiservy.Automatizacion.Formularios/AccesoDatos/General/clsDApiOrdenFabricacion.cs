@@ -18,7 +18,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             var client = new RestClient("http://192.168.0.31:8870");
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
-            var request = new RestRequest("/api/Produccion/LotesPorOrdenLinea/" + OrdernFabricacion+"/"+Linea, Method.GET);
+            var request = new RestRequest("/api/Produccion/LotesPorOrdenLinea/" + OrdernFabricacion + "/" + Linea, Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
@@ -26,7 +26,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             }
             var content = response.Content;
             var ListaUsuarios = JsonConvert.DeserializeObject(content);
-            return ListaUsuarios;           
+            return ListaUsuarios;
         }
 
         public List<OrdenFabricacionAvance> ConsultaLotesPorOrdenFabricacionLinea2(int OrdernFabricacion, string Linea)
@@ -51,7 +51,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             var client = new RestClient("http://192.168.0.31:8870");
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
-            var request = new RestRequest("/api/Produccion/OrdenesFabricacionPorFecha/"+FechaProduccion.ToString("yyyy-MM-dd"), Method.GET);
+            var request = new RestRequest("/api/Produccion/OrdenesFabricacionPorFecha/" + FechaProduccion.ToString("yyyy-MM-dd"), Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
@@ -62,6 +62,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return ListaOrdenes;
 
         }
+
+
+        public object ConsultaOFNivel3(DateTime FechaProduccion)
+        {
+            var client = new RestClient("http://192.168.0.31:8003");
+            // client.Authenticator = new HttpBasicAuthenticator(username, password);
+
+            var request = new RestRequest("/api/Produccion/OrdenesFabricacionNivel3/" + FechaProduccion.ToString("yyyy-MM-dd"), Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            var ListaOrdenes = JsonConvert.DeserializeObject(content);
+            return ListaOrdenes;
+
+        }
+
         public List<OrdenFabricacionAutoclave> ConsultaOrdenFabricacionPorFechaProductoTerminado(DateTime FechaProduccion)
         {
             var client = new RestClient("http://192.168.0.31:8870");
@@ -80,7 +99,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 
         public List<OrdenFabricacionAutoclave> ConsultaOrdenFabricacionPorFechaAutoclave(DateTime FechaProduccion)
         {
-            var client = new RestClient("http://192.168.0.31:8870");          
+            var client = new RestClient("http://192.168.0.31:8870");
             var request = new RestRequest("/api/Produccion/OrdenesAutoclave/" + FechaProduccion.ToString("yyyy-MM-dd"), Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
@@ -106,6 +125,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return ListaOrdenes;
         }
 
-      
+
     }
 }
