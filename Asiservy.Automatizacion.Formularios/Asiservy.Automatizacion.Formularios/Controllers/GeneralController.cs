@@ -141,7 +141,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
 
-        public JsonResult ConsultarOrdenesFabricacion(DateTime Fecha)
+        public JsonResult ConsultarOrdenesFabricacion2(DateTime Fecha)
         {
             try
             {
