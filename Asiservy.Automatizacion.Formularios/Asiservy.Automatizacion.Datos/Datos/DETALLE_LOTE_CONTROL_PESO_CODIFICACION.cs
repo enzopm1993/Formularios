@@ -16,6 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdDetalleLote { get; set; }
         public Nullable<int> IdCabeceraControlPesoCodificacion { get; set; }
+        public Nullable<System.DateTime> FechaOrdenFabricacion { get; set; }
         public Nullable<int> OrdenFabricacion { get; set; }
         public string Lote { get; set; }
         public Nullable<bool> Lomo { get; set; }
