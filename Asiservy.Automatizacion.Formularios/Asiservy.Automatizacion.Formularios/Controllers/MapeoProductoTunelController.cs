@@ -21,7 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDEmpleado clsDEmpleado = null;
         clsDClasificador clsDClasificador = null;
         clsDMapeoProductoTunel clsDMapeoProductoTunel = null;
-
+        clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
 
         // GET: MapeoProductoTunel
         public ActionResult MapeoProductoTunel()
@@ -34,6 +34,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();                
                 clsDClasificador = new clsDClasificador();
+                ViewBag.TipoLimpieza = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoTipoLimpiezaPescado);
+
                 //var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 //ViewBag.Linea = Empleado.LINEA;
 
@@ -108,11 +110,26 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                //if(model.)
+                if (model.OrdenFabricacion == 0 || string.IsNullOrEmpty(model.Lote))
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                clsDMapeoProductoTunel = new clsDMapeoProductoTunel();
+                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                
+                var lote = clsDApiOrdenFabricacion.ConsultaLotesPorOF(model.OrdenFabricacion).FirstOrDefault(x=> x.Lote == model.Lote);
+                if (lote == null)
+                {
+                    return Json("102", JsonRequestBehavior.AllowGet);
+                }
+                model.PesoProducto = lote.Peso;
+                //model.TipoLimpieza = lote.Limpieza;
+                model.Barco = lote.Barco;
+                model.Talla = lote.Talla;
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                clsDMapeoProductoTunel = new clsDMapeoProductoTunel();
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 clsDMapeoProductoTunel.GuardarModificarControl(model);
                 return Json("",JsonRequestBehavior.AllowGet);
             }

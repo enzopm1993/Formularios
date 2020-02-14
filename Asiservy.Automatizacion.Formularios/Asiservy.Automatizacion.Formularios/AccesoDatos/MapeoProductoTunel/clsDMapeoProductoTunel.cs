@@ -9,11 +9,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.MapeoProductoTunel
 {
     public class clsDMapeoProductoTunel
     {
-        public List<MAPEO_PRODUCTO_TUNEL> ConsultaMapeoProductoTunel(DateTime Fecha)
+        public List<spConsultaMapeoProductoTunel> ConsultaMapeoProductoTunel(DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.MAPEO_PRODUCTO_TUNEL.Where(x=> x.Fecha==Fecha).ToList();
+                var lista = entities.spConsultaMapeoProductoTunel(Fecha).ToList();
                 return lista;
             }
         }

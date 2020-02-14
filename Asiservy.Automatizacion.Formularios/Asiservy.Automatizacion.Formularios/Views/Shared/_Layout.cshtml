@@ -518,7 +518,7 @@
     {
 
         string js = ViewBag.JavaScrip;
-        string url = "/Scripts/" + js + ".js";
+        string url = "/Scripts/" + js + ".js?v=1";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
 

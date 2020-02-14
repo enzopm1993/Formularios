@@ -3249,6 +3249,7 @@
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
     <Compile Include="Models\InsumosProduccion.cs" />
+    <Compile Include="Models\OfLote.cs" />
     <Compile Include="Models\MantenimientoPallet\PalletViewModel.cs" />
     <Compile Include="Models\Motivo.cs" />
     <Compile Include="Models\OrdenFabricacion.cs" />

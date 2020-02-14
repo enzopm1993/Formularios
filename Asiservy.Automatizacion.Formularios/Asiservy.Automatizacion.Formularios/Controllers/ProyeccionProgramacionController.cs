@@ -960,7 +960,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         //[HttpPost]
-        //public ActionResult ProyeccionProgramacionPartial(int? IdProyeccionProgramacion,string Lote,DateTime? FechaProduccion,int? Toneladas,string Destino, string TipoLimpieza,string Observacion, string Especie, string Talla/*,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin*/)
+        //public ActionResult ProyeccionProgramacionPartial(int? IdProyeccionProgramacion,string OfLote,DateTime? FechaProduccion,int? Toneladas,string Destino, string TipoLimpieza,string Observacion, string Especie, string Talla/*,string Lineas, TimeSpan HoraInicio, TimeSpan HoraFin*/)
         //{
         //    try
         //    {
@@ -972,7 +972,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         //            {
 
         //                IdProyeccionProgramacion = Convert.ToInt32(IdProyeccionProgramacion),
-        //                Lote = Lote,
+        //                OfLote = OfLote,
         //                FechaProduccion = FechaProduccion,
         //                Toneladas = Toneladas,
         //                Destino = Destino,
@@ -1000,7 +1000,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         //        //}
         //        List<ProyeccionProgramacionViewModel> Respuesta=new List<ProyeccionProgramacionViewModel>();
         //        clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
-        //        if (!string.IsNullOrEmpty(Lote)){
+        //        if (!string.IsNullOrEmpty(OfLote)){
         //            Respuesta = clsDProyeccionProgramacion.GuardarActualizarProyeccionProgramacion(ProyeccionProgramacion);
 
         //        }
