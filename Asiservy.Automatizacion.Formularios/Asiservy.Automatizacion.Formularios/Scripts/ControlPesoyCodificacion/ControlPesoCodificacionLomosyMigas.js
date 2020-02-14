@@ -3,7 +3,70 @@ $(document).ready(function () {
     CargarCabeceraControl();
 });
 //region DetalleLotes
-function ConsultarLotes() {
+function ConsultarOrdenesFAbricacion(ordenselected,loteSelected,SelectedEspecie) {
+    //console.log(ordenselected);
+    $('#txtEspecie').val('');
+    $('#cmbLote').empty();
+    $('#cmbLote').append($('<option>', {
+        value: '',
+        text: 'Seleccione..'
+    }));
+    $('#cmbOrdenFabricacion').empty();
+    $('#cmbOrdenFabricacion').append($('<option>', {
+        value: '',
+        text: 'Seleccione..'
+    }));
+   
+    $.ajax({
+        url: "../General/ConsultaSoloOFNivel3",
+        type: "GET",
+        data: {
+            Fecha: $('#txtFechaOrdenFabricacion').val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            //MensajeCorrecto(resultado, false);
+            else {
+                //console.log(resultado);
+                //MensajeCorrecto(resultado[1],false);
+                //$('#DivDetalleUsos').empty();
+                //$('#DivDetalleUsos').html(resultado);
+              
+                $.each(resultado, function (i, item) {
+                    $('#cmbOrdenFabricacion').append($('<option>', {
+                        value: item.Orden,
+                        text: item.Orden
+                    }));
+                });
+                if (ordenselected != null) {
+                    $('#cmbOrdenFabricacion').val(ordenselected);
+                    ConsultarLotes(loteSelected,SelectedEspecie);
+
+                }
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+
+        }
+    });
+    
+}
+function ConsultarEspecie() {
+    //console.log(GlobalLotes);
+    var filtro = Enumerable.From(GlobalLotes).Where(function (x) { return x.descripcion == $('#cmbLote').val() }).Select(function (x) { return x.Especie }).ToArray();
+    //console.log(filtro);
+    $('#txtEspecie').val(filtro[0]);
+}
+function ConsultarLotes(loteSelected,SelectedEspecie) {
+    $('#txtEspecie').val('');
+    $('#cmbLote').empty();
+    $('#cmbLote').append($('<option>', {
+        value: '',
+        text: 'Seleccione..'
+    }));
     if ($('#cmbOrdenFabricacion').prop('selectedIndex') != 0) {
         $.ajax({
             url: "../General/ConsultarLotesPorOf",
@@ -17,6 +80,7 @@ function ConsultarLotes() {
                 }
                 //MensajeCorrecto(resultado, false);
                 else {
+                    //console.log(resultado);
                     //MensajeCorrecto(resultado[1],false);
                     //$('#DivDetalleUsos').empty();
                     //$('#DivDetalleUsos').html(resultado);
@@ -27,6 +91,10 @@ function ConsultarLotes() {
                             text: item.descripcion
                         }));
                     });
+                    if (loteSelected != null) {
+                        $('#cmbLote').val(loteSelected);
+                        $('#txtEspecie').val(SelectedEspecie);
+                    }
                 }
             },
             error: function (resultado) {
@@ -42,6 +110,163 @@ function ConsultarLotes() {
         }));
     }
     
+}
+function LimpiarControlesLotes() {
+    $('#cmbLote').empty();
+    $('#cmbLote').append($('<option>', {
+        value: '',
+        text: 'Seleccione..'
+    }));
+    $('#cmbOrdenFabricacion').empty();
+    $('#cmbOrdenFabricacion').append($('<option>', {
+        value: '',
+        text: 'Seleccione..'
+    }));
+    $('#txtEspecie').val('');
+    $('#chkLomo').prop('checked', false);
+    $('#chkMiga').prop('checked', false);
+    $('#txtFechaOrdenFabricacion').val('');
+    $('#txtFechaOrdenFabricacion').prop('disabled', false);
+    $('#cmbOrdenFabricacion').prop('disabled', false);
+    $('#IdDetalleLote').val('');
+    $('#btnEliminarLotes').prop('disabled', true);
+}
+function ConsultarLotesDet() {
+    $.ajax({
+        url: "../ControlPesoyCodificacion/PartialConsultarLotes",
+        type: "GET",
+        data: {
+            IdCabeceraControlPesoCodificacion: $('#IdCabControlPeso').val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            //MensajeCorrecto(resultado, false);
+            else {
+                //MensajeCorrecto(resultado[1],false);
+                $('#DivDetalleLotes').empty();
+                $('#DivDetalleLotes').html(resultado);
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+
+        }
+    });
+}
+function GuardarLotes() {
+   
+    if ($('#cmbOrdenFabricacion').prop('selectedIndex') == 0) {
+        $('#msjtcmbOrdenFabricacion').html('Debe seleccionar una Orden de fabricación');
+        return false;
+    } else {
+        $('#msjtcmbOrdenFabricacion').html('');
+    }
+    if ($('#cmbLote').prop('selectedIndex') == 0) {
+        $('#msjtcmbLote').html('Debe seleccionar un Lote');
+        return false;
+    } else {
+        $('#msjtcmbLote').html('');
+    }
+    $('#btnGuardarCargandoLotes').prop('hidden', false);
+    $('#btnAgregarDetLotes').prop('hidden', true);
+    $('#btnEliminarLotes').prop('hidden', true);
+    $('#btnlimpiarLotes').prop('hidden', true);
+
+    $.ajax({
+        url: "../ControlPesoyCodificacion/GuardarLote",
+        type: "POST",
+        data: {
+            IdDetalleLote: $('#IdDetalleLote').val() != '' ? $('#IdDetalleLote').val() : 0,
+            FechaOrdenFabricacion: $('#txtFechaOrdenFabricacion').val(),
+            OrdenFabricacion: $('#cmbOrdenFabricacion').val(),
+            Lote: $('#cmbLote').val(),
+            Especie: $('#txtEspecie').val(),
+            Lomo: $('#chkLomo').prop('checked')?true:false,
+            Miga: $('#chkMiga').prop('checked') ? true : false,
+            IdCabeceraControlPesoCodificacion: $('#IdCabControlPeso').val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            //MensajeCorrecto(resultado, false);
+            else {
+
+                //MensajeCorrecto(resultado[1],false);
+                $('#DivDetalleLotes').empty();
+                //ConsultarUsos();
+                $('#btnGuardarCargandoLotes').prop('hidden', true);
+                $('#btnAgregarDetLotes').prop('hidden', false);
+                $('#btnEliminarLotes').prop('hidden', false);
+                $('#btnlimpiarLotes').prop('hidden', false);
+                //LimpiarControlesLotes();
+                $('#cmbLote').prop('selectedIndex', 0);
+                $('#txtEspecie').val('');
+                $('#chkLomo').prop('checked', false);
+                $('#chkMiga').prop('checked', false);
+                ConsultarLotesDet();
+                MensajeCorrecto(resultado[1]);
+                if (resultado[0] == "1119")//se actualizo 
+                {
+                    LimpiarControlesLotes();
+                }
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $('#btnGuardarCargandoUsos').prop('hidden', true);
+            $('#btnAgregarDetUsos').prop('hidden', false);
+            $('#btnEliminarUsos').prop('hidden', false);
+            $('#btnlimpiarUsos').prop('hidden', false);
+        }
+    });
+}
+function EditarLotes(data) {
+    console.log(data.Especie);
+    $('#IdDetalleLote').val(data.IdDetalleLote);
+    $('#txtFechaOrdenFabricacion').val(moment(data.FechaOrdenFabricacion).format("YYYY-MM-DD"));
+    $('#txtFechaOrdenFabricacion').prop('disabled', true);
+    ConsultarOrdenesFAbricacion(data.OrdenFabricacion, data.Lote, data.Especie);
+    $('#cmbOrdenFabricacion').val(data.OrdenFabricacion);
+    $('#cmbOrdenFabricacion').prop('disabled', true);
+    $('#btnEliminarLotes').prop('disabled', false);
+    //$('#cmbLote').val(data.Lote);
+    //$('#txtEspecie').val(data.Especie);
+    $('#chkLomo').prop('checked', data.Lomo)
+    $('#chkMiga').prop('checked', data.Miga)
+}
+function EliminarLote() {
+    $.ajax({
+        url: "../ControlPesoyCodificacion/InactivarLote",
+        type: "POST",
+        data: {
+            IdDetalleLote: $('#IdDetalleLote').val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            //MensajeCorrecto(resultado, false);
+            else {
+                $('#ModalEliminarLote').modal('hide');
+                MensajeCorrecto(resultado[1], false);
+                ConsultarLotesDet();
+                LimpiarControlesLotes();
+
+            }
+        },
+        error: function (resultado) {
+            $('#ModalEliminarLote').modal('hide');
+            MensajeError(resultado.responseText, false);
+
+        }
+    });
+}
+function ConfirmarEliminarLote() {
+    $('#MensajeEliminarLote').html('¿Esta seguro que desea eliminar  este registro?');
+    $('#ModalEliminarLote').modal('show');
 }
 //endregion
 //region Detalle Descripcion de Uso
@@ -400,7 +625,7 @@ function GuardarHoras() {
         });  
 }
 function CargarHorasControl() {
-    
+    //console.log('entro al método');
     $.ajax({
         url: "../ControlPesoyCodificacion/CargarHorasControl",
         type: "GET",
@@ -416,6 +641,8 @@ function CargarHorasControl() {
        
             else {
                 //$('#DivDetalleMuestrasporHora').empty('');
+                //console.log(resultado);
+                //console.log($('#IdCabControlPeso').val());
                 $('#DivDetalleMuestrasporHora').html(resultado);
 
             }
@@ -442,7 +669,9 @@ function CargarDetallesControl() {
             //MensajeCorrecto(resultado, false);
             else {
                 $('#DivCargarDetalles').html(resultado);
-                
+                CargarHorasControl();
+                ConsultarUsos();
+                ConsultarLotesDet();
             }
         },
         error: function (resultado) {
@@ -475,9 +704,9 @@ function CargarCabeceraControl() {
                 $('#txtSaldoAnterior').val(resultado[2].SaldoAnterior);
                 $('#txtSolicitudProceso').val(resultado[2].SolicitudProceso);
                 $('#txtUtilizadas').val(resultado[2].Utilizadas);
+                $('#btnEliminarCabeceraControl').prop('disabled', false);
                 CargarDetallesControl();
-                CargarHorasControl();
-                ConsultarUsos();
+               
             } else {
                 //$('#DivDetallesControl').prop('hidden', true);
                 $('#DivDetallesControl').empty();
@@ -535,5 +764,44 @@ function AgregarCabeceraControl() {
             MensajeError(resultado.responseText, false);
         }
     });
+}
+function ConfirmarELiminarControl() {
+    $('#MensajeEliminarControl').html('¿Esta seguro que desea eliminar el Control?');
+    $('#ModalEliminarControl').modal('show');
+}
+function LimpiarControlesCabControl() {
+    $('#txtObservacion').val('');
+    $('#txtSaldoAnterior').val('');
+    $('#txtSolicitudProceso').val('');
+    $('#txtUtilizadas').val('');
+    //$('#txtFechaCebeceraControl').val('');
+}
+function EliminarControl() {
+    $.ajax({
+        url: "../ControlPesoyCodificacion/InactivarControl",
+        type: "POST",
+        data: {
+            IdCabeceraControlPesoYCodificacion: $('#IdCabControlPeso').val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            //MensajeCorrecto(resultado, false);
+            else {
+                LimpiarControlesCabControl();
+                $('#ModalEliminarControl').modal('hide');
+                MensajeCorrecto(resultado[1], false);
+                $('#DivCargarDetalles').html('');
+                $('#btnEliminarCabeceraControl').prop('disabled', true);
+            }
+        },
+        error: function (resultado) {
+            $('#ModalEliminarHora').modal('hide');
+            MensajeError(resultado.responseText, false);
+
+        }
+    });
+
 }
 //endregion
