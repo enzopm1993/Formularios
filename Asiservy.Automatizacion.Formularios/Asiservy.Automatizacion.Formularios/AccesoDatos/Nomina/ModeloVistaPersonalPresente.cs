@@ -17,5 +17,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
         public string Linea { get; set; }
         public string Cedula { get; set; }
         public string Nombre { get; set; }
+        public string Asistencia { get; set; }
+    }
+    public class ModeloVistaPersonalPresentePrueba
+    {
+        public string CentroCosto { get; set; }
+        public string Recurso { get; set; }
+        public string Cargo { get; set; }
+        public string Linea { get; set; }
+        public string Cedula { get; set; }
+        public string Nombre { get; set; }
+        public string Asistencia { get; set; }
     }
 }

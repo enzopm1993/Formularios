@@ -9,5 +9,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
     {
         public List<ModeloVistaPersonalPresente> ListaAsistenciaInicial { get; set; }
         public List<ModeloVistaPersonalPresente> ListaAsistenciaActual { get; set; }
+
+        public List<ModeloVistaPersonalPresentePrueba> ListaAsistenciaTodos { get; set; }
     }
 }

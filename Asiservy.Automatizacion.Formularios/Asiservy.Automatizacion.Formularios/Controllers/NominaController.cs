@@ -37,6 +37,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.Pivot = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 return View();
@@ -80,6 +81,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.Apexcharts = "1";
                 ViewBag.Handsontable = "1";
                 ViewBag.DateRangePicker = "1";
+                ViewBag.Pivot = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 ModeloVistaAsistencia dataView = new ModeloVistaAsistencia();
@@ -287,6 +289,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 resultadoJS.TotalSinPermiso = datos.Where(c => c.AUSENTE && !c.CON_PERMISO).Count();
 
 
+                ClsNomina clsNomina = new ClsNomina();
+
+                
+
+                resultadoJS.modeloVistaTablasPersonalPresente = clsNomina.ObtenerTablasPersonalAsistente(Convert.ToDateTime(parametros.fechaIni));
+
+
+
                 JsonResult result = Json(resultadoJS, JsonRequestBehavior.AllowGet);
                 result.MaxJsonLength = 50000000;
                 return result;
@@ -297,6 +307,28 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
            
+        }
+        [HttpGet]
+        public JsonResult GenerarAsistenciaInicialVsActual(string fecha)
+        {
+            try
+            {
+                
+                ClsNomina clsNomina = new ClsNomina();                
+
+                ModeloVistaTablasPersonalPreesente modeloVistaTablasPersonalPresente = clsNomina.ObtenerTablasPersonalAsistente(Convert.ToDateTime(fecha));
+
+                JsonResult result = Json(modeloVistaTablasPersonalPresente, JsonRequestBehavior.AllowGet);
+
+                result.MaxJsonLength = 50000000;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return Json(ex, JsonRequestBehavior.AllowGet);
+            }
+
+
         }
 
         public ActionResult ListaEmpleadosPartial()
