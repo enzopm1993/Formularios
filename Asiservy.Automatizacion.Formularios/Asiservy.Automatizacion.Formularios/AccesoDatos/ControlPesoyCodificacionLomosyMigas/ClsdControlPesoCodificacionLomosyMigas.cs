@@ -278,5 +278,93 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlPesoyCodificaci
                 return resultado;
             }
         }
+        public object[] GuardarLoteControl(DETALLE_LOTE_CONTROL_PESO_CODIFICACION LoteControl)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[2];
+                var buscarLoteDetalle = db.DETALLE_LOTE_CONTROL_PESO_CODIFICACION.Where(z => z.IdCabeceraControlPesoCodificacion == LoteControl.IdCabeceraControlPesoCodificacion
+                && z.FechaOrdenFabricacion == LoteControl.FechaOrdenFabricacion&&z.OrdenFabricacion==LoteControl.OrdenFabricacion
+                  && z.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                if (buscarLoteDetalle == null)
+                {
+                    db.DETALLE_LOTE_CONTROL_PESO_CODIFICACION.Add(LoteControl);
+                    db.SaveChanges();
+                    resultado[0] = "111";
+                    resultado[1] = "Registro ingresado con éxito";
+                    return resultado;
+                }
+                else
+                {
+                    resultado[0] = "666";
+                    resultado[1] = "Error, El control de uso ingresado ya existe";
+                    return resultado;
+                }
+            }
+        }
+        public object[] ActualizarLoteControl(DETALLE_LOTE_CONTROL_PESO_CODIFICACION LoteControl)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[2];
+                var BuscarDetalleLote = db.DETALLE_LOTE_CONTROL_PESO_CODIFICACION.Find(LoteControl.IdDetalleLote);
+                BuscarDetalleLote.UsuarioModificacionLog = LoteControl.UsuarioCreacionLog;
+                BuscarDetalleLote.FechaModificacionLog = DateTime.Now;
+                BuscarDetalleLote.TerminalModificacionLog = LoteControl.TerminalCreacionLog;
+                BuscarDetalleLote.Lote = LoteControl.Lote;
+                BuscarDetalleLote.Lomo = LoteControl.Lomo;
+                BuscarDetalleLote.Miga = LoteControl.Miga;
+                db.SaveChanges();
+                resultado[0] = "1119";
+                resultado[1] = "Registro actualizado con éxito";
+                return resultado;
+
+            }
+        }
+        public List<DETALLE_LOTE_CONTROL_PESO_CODIFICACION> ConsultarLotesControl(int Cabecera_Control)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+
+                List<DETALLE_LOTE_CONTROL_PESO_CODIFICACION> resultado = (from u in db.DETALLE_LOTE_CONTROL_PESO_CODIFICACION
+                                                        where u.IdCabeceraControlPesoCodificacion == Cabecera_Control && u.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                        select u).ToList();
+                return resultado;
+            }
+        }
+        public object[] InactivarLote(DETALLE_LOTE_CONTROL_PESO_CODIFICACION ControlLote)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[2];
+                var BuscarDetLote = db.DETALLE_LOTE_CONTROL_PESO_CODIFICACION.Find(ControlLote.IdDetalleLote);
+                BuscarDetLote.UsuarioModificacionLog = ControlLote.UsuarioCreacionLog;
+                BuscarDetLote.FechaModificacionLog = DateTime.Now;
+                BuscarDetLote.TerminalModificacionLog = ControlLote.TerminalCreacionLog;
+                BuscarDetLote.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                db.SaveChanges();
+                resultado[0] = "111";
+                resultado[1] = "Registro Inactivado con éxito";
+                return resultado;
+
+            }
+        }
+        public object[] InactivarCabControl(CABECERA_CONTROL_PESO_CODIFICACION ControlLote)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                object[] resultado = new object[2];
+                var BuscarCabControl = db.CABECERA_CONTROL_PESO_CODIFICACION.Find(ControlLote.IdCabeceraControlPesoYCodificacion);
+                BuscarCabControl.UsuarioModificacionLog = ControlLote.UsuarioCreacionLog;
+                BuscarCabControl.FechaModificacionLog = DateTime.Now;
+                BuscarCabControl.TerminalModificacionLog = ControlLote.TerminalCreacionLog;
+                BuscarCabControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                db.SaveChanges();
+                resultado[0] = "111";
+                resultado[1] = "Registro Inactivado con éxito";
+                return resultado;
+
+            }
+        }
     }
 }

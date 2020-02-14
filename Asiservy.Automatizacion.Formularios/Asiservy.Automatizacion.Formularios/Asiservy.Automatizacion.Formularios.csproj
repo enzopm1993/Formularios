@@ -2239,6 +2239,9 @@
     <Content Include="Scripts\i18n\defaults-zh_CN.min.js" />
     <Content Include="Scripts\i18n\defaults-zh_TW.js" />
     <Content Include="Scripts\i18n\defaults-zh_TW.min.js" />
+    <None Include="Scripts\linq-vsdoc.js" />
+    <Content Include="Scripts\linq.js" />
+    <Content Include="Scripts\linq.min.js" />
     <Content Include="Scripts\MapeoProductoTunel\MapeoProductoTunel.js" />
     <Content Include="Scripts\MoverPersonal\BandejaMovimientoPersonalRRHH.js" />
     <Content Include="Scripts\MoverPersonal\MoverPersonalDataLife.js" />
@@ -3504,6 +3507,7 @@
     <Content Include="Views\ControlPesoyCodificacion\CargarHorasControl.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarMuestrasPorHora.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarUsos.cshtml" />
+    <Content Include="Views\ControlPesoyCodificacion\PartialConsultarLotes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
