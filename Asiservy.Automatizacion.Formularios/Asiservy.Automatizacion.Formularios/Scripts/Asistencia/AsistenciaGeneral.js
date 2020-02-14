@@ -166,6 +166,8 @@ function ConsultarSiExisteAsistencia() {
             if (resultado == 1) {
 
                 GenerarAsistenciaDiariaGeneral($('#CodLinea').val(), resultado);
+                $('#TurnoGen').prop('disabled', 'disabled');
+                $('#txtFecha').prop('disabled', 'disabled');
                 $('#horaservidor').hide();
                 $('#lblHoraServidor').hide();
                 $('#GenerarAsistencia').hide();

@@ -12,32 +12,28 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class MAPEO_PRODUCTO_TUNEL
+    public partial class DETALLE_CONTROL_PESO_CODIFICACION
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public MAPEO_PRODUCTO_TUNEL()
+        public DETALLE_CONTROL_PESO_CODIFICACION()
         {
-            this.MAPEO_PRODUCTO_TUNEL_DETALLE = new HashSet<MAPEO_PRODUCTO_TUNEL_DETALLE>();
+            this.DETALLE_HORAS_CONTROL_PESO_CODIFICACION = new HashSet<DETALLE_HORAS_CONTROL_PESO_CODIFICACION>();
         }
     
-        public int IdMapeoProductoTunel { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public string PesoProducto { get; set; }
-        public int OrdenFabricacion { get; set; }
-        public string Lote { get; set; }
-        public string TipoLimpieza { get; set; }
-        public string Talla { get; set; }
-        public string Barco { get; set; }
-        public string Observacion { get; set; }
+        public int IdDetalleControlPeso { get; set; }
+        public Nullable<System.DateTime> Hora { get; set; }
+        public Nullable<int> IdCabeceraControlPesoCodificacion { get; set; }
+        public Nullable<int> TemperaturaAguaTermoencogido { get; set; }
         public string EstadoRegistro { get; set; }
-        public System.DateTime FechaIngresoLog { get; set; }
-        public string UsuarioIngresoLog { get; set; }
-        public string TerminalIngresoLog { get; set; }
+        public Nullable<System.DateTime> FechaCreacionLog { get; set; }
+        public string UsuarioCreacionLog { get; set; }
+        public string TerminalCreacionLog { get; set; }
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MAPEO_PRODUCTO_TUNEL_DETALLE> MAPEO_PRODUCTO_TUNEL_DETALLE { get; set; }
+        public virtual ICollection<DETALLE_HORAS_CONTROL_PESO_CODIFICACION> DETALLE_HORAS_CONTROL_PESO_CODIFICACION { get; set; }
+        public virtual CABECERA_CONTROL_PESO_CODIFICACION CABECERA_CONTROL_PESO_CODIFICACION { get; set; }
     }
 }

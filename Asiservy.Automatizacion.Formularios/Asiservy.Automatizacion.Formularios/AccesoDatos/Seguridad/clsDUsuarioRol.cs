@@ -83,7 +83,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                                       Rol = l.Rol,
                                       Usuario = u.Nombre
 
-                                  }).ToList();
+                                  }).Distinct().ToList();
                                  
                 return Lista;
             }

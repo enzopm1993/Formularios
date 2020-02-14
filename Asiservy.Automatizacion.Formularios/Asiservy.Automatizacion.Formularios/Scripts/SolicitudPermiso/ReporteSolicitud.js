@@ -34,26 +34,30 @@ function CambioLinea(valor) {
 }
 
 
-function MarcarSalida(IdSolicitudPermiso,fecha,fechaSalida) {
+function MarcarSalida(IdSolicitudPermiso,Cedula,fechaSalida) {
     //console.log(IdSolicitudPermiso);
     // console.log(fecha);
-    if (fecha == "" || fecha == null ) {
+    //if (fecha == "" || fecha == null ) {
 
-        MensajeAdvertencia("No ha marcado en el biometríco");
-        return;
-    }
-
+    //    MensajeAdvertencia("No ha marcado en el biometríco");
+    //    return;
+    //}
+    $("#txtMarcarSalida-" + IdSolicitudPermiso).prop("disabled", true);
     $.ajax({
         type: "POST",
         url: '../SolicitudPermiso/MarcarSalidaSolicitudPermiso',
         data: {
             IdSolicitudPermiso: IdSolicitudPermiso,
-            FechaBiometrico: fecha,
+            Cedula: Cedula,
             FechaSalida: fechaSalida
         },
         success: function (Resultado) {
             if (Resultado == "101") {
                 window.location.reload();
+            }
+            if (Resultado == "102") {
+                MensajeAdvertencia("NO HA MARCADO SALIDA");
+                return;
             }
             if (Resultado == "1") {
                 var horaSalida = moment(fechaSalida).format('HH:mm');

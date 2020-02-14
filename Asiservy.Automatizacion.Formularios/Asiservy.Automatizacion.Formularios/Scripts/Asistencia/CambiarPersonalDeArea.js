@@ -94,7 +94,7 @@ function MoverEmpleados() {
             //console.log(valortable);
             destruirDataTable();
             
-            $("input[type=checkbox]:checked").each(function (resultado) {
+            $("#DivEmpleados input[type=checkbox]:checked").each(function (resultado) {
                 id = $(this).attr("id");
                 this.id = id.replace('Empleado-', '');
                 result.push(this.id);
@@ -107,7 +107,7 @@ function MoverEmpleados() {
             MensajeAdvertencia("Centro de Costos, Recurso, Línea,Cargo,fecha y hora son obligatorios", false);
         }
     } else {
-        $("input[type=checkbox]:checked").each(function (resultado) {
+        $("#tblDataTable input[type=checkbox]:checked").each(function (resultado) {
             id = $(this).attr("id");
             this.id = id.replace('Empleado-', '');
             result.push(this.id);
@@ -228,8 +228,10 @@ function Mover(result) {
             //MensajeCorrectoTiempo(resultado, true,10000);
             if (resultado == "101") {
                 window.location.reload();
-            }else
-            if (resultado == '1000') {
+            } else if (resultado == '5555') {
+                MensajeAdvertencia("Debe ingresar los campos obligatorios");
+            }
+            else if (resultado == '1000') {
                 $('#mensajefeed').val(resultado);
                 $('#BodyMensajeCp').html('Empleados movidos con éxito');
             } else {

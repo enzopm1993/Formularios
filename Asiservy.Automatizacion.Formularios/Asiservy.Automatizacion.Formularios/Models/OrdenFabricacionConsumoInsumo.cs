@@ -24,6 +24,8 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public string CLIENTE_CORTO { get; set; }
         public string PEDIDO_VENTA { get; set; }
         public string DESTINO { get; set; }
+        public string CODIGO_ETIQUETA { get; set; }
+        public string NOMBRE_ETIQUETA { get; set; } 
 
 
     }

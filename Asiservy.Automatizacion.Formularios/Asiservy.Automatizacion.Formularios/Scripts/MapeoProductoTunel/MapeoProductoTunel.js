@@ -31,7 +31,7 @@ function CargarOrdenFabricacion() {
         return;
 
     $.ajax({
-        url: "../MapeoProductoTunel/ConsultarOrdenesFabricacion",
+        url: "../General/ConsultaSoloOFNivel3",
         type: "GET",
         data: {
             Fecha: valor            
@@ -47,7 +47,7 @@ function CargarOrdenFabricacion() {
             // LimpiarDetalle();
             if (!$.isEmptyObject(resultado)) {
                 $.each(resultado, function (create, row) {
-                    $("#SelectOrdenFabricacion").append("<option value='" + row.ORDEN_FABRICACION + "'>" + row.ORDEN_FABRICACION + "</option>")
+                    $("#SelectOrdenFabricacion").append("<option value='" + row.Orden + "'>" + row.Orden + "</option>")
                 });
                 $('#validaFecha').prop("hidden", true);
             } else {
@@ -71,7 +71,7 @@ function CargarLotes(valor) {
         return;
     }
     $.ajax({
-        url: "../MapeoProductoTunel/ConsultarLotesPorLinea",
+        url: "../General/ConsultarLotesPorOf",
         type: "GET",
         data: {
             Orden: valor
@@ -124,4 +124,126 @@ function CargarMapeoProductoTunel() {
             $("#spinnerCargando").prop("hidden", true);
         }
     });
+}
+
+function NuevoControl() {
+    $("#txtOrdenFabricacion").val('');
+    $("#txtObservacion").val('');    
+    $("#SelectLote").empty();
+    $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>");
+    $("#SelectTipoLimpieza").prop("SelectedIndex",0);
+}
+
+function Validar() {
+    var valida = true;
+    if ($("#txtFecha").val() == "") {
+        $("#txtFecha").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtFecha").css('borderColor', '#ced4da');
+    }
+    if ($("#txtOrdenFabricacion").val() == "") {
+        $("#txtOrdenFabricacion").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtOrdenFabricacion").css('borderColor', '#ced4da');
+    }
+    if ($("#SelectLote").val() == "") {
+        $("#SelectLote").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#SelectLote").css('borderColor', '#ced4da');
+    }
+    if ($("#SelectTipoLimpieza").val() == "") {
+        $("#SelectTipoLimpieza").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#SelectTipoLimpieza").css('borderColor', '#ced4da');
+    }
+    return valida;
+}
+
+function GenerarControl() {
+    if (!Validar()) {
+        return;
+    }
+    $.ajax({
+        url: "../MapeoProductoTunel/MapeoProductoTunel",
+        type: "POST",
+        data: {
+            Fecha: $("#txtFecha").val(),
+            OrdenFabricacion: $("#txtOrdenFabricacion").val(),
+            Lote: $("#SelectLote").val(),
+            TipoLimpieza: $("#SelectTipoLimpieza").val(),
+            Observacion: $("#txtObservacion").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "102") {
+                MensajeAdvertencia("Problemas con los datos del Lote");
+                return;
+            }            
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            } else {
+                CargarMapeoProductoTunel();
+            }
+            //  $('#btnConsultar').prop("disabled", true);
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $('#btnConsultar').prop("disabled", false);
+            $("#spinnerCargando").prop("hidden", true);
+        }
+    });
+
+    //alert("generado");
+}
+
+
+
+function SeleccionarControl(model) {
+    //console.log(model);
+    $("#divCabecera2").prop("hidden", true);
+    $("#divDetalle").prop("hidden", false);
+    $("#btnEliminar").prop("hidden", false);
+    $("#btnEditar").prop("hidden", false);
+    $("#btnAtras").prop("hidden", false);
+    $("#btnGenerar").prop("hidden", true);
+
+    $("#txtFecha").prop("disabled", true);
+    $("#txtOrdenFabricacion").prop("disabled", true);
+    $("#btnOrden").prop("disabled", true);   
+    $("#SelectLote").prop("disabled", true);   
+    $("#SelectTipoLimpieza").prop("disabled", true);   
+    $("#txtObservacion").prop("disabled", true);       
+
+    $("#txtOrdenFabricacion").val(model.OrdenFabricacion);
+    $("#txtObservacion").val(model.Observacion);
+    $("#SelectLote").empty();
+    $("#SelectLote").append("<option value='" + model.Lote + "'>" + model.Lote + "</option>")
+    $("#SelectTipoLimpieza").val(model.CodTipoLimpieza);
+    
+}
+
+function AtrasControlPrincipal() {
+    $("#divCabecera2").prop("hidden", false);
+    $("#divDetalle").prop("hidden", true);
+    $("#btnEliminar").prop("hidden", true);
+    $("#btnEditar").prop("hidden", true);
+    $("#btnAtras").prop("hidden", true);
+    $("#btnGenerar").prop("hidden", false);
+
+
+    $("#txtFecha").prop("disabled", false);
+    $("#txtOrdenFabricacion").prop("disabled", false);
+    $("#btnOrden").prop("disabled", false);
+    $("#SelectLote").prop("disabled", false);
+    $("#SelectTipoLimpieza").prop("disabled", false);
+    $("#txtObservacion").prop("disabled", false);
+
+    NuevoControl();
 }

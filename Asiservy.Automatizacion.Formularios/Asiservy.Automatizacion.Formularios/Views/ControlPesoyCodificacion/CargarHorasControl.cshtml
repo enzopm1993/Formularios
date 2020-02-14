@@ -1,0 +1,35 @@
+﻿@model List<Asiservy.Automatizacion.Datos.Datos.DETALLE_CONTROL_PESO_CODIFICACION>
+@using Newtonsoft.Json;
+@if (Model != null)
+{
+    <table class="table table-striped" id="">
+        <thead>
+            <tr>
+                <th hidden>
+                    DetalleHora
+                </th>
+                <th>
+                    Hora
+                </th>
+                <th nowrap>
+                    Temperatura
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                string json = JsonConvert.SerializeObject(new { item.Hora,item.IdDetalleControlPeso,item.TemperaturaAguaTermoencogido});
+                <tr>
+                    <td hidden>@item.IdDetalleControlPeso</td>
+                    <td>@item.Hora</td>
+                    <td>@item.TemperaturaAguaTermoencogido</td>
+                    <td><i class="fas fa-tasks" style="color:green;cursor:pointer" onclick="AgregarMuestra(@json)"></i></td>
+                    <td><i class="fas fa-edit" style="color:blue;cursor:pointer" onclick="EditarHoras(@json)"></i></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

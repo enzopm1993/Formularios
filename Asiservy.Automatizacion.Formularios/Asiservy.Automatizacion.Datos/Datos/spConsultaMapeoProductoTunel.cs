@@ -10,21 +10,15 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class MAPEO_PRODUCTO_TUNEL
+    public partial class spConsultaMapeoProductoTunel
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public MAPEO_PRODUCTO_TUNEL()
-        {
-            this.MAPEO_PRODUCTO_TUNEL_DETALLE = new HashSet<MAPEO_PRODUCTO_TUNEL_DETALLE>();
-        }
-    
         public int IdMapeoProductoTunel { get; set; }
         public System.DateTime Fecha { get; set; }
         public string PesoProducto { get; set; }
         public int OrdenFabricacion { get; set; }
         public string Lote { get; set; }
+        public string CodTipoLimpieza { get; set; }
         public string TipoLimpieza { get; set; }
         public string Talla { get; set; }
         public string Barco { get; set; }
@@ -36,8 +30,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MAPEO_PRODUCTO_TUNEL_DETALLE> MAPEO_PRODUCTO_TUNEL_DETALLE { get; set; }
     }
 }

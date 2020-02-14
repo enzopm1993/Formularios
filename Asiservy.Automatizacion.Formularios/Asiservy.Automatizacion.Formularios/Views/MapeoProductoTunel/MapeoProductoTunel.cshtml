@@ -3,11 +3,16 @@
     ViewBag.Title = "MapeoProductoTunel";
 }
 
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 <h4>Mapeo de Producto en Tunel</h4>
 @ViewBag.Linea
 <hr />
 <div class="row" id="divCabecera1">
-    <div class="col-md-4 col-6 col-sm-6">
+    <div class="col-md-3 col-6 col-sm-6">
         <div class="form-group">
             <label>Fecha</label>
             <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarMapeoProductoTunel()" id="txtFecha" class="form-control" />
@@ -28,10 +33,48 @@
         <div class="form-group">
             <label>Lote</label>
             <select id="SelectLote" class="form-control">
-                <option value="0">Seleccione</option>
+                <option value="">Seleccione</option>
             </select>
         </div>
     </div>
+    <div class="col-md-3 col-6">
+        <div class="form-group">
+            <label>Tipo Limpieza</label>
+            @Html.DropDownList("SelectTipoLimpieza", new SelectList(ViewBag.TipoLimpieza, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-12 col-6">
+        <div class="form-group">
+            <label>Observacion</label>
+            <input type="text" size="250" class="form-control" id="txtObservacion" name="name" value="" />
+        </div>
+    </div>
+
+    <div class="col-md-12 col-12 text-center">
+        <label class="">Acciones</label>
+
+        <div class="form-group">
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="GenerarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="ModalEliminarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="ModalGenerarControl(true)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/edit24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>
+        </div>
+    </div>
+
+
 </div>
 
 <div class="d-flex justify-content-center">
@@ -47,6 +90,17 @@
         </div>
     </div>
 </div>
+
+
+<div id="divDetalle" hidden>
+    <div class="card shadow">
+        <div class="card-body">
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
+
+
 <div id="divAcciones" hidden>
     <div class="col-md-12 col-12  text-md-center text-center">
         <label class="">Acciones</label>

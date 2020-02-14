@@ -70,7 +70,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 if (BD == clsAtributos.ProduccionBD)
                 {
-                    Session["BaseDatos"] = "PRODUCCIÓN";
+                    Session["BaseDatos"] = "SIAA";
                 }
                 return View();
 

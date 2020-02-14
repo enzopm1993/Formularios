@@ -8,12 +8,10 @@ $(document).ready(function () {
 });
 
 function CargarDatosOrdenFabricacion() {
-
     if ($("#txtOrdenFabricacion").val() == "") {
         NuevoControlConsumoInsumos();
         return;
     }
-
     $.ajax({
         url: "../ControlConsumoInsumo/ConsultarDatosOrdenFabricacion",
         type: "GET",
@@ -54,6 +52,7 @@ function CargarDatosOrdenFabricacion() {
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
+            NuevoControlConsumoInsumos();
         }
     });
 

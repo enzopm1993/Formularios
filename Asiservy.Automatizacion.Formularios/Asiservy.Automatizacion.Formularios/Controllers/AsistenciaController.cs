@@ -25,6 +25,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDError clsDError = null;
         clsDClasificador clsDClasificador = null;
         clsDCuchillo clsDCuchillo = null;
+        clsDLogin clsDLogin = null;
         //clsApiUsuario clsApiUsuario=null;
         //clsDSolicitudPermiso ClsDSolicitudPermiso = null;
         //clsDLogin clsDLogin = null;
@@ -657,12 +658,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [HttpPost]
-        public JsonResult GuardarSalidaAsistencia(string Cedula, DateTime Fecha, TimeSpan? Hora, string Tipo, int IdMovimiento, string Turno, string CodLinea)
+        public JsonResult GuardarSalidaAsistencia(string Cedula, DateTime Fecha,DateTime FechaGenAsistencia, TimeSpan? Hora, string Tipo, int IdMovimiento, string Turno, string CodLinea)
         {
             try
             {
                 clsDAsistencia = new clsDAsistencia();
-                var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula, Fecha, Hora.Value, Tipo, IdMovimiento, Turno, CodLinea);
+                var resultado = clsDAsistencia.GuardarAsistenciaSalida(Cedula, Fecha, FechaGenAsistencia, Hora.Value, Tipo, IdMovimiento, Turno, CodLinea);
                 return Json(resultado, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -930,9 +931,27 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 clsDClasificador = new clsDClasificador();
                 clsDEmpleado = new clsDEmpleado();
-                this.ConsultaComboLineas();
-                ViewBag.Estado = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                clsDLogin = new clsDLogin();
+                liststring = User.Identity.Name.Split('_');
+                var Empleado = clsDEmpleado.ConsultaEmpleado(liststring[1]).FirstOrDefault();
+                ViewBag.LineaEmpleado = Empleado.CODIGOLINEA;
 
+                List<int?> roles = clsDLogin.ConsultaRolesUsuario(liststring[1]);
+                if (roles.FirstOrDefault(x => x.Value == clsAtributos.AsistenteProduccion) != null)
+                {
+                  //  ViewBag.SupervisorGeneral = clsAtributos.RolSupervisorGeneral;
+                   var poLineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
+                    poLineas.Add(new Models.Seguridad.Clasificador { Codigo = "T", Descripcion = "Todas" });
+                    ViewBag.Lineas = poLineas;
+                }
+                else
+                {
+                    var poLineas = clsDGeneral.ConsultaLineas(null);
+                    poLineas.Add(new spConsultaLinea { Codigo = "T", Descripcion = "Todas" });
+                    ViewBag.Lineas = poLineas;
+                }                
+
+                ViewBag.Estado = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 return View();
             }
             catch (Exception ex)
@@ -1324,15 +1343,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosFiltroCambioPersonal>;
-                if (dCedulas.ToList().Contains("horaswitch"))
+                if (tipo=="prestar" &&(dCedulas.Count()==0 &&string.IsNullOrEmpty(dlinea)&& string.IsNullOrEmpty(darea)&& string.IsNullOrEmpty(drecurso)&& string.IsNullOrEmpty(dcargo)))
                 {
-
-                    List<string> array = dCedulas.ToList();
-                    array.Remove("horaswitch");
-                    dCedulas = array.ToArray();
-
+                    return Json("5555", JsonRequestBehavior.AllowGet);
                 }
+                if (tipo == "regresar" && (dCedulas.Count() == 0 && string.IsNullOrEmpty(dlinea) && string.IsNullOrEmpty(darea) && string.IsNullOrEmpty(drecurso) && string.IsNullOrEmpty(dcargo)&& dhora==null))
+                {
+                    return Json("5555", JsonRequestBehavior.AllowGet);
+                }
+                List<spConsutaEmpleadosFiltroCambioPersonal> ListEmpleados = TempData["ListaEmpleados"] as List<spConsutaEmpleadosFiltroCambioPersonal>;
+                
 
                 List<CAMBIO_PERSONAL> pListCambioPersonal = new List<CAMBIO_PERSONAL>();
                 //List<BITACORA_CAMBIO_PERSONAL> pListBitacoraCambioPersonal = new List<BITACORA_CAMBIO_PERSONAL>();

@@ -208,12 +208,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("0", JsonRequestBehavior.AllowGet);
 
                 }
-                else
-                {
-                    clsDControlHoraMaquina = new clsDControlHoraMaquina();
-                    var ordenesUsadas = clsDControlHoraMaquina.ConsultarControlAutoclave(Fecha,"0").Select(x => x.OrdenFabricacion).ToList();
-                    result = result.Where(x => !ordenesUsadas.Contains(x.ORDEN_FABRICACION)).ToList();
-                }
+                //else
+                //{
+                //    clsDControlHoraMaquina = new clsDControlHoraMaquina();
+                //    var ordenesUsadas = clsDControlHoraMaquina.ConsultarControlAutoclave(Fecha,"0").Select(x => x.OrdenFabricacion).ToList();
+                //    result = result.Where(x => !ordenesUsadas.Contains(x.ORDEN_FABRICACION)).ToList();
+                //}
 
                 if (!string.IsNullOrEmpty(Orden))
                 {

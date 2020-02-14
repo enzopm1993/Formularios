@@ -23,7 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDLogin clsDLogin = null;
         clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
         clsDEntregaProductoTerminado clsDEntregaProductoTerminado = null;
-        clsDApiProduccion clsDApiProduccion = null;
+        //clsDApiProduccion clsDApiProduccion = null;
 
         #region ENTREGA DE PRODUCTO TERMINADO
         // GET: EntregaProductoTerminado

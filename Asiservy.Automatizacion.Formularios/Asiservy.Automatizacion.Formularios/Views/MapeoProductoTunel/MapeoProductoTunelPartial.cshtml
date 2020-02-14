@@ -1,49 +1,59 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.MAPEO_PRODUCTO_TUNEL>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaMapeoProductoTunel>
+@using Newtonsoft.Json;
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                Peso
+            </th>
+            <th>
+                O. Fabricación
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lote)
+            </th>
+            <th>
+                Limpieza
+            </th>
+            <th>
+                Talla
+            </th>
+            <th>
+                Barco
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
 
-<table class="table">
-    <tr>           
-        <th>
-            @Html.DisplayNameFor(model => model.PesoProducto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrdenFabricacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Lote)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoLimpieza)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Observacion)
-        </th>
-      
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdMapeoProductoTunel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PesoProducto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrdenFabricacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Lote)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoLimpieza)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Observacion)
-        </td>       
-    </tr>
-}
-
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarControl(@json)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.PesoProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lote)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoLimpieza)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Talla)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Barco)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

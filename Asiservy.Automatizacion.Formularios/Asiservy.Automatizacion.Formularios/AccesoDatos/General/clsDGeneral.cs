@@ -274,7 +274,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 
                 dbname = builder.InitialCatalog;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 dbname = "";
             }
