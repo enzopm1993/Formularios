@@ -502,6 +502,13 @@
         <script src="~/Scripts/excelexportjs.js"></script>
     }
 
+    @if (ViewBag.Pivot == "1")
+    {
+        <link href="~/Content/webdatarocks/webdatarocks.css" rel="stylesheet" />
+        <script src="~/Content/webdatarocks/webdatarocks.toolbar.js"></script>
+        <script src="~/Content/webdatarocks/webdatarocks.js"></script>
+    }
+
     @if (ViewBag.Apexcharts == "1")
     {
         <script src="~/Scripts/Apexcharts/dist/apexcharts.min.js"></script>

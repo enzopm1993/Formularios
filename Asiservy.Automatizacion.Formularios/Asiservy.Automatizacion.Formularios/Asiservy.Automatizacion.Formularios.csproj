@@ -2121,6 +2121,18 @@
     <Content Include="Content\summernote\dist\summernote.css" />
     <Content Include="Content\summernote\dist\summernote.js" />
     <Content Include="Content\summernote\dist\summernote.min.js" />
+    <Content Include="Content\webdatarocks\theme\assets\webdatarocks-icons.svg" />
+    <Content Include="Content\webdatarocks\theme\dark\webdatarocks.css" />
+    <Content Include="Content\webdatarocks\theme\dark\webdatarocks.min.css" />
+    <Content Include="Content\webdatarocks\theme\lightblue\webdatarocks.css" />
+    <Content Include="Content\webdatarocks\theme\lightblue\webdatarocks.min.css" />
+    <Content Include="Content\webdatarocks\theme\orange\webdatarocks.css" />
+    <Content Include="Content\webdatarocks\theme\orange\webdatarocks.min.css" />
+    <Content Include="Content\webdatarocks\theme\teal\webdatarocks.css" />
+    <Content Include="Content\webdatarocks\theme\teal\webdatarocks.min.css" />
+    <Content Include="Content\webdatarocks\webdatarocks.css" />
+    <Content Include="Content\webdatarocks\webdatarocks.js" />
+    <Content Include="Content\webdatarocks\webdatarocks.toolbar.js" />
     <Content Include="Global.asax" />
     <Content Include="Rotativa\help-wkhtmltoimage.txt" />
     <Content Include="Rotativa\help-wkhtmltopdf.txt" />
@@ -2892,6 +2904,14 @@
     <Content Include="Content\summernote\dist\font\summernote.woff" />
     <Content Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <Content Include="Content\bootstrap-select.css.map" />
+    <Content Include="Content\webdatarocks\theme\assets\webdatarocks-icons.ttf" />
+    <Content Include="Content\webdatarocks\theme\assets\webdatarocks-icons.woff" />
+    <Content Include="Content\webdatarocks\theme\dark\webdatarocks.less" />
+    <Content Include="Content\webdatarocks\theme\default\webdatarocks.less" />
+    <Content Include="Content\webdatarocks\theme\lightblue\webdatarocks.less" />
+    <Content Include="Content\webdatarocks\theme\orange\webdatarocks.less" />
+    <Content Include="Content\webdatarocks\theme\teal\webdatarocks.less" />
+    <Content Include="Content\webdatarocks\theme\webdatarocks-base.less" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\DataTables\media\js\dataTables.jszip.min.js" />
     <Content Include="Scripts\Handsontable\dist\handsontable.css.map" />
@@ -3089,6 +3109,7 @@
     <Content Include="Scripts\Nomina\Asistencia.js" />
     <Content Include="Scripts\Nomina\Certificados.js" />
     <Content Include="Scripts\Nomina\EmpleadosClientes.js" />
+    <Content Include="Scripts\Nomina\RptAsistenciaInicialActuales.js" />
     <Content Include="Scripts\Periodo\Periodo.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
@@ -3509,6 +3530,7 @@
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarMuestrasPorHora.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarUsos.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarLotes.cshtml" />
+    <Content Include="Views\Nomina\RptAsistenciaInicialActuales.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
