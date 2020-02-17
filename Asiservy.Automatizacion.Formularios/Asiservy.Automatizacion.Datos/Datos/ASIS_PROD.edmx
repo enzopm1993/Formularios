@@ -1016,6 +1016,7 @@
           <Property Name="Tunel" Type="int" Nullable="false" />
           <Property Name="Coche" Type="int" Nullable="false" />
           <Property Name="Producto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Especie" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Fundas" Type="int" Nullable="false" />
           <Property Name="HoraInicio" Type="datetime" Nullable="false" />
           <Property Name="HoraFin" Type="datetime" Nullable="false" />
@@ -1846,6 +1847,10 @@
         <Function Name="sp_ObtenerCuchillosSobrantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ColorCuchillo" Type="char" Mode="In" />
           <Parameter Name="Fecha" Type="date" Mode="In" />
+        </Function>
+        <Function Name="sp_obtenerVacacionesEmpleados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cedula" Type="varchar" Mode="In" />
+          <Parameter Name="tipo" Type="char" Mode="In" />
         </Function>
         <Function Name="SP_PKI_SOLICITUDES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_ReporteSolicitudes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -3178,7 +3183,11 @@
           <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="sp_SolicitudesRealizadasPorLinea" ReturnType="Collection(ASIS_PRODModel.sp_SolicitudesRealizadasPorLinea_Result)">
-            <Parameter Name="CEDULA" Mode="In" Type="String" />
+          <Parameter Name="CEDULA" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_obtenerVacacionesEmpleados" ReturnType="Collection(ASIS_PRODModel.sp_obtenerVacacionesEmpleados_Result)">
+            <Parameter Name="cedula" Mode="In" Type="String" />
+            <Parameter Name="tipo" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -5820,6 +5829,7 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MAPEO_PRODUCTO_TUNEL" Relationship="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" FromRole="MAPEO_PRODUCTO_TUNEL_DETALLE" ToRole="MAPEO_PRODUCTO_TUNEL" />
+          <Property Name="Especie" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CONSUMO_PROCEDENCIA_PESCADO">
           <Key>
@@ -6143,6 +6153,12 @@
           <Property Type="String" Name="USUARIO_CREA" Nullable="true" MaxLength="250" />
           <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="23" />
           <Property Type="String" Name="USUARIO_APRUEBA" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="sp_obtenerVacacionesEmpleados_Result">
+          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="TotalDias" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="DiasTomados" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Saldo" Nullable="true" Precision="18" Scale="2" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9066,6 +9082,7 @@
           <EntitySetMapping Name="MAPEO_PRODUCTO_TUNEL_DETALLE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE">
               <MappingFragment StoreEntitySet="MAPEO_PRODUCTO_TUNEL_DETALLE">
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
@@ -9343,6 +9360,16 @@
                 <ScalarProperty Name="USUARIO_CREA" ColumnName="USUARIO_CREA" />
                 <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
                 <ScalarProperty Name="USUARIO_APRUEBA" ColumnName="USUARIO_APRUEBA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_obtenerVacacionesEmpleados" FunctionName="ASIS_PRODModel.Store.sp_obtenerVacacionesEmpleados">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_obtenerVacacionesEmpleados_Result">
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="TotalDias" ColumnName="TotalDias" />
+                <ScalarProperty Name="DiasTomados" ColumnName="DiasTomados" />
+                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
