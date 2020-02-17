@@ -19,7 +19,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.App
         public int TotalConPermiso { get; set; }
         public int TotalSinPermiso { get; set; }
 
-        public Nomina.ModeloVistaTablasPersonalPreesente modeloVistaTablasPersonalPresente { get; set; }
     }
     public class ClsKpiGenero
     {

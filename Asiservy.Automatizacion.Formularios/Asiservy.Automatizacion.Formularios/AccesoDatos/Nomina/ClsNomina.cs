@@ -8,32 +8,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
 {
     public class ClsNomina
     {
-        public ModeloVistaTablasPersonalPreesente ObtenerTablasPersonalAsistente(DateTime fecha)
+        public List<ModeloVistaPersonalPresente> ObtenerTablasPersonalAsistente(DateTime fecha)
         {
-            ModeloVistaTablasPersonalPreesente objTablas = new ModeloVistaTablasPersonalPreesente();
+            List<ModeloVistaPersonalPresente> objTablas = new List<ModeloVistaPersonalPresente>();
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var asistentesIniciales = db.sp_obtener_asistenia_inicio_vs_actual(fecha).ToList();               
+                var asistentes = db.sp_obtener_asistenia_inicio_vs_actual(fecha).ToList();               
 
-                objTablas.ListaAsistenciaTodos =  new List<ModeloVistaPersonalPresentePrueba>();
-                objTablas.ListaAsistenciaInicial = new List<ModeloVistaPersonalPresente>();
-                foreach (sp_obtener_asistenia_inicio_vs_actual_Result item in asistentesIniciales)
-                {
-                    objTablas.ListaAsistenciaInicial.Add(new ModeloVistaPersonalPresente {
-                        CodCentroCosto = item.CodCentroCosto,
-                        CentroCosto = item.CentroCosto,
-                        CodRecurso = item.CodRecurso,
-                        Recurso = item.Recurso,
-                        CodCargo = item.CodCargo,
-                        Cargo = item.Cargo,
-                        CodLinea = item.CodLinea,
-                        Linea = item.Linea,
-                        Cedula = item.Cedula,
-                        Nombre = item.Nombre,
-                        Asistencia ="Inicial"
-                    });
+                foreach (sp_obtener_asistenia_inicio_vs_actual_Result1 item in asistentes)
+                {                    
 
-                    objTablas.ListaAsistenciaTodos.Add(new ModeloVistaPersonalPresentePrueba
+                    objTablas.Add(new ModeloVistaPersonalPresente
                     {                       
                         CentroCosto = item.CentroCosto,
                         Recurso = item.Recurso,
@@ -41,39 +26,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
                         Linea = item.Linea,
                         Cedula = item.Cedula,
                         Nombre = item.Nombre,
-                        Asistencia = "Inicial"
+                        Asistencia = item.Asistencia
                     });
                 }
 
-                var asistentesActuales = db.sp_obtener_asistenia_inicio_vs_actual(fecha).ToList();
-                objTablas.ListaAsistenciaActual = new List<ModeloVistaPersonalPresente>();
-                foreach (sp_obtener_asistenia_inicio_vs_actual_Result item in asistentesActuales)
-                {
-                    objTablas.ListaAsistenciaActual.Add(new ModeloVistaPersonalPresente
-                    {
-                        CodCentroCosto = item.CodCentroCosto,
-                        CentroCosto = item.CentroCosto,
-                        CodRecurso = item.CodRecurso,
-                        Recurso = item.Recurso,
-                        CodCargo = item.CodCargo,
-                        Cargo = item.Cargo,
-                        CodLinea = item.CodLinea,
-                        Linea = item.Linea,
-                        Cedula = item.Cedula,
-                        Nombre = item.Nombre,
-                        Asistencia = "Actual"
-                    });
-                    objTablas.ListaAsistenciaTodos.Add(new ModeloVistaPersonalPresentePrueba
-                    {
-                        CentroCosto = item.CentroCosto,
-                        Recurso = item.Recurso,
-                        Cargo = item.Cargo,
-                        Linea = item.Linea,
-                        Cedula = item.Cedula,
-                        Nombre = item.Nombre,
-                        Asistencia = "Actual"
-                    });
-                }
             }
 
             return objTablas;

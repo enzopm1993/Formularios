@@ -6,7 +6,7 @@
        
     $("#generarAsistencia").click(function () {
         var fechaIni = $("#fechaIni").val();
-
+        $("#wdr-component").empty();
 
         $("#generarAsistencia").attr('href', "javascript:void(0)");
         $("#iconSearch").removeClass(iconSearch);
@@ -24,15 +24,15 @@
                 $("#iconSearch").removeClass(iconLoader);
                 $("#iconSearch").addClass(iconSearch);
                 $("#generarAsistencia").removeClass("btnWait");
-
-
+               
+                console.log(resultado);
                 var pivot = new WebDataRocks({
                     container: "#wdr-component",
                     toolbar: true,
                     beforetoolbarcreated: customizeToolbar,
                     report: {
                         dataSource: {
-                            data: resultado.ListaAsistenciaTodos
+                            data: resultado
                         },
                         "slice": {
                             "rows": [

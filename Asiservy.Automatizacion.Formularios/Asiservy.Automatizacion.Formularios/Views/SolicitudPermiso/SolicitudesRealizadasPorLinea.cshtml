@@ -1,0 +1,61 @@
+﻿
+@model List<Asiservy.Automatizacion.Formularios.Models.SolicitudPermisoPorLinea>
+
+@{
+                /**/
+
+                ViewBag.Title = "Solicitudes realizadas por área";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%
+    }
+</style>
+
+<h3>Solicitudes realizadas por área</h3>
+
+
+<div class="table-responsive">
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th>
+
+                </th>
+                <th>#</th>
+                <th>Empleado</th>
+                <th>Motivo</th>
+                <th>Fecha desde</th>
+                <th>Fecha hasta</th>
+                <th>Estado</th>
+                <th>Usuario crea</th>
+                <th>Fecha creación</th>
+                <th>Usuario aprueba</th>
+                <th>Observación</th>
+            </tr>
+        </thead>
+        <tbody style="font-size:14px">
+            @if (Model != null)
+            {
+                foreach (var m in Model)
+                {
+                    <tr>
+                        <td></td>
+                        <td>@m.ID</td>
+                        <td>@m.NOMBRES</td>
+                        <td>@m.MOTIVO</td>
+                        <td>@m.FECHA_DESDE</td>
+                        <td>@m.FECHA_HASTA</td>
+                        <td>@m.ESTADO</td>
+                        <td>@m.USUARIO_CREA</td>
+                        <td>@m.FECHA_CREACION</td>
+                        <td>@m.USUARIO_APRUEBA</td>
+                        <td>@m.OBSERVACION</td>
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
