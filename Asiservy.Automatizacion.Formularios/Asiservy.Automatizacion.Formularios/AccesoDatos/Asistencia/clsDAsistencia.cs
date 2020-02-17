@@ -172,7 +172,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
                 //pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA + "", Turno, Fecha).ToList();
              
-                pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == BuscarControlador.CODIGOLINEA && x.Turno == Turno).ToList();
+                pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == BuscarControlador.CODIGOLINEA && x.Turno == Turno&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
 
             }
 
@@ -199,7 +199,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 //             && b == null
                 //                                select a);
                 //pListAsistenciaExiste = query.ToList();
-                var ConsultarSIExisteAsistencia = db.ASISTENCIA.Where(x => x.Linea == BuscarControlador.CODIGOLINEA && x.Fecha == Fecha && x.Turno == Turno && x.Generado == clsAtributos.Procesos).ToList();
+                var ConsultarSIExisteAsistencia = db.ASISTENCIA.Where(x => x.Linea == BuscarControlador.CODIGOLINEA && x.Fecha == Fecha && x.Turno == Turno && x.Generado == clsAtributos.Procesos&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
                 if (ConsultarSIExisteAsistencia.Count == 0)
                     //if (pListAsistenciaExiste.Count == 0)
                     return 0;
@@ -214,7 +214,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             {
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
                 //pListAsistenciaMovidos = db.sp_ConsultaAsistenciaDiariaPersonalMovido(BuscarControlador.CODIGOLINEA + "", Convert.ToInt32(Turno), Fecha).ToList();
-                var buscarSiSeGeneroAsistenciaPrestados = db.ASISTENCIA.Where(x => x.Linea == BuscarControlador.CODIGOLINEA && x.Fecha == Fecha && x.Turno == Turno && x.Generado == clsAtributos.Prestado).ToList();
+                var buscarSiSeGeneroAsistenciaPrestados = db.ASISTENCIA.Where(x => x.Linea == BuscarControlador.CODIGOLINEA && x.Fecha == Fecha && x.Turno == Turno && x.Generado == clsAtributos.Prestado&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
                 if (buscarSiSeGeneroAsistenciaPrestados.Count == 0)
                     //if (pListAsistenciaMovidos.ToList().Count == 0)
                     return 0;
