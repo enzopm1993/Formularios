@@ -172,7 +172,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 BuscarControlador = db.spConsutaEmpleados(cedula).ToList().FirstOrDefault();
                 //pListAsistencia = db.sp_ConsultaAsistenciaDiaria(BuscarControlador.CODIGOLINEA + "", Turno, Fecha).ToList();
              
-                pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == BuscarControlador.CODIGOLINEA && x.Turno == Turno).ToList();
+                pListAsistenciaExiste = db.ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == BuscarControlador.CODIGOLINEA && x.Turno == Turno&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
 
             }
 
