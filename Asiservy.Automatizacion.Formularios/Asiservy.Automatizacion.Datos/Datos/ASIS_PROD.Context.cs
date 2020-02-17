@@ -1305,15 +1305,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaConsumoProcedenciaPescado>("spConsultaConsumoProcedenciaPescado", idControlParameter);
         }
     
-        public virtual ObjectResult<sp_obtener_asistenia_inicio_vs_actual_Result> sp_obtener_asistenia_inicio_vs_actual(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtener_asistenia_inicio_vs_actual_Result>("sp_obtener_asistenia_inicio_vs_actual", fechaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaDistribucionPorLinea> spConsultaDistribucionPorLinea(Nullable<System.DateTime> fecha, string linea, string turno)
         {
             var fechaParameter = fecha.HasValue ?
@@ -1385,6 +1376,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IdControl", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMapeoProductoTunelDetalle>("spConsultaMapeoProductoTunelDetalle", idControlParameter);
+        }
+    
+        public virtual ObjectResult<sp_SolicitudesRealizadasPorLinea_Result> sp_SolicitudesRealizadasPorLinea(string cEDULA)
+        {
+            var cEDULAParameter = cEDULA != null ?
+                new ObjectParameter("CEDULA", cEDULA) :
+                new ObjectParameter("CEDULA", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_SolicitudesRealizadasPorLinea_Result>("sp_SolicitudesRealizadasPorLinea", cEDULAParameter);
+        }
+    
+        public virtual ObjectResult<sp_obtener_asistenia_inicio_vs_actual_Result> sp_obtener_asistenia_inicio_vs_actual(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtener_asistenia_inicio_vs_actual_Result>("sp_obtener_asistenia_inicio_vs_actual", fechaParameter);
         }
     }
 }
