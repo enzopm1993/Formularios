@@ -3531,6 +3531,7 @@
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarUsos.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarLotes.cshtml" />
     <Content Include="Views\Nomina\RptAsistenciaInicialActuales.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\MapeoProductoTunelDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

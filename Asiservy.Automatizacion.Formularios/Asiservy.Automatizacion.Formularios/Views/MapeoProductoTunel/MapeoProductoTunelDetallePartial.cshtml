@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaMapeoProductoTunelDetalle>
+@using Newtonsoft.Json;
+
+<table class=" table-bordered table-striped table" style="cursor: pointer" id="">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Tunel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Coche)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Especie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fundas)
+            </th>
+            <th>
+               Inicio
+            </th>
+            <th>
+               Fin
+            </th>
+            <th>
+                Fin Lote
+            </th>
+            <th>
+                Total Fundas
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tunel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Coche)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Especie)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fundas)
+                </td>
+                <td>
+                    @item.HoraInicio.ToString("HH:mm")
+                </td>
+                <td>
+                    @item.HoraFin.ToString("HH:mm")
+
+                </td>
+                <td>
+                    @if (item.HoraFinLote != null)
+                    {
+                        @item.HoraFinLote.Value.ToString("HH:mm")
+                    }                    
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalFunda)
+                </td>
+                <td>
+                    @{string json = JsonConvert.SerializeObject(item); }
+                    <button class="btn btn-link" onclick="EditarDetalle(@json)">Editar</button>
+                    |
+                    <button class="btn btn-link" onclick="EliminarDetalle(@json)">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

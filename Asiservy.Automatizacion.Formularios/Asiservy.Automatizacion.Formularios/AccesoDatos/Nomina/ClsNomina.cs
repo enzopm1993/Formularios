@@ -13,7 +13,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
             ModeloVistaTablasPersonalPreesente objTablas = new ModeloVistaTablasPersonalPreesente();
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var asistentesIniciales = db.sp_obtener_asistenia_inicio_vs_actual(fecha,false).ToList();               
+                var asistentesIniciales = db.sp_obtener_asistenia_inicio_vs_actual(fecha).ToList();               
 
                 objTablas.ListaAsistenciaTodos =  new List<ModeloVistaPersonalPresentePrueba>();
                 objTablas.ListaAsistenciaInicial = new List<ModeloVistaPersonalPresente>();
@@ -45,7 +45,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
                     });
                 }
 
-                var asistentesActuales = db.sp_obtener_asistenia_inicio_vs_actual(fecha, true).ToList();
+                var asistentesActuales = db.sp_obtener_asistenia_inicio_vs_actual(fecha).ToList();
                 objTablas.ListaAsistenciaActual = new List<ModeloVistaPersonalPresente>();
                 foreach (sp_obtener_asistenia_inicio_vs_actual_Result item in asistentesActuales)
                 {
