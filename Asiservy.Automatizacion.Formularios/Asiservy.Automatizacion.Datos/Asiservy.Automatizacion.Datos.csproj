@@ -426,6 +426,9 @@
     <Compile Include="Datos\spConsultaMapeoProductoTunel.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaMapeoProductoTunelDetalle.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultaMarcacionBiometricoxFecha.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
