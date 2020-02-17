@@ -3145,6 +3145,8 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\Vacaciones\Empleados.js" />
+    <Content Include="Scripts\Vacaciones\PorLinea.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3206,6 +3208,8 @@
     <Compile Include="AccesoDatos\General\clsDLogin.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\ParamSolicitud.cs" />
+    <Compile Include="AccesoDatos\Vacaciones\ClsVacaciones.cs" />
+    <Compile Include="AccesoDatos\Vacaciones\VacacionesModelView.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Connected Services\DataLifeService\Reference.cs">
@@ -3249,6 +3253,7 @@
     <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
+    <Compile Include="Controllers\VacacionesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -3535,6 +3540,8 @@
     <Content Include="Views\MapeoProductoTunel\MapeoProductoTunelDetallePartial.cshtml" />
     <Content Include="Views\MapeoProductoTunel\ReporteMapeoProductoTunel.cshtml" />
     <Content Include="Views\MapeoProductoTunel\ReporteMapeoProductoTunelPartial.cshtml" />
+    <Content Include="Views\SolicitudPermiso\SolicitudesRealizadasPorLinea.cshtml" />
+    <Content Include="Views\Vacaciones\PorEmpleado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

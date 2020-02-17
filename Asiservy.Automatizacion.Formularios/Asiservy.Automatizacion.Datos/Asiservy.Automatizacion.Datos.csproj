@@ -594,6 +594,9 @@
     <Compile Include="Datos\sp_GrupoEnfermedades.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\sp_obtenerVacacionesEmpleados_Result.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\sp_obtener_asistenia_inicio_vs_actual_Result.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
