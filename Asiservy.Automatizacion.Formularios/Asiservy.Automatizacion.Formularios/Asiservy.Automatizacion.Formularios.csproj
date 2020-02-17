@@ -3290,6 +3290,7 @@
     <Compile Include="Models\Seguridad\UsuarioRolViewModel.cs" />
     <Compile Include="Models\Seguridad\OpcionRolViewModel.cs" />
     <Compile Include="Models\Solicitud.cs" />
+    <Compile Include="Models\SolicitudPermisoPorLinea.cs" />
     <Compile Include="Models\SolicitudPermisoViewModel.cs" />
     <Compile Include="Models\StatusOnlyControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -3530,6 +3531,7 @@
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarUsos.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarLotes.cshtml" />
     <Content Include="Views\Nomina\RptAsistenciaInicialActuales.cshtml" />
+    <Content Include="Views\SolicitudPermiso\SolicitudesRealizadasPorLinea.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
