@@ -11,7 +11,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class sp_obtener_asistenia_inicio_vs_actual_Result
+    public partial class sp_obtener_asistenia_inicio_vs_actual_Result1
     {
         public string CodCentroCosto { get; set; }
         public string CodRecurso { get; set; }
@@ -23,5 +23,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Cargo { get; set; }
         public string Linea { get; set; }
         public string Nombre { get; set; }
+        public string Asistencia { get; set; }
     }
 }

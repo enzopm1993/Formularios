@@ -287,13 +287,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 resultadoJS.TotalAusentes = datos.Where(c => c.AUSENTE).Count();
                 resultadoJS.TotalConPermiso = datos.Where(c => c.AUSENTE && c.CON_PERMISO).Count();
                 resultadoJS.TotalSinPermiso = datos.Where(c => c.AUSENTE && !c.CON_PERMISO).Count();
-
-
-                ClsNomina clsNomina = new ClsNomina();
-
-                
-
-                resultadoJS.modeloVistaTablasPersonalPresente = clsNomina.ObtenerTablasPersonalAsistente(Convert.ToDateTime(parametros.fechaIni));
+                                         
 
 
 
@@ -314,9 +308,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 
-                ClsNomina clsNomina = new ClsNomina();                
+                ClsNomina clsNomina = new ClsNomina();
 
-                ModeloVistaTablasPersonalPreesente modeloVistaTablasPersonalPresente = clsNomina.ObtenerTablasPersonalAsistente(Convert.ToDateTime(fecha));
+                List<ModeloVistaPersonalPresente> modeloVistaTablasPersonalPresente = clsNomina.ObtenerTablasPersonalAsistente(Convert.ToDateTime(fecha));
 
                 JsonResult result = Json(modeloVistaTablasPersonalPresente, JsonRequestBehavior.AllowGet);
 
