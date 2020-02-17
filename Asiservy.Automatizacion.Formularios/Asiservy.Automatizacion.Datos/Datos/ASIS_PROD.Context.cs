@@ -1395,5 +1395,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtener_asistenia_inicio_vs_actual_Result>("sp_obtener_asistenia_inicio_vs_actual", fechaParameter);
         }
+    
+        public virtual ObjectResult<spReporteMapeoProductoTunelDetalle> spReporteMapeoProductoTunelDetalle(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteMapeoProductoTunelDetalle>("spReporteMapeoProductoTunelDetalle", fechaParameter);
+        }
     }
 }
