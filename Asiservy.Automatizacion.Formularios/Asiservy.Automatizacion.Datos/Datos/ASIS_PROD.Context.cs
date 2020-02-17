@@ -1404,5 +1404,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteMapeoProductoTunelDetalle>("spReporteMapeoProductoTunelDetalle", fechaParameter);
         }
+    
+        public virtual ObjectResult<sp_obtenerVacacionesEmpleados_Result> sp_obtenerVacacionesEmpleados(string cedula, string tipo)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("tipo", tipo) :
+                new ObjectParameter("tipo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtenerVacacionesEmpleados_Result>("sp_obtenerVacacionesEmpleados", cedulaParameter, tipoParameter);
+        }
     }
 }

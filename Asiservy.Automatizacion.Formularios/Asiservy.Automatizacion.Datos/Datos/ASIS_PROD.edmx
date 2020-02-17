@@ -1848,6 +1848,10 @@
           <Parameter Name="ColorCuchillo" Type="char" Mode="In" />
           <Parameter Name="Fecha" Type="date" Mode="In" />
         </Function>
+        <Function Name="sp_obtenerVacacionesEmpleados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cedula" Type="varchar" Mode="In" />
+          <Parameter Name="tipo" Type="char" Mode="In" />
+        </Function>
         <Function Name="SP_PKI_SOLICITUDES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_ReporteSolicitudes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_SolicitudesRealizadas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -3176,11 +3180,6 @@
             <End Role="CABECERA_CONTROL_PESO_CODIFICACION" EntitySet="CABECERA_CONTROL_PESO_CODIFICACION" />
             <End Role="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" EntitySet="DETALLE_LOTE_CONTROL_PESO_CODIFICACION" />
           </AssociationSet>
-          <EntitySet Name="MAPEO_PRODUCTO_TUNEL_DETALLE" EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" />
-          <AssociationSet Name="FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL">
-            <End Role="MAPEO_PRODUCTO_TUNEL" EntitySet="MAPEO_PRODUCTO_TUNEL" />
-            <End Role="MAPEO_PRODUCTO_TUNEL_DETALLE" EntitySet="MAPEO_PRODUCTO_TUNEL_DETALLE" />
-          </AssociationSet>
           <FunctionImport Name="spConsultaMapeoProductoTunelDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaMapeoProductoTunelDetalle)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -3191,7 +3190,16 @@
           <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spReporteMapeoProductoTunelDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteMapeoProductoTunelDetalle)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="MAPEO_PRODUCTO_TUNEL_DETALLE" EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" />
+          <AssociationSet Name="FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL">
+            <End Role="MAPEO_PRODUCTO_TUNEL" EntitySet="MAPEO_PRODUCTO_TUNEL" />
+            <End Role="MAPEO_PRODUCTO_TUNEL_DETALLE" EntitySet="MAPEO_PRODUCTO_TUNEL_DETALLE" />
+          </AssociationSet>
+          <FunctionImport Name="sp_obtenerVacacionesEmpleados" ReturnType="Collection(ASIS_PRODModel.sp_obtenerVacacionesEmpleados_Result)">
+            <Parameter Name="cedula" Mode="In" Type="String" />
+            <Parameter Name="tipo" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -6084,42 +6092,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="MAPEO_PRODUCTO_TUNEL_DETALLE">
-          <Key>
-            <PropertyRef Name="IdMapeoProductoTunelDetalle" />
-          </Key>
-          <Property Name="IdMapeoProductoTunelDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdMapeoProductoTunel" Type="Int32" Nullable="false" />
-          <Property Name="Tunel" Type="Int32" Nullable="false" />
-          <Property Name="Coche" Type="Int32" Nullable="false" />
-          <Property Name="Producto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Especie" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Fundas" Type="Int32" Nullable="false" />
-          <Property Name="HoraInicio" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="HoraFin" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="HoraFinLote" Type="DateTime" Precision="3" />
-          <Property Name="TotalFunda" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="MAPEO_PRODUCTO_TUNEL" Relationship="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" FromRole="MAPEO_PRODUCTO_TUNEL_DETALLE" ToRole="MAPEO_PRODUCTO_TUNEL" />
-        </EntityType>
-        <Association Name="FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL">
-          <End Type="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" Role="MAPEO_PRODUCTO_TUNEL" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" Role="MAPEO_PRODUCTO_TUNEL_DETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MAPEO_PRODUCTO_TUNEL">
-              <PropertyRef Name="IdMapeoProductoTunel" />
-            </Principal>
-            <Dependent Role="MAPEO_PRODUCTO_TUNEL_DETALLE">
-              <PropertyRef Name="IdMapeoProductoTunel" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spConsultaMapeoProductoTunelDetalle">
           <Property Type="Int32" Name="IdMapeoProductoTunelDetalle" Nullable="false" />
           <Property Type="Int32" Name="IdMapeoProductoTunel" Nullable="false" />
@@ -6170,6 +6142,48 @@
           <Property Type="DateTime" Name="HoraFin" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="HoraFinLote" Nullable="true" Precision="23" />
           <Property Type="String" Name="TotalFunda" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="MAPEO_PRODUCTO_TUNEL_DETALLE">
+          <Key>
+            <PropertyRef Name="IdMapeoProductoTunelDetalle" />
+          </Key>
+          <Property Name="IdMapeoProductoTunelDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdMapeoProductoTunel" Type="Int32" Nullable="false" />
+          <Property Name="Tunel" Type="Int32" Nullable="false" />
+          <Property Name="Coche" Type="Int32" Nullable="false" />
+          <Property Name="Producto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Especie" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fundas" Type="Int32" Nullable="false" />
+          <Property Name="HoraInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HoraFin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HoraFinLote" Type="DateTime" Precision="3" />
+          <Property Name="TotalFunda" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MAPEO_PRODUCTO_TUNEL" Relationship="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" FromRole="MAPEO_PRODUCTO_TUNEL_DETALLE" ToRole="MAPEO_PRODUCTO_TUNEL" />
+        </EntityType>
+        <Association Name="FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL">
+          <End Type="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" Role="MAPEO_PRODUCTO_TUNEL" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" Role="MAPEO_PRODUCTO_TUNEL_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAPEO_PRODUCTO_TUNEL">
+              <PropertyRef Name="IdMapeoProductoTunel" />
+            </Principal>
+            <Dependent Role="MAPEO_PRODUCTO_TUNEL_DETALLE">
+              <PropertyRef Name="IdMapeoProductoTunel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_obtenerVacacionesEmpleados_Result">
+          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="TotalDias" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="DiasTomados" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Saldo" Nullable="true" Precision="18" Scale="2" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9317,30 +9331,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MAPEO_PRODUCTO_TUNEL_DETALLE">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE">
-              <MappingFragment StoreEntitySet="MAPEO_PRODUCTO_TUNEL_DETALLE">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="TotalFunda" ColumnName="TotalFunda" />
-                <ScalarProperty Name="HoraFinLote" ColumnName="HoraFinLote" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="Fundas" ColumnName="Fundas" />
-                <ScalarProperty Name="Especie" ColumnName="Especie" />
-                <ScalarProperty Name="Producto" ColumnName="Producto" />
-                <ScalarProperty Name="Coche" ColumnName="Coche" />
-                <ScalarProperty Name="Tunel" ColumnName="Tunel" />
-                <ScalarProperty Name="IdMapeoProductoTunel" ColumnName="IdMapeoProductoTunel" />
-                <ScalarProperty Name="IdMapeoProductoTunelDetalle" ColumnName="IdMapeoProductoTunelDetalle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spConsultaMapeoProductoTunelDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaMapeoProductoTunelDetalle">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaMapeoProductoTunelDetalle">
@@ -9405,6 +9395,40 @@
                 <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
                 <ScalarProperty Name="HoraFinLote" ColumnName="HoraFinLote" />
                 <ScalarProperty Name="TotalFunda" ColumnName="TotalFunda" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="MAPEO_PRODUCTO_TUNEL_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE">
+              <MappingFragment StoreEntitySet="MAPEO_PRODUCTO_TUNEL_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="TotalFunda" ColumnName="TotalFunda" />
+                <ScalarProperty Name="HoraFinLote" ColumnName="HoraFinLote" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="Fundas" ColumnName="Fundas" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="Coche" ColumnName="Coche" />
+                <ScalarProperty Name="Tunel" ColumnName="Tunel" />
+                <ScalarProperty Name="IdMapeoProductoTunel" ColumnName="IdMapeoProductoTunel" />
+                <ScalarProperty Name="IdMapeoProductoTunelDetalle" ColumnName="IdMapeoProductoTunelDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_obtenerVacacionesEmpleados" FunctionName="ASIS_PRODModel.Store.sp_obtenerVacacionesEmpleados">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_obtenerVacacionesEmpleados_Result">
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="TotalDias" ColumnName="TotalDias" />
+                <ScalarProperty Name="DiasTomados" ColumnName="DiasTomados" />
+                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
