@@ -298,7 +298,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 }
                 else
                 {
-                    var control_asistencia = db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == clsAtributos.General).FirstOrDefault();
+                    var control_asistencia = db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == clsAtributos.General&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                     pListAsistenciaGeneral = db.sp_ConsultaAsistenciaGeneralDiaria(CodLinea, Convert.ToInt32(turno), Fecha,control_asistencia.Hora).ToList();
                     //pListAsistenciaGeneral.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     foreach (var item in pListAsistenciaGeneral)
@@ -400,7 +400,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 }
                 else
                 {
-                    var control_asistencia=db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == clsAtributos.Procesos).FirstOrDefault();
+                    var control_asistencia=db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == clsAtributos.Procesos&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                     pListAsistencia = db.sp_ConsultaAsistenciaDiaria(CodLinea, Convert.ToInt32(turno), Fecha,control_asistencia.Hora).ToList();
                     //pListAsistencia.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
                     foreach (var item in pListAsistencia)
@@ -489,7 +489,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 }
                 else
                 {
-                    var control_asistencia = db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == clsAtributos.Prestado).FirstOrDefault();
+                    var control_asistencia = db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == clsAtributos.Prestado&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).FirstOrDefault();
 
                     pListAsistenciaMovidos = db.sp_ConsultaAsistenciaDiariaPersonalMovido(CodLinea, Convert.ToInt32(turno), Fecha,control_asistencia.Hora).ToList();
                     //pListAsistenciaMovidos.ForEach(x => x.Hora = TimeSpan.Parse(DateTime.Now.ToString("HH:mm")));
@@ -1016,7 +1016,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == Generado).FirstOrDefault();
+                return db.CONTROL_ASISTENCIA.Where(x => x.Fecha == Fecha && x.Linea == CodLinea && x.Turno == turno && x.Generado == Generado&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).FirstOrDefault();
             }
 
         }
