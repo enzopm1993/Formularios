@@ -15,6 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
             {
                 var asistentesIniciales = db.sp_obtener_asistenia_inicio_vs_actual(fecha,false).ToList();               
 
+                objTablas.ListaAsistenciaTodos =  new List<ModeloVistaPersonalPresentePrueba>();
                 objTablas.ListaAsistenciaInicial = new List<ModeloVistaPersonalPresente>();
                 foreach (sp_obtener_asistenia_inicio_vs_actual_Result item in asistentesIniciales)
                 {
@@ -28,7 +29,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
                         CodLinea = item.CodLinea,
                         Linea = item.Linea,
                         Cedula = item.Cedula,
-                        Nombre = item.Nombre
+                        Nombre = item.Nombre,
+                        Asistencia ="Inicial"
+                    });
+
+                    objTablas.ListaAsistenciaTodos.Add(new ModeloVistaPersonalPresentePrueba
+                    {                       
+                        CentroCosto = item.CentroCosto,
+                        Recurso = item.Recurso,
+                        Cargo = item.Cargo,
+                        Linea = item.Linea,
+                        Cedula = item.Cedula,
+                        Nombre = item.Nombre,
+                        Asistencia = "Inicial"
                     });
                 }
 
@@ -47,7 +60,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
                         CodLinea = item.CodLinea,
                         Linea = item.Linea,
                         Cedula = item.Cedula,
-                        Nombre = item.Nombre
+                        Nombre = item.Nombre,
+                        Asistencia = "Actual"
+                    });
+                    objTablas.ListaAsistenciaTodos.Add(new ModeloVistaPersonalPresentePrueba
+                    {
+                        CentroCosto = item.CentroCosto,
+                        Recurso = item.Recurso,
+                        Cargo = item.Cargo,
+                        Linea = item.Linea,
+                        Cedula = item.Cedula,
+                        Nombre = item.Nombre,
+                        Asistencia = "Actual"
                     });
                 }
             }

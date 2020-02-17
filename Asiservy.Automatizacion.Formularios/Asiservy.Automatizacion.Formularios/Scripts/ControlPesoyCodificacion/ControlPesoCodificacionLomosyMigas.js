@@ -717,6 +717,7 @@ function CargarCabeceraControl() {
             }
             if (resultado[0] == '222') {
                 $('#IdCabControlPeso').val('');
+                $('#btnEliminarCabeceraControl').prop('disabled', true);
             }
         },
         error: function (resultado) {
