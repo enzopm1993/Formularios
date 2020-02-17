@@ -2255,6 +2255,7 @@
     <Content Include="Scripts\linq.js" />
     <Content Include="Scripts\linq.min.js" />
     <Content Include="Scripts\MapeoProductoTunel\MapeoProductoTunel.js" />
+    <Content Include="Scripts\MapeoProductoTunel\ReporteMapeoProductoTunel.js" />
     <Content Include="Scripts\MoverPersonal\BandejaMovimientoPersonalRRHH.js" />
     <Content Include="Scripts\MoverPersonal\MoverPersonalDataLife.js" />
     <Content Include="Scripts\ControlCuchillo\ControlCuchillo.js" />
@@ -3532,6 +3533,8 @@
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarLotes.cshtml" />
     <Content Include="Views\Nomina\RptAsistenciaInicialActuales.cshtml" />
     <Content Include="Views\MapeoProductoTunel\MapeoProductoTunelDetallePartial.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\ReporteMapeoProductoTunel.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\ReporteMapeoProductoTunelPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3541,6 +3544,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Calidad\" />
     <Folder Include="Views\Comunicados\" />
     <Folder Include="Views\General\" />
   </ItemGroup>

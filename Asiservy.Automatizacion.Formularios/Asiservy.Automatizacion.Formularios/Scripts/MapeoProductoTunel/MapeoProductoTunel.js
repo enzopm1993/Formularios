@@ -125,8 +125,12 @@ function CargarLotes(valor) {
 }
 
 function CargarMapeoProductoTunel() { 
-    $("#spinnerCargando").prop("hidden", false);
     $("#chartCabecera2").html('');
+    if ($("#txtFecha").val() == '') {
+        return;
+    }
+    $("#spinnerCargando").prop("hidden", false);
+  
   //  CargarOrdenFabricacion();
     $.ajax({
         url: "../MapeoProductoTunel/MapeoProductoTunelPartial",

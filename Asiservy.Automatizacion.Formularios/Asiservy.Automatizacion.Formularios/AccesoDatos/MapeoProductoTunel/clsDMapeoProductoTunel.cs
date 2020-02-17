@@ -121,5 +121,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.MapeoProductoTunel
             }
         }
 
+        public List<spReporteMapeoProductoTunelDetalle> ConsultaReporteMapeoProductoTunel(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.spReporteMapeoProductoTunelDetalle(Fecha).ToList();
+                return lista;
+            }
+        }
     }
 }
