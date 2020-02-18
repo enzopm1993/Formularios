@@ -1417,5 +1417,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteMapeoProductoTunelDetalle>("spReporteMapeoProductoTunelDetalle", fechaParameter);
         }
+    
+        public virtual ObjectResult<spReporteControlPesoCodificacionLomosMigas> spReporteControlPesoCodificacionLomosMigas(Nullable<System.DateTime> fechaProducción, string turno)
+        {
+            var fechaProducciónParameter = fechaProducción.HasValue ?
+                new ObjectParameter("FechaProducción", fechaProducción) :
+                new ObjectParameter("FechaProducción", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlPesoCodificacionLomosMigas>("spReporteControlPesoCodificacionLomosMigas", fechaProducciónParameter, turnoParameter);
+        }
     }
 }

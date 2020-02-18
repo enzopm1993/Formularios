@@ -2204,6 +2204,10 @@
           <Parameter Name="FechaHasta" Type="date" Mode="In" />
           <Parameter Name="Linea" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spReporteControlPesoCodificacionLomosMigas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FechaProducción" Type="date" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
+        </Function>
         <Function Name="spReporteControlPesoEnlatadoDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="date" Mode="In" />
         </Function>
@@ -3200,7 +3204,11 @@
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spReporteMapeoProductoTunelDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteMapeoProductoTunelDetalle)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spReporteControlPesoCodificacionLomosMigas" ReturnType="Collection(ASIS_PRODModel.spReporteControlPesoCodificacionLomosMigas)">
+            <Parameter Name="FechaProducción" Mode="In" Type="DateTime" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -6188,6 +6196,21 @@
           <Property Type="DateTime" Name="HoraFinLote" Nullable="true" Precision="23" />
           <Property Type="String" Name="TotalFunda" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Textura" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="spReporteControlPesoCodificacionLomosMigas">
+          <Property Type="Int32" Name="IdCabeceraControlPesoYCodificacion" Nullable="false" />
+          <Property Type="DateTime" Name="FechaProduccion" Nullable="false" />
+          <Property Type="String" Name="Turno" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="SaldoAnterior" Nullable="true" />
+          <Property Type="Int32" Name="SolicitudProceso" Nullable="true" />
+          <Property Type="Int32" Name="Utilizadas" Nullable="true" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="Hora" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="NumeroMuestra" Nullable="true" />
+          <Property Type="Int32" Name="Cantidad" Nullable="true" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+          <Property Type="Decimal" Name="Promedio" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Int32" Name="TemperaturaAguaTermoencogido" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9436,6 +9459,25 @@
                 <ScalarProperty Name="HoraFinLote" ColumnName="HoraFinLote" />
                 <ScalarProperty Name="TotalFunda" ColumnName="TotalFunda" />
                 <ScalarProperty Name="Textura" ColumnName="Textura" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spReporteControlPesoCodificacionLomosMigas" FunctionName="ASIS_PRODModel.Store.spReporteControlPesoCodificacionLomosMigas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteControlPesoCodificacionLomosMigas">
+                <ScalarProperty Name="IdCabeceraControlPesoYCodificacion" ColumnName="IdCabeceraControlPesoYCodificacion" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="SaldoAnterior" ColumnName="SaldoAnterior" />
+                <ScalarProperty Name="SolicitudProceso" ColumnName="SolicitudProceso" />
+                <ScalarProperty Name="Utilizadas" ColumnName="Utilizadas" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="NumeroMuestra" ColumnName="NumeroMuestra" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Promedio" ColumnName="Promedio" />
+                <ScalarProperty Name="TemperaturaAguaTermoencogido" ColumnName="TemperaturaAguaTermoencogido" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

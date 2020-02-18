@@ -567,6 +567,9 @@
     <Compile Include="Datos\spReporteControlMaterialQuebradizo.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spReporteControlPesoCodificacionLomosMigas.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spReporteControlPesoEnlatadoDetalle.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
