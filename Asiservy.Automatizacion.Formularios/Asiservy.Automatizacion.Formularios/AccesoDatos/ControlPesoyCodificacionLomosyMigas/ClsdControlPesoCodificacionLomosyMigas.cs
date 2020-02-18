@@ -278,6 +278,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlPesoyCodificaci
                 return resultado;
             }
         }
+        public List<ControlUsosViewModel> ConsultarUsosReporte(int Cabecera_Control)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+
+                List<ControlUsosViewModel> resultado = (from c in db.CLASIFICADOR
+                                                        join u in db.DETALLE_USO_CONTROL_PESO_CODIFICACION on new { c.Codigo, c.Grupo, c.EstadoRegistro, EstadoRegistroUsos=clsAtributos.EstadoRegistroActivo } equals new { u.Codigo, Grupo = "032", EstadoRegistro = clsAtributos.EstadoRegistroActivo, EstadoRegistroUsos=u.EstadoRegistro} into uc
+                                                        from x in uc.DefaultIfEmpty()
+                                                        where (x.IdCabeceraControlPesoCodificacion==Cabecera_Control || x.IdCabeceraControlPesoCodificacion==null) && c.Grupo=="032" && c.Codigo!="0"
+                                                        select new ControlUsosViewModel {Descripcion = c.Descripcion, Cantidad = x.Cantidad }).ToList();
+                return resultado;
+            }
+        }
         public object[] GuardarLoteControl(DETALLE_LOTE_CONTROL_PESO_CODIFICACION LoteControl)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -364,6 +377,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlPesoyCodificaci
                 resultado[1] = "Registro Inactivado con éxito";
                 return resultado;
 
+            }
+        }
+        public List<spReporteControlPesoCodificacionLomosMigas> ConsultarReporteControlPesoCodificacion(DateTime Fecha,string Turno)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+
+                return db.spReporteControlPesoCodificacionLomosMigas(Fecha,Turno).ToList();
             }
         }
     }

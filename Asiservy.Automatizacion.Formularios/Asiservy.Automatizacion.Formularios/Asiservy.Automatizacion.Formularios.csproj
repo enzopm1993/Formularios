@@ -2166,6 +2166,7 @@
     <Content Include="Scripts\ControlConsumoInsumo\ReporteControlEnvasesEnlatado.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ReporteControlPouch.js" />
     <Content Include="Scripts\ControlPesoyCodificacion\ControlPesoCodificacionLomosyMigas.js" />
+    <Content Include="Scripts\ControlPesoyCodificacion\ReporteControlPesoCodificacionLomosyMigas.js" />
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
     <Content Include="Scripts\ControlToalla\ReporteControlToalla.js" />
     <Content Include="Scripts\Empleado\ReportePersonalPresente.js" />
@@ -3532,6 +3533,8 @@
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarLotes.cshtml" />
     <Content Include="Views\Nomina\RptAsistenciaInicialActuales.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudesRealizadasPorLinea.cshtml" />
+    <Content Include="Views\ControlPesoyCodificacion\ReporteControlPesoCodificacionLomosyMigas.cshtml" />
+    <Content Include="Views\ControlPesoyCodificacion\PartialReporteControlPesoCodificacion.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
