@@ -297,7 +297,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlPesoyCodificaci
             {
                 object[] resultado = new object[2];
                 var buscarLoteDetalle = db.DETALLE_LOTE_CONTROL_PESO_CODIFICACION.Where(z => z.IdCabeceraControlPesoCodificacion == LoteControl.IdCabeceraControlPesoCodificacion
-                && z.FechaOrdenFabricacion == LoteControl.FechaOrdenFabricacion&&z.OrdenFabricacion==LoteControl.OrdenFabricacion
+                && z.FechaOrdenFabricacion == LoteControl.FechaOrdenFabricacion&&z.OrdenFabricacion==LoteControl.OrdenFabricacion&&z.Lote==LoteControl.Lote
                   && z.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                 if (buscarLoteDetalle == null)
                 {
