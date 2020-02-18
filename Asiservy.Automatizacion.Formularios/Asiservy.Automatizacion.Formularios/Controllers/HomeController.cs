@@ -249,9 +249,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     foreach(var x in finalizarAsistencia)
                     {
 
-                        string dia = ci.DateTimeFormat.GetDayName(x.Fecha.Value.DayOfWeek);
+                        string dia = ci.DateTimeFormat.GetDayName(x.FechaInicio.Value.DayOfWeek);
                         string enlace = "/Asistencia/FinalizarAsistencia";
-                        string Mensaje = "No ha finalizado la Asistencia del: " + dia + ", " + x.Fecha.Value.ToString("dd-MM-yyyy");
+                        string Mensaje = "No ha finalizado la Asistencia del: " + dia + ", " + x.FechaInicio.Value.ToString("dd-MM-yyyy");
 
                         MensajesNotificaciones.Add(new RespuestaGeneral
                         {
@@ -271,12 +271,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 lsUsuario = User.Identity.Name.Split('_');
                 var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistencia(empleado.CODIGOLINEA, DateTime.Now.AddDays(-1));
-                var finalizarCantidadFecha = finalizarAsistencia.Select(x => x.Fecha).Distinct();
+                var finalizarCantidadFecha = finalizarAsistencia.Select(x => x.FechaInicio).Distinct();
                 if (finalizarAsistencia.Any())
                 {
                     foreach (var x in finalizarCantidadFecha)
                     {
-                        int cantidad = finalizarAsistencia.Count(y => y.Fecha == x.Value);
+                        int cantidad = finalizarAsistencia.Count(y => y.FechaInicio == x.Value);
                         string dia = ci.DateTimeFormat.GetDayName(x.Value.DayOfWeek);
                         string enlace = "/Asistencia/AsistenciaFinalizar";
                         string Mensaje = "No ha finalizado la Asistencia del día: " + dia + ", " + x.Value.ToString("dd-MM-yyyy")+" Existen "+cantidad+" empleados sin finalizar";

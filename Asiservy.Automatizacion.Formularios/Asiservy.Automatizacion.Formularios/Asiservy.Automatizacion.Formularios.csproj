@@ -2256,6 +2256,7 @@
     <Content Include="Scripts\linq.js" />
     <Content Include="Scripts\linq.min.js" />
     <Content Include="Scripts\MapeoProductoTunel\MapeoProductoTunel.js" />
+    <Content Include="Scripts\MapeoProductoTunel\ReporteMapeoProductoTunel.js" />
     <Content Include="Scripts\MoverPersonal\BandejaMovimientoPersonalRRHH.js" />
     <Content Include="Scripts\MoverPersonal\MoverPersonalDataLife.js" />
     <Content Include="Scripts\ControlCuchillo\ControlCuchillo.js" />
@@ -3145,6 +3146,8 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\Vacaciones\Empleados.js" />
+    <Content Include="Scripts\Vacaciones\PorLinea.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3206,6 +3209,8 @@
     <Compile Include="AccesoDatos\General\clsDLogin.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\ParamSolicitud.cs" />
+    <Compile Include="AccesoDatos\Vacaciones\ClsVacaciones.cs" />
+    <Compile Include="AccesoDatos\Vacaciones\VacacionesModelView.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Connected Services\DataLifeService\Reference.cs">
@@ -3249,6 +3254,7 @@
     <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
+    <Compile Include="Controllers\VacacionesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -3532,7 +3538,11 @@
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarUsos.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarLotes.cshtml" />
     <Content Include="Views\Nomina\RptAsistenciaInicialActuales.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\MapeoProductoTunelDetallePartial.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\ReporteMapeoProductoTunel.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\ReporteMapeoProductoTunelPartial.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudesRealizadasPorLinea.cshtml" />
+    <Content Include="Views\Vacaciones\PorEmpleado.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\ReporteControlPesoCodificacionLomosyMigas.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\PartialReporteControlPesoCodificacion.cshtml" />
     <None Include="Web.Debug.config">
@@ -3544,6 +3554,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Calidad\" />
     <Folder Include="Views\Comunicados\" />
     <Folder Include="Views\General\" />
   </ItemGroup>

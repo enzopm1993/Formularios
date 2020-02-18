@@ -98,7 +98,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONSUMO_DETALLE_ADITIVO> CONSUMO_DETALLE_ADITIVO { get; set; }
         public virtual DbSet<CONTROL_BALANZA> CONTROL_BALANZA { get; set; }
         public virtual DbSet<CONTROL_CONSUMO_INSUMO> CONTROL_CONSUMO_INSUMO { get; set; }
-        public virtual DbSet<MAPEO_PRODUCTO_TUNEL_DETALLE> MAPEO_PRODUCTO_TUNEL_DETALLE { get; set; }
         public virtual DbSet<CONSUMO_PROCEDENCIA_PESCADO> CONSUMO_PROCEDENCIA_PESCADO { get; set; }
         public virtual DbSet<DETALLE_CONTROL_PESO_CODIFICACION> DETALLE_CONTROL_PESO_CODIFICACION { get; set; }
         public virtual DbSet<DETALLE_HORAS_CONTROL_PESO_CODIFICACION> DETALLE_HORAS_CONTROL_PESO_CODIFICACION { get; set; }
@@ -106,6 +105,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<MAPEO_PRODUCTO_TUNEL> MAPEO_PRODUCTO_TUNEL { get; set; }
         public virtual DbSet<CABECERA_CONTROL_PESO_CODIFICACION> CABECERA_CONTROL_PESO_CODIFICACION { get; set; }
         public virtual DbSet<DETALLE_LOTE_CONTROL_PESO_CODIFICACION> DETALLE_LOTE_CONTROL_PESO_CODIFICACION { get; set; }
+        public virtual DbSet<MAPEO_PRODUCTO_TUNEL_DETALLE> MAPEO_PRODUCTO_TUNEL_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1369,15 +1369,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMapeoProductoTunel>("spConsultaMapeoProductoTunel", fechaParameter);
         }
     
-        public virtual ObjectResult<sp_obtener_asistenia_inicio_vs_actual_Result1> sp_obtener_asistenia_inicio_vs_actual(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtener_asistenia_inicio_vs_actual_Result1>("sp_obtener_asistenia_inicio_vs_actual", fechaParameter);
-        }
-    
         public virtual ObjectResult<sp_SolicitudesRealizadasPorLinea_Result> sp_SolicitudesRealizadasPorLinea(string cEDULA)
         {
             var cEDULAParameter = cEDULA != null ?
@@ -1385,6 +1376,59 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("CEDULA", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_SolicitudesRealizadasPorLinea_Result>("sp_SolicitudesRealizadasPorLinea", cEDULAParameter);
+        }
+    
+        public virtual ObjectResult<sp_obtener_asistenia_inicio_vs_actual_Result> sp_obtener_asistenia_inicio_vs_actual(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtener_asistenia_inicio_vs_actual_Result>("sp_obtener_asistenia_inicio_vs_actual", fechaParameter);
+        }
+    
+        public virtual ObjectResult<sp_obtenerVacacionesEmpleados_Result> sp_obtenerVacacionesEmpleados(string cedula, string tipo)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("tipo", tipo) :
+                new ObjectParameter("tipo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtenerVacacionesEmpleados_Result>("sp_obtenerVacacionesEmpleados", cedulaParameter, tipoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaMapeoProductoTunelDetalle> spConsultaMapeoProductoTunelDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMapeoProductoTunelDetalle>("spConsultaMapeoProductoTunelDetalle", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spReporteMapeoProductoTunelDetalle> spReporteMapeoProductoTunelDetalle(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteMapeoProductoTunelDetalle>("spReporteMapeoProductoTunelDetalle", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spReporteControlPesoCodificacionLomosMigas> spReporteControlPesoCodificacionLomosMigas(Nullable<System.DateTime> fechaProducción, string turno)
+        {
+            var fechaProducciónParameter = fechaProducción.HasValue ?
+                new ObjectParameter("FechaProducción", fechaProducción) :
+                new ObjectParameter("FechaProducción", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlPesoCodificacionLomosMigas>("spReporteControlPesoCodificacionLomosMigas", fechaProducciónParameter, turnoParameter);
         }
     }
 }

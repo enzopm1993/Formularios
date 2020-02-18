@@ -10,9 +10,8 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class MAPEO_PRODUCTO_TUNEL_DETALLE
+    public partial class spConsultaMapeoProductoTunelDetalle
     {
         public int IdMapeoProductoTunelDetalle { get; set; }
         public int IdMapeoProductoTunel { get; set; }
@@ -25,15 +24,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime HoraFin { get; set; }
         public Nullable<System.DateTime> HoraFinLote { get; set; }
         public string TotalFunda { get; set; }
-        public string EstadoRegistro { get; set; }
-        public System.DateTime FechaIngresoLog { get; set; }
-        public string UsuarioIngresoLog { get; set; }
-        public string TerminalIngresoLog { get; set; }
-        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
-        public string UsuarioModificacionLog { get; set; }
-        public string TerminalModificacionLog { get; set; }
         public string Textura { get; set; }
-    
-        public virtual MAPEO_PRODUCTO_TUNEL MAPEO_PRODUCTO_TUNEL { get; set; }
     }
 }

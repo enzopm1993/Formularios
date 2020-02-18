@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
             {
                 var asistentes = db.sp_obtener_asistenia_inicio_vs_actual(fecha).ToList();               
 
-                foreach (sp_obtener_asistenia_inicio_vs_actual_Result1 item in asistentes)
+                foreach (sp_obtener_asistenia_inicio_vs_actual_Result item in asistentes)
                 {                    
 
                     objTablas.Add(new ModeloVistaPersonalPresente

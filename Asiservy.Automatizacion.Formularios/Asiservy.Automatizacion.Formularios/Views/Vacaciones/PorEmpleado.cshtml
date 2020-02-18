@@ -1,0 +1,38 @@
+﻿
+@model List<Asiservy.Automatizacion.Formularios.AccesoDatos.Vacaciones.VacacionesModelView>
+
+<style>
+    input, select, textarea {
+        max-width: 100%
+    }
+</style>
+
+<h3>@ViewBag.Title</h3>
+
+<div class="table-responsive">
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Días totales</th>
+                <th>Días tomados</th>
+                <th>Días disponibles</th>
+            </tr>
+        </thead>
+        <tbody style="font-size:14px">
+            @if (Model != null)
+            {
+                foreach (var m in Model)
+                {
+                    <tr>
+                        <td>@m.Nombres</td>
+                        <td>@m.TotalDias</td>
+                        <td>@m.DiasTomados</td>
+                        <td><b>@m.Saldo</b></td>
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

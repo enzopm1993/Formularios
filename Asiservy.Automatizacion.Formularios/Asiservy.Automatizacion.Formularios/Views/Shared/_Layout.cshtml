@@ -361,8 +361,14 @@
                 usuario = User.Identity.Name.Split('_')[1];
             }
         }
-
+        var sPath = window.location.pathname;
+       // var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
         var urlOpcion = '@ViewBag.JavaScrip';
+        sPath = sPath.substring(1);
+      //  console.log(sPath);
+       // console.log(sPage);
+       // console.log(urlOpcion);
+        sPath = sPath.split("/");
         urlOpcion = urlOpcion.split("/");
         $.ajax({
             url: "../Login/ValidarOpcionUsuario",
@@ -370,7 +376,7 @@
             data:
             {
                 Usuario: '@usuario',
-                Opcion: urlOpcion[1]
+                Opcion: sPath[1]
             },
             success: function (resultado) {
                 if (resultado == false) {
@@ -420,7 +426,7 @@
                 "dom": 'Bfrtip',
                 //"scrollX": "auto",
                 //"scrollY": "auto",
-                "order": [[0, "desc"], [1, "desc"]],
+                "order": [[0, "desc"], [1, "desc"]],               
                 "buttons": [
                     {
                         extend: 'pageLength',
