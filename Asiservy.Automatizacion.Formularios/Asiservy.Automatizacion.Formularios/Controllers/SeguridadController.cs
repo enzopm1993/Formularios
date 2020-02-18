@@ -679,7 +679,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDNivelUsuario = new clsDNivelUsuario();
-                ViewBag.ListaUsuarios = clsDNivelUsuario.ConsultarNivelUsuario(null).Where(X=> X.Nivel==clsAtributos.NivelJefe);
+                ViewBag.ListaUsuarios = clsDNivelUsuario.ConsultarNivelUsuario(null).Where(X=> X.Nivel==clsAtributos.NivelJefe || X.Nivel == clsAtributos.NivelSubGerencia);
                 ConsultarComboNivelUsuario();
                 return View();
             }
