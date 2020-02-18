@@ -39,6 +39,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDApiProduccion = new clsDApiProduccion();
                 ViewBag.TipoLimpieza = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoTipoLimpiezaPescado);
                 ViewBag.Especies = clsDApiProduccion.ConsultarEspecies();
+                ViewBag.Observaciones = clsDApiProduccion.ConsultarObservaciones(null);
                 //var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 //ViewBag.Linea = Empleado.LINEA;
 

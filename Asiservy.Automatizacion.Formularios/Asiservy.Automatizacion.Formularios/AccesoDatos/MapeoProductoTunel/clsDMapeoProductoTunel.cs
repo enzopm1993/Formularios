@@ -80,6 +80,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.MapeoProductoTunel
                 {
                     //result.FechaVencimiento = control.FechaVencimiento;
                     //result.CodigoProducto = control.CodigoProducto;
+                    result.Textura = control.Textura;
                     result.Tunel = control.Tunel;
                     result.Coche = control.Coche;
                     result.Producto = control.Producto;

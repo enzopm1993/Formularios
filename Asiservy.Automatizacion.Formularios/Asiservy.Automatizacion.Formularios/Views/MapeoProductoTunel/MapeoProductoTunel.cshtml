@@ -42,7 +42,7 @@
             <label>Tipo Limpieza</label>
             @Html.DropDownList("SelectTipoLimpieza", new SelectList(ViewBag.TipoLimpieza, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
         </div>
-    </div>
+    </div>    
     <div class="col-md-12 col-6">
         <div class="form-group">
             <label>Observacion</label>
@@ -285,6 +285,13 @@
                     <div class="col-6 col-sm-12 col-md-6">
                         <label>Especie</label>
                         @Html.DropDownList("selectEspecie", new SelectList(ViewBag.Especies, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-6">
+                        <div class="form-group">
+                            <label>Textura</label>
+                            @Html.DropDownList("SelectTextura", new SelectList(ViewBag.Observaciones, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+
+                        </div>
                     </div>
                     <div class="col-6 col-sm-12 col-md-6">
                         <label>Fundas</label>

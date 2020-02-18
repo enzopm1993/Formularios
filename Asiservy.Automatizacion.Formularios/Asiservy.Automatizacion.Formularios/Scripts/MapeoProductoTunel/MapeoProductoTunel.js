@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
     CargarMapeoProductoTunel();
     CargarOrdenFabricacion();
+    $('#SelectTextura').select2();
+    $('#selectEspecie').select2();
+    
 });
 
 $("#btnOrden").on("click", function () {
@@ -169,7 +172,7 @@ function NuevoControl() {
     $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>");
     $("#SelectTipoLimpieza").prop("SelectedIndex", 0);
     $("#txtIdControl").val("0");
-
+   
 }
 
 function Validar() {
@@ -333,8 +336,7 @@ function SeleccionarControl(model) {
     $("#SelectLote").empty();
     $("#SelectLote").append("<option value='" + model.Lote + "'>" + model.Lote + "</option>")
     $("#SelectTipoLimpieza").val(model.CodTipoLimpieza);
-    $("#txtIdControl").val(model.IdMapeoProductoTunel);
-   
+    $("#txtIdControl").val(model.IdMapeoProductoTunel);   
     $("#SelectTipoLimpieza2").val(model.CodTipoLimpieza); 
     $("#txtObservacionModal").val(model.Observacion);     
     CargarMapeoProductoTunelDetalle();
@@ -447,6 +449,12 @@ function CargarMapeoProductoTunelDetalle() {
 
 function ValidarDetalle() {
     var valida = true;
+    if ($("#SelectTextura").val() == "") {
+        $("#SelectTextura").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#SelectTextura").css('borderColor', '#ced4da');
+    }
     if ($("#txtTunel").val() == "") {
         $("#txtTunel").css('borderColor', '#FA8072');
         valida = false;
@@ -510,7 +518,8 @@ function GenerarDetalle() {
             HoraInicio: $("#txtHoraInicio").val(),
             HoraFin: $("#txtHoraFin").val(),
             HoraFinLote: $("#txtHoraFinLote").val(),
-            TotalFunda: $("#txtTotalFundas").val()
+            TotalFunda: $("#txtTotalFundas").val(),
+            Textura: $("#SelectTextura").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -536,12 +545,13 @@ function NuevoDetalle() {
     $("#txtTunel").val("");
     $("#txtCoche").val("");
     $("#txtProducto").val("");
-    $("#selectEspecie").prop("SelectedIndex",0);
+    $("#selectEspecie").prop("selectedIndex", 0).change();
     $("#txtFundas").val("");
     $("#txtHoraInicio").val("");
     $("#txtHoraFin").val("");
     $("#txtHoraFinLote").val("");
     $("#txtTotalFundas").val("");
+    $("#SelectTextura").prop('selectedIndex', 0).change();
 }
 
 function EditarDetalle(model) {
@@ -550,13 +560,14 @@ function EditarDetalle(model) {
     $("#txtTunel").val(model.Tunel);
     $("#txtCoche").val(model.Coche);
     $("#txtProducto").val(model.Producto);
-    $("#selectEspecie").val(model.Especie);
+    $("#selectEspecie").val(model.Especie).trigger('change');
     $("#txtFundas").val(model.Fundas);
     $("#txtHoraInicio").val(model.HoraInicio);
     $("#txtHoraFin").val(model.HoraFin);
     $("#txtHoraFinLote").val(model.HoraFinLote);
     $("#txtTotalFundas").val(model.TotalFunda);
     $("#ModalDetalle").modal("show");
+    $('#SelectTextura').val(model.Textura).trigger('change');    
 }
 
 function EliminarDetalle(model) {

@@ -34,6 +34,9 @@
                 Especie
             </th>
             <th>
+                Textura
+            </th>
+            <th>
                 Fundas
             </th>
             <th>
@@ -60,41 +63,42 @@
             var poDetalle = Detalle.Where(x => x.IdMapeoProductoTunel == item.IdMapeoProductoTunel);
             foreach (var itemDetalle in poDetalle)
             {
-                <tr>
-                    <td>@itemDetalle.Tunel</td>
-                    <td>@itemDetalle.Coche</td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OrdenFabricacion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Lote)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Talla)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Barco)
-                    </td>
-                    <td>@itemDetalle.Producto</td>
-                    <td>@itemDetalle.Especie</td>
-                    <td>@itemDetalle.Fundas</td>
+        <tr>
+            <td>@itemDetalle.Tunel</td>
+            <td>@itemDetalle.Coche</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Talla)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Barco)
+            </td>
+            <td>@itemDetalle.Producto</td>
+            <td>@itemDetalle.Especie</td>
+            <td>@itemDetalle.Textura</td>
+            <td>@itemDetalle.Fundas</td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TipoLimpieza)
-                    </td>
-                    <td>@itemDetalle.HoraInicio.ToString("HH:mm")</td>
-                    <td>@itemDetalle.HoraFin.ToString("HH:mm")</td>
-                    <td>
-                        @if (itemDetalle.HoraFinLote != null)
-                        {
-                            @itemDetalle.HoraFinLote.Value.ToString("HH:mm")
-                        }
-                    </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoLimpieza)
+            </td>
+            <td>@itemDetalle.HoraInicio.ToString("HH:mm")</td>
+            <td>@itemDetalle.HoraFin.ToString("HH:mm")</td>
+            <td>
+                @if (itemDetalle.HoraFinLote != null)
+                {
+                    @itemDetalle.HoraFinLote.Value.ToString("HH:mm")
+                }
+            </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Observacion)
-                    </td>
-                </tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+        </tr>
             }
         }</tbody>
 </table>
