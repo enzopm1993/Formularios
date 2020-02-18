@@ -117,22 +117,28 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
             }
         }
 
-        public List<ASISTENCIA> ConsultaFaltantesFinalizarAsistencia(string Linea, DateTime Fecha)
+        public List<MOVIMIENTO_PERSONAL_DIARIO> ConsultaFaltantesFinalizarAsistencia(string Linea, DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var result = db.ASISTENCIA.Where(x =>
-                            x.Linea == Linea
-                            && x.Fecha < Fecha
+
+                //int Turno1= db.spConsultaAsistenciaFinalizar(Fecha, Linea, "1").Count(x=> x.FechaFin==null);
+                //int Turno2= db.spConsultaAsistenciaFinalizar(Fecha, Linea, "2").Count(x => x.FechaFin == null);
+
+                //int Total = Turno1 + Turno2;
+
+                var result = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x =>
+                            x.CodLinea == Linea
+                            && x.FechaInicio < Fecha
                             && x.FechaFin == null
-                            && (x.EstadoAsistencia == clsAtributos.EstadoPresente || x.EstadoAsistencia == clsAtributos.EstadoAtraso)
+                           // && (x.EstadoAsistencia == clsAtributos.EstadoPresente || x.EstadoAsistencia == clsAtributos.EstadoAtraso)
                             && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                             ).ToList();
 
-                List<ASISTENCIA> resultado = new List<ASISTENCIA>();
+                List<MOVIMIENTO_PERSONAL_DIARIO> resultado = new List<MOVIMIENTO_PERSONAL_DIARIO>();
                 foreach (var x in result)
                 {
-                    if(resultado.FirstOrDefault(y=> y.Fecha == x.Fecha)==null)
+                    if(resultado.FirstOrDefault(y=> y.FechaInicio == x.FechaInicio)==null)
                     {
                         resultado.Add(x);
                     }
