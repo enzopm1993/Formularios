@@ -1369,15 +1369,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMapeoProductoTunel>("spConsultaMapeoProductoTunel", fechaParameter);
         }
     
-        public virtual ObjectResult<spConsultaMapeoProductoTunelDetalle> spConsultaMapeoProductoTunelDetalle(Nullable<int> idControl)
-        {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("IdControl", idControl) :
-                new ObjectParameter("IdControl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMapeoProductoTunelDetalle>("spConsultaMapeoProductoTunelDetalle", idControlParameter);
-        }
-    
         public virtual ObjectResult<sp_SolicitudesRealizadasPorLinea_Result> sp_SolicitudesRealizadasPorLinea(string cEDULA)
         {
             var cEDULAParameter = cEDULA != null ?
@@ -1396,15 +1387,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtener_asistenia_inicio_vs_actual_Result>("sp_obtener_asistenia_inicio_vs_actual", fechaParameter);
         }
     
-        public virtual ObjectResult<spReporteMapeoProductoTunelDetalle> spReporteMapeoProductoTunelDetalle(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteMapeoProductoTunelDetalle>("spReporteMapeoProductoTunelDetalle", fechaParameter);
-        }
-    
         public virtual ObjectResult<sp_obtenerVacacionesEmpleados_Result> sp_obtenerVacacionesEmpleados(string cedula, string tipo)
         {
             var cedulaParameter = cedula != null ?
@@ -1416,6 +1398,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("tipo", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtenerVacacionesEmpleados_Result>("sp_obtenerVacacionesEmpleados", cedulaParameter, tipoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaMapeoProductoTunelDetalle> spConsultaMapeoProductoTunelDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMapeoProductoTunelDetalle>("spConsultaMapeoProductoTunelDetalle", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spReporteMapeoProductoTunelDetalle> spReporteMapeoProductoTunelDetalle(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteMapeoProductoTunelDetalle>("spReporteMapeoProductoTunelDetalle", fechaParameter);
         }
     }
 }
