@@ -46,7 +46,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                if (dsopcion == "home" || dsopcion== "HomeError")
+                if (dsopcion == "home" || dsopcion == "Home" || dsopcion== "HomeError")
                 {
                     return true;
                 }
