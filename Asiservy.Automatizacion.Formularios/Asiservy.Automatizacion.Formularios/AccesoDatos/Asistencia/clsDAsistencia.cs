@@ -591,8 +591,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 using (var transaction = db.Database.BeginTransaction())
                 {
                     DateTime Fechainicio = Convert.ToDateTime(psAsistencia.Fecha.Value.ToShortDateString());
-                    DateTime FechaFin = Convert.ToDateTime(psAsistencia.Fecha.Value.AddDays(1).ToShortDateString());
-                    var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == psAsistencia.Cedula && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo && (x.Fecha >= Fechainicio && x.Fecha < FechaFin)).FirstOrDefault();
+                    //DateTime FechaFin = Convert.ToDateTime(psAsistencia.Fecha.Value.AddDays(1).ToShortDateString());
+                    //var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == psAsistencia.Cedula && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo && (x.Fecha >= Fechainicio && x.Fecha < FechaFin)).FirstOrDefault();
+                    var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Fecha == Fechainicio&& x.Cedula == psAsistencia.Cedula && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.Turno==psAsistencia.Turno).FirstOrDefault();
+
                     BuscarEnAsistencia.EstadoAsistencia = psAsistencia.EstadoAsistencia;
                     if (!string.IsNullOrEmpty(psAsistencia.Observacion))
                         BuscarEnAsistencia.Observacion = psAsistencia.Observacion;
