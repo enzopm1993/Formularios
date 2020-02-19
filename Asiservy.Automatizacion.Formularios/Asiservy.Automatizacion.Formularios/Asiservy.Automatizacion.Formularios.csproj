@@ -2255,6 +2255,8 @@
     <Content Include="Scripts\linq.js" />
     <Content Include="Scripts\linq.min.js" />
     <Content Include="Scripts\MapeoProductoTunel\MapeoProductoTunel.js" />
+    <Content Include="Scripts\Marcaciones\PorEmpleado.js" />
+    <Content Include="Scripts\Marcaciones\PorLinea.js" />
     <Content Include="Scripts\MoverPersonal\BandejaMovimientoPersonalRRHH.js" />
     <Content Include="Scripts\MoverPersonal\MoverPersonalDataLife.js" />
     <Content Include="Scripts\ControlCuchillo\ControlCuchillo.js" />
@@ -3245,6 +3247,7 @@
     <Compile Include="Controllers\HuesoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MapeoProductoTunelController.cs" />
+    <Compile Include="Controllers\MarcacionesController.cs" />
     <Compile Include="Controllers\MensajeController.cs" />
     <Compile Include="Controllers\MoverPersonalController.cs" />
     <Compile Include="Controllers\NominaController.cs" />
@@ -3277,6 +3280,7 @@
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
     <Compile Include="Models\InsumosProduccion.cs" />
+    <Compile Include="Models\MarcacionesEmpleadoLineaViewModel.cs" />
     <Compile Include="Models\OfLote.cs" />
     <Compile Include="Models\MantenimientoPallet\PalletViewModel.cs" />
     <Compile Include="Models\Motivo.cs" />
@@ -3538,6 +3542,8 @@
     <Content Include="Views\Nomina\RptAsistenciaInicialActuales.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudesRealizadasPorLinea.cshtml" />
     <Content Include="Views\Vacaciones\PorEmpleado.cshtml" />
+    <Content Include="Views\Marcaciones\PorEmpleado.cshtml" />
+    <Content Include="Views\Marcaciones\PorLinea.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
