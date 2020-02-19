@@ -26,6 +26,13 @@ function Validar() {
     } else {
         $("#selectLinea").css("border-color", "#d1d3e2");
     }
+
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css("border-color", "#DC143C");//#d1d3e2
+        valida = false;
+    } else {
+        $("#selectTurno").css("border-color", "#d1d3e2");
+    }
     return valida;
 }
 
@@ -47,7 +54,8 @@ function ConsultarReporteControlMaterial() {
         {
             FechaDesde: $('#txtFechaDesde').val(),
             FechaHasta: $('#txtFechaHasta').val(),
-            Linea: $('#selectLinea').val()
+            Linea: $('#selectLinea').val(),
+            Turno:$("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == 0) {

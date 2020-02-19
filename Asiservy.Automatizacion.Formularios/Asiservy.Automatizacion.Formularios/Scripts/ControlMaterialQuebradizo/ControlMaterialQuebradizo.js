@@ -4,8 +4,33 @@ $(document).ready(function () {
     ValidaMaterialQuebradizo();   
 });
 
+function Validar() {
+    var valida = true;
+    if ($("#txtFechaControl").val() == "") {
+        $("#txtFechaControl").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtFechaControl").css('borderColor', '#ced4da');
+    }
+    if ($("#selectLinea").val() == "") {
+        $("#selectLinea").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectLinea").css('borderColor', '#ced4da');
+    }
+
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectTurno").css('borderColor', '#ced4da');
+    }
+    return valida;
+}
+
 function ValidaMaterialQuebradizo() {
-    if ($('#txtFechaControl').val() == "" || $('#selectLinea').val()=="") {
+   
+    if (!Validar()) {
         return;
     }
     $("#DivMensaje").html("");
@@ -18,7 +43,8 @@ function ValidaMaterialQuebradizo() {
         data:
         {
             Fecha: $('#txtFechaControl').val(),
-            Linea: $('#selectLinea').val()
+            Linea: $('#selectLinea').val(),
+            Turno:$("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -80,23 +106,23 @@ function CargarMaterialQuebradizo() {
 }
 
 
-function Validar() {
-    var valida = true;
-    if ($("#txtFechaControl").val() == "") {
-        $("#txtFechaControl").css("border-color", "#DC143C");//#d1d3e2
-        valida = false;
-    } else {
-        $("#txtFechaControl").css("border-color", "#d1d3e2");
-    }
-    if ($("#selectLinea").val() == "") {
-        $("#selectLinea").css("border-color", "#DC143C");//#d1d3e2
-        valida = false;
-    } else {
-        $("#selectLinea").css("border-color", "#d1d3e2");
-    }
+//function Validar() {
+//    var valida = true;
+//    if ($("#txtFechaControl").val() == "") {
+//        $("#txtFechaControl").css("border-color", "#DC143C");//#d1d3e2
+//        valida = false;
+//    } else {
+//        $("#txtFechaControl").css("border-color", "#d1d3e2");
+//    }
+//    if ($("#selectLinea").val() == "") {
+//        $("#selectLinea").css("border-color", "#DC143C");//#d1d3e2
+//        valida = false;
+//    } else {
+//        $("#selectLinea").css("border-color", "#d1d3e2");
+//    }
 
-    return valida;
-}
+//    return valida;
+//}
 
 function GenerarControlMaterialQuebradizo() {
     if (!Validar()) {
@@ -108,7 +134,8 @@ function GenerarControlMaterialQuebradizo() {
         data:
         {
             Fecha: $('#txtFechaControl').val(),
-            Linea: $('#selectLinea').val()
+            Linea: $('#selectLinea').val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
