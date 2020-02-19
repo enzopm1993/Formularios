@@ -1,0 +1,79 @@
+﻿<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .selectbox {
+        background: #fff;
+        color: #1d3b4a;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .box_filters {
+        float: right;
+    }
+
+    .itemFilter {
+        float: left;
+        margin-right: 4px;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+
+
+
+    .mostrarBloques {
+        display: flex !important;
+    }
+
+ 
+</style>
+<div class="row">
+    <div class="col-12">
+        <h3 style="float: left;">Reporte de marcaciones</h3>
+        <div id="DatosLoadAjax" class="cargandoAjax fa-2x"> <i class="fas fa-spinner fa-pulse"></i> </div>
+        <div class="box_filters">           
+           
+            <div class="itemFilter">
+                <input type="hidden" id="fechaDesde" value="" />
+                <input type="hidden" id="fechaHasta" value="" />
+                <div id="reportrange" class="selectbox">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down"></i>
+                </div>
+            </div>
+            <div class="itemFilter">
+                <a href="#" id="generarMarcaciones" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-12">
+
+        <div class="table-responsive">
+            <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Empleado</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size:14px">
+                 
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
