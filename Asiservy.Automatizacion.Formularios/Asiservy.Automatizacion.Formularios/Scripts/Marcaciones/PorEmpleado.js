@@ -2,8 +2,8 @@
 
     var iconLoader = "fa-spinner fa-pulse";
     var iconSearch = "fa-search"
-    var start = moment().subtract(1, 'days');
-    var end = moment().subtract(1, 'days');
+    var start = moment();
+    var end = moment();
     var mesesLetras = {
         '01': "Enero",
         '02': "Febrero",
@@ -120,9 +120,9 @@
 
                 console.log(resultado);
                 $("#tblDataTable tbody").empty();
-                //config.opcionesDT.data = null;
-                //config.opcionesDT.data = resultado;
-                
+
+
+                config.opcionesDT.order = [];
                 config.opcionesDT.columns = [
                     { data: 'FECHA_MARCA' },
                     { data: 'EMPLEADO' },
@@ -150,5 +150,5 @@
         return false;
 
     });
-
+    $("#generarMarcaciones").trigger('click');
 });
