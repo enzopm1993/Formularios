@@ -331,7 +331,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 foreach (var item in BuscarCambioPersonal)
                 {
                     //verifico que no se haya generado asistencia para poder desactivar el registro en cambio de personal
-                    BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.FechaInicio == item.Fecha && x.HoraInicio < item.HoraInicio).ToList();
+                    BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.FechaInicio == item.Fecha&&x.Cedula==item.Cedula && x.HoraInicio < item.HoraInicio).ToList();
                     if (BuscarMovimientoPersonalDiario.Count == 0)
                     {
                         item.EstadoRegistro = "I";
