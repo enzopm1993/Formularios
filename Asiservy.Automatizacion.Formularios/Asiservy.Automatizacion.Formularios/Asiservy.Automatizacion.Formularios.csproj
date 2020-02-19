@@ -2166,6 +2166,7 @@
     <Content Include="Scripts\ControlConsumoInsumo\ReporteControlEnvasesEnlatado.js" />
     <Content Include="Scripts\ControlConsumoInsumo\ReporteControlPouch.js" />
     <Content Include="Scripts\ControlPesoyCodificacion\ControlPesoCodificacionLomosyMigas.js" />
+    <Content Include="Scripts\ControlPesoyCodificacion\ReporteControlPesoCodificacionLomosyMigas.js" />
     <Content Include="Scripts\ControlToalla\ControlToalla.js" />
     <Content Include="Scripts\ControlToalla\ReporteControlToalla.js" />
     <Content Include="Scripts\Empleado\ReportePersonalPresente.js" />
@@ -2255,6 +2256,7 @@
     <Content Include="Scripts\linq.js" />
     <Content Include="Scripts\linq.min.js" />
     <Content Include="Scripts\MapeoProductoTunel\MapeoProductoTunel.js" />
+    <Content Include="Scripts\MapeoProductoTunel\ReporteMapeoProductoTunel.js" />
     <Content Include="Scripts\Marcaciones\PorEmpleado.js" />
     <Content Include="Scripts\Marcaciones\PorLinea.js" />
     <Content Include="Scripts\MoverPersonal\BandejaMovimientoPersonalRRHH.js" />
@@ -3540,8 +3542,13 @@
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarUsos.cshtml" />
     <Content Include="Views\ControlPesoyCodificacion\PartialConsultarLotes.cshtml" />
     <Content Include="Views\Nomina\RptAsistenciaInicialActuales.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\MapeoProductoTunelDetallePartial.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\ReporteMapeoProductoTunel.cshtml" />
+    <Content Include="Views\MapeoProductoTunel\ReporteMapeoProductoTunelPartial.cshtml" />
     <Content Include="Views\SolicitudPermiso\SolicitudesRealizadasPorLinea.cshtml" />
     <Content Include="Views\Vacaciones\PorEmpleado.cshtml" />
+    <Content Include="Views\ControlPesoyCodificacion\ReporteControlPesoCodificacionLomosyMigas.cshtml" />
+    <Content Include="Views\ControlPesoyCodificacion\PartialReporteControlPesoCodificacion.cshtml" />
     <Content Include="Views\Marcaciones\PorEmpleado.cshtml" />
     <Content Include="Views\Marcaciones\PorLinea.cshtml" />
     <None Include="Web.Debug.config">
@@ -3553,6 +3560,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Calidad\" />
     <Folder Include="Views\Comunicados\" />
     <Folder Include="Views\General\" />
   </ItemGroup>

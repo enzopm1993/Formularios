@@ -1539,11 +1539,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                var rol = clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolEnlatado);
-                if (rol)
-                {
-                    ViewBag.LineaNegocio = "ENLATADO";
-                }
+                //var rol = clsDLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolEnlatado);
+                //if (rol)
+                //{
+                  ViewBag.LineaNegocio = Tipo;
+               // }
 
                 return PartialView(model);
             }

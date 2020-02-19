@@ -46,6 +46,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
+                if (dsopcion == "home" || dsopcion == "Home" || dsopcion== "HomeError")
+                {
+                    return true;
+                }
 
                 var model = (from u in entities.USUARIO_ROL
                              join or in entities.OPCION_ROL on u.IdRol equals or.IdRol

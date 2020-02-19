@@ -63,6 +63,34 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return View();
             }
         }
+        [Authorize]
+        public ActionResult ReporteControlPesoCodificacionLomosyMigas()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return View();
+            }
+        }
         [HttpPost]
         public JsonResult GuardarCabeceraControl(CABECERA_CONTROL_PESO_CODIFICACION CabeceraControl)
         {
@@ -785,6 +813,74 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
+        }
+        public ActionResult PartialReporteControlPesoCodificacion(DateTime Fecha, string Turno)
+        {
+            try
+            {
+
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsdControlPesoCodificacionLomosyMigas ClsdControlPesoCodificacionLomosyMigas = new ClsdControlPesoCodificacionLomosyMigas();
+                List<spReporteControlPesoCodificacionLomosMigas> respuesta = ClsdControlPesoCodificacionLomosyMigas.ConsultarReporteControlPesoCodificacion(Fecha,Turno);
+                if (respuesta!=null)
+                {
+                    if (respuesta.Count > 0)
+                    {
+                        ViewBag.Horas = (from r in respuesta
+                                         select r.Hora).Distinct().ToList();
+                        ViewBag.NumeroMuestra = (from m in respuesta
+                                                 select m.NumeroMuestra).Distinct().ToList();
+                        List<ControlUsosViewModel> DecUsos = ClsdControlPesoCodificacionLomosyMigas.ConsultarUsosReporte(respuesta.FirstOrDefault().IdCabeceraControlPesoYCodificacion).ToList();
+                        ViewBag.Usos = DecUsos;
+
+                        List<DETALLE_LOTE_CONTROL_PESO_CODIFICACION> LotesDet = ClsdControlPesoCodificacionLomosyMigas.ConsultarLotesControl(respuesta.FirstOrDefault().IdCabeceraControlPesoYCodificacion).ToList();
+                        ViewBag.Lotes = LotesDet;
+                    }
+                    else
+                    {
+
+                        ViewBag.RegistrosN = 0;
+                    }
+                }
+
+
+                //if (respuesta.Count == 0)
+                //{
+                //    respuesta = null;
+                //}
+                ////clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
+
+                ////var model = clsDControlConsumoInsumo.ConsultaControlConsumoInsumo(Fecha, LineaNegocio, Turno);
+                ////if (!model.Any())
+                ////{
+                ////    return Json("0", JsonRequestBehavior.AllowGet);
+                ////}
+                return PartialView(respuesta);
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
         }
     }
 }

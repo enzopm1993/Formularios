@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
     CargarMapeoProductoTunel();
     CargarOrdenFabricacion();
+    $('#SelectTextura').select2();
+    $('#selectEspecie').select2();
+    
 });
 
 $("#btnOrden").on("click", function () {
@@ -62,11 +65,42 @@ function CargarOrdenFabricacion() {
 }
 
 
+function CargarLotes2(valor,lote) {
+     $("#SelectLote2").empty();
+    $("#SelectLote2").append("<option value='0' >-- Seleccionar Opción--</option>");
+    if (valor == '') {
+        return;
+    }
+    $.ajax({
+        url: "../General/ConsultarLotesPorOf",
+        type: "GET",
+        data: {
+            Orden: valor
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (!$.isEmptyObject(resultado)) {
+                $.each(resultado, function (create, row) {
+                    $("#SelectLote2").append("<option value='" + row.descripcion + "'>" + row.descripcion + "</option>")
+                });
+            }
+
+            $("#SelectLote2").val(lote);
+
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
 function CargarLotes(valor) {
-
-
     $("#SelectLote").empty();
     $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>");
+    $("#SelectLote2").empty();
+    $("#SelectLote2").append("<option value='0' >-- Seleccionar Opción--</option>");
     if (valor == '') {
         return;
     }
@@ -83,6 +117,7 @@ function CargarLotes(valor) {
             if (!$.isEmptyObject(resultado)) {
                 $.each(resultado, function (create, row) {
                     $("#SelectLote").append("<option value='" + row.descripcion + "'>" + row.descripcion + "</option>")
+                    $("#SelectLote2").append("<option value='" + row.descripcion + "'>" + row.descripcion + "</option>")
                 });
             }
         },
@@ -93,8 +128,12 @@ function CargarLotes(valor) {
 }
 
 function CargarMapeoProductoTunel() { 
-    $("#spinnerCargando").prop("hidden", false);
     $("#chartCabecera2").html('');
+    if ($("#txtFecha").val() == '') {
+        return;
+    }
+    $("#spinnerCargando").prop("hidden", false);
+  
   //  CargarOrdenFabricacion();
     $.ajax({
         url: "../MapeoProductoTunel/MapeoProductoTunelPartial",
@@ -131,7 +170,9 @@ function NuevoControl() {
     $("#txtObservacion").val('');    
     $("#SelectLote").empty();
     $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>");
-    $("#SelectTipoLimpieza").prop("SelectedIndex",0);
+    $("#SelectTipoLimpieza").prop("SelectedIndex", 0);
+    $("#txtIdControl").val("0");
+   
 }
 
 function Validar() {
@@ -171,6 +212,7 @@ function GenerarControl() {
         url: "../MapeoProductoTunel/MapeoProductoTunel",
         type: "POST",
         data: {
+            IdMapeoProductoTunel: $("#txtIdControl").val(),
             Fecha: $("#txtFecha").val(),
             OrdenFabricacion: $("#txtOrdenFabricacion").val(),
             Lote: $("#SelectLote").val(),
@@ -189,7 +231,74 @@ function GenerarControl() {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
             } else {
+                NuevoControl();
                 CargarMapeoProductoTunel();
+            }
+            //  $('#btnConsultar').prop("disabled", true);
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $('#btnConsultar').prop("disabled", false);
+            $("#spinnerCargando").prop("hidden", true);
+        }
+    });
+
+    //alert("generado");
+}
+
+
+
+function ValidarEdicion() {
+    var valida = true;
+  
+    if ($("#SelectLote2").val() == "") {
+        $("#SelectLote2").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#SelectLote2").css('borderColor', '#ced4da');
+    }
+    if ($("#SelectTipoLimpieza2").val() == "") {
+        $("#SelectTipoLimpieza2").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#SelectTipoLimpieza2").css('borderColor', '#ced4da');
+    }
+    return valida;
+}
+
+function EditarControl() {
+    if (!ValidarEdicion()) {
+        return;
+    }
+    $("#ModalControl").modal("hide");
+    $.ajax({
+        url: "../MapeoProductoTunel/MapeoProductoTunel",
+        type: "POST",
+        data: {
+            IdMapeoProductoTunel: $("#txtIdControl").val(),            
+            Lote: $("#SelectLote2").val(),
+            OrdenFabricacion: $("#txtOrdenFabricacion").val(),
+            TipoLimpieza: $("#SelectTipoLimpieza2").val(),
+            Observacion: $("#txtObservacionModal").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "102") {
+                MensajeAdvertencia("Problemas con los datos del Lote");
+                return;
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            } else {
+                MensajeCorrecto(resultado)
+                $("#SelectLote").val($("#SelectLote2").val());
+                $("#SelectTipoLimpieza").val($("#SelectTipoLimpieza2").val());
+                $("#SelectLote").empty();
+                $("#SelectLote").append("<option value='" + $("#SelectLote2").val() + "'>" + $("#SelectLote2").val() + "</option>")
+                
             }
             //  $('#btnConsultar').prop("disabled", true);
         },
@@ -207,6 +316,7 @@ function GenerarControl() {
 
 function SeleccionarControl(model) {
     //console.log(model);
+    CargarLotes2(model.OrdenFabricacion, model.Lote);
     $("#divCabecera2").prop("hidden", true);
     $("#divDetalle").prop("hidden", false);
     $("#btnEliminar").prop("hidden", false);
@@ -226,7 +336,10 @@ function SeleccionarControl(model) {
     $("#SelectLote").empty();
     $("#SelectLote").append("<option value='" + model.Lote + "'>" + model.Lote + "</option>")
     $("#SelectTipoLimpieza").val(model.CodTipoLimpieza);
-    
+    $("#txtIdControl").val(model.IdMapeoProductoTunel);   
+    $("#SelectTipoLimpieza2").val(model.CodTipoLimpieza); 
+    $("#txtObservacionModal").val(model.Observacion);     
+    CargarMapeoProductoTunelDetalle();
 }
 
 function AtrasControlPrincipal() {
@@ -244,6 +357,258 @@ function AtrasControlPrincipal() {
     $("#SelectLote").prop("disabled", false);
     $("#SelectTipoLimpieza").prop("disabled", false);
     $("#txtObservacion").prop("disabled", false);
-
+    CargarMapeoProductoTunel();
     NuevoControl();
+}
+
+function ModalGenerar() {
+    $("#ModalControl").modal("show");
+}
+
+function EliminarControl() {
+    $("#txtIdControl").val($("#txtIdControl").val());
+    $("#pModalControl").html("Lote: " + $("#SelectLote").val());
+    $("#modalEliminarControl").modal('show');
+}
+
+
+$("#modal-btn-si").on("click", function () {
+    InactivarControl();
+    $("#txtIdControl").val('0');
+    $("#modalEliminarControl").modal('hide');
+});
+
+$("#modal-btn-no").on("click", function () {
+    $("#txtIdControl").val('0');
+    $("#modalEliminarControl").modal('hide');
+});
+
+function InactivarControl() {
+    $.ajax({
+        url: "../MapeoProductoTunel/EliminarMapeoProductoTunel",
+        type: "POST",
+        data: {
+            IdMapeoProductoTunel: $("#txtIdControl").val(),
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            } else {
+                MensajeCorrecto(resultado);
+                AtrasControlPrincipal();
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
+/////////////////////////////////////////// DETALLE /////////////////////////////////////////////////////////////
+
+function ModalGenerarDetalle() {
+    NuevoDetalle();
+    $("#ModalDetalle").modal("show");
+}
+
+
+function CargarMapeoProductoTunelDetalle() {
+    $("#spinnerCargandoDetalle").prop("hidden", false);
+    $("#chartDetalle").html('');
+    $.ajax({
+        url: "../MapeoProductoTunel/MapeoProductoTunelDetallePartial",
+        type: "GET",
+        data: {
+            IdControl: $("#txtIdControl").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            $("#spinnerCargandoDetalle").prop("hidden", true);
+            if (resultado == "0") {
+                $("#chartDetalle").html("No existen registros");
+            } else {
+                $("#chartDetalle").html(resultado);
+                //config.opcionesDT.pageLength = 10;
+                //$('#tblDataTable2').DataTable(config.opcionesDT);
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoDetalle").prop("hidden", true);
+        }
+    });
+}
+
+
+
+function ValidarDetalle() {
+    var valida = true;
+    if ($("#SelectTextura").val() == "") {
+        $("#SelectTextura").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#SelectTextura").css('borderColor', '#ced4da');
+    }
+    if ($("#txtTunel").val() == "") {
+        $("#txtTunel").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtTunel").css('borderColor', '#ced4da');
+    }
+    if ($("#txtCoche").val() == "") {
+        $("#txtCoche").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtCoche").css('borderColor', '#ced4da');
+    }
+    if ($("#txtProducto").val() == "") {
+        $("#txtProducto").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtProducto").css('borderColor', '#ced4da');
+    }
+    if ($("#txtFundas").val() == "") {
+        $("#txtFundas").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtFundas").css('borderColor', '#ced4da');
+    }
+    if ($("#txtHoraInicio").val() == "") {
+        $("#txtHoraInicio").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtHoraInicio").css('borderColor', '#ced4da');
+    }
+    if ($("#txtHoraFin").val() == "") {
+        $("#txtHoraFin").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtHoraFin").css('borderColor', '#ced4da');
+    }
+    if ($("#selectEspecie").val() == "") {
+        $("#selectEspecie").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectEspecie").css('borderColor', '#ced4da');
+    }
+    return valida;
+}
+
+function GenerarDetalle() {
+    if (!ValidarDetalle()) {
+        return;
+    }
+    $.ajax({
+        url: "../MapeoProductoTunel/MapeoProductoTunelDetalle",
+        type: "POST",
+        data: {
+           IdMapeoProductoTunel:$("#txtIdControl").val(),
+            IdMapeoProductoTunelDetalle: $("#txtIdDetalle").val(),
+            Tunel: $("#txtTunel").val(),
+            Coche: $("#txtCoche").val(),
+            Producto: $("#txtProducto").val(),
+            Especie: $("#selectEspecie").val(),
+            Fundas: $("#txtFundas").val(),
+            HoraInicio: $("#txtHoraInicio").val(),
+            HoraFin: $("#txtHoraFin").val(),
+            HoraFinLote: $("#txtHoraFinLote").val(),
+            TotalFunda: $("#txtTotalFundas").val(),
+            Textura: $("#SelectTextura").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            } else {
+                MensajeCorrecto(resultado);
+                CargarMapeoProductoTunelDetalle();
+                $("#ModalDetalle").modal("hide");
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);          
+        }
+    });
+}
+
+function NuevoDetalle() {
+    $("#txtIdDetalle").val("0");
+    $("#txtTunel").val("");
+    $("#txtCoche").val("");
+    $("#txtProducto").val("");
+    $("#selectEspecie").prop("selectedIndex", 0).change();
+    $("#txtFundas").val("");
+    $("#txtHoraInicio").val("");
+    $("#txtHoraFin").val("");
+    $("#txtHoraFinLote").val("");
+    $("#txtTotalFundas").val("");
+    $("#SelectTextura").prop('selectedIndex', 0).change();
+}
+
+function EditarDetalle(model) {
+  //  console.log(model);   
+    $("#txtIdDetalle").val(model.IdMapeoProductoTunelDetalle);
+    $("#txtTunel").val(model.Tunel);
+    $("#txtCoche").val(model.Coche);
+    $("#txtProducto").val(model.Producto);
+    $("#selectEspecie").val(model.Especie).trigger('change');
+    $("#txtFundas").val(model.Fundas);
+    $("#txtHoraInicio").val(model.HoraInicio);
+    $("#txtHoraFin").val(model.HoraFin);
+    $("#txtHoraFinLote").val(model.HoraFinLote);
+    $("#txtTotalFundas").val(model.TotalFunda);
+    $("#ModalDetalle").modal("show");
+    $('#SelectTextura').val(model.Textura).trigger('change');    
+}
+
+function EliminarDetalle(model) {
+    $("#txtIdDetalle").val(model.IdMapeoProductoTunelDetalle);
+    $("#pModalDaniado").html("Producto: " + model.Producto);
+    $("#modalEliminarDetalle").modal('show');
+}
+
+
+$("#modal-Detalle-btn-si").on("click", function () {
+    InactivarDetalle();
+    $("#txtIdDetalle").val('0');
+    $("#modalEliminarDetalle").modal('hide');
+});
+
+$("#modal-Detalle-btn-no").on("click", function () {
+    $("#txtIdDetalle").val('0');
+    $("#modalEliminarDetalle").modal('hide');
+});
+
+function InactivarDetalle() {
+    $.ajax({
+        url: "../MapeoProductoTunel/EliminarMapeoProductoTunelDetalle",
+        type: "POST",
+        data: {          
+            IdMapeoProductoTunelDetalle: $("#txtIdDetalle").val(),          
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            } else {
+                MensajeCorrecto(resultado);
+                CargarMapeoProductoTunelDetalle();              
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);         
+        }
+    });
 }

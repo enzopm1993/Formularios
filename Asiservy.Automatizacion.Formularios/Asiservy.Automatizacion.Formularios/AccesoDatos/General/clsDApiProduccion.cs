@@ -11,15 +11,33 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 {
     public class clsDApiProduccion
     {
+        public object ConsultarObservaciones(string Codigo)
+        {
+            var client = new RestClient("http://192.168.0.31:8003");
+            RestRequest request;
+            if (string.IsNullOrEmpty(Codigo))
+                request = new RestRequest("/api/Produccion/Observaciones", Method.GET);
+            else
+                request = new RestRequest("/api/Produccion/Observaciones/" + Codigo + "/", Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            var ListaTallas = JsonConvert.DeserializeObject(content);
+            return ListaTallas;
+
+        }
         public object ConsultarTallas(string Talla)
         {
             var client = new RestClient("http://192.168.0.31:8870");
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
             RestRequest request;
             if (string.IsNullOrEmpty(Talla))
-             request = new RestRequest("/api/Produccion/Tallas", Method.GET);
+                request = new RestRequest("/api/Produccion/Tallas", Method.GET);
             else
-             request = new RestRequest("/api/Produccion/Tallas/"+Talla+"/", Method.GET);
+                request = new RestRequest("/api/Produccion/Tallas/" + Talla + "/", Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
