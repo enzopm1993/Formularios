@@ -14,26 +14,33 @@
 }
 <input type="hidden" name="name" id="txtIdControl" value="" />
 <div class="row">
-    <div class="col-md-4 col-2">
+    <div class="col-md-4 col-6 col-sm-6">
         <label>Linea</label>
         @if (ViewBag.AsistenteProduccion != null)
         {
-            @Html.DropDownList("selectLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            @Html.DropDownList("selectLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" , @onchange= "ConsultarReporteControlMaterial()" })
         }
         else
         {
-            @Html.DropDownList("selectLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), new { @class = "form-control" })
+            @Html.DropDownList("selectLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), new { @class = "form-control", @onchange = "ConsultarReporteControlMaterial()" })
 
         }
     </div>
-
-    <div class="col-md-4 col-5">
-        <label>Fecha Desde</label>
-        <input type="date" class="form-control" id="txtFechaDesde" name="name" value="@FechaDesde.ToString("yyyy-MM-dd")" onchange="" />
+    <div class="col-md-2 col-6 col-sm-6">
+        <label>Turno</label>
+        <select class="form-control" id="selectTurno" onchange="ConsultarReporteControlMaterial()">
+            <option value="">Seleccione</option>
+            <option value="1">Turno 1</option>
+            <option value="2">Turno 2</option>
+        </select>
     </div>
-    <div class="col-md-4 col-5">
+    <div class="col-md-3 col-6 col-sm-6">
+        <label>Fecha Desde</label>
+        <input type="date" class="form-control" id="txtFechaDesde" name="name" value="@FechaDesde.ToString("yyyy-MM-dd")" onchange="ConsultarReporteControlMaterial()" />
+    </div>
+    <div class="col-md-3 col-6 col-sm-6">
         <label>Fecha Hasta</label>
-        <input type="date" class="form-control" id="txtFechaHasta" name="name" value="@FechaHasta.ToString("yyyy-MM-dd")" onchange="" />
+        <input type="date" class="form-control" id="txtFechaHasta" name="name" value="@FechaHasta.ToString("yyyy-MM-dd")" onchange="ConsultarReporteControlMaterial()" />
     </div>
 </div>
 <br />

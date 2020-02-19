@@ -13,11 +13,18 @@
 @{DateTime Fecha = DateTime.Now;}
 <input type="hidden" name="name" id="txtIdControl" value="" />
 <div class="row">
-    <div class="offset-sm-2 col-md-4 col-6">
+    <div class="col-md-4 col-6">
         <label>Linea</label>
         @Html.DropDownList("selectLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), new { @class = "form-control" })
     </div>
-
+    <div class="col-md-4 col-6">
+        <label>Turno</label>
+        <select class="form-control" id="selectTurno" onchange="ValidaMaterialQuebradizo()">
+            <option value="">Seleccione</option>
+            <option value="1">Turno A</option>
+            <option value="2">Turno B</option>
+        </select>
+    </div>
     <div class="col-md-4 col-6">
         <label>Fecha</label>
         <input type="date" class="form-control" id="txtFechaControl" name="name" value="@Fecha.ToString("yyyy-MM-dd")" onchange="ValidaMaterialQuebradizo()" />
