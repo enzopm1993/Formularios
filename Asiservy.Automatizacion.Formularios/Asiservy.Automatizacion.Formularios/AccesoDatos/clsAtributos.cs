@@ -244,5 +244,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //CLASIFICADOR DE LINEAS DE ENTREGA DE PRODUCTO TERMINADO
         public static string CodigoGrupoLineasEntregaProductoTerminado = "031";
 
+        //DESCRIPCION DE BASES DE DATOS
+        public static string BDProduccion = "SIAA";
+        public static string BDPreProduccion = "Pruebas";
+        public static string BDDesarrollo = "Desarrollo";
+
     }
 }

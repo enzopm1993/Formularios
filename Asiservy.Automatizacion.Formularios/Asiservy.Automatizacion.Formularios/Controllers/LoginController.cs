@@ -32,15 +32,15 @@ namespace ProyectoWeb.Controllers
             string BD = clsDGeneral.getDataBase();
             if (BD == clsAtributos.DesarrolloBD)
             {
-               ViewBag.BD = "Desarrollo";
+               ViewBag.BD = clsAtributos.BDDesarrollo;
             }
             if (BD == clsAtributos.PreProduccionBD)
             {
-                 ViewBag.BD = "Demo";
+                ViewBag.BD = clsAtributos.BDPreProduccion;
             }
             if (BD == clsAtributos.ProduccionBD)
             {
-                ViewBag.BD = "Produccion";
+                ViewBag.BD = clsAtributos.BDProduccion;
             }
 
             return View();

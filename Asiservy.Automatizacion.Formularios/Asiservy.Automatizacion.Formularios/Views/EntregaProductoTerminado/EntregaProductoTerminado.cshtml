@@ -39,14 +39,17 @@
             <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="ModalEliminarControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/cancel24.png" />
             </button>
-
             <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ModalGenerarControl(true)" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/edit24.png" />
             </button>
-
+            <button hidden data-toggle="tooltip" data-placement="top" title="Bodegas" class="btn" id="btnBodegas" onclick="ModalBodegas()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/justificar24.png" />
+            </button>
             <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/atras24.png" />
             </button>
+
+
         </div>
     </div>
 
@@ -516,6 +519,57 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" id="modal-TiemposMuertos-btn-si">Si</button>
                 <button type="button" class="btn btn-outline-primary" id="modal-TiemposMuertos-btn-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" id="ModalBodegas" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bodegas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Control Calidad</label>
+                            <input class="form-control" id="txtControlCalidad" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Unidades Rechazadas</label>
+                            <input class="form-control" id="txtRechazadas" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Unidades Reproceso</label>
+                            <input class="form-control" id="txtReproceso" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Unidades con Defecto</label>
+                            <input class="form-control" id="txtDefectos" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Cajas Entregadas</label>
+                            <input class="form-control" id="txtEntregadas" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">              
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>

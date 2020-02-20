@@ -44,6 +44,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             try
             {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.Apexcharts = "1";
                 clsDEmpleado = new clsDEmpleado();
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
                  lsUsuario = User.Identity.Name.Split('_');
@@ -62,15 +65,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 var BD = clsDGeneral.getDataBase();
                 if (BD == clsAtributos.DesarrolloBD)
                 {
-                    Session["BaseDatos"] = "DESARROLLO";
+                    Session["BaseDatos"] =clsAtributos.BDDesarrollo;
                 }
                 if (BD == clsAtributos.PreProduccionBD)
                 {
-                    Session["BaseDatos"] = "DEMO";
+                    Session["BaseDatos"] = clsAtributos.BDPreProduccion;
                 }
                 if (BD == clsAtributos.ProduccionBD)
                 {
-                    Session["BaseDatos"] = "SIAA";
+                    Session["BaseDatos"] = clsAtributos.BDProduccion;
                 }
                 return View();
 
