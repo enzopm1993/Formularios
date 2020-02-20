@@ -2175,6 +2175,7 @@
     <Content Include="Scripts\EntregaProductoTerminado\ReporteEntregaProductoTerminado.js" />
     <Content Include="Scripts\EntregaUniforme\BandejaEntregaUniforme.js" />
     <Content Include="Scripts\EntregaUniforme\EntregaUniforme.js" />
+    <Content Include="Scripts\Home\Home.js" />
     <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
