@@ -610,6 +610,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         //Busco en MOVIMIENTO
                         var BuscarMovimientoPersonalActivo = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
                                                               where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo & m.Cedula == psAsistencia.Cedula
+                                                              &&m.Turno==psAsistencia.Turno//agregado 2020-02-20 para que busque en movimiento tmb por el turno
                                                               select m).ToList();
                         if (BuscarMovimientoPersonalActivo.Count > 0 /*!= null*/)
                         {
