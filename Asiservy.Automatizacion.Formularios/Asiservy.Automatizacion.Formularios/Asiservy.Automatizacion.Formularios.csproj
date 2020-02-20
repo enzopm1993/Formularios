@@ -3287,6 +3287,7 @@
     <Compile Include="Models\OfLote.cs" />
     <Compile Include="Models\MantenimientoPallet\PalletViewModel.cs" />
     <Compile Include="Models\Motivo.cs" />
+    <Compile Include="Models\OrdenBodega.cs" />
     <Compile Include="Models\OrdenFabricacion.cs" />
     <Compile Include="Models\OrdenFabricacionAutoclave.cs" />
     <Compile Include="Models\OrdenFabricacionAvance.cs" />

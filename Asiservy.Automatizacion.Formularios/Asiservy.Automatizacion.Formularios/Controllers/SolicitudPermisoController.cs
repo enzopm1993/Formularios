@@ -827,11 +827,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.UsuarioIngresoLog = lsUsuario[0];
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
                     solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
-                    if(model.CodigoMotivo ==clsAtributos.CodigoMotivoPermisoCitaMedica)
-                    {
-                        solicitudPermiso.ValidaMedico = true;
-                        solicitudPermiso.Origen = clsAtributos.SolicitudOrigenMedico;
-                    }
+                    //if(model.CodigoMotivo ==clsAtributos.CodigoMotivoPermisoCitaMedica)
+                    //{
+                    //    solicitudPermiso.ValidaMedico = true;
+                    //    solicitudPermiso.Origen = clsAtributos.SolicitudOrigenMedico;
+                    //}
                     var Motivo= clsDSolicitudPermiso.ConsultarMotivos(solicitudPermiso.CodigoMotivo).FirstOrDefault();
 
                     string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);                    

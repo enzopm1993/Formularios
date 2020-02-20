@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     CargarProductoTerminado();
+    $("#txtIdControl").val('0');
 
 });
 
@@ -43,10 +44,44 @@ function CargarProductoTerminado() {
 }
 
 function SeleccionarBandeja(model) {
-    console.log(model);
-    $("#ModalApruebaProductoTerminado").modal("show");
-    $("#txtOrdenFrabricacion").val(model.OrdenFabricacion);
-    $("#txtProducto").val(model.Producto);
+   // console.log(model);
+
+    $.ajax({
+        url: "../EntregaProductoTerminado/ConsultarBodegas",
+        type: "GET",
+        data: {
+            OF: model.OrdenFabricacion
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "102") {
+                MensajeAdvertencia("No existen datos para esta OF.");
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan parametros.");
+            } else {
+                // console.log(resultado.UnidadesControlCalidad);
+                $("#txtControlCalidad").val(resultado.UnidadesControlCalidad);
+                $("#txtRechazadas").val(resultado.UnidadesRechazadas);
+                $("#txtReproceso").val(resultado.UnidadesReproceso);
+                $("#txtDefectos").val(resultado.UnidadesConDefecto);
+                $("#txtEntregadas").val(resultado.CajasEntregadas);
+                $("#txtOrdenFrabricacion").val(model.OrdenFabricacion);
+                $("#txtProducto").val(model.Producto);
+                $("#txtIdControl").val(model.IdProductoTerminado);
+                
+                $("#ModalApruebaProductoTerminado").modal("show");
+            }
+
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoMaterial").prop("hidden", true);
+        }
+    });
+  
 
 }
 
@@ -56,7 +91,7 @@ function AprobarEntregaProductoTermiando() {
         url: "../EntregaProductoTerminado/ApruebaEntregaProductoTerminado",
         type: "GET",
         data: {
-            IdControl: "0"
+            IdControl: $("#txtIdControl").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -64,6 +99,8 @@ function AprobarEntregaProductoTermiando() {
             }
             MensajeCorrecto(resultado);  
             CargarProductoTerminado();
+            $("#txtIdControl").val('0');
+
             $("#ModalApruebaProductoTerminado").modal("hide");
         },
         error: function (resultado) {

@@ -61,6 +61,8 @@ function SeleccionarControlEntregaProductoTerminado(model) {
 
     if (model.EstadoReporte == null || model.EstadoReporte == false) {
         $("#txtEstado").html("(PENDIENTE)");
+    } else {
+        $("#txtEstado").html("");
     }
  
     $("#btnAtras").prop("hidden", false);

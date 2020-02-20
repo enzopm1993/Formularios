@@ -46,13 +46,44 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4">
+                    <input type="hidden" id="txtIdControl" name="name" value="0" />
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <label>Producto</label>
+                        <input type="text" readonly id="txtProducto" class="form-control" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
                         <label>O. Fabricación</label>
                         <input type="text" readonly id="txtOrdenFrabricacion" name="name" class="form-control" value="" />
                     </div>
-                    <div class="col-md-8">
-                        <label>Producto</label>
-                        <input type="text" readonly id="txtProducto" class="form-control" name="name" value="" />
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Control Calidad</label>
+                            <input class="form-control" id="txtControlCalidad" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Unidades Rechazadas</label>
+                            <input class="form-control" id="txtRechazadas" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Unidades Reproceso</label>
+                            <input class="form-control" id="txtReproceso" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Unidades con Defecto</label>
+                            <input class="form-control" id="txtDefectos" disabled type="text" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Cajas Entregadas</label>
+                            <input class="form-control" id="txtEntregadas" disabled type="text" name="name" value="" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,4 +94,6 @@
         </div>
     </div>
 </div>
+
+
 
