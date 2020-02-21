@@ -72,34 +72,29 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 {
                     EstadoSolictud = "Revisado";
                 }
-                var poEmpleado = clsDEmpleado.ConsultaEmpleado(poSolicitud.Identificacion).FirstOrDefault();
-                var Motivo = ConsultarMotivos(poSolicitud.CodigoMotivo).FirstOrDefault();
-                String MensajeBody = "Empleado: " + poEmpleado.NOMBRES + "\n</br>"
-                      + " Motivo:" + Motivo.DescripcionMotivo + "\n</br>"
-                       + "Observación:" + poSolicitud.Observacion + "\n</br>"
-                      + "Fecha Salida: " + poSolicitud.FechaSalida + "\n</br>"
-                      + "Fecha Regreso: " + poSolicitud.FechaRegreso + "</br>\n Estado: " + EstadoSolictud + " </br>"
-                      + "Realizado por: " + doSolicitud.UsuarioModificacionLog + "</br>";
-                if (poSolicitud.EstadoSolicitud == clsAtributos.EstadoSolicitudAnulado)
-                {
-                    MensajeBody = MensajeBody + "Motivo: " + poSolicitud.Observacion + "</br></br>";
-                }
-                else
-                {
-                    MensajeBody = MensajeBody + "</br>";
-                }
+              //  var poEmpleado = clsDEmpleado.ConsultaEmpleado(poSolicitud.Identificacion).FirstOrDefault();
+             //   var Motivo = ConsultarMotivos(poSolicitud.CodigoMotivo).FirstOrDefault();
+             //   String MensajeBody = poSolicitud.IdSolicitudPermiso+"|0";
+                //if (poSolicitud.EstadoSolicitud == clsAtributos.EstadoSolicitudAnulado)
+                //{
+                //    MensajeBody = MensajeBody + "Motivo: " + poSolicitud.Observacion + "</br></br>";
+                //}
+                //else
+                //{
+                //    MensajeBody = MensajeBody + "</br>";
+                //}
 
-                mensajeCorreo = clsDGeneral.EnvioCorreo(poEmpleado, "Solicitud Permiso",
-                MensajeBody, RRHH);
+                mensajeCorreo = clsDGeneral.EnvioCorreo(poSolicitud.Identificacion, "Solicitud Permiso", poSolicitud.IdSolicitudPermiso + "|0", RRHH);
             }
 
             return psMensaje + "--" + mensajeCorreo;
         }
 
-        public string GuargarModificarSolicitud(SOLICITUD_PERMISO doSolicitud)
+        public RespuestaGeneral GuargarModificarSolicitud(SOLICITUD_PERMISO doSolicitud)
         {
             string psMensaje = string.Empty;
             BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
+            RespuestaGeneral respuesta = new RespuestaGeneral();
 
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -118,7 +113,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         poSolicitud.FechaModificacionLog = doSolicitud.FechaModificacionLog;
                         poSolicitud.TerminalModificacionLog = doSolicitud.TerminalModificacionLog;
                         poSolicitud.UsuarioModificacionLog = doSolicitud.UsuarioModificacionLog;
-                        psMensaje = "Registro Actualizado Correctamente";
+                        respuesta.Mensaje = "Registro Actualizado Correctamente";
 
                         poBitacora.IdSolicitud = poSolicitud.IdSolicitudPermiso;
                         poBitacora.Cedula = poSolicitud.Identificacion;
@@ -130,8 +125,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     else
                     {
                         entities.SOLICITUD_PERMISO.Add(doSolicitud);
-                        psMensaje = "Registro Guardado Correctamente";
-
+                        respuesta.Mensaje = "Registro Guardado Correctamente";
+                       // respuesta.Codigo=
 
                         poBitacora.IdSolicitud = doSolicitud.IdSolicitudPermiso;
                         poBitacora.Cedula = doSolicitud.Identificacion;
@@ -180,10 +175,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     poBitacora.IdSolicitud = sol.IdSolicitudPermiso;
                     entities.BITACORA_SOLICITUD.Add(poBitacora);
                     entities.SaveChanges();
+                    respuesta.Codigo = doSolicitud.IdSolicitudPermiso;
                     transaction.Commit();
                 }
             }
-            return psMensaje;
+            return respuesta;
 
         }
 
@@ -982,7 +978,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                     string Cedula = model.Identificacion;
                     int Nivel = model.Nivel ?? clsAtributos.NivelEmpleado;
                     clsDEmpleado = new clsDEmpleado();
-
+                    clsDGeneral = new clsDGeneral();
                     foreach (var x in Cedulas)
                     {
                         var poEmpleados = clsDEmpleado.ConsultaEmpleado(x).FirstOrDefault();
@@ -1003,11 +999,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         entities.SOLICITUD_PERMISO.Add(sol);
                         entities.SaveChanges();
 
-                        var idSol = entities.SOLICITUD_PERMISO.FirstOrDefault(y => y.Identificacion == x && y.FechaSalida == sol.FechaSalida && y.FechaRegreso == sol.FechaRegreso && y.CodigoMotivo == sol.CodigoMotivo);
-
+                       // var idSol = entities.SOLICITUD_PERMISO.FirstOrDefault(y => y.Identificacion == x && y.FechaSalida == sol.FechaSalida && y.FechaRegreso == sol.FechaRegreso && y.CodigoMotivo == sol.CodigoMotivo);
+                        int idSol = sol.IdSolicitudPermiso;
+                        //var poEmpleado = clsDEmpleado.ConsultaEmpleado(sol.Identificacion).FirstOrDefault();
+                        clsDGeneral.EnvioCorreo(sol.Identificacion, "Solicitud Permiso", sol.IdSolicitudPermiso+"|1", false);
 
                         BITACORA_SOLICITUD poBitacora = new BITACORA_SOLICITUD();
-                        poBitacora.IdSolicitud = idSol != null ? idSol.IdSolicitudPermiso : 0;
+                        poBitacora.IdSolicitud = idSol;
                         poBitacora.Cedula = sol.Identificacion;
                         poBitacora.CodigoMotivo = sol.CodigoMotivo;
                         poBitacora.FechaSalida = sol.FechaSalida;

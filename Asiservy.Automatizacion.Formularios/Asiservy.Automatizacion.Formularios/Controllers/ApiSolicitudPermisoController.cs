@@ -63,7 +63,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     var mensaje = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitud);
                     //return new RespuestaGeneral { Respuesta = true, Mensaje = mensaje };
                     respuestaGeneral.Respuesta = true;
-                    respuestaGeneral.Mensaje = mensaje;
+                    respuestaGeneral.Mensaje = mensaje.Mensaje;
                   
                 }
                 return Json(respuestaGeneral);

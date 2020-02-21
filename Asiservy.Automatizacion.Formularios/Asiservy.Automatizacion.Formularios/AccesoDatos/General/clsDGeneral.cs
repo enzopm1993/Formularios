@@ -156,13 +156,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
 
-        public string EnvioCorreo(spConsutaEmpleados Empleado, string asunto, string mensaje,bool RRHH)
+        public string EnvioCorreo(string Cedula, string asunto, string mensaje,bool RRHH)
         {
             try
             {
                 using (ASIS_PRODEntities db = new ASIS_PRODEntities())
                 {
-                    var Mensaje = db.spEnvioCorreo(Empleado.CEDULA,asunto,mensaje,RRHH).FirstOrDefault();
+                    var Mensaje = db.spEnvioCorreo(Cedula,asunto,mensaje,RRHH).FirstOrDefault();
                     return Mensaje;
                 }
 
