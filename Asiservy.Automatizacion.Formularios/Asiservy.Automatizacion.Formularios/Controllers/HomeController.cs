@@ -267,7 +267,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             }
 
-            if (Roles.Any(x => x.Value == clsAtributos.RolControladorLinea))
+            if (Roles.Any(x => x.Value == clsAtributos.RolControladorLinea || x.Value == clsAtributos.RolEnlatado ||
+            x.Value == clsAtributos.RolEtiquetadoLata || x.Value == clsAtributos.RolEtiquetadoPouch || x.Value == clsAtributos.RolLimpiezaPouch
+            || x.Value == clsAtributos.RolLimpiezaPouch || x.Value == clsAtributos.RolAutoclave || x.Value == clsAtributos.RolFrio))
             {
                 clsDAsistencia = new clsDAsistencia();
                 clsDEmpleado = new clsDEmpleado();
@@ -302,13 +304,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //lsUsuario = User.Identity.Name.Split('_');
                 //var empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 var finalizarAsistencia = clsDAsistencia.ConsultaFaltantesFinalizarAsistenciaTodos(DateTime.Now.AddDays(-1));
-                var finalizarCantidadFecha = finalizarAsistencia.Select(x => new { Fecha=x.Fecha, Linea =x.Linea}).Distinct();
+                var finalizarCantidadFecha = finalizarAsistencia.Select(x => new { Fecha=x.FechaInicio, Linea =x.CodLinea}).Distinct();
                 if (finalizarAsistencia.Any())
                 {
                     foreach (var x in finalizarCantidadFecha)
                     {
                         var linea = clsDGeneral.ConsultaLineas(x.Linea).FirstOrDefault();
-                        int cantidad = finalizarAsistencia.Count(y => y.Fecha == x.Fecha && y.Linea==x.Linea);
+                        int cantidad = finalizarAsistencia.Count(y => y.FechaInicio == x.Fecha && y.CodLinea==x.Linea);
                         string dia = ci.DateTimeFormat.GetDayName(x.Fecha.Value.DayOfWeek);
                         //string enlace = "/Asistencia/AsistenciaFinalizar";
                         string Mensaje = "No ha finalizado la Asistencia "+linea.Descripcion+" del día: " + dia + ", " + x.Fecha.Value.ToString("dd-MM-yyyy") + " Existen " + cantidad + " empleados sin finalizar";

@@ -18,6 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Cedula { get; set; }
         public string NOMBRES { get; set; }
         public Nullable<System.DateTime> FechaInicio { get; set; }
+        public Nullable<System.TimeSpan> HoraInicioUltimoMovimiento { get; set; }
         public Nullable<System.TimeSpan> HoraInicio { get; set; }
         public string CodLinea { get; set; }
         public string CentroCosto { get; set; }

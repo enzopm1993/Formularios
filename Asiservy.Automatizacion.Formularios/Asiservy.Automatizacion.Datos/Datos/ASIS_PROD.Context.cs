@@ -562,23 +562,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHoraMaquinaDetalle>("spConsultaControlHoraMaquinaDetalle", idControlParameter);
         }
     
-        public virtual ObjectResult<spConsultaAsistenciaFinalizar> spConsultaAsistenciaFinalizar(Nullable<System.DateTime> fecha, string linea, string turno)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var lineaParameter = linea != null ?
-                new ObjectParameter("Linea", linea) :
-                new ObjectParameter("Linea", typeof(string));
-    
-            var turnoParameter = turno != null ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaAsistenciaFinalizar>("spConsultaAsistenciaFinalizar", fechaParameter, lineaParameter, turnoParameter);
-        }
-    
         public virtual ObjectResult<spConsultaPersonalMovidoaLinea> spConsultaPersonalMovidoaLinea(string lINEA, Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
         {
             var lINEAParameter = lINEA != null ?
@@ -1433,6 +1416,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlMaterialQuebradizo>("spReporteControlMaterialQuebradizo", fechaDesdeParameter, fechaHastaParameter, lineaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaAsistenciaFinalizar> spConsultaAsistenciaFinalizar(Nullable<System.DateTime> fecha, string linea, string turno)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaAsistenciaFinalizar>("spConsultaAsistenciaFinalizar", fechaParameter, lineaParameter, turnoParameter);
         }
     }
 }
