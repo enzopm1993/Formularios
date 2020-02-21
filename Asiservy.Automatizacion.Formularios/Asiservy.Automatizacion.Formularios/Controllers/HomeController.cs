@@ -212,7 +212,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             if (Roles.Any(x => x.Value == clsAtributos.RolGarita))
             {
-                var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermisoReporte(null,null,clsAtributos.EstadoSolicitudAprobado, true, DateTime.Now.Date, DateTime.Now.Date).Where(x=> x.FechaBiometrico != null).ToList();
+                var solicitudes = clsDSolicitudPermiso.ConsultaSolicitudesPermisoReporte(null,null,clsAtributos.EstadoSolicitudAprobado, true, null, null).ToList();
                 if (solicitudes.Any())
                 {
                      string enlace = "/SolicitudPermiso/ReporteSolicitud";
