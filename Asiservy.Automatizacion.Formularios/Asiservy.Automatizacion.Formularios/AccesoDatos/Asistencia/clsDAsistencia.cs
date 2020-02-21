@@ -147,15 +147,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return resultado;
             }
         }
-        public List<ASISTENCIA> ConsultaFaltantesFinalizarAsistenciaTodos(DateTime Fecha)
+        public List<MOVIMIENTO_PERSONAL_DIARIO> ConsultaFaltantesFinalizarAsistenciaTodos(DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var result = db.ASISTENCIA.Where(x =>
-                            x.Fecha < Fecha
+                var result = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x =>
+                            x.FechaInicio < Fecha
                             && x.FechaFin == null
-                            && (x.EstadoAsistencia == clsAtributos.EstadoPresente || x.EstadoAsistencia == clsAtributos.EstadoAtraso)
-                            ).ToList();
+                            && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
                 return result;
             }
         }
