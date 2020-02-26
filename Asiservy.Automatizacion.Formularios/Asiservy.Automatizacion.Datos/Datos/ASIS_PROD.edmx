@@ -3147,7 +3147,7 @@
           <FunctionImport Name="sp_SolicitudesRealizadasPorLinea" ReturnType="Collection(ASIS_PRODModel.sp_SolicitudesRealizadasPorLinea_Result)">
           <Parameter Name="CEDULA" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_obtener_asistenia_inicio_vs_actual" ReturnType="Collection(ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result)">
+          <FunctionImport Name="sp_obtener_asistenia_inicio_vs_actual" ReturnType="Collection(ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result1)">
             <Parameter Name="fechaIni" Mode="In" Type="DateTime" />
             <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
@@ -6220,6 +6220,20 @@
           <Property Type="String" Name="TotalFunda" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Textura" Nullable="true" MaxLength="10" />
         </ComplexType>
+        <ComplexType Name="sp_obtener_asistenia_inicio_vs_actual_Result1">
+          <Property Type="DateTime" Name="Fecha" Nullable="true" />
+          <Property Type="String" Name="CodCentroCosto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodRecurso" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Asistencia" Nullable="true" MaxLength="25" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9243,8 +9257,9 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_obtener_asistenia_inicio_vs_actual" FunctionName="ASIS_PRODModel.Store.sp_obtener_asistenia_inicio_vs_actual">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result1">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="CodCentroCosto" ColumnName="CodCentroCosto" />
                 <ScalarProperty Name="CodRecurso" ColumnName="CodRecurso" />
                 <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
