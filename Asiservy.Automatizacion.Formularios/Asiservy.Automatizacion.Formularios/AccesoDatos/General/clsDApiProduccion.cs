@@ -35,10 +35,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
         {
             var client = new RestClient("http://192.168.0.31:8003");
             RestRequest request;
-            if (string.IsNullOrEmpty(Codigo))
-                request = new RestRequest("/api/Produccion/Observaciones", Method.GET);
-            else
-                request = new RestRequest("/api/Produccion/Observaciones/" + Codigo + "/", Method.GET);
+         
+            request = new RestRequest("/api/Produccion/Observaciones", Method.GET);
+           
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
