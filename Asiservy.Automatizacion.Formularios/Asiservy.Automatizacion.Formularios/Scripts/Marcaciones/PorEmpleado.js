@@ -125,6 +125,7 @@
                 config.opcionesDT.order = [];
                 config.opcionesDT.columns = [
                     { data: 'FECHA_MARCA' },
+                    { data: 'DIA' },
                     { data: 'EMPLEADO' },
                     { data: 'INGRESO' },
                     { data: 'SALIDA' }
