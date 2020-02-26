@@ -32,15 +32,15 @@ namespace ProyectoWeb.Controllers
             string BD = clsDGeneral.getDataBase();
             if (BD == clsAtributos.DesarrolloBD)
             {
-               ViewBag.BD = "Desarrollo";
+               ViewBag.BD = clsAtributos.BDDesarrollo;
             }
             if (BD == clsAtributos.PreProduccionBD)
             {
-                 ViewBag.BD = "Demo";
+                ViewBag.BD = clsAtributos.BDPreProduccion;
             }
             if (BD == clsAtributos.ProduccionBD)
             {
-                ViewBag.BD = "Produccion";
+                ViewBag.BD = clsAtributos.BDProduccion;
             }
 
             return View();
@@ -52,18 +52,18 @@ namespace ProyectoWeb.Controllers
             List<RespuestaGeneral> respuesta = new List<RespuestaGeneral>();
             if (BD == clsAtributos.DesarrolloBD)
             {
-                respuesta.Add(new RespuestaGeneral { Codigo = 0, Descripcion = "http://192.168.0.31:8000/", Mensaje = "Demo" });
-                respuesta.Add(new RespuestaGeneral { Codigo = 1, Descripcion = "http://192.168.0.31:8001/", Mensaje = "Producción" });
+                respuesta.Add(new RespuestaGeneral { Codigo = 0, Descripcion = "http://192.168.0.31:8000/", Mensaje =clsAtributos.BDPreProduccion });
+                respuesta.Add(new RespuestaGeneral { Codigo = 1, Descripcion = "http://192.168.0.31:8001/", Mensaje = clsAtributos.BDProduccion });
             }
             if (BD == clsAtributos.PreProduccionBD)
             {
-                respuesta.Add(new RespuestaGeneral { Codigo = 2, Descripcion = "http://192.168.0.31:8002/", Mensaje = "Desarrollo" });
-                respuesta.Add(new RespuestaGeneral { Codigo = 1, Descripcion = "http://192.168.0.31:8001/", Mensaje = "Producción" });
+                respuesta.Add(new RespuestaGeneral { Codigo = 2, Descripcion = "http://192.168.0.31:8002/", Mensaje = clsAtributos.BDDesarrollo });
+                respuesta.Add(new RespuestaGeneral { Codigo = 1, Descripcion = "http://192.168.0.31:8001/", Mensaje=clsAtributos.BDProduccion });
             }
             if (BD == clsAtributos.ProduccionBD)
             {
-                respuesta.Add(new RespuestaGeneral { Codigo = 0, Descripcion = "http://192.168.0.31:8000/", Mensaje = "Demo" });
-                respuesta.Add(new RespuestaGeneral { Codigo = 2, Descripcion = "http://192.168.0.31:8002/", Mensaje = "Desarrollo" });
+                respuesta.Add(new RespuestaGeneral { Codigo = 0, Descripcion = "http://192.168.0.31:8000/", Mensaje = clsAtributos.PreProduccionBD });
+                respuesta.Add(new RespuestaGeneral { Codigo = 2, Descripcion = "http://192.168.0.31:8002/", Mensaje = clsAtributos.BDDesarrollo });
             }
             return Json(respuesta, JsonRequestBehavior.AllowGet);
         }

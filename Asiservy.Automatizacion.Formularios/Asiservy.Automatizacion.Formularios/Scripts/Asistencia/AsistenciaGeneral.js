@@ -386,7 +386,8 @@ function GuardarPersona(fila, nombre, ComboOCheck, CentroCostos, Recurso, Linea,
             dataType: "json",
             data: {
                 cedula: $('#ControlAsistencia_' + fila + '__Cedula').val(),
-                Fecha: $('#txtFecha').val()
+                Fecha: $('#txtFecha').val(),
+                Turno: $('#TurnoGen').val()
             },
             success: function (resultado) {
                 //MensajeCorrecto(resultado, true);

@@ -803,7 +803,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             return Json("", JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult CambiarAsistenciaEmpleadoFalta(string cedula, DateTime Fecha)
+        public JsonResult CambiarAsistenciaEmpleadoFalta(string cedula, DateTime Fecha,string Turno)
         {
             try
             {
@@ -814,7 +814,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
-                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, EstadoAsistencia = clsAtributos.EstadoFalta, UsuarioModificacionLog = liststring[0], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now, Fecha = Fecha });
+                string Resultado = clsDAsistencia.ActualizarAsistencia(new ASISTENCIA { Cedula = cedula, EstadoAsistencia = clsAtributos.EstadoFalta, UsuarioModificacionLog = liststring[0], TerminalModificacionLog = Request.UserHostAddress, FechaModificacionLog = DateTime.Now, Fecha = Fecha,Turno=Turno });
             }
             catch (DbEntityValidationException e)
             {

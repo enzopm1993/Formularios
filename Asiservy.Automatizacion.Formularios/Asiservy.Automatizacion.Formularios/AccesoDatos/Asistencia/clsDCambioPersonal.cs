@@ -323,7 +323,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         //*
                         foreach (var item in pListCambioPersonal.ToArray())
                         {
-                            BuscarEnCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                            BuscarEnCambioPersonal = db.CAMBIO_PERSONAL.Where(x => x.Cedula == item.Cedula && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo&&x.Vigente.Value).FirstOrDefault();//correcion 2020-02-20 traer solo Vigente=1
                             //Para validar que la fechafin y hora fin de regreso no pueda ser menor o igual a la fecha y hora inicio
                             ValidaFecha = BuscarEnCambioPersonal.HoraInicio == null ? BuscarEnCambioPersonal.Fecha.Value : BuscarEnCambioPersonal.Fecha.Value.Add(BuscarEnCambioPersonal.HoraInicio.Value);
                             if (ValidaFecha < (psfecha.Value.Add(psHora.Value)))
@@ -333,7 +333,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                             else
                             {
                                 Empleado = db.spConsutaEmpleados(item.Cedula).FirstOrDefault();
-                                NoSePudieornRegresar.Add(Empleado.NOMBRES+"con cédula N°: "+ item.Cedula+ ":  No se pudo regresar por que la fecha de Fin debe ser mayor a la Fecha de inicio. <br>");
+                                NoSePudieornRegresar.Add(Empleado.NOMBRES+" con cédula N°: "+ item.Cedula+ ":  No se pudo regresar por que la fecha de Fin debe ser mayor a la Fecha de inicio. <br>");
                             }
                             
 

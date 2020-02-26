@@ -4,15 +4,25 @@
     .card {
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
         transition: 0.3s;
-        width: 40%;
+        /*width: 100%;*/
     }
 
         .card:hover {
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
         }
-
+        .card-header {
+            font-size: 0.8rem;
+        }
     .container {
         padding: 2px 16px;
+    }
+
+    #tbldesc table, td {
+        border: 5px solid transparent;
+    }
+
+    #tbldesc table {
+        border-spacing: 10px;
     }
 </style>
 
@@ -24,101 +34,160 @@
     string dia;
     int DiaNumero;
 }
-<table class="table-bordered table-hover" id="tblDataTable" style="min-width:100%">
-    <thead>
-        <tr>
-            <th style="border-bottom:0" class="text-center">Cédula</th>
-            <th style="border-bottom:0" class="text-center">Nombres</th>
-            <th style="border-bottom:0" class="text-center">Centro de Costos</th>
-            <th style="border-bottom:0" class="text-center">Recurso</th>
-            <th style="border-bottom:0" class="text-center">Línea</th>
-            <th style="border-bottom:0" class="text-center">Cargo</th>
-            @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
-            {
-
-                dia = ci.DateTimeFormat.GetDayName(fechaInicial.DayOfWeek);
-                DiaNumero = fechaInicial.Day;
-                fechaInicial = fechaInicial.AddDays(1);
-
-                <th class="text-center">
-                    @(dia == "miércoles" ? dia.Substring(0, 2) : dia.Substring(0, 1))
-                </th>
-            }
-        </tr>
-        
-    </thead>
-    <tbody>
-        <tr>
-            <th style="border-bottom:0; border-top:0"></th>
-            <th style="border-top:0"></th>
-            <th style="border-top:0"></th>
-            <th style="border-top:0"></th>
-            <th style="border-top:0"></th>
-            <th style="border-top:0"></th>
-            @{fechaInicial = (DateTime)ViewBag.FechaInicio; }
-            @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
-            {
-                dia = ci.DateTimeFormat.GetDayName(fechaInicial.DayOfWeek);
-                DiaNumero = fechaInicial.Day;
-                fechaInicial = fechaInicial.AddDays(1);
-                <th class="text-center">
-                    <center>
-                        @DiaNumero
-                    </center>
-                </th>
-            }
-        </tr>
-        @{fechaInicial = (DateTime)ViewBag.FechaInicio;
-            string EstadoAsistencia;
-            int cont = 1;
-            }
-        @*@for (int i = 0; fechaInicial != (FechaFinal.AddDays(2)); i++)
-        {*@
-        @foreach (var item in ViewBag.Empleados)
-        {
-           
+<div class="table-responsive">
+    <table class="table-bordered table-hover" id="tblDataTable" style="min-width:100%">
+        <thead>
             <tr>
-                <td>@item.Cedula</td>
-                <td>
-                    @item.Nombre
-                </td>
-                <td>@item.CentroCosto</td>
-                <td>@item.Recurso</td>
-                <td>@item.Linea</td>
-                <td>@item.Cargo</td>
+                <th style="border-bottom:0" class="text-center">Cédula</th>
+                <th style="border-bottom:0" class="text-center">Nombres</th>
+                <th style="border-bottom:0" class="text-center">Centro de Costos</th>
+                <th style="border-bottom:0" class="text-center">Recurso</th>
+                <th style="border-bottom:0" class="text-center">Línea</th>
+                <th style="border-bottom:0" class="text-center">Cargo</th>
                 @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
                 {
-                    <td class="text-center">
-                        @(EstadoAsistencia = (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault()==null?"F": (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault())
-                    </td>
+
+                    dia = ci.DateTimeFormat.GetDayName(fechaInicial.DayOfWeek);
+                    DiaNumero = fechaInicial.Day;
                     fechaInicial = fechaInicial.AddDays(1);
+
+                    <th class="text-center">
+                        @(dia == "miércoles" ? dia.Substring(0, 2) : dia.Substring(0, 1))
+                    </th>
                 }
             </tr>
-            fechaInicial = (DateTime)ViewBag.FechaInicio;
-            cont++;
-        }
 
-        @*fechaInicial = fechaInicial.AddDays(1);
-        }*@
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <tr>
+                <th style="border-bottom:0; border-top:0"></th>
+                <th style="border-top:0"></th>
+                <th style="border-top:0"></th>
+                <th style="border-top:0"></th>
+                <th style="border-top:0"></th>
+                <th style="border-top:0"></th>
+                @{fechaInicial = (DateTime)ViewBag.FechaInicio; }
+                @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
+                {
+                    dia = ci.DateTimeFormat.GetDayName(fechaInicial.DayOfWeek);
+                    DiaNumero = fechaInicial.Day;
+                    fechaInicial = fechaInicial.AddDays(1);
+                    <th class="text-center">
+                        <center>
+                            @DiaNumero
+                        </center>
+                    </th>
+                }
+            </tr>
+            @{fechaInicial = (DateTime)ViewBag.FechaInicio;
+                string EstadoAsistencia;
+                int cont = 1;
+            }
+            @*@for (int i = 0; fechaInicial != (FechaFinal.AddDays(2)); i++)
+                {*@
+            @foreach (var item in ViewBag.Empleados)
+            {
+
+                <tr>
+                    <td>@item.Cedula</td>
+                    <td>
+                        @item.Nombre
+                    </td>
+                    <td>@item.CentroCosto</td>
+                    <td>@item.Recurso</td>
+                    <td>@item.Linea</td>
+                    <td>@item.Cargo</td>
+                    @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
+                    {
+                        <td class="text-center">
+                            @(EstadoAsistencia = (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault() == null ? "F" : (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault())
+                        </td>
+                        fechaInicial = fechaInicial.AddDays(1);
+                    }
+                </tr>
+                fechaInicial = (DateTime)ViewBag.FechaInicio;
+                cont++;
+            }
+
+            @*fechaInicial = fechaInicial.AddDays(1);
+                }*@
+        </tbody>
+    </table>
+</div>
 <br />
 <div class="row">
-    <div class="card card-accent-info mb-3" style="max-width: 18rem;">
+    <div class="card card-accent-info mb-3 col-md-4 col-sm-12" >
         <div class="card-header"></div>
-        <div class="card-body">
-            <h5 class="card-title"></h5>
-            <p class="card-text">P: Presente <br />
-            A: Atraso
-            <br />
-            F: Falta
-            <br />
-            PM: Permiso Médico
-            <br />
-            PG: Permiso General
-            <br />
-            PV: Permiso Vacaciones
-            </p>
+        <div class="card-body col-md-12 col-sm-12">
+            
+           <table  id="tbldesc">
+               <tbody class="card-text">
+                   <tr>
+                       <td>P:</td>
+                       <td>Presente</td>
+                       
+                   </tr>
+                   <tr>
+                       <td>F:</td>
+                       <td>Falta</td>
+                   </tr>
+                   <tr>
+                       <td>A:</td>
+                       <td>Atraso</td>
+                      
+                   </tr>
+                   <tr>
+                       <td>V:</td>
+                       <td>Vacaciones</td>
+                   </tr>
+                   <tr>
+                       <td>PGHF:</td>
+                       <td>Permiso general por horas, falta</td>
+                       
+                   </tr>
+                   <tr>
+                       <td>PGHP:</td>
+                       <td>Permiso general por horas, presente</td>
+                   </tr>
+                   <tr>
+                       <td>PA:</td>
+                       <td>Paternidad</td>
+                       
+                   </tr>
+                   <tr>
+                       <td>M:</td>
+                       <td>Maternidad</td>
+                   </tr>
+                   <tr>
+                       <td>CS:</td>
+                       <td>Comisión servicios</td>
+                       
+                   </tr>
+                   <tr>
+                       <td>CSH:</td>
+                       <td>Comisión servicios, horas</td>
+                   </tr>
+                   <tr>
+                       <td>PM:</td>
+                       <td>Permiso médico</td>
+                       
+                   </tr>
+                   <tr>
+                       <td>PMHP:</td>
+                       <td>Permiso médico, horas, presente</td>
+                   </tr>
+                   <tr>
+                       <td>PMHF:</td>
+                       <td>Permiso médico, horas, falta</td>
+                    
+                   </tr>
+                   <tr>
+                       <td>PG:</td>
+                       <td>Permiso general</td>
+                   </tr>
+               </tbody>
+           </table>
+            
         </div>
     </div>
    

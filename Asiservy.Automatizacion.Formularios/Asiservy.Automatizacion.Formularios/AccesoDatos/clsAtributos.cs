@@ -12,6 +12,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string PreProduccionBD = "ASIS_PRE_PROD"; 
         public static string ProduccionBD = "ASISERVY_PROD";
 
+        //DESCRIPCION DE BASES DE DATOS
+        public static string BDProduccion = "SIAA";
+        public static string BDPreProduccion = "Pruebas";
+        public static string BDDesarrollo = "Desarrollo";
+
         //Mensajes de sistemas
         public static string MsjRegistroGuardado = "Registro Guardado Correctamente";
         public static string MsjRegistroError = "Registro no pudo ser Grabado";
@@ -51,6 +56,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int RolEtiquetadoLata = 36;
         public static int RolEtiquetadoPouch = 37;
         public static int RolLimpiezaPouch= 38;
+        public static int RolAutoclave = 25;
+        //public static int RolPouch = 38;
+        public static int RolFrio = 39;
+        //public static int RolLimpiezaPouch= 38;
+        //public static int RolLimpiezaPouch= 38;
 
         //Codigos de Lineas
         public static string CodLineaProduccion = "07";
@@ -244,5 +254,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //CLASIFICADOR DE LINEAS DE ENTREGA DE PRODUCTO TERMINADO
         public static string CodigoGrupoLineasEntregaProductoTerminado = "031";
 
+     
     }
 }

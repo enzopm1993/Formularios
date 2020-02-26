@@ -441,8 +441,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                             poSolicitudPermiso.JUSTICA_SOLICITUD.Add(detalle);
                         }
                     }
-                    string Respuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(poSolicitudPermiso);
-                    SetSuccessMessage(Respuesta);
+                    RespuestaGeneral Respuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(poSolicitudPermiso);
+                    SetSuccessMessage(Respuesta.Mensaje);
                 }
                 else
                 {
@@ -827,23 +827,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.UsuarioIngresoLog = lsUsuario[0];
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
                     solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
-                    if(model.CodigoMotivo ==clsAtributos.CodigoMotivoPermisoCitaMedica)
-                    {
-                        solicitudPermiso.ValidaMedico = true;
-                        solicitudPermiso.Origen = clsAtributos.SolicitudOrigenMedico;
-                    }
+                    //if(model.CodigoMotivo ==clsAtributos.CodigoMotivoPermisoCitaMedica)
+                    //{
+                    //    solicitudPermiso.ValidaMedico = true;
+                    //    solicitudPermiso.Origen = clsAtributos.SolicitudOrigenMedico;
+                    //}
                     var Motivo= clsDSolicitudPermiso.ConsultarMotivos(solicitudPermiso.CodigoMotivo).FirstOrDefault();
 
-                    string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);                    
-                    string mensajeCorreo=clsDGeneral.EnvioCorreo(poEmpleado, "Solicitud Permiso",
-                        "Empleado: "+ poEmpleado.NOMBRES+ "\n</br>"
-                        + "Motivo:" + Motivo.DescripcionMotivo+ "\n</br>"
-                        + "Observación:" + solicitudPermiso.Observacion+ "\n</br>"
-                        + "Fecha Salida: " + solicitudPermiso.FechaSalida+ "\n</br>" 
-                        + "Fecha Regreso: " + solicitudPermiso.FechaRegreso+ "</br>\n Estado: Pendiente </br></br>",false);
+                    RespuestaGeneral psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);                    
+                    string mensajeCorreo=clsDGeneral.EnvioCorreo(poEmpleado.CEDULA, "Solicitud Permiso",psRespuesta.Codigo+"|0",false);
 
 
-                    SetSuccessMessage(string.Format(psRespuesta+" -- "+ mensajeCorreo));
+                    SetSuccessMessage(string.Format(psRespuesta.Mensaje+" -- "+ mensajeCorreo));
                 }
                 else
                 {
@@ -1020,8 +1015,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     solicitudPermiso.FechaIngresoLog = DateTime.Now;
                     solicitudPermiso.UsuarioIngresoLog = lsUsuario[0] + "";
                     solicitudPermiso.TerminalIngresoLog = Request.UserHostAddress;
-                    string psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);
-                    SetSuccessMessage(string.Format(psRespuesta));
+                    RespuestaGeneral psRespuesta = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitudPermiso);
+                    SetSuccessMessage(string.Format(psRespuesta.Mensaje));
                 }
                 else
                 {

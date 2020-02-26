@@ -147,15 +147,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return resultado;
             }
         }
-        public List<ASISTENCIA> ConsultaFaltantesFinalizarAsistenciaTodos(DateTime Fecha)
+        public List<MOVIMIENTO_PERSONAL_DIARIO> ConsultaFaltantesFinalizarAsistenciaTodos(DateTime Fecha)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var result = db.ASISTENCIA.Where(x =>
-                            x.Fecha < Fecha
+                var result = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x =>
+                            x.FechaInicio < Fecha
                             && x.FechaFin == null
-                            && (x.EstadoAsistencia == clsAtributos.EstadoPresente || x.EstadoAsistencia == clsAtributos.EstadoAtraso)
-                            ).ToList();
+                            && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
                 return result;
             }
         }
@@ -331,7 +330,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 foreach (var item in BuscarCambioPersonal)
                 {
                     //verifico que no se haya generado asistencia para poder desactivar el registro en cambio de personal
-                    BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.FechaInicio == item.Fecha && x.HoraInicio < item.HoraInicio).ToList();
+                    BuscarMovimientoPersonalDiario = db.MOVIMIENTO_PERSONAL_DIARIO.Where(x => x.FechaInicio == item.Fecha&&x.Cedula==item.Cedula && x.HoraInicio < item.HoraInicio).ToList();
                     if (BuscarMovimientoPersonalDiario.Count == 0)
                     {
                         item.EstadoRegistro = "I";
@@ -591,8 +590,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 using (var transaction = db.Database.BeginTransaction())
                 {
                     DateTime Fechainicio = Convert.ToDateTime(psAsistencia.Fecha.Value.ToShortDateString());
-                    DateTime FechaFin = Convert.ToDateTime(psAsistencia.Fecha.Value.AddDays(1).ToShortDateString());
-                    var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == psAsistencia.Cedula && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo && (x.Fecha >= Fechainicio && x.Fecha < FechaFin)).FirstOrDefault();
+                    //DateTime FechaFin = Convert.ToDateTime(psAsistencia.Fecha.Value.AddDays(1).ToShortDateString());
+                    //var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Cedula == psAsistencia.Cedula && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo && (x.Fecha >= Fechainicio && x.Fecha < FechaFin)).FirstOrDefault();
+                    var BuscarEnAsistencia = db.ASISTENCIA.Where(x => x.Fecha == Fechainicio&& x.Cedula == psAsistencia.Cedula && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.Turno==psAsistencia.Turno).FirstOrDefault();
+
                     BuscarEnAsistencia.EstadoAsistencia = psAsistencia.EstadoAsistencia;
                     if (!string.IsNullOrEmpty(psAsistencia.Observacion))
                         BuscarEnAsistencia.Observacion = psAsistencia.Observacion;
@@ -608,6 +609,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                         //Busco en MOVIMIENTO
                         var BuscarMovimientoPersonalActivo = (from m in db.MOVIMIENTO_PERSONAL_DIARIO
                                                               where m.FechaInicio == Fechainicio && m.EstadoRegistro == clsAtributos.EstadoRegistroActivo & m.Cedula == psAsistencia.Cedula
+                                                              &&m.Turno==psAsistencia.Turno//agregado 2020-02-20 para que busque en movimiento tmb por el turno
                                                               select m).ToList();
                         if (BuscarMovimientoPersonalActivo.Count > 0 /*!= null*/)
                         {

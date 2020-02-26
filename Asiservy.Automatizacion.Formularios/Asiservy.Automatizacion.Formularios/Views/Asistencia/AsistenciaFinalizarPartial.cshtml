@@ -21,6 +21,7 @@
                     <th class="align-bottom"></th>
                     <th class="align-bottom"><b> Personal</b></th>
                     <th class="align-bottom"><b> Hora Inicio</b></th>
+                    <th class="align-bottom"><b> Hora Inicio, último movimiento</b></th>
                     <th class="align-bottom"><b>Check</b> </th>
                     <th class="align-bottom"><b>Hora Salida</b> </th>
                 </tr>
@@ -46,9 +47,15 @@
                         @item.NOMBRES
 
                     </td>
-                    <td >
+                    <td>
                         <center>
                             @item.HoraInicio
+                        </center>
+
+                    </td>
+                    <td>
+                        <center>
+                            @item.HoraInicioUltimoMovimiento
                         </center>
 
                     </td>
@@ -66,7 +73,7 @@
                         @if (item.HoraFin == null)
                         {
                             var hora = DateTime.Now.ToString("HH:mm");
-                            @Html.TextBoxFor(x => x[cont - 1].HoraFin, new { @Id = "txtHorasalida" + (cont - 1).ToString(), type = "time", @class = "form-control", @onkeyup = "GuardarSalida(" + @cont + ",'" + @item.Cedula + "','" + item.IdMovimientoPersonalDiario + "','change');", @onchange = "GuardarSalida(" + @cont + ",'" + @item.Cedula + "','"+item.IdMovimientoPersonalDiario+"','change');", @Value = hora })
+                            @Html.TextBoxFor(x => x[cont - 1].HoraFin, new { @Id = "txtHorasalida" + (cont - 1).ToString(), type = "time", @class = "form-control", @onkeyup = "GuardarSalida(" + @cont + ",'" + @item.Cedula + "','" + item.IdMovimientoPersonalDiario + "','change');", @onchange = "GuardarSalida(" + @cont + ",'" + @item.Cedula + "','" + item.IdMovimientoPersonalDiario + "','change');", @Value = hora })
                         }
                         else
                         {

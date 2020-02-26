@@ -93,11 +93,10 @@ function CargarOrdenFabricacion() {
     });
 }
 
-
-
 function CargarProductoTerminado() {
     $("#divCabecera2").prop("hidden", true);
     $("#btnAtras").prop("hidden", true);
+    $("#btnBodegas").prop("hidden", true);
     $("#btnModalEditar").prop("hidden", true);
     var txtFecha = $('#txtFecha').val();   
     if ($("#txtFecha").val() == "") {
@@ -291,6 +290,8 @@ function SeleccionarControlEntregaProductoTerminado(model) {
   
     //  $("#divCabecera1").prop("hidden", true);
     $("#btnAtras").prop("hidden", false);
+    $("#btnBodegas").prop("hidden", false);
+
     $("#btnModalEliminar").prop("hidden", false);
     $("#btnModalGenerar").prop("hidden", true);
     $("#btnModalEditar").prop("hidden", false);
@@ -315,6 +316,8 @@ function AtrasControlPrincipal() {
 
   //  $("#selectTurno").prop("disabled", false);
     $("#btnAtras").prop("hidden", true);
+    $("#btnBodegas").prop("hidden", true);
+    
     $("#btnModalEliminar").prop("hidden", true);
 
     $("#btnModalEditar").prop("hidden", true);
@@ -324,10 +327,47 @@ function AtrasControlPrincipal() {
     NuevaEntrega();
     CargarProductoTerminado();
 }
+///////////////////////////////////////////////////////////BODEGAS////////////////////////////////////////////
+
+function ModalBodegas() {
+    $.ajax({
+        url: "../EntregaProductoTerminado/ConsultarBodegas",
+        type: "GET",
+        data: {
+            OF: ListadoControl.OrdenFabricacion
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "102") {
+                MensajeAdvertencia("No existen datos para esta OF.");
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan parametros.");
+            } else {
+               // console.log(resultado.UnidadesControlCalidad);
+                $("#txtControlCalidad").val(resultado.UnidadesControlCalidad);
+                $("#txtRechazadas").val(resultado.UnidadesRechazadas);
+                $("#txtReproceso").val(resultado.UnidadesReproceso);
+                $("#txtDefectos").val(resultado.UnidadesConDefecto);
+                $("#txtEntregadas").val(resultado.CajasEntregadas);
+                $("#ModalBodegas").modal("show");
+            }
+
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoMaterial").prop("hidden", true);
+        }
+    });
+
+   
+
+}
 
 
-
-////////CONSUMO DE MATERIALES //////////////////////////////
+//////////////////////////////////////////////////////////CONSUMO DE MATERIALES //////////////////////////////
 function CargarProcesoDetalleMaterial() {
     $("#spinnerCargandoMaterial").prop("hidden", false);
     $("#divTableMaterial").html('');

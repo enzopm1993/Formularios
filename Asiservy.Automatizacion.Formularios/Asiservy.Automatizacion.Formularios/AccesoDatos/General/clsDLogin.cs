@@ -135,7 +135,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 //oresultado[1] = pListHijostotal;
                 oresultado[0] = pListPadresfilter.Distinct().OrderBy(Z => Z.Orden).ToList();
                 oresultado[1] = pListHijosfilter.Distinct().OrderBy(Z => Z.Orden).ToList();
-                oresultado[2] = pListModulosFilter.Distinct().ToList();
+                oresultado[2] = pListModulosFilter.Distinct().OrderByDescending(z=>z.IdModulo).ToList();
                 return oresultado;
 
             }

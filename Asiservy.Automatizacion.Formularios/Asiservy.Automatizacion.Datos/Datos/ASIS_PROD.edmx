@@ -416,15 +416,15 @@
           <Property Name="Producto" Type="varchar" MaxLength="100" />
           <Property Name="Destino" Type="varchar" MaxLength="150" />
           <Property Name="Cliente" Type="varchar" MaxLength="150" />
-          <Property Name="PesoNeto" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="PesoEscrundido" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="Lomo" Type="decimal" Precision="5" Scale="2" />
-          <Property Name="Miga" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="PesoNeto" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="PesoEscrundido" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Lomo" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Miga" Type="decimal" Precision="10" Scale="2" />
           <Property Name="Envase" Type="varchar" MaxLength="50" />
           <Property Name="Tapa" Type="varchar" MaxLength="50" />
-          <Property Name="Aceite" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="Agua" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="CaldoVegetal" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="Aceite" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Agua" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="CaldoVegetal" Type="decimal" Precision="10" Scale="2" />
           <Property Name="DesperdicioSolido" Type="int" />
           <Property Name="DesperdicioLiquido" Type="int" />
           <Property Name="DesperdicioAceite" Type="int" />
@@ -448,7 +448,7 @@
           <Property Name="UnidadesRecibidasTapa" Type="int" />
           <Property Name="UnidadesSobrantesTapa" Type="int" />
           <Property Name="UnidadesProducidasTapa" Type="int" />
-          <Property Name="GrsLataReal" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="GrsLataReal" Type="decimal" Precision="10" Scale="2" />
           <Property Name="SaldoInicialLamina" Type="int" />
           <Property Name="SaldoInicialUnidad" Type="int" />
           <Property Name="SaldoFinalLamina" Type="int" />
@@ -641,6 +641,7 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="Turno" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="CONTROL_MATERIAL_DETALLE">
           <Key>
@@ -2203,6 +2204,7 @@
           <Parameter Name="FechaDesde" Type="date" Mode="In" />
           <Parameter Name="FechaHasta" Type="date" Mode="In" />
           <Parameter Name="Linea" Type="varchar" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
         </Function>
         <Function Name="spReporteControlPesoCodificacionLomosMigas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FechaProducción" Type="date" Mode="In" />
@@ -2778,11 +2780,6 @@
           <FunctionImport Name="spConsultaControlMaterialQuebradizoDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaControlMaterialQuebradizoDetalle)">
           <Parameter Name="idControl" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spReporteControlMaterialQuebradizo" ReturnType="Collection(ASIS_PRODModel.spReporteControlMaterialQuebradizo)">
-            <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
-            <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
-            <Parameter Name="Linea" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaEspecificaEmpleadosxCedula" ReturnType="Collection(ASIS_PRODModel.spConsultaEspecificaEmpleadosxCedula)">
           <Parameter Name="Cedula" Mode="In" Type="String" />
           </FunctionImport>
@@ -2824,11 +2821,6 @@
           <Parameter Name="idControl" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="MOVIMIENTO_PERSONAL_DIARIO" EntityType="ASIS_PRODModel.MOVIMIENTO_PERSONAL_DIARIO" />
-          <FunctionImport Name="spConsultaAsistenciaFinalizar" ReturnType="Collection(ASIS_PRODModel.spConsultaAsistenciaFinalizar)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="Linea" Mode="In" Type="String" />
-            <Parameter Name="Turno" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaPersonalMovidoaLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaPersonalMovidoaLinea)">
             <Parameter Name="LINEA" Mode="In" Type="String" />
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
@@ -3106,41 +3098,7 @@
             <Parameter Name="fechadesde" Mode="In" Type="DateTime" />
             <Parameter Name="fechahasta" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <EntitySet Name="CONTROL_CONSUMO_INSUMO" EntityType="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" />
-          <AssociationSet Name="FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO">
-            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
-            <End Role="CONSUMO_DETALLE_ADITIVO" EntitySet="CONSUMO_DETALLE_ADITIVO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO">
-            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
-            <End Role="CONSUMO_DETALLE_DANIADO" EntitySet="CONSUMO_DETALLE_DANIADO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO">
-            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
-            <End Role="CONSUMO_DETALLE_LATA" EntitySet="CONSUMO_DETALLE_LATA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO">
-            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
-            <End Role="CONSUMO_DETALLE_POUCH" EntitySet="CONSUMO_DETALLE_POUCH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO">
-            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
-            <End Role="CONSUMO_TIEMPO_MUERTO" EntitySet="CONSUMO_TIEMPO_MUERTO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO">
-            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
-            <End Role="CONTROL_CONSUMO_INSUMO_DETALLE" EntitySet="CONTROL_CONSUMO_INSUMO_DETALLE" />
-          </AssociationSet>
-          <FunctionImport Name="spConsultaControlConsumoInsumo" ReturnType="Collection(ASIS_PRODModel.spConsultaControlConsumoInsumo)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="linea" Mode="In" Type="String" />
-            <Parameter Name="turno" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="CONSUMO_PROCEDENCIA_PESCADO" EntityType="ASIS_PRODModel.CONSUMO_PROCEDENCIA_PESCADO" />
-          <AssociationSet Name="FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO">
-            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
-            <End Role="CONSUMO_PROCEDENCIA_PESCADO" EntitySet="CONSUMO_PROCEDENCIA_PESCADO" />
-          </AssociationSet>
           <FunctionImport Name="spConsultaConsumoProcedenciaPescado" ReturnType="Collection(ASIS_PRODModel.spConsultaConsumoProcedenciaPescado)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -3209,6 +3167,51 @@
           <FunctionImport Name="spReporteControlPesoCodificacionLomosMigas" ReturnType="Collection(ASIS_PRODModel.spReporteControlPesoCodificacionLomosMigas)">
             <Parameter Name="FechaProducción" Mode="In" Type="DateTime" />
             <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spReporteControlMaterialQuebradizo" ReturnType="Collection(ASIS_PRODModel.spReporteControlMaterialQuebradizo)">
+            <Parameter Name="FechaDesde" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaHasta" Mode="In" Type="DateTime" />
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaAsistenciaFinalizar" ReturnType="Collection(ASIS_PRODModel.spConsultaAsistenciaFinalizar)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="CONTROL_CONSUMO_INSUMO" EntityType="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" />
+          <AssociationSet Name="FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO">
+            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
+            <End Role="CONSUMO_DETALLE_ADITIVO" EntitySet="CONSUMO_DETALLE_ADITIVO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO">
+            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
+            <End Role="CONSUMO_DETALLE_DANIADO" EntitySet="CONSUMO_DETALLE_DANIADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO">
+            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
+            <End Role="CONSUMO_DETALLE_LATA" EntitySet="CONSUMO_DETALLE_LATA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO">
+            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
+            <End Role="CONSUMO_DETALLE_POUCH" EntitySet="CONSUMO_DETALLE_POUCH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO">
+            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
+            <End Role="CONSUMO_PROCEDENCIA_PESCADO" EntitySet="CONSUMO_PROCEDENCIA_PESCADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO">
+            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
+            <End Role="CONSUMO_TIEMPO_MUERTO" EntitySet="CONSUMO_TIEMPO_MUERTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" Association="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO">
+            <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
+            <End Role="CONTROL_CONSUMO_INSUMO_DETALLE" EntitySet="CONTROL_CONSUMO_INSUMO_DETALLE" />
+          </AssociationSet>
+          <FunctionImport Name="spConsultaControlConsumoInsumo" ReturnType="Collection(ASIS_PRODModel.spConsultaControlConsumoInsumo)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
+            <Parameter Name="turno" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -4043,6 +4046,7 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CONTROL_MATERIAL_DETALLE" Relationship="ASIS_PRODModel.FK_CONTROL_MATERIAL_DETALLE_CONTROL_MATERIAL" FromRole="CONTROL_MATERIAL" ToRole="CONTROL_MATERIAL_DETALLE" />
+          <Property Name="Turno" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
         <EntityType Name="CONTROL_MATERIAL_DETALLE">
           <Key>
@@ -4092,26 +4096,6 @@
           <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="spReporteControlMaterialQuebradizo">
-          <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="String" Name="ObservacionControl" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="Linea" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="Material" Nullable="true" MaxLength="30" />
-          <Property Type="Int32" Name="IdControlMaterialDetalle" Nullable="false" />
-          <Property Type="Int32" Name="IdControlMaterial" Nullable="false" />
-          <Property Type="String" Name="CodigoMaterial" Nullable="false" MaxLength="10" />
-          <Property Type="Int32" Name="TotalMaterial" Nullable="false" />
-          <Property Type="Int32" Name="BuenEstado" Nullable="false" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="DadoBaja" Nullable="true" />
         </ComplexType>
         <ComplexType Name="spConsultaEspecificaEmpleadosxCedula">
           <Property Type="String" Name="LINEA" Nullable="true" MaxLength="10" />
@@ -4269,22 +4253,6 @@
           <Property Name="FinalizaAsistencia" Type="Boolean" />
           <Property Name="Turno" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
-        <ComplexType Name="spConsultaAsistenciaFinalizar">
-          <Property Type="Int64" Name="NumReg" Nullable="true" />
-          <Property Type="Int32" Name="IdMovimientoPersonalDiario" Nullable="false" />
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
-          <Property Type="DateTime" Name="FechaInicio" Nullable="true" />
-          <Property Type="Time" Name="HoraInicio" Nullable="true" />
-          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaFin" Nullable="true" />
-          <Property Type="Time" Name="HoraFin" Nullable="true" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
-        </ComplexType>
         <ComplexType Name="spConsultaPersonalMovidoaLinea">
           <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
@@ -5657,177 +5625,6 @@
           <Property Type="String" Name="Linea" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
         </ComplexType>
-        <EntityType Name="CONTROL_CONSUMO_INSUMO">
-          <Key>
-            <PropertyRef Name="IdControlConsumoInsumos" />
-          </Key>
-          <Property Name="IdControlConsumoInsumos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
-          <Property Name="OrdenVenta" Type="Int32" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="LineaNegocio" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoProducto" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="Producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Destino" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Cliente" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="PesoNeto" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="PesoEscrundido" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="Lomo" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="Miga" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="Envase" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Tapa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Aceite" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="Agua" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="CaldoVegetal" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="DesperdicioSolido" Type="Int32" />
-          <Property Name="DesperdicioLiquido" Type="Int32" />
-          <Property Name="DesperdicioAceite" Type="Int32" />
-          <Property Name="HoraInicio" Type="DateTime" Precision="3" />
-          <Property Name="HoraFin" Type="DateTime" Precision="3" />
-          <Property Name="Empleados" Type="Int32" />
-          <Property Name="Cajas" Type="Int32" />
-          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoMaterial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UnidadesRecibidas" Type="Int32" />
-          <Property Name="UnidadesSobrantes" Type="Int32" />
-          <Property Name="UnidadesProducidas" Type="Int32" />
-          <Property Name="Marca" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="UnidadesRecibidasTapa" Type="Int32" />
-          <Property Name="UnidadesSobrantesTapa" Type="Int32" />
-          <Property Name="UnidadesProducidasTapa" Type="Int32" />
-          <Property Name="GrsLataReal" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="SaldoInicialLamina" Type="Int32" />
-          <Property Name="SaldoInicialUnidad" Type="Int32" />
-          <Property Name="SaldoFinalLamina" Type="Int32" />
-          <Property Name="SaldoFinalUnidad" Type="Int32" />
-          <NavigationProperty Name="CONSUMO_DETALLE_ADITIVO" Relationship="ASIS_PRODModel.FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_DETALLE_ADITIVO" />
-          <NavigationProperty Name="CONSUMO_DETALLE_DANIADO" Relationship="ASIS_PRODModel.FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_DETALLE_DANIADO" />
-          <NavigationProperty Name="CONSUMO_DETALLE_LATA" Relationship="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_DETALLE_LATA" />
-          <NavigationProperty Name="CONSUMO_DETALLE_POUCH" Relationship="ASIS_PRODModel.FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_DETALLE_POUCH" />
-          <NavigationProperty Name="CONSUMO_TIEMPO_MUERTO" Relationship="ASIS_PRODModel.FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_TIEMPO_MUERTO" />
-          <NavigationProperty Name="CONTROL_CONSUMO_INSUMO_DETALLE" Relationship="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONTROL_CONSUMO_INSUMO_DETALLE" />
-          <NavigationProperty Name="CONSUMO_PROCEDENCIA_PESCADO" Relationship="ASIS_PRODModel.FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_PROCEDENCIA_PESCADO" />
-        </EntityType>
-        <Association Name="FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO">
-          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CONSUMO_DETALLE_ADITIVO" Role="CONSUMO_DETALLE_ADITIVO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CONTROL_CONSUMO_INSUMO">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Principal>
-            <Dependent Role="CONSUMO_DETALLE_ADITIVO">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO">
-          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CONSUMO_DETALLE_DANIADO" Role="CONSUMO_DETALLE_DANIADO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CONTROL_CONSUMO_INSUMO">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Principal>
-            <Dependent Role="CONSUMO_DETALLE_DANIADO">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO">
-          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CONSUMO_DETALLE_LATA" Role="CONSUMO_DETALLE_LATA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CONTROL_CONSUMO_INSUMO">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Principal>
-            <Dependent Role="CONSUMO_DETALLE_LATA">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO">
-          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CONSUMO_DETALLE_POUCH" Role="CONSUMO_DETALLE_POUCH" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CONTROL_CONSUMO_INSUMO">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Principal>
-            <Dependent Role="CONSUMO_DETALLE_POUCH">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO">
-          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CONSUMO_TIEMPO_MUERTO" Role="CONSUMO_TIEMPO_MUERTO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CONTROL_CONSUMO_INSUMO">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Principal>
-            <Dependent Role="CONSUMO_TIEMPO_MUERTO">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO">
-          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO_DETALLE" Role="CONTROL_CONSUMO_INSUMO_DETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CONTROL_CONSUMO_INSUMO">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Principal>
-            <Dependent Role="CONTROL_CONSUMO_INSUMO_DETALLE">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <ComplexType Name="spConsultaControlConsumoInsumo">
-          <Property Type="Int32" Name="IdControlConsumoInsumos" Nullable="false" />
-          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
-          <Property Type="Int32" Name="OrdenVenta" Nullable="false" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="String" Name="CodigoProducto" Nullable="false" MaxLength="12" />
-          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Destino" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="150" />
-          <Property Type="Decimal" Name="PesoNeto" Nullable="true" Precision="6" Scale="2" />
-          <Property Type="Decimal" Name="PesoEscrundido" Nullable="true" Precision="6" Scale="2" />
-          <Property Type="Decimal" Name="Lomo" Nullable="true" Precision="5" Scale="2" />
-          <Property Type="Decimal" Name="Miga" Nullable="true" Precision="5" Scale="2" />
-          <Property Type="String" Name="Envase" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Tapa" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="Aceite" Nullable="true" Precision="6" Scale="2" />
-          <Property Type="Decimal" Name="Agua" Nullable="true" Precision="6" Scale="2" />
-          <Property Type="Decimal" Name="CaldoVegetal" Nullable="true" Precision="6" Scale="2" />
-          <Property Type="Int32" Name="DesperdicioSolido" Nullable="true" />
-          <Property Type="Int32" Name="DesperdicioLiquido" Nullable="true" />
-          <Property Type="Int32" Name="DesperdicioAceite" Nullable="true" />
-          <Property Type="DateTime" Name="HoraInicio" Nullable="true" Precision="23" />
-          <Property Type="DateTime" Name="HoraFin" Nullable="true" Precision="23" />
-          <Property Type="Int32" Name="Empleados" Nullable="true" />
-          <Property Type="Int32" Name="Cajas" Nullable="true" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="CodigoMaterial" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="UnidadesRecibidas" Nullable="true" />
-          <Property Type="Int32" Name="UnidadesSobrantes" Nullable="true" />
-          <Property Type="Int32" Name="UnidadesProducidas" Nullable="true" />
-          <Property Type="String" Name="Marca" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="UnidadesRecibidasTapa" Nullable="true" />
-          <Property Type="Int32" Name="UnidadesSobrantesTapa" Nullable="true" />
-          <Property Type="Int32" Name="UnidadesProducidasTapa" Nullable="true" />
-          <Property Type="Decimal" Name="GrsLataReal" Nullable="true" Precision="6" Scale="2" />
-          <Property Type="Int32" Name="SaldoInicialLamina" Nullable="true" />
-          <Property Type="Int32" Name="SaldoInicialUnidad" Nullable="true" />
-          <Property Type="Int32" Name="SaldoFinalLamina" Nullable="true" />
-          <Property Type="Int32" Name="SaldoFinalUnidad" Nullable="true" />
-        </ComplexType>
         <EntityType Name="CONSUMO_PROCEDENCIA_PESCADO">
           <Key>
             <PropertyRef Name="IdProcedenciaPescado" />
@@ -5848,18 +5645,6 @@
           <Property Name="Miga" Type="Decimal" Precision="10" Scale="2" />
           <NavigationProperty Name="CONTROL_CONSUMO_INSUMO" Relationship="ASIS_PRODModel.FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO" FromRole="CONSUMO_PROCEDENCIA_PESCADO" ToRole="CONTROL_CONSUMO_INSUMO" />
         </EntityType>
-        <Association Name="FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO">
-          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.CONSUMO_PROCEDENCIA_PESCADO" Role="CONSUMO_PROCEDENCIA_PESCADO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CONTROL_CONSUMO_INSUMO">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Principal>
-            <Dependent Role="CONSUMO_PROCEDENCIA_PESCADO">
-              <PropertyRef Name="IdControlConsumoInsumos" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spConsultaConsumoProcedenciaPescado">
           <Property Type="Int32" Name="IdProcedenciaPescado" Nullable="false" />
           <Property Type="Int32" Name="IdControlConsumoInsumos" Nullable="false" />
@@ -6211,6 +5996,226 @@
           <Property Type="Int32" Name="Total" Nullable="true" />
           <Property Type="Decimal" Name="Promedio" Nullable="true" Precision="38" Scale="6" />
           <Property Type="Int32" Name="TemperaturaAguaTermoencogido" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spReporteControlMaterialQuebradizo">
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="ObservacionControl" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Material" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="IdControlMaterialDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdControlMaterial" Nullable="false" />
+          <Property Type="String" Name="CodigoMaterial" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="TotalMaterial" Nullable="false" />
+          <Property Type="Int32" Name="BuenEstado" Nullable="false" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="DadoBaja" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spConsultaAsistenciaFinalizar">
+          <Property Type="Int64" Name="NumReg" Nullable="true" />
+          <Property Type="Int32" Name="IdMovimientoPersonalDiario" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="DateTime" Name="FechaInicio" Nullable="true" />
+          <Property Type="Time" Name="HoraInicioUltimoMovimiento" Nullable="true" />
+          <Property Type="Time" Name="HoraInicio" Nullable="true" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaFin" Nullable="true" />
+          <Property Type="Time" Name="HoraFin" Nullable="true" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
+        </ComplexType>
+        <EntityType Name="CONTROL_CONSUMO_INSUMO">
+          <Key>
+            <PropertyRef Name="IdControlConsumoInsumos" />
+          </Key>
+          <Property Name="IdControlConsumoInsumos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
+          <Property Name="OrdenVenta" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="LineaNegocio" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoProducto" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Destino" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Cliente" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="PesoNeto" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="PesoEscrundido" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Lomo" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Miga" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Envase" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tapa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Aceite" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Agua" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="CaldoVegetal" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DesperdicioSolido" Type="Int32" />
+          <Property Name="DesperdicioLiquido" Type="Int32" />
+          <Property Name="DesperdicioAceite" Type="Int32" />
+          <Property Name="HoraInicio" Type="DateTime" Precision="3" />
+          <Property Name="HoraFin" Type="DateTime" Precision="3" />
+          <Property Name="Empleados" Type="Int32" />
+          <Property Name="Cajas" Type="Int32" />
+          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoMaterial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UnidadesRecibidas" Type="Int32" />
+          <Property Name="UnidadesSobrantes" Type="Int32" />
+          <Property Name="UnidadesProducidas" Type="Int32" />
+          <Property Name="Marca" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UnidadesRecibidasTapa" Type="Int32" />
+          <Property Name="UnidadesSobrantesTapa" Type="Int32" />
+          <Property Name="UnidadesProducidasTapa" Type="Int32" />
+          <Property Name="GrsLataReal" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="SaldoInicialLamina" Type="Int32" />
+          <Property Name="SaldoInicialUnidad" Type="Int32" />
+          <Property Name="SaldoFinalLamina" Type="Int32" />
+          <Property Name="SaldoFinalUnidad" Type="Int32" />
+          <NavigationProperty Name="CONSUMO_DETALLE_ADITIVO" Relationship="ASIS_PRODModel.FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_DETALLE_ADITIVO" />
+          <NavigationProperty Name="CONSUMO_DETALLE_DANIADO" Relationship="ASIS_PRODModel.FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_DETALLE_DANIADO" />
+          <NavigationProperty Name="CONSUMO_DETALLE_LATA" Relationship="ASIS_PRODModel.FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_DETALLE_LATA" />
+          <NavigationProperty Name="CONSUMO_DETALLE_POUCH" Relationship="ASIS_PRODModel.FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_DETALLE_POUCH" />
+          <NavigationProperty Name="CONSUMO_PROCEDENCIA_PESCADO" Relationship="ASIS_PRODModel.FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_PROCEDENCIA_PESCADO" />
+          <NavigationProperty Name="CONSUMO_TIEMPO_MUERTO" Relationship="ASIS_PRODModel.FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONSUMO_TIEMPO_MUERTO" />
+          <NavigationProperty Name="CONTROL_CONSUMO_INSUMO_DETALLE" Relationship="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" FromRole="CONTROL_CONSUMO_INSUMO" ToRole="CONTROL_CONSUMO_INSUMO_DETALLE" />
+        </EntityType>
+        <Association Name="FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO">
+          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CONSUMO_DETALLE_ADITIVO" Role="CONSUMO_DETALLE_ADITIVO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_CONSUMO_INSUMO">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Principal>
+            <Dependent Role="CONSUMO_DETALLE_ADITIVO">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CONSUMO_DETALLE_DANIADO_CONTROL_CONSUMO_INSUMO">
+          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CONSUMO_DETALLE_DANIADO" Role="CONSUMO_DETALLE_DANIADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_CONSUMO_INSUMO">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Principal>
+            <Dependent Role="CONSUMO_DETALLE_DANIADO">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROCESO_DETALLE_LATA_CONTROL_CONSUMO_INSUMO">
+          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CONSUMO_DETALLE_LATA" Role="CONSUMO_DETALLE_LATA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_CONSUMO_INSUMO">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Principal>
+            <Dependent Role="CONSUMO_DETALLE_LATA">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROCESO_DETALLE_POUCH_CONTROL_CONSUMO_INSUMO">
+          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CONSUMO_DETALLE_POUCH" Role="CONSUMO_DETALLE_POUCH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_CONSUMO_INSUMO">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Principal>
+            <Dependent Role="CONSUMO_DETALLE_POUCH">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CONSUMO_PROCEDENCIA_PESCADO_CONTROL_CONSUMO_INSUMO">
+          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CONSUMO_PROCEDENCIA_PESCADO" Role="CONSUMO_PROCEDENCIA_PESCADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_CONSUMO_INSUMO">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Principal>
+            <Dependent Role="CONSUMO_PROCEDENCIA_PESCADO">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO">
+          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CONSUMO_TIEMPO_MUERTO" Role="CONSUMO_TIEMPO_MUERTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_CONSUMO_INSUMO">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Principal>
+            <Dependent Role="CONSUMO_TIEMPO_MUERTO">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO">
+          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO" Role="CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO_DETALLE" Role="CONTROL_CONSUMO_INSUMO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTROL_CONSUMO_INSUMO">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Principal>
+            <Dependent Role="CONTROL_CONSUMO_INSUMO_DETALLE">
+              <PropertyRef Name="IdControlConsumoInsumos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spConsultaControlConsumoInsumo">
+          <Property Type="Int32" Name="IdControlConsumoInsumos" Nullable="false" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
+          <Property Type="Int32" Name="OrdenVenta" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="CodigoProducto" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Destino" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="150" />
+          <Property Type="Decimal" Name="PesoNeto" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="PesoEscrundido" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="Lomo" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="Miga" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="String" Name="Envase" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Tapa" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Aceite" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="Agua" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="CaldoVegetal" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="DesperdicioSolido" Nullable="true" />
+          <Property Type="Int32" Name="DesperdicioLiquido" Nullable="true" />
+          <Property Type="Int32" Name="DesperdicioAceite" Nullable="true" />
+          <Property Type="DateTime" Name="HoraInicio" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="HoraFin" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Empleados" Nullable="true" />
+          <Property Type="Int32" Name="Cajas" Nullable="true" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="CodigoMaterial" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="UnidadesRecibidas" Nullable="true" />
+          <Property Type="Int32" Name="UnidadesSobrantes" Nullable="true" />
+          <Property Type="Int32" Name="UnidadesProducidas" Nullable="true" />
+          <Property Type="String" Name="Marca" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="UnidadesRecibidasTapa" Nullable="true" />
+          <Property Type="Int32" Name="UnidadesSobrantesTapa" Nullable="true" />
+          <Property Type="Int32" Name="UnidadesProducidasTapa" Nullable="true" />
+          <Property Type="Decimal" Name="GrsLataReal" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="SaldoInicialLamina" Nullable="true" />
+          <Property Type="Int32" Name="SaldoInicialUnidad" Nullable="true" />
+          <Property Type="Int32" Name="SaldoFinalLamina" Nullable="true" />
+          <Property Type="Int32" Name="SaldoFinalUnidad" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -7273,6 +7278,7 @@
           <EntitySetMapping Name="CONTROL_MATERIAL">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_MATERIAL">
               <MappingFragment StoreEntitySet="CONTROL_MATERIAL">
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
@@ -7325,30 +7331,6 @@
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spReporteControlMaterialQuebradizo" FunctionName="ASIS_PRODModel.Store.spReporteControlMaterialQuebradizo">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteControlMaterialQuebradizo">
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="ObservacionControl" ColumnName="ObservacionControl" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="Material" ColumnName="Material" />
-                <ScalarProperty Name="IdControlMaterialDetalle" ColumnName="IdControlMaterialDetalle" />
-                <ScalarProperty Name="IdControlMaterial" ColumnName="IdControlMaterial" />
-                <ScalarProperty Name="CodigoMaterial" ColumnName="CodigoMaterial" />
-                <ScalarProperty Name="TotalMaterial" ColumnName="TotalMaterial" />
-                <ScalarProperty Name="BuenEstado" ColumnName="BuenEstado" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="DadoBaja" ColumnName="DadoBaja" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7533,26 +7515,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaAsistenciaFinalizar" FunctionName="ASIS_PRODModel.Store.spConsultaAsistenciaFinalizar">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaAsistenciaFinalizar">
-                <ScalarProperty Name="NumReg" ColumnName="NumReg" />
-                <ScalarProperty Name="IdMovimientoPersonalDiario" ColumnName="IdMovimientoPersonalDiario" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
-                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
-                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
-                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaPersonalMovidoaLinea" FunctionName="ASIS_PRODModel.Store.spConsultaPersonalMovidoaLinea">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaPersonalMovidoaLinea">
@@ -9034,103 +8996,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="CONTROL_CONSUMO_INSUMO">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO">
-              <MappingFragment StoreEntitySet="CONTROL_CONSUMO_INSUMO">
-                <ScalarProperty Name="SaldoFinalUnidad" ColumnName="SaldoFinalUnidad" />
-                <ScalarProperty Name="SaldoFinalLamina" ColumnName="SaldoFinalLamina" />
-                <ScalarProperty Name="SaldoInicialUnidad" ColumnName="SaldoInicialUnidad" />
-                <ScalarProperty Name="SaldoInicialLamina" ColumnName="SaldoInicialLamina" />
-                <ScalarProperty Name="GrsLataReal" ColumnName="GrsLataReal" />
-                <ScalarProperty Name="UnidadesProducidasTapa" ColumnName="UnidadesProducidasTapa" />
-                <ScalarProperty Name="UnidadesSobrantesTapa" ColumnName="UnidadesSobrantesTapa" />
-                <ScalarProperty Name="UnidadesRecibidasTapa" ColumnName="UnidadesRecibidasTapa" />
-                <ScalarProperty Name="Marca" ColumnName="Marca" />
-                <ScalarProperty Name="UnidadesProducidas" ColumnName="UnidadesProducidas" />
-                <ScalarProperty Name="UnidadesSobrantes" ColumnName="UnidadesSobrantes" />
-                <ScalarProperty Name="UnidadesRecibidas" ColumnName="UnidadesRecibidas" />
-                <ScalarProperty Name="CodigoMaterial" ColumnName="CodigoMaterial" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="Cajas" ColumnName="Cajas" />
-                <ScalarProperty Name="Empleados" ColumnName="Empleados" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="DesperdicioAceite" ColumnName="DesperdicioAceite" />
-                <ScalarProperty Name="DesperdicioLiquido" ColumnName="DesperdicioLiquido" />
-                <ScalarProperty Name="DesperdicioSolido" ColumnName="DesperdicioSolido" />
-                <ScalarProperty Name="CaldoVegetal" ColumnName="CaldoVegetal" />
-                <ScalarProperty Name="Agua" ColumnName="Agua" />
-                <ScalarProperty Name="Aceite" ColumnName="Aceite" />
-                <ScalarProperty Name="Tapa" ColumnName="Tapa" />
-                <ScalarProperty Name="Envase" ColumnName="Envase" />
-                <ScalarProperty Name="Miga" ColumnName="Miga" />
-                <ScalarProperty Name="Lomo" ColumnName="Lomo" />
-                <ScalarProperty Name="PesoEscrundido" ColumnName="PesoEscrundido" />
-                <ScalarProperty Name="PesoNeto" ColumnName="PesoNeto" />
-                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
-                <ScalarProperty Name="Destino" ColumnName="Destino" />
-                <ScalarProperty Name="Producto" ColumnName="Producto" />
-                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
-                <ScalarProperty Name="LineaNegocio" ColumnName="LineaNegocio" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="IdControlConsumoInsumos" ColumnName="IdControlConsumoInsumos" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaControlConsumoInsumo" FunctionName="ASIS_PRODModel.Store.spConsultaControlConsumoInsumo">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlConsumoInsumo">
-                <ScalarProperty Name="IdControlConsumoInsumos" ColumnName="IdControlConsumoInsumos" />
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
-                <ScalarProperty Name="Producto" ColumnName="Producto" />
-                <ScalarProperty Name="Destino" ColumnName="Destino" />
-                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
-                <ScalarProperty Name="PesoNeto" ColumnName="PesoNeto" />
-                <ScalarProperty Name="PesoEscrundido" ColumnName="PesoEscrundido" />
-                <ScalarProperty Name="Lomo" ColumnName="Lomo" />
-                <ScalarProperty Name="Miga" ColumnName="Miga" />
-                <ScalarProperty Name="Envase" ColumnName="Envase" />
-                <ScalarProperty Name="Tapa" ColumnName="Tapa" />
-                <ScalarProperty Name="Aceite" ColumnName="Aceite" />
-                <ScalarProperty Name="Agua" ColumnName="Agua" />
-                <ScalarProperty Name="CaldoVegetal" ColumnName="CaldoVegetal" />
-                <ScalarProperty Name="DesperdicioSolido" ColumnName="DesperdicioSolido" />
-                <ScalarProperty Name="DesperdicioLiquido" ColumnName="DesperdicioLiquido" />
-                <ScalarProperty Name="DesperdicioAceite" ColumnName="DesperdicioAceite" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-                <ScalarProperty Name="Empleados" ColumnName="Empleados" />
-                <ScalarProperty Name="Cajas" ColumnName="Cajas" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="CodigoMaterial" ColumnName="CodigoMaterial" />
-                <ScalarProperty Name="UnidadesRecibidas" ColumnName="UnidadesRecibidas" />
-                <ScalarProperty Name="UnidadesSobrantes" ColumnName="UnidadesSobrantes" />
-                <ScalarProperty Name="UnidadesProducidas" ColumnName="UnidadesProducidas" />
-                <ScalarProperty Name="Marca" ColumnName="Marca" />
-                <ScalarProperty Name="UnidadesRecibidasTapa" ColumnName="UnidadesRecibidasTapa" />
-                <ScalarProperty Name="UnidadesSobrantesTapa" ColumnName="UnidadesSobrantesTapa" />
-                <ScalarProperty Name="UnidadesProducidasTapa" ColumnName="UnidadesProducidasTapa" />
-                <ScalarProperty Name="GrsLataReal" ColumnName="GrsLataReal" />
-                <ScalarProperty Name="SaldoInicialLamina" ColumnName="SaldoInicialLamina" />
-                <ScalarProperty Name="SaldoInicialUnidad" ColumnName="SaldoInicialUnidad" />
-                <ScalarProperty Name="SaldoFinalLamina" ColumnName="SaldoFinalLamina" />
-                <ScalarProperty Name="SaldoFinalUnidad" ColumnName="SaldoFinalUnidad" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CONSUMO_PROCEDENCIA_PESCADO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONSUMO_PROCEDENCIA_PESCADO">
               <MappingFragment StoreEntitySet="CONSUMO_PROCEDENCIA_PESCADO">
@@ -9478,6 +9343,148 @@
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="Promedio" ColumnName="Promedio" />
                 <ScalarProperty Name="TemperaturaAguaTermoencogido" ColumnName="TemperaturaAguaTermoencogido" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spReporteControlMaterialQuebradizo" FunctionName="ASIS_PRODModel.Store.spReporteControlMaterialQuebradizo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteControlMaterialQuebradizo">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="ObservacionControl" ColumnName="ObservacionControl" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="IdControlMaterialDetalle" ColumnName="IdControlMaterialDetalle" />
+                <ScalarProperty Name="IdControlMaterial" ColumnName="IdControlMaterial" />
+                <ScalarProperty Name="CodigoMaterial" ColumnName="CodigoMaterial" />
+                <ScalarProperty Name="TotalMaterial" ColumnName="TotalMaterial" />
+                <ScalarProperty Name="BuenEstado" ColumnName="BuenEstado" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="DadoBaja" ColumnName="DadoBaja" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaAsistenciaFinalizar" FunctionName="ASIS_PRODModel.Store.spConsultaAsistenciaFinalizar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaAsistenciaFinalizar">
+                <ScalarProperty Name="NumReg" ColumnName="NumReg" />
+                <ScalarProperty Name="IdMovimientoPersonalDiario" ColumnName="IdMovimientoPersonalDiario" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="HoraInicioUltimoMovimiento" ColumnName="HoraInicioUltimoMovimiento" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CONTROL_CONSUMO_INSUMO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_CONSUMO_INSUMO">
+              <MappingFragment StoreEntitySet="CONTROL_CONSUMO_INSUMO">
+                <ScalarProperty Name="SaldoFinalUnidad" ColumnName="SaldoFinalUnidad" />
+                <ScalarProperty Name="SaldoFinalLamina" ColumnName="SaldoFinalLamina" />
+                <ScalarProperty Name="SaldoInicialUnidad" ColumnName="SaldoInicialUnidad" />
+                <ScalarProperty Name="SaldoInicialLamina" ColumnName="SaldoInicialLamina" />
+                <ScalarProperty Name="GrsLataReal" ColumnName="GrsLataReal" />
+                <ScalarProperty Name="UnidadesProducidasTapa" ColumnName="UnidadesProducidasTapa" />
+                <ScalarProperty Name="UnidadesSobrantesTapa" ColumnName="UnidadesSobrantesTapa" />
+                <ScalarProperty Name="UnidadesRecibidasTapa" ColumnName="UnidadesRecibidasTapa" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="UnidadesProducidas" ColumnName="UnidadesProducidas" />
+                <ScalarProperty Name="UnidadesSobrantes" ColumnName="UnidadesSobrantes" />
+                <ScalarProperty Name="UnidadesRecibidas" ColumnName="UnidadesRecibidas" />
+                <ScalarProperty Name="CodigoMaterial" ColumnName="CodigoMaterial" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Cajas" ColumnName="Cajas" />
+                <ScalarProperty Name="Empleados" ColumnName="Empleados" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="DesperdicioAceite" ColumnName="DesperdicioAceite" />
+                <ScalarProperty Name="DesperdicioLiquido" ColumnName="DesperdicioLiquido" />
+                <ScalarProperty Name="DesperdicioSolido" ColumnName="DesperdicioSolido" />
+                <ScalarProperty Name="CaldoVegetal" ColumnName="CaldoVegetal" />
+                <ScalarProperty Name="Agua" ColumnName="Agua" />
+                <ScalarProperty Name="Aceite" ColumnName="Aceite" />
+                <ScalarProperty Name="Tapa" ColumnName="Tapa" />
+                <ScalarProperty Name="Envase" ColumnName="Envase" />
+                <ScalarProperty Name="Miga" ColumnName="Miga" />
+                <ScalarProperty Name="Lomo" ColumnName="Lomo" />
+                <ScalarProperty Name="PesoEscrundido" ColumnName="PesoEscrundido" />
+                <ScalarProperty Name="PesoNeto" ColumnName="PesoNeto" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Destino" ColumnName="Destino" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="LineaNegocio" ColumnName="LineaNegocio" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="IdControlConsumoInsumos" ColumnName="IdControlConsumoInsumos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaControlConsumoInsumo" FunctionName="ASIS_PRODModel.Store.spConsultaControlConsumoInsumo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaControlConsumoInsumo">
+                <ScalarProperty Name="IdControlConsumoInsumos" ColumnName="IdControlConsumoInsumos" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="OrdenVenta" ColumnName="OrdenVenta" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="Destino" ColumnName="Destino" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="PesoNeto" ColumnName="PesoNeto" />
+                <ScalarProperty Name="PesoEscrundido" ColumnName="PesoEscrundido" />
+                <ScalarProperty Name="Lomo" ColumnName="Lomo" />
+                <ScalarProperty Name="Miga" ColumnName="Miga" />
+                <ScalarProperty Name="Envase" ColumnName="Envase" />
+                <ScalarProperty Name="Tapa" ColumnName="Tapa" />
+                <ScalarProperty Name="Aceite" ColumnName="Aceite" />
+                <ScalarProperty Name="Agua" ColumnName="Agua" />
+                <ScalarProperty Name="CaldoVegetal" ColumnName="CaldoVegetal" />
+                <ScalarProperty Name="DesperdicioSolido" ColumnName="DesperdicioSolido" />
+                <ScalarProperty Name="DesperdicioLiquido" ColumnName="DesperdicioLiquido" />
+                <ScalarProperty Name="DesperdicioAceite" ColumnName="DesperdicioAceite" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="Empleados" ColumnName="Empleados" />
+                <ScalarProperty Name="Cajas" ColumnName="Cajas" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="CodigoMaterial" ColumnName="CodigoMaterial" />
+                <ScalarProperty Name="UnidadesRecibidas" ColumnName="UnidadesRecibidas" />
+                <ScalarProperty Name="UnidadesSobrantes" ColumnName="UnidadesSobrantes" />
+                <ScalarProperty Name="UnidadesProducidas" ColumnName="UnidadesProducidas" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="UnidadesRecibidasTapa" ColumnName="UnidadesRecibidasTapa" />
+                <ScalarProperty Name="UnidadesSobrantesTapa" ColumnName="UnidadesSobrantesTapa" />
+                <ScalarProperty Name="UnidadesProducidasTapa" ColumnName="UnidadesProducidasTapa" />
+                <ScalarProperty Name="GrsLataReal" ColumnName="GrsLataReal" />
+                <ScalarProperty Name="SaldoInicialLamina" ColumnName="SaldoInicialLamina" />
+                <ScalarProperty Name="SaldoInicialUnidad" ColumnName="SaldoInicialUnidad" />
+                <ScalarProperty Name="SaldoFinalLamina" ColumnName="SaldoFinalLamina" />
+                <ScalarProperty Name="SaldoFinalUnidad" ColumnName="SaldoFinalUnidad" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
