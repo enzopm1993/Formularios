@@ -39,7 +39,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.Pivot = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                ViewBag.DateRangePicker = "1";
                 return View();
 
             }
@@ -303,14 +303,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
            
         }
         [HttpGet]
-        public JsonResult GenerarAsistenciaInicialVsActual(string fecha)
+        public JsonResult GenerarAsistenciaInicialVsActual(string fechaIni, string fechaFin)
         {
             try
             {
                 
                 ClsNomina clsNomina = new ClsNomina();
 
-                List<ModeloVistaPersonalPresente> modeloVistaTablasPersonalPresente = clsNomina.ObtenerTablasPersonalAsistente(Convert.ToDateTime(fecha));
+                List<ModeloVistaPersonalPresente> modeloVistaTablasPersonalPresente = clsNomina.ObtenerTablasPersonalAsistente(Convert.ToDateTime(fechaIni), Convert.ToDateTime(fechaFin));
 
                 JsonResult result = Json(modeloVistaTablasPersonalPresente, JsonRequestBehavior.AllowGet);
 

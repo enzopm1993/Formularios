@@ -8,18 +8,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
 {
     public class ClsNomina
     {
-        public List<ModeloVistaPersonalPresente> ObtenerTablasPersonalAsistente(DateTime fecha)
+        public List<ModeloVistaPersonalPresente> ObtenerTablasPersonalAsistente(DateTime fechaIni, DateTime fechaFin)
         {
             List<ModeloVistaPersonalPresente> objTablas = new List<ModeloVistaPersonalPresente>();
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var asistentes = db.sp_obtener_asistenia_inicio_vs_actual(fecha).ToList();               
+                var asistentes = db.sp_obtener_asistenia_inicio_vs_actual(fechaIni, fechaFin).ToList();               
 
-                foreach (sp_obtener_asistenia_inicio_vs_actual_Result item in asistentes)
+                foreach (sp_obtener_asistenia_inicio_vs_actual_Result1 item in asistentes)
                 {                    
 
                     objTablas.Add(new ModeloVistaPersonalPresente
-                    {                       
+                    {
+                        Fecha = String.Format("{0:dd/MM/yyyy}", item.Fecha),    
                         CentroCosto = item.CentroCosto,
                         Recurso = item.Recurso,
                         Cargo = item.Cargo,

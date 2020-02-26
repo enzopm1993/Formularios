@@ -1327,13 +1327,17 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_SolicitudesRealizadasPorLinea_Result>("sp_SolicitudesRealizadasPorLinea", cEDULAParameter);
         }
     
-        public virtual ObjectResult<sp_obtener_asistenia_inicio_vs_actual_Result> sp_obtener_asistenia_inicio_vs_actual(Nullable<System.DateTime> fecha)
+        public virtual ObjectResult<sp_obtener_asistenia_inicio_vs_actual_Result1> sp_obtener_asistenia_inicio_vs_actual(Nullable<System.DateTime> fechaIni, Nullable<System.DateTime> fechaFin)
         {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
+            var fechaIniParameter = fechaIni.HasValue ?
+                new ObjectParameter("fechaIni", fechaIni) :
+                new ObjectParameter("fechaIni", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtener_asistenia_inicio_vs_actual_Result>("sp_obtener_asistenia_inicio_vs_actual", fechaParameter);
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("fechaFin", fechaFin) :
+                new ObjectParameter("fechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtener_asistenia_inicio_vs_actual_Result1>("sp_obtener_asistenia_inicio_vs_actual", fechaIniParameter, fechaFinParameter);
         }
     
         public virtual ObjectResult<sp_obtenerVacacionesEmpleados_Result> sp_obtenerVacacionesEmpleados(string cedula, string tipo)

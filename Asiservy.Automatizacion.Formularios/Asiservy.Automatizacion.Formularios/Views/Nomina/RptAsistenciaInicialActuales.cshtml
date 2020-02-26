@@ -39,8 +39,12 @@
         <div id="DatosLoadAjax" class="cargandoAjax fa-2x"> <i class="fas fa-spinner fa-pulse"></i> </div>
         <div class="box_filters">
             <div class="itemFilter">
-                <input type="date" id="fechaIni" value="" />
-               
+                <input type="hidden" id="fechaDesde" value="" />
+                <input type="hidden" id="fechaHasta" value="" />
+                <div id="reportrange" class="selectbox">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down"></i>
+                </div>
             </div>
             <div class="itemFilter">
                 <a href="#" id="generarAsistencia" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>

@@ -412,7 +412,7 @@
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="Turno" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="LineaNegocio" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="CodigoProducto" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="CodigoProducto" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Producto" Type="varchar" MaxLength="100" />
           <Property Name="Destino" Type="varchar" MaxLength="150" />
           <Property Name="Cliente" Type="varchar" MaxLength="150" />
@@ -1844,7 +1844,8 @@
           <Parameter Name="CodigoSubGrupoEnfermedad" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_obtener_asistenia_inicio_vs_actual" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="fechaIni" Type="date" Mode="In" />
+          <Parameter Name="fechaFin" Type="date" Mode="In" />
         </Function>
         <Function Name="sp_ObtenerCuchillosSobrantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ColorCuchillo" Type="char" Mode="In" />
@@ -3146,8 +3147,9 @@
           <FunctionImport Name="sp_SolicitudesRealizadasPorLinea" ReturnType="Collection(ASIS_PRODModel.sp_SolicitudesRealizadasPorLinea_Result)">
           <Parameter Name="CEDULA" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_obtener_asistenia_inicio_vs_actual" ReturnType="Collection(ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result)">
-          <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          <FunctionImport Name="sp_obtener_asistenia_inicio_vs_actual" ReturnType="Collection(ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result1)">
+          <Parameter Name="fechaIni" Mode="In" Type="DateTime" />
+            <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
           <EntitySet Name="MAPEO_PRODUCTO_TUNEL_DETALLE" EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" />
           <AssociationSet Name="FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL">
@@ -6044,7 +6046,7 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="LineaNegocio" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoProducto" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoProducto" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Destino" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="Cliente" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
@@ -6216,6 +6218,20 @@
           <Property Type="Int32" Name="SaldoInicialUnidad" Nullable="true" />
           <Property Type="Int32" Name="SaldoFinalLamina" Nullable="true" />
           <Property Type="Int32" Name="SaldoFinalUnidad" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_obtener_asistenia_inicio_vs_actual_Result1">
+          <Property Type="DateTime" Name="Fecha" Nullable="true" />
+          <Property Type="String" Name="CodCentroCosto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodRecurso" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Asistencia" Nullable="true" MaxLength="25" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9240,8 +9256,9 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_obtener_asistenia_inicio_vs_actual" FunctionName="ASIS_PRODModel.Store.sp_obtener_asistenia_inicio_vs_actual">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result1">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="CodCentroCosto" ColumnName="CodCentroCosto" />
                 <ScalarProperty Name="CodRecurso" ColumnName="CodRecurso" />
                 <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />

@@ -11,8 +11,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class sp_obtener_asistenia_inicio_vs_actual_Result
+    public partial class sp_obtener_asistenia_inicio_vs_actual_Result1
     {
+        public Nullable<System.DateTime> Fecha { get; set; }
         public string CodCentroCosto { get; set; }
         public string CodRecurso { get; set; }
         public string CodCargo { get; set; }
