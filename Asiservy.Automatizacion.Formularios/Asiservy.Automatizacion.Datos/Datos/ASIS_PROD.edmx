@@ -3147,8 +3147,8 @@
           <FunctionImport Name="sp_SolicitudesRealizadasPorLinea" ReturnType="Collection(ASIS_PRODModel.sp_SolicitudesRealizadasPorLinea_Result)">
           <Parameter Name="CEDULA" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_obtener_asistenia_inicio_vs_actual" ReturnType="Collection(ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result1)">
-          <Parameter Name="fechaIni" Mode="In" Type="DateTime" />
+          <FunctionImport Name="sp_obtener_asistenia_inicio_vs_actual" ReturnType="Collection(ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result)">
+            <Parameter Name="fechaIni" Mode="In" Type="DateTime" />
             <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
           <EntitySet Name="MAPEO_PRODUCTO_TUNEL_DETALLE" EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" />
@@ -3159,12 +3159,6 @@
           <FunctionImport Name="sp_obtenerVacacionesEmpleados" ReturnType="Collection(ASIS_PRODModel.sp_obtenerVacacionesEmpleados_Result)">
             <Parameter Name="cedula" Mode="In" Type="String" />
             <Parameter Name="tipo" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spConsultaMapeoProductoTunelDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaMapeoProductoTunelDetalle)">
-          <Parameter Name="IdControl" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="spReporteMapeoProductoTunelDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteMapeoProductoTunelDetalle)">
-          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spReporteControlPesoCodificacionLomosMigas" ReturnType="Collection(ASIS_PRODModel.spReporteControlPesoCodificacionLomosMigas)">
             <Parameter Name="FechaProducción" Mode="In" Type="DateTime" />
@@ -3214,6 +3208,12 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="linea" Mode="In" Type="String" />
             <Parameter Name="turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spReporteMapeoProductoTunelDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteMapeoProductoTunelDetalle)">
+          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaMapeoProductoTunelDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaMapeoProductoTunelDetalle)">
+            <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -5956,34 +5956,6 @@
           <Property Type="Decimal" Name="DiasTomados" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="Saldo" Nullable="true" Precision="18" Scale="2" />
         </ComplexType>
-        <ComplexType Name="spConsultaMapeoProductoTunelDetalle">
-          <Property Type="Int32" Name="IdMapeoProductoTunelDetalle" Nullable="false" />
-          <Property Type="Int32" Name="IdMapeoProductoTunel" Nullable="false" />
-          <Property Type="Int32" Name="Tunel" Nullable="false" />
-          <Property Type="Int32" Name="Coche" Nullable="false" />
-          <Property Type="String" Name="Producto" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Especie" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="Fundas" Nullable="false" />
-          <Property Type="DateTime" Name="HoraInicio" Nullable="false" Precision="23" />
-          <Property Type="DateTime" Name="HoraFin" Nullable="false" Precision="23" />
-          <Property Type="DateTime" Name="HoraFinLote" Nullable="true" Precision="23" />
-          <Property Type="String" Name="TotalFunda" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Textura" Nullable="true" MaxLength="10" />
-        </ComplexType>
-        <ComplexType Name="spReporteMapeoProductoTunelDetalle">
-          <Property Type="Int32" Name="IdMapeoProductoTunelDetalle" Nullable="false" />
-          <Property Type="Int32" Name="IdMapeoProductoTunel" Nullable="false" />
-          <Property Type="Int32" Name="Tunel" Nullable="false" />
-          <Property Type="Int32" Name="Coche" Nullable="false" />
-          <Property Type="String" Name="Producto" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Especie" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="Fundas" Nullable="false" />
-          <Property Type="DateTime" Name="HoraInicio" Nullable="false" Precision="23" />
-          <Property Type="DateTime" Name="HoraFin" Nullable="false" Precision="23" />
-          <Property Type="DateTime" Name="HoraFinLote" Nullable="true" Precision="23" />
-          <Property Type="String" Name="TotalFunda" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Textura" Nullable="true" MaxLength="10" />
-        </ComplexType>
         <ComplexType Name="spReporteControlPesoCodificacionLomosMigas">
           <Property Type="Int32" Name="IdCabeceraControlPesoYCodificacion" Nullable="false" />
           <Property Type="DateTime" Name="FechaProduccion" Nullable="false" />
@@ -6219,19 +6191,34 @@
           <Property Type="Int32" Name="SaldoFinalLamina" Nullable="true" />
           <Property Type="Int32" Name="SaldoFinalUnidad" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_obtener_asistenia_inicio_vs_actual_Result1">
-          <Property Type="DateTime" Name="Fecha" Nullable="true" />
-          <Property Type="String" Name="CodCentroCosto" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodRecurso" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Cargo" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Linea" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Asistencia" Nullable="true" MaxLength="25" />
+        <ComplexType Name="spReporteMapeoProductoTunelDetalle">
+          <Property Type="Int32" Name="IdMapeoProductoTunelDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdMapeoProductoTunel" Nullable="false" />
+          <Property Type="Int32" Name="Tunel" Nullable="false" />
+          <Property Type="Int32" Name="Coche" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Especie" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Fundas" Nullable="false" />
+          <Property Type="DateTime" Name="HoraInicio" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="HoraFin" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="HoraFinLote" Nullable="true" Precision="23" />
+          <Property Type="String" Name="TotalFunda" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodTextura" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Textura" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="spConsultaMapeoProductoTunelDetalle">
+          <Property Type="Int32" Name="IdMapeoProductoTunelDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdMapeoProductoTunel" Nullable="false" />
+          <Property Type="Int32" Name="Tunel" Nullable="false" />
+          <Property Type="Int32" Name="Coche" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Especie" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Fundas" Nullable="false" />
+          <Property Type="DateTime" Name="HoraInicio" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="HoraFin" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="HoraFinLote" Nullable="true" Precision="23" />
+          <Property Type="String" Name="TotalFunda" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Textura" Nullable="true" MaxLength="10" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9256,9 +9243,8 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_obtener_asistenia_inicio_vs_actual" FunctionName="ASIS_PRODModel.Store.sp_obtener_asistenia_inicio_vs_actual">
-          <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result1">
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result">
                 <ScalarProperty Name="CodCentroCosto" ColumnName="CodCentroCosto" />
                 <ScalarProperty Name="CodRecurso" ColumnName="CodRecurso" />
                 <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
@@ -9305,42 +9291,6 @@
                 <ScalarProperty Name="TotalDias" ColumnName="TotalDias" />
                 <ScalarProperty Name="DiasTomados" ColumnName="DiasTomados" />
                 <ScalarProperty Name="Saldo" ColumnName="Saldo" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaMapeoProductoTunelDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaMapeoProductoTunelDetalle">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaMapeoProductoTunelDetalle">
-                <ScalarProperty Name="IdMapeoProductoTunelDetalle" ColumnName="IdMapeoProductoTunelDetalle" />
-                <ScalarProperty Name="IdMapeoProductoTunel" ColumnName="IdMapeoProductoTunel" />
-                <ScalarProperty Name="Tunel" ColumnName="Tunel" />
-                <ScalarProperty Name="Coche" ColumnName="Coche" />
-                <ScalarProperty Name="Producto" ColumnName="Producto" />
-                <ScalarProperty Name="Especie" ColumnName="Especie" />
-                <ScalarProperty Name="Fundas" ColumnName="Fundas" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-                <ScalarProperty Name="HoraFinLote" ColumnName="HoraFinLote" />
-                <ScalarProperty Name="TotalFunda" ColumnName="TotalFunda" />
-                <ScalarProperty Name="Textura" ColumnName="Textura" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spReporteMapeoProductoTunelDetalle" FunctionName="ASIS_PRODModel.Store.spReporteMapeoProductoTunelDetalle">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteMapeoProductoTunelDetalle">
-                <ScalarProperty Name="IdMapeoProductoTunelDetalle" ColumnName="IdMapeoProductoTunelDetalle" />
-                <ScalarProperty Name="IdMapeoProductoTunel" ColumnName="IdMapeoProductoTunel" />
-                <ScalarProperty Name="Tunel" ColumnName="Tunel" />
-                <ScalarProperty Name="Coche" ColumnName="Coche" />
-                <ScalarProperty Name="Producto" ColumnName="Producto" />
-                <ScalarProperty Name="Especie" ColumnName="Especie" />
-                <ScalarProperty Name="Fundas" ColumnName="Fundas" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-                <ScalarProperty Name="HoraFinLote" ColumnName="HoraFinLote" />
-                <ScalarProperty Name="TotalFunda" ColumnName="TotalFunda" />
-                <ScalarProperty Name="Textura" ColumnName="Textura" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9502,6 +9452,43 @@
                 <ScalarProperty Name="SaldoInicialUnidad" ColumnName="SaldoInicialUnidad" />
                 <ScalarProperty Name="SaldoFinalLamina" ColumnName="SaldoFinalLamina" />
                 <ScalarProperty Name="SaldoFinalUnidad" ColumnName="SaldoFinalUnidad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spReporteMapeoProductoTunelDetalle" FunctionName="ASIS_PRODModel.Store.spReporteMapeoProductoTunelDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteMapeoProductoTunelDetalle">
+                <ScalarProperty Name="IdMapeoProductoTunelDetalle" ColumnName="IdMapeoProductoTunelDetalle" />
+                <ScalarProperty Name="IdMapeoProductoTunel" ColumnName="IdMapeoProductoTunel" />
+                <ScalarProperty Name="Tunel" ColumnName="Tunel" />
+                <ScalarProperty Name="Coche" ColumnName="Coche" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="Fundas" ColumnName="Fundas" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="HoraFinLote" ColumnName="HoraFinLote" />
+                <ScalarProperty Name="TotalFunda" ColumnName="TotalFunda" />
+                <ScalarProperty Name="CodTextura" ColumnName="CodTextura" />
+                <ScalarProperty Name="Textura" ColumnName="Textura" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaMapeoProductoTunelDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaMapeoProductoTunelDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaMapeoProductoTunelDetalle">
+                <ScalarProperty Name="IdMapeoProductoTunelDetalle" ColumnName="IdMapeoProductoTunelDetalle" />
+                <ScalarProperty Name="IdMapeoProductoTunel" ColumnName="IdMapeoProductoTunel" />
+                <ScalarProperty Name="Tunel" ColumnName="Tunel" />
+                <ScalarProperty Name="Coche" ColumnName="Coche" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="Especie" ColumnName="Especie" />
+                <ScalarProperty Name="Fundas" ColumnName="Fundas" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="HoraFinLote" ColumnName="HoraFinLote" />
+                <ScalarProperty Name="TotalFunda" ColumnName="TotalFunda" />
+                <ScalarProperty Name="Textura" ColumnName="Textura" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

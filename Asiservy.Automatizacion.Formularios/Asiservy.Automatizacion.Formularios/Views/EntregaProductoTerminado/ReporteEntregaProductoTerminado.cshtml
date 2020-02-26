@@ -46,11 +46,11 @@
     </div>
     <div class="col-md-4 col-6 col-sm-6">
         <div class="form-group">
-            <label>Fecha Paletizado</label>
+            <label>Linea</label>
             @Html.DropDownList("txtLinea", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @onchange = "CargarProductoTerminado()" })
         </div>
     </div>
-    <div class="col-md-4 col-12  text-md-left text-center">
+    @*<div class="col-md-4 col-12  text-md-left text-center">
         <label class="">Acciones</label>
 
         <div class="form-group">
@@ -61,7 +61,7 @@
                 <img style="width:100%" src="~/Content/icons/atras24.png" />
             </button>
         </div>
-    </div>
+    </div>*@
 </div>
 <hr />
 <div id="divCabecera2">

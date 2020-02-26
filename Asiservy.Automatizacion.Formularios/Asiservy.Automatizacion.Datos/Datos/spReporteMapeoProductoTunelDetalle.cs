@@ -24,6 +24,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime HoraFin { get; set; }
         public Nullable<System.DateTime> HoraFinLote { get; set; }
         public string TotalFunda { get; set; }
+        public string CodTextura { get; set; }
         public string Textura { get; set; }
     }
 }

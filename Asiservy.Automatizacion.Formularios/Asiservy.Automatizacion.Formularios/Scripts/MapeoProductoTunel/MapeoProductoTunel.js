@@ -449,12 +449,7 @@ function CargarMapeoProductoTunelDetalle() {
 
 function ValidarDetalle() {
     var valida = true;
-    if ($("#SelectTextura").val() == "") {
-        $("#SelectTextura").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#SelectTextura").css('borderColor', '#ced4da');
-    }
+   
     if ($("#txtTunel").val() == "") {
         $("#txtTunel").css('borderColor', '#FA8072');
         valida = false;
@@ -491,11 +486,24 @@ function ValidarDetalle() {
     } else {
         $("#txtHoraFin").css('borderColor', '#ced4da');
     }
+
     if ($("#selectEspecie").val() == "") {
         $("#selectEspecie").css('borderColor', '#FA8072');
+       // $('#selectEspecie').next().find('.select2-selection').addClass('has-error');
+        $('#selectEspecie').select2({
+            containerCssClass: 'tpx-select2-container .select2-error',
+            dropdownCssClass: 'tpx-select2-drop'
+        });
         valida = false;
     } else {
         $("#selectEspecie").css('borderColor', '#ced4da');
+
+    }
+    if ($("#SelectTextura").val() == "") {
+        $("#SelectTextura").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#SelectTextura").css('borderColor', '#ced4da');
     }
     return valida;
 }
