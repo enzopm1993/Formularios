@@ -412,7 +412,7 @@
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="Turno" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="LineaNegocio" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="CodigoProducto" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="CodigoProducto" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Producto" Type="varchar" MaxLength="100" />
           <Property Name="Destino" Type="varchar" MaxLength="150" />
           <Property Name="Cliente" Type="varchar" MaxLength="150" />
@@ -6044,7 +6044,7 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="LineaNegocio" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoProducto" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoProducto" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Destino" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="Cliente" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
