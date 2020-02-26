@@ -1,4 +1,5 @@
 ﻿using Asiservy.Automatizacion.Formularios.Models;
+using Asiservy.Automatizacion.Formularios.Models.Produccion;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -29,6 +30,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return ListaTallas;
 
         }
+
+        public List<Textura> ConsultarObservaciones()
+        {
+            var client = new RestClient("http://192.168.0.31:8003");
+            RestRequest request;
+            if (string.IsNullOrEmpty(Codigo))
+                request = new RestRequest("/api/Produccion/Observaciones", Method.GET);
+            else
+                request = new RestRequest("/api/Produccion/Observaciones/" + Codigo + "/", Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            var ListaTallas = JsonConvert.DeserializeObject<List<Textura>>(content);
+            return ListaTallas;
+
+        }
+
         public object ConsultarTallas(string Talla)
         {
             var client = new RestClient("http://192.168.0.31:8870");

@@ -3293,6 +3293,7 @@
     <Compile Include="Models\OrdenFabricacionAutoclave.cs" />
     <Compile Include="Models\OrdenFabricacionAvance.cs" />
     <Compile Include="Models\OrdenFabricacionConsumoInsumo.cs" />
+    <Compile Include="Models\Produccion\Textura.cs" />
     <Compile Include="Models\ProyeccionProgramacion\ProyeccionProgramacionViewModel.cs" />
     <Compile Include="Models\RespuestaGeneral.cs" />
     <Compile Include="Models\Seguridad\Clasificador.cs" />

@@ -1,4 +1,5 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.MapeoProductoTunel
 {
     public class clsDMapeoProductoTunel
     {
+        clsDApiProduccion clsDApiProduccion = null;
         public List<spConsultaMapeoProductoTunel> ConsultaMapeoProductoTunel(DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -126,7 +128,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.MapeoProductoTunel
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
+                clsDApiProduccion = new clsDApiProduccion();
                 var lista = entities.spReporteMapeoProductoTunelDetalle(Fecha).ToList();
+                var texturas = clsDApiProduccion.ConsultarObservaciones();
+                foreach(var x in lista)
+                {
+                    var poTextura = texturas.FirstOrDefault(y => y.Codigo == x.CodTextura);
+                    x.Textura = poTextura != null ? poTextura.Descripcion:"";
+                }
+
                 return lista;
             }
         }
