@@ -106,8 +106,23 @@
                 $("#iconSearch").removeClass(iconLoader);
                 $("#iconSearch").addClass(iconSearch);
                 $("#generarAsistencia").removeClass("btnWait");
-               
-                console.log(resultado);
+
+              
+                var _fechas = [];
+                $.each(resultado, function (i, rowObj) {
+                    if (jQuery.inArray(rowObj.Fecha, _fechas) === -1) {
+                        _fechas.push(rowObj.Fecha);
+                    }
+                });
+
+                var tuplesColum = [];
+                $.each(_fechas, function (i, _rowFecha) {                    
+                    tuplesColum.push({ "tuple" : [ "Fecha."+_rowFecha ] });
+                });
+
+
+                console.log(tuplesColum);
+                
                 var pivot = new WebDataRocks({
                     container: "#wdr-component",
                     toolbar: true,
@@ -156,7 +171,8 @@
                                             "CentroCosto.Limpieza de pescado"
                                         ]
                                     }
-                                ]
+                                ],
+                                "columns": tuplesColum
                             }
                         },
                         "options": {
@@ -190,7 +206,6 @@
     function customizeToolbar(toolbar) {
         var tabs = toolbar.getTabs(); // get all tabs from the toolbar
         toolbar.getTabs = function () {
-            console.log(tabs);
             delete tabs[0]; // delete the first tab
             delete tabs[1];
             delete tabs[2];
@@ -198,4 +213,6 @@
             return tabs;
         }
     }
+
+
 });
