@@ -191,10 +191,10 @@
         var tabs = toolbar.getTabs(); // get all tabs from the toolbar
         toolbar.getTabs = function () {
             console.log(tabs);
-            //delete tabs[0]; // delete the first tab
-            //delete tabs[1];
-            //delete tabs[2];
-            //delete tabs[3].menu[1]; // borrar exportar html
+            delete tabs[0]; // delete the first tab
+            delete tabs[1];
+            delete tabs[2];
+            delete tabs[3].menu[1]; // borrar exportar html
             return tabs;
         }
     }
