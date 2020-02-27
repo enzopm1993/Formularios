@@ -3156,7 +3156,7 @@
             <End Role="MAPEO_PRODUCTO_TUNEL" EntitySet="MAPEO_PRODUCTO_TUNEL" />
             <End Role="MAPEO_PRODUCTO_TUNEL_DETALLE" EntitySet="MAPEO_PRODUCTO_TUNEL_DETALLE" />
           </AssociationSet>
-          <FunctionImport Name="sp_obtenerVacacionesEmpleados" ReturnType="Collection(ASIS_PRODModel.sp_obtenerVacacionesEmpleados_Result)">
+          <FunctionImport Name="sp_obtenerVacacionesEmpleados" ReturnType="Collection(ASIS_PRODModel.sp_obtenerVacacionesEmpleados)">
             <Parameter Name="cedula" Mode="In" Type="String" />
             <Parameter Name="tipo" Mode="In" Type="String" />
           </FunctionImport>
@@ -3213,7 +3213,7 @@
           <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spConsultaMapeoProductoTunelDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaMapeoProductoTunelDetalle)">
-            <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -6233,6 +6233,13 @@
           <Property Type="String" Name="Linea" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Asistencia" Nullable="true" MaxLength="25" />
+        </ComplexType>
+        <ComplexType Name="sp_obtenerVacacionesEmpleados">
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="TotalDias" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="DiasTomados" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Saldo" Nullable="true" Precision="18" Scale="2" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9300,8 +9307,9 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_obtenerVacacionesEmpleados" FunctionName="ASIS_PRODModel.Store.sp_obtenerVacacionesEmpleados">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_obtenerVacacionesEmpleados_Result">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_obtenerVacacionesEmpleados">
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
                 <ScalarProperty Name="Nombres" ColumnName="Nombres" />
                 <ScalarProperty Name="TotalDias" ColumnName="TotalDias" />
                 <ScalarProperty Name="DiasTomados" ColumnName="DiasTomados" />

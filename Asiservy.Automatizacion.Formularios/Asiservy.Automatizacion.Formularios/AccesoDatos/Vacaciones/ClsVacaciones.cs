@@ -24,7 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Vacaciones
 
                     listaRetorna.Add(new VacacionesModelView
                     {
-                        Linea = "",
+                        Linea = item.Linea,
                         Nombres = item.Nombres,
                         TotalDias = item.TotalDias,
                         DiasTomados = item.DiasTomados,
