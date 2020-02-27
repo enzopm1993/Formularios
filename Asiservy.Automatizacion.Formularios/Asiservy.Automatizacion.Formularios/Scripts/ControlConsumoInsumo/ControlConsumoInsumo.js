@@ -740,6 +740,15 @@ function validarConsumoEnlatado() {
     } else {
         $("#txtFechaFabricacion").css('borderColor', '#ced4da');
     }
+
+    if ($("#selectTipoProceso").val() == 'C') {
+        if ($("#txtProveedor").val() == "") {
+            $("#txtProveedor").css('borderColor', '#FA8072');
+            valida = false;
+        } else {
+            $("#txtProveedor").css('borderColor', '#ced4da');
+        }
+    }
     return valida;
 }
 
