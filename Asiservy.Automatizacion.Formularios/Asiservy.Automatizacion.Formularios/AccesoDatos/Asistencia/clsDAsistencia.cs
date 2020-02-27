@@ -1008,6 +1008,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
+                db.Database.CommandTimeout = 180;
                 return db.spReporteAsistencia(FechaInicio, FechaFin, Turno, Linea).ToList();
             }
         }
