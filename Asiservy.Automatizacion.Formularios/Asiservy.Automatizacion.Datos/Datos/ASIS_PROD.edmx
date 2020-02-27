@@ -201,6 +201,46 @@
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="codigoExtra" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="COCHE_AUTOCLAVE">
+          <Key>
+            <PropertyRef Name="IdCocheAutoclave" />
+          </Key>
+          <Property Name="IdCocheAutoclave" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Turno" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="OrdenFabricacion" Type="int" Nullable="false" />
+          <Property Name="Producto" Type="varchar" MaxLength="100" />
+          <Property Name="CodigoProducto" Type="varchar" MaxLength="50" />
+          <Property Name="Envase" Type="varchar" MaxLength="50" />
+          <Property Name="Observacion" Type="varchar" MaxLength="250" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="COCHE_AUTOCLAVE_DETALLE">
+          <Key>
+            <PropertyRef Name="IdCocheAutoclaveDetalle" />
+          </Key>
+          <Property Name="IdCocheAutoclaveDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCocheAutoclave" Type="int" Nullable="false" />
+          <Property Name="Autoclave" Type="int" Nullable="false" />
+          <Property Name="Parada" Type="int" Nullable="false" />
+          <Property Name="Tarjeta" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="HoraInicio" Type="datetime" Nullable="false" />
+          <Property Name="Coche" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="LineaProduccion" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CONSUMO_DETALLE_ADITIVO">
           <Key>
             <PropertyRef Name="IdConsumoAditivo" />
@@ -1490,6 +1530,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE">
+          <End Role="COCHE_AUTOCLAVE" Type="Self.COCHE_AUTOCLAVE" Multiplicity="1" />
+          <End Role="COCHE_AUTOCLAVE_DETALLE" Type="Self.COCHE_AUTOCLAVE_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COCHE_AUTOCLAVE">
+              <PropertyRef Name="IdCocheAutoclave" />
+            </Principal>
+            <Dependent Role="COCHE_AUTOCLAVE_DETALLE">
+              <PropertyRef Name="IdCocheAutoclave" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO">
           <End Role="CONTROL_CONSUMO_INSUMO" Type="Self.CONTROL_CONSUMO_INSUMO" Multiplicity="1" />
           <End Role="CONSUMO_DETALLE_ADITIVO" Type="Self.CONSUMO_DETALLE_ADITIVO" Multiplicity="*" />
@@ -1890,6 +1942,13 @@
           <Parameter Name="Linea" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spConsultaCentroCostos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spConsultaCocheAutoclave" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fecha" Type="date" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
+        </Function>
+        <Function Name="spConsultaCocheAutoclaveDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdControl" Type="int" Mode="In" />
+        </Function>
         <Function Name="spConsultaCodigoOnlyControl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="cedula" Type="varchar" Mode="In" />
         </Function>
@@ -2237,6 +2296,8 @@
           <EntitySet Name="CABECERA_CONTROL_PESO_CODIFICACION" EntityType="Self.CABECERA_CONTROL_PESO_CODIFICACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CAMBIO_PERSONAL" EntityType="Self.CAMBIO_PERSONAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLASIFICADOR" EntityType="Self.CLASIFICADOR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COCHE_AUTOCLAVE" EntityType="Self.COCHE_AUTOCLAVE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COCHE_AUTOCLAVE_DETALLE" EntityType="Self.COCHE_AUTOCLAVE_DETALLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONSUMO_DETALLE_ADITIVO" EntityType="Self.CONSUMO_DETALLE_ADITIVO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONSUMO_DETALLE_DANIADO" EntityType="Self.CONSUMO_DETALLE_DANIADO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONSUMO_DETALLE_LATA" EntityType="Self.CONSUMO_DETALLE_LATA" Schema="dbo" store:Type="Tables" />
@@ -2312,6 +2373,10 @@
           <AssociationSet Name="FK__USUARIO_R__IdRol__534D60F1" Association="Self.FK__USUARIO_R__IdRol__534D60F1">
             <End Role="ROL" EntitySet="ROL" />
             <End Role="USUARIO_ROL" EntitySet="USUARIO_ROL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" Association="Self.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE">
+            <End Role="COCHE_AUTOCLAVE" EntitySet="COCHE_AUTOCLAVE" />
+            <End Role="COCHE_AUTOCLAVE_DETALLE" EntitySet="COCHE_AUTOCLAVE_DETALLE" />
           </AssociationSet>
           <AssociationSet Name="FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO" Association="Self.FK_CONSUMO_DETALLE_ADITIVO_CONTROL_CONSUMO_INSUMO">
             <End Role="CONTROL_CONSUMO_INSUMO" EntitySet="CONTROL_CONSUMO_INSUMO" />
@@ -3214,6 +3279,19 @@
           </FunctionImport>
           <FunctionImport Name="spConsultaMapeoProductoTunelDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaMapeoProductoTunelDetalle)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="COCHE_AUTOCLAVE" EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE" />
+          <EntitySet Name="COCHE_AUTOCLAVE_DETALLE" EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE_DETALLE" />
+          <AssociationSet Name="FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" Association="ASIS_PRODModel.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE">
+            <End Role="COCHE_AUTOCLAVE" EntitySet="COCHE_AUTOCLAVE" />
+            <End Role="COCHE_AUTOCLAVE_DETALLE" EntitySet="COCHE_AUTOCLAVE_DETALLE" />
+          </AssociationSet>
+          <FunctionImport Name="spConsultaCocheAutoclave" ReturnType="Collection(ASIS_PRODModel.spConsultaCocheAutoclave)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaCocheAutoclaveDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaCocheAutoclaveDetalle)">
+            <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -6240,6 +6318,81 @@
           <Property Type="Decimal" Name="TotalDias" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="DiasTomados" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="Saldo" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <EntityType Name="COCHE_AUTOCLAVE">
+          <Key>
+            <PropertyRef Name="IdCocheAutoclave" />
+          </Key>
+          <Property Name="IdCocheAutoclave" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
+          <Property Name="Producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoProducto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Envase" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="COCHE_AUTOCLAVE_DETALLE" Relationship="ASIS_PRODModel.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" FromRole="COCHE_AUTOCLAVE" ToRole="COCHE_AUTOCLAVE_DETALLE" />
+        </EntityType>
+        <EntityType Name="COCHE_AUTOCLAVE_DETALLE">
+          <Key>
+            <PropertyRef Name="IdCocheAutoclaveDetalle" />
+          </Key>
+          <Property Name="IdCocheAutoclaveDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCocheAutoclave" Type="Int32" Nullable="false" />
+          <Property Name="Autoclave" Type="Int32" Nullable="false" />
+          <Property Name="Parada" Type="Int32" Nullable="false" />
+          <Property Name="Tarjeta" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="HoraInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Coche" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LineaProduccion" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="COCHE_AUTOCLAVE" Relationship="ASIS_PRODModel.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" FromRole="COCHE_AUTOCLAVE_DETALLE" ToRole="COCHE_AUTOCLAVE" />
+        </EntityType>
+        <Association Name="FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE">
+          <End Type="ASIS_PRODModel.COCHE_AUTOCLAVE" Role="COCHE_AUTOCLAVE" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.COCHE_AUTOCLAVE_DETALLE" Role="COCHE_AUTOCLAVE_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COCHE_AUTOCLAVE">
+              <PropertyRef Name="IdCocheAutoclave" />
+            </Principal>
+            <Dependent Role="COCHE_AUTOCLAVE_DETALLE">
+              <PropertyRef Name="IdCocheAutoclave" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spConsultaCocheAutoclave">
+          <Property Type="Int32" Name="IdCocheAutoclave" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="Turno" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoProducto" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Envase" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="spConsultaCocheAutoclaveDetalle">
+          <Property Type="Int32" Name="IdCocheAutoclaveDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdCocheAutoclave" Nullable="false" />
+          <Property Type="Int32" Name="Autoclave" Nullable="false" />
+          <Property Type="Int32" Name="Parada" Nullable="false" />
+          <Property Type="String" Name="Tarjeta" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="HoraInicio" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Coche" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="LineaProduccion" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9512,6 +9665,77 @@
                 <ScalarProperty Name="HoraFinLote" ColumnName="HoraFinLote" />
                 <ScalarProperty Name="TotalFunda" ColumnName="TotalFunda" />
                 <ScalarProperty Name="Textura" ColumnName="Textura" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="COCHE_AUTOCLAVE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.COCHE_AUTOCLAVE">
+              <MappingFragment StoreEntitySet="COCHE_AUTOCLAVE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Envase" ColumnName="Envase" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdCocheAutoclave" ColumnName="IdCocheAutoclave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COCHE_AUTOCLAVE_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.COCHE_AUTOCLAVE_DETALLE">
+              <MappingFragment StoreEntitySet="COCHE_AUTOCLAVE_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="LineaProduccion" ColumnName="LineaProduccion" />
+                <ScalarProperty Name="Coche" ColumnName="Coche" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="Tarjeta" ColumnName="Tarjeta" />
+                <ScalarProperty Name="Parada" ColumnName="Parada" />
+                <ScalarProperty Name="Autoclave" ColumnName="Autoclave" />
+                <ScalarProperty Name="IdCocheAutoclave" ColumnName="IdCocheAutoclave" />
+                <ScalarProperty Name="IdCocheAutoclaveDetalle" ColumnName="IdCocheAutoclaveDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaCocheAutoclave" FunctionName="ASIS_PRODModel.Store.spConsultaCocheAutoclave">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCocheAutoclave">
+                <ScalarProperty Name="IdCocheAutoclave" ColumnName="IdCocheAutoclave" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Envase" ColumnName="Envase" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaCocheAutoclaveDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaCocheAutoclaveDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCocheAutoclaveDetalle">
+                <ScalarProperty Name="IdCocheAutoclaveDetalle" ColumnName="IdCocheAutoclaveDetalle" />
+                <ScalarProperty Name="IdCocheAutoclave" ColumnName="IdCocheAutoclave" />
+                <ScalarProperty Name="Autoclave" ColumnName="Autoclave" />
+                <ScalarProperty Name="Parada" ColumnName="Parada" />
+                <ScalarProperty Name="Tarjeta" ColumnName="Tarjeta" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="Coche" ColumnName="Coche" />
+                <ScalarProperty Name="LineaProduccion" ColumnName="LineaProduccion" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
