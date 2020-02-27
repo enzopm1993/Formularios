@@ -486,24 +486,28 @@ function ValidarDetalle() {
     } else {
         $("#txtHoraFin").css('borderColor', '#ced4da');
     }
-
+   
     if ($("#selectEspecie").val() == "") {
-        $("#selectEspecie").css('borderColor', '#FA8072');
-       // $('#selectEspecie').next().find('.select2-selection').addClass('has-error');
-        $('#selectEspecie').select2({
-            containerCssClass: 'tpx-select2-container .select2-error',
-            dropdownCssClass: 'tpx-select2-drop'
+        //$("#selectEspecie").css('borderColor', '#FA8072');
+        $("#selectEspecie").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
+        });
+        valida = false;
+    } else {       
+        $("#selectEspecie").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+        });
+    }
+    if ($("#SelectTextura").val() == "") {
+        //$("#SelectTextura").css('borderColor', '#FA8072');
+        $("#SelectTextura").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
         });
         valida = false;
     } else {
-        $("#selectEspecie").css('borderColor', '#ced4da');
-
-    }
-    if ($("#SelectTextura").val() == "") {
-        $("#SelectTextura").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#SelectTextura").css('borderColor', '#ced4da');
+        $("#SelectTextura").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+        });
     }
     return valida;
 }
