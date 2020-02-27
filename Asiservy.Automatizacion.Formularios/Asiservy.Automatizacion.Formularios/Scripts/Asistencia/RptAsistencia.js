@@ -6,9 +6,9 @@
 
 });
 function Limpiar() {
-    $('#Linea').prop('selectedIndex', 0);
+    $('#Linea').prop('selectedIndex', 0).change();
     $('#Turno').prop('selectedIndex', 0);
-    
+    $('#divRptAsistencia').empty();
     $('#FechaDesde').val(moment().format('YYYY-MM-DD'));
     $('#FechaHasta').val(moment().format('YYYY-MM-DD'));
     
@@ -60,7 +60,8 @@ function ConsultarAsistencia() {
         },
         error: function (resultado) {
             MensajeError(JSON.stringify(resultado), false);
-
+            $("#spinnerCargando").prop("hidden", true);
+            
         }
     });
 }
