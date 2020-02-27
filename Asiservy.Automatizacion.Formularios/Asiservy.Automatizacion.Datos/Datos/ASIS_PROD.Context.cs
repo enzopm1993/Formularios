@@ -1340,7 +1340,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtener_asistenia_inicio_vs_actual_Result1>("sp_obtener_asistenia_inicio_vs_actual", fechaIniParameter, fechaFinParameter);
         }
     
-        public virtual ObjectResult<sp_obtenerVacacionesEmpleados_Result> sp_obtenerVacacionesEmpleados(string cedula, string tipo)
+        public virtual ObjectResult<sp_obtenerVacacionesEmpleados> sp_obtenerVacacionesEmpleados(string cedula, string tipo)
         {
             var cedulaParameter = cedula != null ?
                 new ObjectParameter("cedula", cedula) :
@@ -1350,7 +1350,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("tipo", tipo) :
                 new ObjectParameter("tipo", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtenerVacacionesEmpleados_Result>("sp_obtenerVacacionesEmpleados", cedulaParameter, tipoParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtenerVacacionesEmpleados>("sp_obtenerVacacionesEmpleados", cedulaParameter, tipoParameter);
         }
     
         public virtual ObjectResult<spReporteControlPesoCodificacionLomosMigas> spReporteControlPesoCodificacionLomosMigas(Nullable<System.DateTime> fechaProducción, string turno)

@@ -13,6 +13,7 @@
     <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
         <thead>
             <tr>
+                <th>Línea</th>
                 <th>Empleado</th>
                 <th>Días totales</th>
                 <th>Días tomados</th>
@@ -25,11 +26,11 @@
                 foreach (var m in Model)
                 {
                     <tr>
+                        <td>@m.Linea</td>
                         <td>@m.Nombres</td>
                         <td>@m.TotalDias</td>
                         <td>@m.DiasTomados</td>
                         <td><b>@m.Saldo</b></td>
-
                     </tr>
                 }
             }
