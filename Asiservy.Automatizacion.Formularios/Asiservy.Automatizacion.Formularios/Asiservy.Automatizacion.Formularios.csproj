@@ -3203,6 +3203,7 @@
     <Compile Include="AccesoDatos\Nomina\ModeloVistaAsistencia.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaPersonalPresente.cs" />
     <Compile Include="AccesoDatos\Periodo\clsDPeriodo.cs" />
+    <Compile Include="AccesoDatos\PRODUCCION\CocheAutoclave\clsDCcocheAutoclave.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDModulo.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDNivelUsuario.cs" />
@@ -3566,8 +3567,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AccesoDatos\CALIDAD\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Calidad\" />
+    <Folder Include="Controllers\CALIDAD\" />
     <Folder Include="Views\Comunicados\" />
     <Folder Include="Views\General\" />
   </ItemGroup>
