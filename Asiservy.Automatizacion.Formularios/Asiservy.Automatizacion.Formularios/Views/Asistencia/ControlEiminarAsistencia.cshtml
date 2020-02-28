@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "ControlEiminarAsistencia";
+}
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        /*width: 100%;*/
+    }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+    .card-header {
+        font-size: 0.8rem;
+    }
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    #cargac {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        /*left: 0;*/
+        height: 100%;
+        width: 100%;
+        background: rgba( 255, 255, 255, .8 ) url('../../Content/images/loader.gif') 50% 50% no-repeat;
+        background-position-x: 35%;
+    }
+</style>
+<div class="loadall" id="cargac"></div>
+<h4>Eliminar Asistencia</h4>
+<input type="hidden" id="Lineahide" />
+<input type="hidden" id="Generadohide" />
+<input type="hidden" id="Turnohide" />
+<div class="card text-dark">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label>Fecha:</label>
+                    <div class="input-group">
+                        <input type="date" id="Fecha" class="form-control" />
+                        <button id="btnConsultar" onclick="ConsultarAsistenciaGenerada()">
+                            <img src="~/Content/icons/ver24.png" />
+                        </button>
+                        <button id="btnLimpiar" onclick="LimpiarControles()" hidden>
+                            <img src="~/Content/icons/clear24.png" />
+                        </button>
+                    </div>
+                    <label hidden class="text-danger" id="msjFecha">Debe seleccionar una fecha</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<br />
+<div id="PartialEliminarAsistencia">
+
+</div>
+
+<!-- Modal confirmación eliminar control -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarControl" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title" id="MensajeEliminarControl"></h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="modal-btn-si" onclick="EliminarAsistencia()">Si</button>
+                <button type="button" class="btn btn-primary" id="modal-btn-no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal confirmación eliminar control -->

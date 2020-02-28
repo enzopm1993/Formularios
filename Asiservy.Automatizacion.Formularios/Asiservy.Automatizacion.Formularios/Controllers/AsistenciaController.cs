@@ -49,6 +49,98 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         #region Asistencia
         // GET: Asistencia
+        [HttpPost]
+        public JsonResult EliminarAsistenciaTotal(string LineaCod, string Turno, DateTime Fecha, string Generado)
+        {
+            try
+            {
+                liststring = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(liststring[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDAsistencia = new clsDAsistencia();
+                string resultado = clsDAsistencia.EliminarAsistenciaTotal(LineaCod, Turno, Fecha, Generado);
+                return Json(resultado, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [Authorize]
+        public ActionResult ControlEiminarAsistencia()
+        {
+            try
+            {
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                clsDError.GrabarError(new ERROR
+                {
+                    Controlador = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    Mensaje = ex.Message,
+                    Observacion = "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(),
+                    FechaIngreso = DateTime.Now,
+                    TerminalIngreso = Request.UserHostAddress,
+                    UsuarioIngreso = liststring[0]
+                });
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        
+        public ActionResult PartialEliminarAsistencia(DateTime Fecha)
+        {
+            try
+            {
+
+                liststring = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(liststring[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDAsistencia = new clsDAsistencia();
+                List<spConsultarAsistenciasGeneradas> Respuesta = clsDAsistencia.ConsultarAsistenciaGeneradas(Fecha);
+                return PartialView(Respuesta);
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                liststring = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(liststring[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
         [Authorize]
         public ActionResult AsistenciaFinalizarPartial(string CodLinea, DateTime Fecha, string Turno)
         {

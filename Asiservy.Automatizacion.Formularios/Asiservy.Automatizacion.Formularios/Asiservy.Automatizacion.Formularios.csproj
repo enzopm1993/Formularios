@@ -2155,6 +2155,7 @@
     <Content Include="Scripts\Asistencia\AsistenciaPrestado.js" />
     <Content Include="Scripts\Asistencia\BitacoraCambioPersonal.js" />
     <Content Include="Scripts\Asistencia\CambiarPersonalDeArea.js" />
+    <Content Include="Scripts\Asistencia\ControlEiminarAsistencia.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
@@ -3555,6 +3556,8 @@
     <Content Include="Views\ControlPesoyCodificacion\PartialReporteControlPesoCodificacion.cshtml" />
     <Content Include="Views\Marcaciones\PorEmpleado.cshtml" />
     <Content Include="Views\Marcaciones\PorLinea.cshtml" />
+    <Content Include="Views\Asistencia\ControlEiminarAsistencia.cshtml" />
+    <Content Include="Views\Asistencia\PartialEliminarAsistencia.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
