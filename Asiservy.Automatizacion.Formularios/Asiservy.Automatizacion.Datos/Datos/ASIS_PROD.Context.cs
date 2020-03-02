@@ -1462,5 +1462,35 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCocheAutoclaveDetalle>("spConsultaCocheAutoclaveDetalle", idControlParameter);
         }
+    
+        public virtual ObjectResult<spConsultarAsistenciasGeneradas> spConsultarAsistenciasGeneradas(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarAsistenciasGeneradas>("spConsultarAsistenciasGeneradas", fechaParameter);
+        }
+    
+        public virtual ObjectResult<string> spInactivarAsistencia(string linea, string turno, Nullable<System.DateTime> fecha, string generado)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var generadoParameter = generado != null ?
+                new ObjectParameter("Generado", generado) :
+                new ObjectParameter("Generado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spInactivarAsistencia", lineaParameter, turnoParameter, fechaParameter, generadoParameter);
+        }
     }
 }

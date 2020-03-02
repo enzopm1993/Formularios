@@ -2129,6 +2129,9 @@
         <Function Name="spConsultaProyeccionProgramacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdProyeccion" Type="int" Mode="In" />
         </Function>
+        <Function Name="spConsultarAsistenciasGeneradas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fecha" Type="date" Mode="In" />
+        </Function>
         <Function Name="spConsultarAuditoriaSangreDiaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="date" Mode="In" />
         </Function>
@@ -2233,6 +2236,12 @@
         </Function>
         <Function Name="spGeneraDatosProcesoConsumoInsumo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdControl" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spInactivarAsistencia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Linea" Type="char" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
+          <Parameter Name="Fecha" Type="date" Mode="In" />
+          <Parameter Name="Generado" Type="char" Mode="In" />
         </Function>
         <Function Name="spReporteAsistencia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FechaInicio" Type="date" Mode="In" />
@@ -3291,7 +3300,16 @@
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spConsultaCocheAutoclaveDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaCocheAutoclaveDetalle)">
-            <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultarAsistenciasGeneradas" ReturnType="Collection(ASIS_PRODModel.spConsultarAsistenciasGeneradas)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spInactivarAsistencia" ReturnType="Collection(String)">
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Generado" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -6393,6 +6411,12 @@
           <Property Type="String" Name="Coche" Nullable="false" MaxLength="5" />
           <Property Type="String" Name="LineaProduccion" Nullable="false" MaxLength="5" />
           <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="spConsultarAsistenciasGeneradas">
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="Generado" Nullable="true" MaxLength="3" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9739,6 +9763,17 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultarAsistenciasGeneradas" FunctionName="ASIS_PRODModel.Store.spConsultarAsistenciasGeneradas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarAsistenciasGeneradas">
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Generado" ColumnName="Generado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spInactivarAsistencia" FunctionName="ASIS_PRODModel.Store.spInactivarAsistencia" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

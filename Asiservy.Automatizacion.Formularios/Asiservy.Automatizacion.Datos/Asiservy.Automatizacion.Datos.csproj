@@ -489,6 +489,9 @@
     <Compile Include="Datos\spConsultaProyeccionProgramacion.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultarAsistenciasGeneradas.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultarAuditoriaSangreDiaria.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
