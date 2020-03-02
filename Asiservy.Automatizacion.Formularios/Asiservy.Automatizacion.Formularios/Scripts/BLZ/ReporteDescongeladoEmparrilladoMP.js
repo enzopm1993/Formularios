@@ -32,7 +32,7 @@
                 $("#generarReporte").removeClass("btnWait");
 
                 $("#tblDataTable tbody").empty();
-                config.opcionesDT.pageLength = -1;
+                config.opcionesDT.pageLength = 15; // -1;
                 config.opcionesDT.order = [];
                 config.opcionesDT.columns = [
                     { data: 'U_SYP_LOTE' },
