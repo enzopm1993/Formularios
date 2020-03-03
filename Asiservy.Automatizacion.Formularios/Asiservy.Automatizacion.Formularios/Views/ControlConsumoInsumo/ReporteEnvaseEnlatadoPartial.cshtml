@@ -152,8 +152,10 @@
                             </tr>
                             <tr>
                                 <td>Total Unidades</td>
-                              
-                                <td>@Model.ToTalUnidadesSaldoInicial</td>
+                                 @{ 
+                                     var totalUnidadesSaldoIni = Model.ToTalUnidadesSaldoInicial + Model.CabeceraControl.SaldoInicialUnidad;
+                                 }
+                                <td>@totalUnidadesSaldoIni</td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -178,11 +180,14 @@
                             <tr>
                                 <td>N° Unidades</td>
                                 <td>@Model.CabeceraControl.SaldoFinalUnidad</td>
-                                <td>@Model.TotalUnidadesSaldoFinal</td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>Total Unidades</td>
-                                <td></td>
+                                @{ 
+                                    var TotalUnidadeSaldoFinalCuerpo = Model.TotalUnidadesSaldoFinal + Model.CabeceraControl.SaldoFinalUnidad;
+                                }
+                                <td>@TotalUnidadeSaldoFinalCuerpo</td>
                                 <td></td>
                             </tr>
                         </tbody>
