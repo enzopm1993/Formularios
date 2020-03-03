@@ -267,6 +267,9 @@ function NuevaEntrega() {
     $("#txtEtiqueta").val('');
     $("#txtCodigoProducto").val('');
     $("#txtObservacion").val('');   
+    $("#txtCodigoMaterial").val('');   
+    $("#txtProducto").val('');   
+    $("#txtFechaVencimiento").val('');   
 }
 
 
@@ -327,6 +330,49 @@ function AtrasControlPrincipal() {
     NuevaEntrega();
     CargarProductoTerminado();
 }
+
+
+function InactivarControl() {
+    $.ajax({
+        url: "../EntregaProductoTerminado/EliminarEntregaProductoTerminado",
+        type: "POST",
+        data: {
+            IdProductoTerminado: $("#txtEliminarControl").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+            }
+            AtrasControlPrincipal();
+            $("#modalEliminarControl").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $('#btnConsultar').prop("disabled", false);
+            $("#spinnerCargando").prop("hidden", true);
+        }
+    });
+}
+
+
+function EliminarControl() {
+    $("#txtEliminarControl").val(ListadoControl.IdProductoTerminado);
+    //$("#pModalDetalle").html("Hora: " + moment(model.HoraInicio).format('HH:mm') + ' - ' + moment(model.HoraFin).format('HH:mm'));
+    $("#modalEliminarControl").modal('show');
+}
+
+$("#modal-si").on("click", function () {
+    InactivarControl();
+    $("#modalEliminarControl").modal('hide');
+});
+
+$("#modal-no").on("click", function () {
+    $("#modalEliminarControl").modal('hide');
+});
+
 ///////////////////////////////////////////////////////////BODEGAS////////////////////////////////////////////
 
 function ModalBodegas() {

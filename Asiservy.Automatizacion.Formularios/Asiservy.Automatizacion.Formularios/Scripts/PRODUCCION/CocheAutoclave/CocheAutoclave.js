@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿var DatosOF = [];
+
+$(document).ready(function () {
     CargarCocheAutoclave();
     CargarOrdenFabricacion();
     //$('#SelectTextura').select2();
@@ -13,8 +15,7 @@ function CargarCocheAutoclave() {
         return;
     }
     $("#spinnerCargando").prop("hidden", false);
-
-    //  CargarOrdenFabricacion();
+   
     $.ajax({
         url: "../CocheAutoclave/CocheAutoclavePartial",
         type: "GET",
@@ -56,37 +57,76 @@ function NuevoControl() {
 
 }
 
+function Validar() {
+    var valida = true;
+    if ($("#txtFecha").val() == "") {
+        $("#txtFecha").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtFecha").css('borderColor', '#ced4da');
+    }
 
+    if ($("#txtTurno").val() == "") {
+        $("#txtTurno").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtTurno").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtOrdenFabricacion").val() == "") {
+        $("#txtOrdenFabricacion").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtOrdenFabricacion").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtAutoclave").val() == "") {
+        $("#txtAutoclave").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtAutoclave").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtParada").val() == "") {
+        $("#txtParada").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtParada").css('borderColor', '#ced4da');
+    }
+
+    return valida;
+
+}
 
 function GuardarCocheAutoclave() {
-  
+    if (!Validar()) {
+        return;
+    }
+
     $.ajax({
-        url: "../CocheAutoclave/CocheAutoclavePartial",
-        type: "GET",
+        url: "../CocheAutoclave/CocheAutoclave",
+        type: "POST",
         data: {
             Fecha: $("#txtFecha").val(),
-            Turno: $("#txtTurno").val()
+            Turno: $("#txtTurno").val(),
+            OrdenFabricacion: $("#txtOrdenFabricacion").val(),
+            Autoclave: $("#txtAutoclave").val(),
+            Parada: $("#txtParada").val(),
+            Producto: DatosOF.NOMBRE_PRODUCTO,
+            CodigoProducto: $("#txtCodProducto").val(),
+            Envase: DatosOF.ENVASE,
+            Observacion: $("#txtObservacion").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            $("#divCabecera2").prop("hidden", false);
-            if (resultado == "0") {
-                $("#chartCabecera2").html("No existen registros");
-                $("#spinnerCargando").prop("hidden", true);
-            } else {
-                $("#spinnerCargando").prop("hidden", true);
-                $("#chartCabecera2").html(resultado);
-                config.opcionesDT.pageLength = 10;
-                $('#tblDataTable').DataTable(config.opcionesDT);
-            }
-            //  $('#btnConsultar').prop("disabled", true);
+            MensajeCorrecto(resultado);
+            CargarCocheAutoclave();
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
-            $('#btnConsultar').prop("disabled", false);
-            $("#spinnerCargando").prop("hidden", true);
+            MensajeError("Error: Comuniquese con sistemas", false);
+           
         }
     });
 }
@@ -101,16 +141,15 @@ function GuardarCocheAutoclave() {
 
 
 function CargarDatosOrdenFabricacion() {
-    if ($("#txtOrdenFabricacion").val() == "") {
-      //  NuevoControlConsumoInsumos();
+    if ($("#txtOrdenFabricacion").val() == "") {      
         return;
     }
+    DatosOF = [];
     $.ajax({
         url: "../General/ConsultarDatosOrdenFabricacion",
         type: "GET",
         data: {
-            Orden: $("#txtOrdenFabricacion").val()
-            //  Linea: $("#txtLineaNegocio").val()
+            Orden: $("#txtOrdenFabricacion").val()          
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -124,8 +163,9 @@ function CargarDatosOrdenFabricacion() {
                 MensajeAdvertencia("No se pudo obtener información");
                 return;
             }
-            //console.log(resultado);
+           // console.log(resultado);
             $("#txtProducto").val(resultado.NOMBRE_PRODUCTO);
+            DatosOF = resultado;
             //$("#txtPesoEscrundido").val(resultado.PESO_ESCURRIDO);
             //$("#txtLomo").val(resultado.LOMOS);
             //$("#txtMiga").val(resultado.MIGAS);

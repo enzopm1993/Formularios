@@ -62,7 +62,7 @@ namespace ProyectoWeb.Controllers
             }
             if (BD == clsAtributos.ProduccionBD)
             {
-                respuesta.Add(new RespuestaGeneral { Codigo = 0, Descripcion = "http://192.168.0.31:8000/", Mensaje = clsAtributos.PreProduccionBD });
+                respuesta.Add(new RespuestaGeneral { Codigo = 0, Descripcion = "http://192.168.0.31:8000/", Mensaje = clsAtributos.BDPreProduccion });
                 respuesta.Add(new RespuestaGeneral { Codigo = 2, Descripcion = "http://192.168.0.31:8002/", Mensaje = clsAtributos.BDDesarrollo });
             }
             return Json(respuesta, JsonRequestBehavior.AllowGet);

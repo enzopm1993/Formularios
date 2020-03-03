@@ -36,7 +36,7 @@
             </button>
 
             @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
-            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="ModalEliminarControl()" style="border-color:#2c3e50" type="button">
+            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/cancel24.png" />
             </button>
             <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ModalGenerarControl(true)" style="border-color:#2c3e50" type="button">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div>
-        </div>    
+        </div>
 
 
 
@@ -199,12 +199,12 @@
                     <input type="hidden" id="txtLineaNegocio" name="name" value="@ViewBag.LineaNegocio" />
 
                     @*<div class="col-md-6 col-6 col-sm-6">
-                        <div class="form-group">
-                            <label>Fecha Orden Fabricación</label>
-                            <input type="date" class="form-control" id="txtFechaOrdenFabricacion" onchange="CargarOrdenFabricacion()" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                           
-                        </div>
-                    </div>*@
+                            <div class="form-group">
+                                <label>Fecha Orden Fabricación</label>
+                                <input type="date" class="form-control" id="txtFechaOrdenFabricacion" onchange="CargarOrdenFabricacion()" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+
+                            </div>
+                        </div>*@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Orden Fabricación</label>
@@ -241,7 +241,7 @@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Cod Producto</label>
-                            <input class="form-control" id="txtCodigoProducto" type="text" name="name" value="" />
+                            <input class="form-control" id="txtCodigoProducto" maxlength="12" type="text" name="name" value="" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
@@ -267,6 +267,23 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="GenerarControlConsumo()" id="btnGenerarControlConsumo">Generar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarControl" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar el Control</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-no">No</button>
             </div>
         </div>
     </div>
@@ -568,7 +585,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">              
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>

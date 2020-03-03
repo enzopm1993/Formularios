@@ -16,9 +16,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
     {
         string[] lsUsuario = null;
         clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
-        clsDClasificador clsDClasificador = null;
-        clsDApiProduccion clsDApiProduccion = null;
+        //clsDEmpleado clsDEmpleado = null;
+        //clsDClasificador clsDClasificador = null;
+        //clsDApiProduccion clsDApiProduccion = null;
         clsDCcocheAutoclave clsDCcocheAutoclave = null;
         // GET: CocheAutoclave
         public ActionResult CocheAutoclave()

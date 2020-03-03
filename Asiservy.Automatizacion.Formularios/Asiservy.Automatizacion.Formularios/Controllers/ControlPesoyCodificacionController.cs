@@ -21,7 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         //clsDGeneral clsDGeneral = null;
         //clsDEmpleado clsDEmpleado = null;
         clsDClasificador clsDClasificador = null;
-        clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
+        //clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
         //clsDLogin clsDLogin = null;
         ClsdControlPesoCodificacionLomosyMigas ClsdControlPesoCodificacionLomosyMigas = null;
         #region Métodos

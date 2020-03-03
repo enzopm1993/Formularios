@@ -18,7 +18,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDEmpleado clsDEmpleado = null;
         clsDClasificador clsDClasificador = null;
         // clsDGeneral clsDGeneral = null;
-        clsDLogin clsDLogin = null;
+        //clsDLogin clsDLogin = null;
         clsDEntregaUniforme clsDEntregaUniforme = null;
 
         // GET: EntregaUniforme
