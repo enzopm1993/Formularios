@@ -38,12 +38,12 @@
     <table class="table-bordered table-hover" id="tblDataTable" style="min-width:100%">
         <thead>
             <tr>
-                <th style="border-bottom:0" class="text-center">Cédula</th>
-                <th style="border-bottom:0" class="text-center">Nombres</th>
-                <th style="border-bottom:0" class="text-center">Centro de Costos</th>
-                <th style="border-bottom:0" class="text-center">Recurso</th>
-                <th style="border-bottom:0" class="text-center">Línea</th>
-                <th style="border-bottom:0" class="text-center">Cargo</th>
+                <th style="border-bottom:0" class="text-center" >Cédula</th>
+                <th style="border-bottom:0" class="text-center" >Nombres</th>
+                <th style="border-bottom:0" class="text-center" >Centro de Costos</th>
+                <th style="border-bottom:0" class="text-center" >Recurso</th>
+                <th style="border-bottom:0" class="text-center" >Línea</th>
+                <th style="border-bottom:0" class="text-center" >Cargo</th>
                 @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
                 {
 
@@ -52,33 +52,14 @@
                     fechaInicial = fechaInicial.AddDays(1);
 
                     <th class="text-center">
-                        @(dia == "miércoles" ? dia.Substring(0, 2) : dia.Substring(0, 1))
+                        @(dia == "miércoles" ? dia.Substring(0, 2) : dia.Substring(0, 1))-@DiaNumero
                     </th>
                 }
             </tr>
-
+            
         </thead>
         <tbody>
-            <tr>
-                <th style="border-bottom:0; border-top:0"></th>
-                <th style="border-top:0"></th>
-                <th style="border-top:0"></th>
-                <th style="border-top:0"></th>
-                <th style="border-top:0"></th>
-                <th style="border-top:0"></th>
-                @{fechaInicial = (DateTime)ViewBag.FechaInicio; }
-                @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
-                {
-                    dia = ci.DateTimeFormat.GetDayName(fechaInicial.DayOfWeek);
-                    DiaNumero = fechaInicial.Day;
-                    fechaInicial = fechaInicial.AddDays(1);
-                    <th class="text-center">
-                        <center>
-                            @DiaNumero
-                        </center>
-                    </th>
-                }
-            </tr>
+            
             @{fechaInicial = (DateTime)ViewBag.FechaInicio;
                 string EstadoAsistencia;
                 int cont = 1;
@@ -99,9 +80,10 @@
                     <td>@item.Cargo</td>
                     @for (int i = 0; fechaInicial != (FechaFinal.AddDays(1)); i++)
                     {
-                        <td class="text-center">
-                            @(EstadoAsistencia = (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault() == null ? "F" : (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault())
-                        </td>
+                    <td class="text-center">
+                        @*@(EstadoAsistencia = (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault() == null ? "F" : (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault())*@
+                        @(EstadoAsistencia = (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault() == null ? "" : (from a in Model where a.Cedula == item.Cedula && a.Fecha == fechaInicial select a.EstadoAsistencia).FirstOrDefault())
+                    </td>
                         fechaInicial = fechaInicial.AddDays(1);
                     }
                 </tr>
