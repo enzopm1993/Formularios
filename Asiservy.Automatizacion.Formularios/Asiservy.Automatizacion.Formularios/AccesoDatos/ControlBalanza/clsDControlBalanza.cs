@@ -20,7 +20,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlBalanza
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CONTROL_BALANZA.FirstOrDefault(x => x.IdControlBalanza == Control.IdControlBalanza || (x.Cedula==Control.Cedula && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo));
+                var model = db.CONTROL_BALANZA.FirstOrDefault(x => x.IdControlBalanza == Control.IdControlBalanza || (x.Cedula==Control.Cedula &&x.Fecha == Control.Fecha && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo));
                 if(model!= null)
                 {
                     model.Codigo = Control.Codigo;

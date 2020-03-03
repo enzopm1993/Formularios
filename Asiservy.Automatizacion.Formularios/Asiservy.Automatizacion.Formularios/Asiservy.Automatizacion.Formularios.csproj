@@ -3122,6 +3122,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\PRODUCCION\CocheAutoclave\CocheAutoclave.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.js" />
@@ -3258,6 +3259,7 @@
     <Compile Include="Controllers\MoverPersonalController.cs" />
     <Compile Include="Controllers\NominaController.cs" />
     <Compile Include="Controllers\PeriodoController.cs" />
+    <Compile Include="Controllers\PRODUCCION\CocheAutoclaveController.cs" />
     <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
@@ -3559,6 +3561,8 @@
     <Content Include="Views\Marcaciones\PorLinea.cshtml" />
     <Content Include="Views\Asistencia\ControlEiminarAsistencia.cshtml" />
     <Content Include="Views\Asistencia\PartialEliminarAsistencia.cshtml" />
+    <Content Include="Views\CocheAutoclave\CocheAutoclave.cshtml" />
+    <Content Include="Views\CocheAutoclave\CocheAutoclavePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3570,6 +3574,7 @@
     <Folder Include="AccesoDatos\CALIDAD\" />
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\CALIDAD\" />
+    <Folder Include="Scripts\CALIDAD\" />
     <Folder Include="Views\Comunicados\" />
     <Folder Include="Views\General\" />
   </ItemGroup>
