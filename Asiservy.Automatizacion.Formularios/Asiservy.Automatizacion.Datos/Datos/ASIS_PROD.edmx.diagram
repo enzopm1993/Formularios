@@ -115,7 +115,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE_DETALLE" Width="1.5" PointX="31.625" PointY="6" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE" Width="1.5" PointX="34.375" PointY="49.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE" Width="1.5" PointX="29.375" PointY="51.75" />
         <AssociationConnector Association="ASIS_PRODModel.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" />
         </Diagram>
     </edmx:Diagrams>

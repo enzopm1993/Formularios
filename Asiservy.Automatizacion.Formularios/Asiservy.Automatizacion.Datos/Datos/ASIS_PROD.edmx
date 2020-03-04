@@ -209,6 +209,7 @@
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="Turno" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="OrdenFabricacion" Type="int" Nullable="false" />
+          <Property Name="Lote" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Autoclave" Type="int" Nullable="false" />
           <Property Name="Parada" Type="int" Nullable="false" />
           <Property Name="Producto" Type="varchar" MaxLength="100" />
@@ -6395,6 +6396,7 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
+          <Property Name="Lote" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Autoclave" Type="Int32" Nullable="false" />
           <Property Name="Parada" Type="Int32" Nullable="false" />
           <Property Name="Producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -9773,6 +9775,7 @@
                 <ScalarProperty Name="Producto" ColumnName="Producto" />
                 <ScalarProperty Name="Parada" ColumnName="Parada" />
                 <ScalarProperty Name="Autoclave" ColumnName="Autoclave" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
                 <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
                 <ScalarProperty Name="Turno" ColumnName="Turno" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
