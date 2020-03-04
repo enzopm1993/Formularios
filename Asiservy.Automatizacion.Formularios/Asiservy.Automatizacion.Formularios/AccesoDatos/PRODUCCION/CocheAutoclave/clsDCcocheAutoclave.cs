@@ -24,6 +24,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.CocheAutocl
                 var poMapeo = entities.COCHE_AUTOCLAVE.FirstOrDefault(x=>x.IdCocheAutoclave==model.IdCocheAutoclave);
                 if(poMapeo!= null)
                 {
+                    poMapeo.Autoclave = model.Autoclave;
+                    poMapeo.Parada = model.Parada;
+                    poMapeo.Lote = model.Lote;
                     poMapeo.Envase = model.Envase;
                     poMapeo.CodigoProducto = model.CodigoProducto;
                     poMapeo.Observacion = model.Observacion;

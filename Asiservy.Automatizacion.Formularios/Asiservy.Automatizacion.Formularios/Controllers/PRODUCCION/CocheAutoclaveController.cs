@@ -105,10 +105,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
+                clsDCcocheAutoclave = new clsDCcocheAutoclave();
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.FechaIngresoLog = DateTime.Now;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                clsDCcocheAutoclave.GuardarModificarCocheAutoclave(model);
+
                 //clsDMapeoProductoTunel = new clsDMapeoProductoTunel();
                 //clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
 
-              //  var lote = clsDApiOrdenFabricacion.ConsultaLotesPorOF(model.OrdenFabricacion).FirstOrDefault(x => x.Lote == model.Lote);
+                //  var lote = clsDApiOrdenFabricacion.ConsultaLotesPorOF(model.OrdenFabricacion).FirstOrDefault(x => x.Lote == model.Lote);
                 //if (lote == null)
                 //{
                 //    return Json("102", JsonRequestBehavior.AllowGet);

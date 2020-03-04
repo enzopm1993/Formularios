@@ -270,6 +270,10 @@ function EditarControl() {
     if (!ValidarEdicion()) {
         return;
     }
+    var fin = 0;
+    if ($("#chkFin").prop("checked")) {
+        fin = 1;
+    }
     $("#ModalControl").modal("hide");
     $.ajax({
         url: "../MapeoProductoTunel/MapeoProductoTunel",
@@ -279,7 +283,8 @@ function EditarControl() {
             Lote: $("#SelectLote2").val(),
             OrdenFabricacion: $("#txtOrdenFabricacion").val(),
             TipoLimpieza: $("#SelectTipoLimpieza2").val(),
-            Observacion: $("#txtObservacionModal").val()
+            Observacion: $("#txtObservacionModal").val(),
+            Fin: fin
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -315,7 +320,7 @@ function EditarControl() {
 
 
 function SeleccionarControl(model) {
-    //console.log(model);
+   //console.log(model);
     CargarLotes2(model.OrdenFabricacion, model.Lote);
     $("#divCabecera2").prop("hidden", true);
     $("#divDetalle").prop("hidden", false);
@@ -339,6 +344,13 @@ function SeleccionarControl(model) {
     $("#txtIdControl").val(model.IdMapeoProductoTunel);   
     $("#SelectTipoLimpieza2").val(model.CodTipoLimpieza); 
     $("#txtObservacionModal").val(model.Observacion);     
+    if (model.Fin) {
+        $("#chkFin").prop("checked", true);
+    } else {
+        $("#chkFin").prop("checked", false);
+
+    }
+
     CargarMapeoProductoTunelDetalle();
 }
 
@@ -357,6 +369,7 @@ function AtrasControlPrincipal() {
     $("#SelectLote").prop("disabled", false);
     $("#SelectTipoLimpieza").prop("disabled", false);
     $("#txtObservacion").prop("disabled", false);
+    $("#chkFin").prop("checked", false);
     CargarMapeoProductoTunel();
     NuevoControl();
 }
