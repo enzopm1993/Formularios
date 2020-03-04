@@ -59,6 +59,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static int RolAutoclave = 25;
         //public static int RolPouch = 38;
         public static int RolFrio = 39;
+        public static int RolControlOC = 33;
+
         //public static int RolLimpiezaPouch= 38;
         //public static int RolLimpiezaPouch= 38;
 

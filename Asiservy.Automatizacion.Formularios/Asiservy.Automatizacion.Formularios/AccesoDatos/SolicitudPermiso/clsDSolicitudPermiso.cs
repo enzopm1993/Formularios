@@ -379,6 +379,41 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             }
         }
 
+        public string ReversarSalidaSolicitudPermiso(SOLICITUD_PERMISO model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var Solicitud = entities.SOLICITUD_PERMISO.FirstOrDefault(x => x.IdSolicitudPermiso == model.IdSolicitudPermiso);
+                if (Solicitud != null)
+                {                   
+                    Solicitud.FechaModificacionLog = DateTime.Now;
+                    Solicitud.TerminalModificacionLog = model.TerminalIngresoLog;
+                    Solicitud.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    Solicitud.EstadoSolicitud = "002";
+                    BITACORA_SOLICITUD bitacora = new BITACORA_SOLICITUD
+                    {
+                        IdSolicitud = Solicitud.IdSolicitudPermiso,
+                        EstadoSolicitud = Solicitud.EstadoSolicitud,
+                        Observacion = "Reversión de solicitud",
+                        FechaIngresoLog = DateTime.Now,
+                        FechaSalida = Solicitud.FechaSalida,
+                        CambioEstado = true,
+                        CodigoMotivo = Solicitud.CodigoMotivo,
+                        FechaRegreso = Solicitud.FechaRegreso,
+                        TerminalIngresoLog = model.TerminalIngresoLog,
+                        UsuarioIngresoLog = model.UsuarioIngresoLog,
+                        Cedula = Solicitud.Identificacion
+
+                    };
+                    entities.BITACORA_SOLICITUD.Add(bitacora);                 
+
+
+                }
+                entities.SaveChanges();
+                return clsAtributos.MsjRegistroGuardado;
+            }
+        }
+
 
         public List<SolicitudPermisoViewModel> ConsultaSolicitudesPermisosRRHH()
         {
