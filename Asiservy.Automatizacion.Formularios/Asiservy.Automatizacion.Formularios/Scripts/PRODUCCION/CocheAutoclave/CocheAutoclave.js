@@ -115,6 +115,7 @@ function GuardarCocheAutoclave() {
             Producto: DatosOF.NOMBRE_PRODUCTO,
             CodigoProducto: $("#txtCodProducto").val(),
             Envase: DatosOF.ENVASE,
+            Lote: $("#txtLote").val(),
             Observacion: $("#txtObservacion").val()
         },
         success: function (resultado) {
@@ -125,7 +126,7 @@ function GuardarCocheAutoclave() {
             CargarCocheAutoclave();
         },
         error: function (resultado) {
-            MensajeError("Error: Comuniquese con sistemas", false);
+            MensajeError("Error: Comuníquese con sistemas", false);
            
         }
     });
@@ -184,7 +185,7 @@ function CargarDatosOrdenFabricacion() {
             //$("#").val('');
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError("Error: Comuníquese con sistemas", false);
           //  NuevoControlConsumoInsumos();
         }
     });
@@ -201,7 +202,8 @@ $("#modal-orden-si").on("click", function () {
         return;
     }
     $("#txtOrdenFabricacion").val($("#SelectOrdenFabricacion").val());
-    CargarDatosOrdenFabricacion();    
+    CargarDatosOrdenFabricacion();   
+    //CargarLotes();
   //  CargarLotes($("#txtOrdenFabricacion").val());
     $("#ModalOrdenes").modal('hide');
     $('#validaOrden').prop("hidden", true);
@@ -210,6 +212,7 @@ $("#modal-orden-si").on("click", function () {
 $("#modal-orden-no").on("click", function () {
     $("#ModalOrdenes").modal('hide');
 });
+
 function CargarOrdenFabricacion() {
     $("#SelectOrdenFabricacion").empty();
     $("#SelectOrdenFabricacion").append("<option value='' >-- Seleccionar Opción--</option>");
@@ -243,7 +246,44 @@ function CargarOrdenFabricacion() {
             //CargarControlHueso();
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError("Error: Comuníquese con sistemas", false);
         }
     });
 }
+
+
+
+//function CargarLotes() {
+//    $("#selectLote").empty();
+//    $("#selectLote").append("<option value='' >-- Seleccionar Opción--</option>");
+//    valor = $("#txtOrdenFabricacion").val();
+//    if (valor == '' || valor == null)
+//        return;
+
+//    $.ajax({
+//        url: "../General/ConsultarLotesPorOf",
+//        type: "GET",
+//        data: {
+//            Orden: valor
+//        },
+//        success: function (resultado) {
+//            if (resultado == "101") {
+//                window.location.reload();
+//            }
+//            if (resultado == "0") {
+//                MensajeAdvertencia("No existen ordenes para esa fecha");
+//                return;
+//            }
+//            // LimpiarDetalle();
+//            if (!$.isEmptyObject(resultado)) {
+//                $.each(resultado, function (create, row) {
+//                    $("#SelectOrdenFabricacion").append("<option value='" + row.descripcion + "'>" + row.descripcion + "</option>")
+//                });
+//            }
+//        },
+//        error: function (resultado) {
+//            console.log(resultado);
+//            MensajeError("Error: Comuníquese con sistemas", false);
+//        }
+//    });
+//}
