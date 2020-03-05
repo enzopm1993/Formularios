@@ -105,9 +105,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<DETALLE_LOTE_CONTROL_PESO_CODIFICACION> DETALLE_LOTE_CONTROL_PESO_CODIFICACION { get; set; }
         public virtual DbSet<MAPEO_PRODUCTO_TUNEL_DETALLE> MAPEO_PRODUCTO_TUNEL_DETALLE { get; set; }
         public virtual DbSet<CONTROL_CONSUMO_INSUMO> CONTROL_CONSUMO_INSUMO { get; set; }
-        public virtual DbSet<COCHE_AUTOCLAVE_DETALLE> COCHE_AUTOCLAVE_DETALLE { get; set; }
         public virtual DbSet<COCHE_AUTOCLAVE> COCHE_AUTOCLAVE { get; set; }
         public virtual DbSet<MAPEO_PRODUCTO_TUNEL> MAPEO_PRODUCTO_TUNEL { get; set; }
+        public virtual DbSet<COCHE_AUTOCLAVE_DETALLE> COCHE_AUTOCLAVE_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1432,28 +1432,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMapeoProductoTunelDetalle>("spConsultaMapeoProductoTunelDetalle", idControlParameter);
         }
     
-        public virtual ObjectResult<spConsultaCocheAutoclave> spConsultaCocheAutoclave(Nullable<System.DateTime> fecha, string turno)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var turnoParameter = turno != null ?
-                new ObjectParameter("Turno", turno) :
-                new ObjectParameter("Turno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCocheAutoclave>("spConsultaCocheAutoclave", fechaParameter, turnoParameter);
-        }
-    
-        public virtual ObjectResult<spConsultaCocheAutoclaveDetalle> spConsultaCocheAutoclaveDetalle(Nullable<int> idControl)
-        {
-            var idControlParameter = idControl.HasValue ?
-                new ObjectParameter("IdControl", idControl) :
-                new ObjectParameter("IdControl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCocheAutoclaveDetalle>("spConsultaCocheAutoclaveDetalle", idControlParameter);
-        }
-    
         public virtual ObjectResult<spConsultarAsistenciasGeneradas> spConsultarAsistenciasGeneradas(Nullable<System.DateTime> fecha)
         {
             var fechaParameter = fecha.HasValue ?
@@ -1491,6 +1469,28 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Fecha", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMapeoProductoTunel>("spConsultaMapeoProductoTunel", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCocheAutoclave> spConsultaCocheAutoclave(Nullable<System.DateTime> fecha, string turno)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCocheAutoclave>("spConsultaCocheAutoclave", fechaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCocheAutoclaveDetalle> spConsultaCocheAutoclaveDetalle(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCocheAutoclaveDetalle>("spConsultaCocheAutoclaveDetalle", idControlParameter);
         }
     }
 }
