@@ -3568,6 +3568,7 @@
     <Content Include="Views\CocheAutoclave\CocheAutoclave.cshtml" />
     <Content Include="Views\CocheAutoclave\CocheAutoclavePartial.cshtml" />
     <Content Include="Views\BLZ\ReporteDescongeladoEmparrilladoMP.cshtml" />
+    <Content Include="Views\CocheAutoclave\CocheAutoclaveDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
