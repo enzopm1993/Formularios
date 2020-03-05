@@ -107,3 +107,33 @@ function ConsultarSolicitudes() {
 
 }
 
+
+function ReversarSolicitud(IdSolicitudPermiso) {
+
+    $(".btnReversa").prop("disabled", true);
+    $.ajax({
+        type: "POST",
+        url: '../SolicitudPermiso/ReversarSolicitudPermiso',
+        data: {
+            IdSolicitudPermiso: IdSolicitudPermiso
+        },
+        success: function (Resultado) {
+            if (Resultado == "101") {
+                window.location.reload();
+            }
+            if (Resultado == "102") {
+                MensajeAdvertencia("OCURRIÓ UN ERROR EN EL PROCESO");
+                $(".btnReversa").prop("disabled", false);
+                return;
+            }         
+            MensajeCorrecto(Resultado, false);
+            ConsultarSolicitudes();
+        },
+        error: function (Resultado) {
+            MensajeError(Resultado);
+        }
+    });
+
+
+}
+
