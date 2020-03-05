@@ -50,11 +50,11 @@ function CargarCocheAutoclave() {
 function NuevoControl() {
     $("#txtOrdenFabricacion").val('');
     $("#txtObservacion").val('');
-    $("#SelectLote").empty();
-    $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>");
-    $("#SelectTipoLimpieza").prop("SelectedIndex", 0);
-    $("#txtIdControl").val("0");
-
+    $("#txtAutoclave").val('');
+    $("#txtParada").val('');
+    $("#txtCodProducto").val('');
+    $("#txtLote").val('');
+    $("#txtIdControl").val("0");   
 }
 
 function Validar() {
@@ -94,6 +94,20 @@ function Validar() {
         $("#txtParada").css('borderColor', '#ced4da');
     }
 
+    if ($("#txtLote").val() == "") {
+        $("#txtLote").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtLote").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtCodProducto").val() == "") {
+        $("#txtCodProducto").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtCodProducto").css('borderColor', '#ced4da');
+    }
+
     return valida;
 
 }
@@ -124,6 +138,7 @@ function GuardarCocheAutoclave() {
             }
             MensajeCorrecto(resultado);
             CargarCocheAutoclave();
+            NuevoControl();
         },
         error: function (resultado) {
             MensajeError("Error: Comuníquese con sistemas", false);
@@ -131,16 +146,6 @@ function GuardarCocheAutoclave() {
         }
     });
 }
-
-
-
-
-
-
-
-
-
-
 function CargarDatosOrdenFabricacion() {
     if ($("#txtOrdenFabricacion").val() == "") {      
         return;
@@ -287,3 +292,24 @@ function CargarOrdenFabricacion() {
 //        }
 //    });
 //}
+
+
+
+
+
+function SeleccionarControl(model) {
+    console.log(model);
+    $("#divCabecera").prop("hidden", true);
+    $("#divCabecera2").prop("hidden", true);
+    $("#btnGenerar").prop("hidden", true);
+    $("#btnAtras").prop("hidden", false);
+
+}
+
+function AtrasControlPrincipal() {
+    $("#divCabecera").prop("hidden", false);
+    $("#divCabecera2").prop("hidden", false);
+    $("#btnGenerar").prop("hidden", false);
+    $("#btnAtras").prop("hidden", true);
+    CargarCocheAutoclave();
+}
