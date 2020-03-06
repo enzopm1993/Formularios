@@ -1,0 +1,95 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS
+
+@{
+    ViewBag.Title = "ControlEsterilizacionConserva";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+    }
+    textarea {
+        resize: none;
+    }
+</style>
+
+<h4>Esterilización de Conservas</h4>
+<input type="hidden" id="CabeceraControl" value="0" />
+
+<div class="card" style="padding-right:10px;padding-bottom:10px;padding-left:10px">
+    
+    <div class="row">
+
+        <hr />
+
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+
+
+                <label>Fecha:</label>
+                <input type="date" id="Fecha" class="form-control" />
+
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <label>Turno:</label>
+                <select class="form-control" id="Turno">
+                    <option value="1">Seleccione...</option>
+                    <option value="1">Turno A</option>
+                    <option value="2">Turno B</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+
+
+                <label>Línea:</label>
+                <select class="form-control" id="Linea">
+                    <option value="L">Seleccione...</option>
+                    <option value="L">Lata</option>
+                    <option value="P">Pouch</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+
+
+                <label>Observación:</label>
+                <textarea id="Observacion" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-12 text-center">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnCargando">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabEsterilizacion()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/save20.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnLimpiar" onclick="LimpiarControles()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarCabeceraControl" onclick="ConfirmarELiminarCabControl()" style="border-color:#2c3e50" type="button" disabled>
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div id="DivCoches">
+
+</div>

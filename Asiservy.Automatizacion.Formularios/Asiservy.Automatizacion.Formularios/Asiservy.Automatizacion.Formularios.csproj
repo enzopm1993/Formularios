@@ -3125,6 +3125,7 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\PRODUCCION\CocheAutoclave\CocheAutoclave.js" />
+    <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ControlEsterilizacionConserva.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.js" />
@@ -3208,6 +3209,7 @@
     <Compile Include="AccesoDatos\Nomina\ModeloVistaPersonalPresente.cs" />
     <Compile Include="AccesoDatos\Periodo\clsDPeriodo.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\CocheAutoclave\clsDCcocheAutoclave.cs" />
+    <Compile Include="AccesoDatos\PRODUCCION\EsterilizacionConserva\clsDEsterilizacionConserva.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDModulo.cs" />
     <Compile Include="AccesoDatos\Seguridad\clsDNivelUsuario.cs" />
@@ -3264,6 +3266,7 @@
     <Compile Include="Controllers\NominaController.cs" />
     <Compile Include="Controllers\PeriodoController.cs" />
     <Compile Include="Controllers\PRODUCCION\CocheAutoclaveController.cs" />
+    <Compile Include="Controllers\PRODUCCION\EsterilizacionConservaController.cs" />
     <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
@@ -3568,6 +3571,8 @@
     <Content Include="Views\CocheAutoclave\CocheAutoclave.cshtml" />
     <Content Include="Views\CocheAutoclave\CocheAutoclavePartial.cshtml" />
     <Content Include="Views\BLZ\ReporteDescongeladoEmparrilladoMP.cshtml" />
+    <Content Include="Views\EsterilizacionConserva\ControlEsterilizacionConserva.cshtml" />
+    <Content Include="Views\EsterilizacionConserva\PartialCocheAutoclave.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
