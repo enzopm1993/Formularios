@@ -1,69 +1,59 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaMapeoProductoTunel>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaCocheAutoclave>
 @using Newtonsoft.Json;
+
+
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable2">
     <thead>
+
         <tr>
+
+
             <th>
-                
+                @Html.DisplayNameFor(model => model.OrdenFabricacion)
             </th>
             <th>
-                Peso
+                @Html.DisplayNameFor(model => model.Producto)
             </th>
             <th>
-                O. Fabricación
+                @Html.DisplayNameFor(model => model.CodigoProducto)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Lote)
+                @Html.DisplayNameFor(model => model.Autoclave)
             </th>
             <th>
-                Limpieza
-            </th>
-            <th>
-                Talla
-            </th>
-            <th>
-                Barco
+                @Html.DisplayNameFor(model => model.Parada)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
 
         </tr>
-    </thead>
+</thead>
     <tbody>
         @foreach (var item in Model)
         {
             var json = JsonConvert.SerializeObject(item);
         <tr onclick="SeleccionarControl(@json)">
             <td>
-                @{ if (item.Fin == 1)
-                    {
-                        <i style="color:green" class="fas fa-check-circle"></i>
-                    }
-
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PesoProducto)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.OrdenFabricacion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Lote)
+                @Html.DisplayFor(modelItem => item.Producto)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TipoLimpieza)
+                @Html.DisplayFor(modelItem => item.CodigoProducto)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Talla)
+                @Html.DisplayFor(modelItem => item.Autoclave)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Barco)
+                @Html.DisplayFor(modelItem => item.Parada)
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Observacion)
             </td>
+
         </tr>
         }
     </tbody>

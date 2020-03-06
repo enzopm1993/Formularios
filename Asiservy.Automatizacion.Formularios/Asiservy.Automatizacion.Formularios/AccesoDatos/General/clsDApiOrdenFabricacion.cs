@@ -150,7 +150,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
 
         public List<OrdenFabricacionConsumoInsumo> ConsultaOrdenFabricacionPorFechaConsumoInsumo(string Orden)
         {
-            var client = new RestClient("http://192.168.0.31:8870");
+            var client = new RestClient("http://192.168.0.31:8003");
             var request = new RestRequest("/api/Produccion/DatosOrdenFabricacion/" + Orden, Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)

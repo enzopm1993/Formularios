@@ -15,12 +15,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdCocheAutoclaveDetalle { get; set; }
         public int IdCocheAutoclave { get; set; }
-        public int Autoclave { get; set; }
-        public int Parada { get; set; }
         public string Tarjeta { get; set; }
         public System.DateTime HoraInicio { get; set; }
         public string Coche { get; set; }
         public string LineaProduccion { get; set; }
-        public string EstadoRegistro { get; set; }
     }
 }

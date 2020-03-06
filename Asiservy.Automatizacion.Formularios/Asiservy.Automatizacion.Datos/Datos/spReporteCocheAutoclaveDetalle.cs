@@ -10,16 +10,9 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class COCHE_AUTOCLAVE
+    public partial class spReporteCocheAutoclaveDetalle
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public COCHE_AUTOCLAVE()
-        {
-            this.COCHE_AUTOCLAVE_DETALLE = new HashSet<COCHE_AUTOCLAVE_DETALLE>();
-        }
-    
         public int IdCocheAutoclave { get; set; }
         public System.DateTime Fecha { get; set; }
         public string Turno { get; set; }
@@ -31,15 +24,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string CodigoProducto { get; set; }
         public string Envase { get; set; }
         public string Observacion { get; set; }
-        public string EstadoRegistro { get; set; }
-        public System.DateTime FechaIngresoLog { get; set; }
-        public string UsuarioIngresoLog { get; set; }
-        public string TerminalIngresoLog { get; set; }
-        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
-        public string UsuarioModificacionLog { get; set; }
-        public string TerminalModificacionLog { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<COCHE_AUTOCLAVE_DETALLE> COCHE_AUTOCLAVE_DETALLE { get; set; }
+        public int IdCocheAutoclaveDetalle { get; set; }
+        public string Tarjeta { get; set; }
+        public System.DateTime HoraInicio { get; set; }
+        public string Coche { get; set; }
+        public string LineaProduccion { get; set; }
     }
 }

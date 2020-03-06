@@ -2033,6 +2033,7 @@
     <Content Include="Content\images\arrow001.png" />
     <Content Include="Content\images\asilogo.jpg" />
     <Content Include="Content\images\asiservylogo1.jpg" />
+    <Content Include="Content\images\banner.jpg" />
     <Content Include="Content\images\buscar.png" />
     <Content Include="Content\images\cargando1.gif" />
     <Content Include="Content\images\cargando2.gif" />
@@ -2156,6 +2157,7 @@
     <Content Include="Scripts\Asistencia\BitacoraCambioPersonal.js" />
     <Content Include="Scripts\Asistencia\CambiarPersonalDeArea.js" />
     <Content Include="Scripts\Asistencia\ControlEiminarAsistencia.js" />
+    <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
@@ -3124,6 +3126,8 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\PRODUCCION\CocheAutoclave\CocheAutoclave.js" />
+    <Content Include="Scripts\PRODUCCION\CocheAutoclave\ReporteCocheAutoclave.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.js" />
@@ -3176,6 +3180,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
+    <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
     <Compile Include="AccesoDatos\ControlConsumoInsumo\clsDControlConsumoInsumo.cs" />
     <Compile Include="AccesoDatos\ControlCuchillo\clsDCuchillo.cs" />
@@ -3238,6 +3243,7 @@
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
+    <Compile Include="Controllers\BLZController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\ControlBalanzaController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
@@ -3263,6 +3269,7 @@
     <Compile Include="Controllers\MoverPersonalController.cs" />
     <Compile Include="Controllers\NominaController.cs" />
     <Compile Include="Controllers\PeriodoController.cs" />
+    <Compile Include="Controllers\PRODUCCION\CocheAutoclaveController.cs" />
     <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
@@ -3563,6 +3570,12 @@
     <Content Include="Views\Marcaciones\PorLinea.cshtml" />
     <Content Include="Views\Asistencia\ControlEiminarAsistencia.cshtml" />
     <Content Include="Views\Asistencia\PartialEliminarAsistencia.cshtml" />
+    <Content Include="Views\CocheAutoclave\CocheAutoclave.cshtml" />
+    <Content Include="Views\CocheAutoclave\CocheAutoclavePartial.cshtml" />
+    <Content Include="Views\BLZ\ReporteDescongeladoEmparrilladoMP.cshtml" />
+    <Content Include="Views\CocheAutoclave\CocheAutoclaveDetallePartial.cshtml" />
+    <Content Include="Views\CocheAutoclave\ReporteCocheAutoclave.cshtml" />
+    <Content Include="Views\CocheAutoclave\ReporteCocheAutoclaveDetallePartial.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\CloroCisternaDescongelado.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\ValidarCloroCisternaDescongeladoDetallePartial.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.cshtml" />
@@ -3576,6 +3589,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\CALIDAD\" />
     <Folder Include="Views\Comunicados\" />
     <Folder Include="Views\General\" />
   </ItemGroup>

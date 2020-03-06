@@ -209,6 +209,9 @@
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="Turno" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="OrdenFabricacion" Type="int" Nullable="false" />
+          <Property Name="Lote" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Autoclave" Type="int" Nullable="false" />
+          <Property Name="Parada" Type="int" Nullable="false" />
           <Property Name="Producto" Type="varchar" MaxLength="100" />
           <Property Name="CodigoProducto" Type="varchar" MaxLength="50" />
           <Property Name="Envase" Type="varchar" MaxLength="50" />
@@ -227,12 +230,10 @@
           </Key>
           <Property Name="IdCocheAutoclaveDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdCocheAutoclave" Type="int" Nullable="false" />
-          <Property Name="Autoclave" Type="int" Nullable="false" />
-          <Property Name="Parada" Type="int" Nullable="false" />
           <Property Name="Tarjeta" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="HoraInicio" Type="datetime" Nullable="false" />
-          <Property Name="Coche" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="LineaProduccion" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Coche" Type="varchar" MaxLength="5" />
+          <Property Name="LineaProduccion" Type="varchar" MaxLength="5" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -1047,6 +1048,7 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="Fin" Type="int" />
         </EntityType>
         <EntityType Name="MAPEO_PRODUCTO_TUNEL_DETALLE">
           <Key>
@@ -2259,6 +2261,9 @@
           <Parameter Name="FechaInicio" Type="date" Mode="In" />
           <Parameter Name="fechaFin" Type="date" Mode="In" />
         </Function>
+        <Function Name="spReporteCocheAutoclaveDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Of" Type="int" Mode="In" />
+        </Function>
         <Function Name="spReporteConsultaControlBalanza" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechadesde" Type="date" Mode="In" />
           <Parameter Name="fechahasta" Type="date" Mode="In" />
@@ -3200,10 +3205,6 @@
           <FunctionImport Name="spConsultaUltimaMarcacion" ReturnType="Collection(DateTime)">
           <Parameter Name="Cedula" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="MAPEO_PRODUCTO_TUNEL" EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" />
-          <FunctionImport Name="spConsultaMapeoProductoTunel" ReturnType="Collection(ASIS_PRODModel.spConsultaMapeoProductoTunel)">
-          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <EntitySet Name="CABECERA_CONTROL_PESO_CODIFICACION" EntityType="ASIS_PRODModel.CABECERA_CONTROL_PESO_CODIFICACION" />
           <AssociationSet Name="FK_DETALLE_CONTRO_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION" Association="ASIS_PRODModel.FK_DETALLE_CONTRO_PESO_CODIFICACION_CABECERA_CONTROL_PESO_CODIFICACION">
             <End Role="CABECERA_CONTROL_PESO_CODIFICACION" EntitySet="CABECERA_CONTROL_PESO_CODIFICACION" />
@@ -3226,10 +3227,6 @@
             <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
           <EntitySet Name="MAPEO_PRODUCTO_TUNEL_DETALLE" EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" />
-          <AssociationSet Name="FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL">
-            <End Role="MAPEO_PRODUCTO_TUNEL" EntitySet="MAPEO_PRODUCTO_TUNEL" />
-            <End Role="MAPEO_PRODUCTO_TUNEL_DETALLE" EntitySet="MAPEO_PRODUCTO_TUNEL_DETALLE" />
-          </AssociationSet>
           <FunctionImport Name="sp_obtenerVacacionesEmpleados" ReturnType="Collection(ASIS_PRODModel.sp_obtenerVacacionesEmpleados)">
             <Parameter Name="cedula" Mode="In" Type="String" />
             <Parameter Name="tipo" Mode="In" Type="String" />
@@ -3289,27 +3286,38 @@
           <FunctionImport Name="spConsultaMapeoProductoTunelDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaMapeoProductoTunelDetalle)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="COCHE_AUTOCLAVE" EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE" />
-          <EntitySet Name="COCHE_AUTOCLAVE_DETALLE" EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE_DETALLE" />
-          <AssociationSet Name="FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" Association="ASIS_PRODModel.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE">
-            <End Role="COCHE_AUTOCLAVE" EntitySet="COCHE_AUTOCLAVE" />
-            <End Role="COCHE_AUTOCLAVE_DETALLE" EntitySet="COCHE_AUTOCLAVE_DETALLE" />
-          </AssociationSet>
-          <FunctionImport Name="spConsultaCocheAutoclave" ReturnType="Collection(ASIS_PRODModel.spConsultaCocheAutoclave)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="Turno" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spConsultaCocheAutoclaveDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaCocheAutoclaveDetalle)">
-          <Parameter Name="IdControl" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="spConsultarAsistenciasGeneradas" ReturnType="Collection(ASIS_PRODModel.spConsultarAsistenciasGeneradas)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spInactivarAsistencia" ReturnType="Collection(String)">
             <Parameter Name="Linea" Mode="In" Type="String" />
             <Parameter Name="Turno" Mode="In" Type="String" />
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Generado" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="COCHE_AUTOCLAVE" EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE" />
+          <FunctionImport Name="spConsultaMapeoProductoTunel" ReturnType="Collection(ASIS_PRODModel.spConsultaMapeoProductoTunel)">
+          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="MAPEO_PRODUCTO_TUNEL" EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" />
+          <AssociationSet Name="FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL">
+            <End Role="MAPEO_PRODUCTO_TUNEL" EntitySet="MAPEO_PRODUCTO_TUNEL" />
+            <End Role="MAPEO_PRODUCTO_TUNEL_DETALLE" EntitySet="MAPEO_PRODUCTO_TUNEL_DETALLE" />
+          </AssociationSet>
+          <FunctionImport Name="spConsultaCocheAutoclave" ReturnType="Collection(ASIS_PRODModel.spConsultaCocheAutoclave)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="COCHE_AUTOCLAVE_DETALLE" EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE_DETALLE" />
+          <AssociationSet Name="FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" Association="ASIS_PRODModel.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE">
+            <End Role="COCHE_AUTOCLAVE" EntitySet="COCHE_AUTOCLAVE" />
+            <End Role="COCHE_AUTOCLAVE_DETALLE" EntitySet="COCHE_AUTOCLAVE_DETALLE" />
+          </AssociationSet>
+          <FunctionImport Name="spConsultaCocheAutoclaveDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaCocheAutoclaveDetalle)">
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spReporteCocheAutoclaveDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteCocheAutoclaveDetalle)">
+            <Parameter Name="Of" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -5864,47 +5872,6 @@
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Origen" Nullable="false" MaxLength="1" />
         </ComplexType>
-        <EntityType Name="MAPEO_PRODUCTO_TUNEL">
-          <Key>
-            <PropertyRef Name="IdMapeoProductoTunel" />
-          </Key>
-          <Property Name="IdMapeoProductoTunel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="PesoProducto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
-          <Property Name="Lote" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="TipoLimpieza" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Talla" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Barco" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="MAPEO_PRODUCTO_TUNEL_DETALLE" Relationship="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" FromRole="MAPEO_PRODUCTO_TUNEL" ToRole="MAPEO_PRODUCTO_TUNEL_DETALLE" />
-        </EntityType>
-        <ComplexType Name="spConsultaMapeoProductoTunel">
-          <Property Type="Int32" Name="IdMapeoProductoTunel" Nullable="false" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="String" Name="PesoProducto" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
-          <Property Type="String" Name="Lote" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="CodTipoLimpieza" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TipoLimpieza" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Talla" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Barco" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <EntityType Name="CABECERA_CONTROL_PESO_CODIFICACION">
           <Key>
             <PropertyRef Name="IdCabeceraControlPesoYCodificacion" />
@@ -6031,21 +5998,9 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="MAPEO_PRODUCTO_TUNEL" Relationship="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" FromRole="MAPEO_PRODUCTO_TUNEL_DETALLE" ToRole="MAPEO_PRODUCTO_TUNEL" />
           <Property Name="Textura" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MAPEO_PRODUCTO_TUNEL" Relationship="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" FromRole="MAPEO_PRODUCTO_TUNEL_DETALLE" ToRole="MAPEO_PRODUCTO_TUNEL" />
         </EntityType>
-        <Association Name="FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL">
-          <End Type="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" Role="MAPEO_PRODUCTO_TUNEL" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" Role="MAPEO_PRODUCTO_TUNEL_DETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MAPEO_PRODUCTO_TUNEL">
-              <PropertyRef Name="IdMapeoProductoTunel" />
-            </Principal>
-            <Dependent Role="MAPEO_PRODUCTO_TUNEL_DETALLE">
-              <PropertyRef Name="IdMapeoProductoTunel" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="sp_obtenerVacacionesEmpleados_Result">
           <Property Type="String" Name="Nombres" Nullable="true" MaxLength="200" />
           <Property Type="Decimal" Name="TotalDias" Nullable="true" Precision="18" Scale="2" />
@@ -6337,6 +6292,12 @@
           <Property Type="Decimal" Name="DiasTomados" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="Saldo" Nullable="true" Precision="18" Scale="2" />
         </ComplexType>
+        <ComplexType Name="spConsultarAsistenciasGeneradas">
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="Generado" Nullable="true" MaxLength="3" />
+        </ComplexType>
         <EntityType Name="COCHE_AUTOCLAVE">
           <Key>
             <PropertyRef Name="IdCocheAutoclave" />
@@ -6345,6 +6306,9 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Turno" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
+          <Property Name="Lote" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Autoclave" Type="Int32" Nullable="false" />
+          <Property Name="Parada" Type="Int32" Nullable="false" />
           <Property Name="Producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CodigoProducto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Envase" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -6358,18 +6322,84 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="COCHE_AUTOCLAVE_DETALLE" Relationship="ASIS_PRODModel.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" FromRole="COCHE_AUTOCLAVE" ToRole="COCHE_AUTOCLAVE_DETALLE" />
         </EntityType>
+        <ComplexType Name="spConsultaMapeoProductoTunel">
+          <Property Type="Int32" Name="IdMapeoProductoTunel" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="PesoProducto" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
+          <Property Type="String" Name="Lote" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="CodTipoLimpieza" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TipoLimpieza" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Talla" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Barco" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Fin" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="MAPEO_PRODUCTO_TUNEL">
+          <Key>
+            <PropertyRef Name="IdMapeoProductoTunel" />
+          </Key>
+          <Property Name="IdMapeoProductoTunel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PesoProducto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
+          <Property Name="Lote" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="TipoLimpieza" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Talla" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Barco" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fin" Type="Int32" />
+          <NavigationProperty Name="MAPEO_PRODUCTO_TUNEL_DETALLE" Relationship="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" FromRole="MAPEO_PRODUCTO_TUNEL" ToRole="MAPEO_PRODUCTO_TUNEL_DETALLE" />
+        </EntityType>
+        <Association Name="FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL">
+          <End Type="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" Role="MAPEO_PRODUCTO_TUNEL" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL_DETALLE" Role="MAPEO_PRODUCTO_TUNEL_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAPEO_PRODUCTO_TUNEL">
+              <PropertyRef Name="IdMapeoProductoTunel" />
+            </Principal>
+            <Dependent Role="MAPEO_PRODUCTO_TUNEL_DETALLE">
+              <PropertyRef Name="IdMapeoProductoTunel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spConsultaCocheAutoclave">
+          <Property Type="Int32" Name="IdCocheAutoclave" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="Turno" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
+          <Property Type="String" Name="Lote" Nullable="false" MaxLength="5" />
+          <Property Type="Int32" Name="Autoclave" Nullable="false" />
+          <Property Type="Int32" Name="Parada" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoProducto" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Envase" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+        </ComplexType>
         <EntityType Name="COCHE_AUTOCLAVE_DETALLE">
           <Key>
             <PropertyRef Name="IdCocheAutoclaveDetalle" />
           </Key>
           <Property Name="IdCocheAutoclaveDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdCocheAutoclave" Type="Int32" Nullable="false" />
-          <Property Name="Autoclave" Type="Int32" Nullable="false" />
-          <Property Name="Parada" Type="Int32" Nullable="false" />
           <Property Name="Tarjeta" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="HoraInicio" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Coche" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="LineaProduccion" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Coche" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LineaProduccion" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -6391,32 +6421,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="spConsultaCocheAutoclave">
+        <ComplexType Name="spConsultaCocheAutoclaveDetalle">
+          <Property Type="Int32" Name="IdCocheAutoclaveDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdCocheAutoclave" Nullable="false" />
+          <Property Type="String" Name="Tarjeta" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="HoraInicio" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Coche" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="LineaProduccion" Nullable="true" MaxLength="5" />
+        </ComplexType>
+        <ComplexType Name="spReporteCocheAutoclaveDetalle">
           <Property Type="Int32" Name="IdCocheAutoclave" Nullable="false" />
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
           <Property Type="String" Name="Turno" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
+          <Property Type="String" Name="Lote" Nullable="false" MaxLength="5" />
+          <Property Type="Int32" Name="Autoclave" Nullable="false" />
+          <Property Type="Int32" Name="Parada" Nullable="false" />
           <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CodigoProducto" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Envase" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
-        </ComplexType>
-        <ComplexType Name="spConsultaCocheAutoclaveDetalle">
           <Property Type="Int32" Name="IdCocheAutoclaveDetalle" Nullable="false" />
-          <Property Type="Int32" Name="IdCocheAutoclave" Nullable="false" />
-          <Property Type="Int32" Name="Autoclave" Nullable="false" />
-          <Property Type="Int32" Name="Parada" Nullable="false" />
           <Property Type="String" Name="Tarjeta" Nullable="false" MaxLength="5" />
           <Property Type="DateTime" Name="HoraInicio" Nullable="false" Precision="23" />
-          <Property Type="String" Name="Coche" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="LineaProduccion" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-        </ComplexType>
-        <ComplexType Name="spConsultarAsistenciasGeneradas">
-          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="Linea" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="Generado" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="Coche" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="LineaProduccion" Nullable="true" MaxLength="5" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9338,51 +9367,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaUltimaMarcacion" FunctionName="ASIS_PRODModel.Store.spConsultaUltimaMarcacion" />
-          <EntitySetMapping Name="MAPEO_PRODUCTO_TUNEL">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL">
-              <MappingFragment StoreEntitySet="MAPEO_PRODUCTO_TUNEL">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="Barco" ColumnName="Barco" />
-                <ScalarProperty Name="Talla" ColumnName="Talla" />
-                <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="PesoProducto" ColumnName="PesoProducto" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdMapeoProductoTunel" ColumnName="IdMapeoProductoTunel" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaMapeoProductoTunel" FunctionName="ASIS_PRODModel.Store.spConsultaMapeoProductoTunel">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaMapeoProductoTunel">
-                <ScalarProperty Name="IdMapeoProductoTunel" ColumnName="IdMapeoProductoTunel" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="PesoProducto" ColumnName="PesoProducto" />
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="CodTipoLimpieza" ColumnName="CodTipoLimpieza" />
-                <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
-                <ScalarProperty Name="Talla" ColumnName="Talla" />
-                <ScalarProperty Name="Barco" ColumnName="Barco" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CABECERA_CONTROL_PESO_CODIFICACION">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CABECERA_CONTROL_PESO_CODIFICACION">
               <MappingFragment StoreEntitySet="CABECERA_CONTROL_PESO_CODIFICACION">
@@ -9692,6 +9676,17 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultarAsistenciasGeneradas" FunctionName="ASIS_PRODModel.Store.spConsultarAsistenciasGeneradas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarAsistenciasGeneradas">
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Generado" ColumnName="Generado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spInactivarAsistencia" FunctionName="ASIS_PRODModel.Store.spInactivarAsistencia" />
           <EntitySetMapping Name="COCHE_AUTOCLAVE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.COCHE_AUTOCLAVE">
               <MappingFragment StoreEntitySet="COCHE_AUTOCLAVE">
@@ -9706,6 +9701,9 @@
                 <ScalarProperty Name="Envase" ColumnName="Envase" />
                 <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
                 <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="Parada" ColumnName="Parada" />
+                <ScalarProperty Name="Autoclave" ColumnName="Autoclave" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
                 <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
                 <ScalarProperty Name="Turno" ColumnName="Turno" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
@@ -9713,6 +9711,70 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaMapeoProductoTunel" FunctionName="ASIS_PRODModel.Store.spConsultaMapeoProductoTunel">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaMapeoProductoTunel">
+                <ScalarProperty Name="IdMapeoProductoTunel" ColumnName="IdMapeoProductoTunel" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="PesoProducto" ColumnName="PesoProducto" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="CodTipoLimpieza" ColumnName="CodTipoLimpieza" />
+                <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="Barco" ColumnName="Barco" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="Fin" ColumnName="Fin" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="MAPEO_PRODUCTO_TUNEL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL">
+              <MappingFragment StoreEntitySet="MAPEO_PRODUCTO_TUNEL">
+                <ScalarProperty Name="Fin" ColumnName="Fin" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Barco" ColumnName="Barco" />
+                <ScalarProperty Name="Talla" ColumnName="Talla" />
+                <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="PesoProducto" ColumnName="PesoProducto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdMapeoProductoTunel" ColumnName="IdMapeoProductoTunel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaCocheAutoclave" FunctionName="ASIS_PRODModel.Store.spConsultaCocheAutoclave">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCocheAutoclave">
+                <ScalarProperty Name="IdCocheAutoclave" ColumnName="IdCocheAutoclave" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Autoclave" ColumnName="Autoclave" />
+                <ScalarProperty Name="Parada" ColumnName="Parada" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Envase" ColumnName="Envase" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="COCHE_AUTOCLAVE_DETALLE">
             <EntityTypeMapping TypeName="ASIS_PRODModel.COCHE_AUTOCLAVE_DETALLE">
               <MappingFragment StoreEntitySet="COCHE_AUTOCLAVE_DETALLE">
@@ -9727,53 +9789,45 @@
                 <ScalarProperty Name="Coche" ColumnName="Coche" />
                 <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
                 <ScalarProperty Name="Tarjeta" ColumnName="Tarjeta" />
-                <ScalarProperty Name="Parada" ColumnName="Parada" />
-                <ScalarProperty Name="Autoclave" ColumnName="Autoclave" />
                 <ScalarProperty Name="IdCocheAutoclave" ColumnName="IdCocheAutoclave" />
                 <ScalarProperty Name="IdCocheAutoclaveDetalle" ColumnName="IdCocheAutoclaveDetalle" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaCocheAutoclave" FunctionName="ASIS_PRODModel.Store.spConsultaCocheAutoclave">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCocheAutoclave">
-                <ScalarProperty Name="IdCocheAutoclave" ColumnName="IdCocheAutoclave" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
-                <ScalarProperty Name="Producto" ColumnName="Producto" />
-                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
-                <ScalarProperty Name="Envase" ColumnName="Envase" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaCocheAutoclaveDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaCocheAutoclaveDetalle">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCocheAutoclaveDetalle">
                 <ScalarProperty Name="IdCocheAutoclaveDetalle" ColumnName="IdCocheAutoclaveDetalle" />
                 <ScalarProperty Name="IdCocheAutoclave" ColumnName="IdCocheAutoclave" />
-                <ScalarProperty Name="Autoclave" ColumnName="Autoclave" />
-                <ScalarProperty Name="Parada" ColumnName="Parada" />
                 <ScalarProperty Name="Tarjeta" ColumnName="Tarjeta" />
                 <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
                 <ScalarProperty Name="Coche" ColumnName="Coche" />
                 <ScalarProperty Name="LineaProduccion" ColumnName="LineaProduccion" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultarAsistenciasGeneradas" FunctionName="ASIS_PRODModel.Store.spConsultarAsistenciasGeneradas">
+          <FunctionImportMapping FunctionImportName="spReporteCocheAutoclaveDetalle" FunctionName="ASIS_PRODModel.Store.spReporteCocheAutoclaveDetalle">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultarAsistenciasGeneradas">
-                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteCocheAutoclaveDetalle">
+                <ScalarProperty Name="IdCocheAutoclave" ColumnName="IdCocheAutoclave" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="Generado" ColumnName="Generado" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Autoclave" ColumnName="Autoclave" />
+                <ScalarProperty Name="Parada" ColumnName="Parada" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Envase" ColumnName="Envase" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="IdCocheAutoclaveDetalle" ColumnName="IdCocheAutoclaveDetalle" />
+                <ScalarProperty Name="Tarjeta" ColumnName="Tarjeta" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="Coche" ColumnName="Coche" />
+                <ScalarProperty Name="LineaProduccion" ColumnName="LineaProduccion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spInactivarAsistencia" FunctionName="ASIS_PRODModel.Store.spInactivarAsistencia" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
