@@ -1492,5 +1492,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCocheAutoclaveDetalle>("spConsultaCocheAutoclaveDetalle", idControlParameter);
         }
+    
+        public virtual ObjectResult<spReporteCocheAutoclaveDetalle> spReporteCocheAutoclaveDetalle(Nullable<int> of)
+        {
+            var ofParameter = of.HasValue ?
+                new ObjectParameter("Of", of) :
+                new ObjectParameter("Of", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteCocheAutoclaveDetalle>("spReporteCocheAutoclaveDetalle", ofParameter);
+        }
     }
 }

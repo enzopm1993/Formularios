@@ -2261,6 +2261,9 @@
           <Parameter Name="FechaInicio" Type="date" Mode="In" />
           <Parameter Name="fechaFin" Type="date" Mode="In" />
         </Function>
+        <Function Name="spReporteCocheAutoclaveDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Of" Type="int" Mode="In" />
+        </Function>
         <Function Name="spReporteConsultaControlBalanza" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechadesde" Type="date" Mode="In" />
           <Parameter Name="fechahasta" Type="date" Mode="In" />
@@ -3311,7 +3314,10 @@
             <End Role="COCHE_AUTOCLAVE_DETALLE" EntitySet="COCHE_AUTOCLAVE_DETALLE" />
           </AssociationSet>
           <FunctionImport Name="spConsultaCocheAutoclaveDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaCocheAutoclaveDetalle)">
-            <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          <Parameter Name="IdControl" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spReporteCocheAutoclaveDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteCocheAutoclaveDetalle)">
+            <Parameter Name="Of" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -6418,6 +6424,24 @@
         <ComplexType Name="spConsultaCocheAutoclaveDetalle">
           <Property Type="Int32" Name="IdCocheAutoclaveDetalle" Nullable="false" />
           <Property Type="Int32" Name="IdCocheAutoclave" Nullable="false" />
+          <Property Type="String" Name="Tarjeta" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="HoraInicio" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Coche" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="LineaProduccion" Nullable="true" MaxLength="5" />
+        </ComplexType>
+        <ComplexType Name="spReporteCocheAutoclaveDetalle">
+          <Property Type="Int32" Name="IdCocheAutoclave" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="Turno" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="false" />
+          <Property Type="String" Name="Lote" Nullable="false" MaxLength="5" />
+          <Property Type="Int32" Name="Autoclave" Nullable="false" />
+          <Property Type="Int32" Name="Parada" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoProducto" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Envase" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="IdCocheAutoclaveDetalle" Nullable="false" />
           <Property Type="String" Name="Tarjeta" Nullable="false" MaxLength="5" />
           <Property Type="DateTime" Name="HoraInicio" Nullable="false" Precision="23" />
           <Property Type="String" Name="Coche" Nullable="true" MaxLength="5" />
@@ -9775,6 +9799,28 @@
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCocheAutoclaveDetalle">
                 <ScalarProperty Name="IdCocheAutoclaveDetalle" ColumnName="IdCocheAutoclaveDetalle" />
                 <ScalarProperty Name="IdCocheAutoclave" ColumnName="IdCocheAutoclave" />
+                <ScalarProperty Name="Tarjeta" ColumnName="Tarjeta" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="Coche" ColumnName="Coche" />
+                <ScalarProperty Name="LineaProduccion" ColumnName="LineaProduccion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spReporteCocheAutoclaveDetalle" FunctionName="ASIS_PRODModel.Store.spReporteCocheAutoclaveDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteCocheAutoclaveDetalle">
+                <ScalarProperty Name="IdCocheAutoclave" ColumnName="IdCocheAutoclave" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Autoclave" ColumnName="Autoclave" />
+                <ScalarProperty Name="Parada" ColumnName="Parada" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Envase" ColumnName="Envase" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="IdCocheAutoclaveDetalle" ColumnName="IdCocheAutoclaveDetalle" />
                 <ScalarProperty Name="Tarjeta" ColumnName="Tarjeta" />
                 <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
                 <ScalarProperty Name="Coche" ColumnName="Coche" />
