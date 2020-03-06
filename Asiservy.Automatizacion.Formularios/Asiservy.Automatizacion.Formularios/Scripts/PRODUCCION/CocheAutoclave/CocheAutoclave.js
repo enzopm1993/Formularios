@@ -54,6 +54,7 @@ function NuevoControl() {
     $("#txtObservacion").val('');
     $("#txtAutoclave").val('');
     $("#txtParada").val('');
+    $("#txtProducto").val('');
     $("#txtCodProducto").val('');
     $("#txtLote").val('');
     $("#txtIdControl").val("0");   
