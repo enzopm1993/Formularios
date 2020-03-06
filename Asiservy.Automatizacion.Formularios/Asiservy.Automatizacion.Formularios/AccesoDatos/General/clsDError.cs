@@ -19,7 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
             string MensajeCorto = string.Empty;
             if (ex != null)
             {
-                var exepcion = ex.InnerException.Message;
+                var exepcion = ex.InnerException!=null?ex.Message:"";
                 if (!string.IsNullOrEmpty(exepcion))
                 {
                     MensajeError = ex.Message + " DESCRIPCION:" + exepcion;

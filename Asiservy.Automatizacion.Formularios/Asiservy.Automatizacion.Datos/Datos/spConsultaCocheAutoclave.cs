@@ -17,6 +17,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime Fecha { get; set; }
         public string Turno { get; set; }
         public int OrdenFabricacion { get; set; }
+        public string Lote { get; set; }
+        public int Autoclave { get; set; }
+        public int Parada { get; set; }
         public string Producto { get; set; }
         public string CodigoProducto { get; set; }
         public string Envase { get; set; }

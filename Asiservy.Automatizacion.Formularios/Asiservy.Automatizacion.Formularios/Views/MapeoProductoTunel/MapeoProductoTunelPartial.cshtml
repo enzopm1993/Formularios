@@ -4,6 +4,9 @@
     <thead>
         <tr>
             <th>
+                
+            </th>
+            <th>
                 Peso
             </th>
             <th>
@@ -31,29 +34,37 @@
         @foreach (var item in Model)
         {
             var json = JsonConvert.SerializeObject(item);
-            <tr onclick="SeleccionarControl(@json)">
-                <td>
-                    @Html.DisplayFor(modelItem => item.PesoProducto)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lote)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoLimpieza)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Talla)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Barco)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacion)
-                </td>
-            </tr>
+        <tr onclick="SeleccionarControl(@json)">
+            <td>
+                @{ if (item.Fin == 1)
+                    {
+                        <i style="color:green" class="fas fa-check-circle"></i>
+                    }
+
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PesoProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoLimpieza)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Talla)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Barco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+        </tr>
         }
     </tbody>
 </table>

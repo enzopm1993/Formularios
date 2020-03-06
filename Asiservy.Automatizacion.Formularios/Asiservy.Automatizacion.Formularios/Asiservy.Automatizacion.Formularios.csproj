@@ -3125,6 +3125,7 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\PRODUCCION\CocheAutoclave\CocheAutoclave.js" />
+    <Content Include="Scripts\PRODUCCION\CocheAutoclave\ReporteCocheAutoclave.js" />
     <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ControlEsterilizacionConserva.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.js" />
@@ -3571,6 +3572,9 @@
     <Content Include="Views\CocheAutoclave\CocheAutoclave.cshtml" />
     <Content Include="Views\CocheAutoclave\CocheAutoclavePartial.cshtml" />
     <Content Include="Views\BLZ\ReporteDescongeladoEmparrilladoMP.cshtml" />
+    <Content Include="Views\CocheAutoclave\CocheAutoclaveDetallePartial.cshtml" />
+    <Content Include="Views\CocheAutoclave\ReporteCocheAutoclave.cshtml" />
+    <Content Include="Views\CocheAutoclave\ReporteCocheAutoclaveDetallePartial.cshtml" />
     <Content Include="Views\EsterilizacionConserva\ControlEsterilizacionConserva.cshtml" />
     <Content Include="Views\EsterilizacionConserva\PartialCocheAutoclave.cshtml" />
     <None Include="Web.Debug.config">

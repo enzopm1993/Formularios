@@ -220,9 +220,13 @@
                         <label>Limpieza</label>
                         @Html.DropDownList("SelectTipoLimpieza2", new SelectList(ViewBag.TipoLimpieza, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
                     </div>
-                    <div class="col-12 col-sm-12 col-md-12">
+                    <div class="col-8 col-sm-6 col-md-10">
                         <label>Observación</label>
-                        <input type="text" class="form-control" id="txtObservacionModal" maxlength="30" name="name" value="" />
+                        <input type="text" class="form-control" id="txtObservacionModal" maxlength="250" name="name" value="" />
+                    </div>
+                    <div class="col-4 col-sm-6 col-md-2">
+                        <label>Fin</label>
+                        <input type="checkbox" class="form-control" id="chkFin" name="name" value="" />
                     </div>
                 </div>
 
@@ -269,53 +273,55 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <input type="hidden" id="txtIdDetalle" name="name" value="0" />
-                    <div class="col-6 col-sm-12 col-md-6">
-                        <label>Tunel</label>
-                        <input type="number" class="form-control" id="txtTunel" min="0" name="name" value="" />
-                    </div>
-                    <div class="col-6 col-sm-12 col-md-6">
-                        <label>Coche</label>
-                        <input type="number" class="form-control" id="txtCoche" min="0" name="name" value="" />
-                    </div>
-                    <div class="col-6 col-sm-12 col-md-6">
-                        <label>Producto</label>
-                        <input type="text" class="form-control" id="txtProducto" maxlength="30" name="name" value="" />
-                    </div>
-                    <div class="col-6 col-sm-12 col-md-6">
-                        <label>Especie</label>
-                        @Html.DropDownList("selectEspecie", new SelectList(ViewBag.Especies, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-6 col-sm-12 col-6">
-                        <div class="form-group">
-                            <label>Textura</label>
-                            @Html.DropDownList("SelectTextura", new SelectList(ViewBag.Observaciones, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                <form action="/" autocomplete="off">
+                    <div class="row">
+                        <input type="hidden" id="txtIdDetalle" name="name" value="0" />
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Tunel</label>
+                            <input type="number" class="form-control" id="txtTunel" min="0" name="name" value="" />
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Coche</label>
+                            <input type="number" class="form-control" id="txtCoche" min="0" name="name" value="" />
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Producto</label>
+                            <input type="text" class="form-control" id="txtProducto" maxlength="30" name="name" value="" />
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Especie</label>
+                            @Html.DropDownList("selectEspecie", new SelectList(ViewBag.Especies, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-6">
+                            <div class="form-group">
+                                <label>Textura</label>
+                                @Html.DropDownList("SelectTextura", new SelectList(ViewBag.Observaciones, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Fundas</label>
+                            <input type="number" class="form-control" id="txtFundas" min="0" name="name" value="" />
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Inicio</label>
+                            <input type="datetime-local" class="form-control" id="txtHoraInicio" name="name" value="" />
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Fin</label>
+                            <input type="datetime-local" class="form-control" id="txtHoraFin" name="name" value="" />
+                        </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Fin Lote</label>
+                            <input type="datetime-local" class="form-control" id="txtHoraFinLote" name="name" value="" />
 
                         </div>
+                        <div class="col-6 col-sm-12 col-md-6">
+                            <label>Total Fundas</label>
+                            <input type="text" class="form-control" id="txtTotalFundas" size="30" name="name" value="" />
+                        </div>
                     </div>
-                    <div class="col-6 col-sm-12 col-md-6">
-                        <label>Fundas</label>
-                        <input type="number" class="form-control" id="txtFundas" min="0" name="name" value="" />
-                    </div>
-                    <div class="col-6 col-sm-12 col-md-6">
-                        <label>Inicio</label>
-                        <input type="datetime-local" class="form-control" id="txtHoraInicio" name="name" value="" />
-                    </div>
-                    <div class="col-6 col-sm-12 col-md-6">
-                        <label>Fin</label>
-                        <input type="datetime-local" class="form-control" id="txtHoraFin" name="name" value="" />
-                    </div>
-                    <div class="col-6 col-sm-12 col-md-6">
-                        <label>Fin Lote</label>
-                        <input type="datetime-local" class="form-control" id="txtHoraFinLote" name="name" value="" />
-
-                    </div>
-                    <div class="col-6 col-sm-12 col-md-6">
-                        <label>Total Fundas</label>
-                        <input type="text" class="form-control" id="txtTotalFundas" size="30" name="name" value="" />
-                    </div>
-                </div>
+                </form>
 
             </div>
             <div class="modal-footer">
