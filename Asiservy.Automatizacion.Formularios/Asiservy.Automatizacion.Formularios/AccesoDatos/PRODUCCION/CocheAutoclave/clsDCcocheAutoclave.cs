@@ -1,4 +1,5 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,6 +109,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.CocheAutocl
 
             }
         }
+
+        public List<int> ConsultarOrdenesFabricacion(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.COCHE_AUTOCLAVE.Where(x=>x.Fecha==Fecha && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).Select(x=> x.OrdenFabricacion).Distinct().ToList();
+                return lista;
+            }
+        }
+
+
+        public List<spReporteCocheAutoclaveDetalle> ConsultaReporteCocheAutoclaveDetalle(int Orden)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.spReporteCocheAutoclaveDetalle(Orden).ToList();
+                return lista;
+            }
+        }
+
 
 
 

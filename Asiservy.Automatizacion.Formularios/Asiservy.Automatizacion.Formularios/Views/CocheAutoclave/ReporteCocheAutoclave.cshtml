@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "ReporteCocheAutoclave";
+}
+
+<h4>Reporte Coche Autoclave</h4>
+
+<hr />
+<div class="card shadow" id="divCabecera" style="padding:10px">
+    <div class="row" id="divCabecera1">
+        <div class="col-md-4 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarOrdenFabricacion()" id="txtFecha" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-4 col-6">
+            <div class="form-group">
+                <label>Orden Fabricación</label>
+                <select id="SelectOrdenFabricacion" class="form-control" onchange="CargarReporteCocheAutoclave()">
+                </select>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div id="divCabecera2" hidden>
+    <div class="card shadow">
+        <div class="card-body">
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
