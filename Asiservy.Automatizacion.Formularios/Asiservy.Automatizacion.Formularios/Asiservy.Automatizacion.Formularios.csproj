@@ -2158,6 +2158,8 @@
     <Content Include="Scripts\Asistencia\ControlEiminarAsistencia.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
+    <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
     <Content Include="Scripts\ControlBalanza\ReporteControlBalanza.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
@@ -3153,6 +3155,7 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\Vacaciones\Empleados.js" />
     <Content Include="Scripts\Vacaciones\PorLinea.js" />
+    <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3172,6 +3175,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
     <Compile Include="AccesoDatos\ControlConsumoInsumo\clsDControlConsumoInsumo.cs" />
     <Compile Include="AccesoDatos\ControlCuchillo\clsDCuchillo.cs" />
@@ -3233,6 +3237,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
+    <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\ControlBalanzaController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
@@ -3329,7 +3334,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Asistencia\Asistencia.cshtml" />
     <Content Include="Views\SolicitudPermiso\BandejaAprobacion.cshtml" />
     <Content Include="Views\SolicitudPermiso\BandejaRRHH.cshtml" />
@@ -3559,6 +3563,10 @@
     <Content Include="Views\Marcaciones\PorLinea.cshtml" />
     <Content Include="Views\Asistencia\ControlEiminarAsistencia.cshtml" />
     <Content Include="Views\Asistencia\PartialEliminarAsistencia.cshtml" />
+    <Content Include="Views\CloroCisternaDescongelado\CloroCisternaDescongelado.cshtml" />
+    <Content Include="Views\CloroCisternaDescongelado\ValidarCloroCisternaDescongeladoDetallePartial.cshtml" />
+    <Content Include="Views\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.cshtml" />
+    <Content Include="Views\CloroCisternaDescongelado\BandejaCloroCisternaDescongeladoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3567,9 +3575,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AccesoDatos\CALIDAD\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\CALIDAD\" />
     <Folder Include="Views\Comunicados\" />
     <Folder Include="Views\General\" />
   </ItemGroup>

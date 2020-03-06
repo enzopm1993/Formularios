@@ -34,8 +34,6 @@ function CargarControlBalanza() {
                 config.opcionesDT.pageLength = 5;
                 config.opcionesDT.order = [[1, "asc"]];
                 $('#tblDataTable').DataTable(config.opcionesDT);
-
-
             }           
             $("#spinnerCargando").prop("hidden", true);
 
