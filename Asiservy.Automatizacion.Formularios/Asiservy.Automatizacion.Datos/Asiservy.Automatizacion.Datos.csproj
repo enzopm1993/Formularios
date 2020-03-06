@@ -90,6 +90,9 @@
     <Compile Include="Datos\BITACORA_SOLICITUD.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CABECERA_CONTROL_PESO_CODIFICACION.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -190,6 +193,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CUCHILLO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\DETALLE_CONTROL_ESTERILIZACION_CONSERVA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\DETALLE_CONTROL_PESO_CODIFICACION.cs">
@@ -637,6 +643,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sysdiagrams.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\TIPO_ESTERILIZACION_CONSERVA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\USUARIO_ROL.cs">
