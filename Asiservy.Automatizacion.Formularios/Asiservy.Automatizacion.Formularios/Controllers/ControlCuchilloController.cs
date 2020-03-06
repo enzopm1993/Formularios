@@ -531,6 +531,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDCuchillo = new clsDCuchillo();
                 var model = clsDCuchillo.ConsultaControlCuchillo(Fecha, Linea);
                 return PartialView(model);
