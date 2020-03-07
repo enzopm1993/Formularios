@@ -3249,6 +3249,7 @@
     <Compile Include="Controllers\ControlPesoEnlatadoController.cs" />
     <Compile Include="Controllers\ControlPesoyCodificacionController.cs" />
     <Compile Include="Controllers\ControlToallaController.cs" />
+    <Compile Include="Controllers\DatalifeController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\EntregaProductoTerminadoController.cs" />
     <Compile Include="Controllers\EntregaUniformeController.cs" />
@@ -3568,6 +3569,7 @@
     <Content Include="Views\CocheAutoclave\CocheAutoclave.cshtml" />
     <Content Include="Views\CocheAutoclave\CocheAutoclavePartial.cshtml" />
     <Content Include="Views\BLZ\ReporteDescongeladoEmparrilladoMP.cshtml" />
+    <Content Include="Views\Datalife\LineasTendencias.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
