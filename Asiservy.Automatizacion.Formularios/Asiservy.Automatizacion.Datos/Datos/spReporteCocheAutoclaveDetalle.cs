@@ -10,24 +10,24 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class COCHE_AUTOCLAVE_DETALLE
+    public partial class spReporteCocheAutoclaveDetalle
     {
-        public int IdCocheAutoclaveDetalle { get; set; }
         public int IdCocheAutoclave { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string Turno { get; set; }
+        public int OrdenFabricacion { get; set; }
+        public string Lote { get; set; }
+        public int Autoclave { get; set; }
+        public int Parada { get; set; }
+        public string Producto { get; set; }
+        public string CodigoProducto { get; set; }
+        public string Envase { get; set; }
+        public string Observacion { get; set; }
+        public int IdCocheAutoclaveDetalle { get; set; }
         public string Tarjeta { get; set; }
         public System.DateTime HoraInicio { get; set; }
         public string Coche { get; set; }
         public string LineaProduccion { get; set; }
-        public string EstadoRegistro { get; set; }
-        public System.DateTime FechaIngresoLog { get; set; }
-        public string UsuarioIngresoLog { get; set; }
-        public string TerminalIngresoLog { get; set; }
-        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
-        public string UsuarioModificacionLog { get; set; }
-        public string TerminalModificacionLog { get; set; }
-    
-        public virtual COCHE_AUTOCLAVE COCHE_AUTOCLAVE { get; set; }
     }
 }

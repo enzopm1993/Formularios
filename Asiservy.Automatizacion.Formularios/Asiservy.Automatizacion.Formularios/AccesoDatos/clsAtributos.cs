@@ -256,6 +256,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //CLASIFICADOR DE LINEAS DE ENTREGA DE PRODUCTO TERMINADO
         public static string CodigoGrupoLineasEntregaProductoTerminado = "031";
 
-     
+        //TIPO  LINEA CONTROL  DE ESTERILIZACION DE CONSERVAS
+        public static string TipoLineaLata = "L";
+        public static string TipoLineaPouch = "P";
+
+
     }
 }

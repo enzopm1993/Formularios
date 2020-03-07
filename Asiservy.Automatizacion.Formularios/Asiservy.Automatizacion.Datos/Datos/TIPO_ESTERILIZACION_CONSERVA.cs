@@ -12,14 +12,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class COCHE_AUTOCLAVE_DETALLE
+    public partial class TIPO_ESTERILIZACION_CONSERVA
     {
-        public int IdCocheAutoclaveDetalle { get; set; }
-        public int IdCocheAutoclave { get; set; }
-        public string Tarjeta { get; set; }
-        public System.DateTime HoraInicio { get; set; }
-        public string Coche { get; set; }
-        public string LineaProduccion { get; set; }
+        public int IdTipoControlEsterilizacionConserva { get; set; }
+        public string Tipo { get; set; }
+        public string Panel { get; set; }
+        public string Chart { get; set; }
+        public string TermometroDigital { get; set; }
+        public string HoraChequeo { get; set; }
+        public Nullable<int> IdDetalleControlEsterilizacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -28,6 +29,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual COCHE_AUTOCLAVE COCHE_AUTOCLAVE { get; set; }
+        public virtual DETALLE_CONTROL_ESTERILIZACION_CONSERVA DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
     }
 }

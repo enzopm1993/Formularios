@@ -28,8 +28,11 @@ function CargarControlCuchillo(estado) {
             ddFecha: $("#txtFecha").val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             var bitacora = $('#TablaControlCuchillo');
-            $("#spinnerCargando").prop("hidden", true);
+            $("#spinnerCargando").prop("hidden", true);           
             if (resultado == "0") {
                 bitacora.html("<div class='text-center'><h4>No se ha generado la asistencia</h4></div>");
 

@@ -1,4 +1,5 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.CocheAutocl
             }
         }
 
+        public void EliminarCocheAutoclave(COCHE_AUTOCLAVE model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var poMapeo = entities.COCHE_AUTOCLAVE.FirstOrDefault(x => x.IdCocheAutoclave == model.IdCocheAutoclave);
+                if (poMapeo != null)
+                {
+                    poMapeo.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    poMapeo.TerminalModificacionLog = model.TerminalIngresoLog;
+                    poMapeo.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    poMapeo.FechaModificacionLog = model.FechaIngresoLog;
+                    entities.SaveChanges();
+                }              
+             
+            }
+        }
+
 
         public List<spConsultaCocheAutoclaveDetalle> ConsultaCocheAutoclaveDetalle(int IdControl)
         {
@@ -73,6 +91,41 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.CocheAutocl
                     entities.COCHE_AUTOCLAVE_DETALLE.Add(model);
                 }
                 entities.SaveChanges();
+            }
+        }
+        public void EliminarCocheAutoclaveDetalle(COCHE_AUTOCLAVE_DETALLE model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var poMapeo = entities.COCHE_AUTOCLAVE_DETALLE.FirstOrDefault(x => x.IdCocheAutoclaveDetalle == model.IdCocheAutoclaveDetalle);
+                if (poMapeo != null)
+                {
+                    poMapeo.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    poMapeo.TerminalModificacionLog = model.TerminalIngresoLog;
+                    poMapeo.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    poMapeo.FechaModificacionLog = model.FechaIngresoLog;
+                    entities.SaveChanges();
+                }
+
+            }
+        }
+
+        public List<int> ConsultarOrdenesFabricacion(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.COCHE_AUTOCLAVE.Where(x=>x.Fecha==Fecha && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).Select(x=> x.OrdenFabricacion).Distinct().ToList();
+                return lista;
+            }
+        }
+
+
+        public List<spReporteCocheAutoclaveDetalle> ConsultaReporteCocheAutoclaveDetalle(int Orden)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.spReporteCocheAutoclaveDetalle(Orden).ToList();
+                return lista;
             }
         }
 
