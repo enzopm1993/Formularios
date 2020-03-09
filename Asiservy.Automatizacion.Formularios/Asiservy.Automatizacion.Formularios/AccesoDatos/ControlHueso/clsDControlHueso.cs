@@ -252,6 +252,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             }
 
         }
+
+        public List<spKpiAvancePorLimpiadora> ConsultaKpiAvanceDiarioPorLimpiadora(DateTime Fecha, string Cedula)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {                
+                List<spKpiAvancePorLimpiadora> Listado = new List<spKpiAvancePorLimpiadora>();
+                Listado = entities.spKpiAvancePorLimpiadora(Fecha, Cedula).ToList();
+                return Listado;
+            }
+
+        }
+
+
         public List<spConsultaReporteAvanceDiario> ConsultaControlAvanceDiario (DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
