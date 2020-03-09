@@ -2395,6 +2395,10 @@
           <Parameter Name="Fecha" Type="date" Mode="In" />
           <Parameter Name="Generado" Type="char" Mode="In" />
         </Function>
+        <Function Name="spKpiAvancePorLimpiadora" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="cedula" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spReporteAsistencia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FechaInicio" Type="date" Mode="In" />
           <Parameter Name="FechaFin" Type="date" Mode="In" />
@@ -3525,6 +3529,10 @@
           <FunctionImport Name="spReporteResidualCloro" ReturnType="Collection(ASIS_PRODModel.spReporteResidualCloro)">
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Area" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spKpiAvancePorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spKpiAvancePorLimpiadora)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="cedula" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -6827,6 +6835,10 @@
           <Property Type="String" Name="CodPeliduvio" Nullable="false" MaxLength="5" />
           <Property Type="Int32" Name="Cantidad" Nullable="false" />
           <Property Type="String" Name="Pediluvio" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spKpiAvancePorLimpiadora">
+          <Property Type="Time" Name="Hora" Nullable="true" />
+          <Property Type="Decimal" Name="Avance" Nullable="true" Precision="6" Scale="2" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -10341,6 +10353,14 @@
                 <ScalarProperty Name="CodPeliduvio" ColumnName="CodPeliduvio" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="Pediluvio" ColumnName="Pediluvio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spKpiAvancePorLimpiadora" FunctionName="ASIS_PRODModel.Store.spKpiAvancePorLimpiadora">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spKpiAvancePorLimpiadora">
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Avance" ColumnName="Avance" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
