@@ -2160,6 +2160,8 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
+    <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
     <Content Include="Scripts\ControlBalanza\ReporteControlBalanza.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
@@ -3178,6 +3180,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
     <Compile Include="AccesoDatos\ControlConsumoInsumo\clsDControlConsumoInsumo.cs" />
     <Compile Include="AccesoDatos\ControlCuchillo\clsDCuchillo.cs" />
@@ -3241,6 +3244,7 @@
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
+    <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\ControlBalanzaController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
@@ -3577,6 +3581,11 @@
     <Content Include="Views\CocheAutoclave\ReporteCocheAutoclaveDetallePartial.cshtml" />
     <Content Include="Views\EsterilizacionConserva\ControlEsterilizacionConserva.cshtml" />
     <Content Include="Views\EsterilizacionConserva\PartialCocheAutoclave.cshtml" />
+    <Content Include="Views\ResidualCloro\ResidualCloro.cshtml" />
+    <Content Include="Views\ResidualCloro\ResidualCloroPartial.cshtml" />
+    <Content Include="Views\ResidualCloro\ResidualCloroDetallePartial.cshtml" />
+    <Content Include="Views\ResidualCloro\ReporteResidualCloroPartial.cshtml" />
+    <Content Include="Views\ResidualCloro\ReporteResidualCloro.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3585,10 +3594,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AccesoDatos\CALIDAD\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\CALIDAD\" />
-    <Folder Include="Scripts\CALIDAD\" />
     <Folder Include="Views\Comunicados\" />
     <Folder Include="Views\General\" />
   </ItemGroup>
