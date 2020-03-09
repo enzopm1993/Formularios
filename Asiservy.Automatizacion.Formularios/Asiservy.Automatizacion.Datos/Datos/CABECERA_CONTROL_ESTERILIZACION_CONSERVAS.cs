@@ -12,25 +12,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class COCHE_AUTOCLAVE
+    public partial class CABECERA_CONTROL_ESTERILIZACION_CONSERVAS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public COCHE_AUTOCLAVE()
+        public CABECERA_CONTROL_ESTERILIZACION_CONSERVAS()
         {
-            this.COCHE_AUTOCLAVE_DETALLE = new HashSet<COCHE_AUTOCLAVE_DETALLE>();
             this.DETALLE_CONTROL_ESTERILIZACION_CONSERVA = new HashSet<DETALLE_CONTROL_ESTERILIZACION_CONSERVA>();
         }
     
-        public int IdCocheAutoclave { get; set; }
-        public System.DateTime Fecha { get; set; }
+        public int IdCabControlEsterilizado { get; set; }
+        public Nullable<System.DateTime> Fecha { get; set; }
         public string Turno { get; set; }
-        public int OrdenFabricacion { get; set; }
-        public string Lote { get; set; }
-        public int Autoclave { get; set; }
-        public int Parada { get; set; }
-        public string Producto { get; set; }
-        public string CodigoProducto { get; set; }
-        public string Envase { get; set; }
+        public string TipoLinea { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -40,8 +33,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<COCHE_AUTOCLAVE_DETALLE> COCHE_AUTOCLAVE_DETALLE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
     }

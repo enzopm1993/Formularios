@@ -29,6 +29,8 @@ function CargarReporteCocheAutoclave() {
                 $("#spinnerCargando").prop("hidden", true);
                 $("#chartCabecera2").html(resultado);
                 config.opcionesDT.pageLength = 10;
+                config.opcionesDT.order = false;
+                config.opcionesDT.ordering = false;
                 $('#tblDataTable').DataTable(config.opcionesDT);
             }
             //  $('#btnConsultar').prop("disabled", true);
