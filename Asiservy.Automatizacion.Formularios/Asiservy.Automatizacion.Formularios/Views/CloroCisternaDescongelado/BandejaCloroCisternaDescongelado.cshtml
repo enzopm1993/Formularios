@@ -8,25 +8,68 @@
     input, select, textarea {
         max-width: 100%
     }
+    .selectbox {
+        background: #fff;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+   
 </style>
 
-<h5>Bandeja control de cloro</h5>
+<h5>Bandeja Control de Cloro en Cisterna</h5>
+<br />
+<div class="row" id="DivFiltros">  
+    <div class="col-md-4 col-sm-6 form-group">
+        <label>Filtrar por Fecha:</label>
+        <input type="hidden" id="fechaDesde" value="" />
+        <input type="hidden" id="fechaHasta" value="" />
+        <div id="reportrange" class="selectbox">
+           <i class="fa fa-calendar"></i>&nbsp;
+           <span></span> <i class="fa fa-caret-down"></i>
+        </div>
+    </div>
+
+    <div class="col-md-2 col-sm-6 form-group">
+        <label>Estado del Registro</label>
+        <select id="selectEstadoRegistro" class="form-control">
+            <option value="false" default>PENDIENTE</option>
+            <option value="true">APROBADO</option>
+        </select>
+    </div>
+    <div class="col-5">
+        <label>Acciones</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="FiltrarAprobadosFecha()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+        </div>
+    </div>
+</div>
 <br />
 <div id="spinnerCargando" hidden class="text-center">
     <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
         <span class="sr-only">Cargando...</span>
     </div>
 </div>
-<div id="divPartialBandeja">
-
+<div id="divPartialControlCloro">
+   
 </div>
 
+<center> <h5 id="MensajeRegistros" class="text-warning"> No Existen Controles de Cloro que Aprobar(Filtre por fecha)</h5></center>
 <!-- Modal -->
-<div class="modal fade" id="ModalApruebaProductoTerminado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="ModalApruebaCntrolCloro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Entrega de Producto Terminado</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Detalle Control Cloro en Cisterna Descongelado</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -48,8 +91,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="AprobarEntregaProductoTermiando()">Aprobar</button>
+                <button type="button" class="btn btn-secondary" onclick="FiltrarAprobadosFecha()" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="btnAprobado" hidden class="btn btn-primary" onclick="AprobarControlCloroDetalle(true)">Aprobar</button>
+                <button type="button" id="btnPendiente" hidden class="btn btn-primary" onclick="AprobarControlCloroDetalle(false)">Pasar a pendiente</button>
             </div>
         </div>
     </div>

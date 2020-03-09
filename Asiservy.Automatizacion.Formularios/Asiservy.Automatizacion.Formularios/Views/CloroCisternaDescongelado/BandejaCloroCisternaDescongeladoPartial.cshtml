@@ -1,8 +1,6 @@
 ﻿@model List<Asiservy.Automatizacion.Datos.Datos.sp_Reporte_CloroCisternaDescongeladoBandeja>
 @using Newtonsoft.Json
-<div class="table-responsive">
-    <input hidden id="Nregistros" value="@ViewBag.NumeroRegistros" />
-    <input type="hidden" id="ideliminar" />
+<div class="table-responsive">   
     <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
         <thead>
             <tr>
@@ -11,6 +9,7 @@
                 <th>Observaciones</th>
                 <th>Aprobado Por</th>
                 <th>Fecha Aprovación</th>
+                <th>Estado del Reporte</th>
             </tr>
         </thead>
         <tbody style="font-size:14px">
@@ -21,19 +20,22 @@
                 {
                     cont++;
                     var json = JsonConvert.SerializeObject(m);
-                    <tr onclick="SeleccionarBandeja(@json)">
-                        <td>@cont</td>
-                        <td>@m.Fecha.ToString("dd-MM-yyyy")</td>
-                        <td>@m.Observaciones</td>
-                        <td>@m.AprobadoPor</td>
-                        <td>@m.FechaAprobacion</td>
-                    </tr>                   
+            <tr onclick="SeleccionarBandeja(@json)">
+                <td>@cont</td>
+                <td>@m.Fecha.ToString("dd-MM-yyyy")</td>
+                <td>@m.Observaciones</td>
+                <td>@m.AprobadoPor</td>
+                <td>@m.FechaAprobacion</td>
+                @if (m.EstadoReporte == true)
+                {<td><span class="badge badge-success">Aprobado</span></td>}
+                else
+                {<td><span class="badge badge-danger">Pendiente</span></td>}
+            </tr>                   
                 }
             }
-                </tbody>
+         </tbody>
     </table>
-    <center> <h5 id="MensajeRegistros" class="text-warning" style="display:none"> No Existen Solicitudes Pendientes para Mover Personal</h5></center>
+    
 </div>
-
 <script src="~/Scripts/General/dataTableJS.js"></script>
 

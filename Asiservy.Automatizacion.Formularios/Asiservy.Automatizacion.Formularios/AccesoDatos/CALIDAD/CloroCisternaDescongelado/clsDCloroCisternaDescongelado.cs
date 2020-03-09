@@ -55,7 +55,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaD
                 return 0;
             }
         }
-        public List<sp_Reporte_CloroCisternaDescongeladoDetalle> Consultar_ReporteCloroCisternaDescongeladoDetalle(DateTime fecha, int IdCloroCisterna)
+        public List<sp_Reporte_CloroCisternaDescongeladoDetalle> Consultar_ReporteCloroCisternaDescongeladoDetalle(DateTime fecha, long IdCloroCisterna)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -108,6 +108,37 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaD
             {
                 var listado = db.sp_Reporte_CloroCisternaDescongeladoBandeja().ToList();
                 return listado;
+            }
+        }
+
+        public List<sp_Reporte_CloroCisternaDescongeladoBandejaAprobados> Consultar_AprobadosCloroCisternaDescongelado(DateTime fechaInicio, DateTime fechaFin)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var listado = db.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados(fechaInicio, fechaFin).ToList();
+                return listado;
+            }
+        }
+        public void Aprobar_ReporteCloroCisternaDescongelado(CC_CLORO_CISTERNA_DESCONGELADO controlCloro)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_CLORO_CISTERNA_DESCONGELADO.FirstOrDefault(x => x.IdCloroCisterna == controlCloro.IdCloroCisterna || (x.Fecha == controlCloro.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                if (model != null)
+                {
+                    model.Observaciones = controlCloro.Observaciones;
+                    model.EstadoReporte = controlCloro.EstadoReporte;
+                    model.AprobadoPor = controlCloro.AprobadoPor;
+                    model.FechaAprobacion = controlCloro.FechaAprobacion;
+                    model.FechaModificacionLog = controlCloro.FechaIngresoLog;
+                    model.TerminalModificacionLog = controlCloro.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = controlCloro.UsuarioIngresoLog;
+                }
+                else
+                {
+                    db.CC_CLORO_CISTERNA_DESCONGELADO.Add(model);
+                }
+                db.SaveChanges();
             }
         }
     }

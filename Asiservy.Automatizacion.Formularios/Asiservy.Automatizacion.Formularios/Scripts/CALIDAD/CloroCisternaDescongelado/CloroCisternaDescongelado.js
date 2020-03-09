@@ -5,39 +5,58 @@ $(document).ready(function () {
 });
 
 function CargarCabecera() {
-    $.ajax({
-        url: "../CloroCisternaDescongelado/ValidarCloroCisternaDescongelado",
-        type: "GET",
-        data: {
-            Fecha: $("#txtFecha").val()            
-        },
-        success: function (resultado) {            
-            if (resultado == "101") {
-                window.location.reload();
+    if ($("#txtFecha").val() == '') {
+        return;
+    } else {
+        $.ajax({
+            url: "../CloroCisternaDescongelado/ValidarCloroCisternaDescongelado",
+            type: "GET",
+            data: {
+                Fecha: $("#txtFecha").val()
+            },
+            success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
+                if (resultado == "0") {
+                    $("#txtEstado").html("");
+                    $("#txtFecha").prop("disabled", false);
+                    $("#txtObservacion").val('');
+                    $("#txtObservacion").prop("disabled", false);
+                    $("#divDetalleControlCloro").prop("hidden", true);
+                    $("#btnModalEditar").prop("hidden", true);
+                    $("#btnModalEliminar").prop("hidden", true);
+                    $("#btnModalGenerar").prop("hidden", false);
+                    $("#btnModalGenerarRegistro").prop("hidden", false);
+                } else {
+                    if (resultado.EstadoReporte == true) {
+                        $("#txtEstado").html("(APROBADO)");
+                        $("#txtEstado").removeClass('text-danger');
+                        $("#txtEstado").addClass('text-success');
+                        $("#btnModalEditar").prop("hidden", true);
+                        $("#btnModalEliminar").prop("hidden", true);
+                        $("#btnModalGenerarRegistro").prop("hidden", true);
+                        $("#btnModalGenerar").prop("hidden", true);
+                    } else {
+                        $("#txtEstado").html("(PENDIENTE)");
+                        $("#txtEstado").addClass('text-danger');
+                        $("#divDetalleControlCloro").prop("hidden", false);
+                        $("#btnModalGenerarRegistro").prop("hidden", true);
+                        $("#txtObservacion").prop("disabled", true);
+                        $("#btnModalGenerar").prop("hidden", false);
+                        $("#btnModalEditar").prop("hidden", false);
+                        $("#btnModalEliminar").prop("hidden", false);
+                    }
+                    $("#txtObservacion").val(resultado.Observaciones);
+                    ListaDatos = resultado;
+                    CargarControlCloroCisternaDetalle();
+                }
+            },
+            error: function (resultado) {
+                MensajeError(resultado.responseText, false);
             }
-            if (resultado == "0") {
-                $("#txtFecha").prop("disabled", false);
-                $("#txtObservacion").val('');
-                $("#txtObservacion").prop("disabled", false);
-                $("#divDetalleControlCloro").prop("hidden", true);
-                $("#btnModalEditar").prop("hidden", true);
-                $("#btnModalEliminar").prop("hidden", true);
-                $("#btnModalGenerar").prop("hidden", false);
-            } else {
-                $("#divDetalleControlCloro").prop("hidden", false);                
-                $("#txtObservacion").val(resultado.Observaciones);
-                ListaDatos = resultado;
-                $("#txtObservacion").prop("disabled", true);
-                $("#btnModalGenerar").prop("hidden", true);
-                $("#btnModalEditar").prop("hidden", false);
-                $("#btnModalEliminar").prop("hidden", false);
-                CargarControlCloroCisternaDetalle();
-            }
-        },
-        error: function (resultado) {
-            MensajeError(resultado.responseText, false);
-        }
-    });
+        });
+    }
 }
 
 function GuardarCabecera() {
@@ -59,7 +78,6 @@ function GuardarCabecera() {
                 $("#btnModalEliminar").prop("hidden",false);
             $("#divDetalleProceso").prop("hidden", false);   
             $("#divDetalleControlCloro").prop("hidden", false);
-            //CargarControlCloroCisternaDetalle();
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);            
@@ -150,11 +168,9 @@ function GuardarControlCloroDetalle() {
                 if (resultado == "101") {
                     window.location.reload();
                 }
-
                 $("#ModalGenerarHoraControlCloroCisterna").modal("hide");
-                //$("#divCabecera2").prop("hidden", false);
+                CargarCabecera();
                 CargarControlCloroCisternaDetalle();
-
                 limpiarDetalle();
             },
             error: function (resultado) {
@@ -183,12 +199,13 @@ function CargarControlCloroCisternaDetalle() {
                 $("#divTableEntregaProductoDetalle").html("No existen registros");
                 $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", true);
                 $("#divCabecera2").prop("hidden", true);
-            } else {
+                
+            } else {               
                 $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", true);
-
-                $("#divTableEntregaProductoDetalle").html(resultado);                
-                $("#divCabecera2").prop("hidden", false);
+                $("#divTableEntregaProductoDetalle").prop("hidden", false);   
+                $("#divTableEntregaProductoDetalle").html(resultado);       
                 $("#divDetalleControlCloro").prop("hidden", false);
+                $("#divCabecera2").prop("hidden", false);                
             }
         },
         error: function (resultado) {
