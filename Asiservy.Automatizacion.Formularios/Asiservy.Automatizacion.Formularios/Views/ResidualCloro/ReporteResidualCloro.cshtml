@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "ReporteResidualCloro";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<h4>Reporte Residual de Cloro</h4>
+
+
+<div class="card shadow" id="divCabecera" style="padding:10px">
+    <div class="row" id="divCabecera1">
+        <div class="col-md-4 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarReporte()" id="txtFecha" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-4 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Area</label>
+                @Html.DropDownList("Area", new SelectList(ViewBag.Areas, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @Id = "selectArea", @onchange = "ConsultarReporte()" })
+            </div>
+        </div>
+        <div class="col-md-4 col-12 text-center text-md-left">
+            <label class="">Acción</label>
+
+            <div class="form-group">
+                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarReporte()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="divCabecera2" hidden>
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>

@@ -12,15 +12,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class TIPO_ESTERILIZACION_CONSERVA
+    public partial class RESIDUAL_CLORO
     {
-        public int IdTipoControlEsterilizacionConserva { get; set; }
-        public string Tipo { get; set; }
-        public Nullable<decimal> Panel { get; set; }
-        public Nullable<decimal> Chart { get; set; }
-        public Nullable<decimal> TermometroDigital { get; set; }
-        public Nullable<System.DateTime> HoraChequeo { get; set; }
-        public Nullable<int> IdDetalleControlEsterilizacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public RESIDUAL_CLORO()
+        {
+            this.RESIDUAL_CLORO_DETALLE = new HashSet<RESIDUAL_CLORO_DETALLE>();
+        }
+    
+        public int IdResidualCloro { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public System.DateTime Hora { get; set; }
+        public string CodArea { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -28,8 +32,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<int> PresionManometro { get; set; }
     
-        public virtual DETALLE_CONTROL_ESTERILIZACION_CONSERVA DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RESIDUAL_CLORO_DETALLE> RESIDUAL_CLORO_DETALLE { get; set; }
     }
 }
