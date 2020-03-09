@@ -3117,6 +3117,7 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\Nomina\Asistencia.js" />
     <Content Include="Scripts\Nomina\Certificados.js" />
+    <Content Include="Scripts\Nomina\DatosPersonales.js" />
     <Content Include="Scripts\Nomina\EmpleadosClientes.js" />
     <Content Include="Scripts\Nomina\RptAsistenciaInicialActuales.js" />
     <Content Include="Scripts\Periodo\Periodo.js" />
@@ -3579,6 +3580,7 @@
     <Content Include="Views\EsterilizacionConserva\ControlEsterilizacionConserva.cshtml" />
     <Content Include="Views\EsterilizacionConserva\PartialCocheAutoclave.cshtml" />
     <Content Include="Views\Datalife\LineasTendencias.cshtml" />
+    <Content Include="Views\Nomina\DatosPersonales.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
