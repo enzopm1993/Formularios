@@ -12,15 +12,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class TIPO_ESTERILIZACION_CONSERVA
+    public partial class RESIDUAL_CLORO_DETALLE
     {
-        public int IdTipoControlEsterilizacionConserva { get; set; }
-        public string Tipo { get; set; }
-        public Nullable<decimal> Panel { get; set; }
-        public Nullable<decimal> Chart { get; set; }
-        public Nullable<decimal> TermometroDigital { get; set; }
-        public Nullable<System.DateTime> HoraChequeo { get; set; }
-        public Nullable<int> IdDetalleControlEsterilizacion { get; set; }
+        public int IdResidualCloroDetalle { get; set; }
+        public int IdResidualCloro { get; set; }
+        public string CodPeliduvio { get; set; }
+        public int Cantidad { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -28,8 +25,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<int> PresionManometro { get; set; }
     
-        public virtual DETALLE_CONTROL_ESTERILIZACION_CONSERVA DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
+        public virtual RESIDUAL_CLORO RESIDUAL_CLORO { get; set; }
     }
 }
