@@ -3256,6 +3256,7 @@
     <Compile Include="Controllers\ControlPesoEnlatadoController.cs" />
     <Compile Include="Controllers\ControlPesoyCodificacionController.cs" />
     <Compile Include="Controllers\ControlToallaController.cs" />
+    <Compile Include="Controllers\DatalifeController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\EntregaProductoTerminadoController.cs" />
     <Compile Include="Controllers\EntregaUniformeController.cs" />
@@ -3586,6 +3587,7 @@
     <Content Include="Views\ResidualCloro\ResidualCloroDetallePartial.cshtml" />
     <Content Include="Views\ResidualCloro\ReporteResidualCloroPartial.cshtml" />
     <Content Include="Views\ResidualCloro\ReporteResidualCloro.cshtml" />
+    <Content Include="Views\Datalife\LineasTendencias.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

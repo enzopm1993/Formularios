@@ -1,0 +1,53 @@
+﻿<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<h4>Líneas en tendencias</h4>
+
+
+<div class="form-horizontal">
+    <hr />
+    <div class="row">
+      
+        <div class="col-md-2 col-4">
+            <div class="form-group">
+                <label>Línea de nómina</label>
+                <select id="lineaNomina" class="form-control">
+                    <option value="0">Seleccione una línea</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-4">
+            <div class="form-group">
+                <label>Grupo pertenece</label>
+                <input type="text" class="form-control" id="grupoPertenece" value="" />
+            </div>
+        </div>
+      
+        <div class="col-md-2 col-4" style="">
+            <label>Acciones </label>
+            <div class="form-group">
+
+                <button class="btn btn-primary" id="btnCargando" type="button" disabled hidden>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Espere...
+                </button>
+                <a class="btn btn-success" title="Guardar" alt="Guardar" href="#" id="btnGuardar" onclick="GuargarModulo()"><i class="fas fa-save"></i></a>
+                <a class="btn btn-warning" title="Limpiar" alt="Limpiar" href="#" id="btnLimpiar" onclick="Limpiar()"><i class="fas fa-eraser"></i></a>
+                <a class="btn btn-danger" title="Eliminar" alt="Eliminar" href="#"><i class="fas fa-trash-alt"></i></a>
+            </div>
+        </div>
+    </div>
+
+    </div>
+<hr />
+<br />
+<div id="DivTableModulos" class="table-responsive">
+    <div class="text-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
+</div>
