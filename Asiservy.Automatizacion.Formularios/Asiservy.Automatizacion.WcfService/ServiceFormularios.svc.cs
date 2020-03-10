@@ -52,7 +52,7 @@ namespace Asiservy.Automatizacion.WcfService
                 };
 
                 var mensaje = clsDSolicitudPermiso.GuargarModificarSolicitud(solicitud);
-                return new RespuestaGenerica { Respuesta = true, Mensaje = mensaje };
+                return new RespuestaGenerica { Respuesta = true, Mensaje = mensaje.Descripcion };
             }
             catch (Exception ex)
             {

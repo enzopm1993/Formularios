@@ -1,0 +1,38 @@
+﻿@model List<Asiservy.Automatizacion.Datos.Datos.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados>
+
+@using Newtonsoft.Json
+<div class="table-responsive">
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Fecha</th>
+                <th>Observaciones</th>
+                <th>Aprobado Por</th>
+                <th>Fecha Aprovación</th>
+                <th>Estado del Reporte</th>
+            </tr>
+        </thead>
+        <tbody style="font-size:14px">
+            @if (Model != null)
+            {
+                int cont = 0;
+                foreach (var m in Model)
+                {
+                    cont++;
+                    var json = JsonConvert.SerializeObject(m);
+                    <tr onclick="SeleccionarBandeja(@json)">
+                        <td>@cont</td>
+                        <td>@m.Fecha.ToString("dd-MM-yyyy")</td>
+                        <td>@m.Observaciones</td>
+                        <td>@m.AprobadoPor</td>
+                        <td>@m.FechaAprobacion</td>                      
+                        <td><span class="badge badge-success">Aprobado</span></td>                       
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
+<script src="~/Scripts/General/dataTableJS.js"></script>

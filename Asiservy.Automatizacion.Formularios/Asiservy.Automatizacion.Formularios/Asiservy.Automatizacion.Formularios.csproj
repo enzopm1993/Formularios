@@ -2160,6 +2160,9 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
+    <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
+    <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
@@ -3161,6 +3164,7 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\Vacaciones\Empleados.js" />
     <Content Include="Scripts\Vacaciones\PorLinea.js" />
+    <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3180,6 +3184,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
@@ -3245,6 +3250,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
+    <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
     <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
@@ -3347,7 +3353,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Asistencia\Asistencia.cshtml" />
     <Content Include="Views\SolicitudPermiso\BandejaAprobacion.cshtml" />
     <Content Include="Views\SolicitudPermiso\BandejaRRHH.cshtml" />
@@ -3592,6 +3597,12 @@
     <Content Include="Views\ResidualCloro\ReporteResidualCloro.cshtml" />
     <Content Include="Views\Datalife\LineasTendencias.cshtml" />
     <Content Include="Views\Nomina\DatosPersonales.cshtml" />
+    <Content Include="Views\CloroCisternaDescongelado\CloroCisternaDescongelado.cshtml" />
+    <Content Include="Views\CloroCisternaDescongelado\ValidarCloroCisternaDescongeladoDetallePartial.cshtml" />
+    <Content Include="Views\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.cshtml" />
+    <Content Include="Views\CloroCisternaDescongelado\BandejaCloroCisternaDescongeladoPartial.cshtml" />
+    <Content Include="Views\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.cshtml" />
+    <Content Include="Views\CloroCisternaDescongelado\BandejaAprobadosCloroCisternaDescongeladoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

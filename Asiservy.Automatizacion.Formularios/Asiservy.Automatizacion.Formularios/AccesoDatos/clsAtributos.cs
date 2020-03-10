@@ -7,6 +7,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public static class clsAtributos
     {
+        //ESTADO DE REPORTE false=PENDIENTE; true=APROBADO
+        public static bool EstadoReporteActivo = true;
+        public static bool EstadoReportePendiente = false;
         //BASES DE DATOS
         public static string DesarrolloBD = "ASIS_DESARROLLO"; 
         public static string PreProduccionBD = "ASIS_PRE_PROD"; 

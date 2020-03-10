@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Reporte_CloroCisternaDescongeladoDetalle>
+@using Newtonsoft.Json;
+<table class="table table-light table-striped table-hover" id="tblDataTable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Hora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ppm_Cloro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cisterna)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </th>
+        <th>Opción</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        decimal men = 0.3m;
+        decimal may = 1.5m;
+    <tr>
+        <td>
+            @{
+                string hora = item.Hora;
+            }
+            @hora
+        </td>
+        @if (item.Ppm_Cloro>=men && item.Ppm_Cloro <= may)
+        {
+            <td class="">   
+                <span class="badge badge-success">@Html.DisplayFor(modelItem => item.Ppm_Cloro) </span>                
+            </td>
+        }
+        else {
+            <td >
+                <span class="badge badge-danger">@Html.DisplayFor(modelItem => item.Ppm_Cloro) </span>
+            </td>
+        }
+            <td>
+                @Html.DisplayFor(modelItem => item.Cisterna)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observaciones)
+            </td>
+            <td>
+                @{string json = JsonConvert.SerializeObject(item); }
+                <button id="btnEliminar" class="btn btn-link" onclick="EliminarControlCloroCisternaDetalle(@json)">Eliminar</button>
+            </td>
+        </tr>
+    }
+
+</table>
