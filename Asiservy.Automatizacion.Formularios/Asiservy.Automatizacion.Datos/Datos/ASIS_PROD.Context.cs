@@ -113,6 +113,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<RESIDUAL_CLORO> RESIDUAL_CLORO { get; set; }
         public virtual DbSet<RESIDUAL_CLORO_DETALLE> RESIDUAL_CLORO_DETALLE { get; set; }
         public virtual DbSet<TIPO_ESTERILIZACION_CONSERVA> TIPO_ESTERILIZACION_CONSERVA { get; set; }
+        public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO> CC_CLORO_CISTERNA_DESCONGELADO { get; set; }
+        public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO_DETALLE> CC_CLORO_CISTERNA_DESCONGELADO_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1553,6 +1555,46 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("cedula", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spKpiAvancePorLimpiadora>("spKpiAvancePorLimpiadora", fechaParameter, cedulaParameter);
+        }
+    
+        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongelado> sp_Reporte_CloroCisternaDescongelado(Nullable<System.DateTime> fechaCab)
+        {
+            var fechaCabParameter = fechaCab.HasValue ?
+                new ObjectParameter("FechaCab", fechaCab) :
+                new ObjectParameter("FechaCab", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongelado>("sp_Reporte_CloroCisternaDescongelado", fechaCabParameter);
+        }
+    
+        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandeja> sp_Reporte_CloroCisternaDescongeladoBandeja()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandeja>("sp_Reporte_CloroCisternaDescongeladoBandeja");
+        }
+    
+        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandejaAprobados> sp_Reporte_CloroCisternaDescongeladoBandejaAprobados(Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("fechaInicio", fechaInicio) :
+                new ObjectParameter("fechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("fechaFin", fechaFin) :
+                new ObjectParameter("fechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandejaAprobados>("sp_Reporte_CloroCisternaDescongeladoBandejaAprobados", fechaInicioParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoDetalle> sp_Reporte_CloroCisternaDescongeladoDetalle(Nullable<System.DateTime> fechaCab, Nullable<long> idCloroCisterna)
+        {
+            var fechaCabParameter = fechaCab.HasValue ?
+                new ObjectParameter("FechaCab", fechaCab) :
+                new ObjectParameter("FechaCab", typeof(System.DateTime));
+    
+            var idCloroCisternaParameter = idCloroCisterna.HasValue ?
+                new ObjectParameter("IdCloroCisterna", idCloroCisterna) :
+                new ObjectParameter("IdCloroCisterna", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoDetalle>("sp_Reporte_CloroCisternaDescongeladoDetalle", fechaCabParameter, idCloroCisternaParameter);
         }
     }
 }
