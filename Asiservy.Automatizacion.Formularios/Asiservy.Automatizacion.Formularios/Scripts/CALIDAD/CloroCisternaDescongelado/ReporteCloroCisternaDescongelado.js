@@ -58,6 +58,7 @@ function CargarReporteControlCloro() {
                 if (resultado == "0") {
                     $('#MensajeRegistros').prop("hidden", false);
                     $("#DivReporteControlCloro").hide();
+                    $("#txtEstado").html("");
                 } else {
                     console.log(listaDatos);
                     $("#tblDataTableReporte tbody").empty();

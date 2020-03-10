@@ -28,25 +28,24 @@ function CargarCabecera() {
                     $("#btnModalEliminar").prop("hidden", true);
                     $("#btnModalGenerar").prop("hidden", false);
                     $("#btnModalGenerarRegistro").prop("hidden", false);
-                } else {
+                } else {                    
                     if (resultado.EstadoReporte == true) {
                         $("#txtEstado").html("(APROBADO)");
                         $("#txtEstado").removeClass('text-danger');
                         $("#txtEstado").addClass('text-success');
                         $("#btnModalEditar").prop("hidden", true);
-                        $("#btnModalEliminar").prop("hidden", true);
-                        $("#btnModalGenerarRegistro").prop("hidden", true);
-                        $("#btnModalGenerar").prop("hidden", true);
-                    } else {
+                        $("#btnModalEliminar").prop("hidden", true);                        
+                        $("#btnModalGenerar").prop("hidden", true);                        
+                    } else {                        
                         $("#txtEstado").html("(PENDIENTE)");
                         $("#txtEstado").addClass('text-danger');
-                        $("#divDetalleControlCloro").prop("hidden", false);
-                        $("#btnModalGenerarRegistro").prop("hidden", true);
-                        $("#txtObservacion").prop("disabled", true);
+                        $("#divDetalleControlCloro").prop("hidden", false);                                               
                         $("#btnModalGenerar").prop("hidden", false);
                         $("#btnModalEditar").prop("hidden", false);
                         $("#btnModalEliminar").prop("hidden", false);
                     }
+                    $("#txtObservacion").prop("disabled", true);
+                    $("#btnModalGenerarRegistro").prop("hidden", true); 
                     $("#txtObservacion").val(resultado.Observaciones);
                     ListaDatos = resultado;
                     CargarControlCloroCisternaDetalle();
@@ -205,7 +204,11 @@ function CargarControlCloroCisternaDetalle() {
                 $("#divTableEntregaProductoDetalle").prop("hidden", false);   
                 $("#divTableEntregaProductoDetalle").html(resultado);       
                 $("#divDetalleControlCloro").prop("hidden", false);
-                $("#divCabecera2").prop("hidden", false);                
+                if (ListaDatos.EstadoReporte == true) {
+                    $("#btnEliminar").prop("hidden", true);
+                } else {
+                    $("#btnEliminar").prop("hidden", false);
+                }             
             }
         },
         error: function (resultado) {

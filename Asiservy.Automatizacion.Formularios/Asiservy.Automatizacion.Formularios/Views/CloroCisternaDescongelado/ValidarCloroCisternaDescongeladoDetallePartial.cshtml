@@ -52,7 +52,7 @@
             </td>
             <td>
                 @{string json = JsonConvert.SerializeObject(item); }
-                <button class="btn btn-link" onclick="EliminarControlCloroCisternaDetalle(@json)">Eliminar</button>
+                <button id="btnEliminar" class="btn btn-link" onclick="EliminarControlCloroCisternaDetalle(@json)">Eliminar</button>
             </td>
         </tr>
     }
