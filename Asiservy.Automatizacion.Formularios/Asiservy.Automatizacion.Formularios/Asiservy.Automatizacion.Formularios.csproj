@@ -3209,6 +3209,7 @@
     <Compile Include="AccesoDatos\GenerarDatosServicio\clsDGenerarDatosServicio.cs" />
     <Compile Include="AccesoDatos\MapeoProductoTunel\clsDMapeoProductoTunel.cs" />
     <Compile Include="AccesoDatos\MoverPersonal\ClsDMoverPersonal.cs" />
+    <Compile Include="AccesoDatos\Nomina\ClsEmpleado.cs" />
     <Compile Include="AccesoDatos\Nomina\ClsNomina.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaAsistencia.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaPersonalPresente.cs" />
@@ -3297,6 +3298,7 @@
     <Compile Include="Models\ControlConsumoInsumos\ReporteEnvaseEnlatadoViewModel.cs" />
     <Compile Include="Models\ControlHorasMaquina.cs" />
     <Compile Include="Models\ControlPesoyCodificacion\ControlUsosViewModel.cs" />
+    <Compile Include="Models\DatosEmpleadosViewModel.cs" />
     <Compile Include="Models\DatosProcesoEnlatado.cs" />
     <Compile Include="Models\Empleado\EmpleadoEsferoViewModel.cs" />
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />

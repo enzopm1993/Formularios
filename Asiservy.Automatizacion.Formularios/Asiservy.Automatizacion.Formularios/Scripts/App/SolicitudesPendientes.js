@@ -127,7 +127,8 @@
     });
   
     $("#sincronizarDL").click(function () {
-
+        $("#sincronizarDL").prop("disabled", true);
+        $("#sincronizarDL").text("Enviando información a DataLife...");
         $.ajax({
             dataType: "json",
             url: "../Nomina/ActualizaInformacionDataLife",
@@ -148,10 +149,14 @@
                     alert("Registro actualizado con éxito");
                     window.location.reload(false);
                 } else {
+                    $("#sincronizarDL").prop("disabled", false);
+                    $("#sincronizarDL").text("Sincronizar con DataLife");
                     alert(resultado.Descripcion);
                 }
             },
             error: function (resultado) {
+                $("#sincronizarDL").prop("disabled", false);
+                $("#sincronizarDL").text("Sincronizar con DataLife");
                 MensajeError(resultado.statusText, false);
             }
         });
