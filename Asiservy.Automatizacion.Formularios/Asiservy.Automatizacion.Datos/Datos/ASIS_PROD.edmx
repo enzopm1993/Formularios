@@ -863,8 +863,8 @@
             <PropertyRef Name="IdDetalleControlEsterilizacionConserva" />
           </Key>
           <Property Name="IdDetalleControlEsterilizacionConserva" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdCabeceraCoche" Type="int" />
-          <Property Name="IdCabControlEsterilizacionConservas" Type="int" />
+          <Property Name="IdCabeceraCoche" Type="int" Nullable="false" />
+          <Property Name="IdCabControlEsterilizacionConservas" Type="int" Nullable="false" />
           <Property Name="TemperaturaInicial" Type="int" />
           <Property Name="HoraInicioViento" Type="datetime" />
           <Property Name="HoraCierreViento" Type="datetime" />
@@ -1844,7 +1844,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
-          <End Role="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Type="Self.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Multiplicity="0..1" />
+          <End Role="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Type="Self.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Multiplicity="1" />
           <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Type="Self.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
@@ -1856,7 +1856,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE">
-          <End Role="COCHE_AUTOCLAVE" Type="Self.COCHE_AUTOCLAVE" Multiplicity="0..1" />
+          <End Role="COCHE_AUTOCLAVE" Type="Self.COCHE_AUTOCLAVE" Multiplicity="1" />
           <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Type="Self.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="COCHE_AUTOCLAVE">
@@ -3564,16 +3564,6 @@
           <FunctionImport Name="spReporteCocheAutoclaveDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteCocheAutoclaveDetalle)">
           <Parameter Name="Of" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
-          <EntitySet Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntityType="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
-          <AssociationSet Name="FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
-            <End Role="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" EntitySet="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
-            <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE">
-            <End Role="COCHE_AUTOCLAVE" EntitySet="COCHE_AUTOCLAVE" />
-            <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
-          </AssociationSet>
           <EntitySet Name="RESIDUAL_CLORO" EntityType="ASIS_PRODModel.RESIDUAL_CLORO" />
           <EntitySet Name="RESIDUAL_CLORO_DETALLE" EntityType="ASIS_PRODModel.RESIDUAL_CLORO_DETALLE" />
           <AssociationSet Name="FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO" Association="ASIS_PRODModel.FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO">
@@ -3585,10 +3575,6 @@
             <Parameter Name="Area" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="TIPO_ESTERILIZACION_CONSERVA" EntityType="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" />
-          <AssociationSet Name="FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
-            <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
-            <End Role="TIPO_ESTERILIZACION_CONSERVA" EntitySet="TIPO_ESTERILIZACION_CONSERVA" />
-          </AssociationSet>
           <FunctionImport Name="spConsultaResidualCloroDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaResidualCloroDetalle)">
           <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -3607,9 +3593,8 @@
             <End Role="CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" EntitySet="CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" />
           </AssociationSet>
           <FunctionImport Name="sp_Reporte_CloroCisternaDescongelado" ReturnType="Collection(ASIS_PRODModel.sp_Reporte_CloroCisternaDescongelado)">
-            <Parameter Name="FechaCab" Mode="In" Type="DateTime" />
+          <Parameter Name="FechaCab" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="sp_Reporte_CloroCisternaDescongeladoBandeja" ReturnType="Collection(ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandeja)" />
           <FunctionImport Name="sp_Reporte_CloroCisternaDescongeladoBandejaAprobados" ReturnType="Collection(ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados)">
             <Parameter Name="fechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
@@ -3618,6 +3603,21 @@
             <Parameter Name="FechaCab" Mode="In" Type="DateTime" />
             <Parameter Name="IdCloroCisterna" Mode="In" Type="Int64" />
           </FunctionImport>
+          <FunctionImport Name="sp_Reporte_CloroCisternaDescongeladoBandeja" ReturnType="Collection(ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandeja)" />
+          <EntitySet Name="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" EntityType="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
+          <EntitySet Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntityType="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
+          <AssociationSet Name="FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
+            <End Role="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" EntitySet="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
+            <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE">
+            <End Role="COCHE_AUTOCLAVE" EntitySet="COCHE_AUTOCLAVE" />
+            <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
+            <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
+            <End Role="TIPO_ESTERILIZACION_CONSERVA" EntitySet="TIPO_ESTERILIZACION_CONSERVA" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -6747,76 +6747,6 @@
           <Property Type="String" Name="Coche" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="LineaProduccion" Nullable="true" MaxLength="5" />
         </ComplexType>
-        <EntityType Name="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
-          <Key>
-            <PropertyRef Name="IdCabControlEsterilizado" />
-          </Key>
-          <Property Name="IdCabControlEsterilizado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fecha" Type="DateTime" Precision="0" />
-          <Property Name="Turno" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="TipoLinea" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Observacion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Relationship="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" FromRole="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" ToRole="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
-        </EntityType>
-        <EntityType Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
-          <Key>
-            <PropertyRef Name="IdDetalleControlEsterilizacionConserva" />
-          </Key>
-          <Property Name="IdDetalleControlEsterilizacionConserva" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdCabeceraCoche" Type="Int32" />
-          <Property Name="IdCabControlEsterilizacionConservas" Type="Int32" />
-          <Property Name="TemperaturaInicial" Type="Int32" />
-          <Property Name="HoraInicioViento" Type="DateTime" Precision="3" />
-          <Property Name="HoraCierreViento" Type="DateTime" Precision="3" />
-          <Property Name="TemperaturaTermDigital" Type="Int32" />
-          <Property Name="HoraInicioLlenado" Type="DateTime" Precision="3" />
-          <Property Name="HoraInicioCalentamiento" Type="DateTime" Precision="3" />
-          <Property Name="HoraInicioEsterilizacion" Type="DateTime" Precision="3" />
-          <Property Name="HoraFinalEsterilizacion" Type="DateTime" Precision="3" />
-          <Property Name="TiempoEnfriamiento" Type="DateTime" Precision="3" />
-          <Property Name="TemperaturaProductoSalida" Type="Int32" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Relationship="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" FromRole="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" ToRole="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
-          <NavigationProperty Name="COCHE_AUTOCLAVE" Relationship="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" FromRole="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" ToRole="COCHE_AUTOCLAVE" />
-          <NavigationProperty Name="TIPO_ESTERILIZACION_CONSERVA" Relationship="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" FromRole="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" ToRole="TIPO_ESTERILIZACION_CONSERVA" />
-        </EntityType>
-        <Association Name="FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
-          <End Type="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Role="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Multiplicity="0..1" />
-          <End Type="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
-              <PropertyRef Name="IdCabControlEsterilizado" />
-            </Principal>
-            <Dependent Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
-              <PropertyRef Name="IdCabControlEsterilizacionConservas" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE">
-          <End Type="ASIS_PRODModel.COCHE_AUTOCLAVE" Role="COCHE_AUTOCLAVE" Multiplicity="0..1" />
-          <End Type="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="COCHE_AUTOCLAVE">
-              <PropertyRef Name="IdCocheAutoclave" />
-            </Principal>
-            <Dependent Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
-              <PropertyRef Name="IdCabeceraCoche" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="RESIDUAL_CLORO">
           <Key>
             <PropertyRef Name="IdResidualCloro" />
@@ -6888,21 +6818,9 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Relationship="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" FromRole="TIPO_ESTERILIZACION_CONSERVA" ToRole="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
           <Property Name="PresionManometro" Type="Int32" />
+          <NavigationProperty Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Relationship="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" FromRole="TIPO_ESTERILIZACION_CONSERVA" ToRole="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
         </EntityType>
-        <Association Name="FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
-          <End Type="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Multiplicity="0..1" />
-          <End Type="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" Role="TIPO_ESTERILIZACION_CONSERVA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
-              <PropertyRef Name="IdDetalleControlEsterilizacionConserva" />
-            </Principal>
-            <Dependent Role="TIPO_ESTERILIZACION_CONSERVA">
-              <PropertyRef Name="IdDetalleControlEsterilizacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spConsultaResidualCloroDetalle">
           <Property Type="Int32" Name="IdResidualCloroDetalle" Nullable="false" />
           <Property Type="Int32" Name="IdResidualCloro" Nullable="false" />
@@ -6981,14 +6899,6 @@
           <Property Type="String" Name="AprobadoPor" Nullable="true" MaxLength="100" />
           <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="sp_Reporte_CloroCisternaDescongeladoBandeja">
-          <Property Type="Int64" Name="IdCloroCisterna" Nullable="false" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="AprobadoPor" Nullable="true" MaxLength="100" />
-          <Property Type="DateTime" Name="FechaAprobacion" Nullable="true" />
-          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
-        </ComplexType>
         <ComplexType Name="sp_Reporte_CloroCisternaDescongeladoBandejaAprobados">
           <Property Type="Int64" Name="IdCloroCisterna" Nullable="false" />
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
@@ -7005,6 +6915,100 @@
           <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="250" />
         </ComplexType>
+        <ComplexType Name="sp_Reporte_CloroCisternaDescongeladoBandeja">
+          <Property Type="Int64" Name="IdCloroCisterna" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="AprobadoPor" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="FechaAprobacion" Nullable="true" />
+          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
+          <Key>
+            <PropertyRef Name="IdCabControlEsterilizado" />
+          </Key>
+          <Property Name="IdCabControlEsterilizado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
+          <Property Name="Turno" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TipoLinea" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Relationship="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" FromRole="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" ToRole="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
+        </EntityType>
+        <EntityType Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
+          <Key>
+            <PropertyRef Name="IdDetalleControlEsterilizacionConserva" />
+          </Key>
+          <Property Name="IdDetalleControlEsterilizacionConserva" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCabeceraCoche" Type="Int32" Nullable="false" />
+          <Property Name="IdCabControlEsterilizacionConservas" Type="Int32" Nullable="false" />
+          <Property Name="TemperaturaInicial" Type="Int32" />
+          <Property Name="HoraInicioViento" Type="DateTime" Precision="3" />
+          <Property Name="HoraCierreViento" Type="DateTime" Precision="3" />
+          <Property Name="TemperaturaTermDigital" Type="Int32" />
+          <Property Name="HoraInicioLlenado" Type="DateTime" Precision="3" />
+          <Property Name="HoraInicioCalentamiento" Type="DateTime" Precision="3" />
+          <Property Name="HoraInicioEsterilizacion" Type="DateTime" Precision="3" />
+          <Property Name="HoraFinalEsterilizacion" Type="DateTime" Precision="3" />
+          <Property Name="TiempoEnfriamiento" Type="DateTime" Precision="3" />
+          <Property Name="TemperaturaProductoSalida" Type="Int32" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Relationship="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" FromRole="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" ToRole="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
+          <NavigationProperty Name="COCHE_AUTOCLAVE" Relationship="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" FromRole="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" ToRole="COCHE_AUTOCLAVE" />
+          <NavigationProperty Name="TIPO_ESTERILIZACION_CONSERVA" Relationship="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" FromRole="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" ToRole="TIPO_ESTERILIZACION_CONSERVA" />
+        </EntityType>
+        <Association Name="FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
+          <End Type="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Role="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
+              <PropertyRef Name="IdCabControlEsterilizado" />
+            </Principal>
+            <Dependent Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
+              <PropertyRef Name="IdCabControlEsterilizacionConservas" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE">
+          <End Type="ASIS_PRODModel.COCHE_AUTOCLAVE" Role="COCHE_AUTOCLAVE" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COCHE_AUTOCLAVE">
+              <PropertyRef Name="IdCocheAutoclave" />
+            </Principal>
+            <Dependent Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
+              <PropertyRef Name="IdCabeceraCoche" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
+          <End Type="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Multiplicity="0..1" />
+          <End Type="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" Role="TIPO_ESTERILIZACION_CONSERVA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
+              <PropertyRef Name="IdDetalleControlEsterilizacionConserva" />
+            </Principal>
+            <Dependent Role="TIPO_ESTERILIZACION_CONSERVA">
+              <PropertyRef Name="IdDetalleControlEsterilizacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10386,50 +10390,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
-              <MappingFragment StoreEntitySet="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="TipoLinea" ColumnName="TipoLinea" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdCabControlEsterilizado" ColumnName="IdCabControlEsterilizado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
-              <MappingFragment StoreEntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="TemperaturaProductoSalida" ColumnName="TemperaturaProductoSalida" />
-                <ScalarProperty Name="TiempoEnfriamiento" ColumnName="TiempoEnfriamiento" />
-                <ScalarProperty Name="HoraFinalEsterilizacion" ColumnName="HoraFinalEsterilizacion" />
-                <ScalarProperty Name="HoraInicioEsterilizacion" ColumnName="HoraInicioEsterilizacion" />
-                <ScalarProperty Name="HoraInicioCalentamiento" ColumnName="HoraInicioCalentamiento" />
-                <ScalarProperty Name="HoraInicioLlenado" ColumnName="HoraInicioLlenado" />
-                <ScalarProperty Name="TemperaturaTermDigital" ColumnName="TemperaturaTermDigital" />
-                <ScalarProperty Name="HoraCierreViento" ColumnName="HoraCierreViento" />
-                <ScalarProperty Name="HoraInicioViento" ColumnName="HoraInicioViento" />
-                <ScalarProperty Name="TemperaturaInicial" ColumnName="TemperaturaInicial" />
-                <ScalarProperty Name="IdCabControlEsterilizacionConservas" ColumnName="IdCabControlEsterilizacionConservas" />
-                <ScalarProperty Name="IdCabeceraCoche" ColumnName="IdCabeceraCoche" />
-                <ScalarProperty Name="IdDetalleControlEsterilizacionConserva" ColumnName="IdDetalleControlEsterilizacionConserva" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RESIDUAL_CLORO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.RESIDUAL_CLORO">
               <MappingFragment StoreEntitySet="RESIDUAL_CLORO">
@@ -10578,18 +10538,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Reporte_CloroCisternaDescongeladoBandeja" FunctionName="ASIS_PRODModel.Store.sp_Reporte_CloroCisternaDescongeladoBandeja">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandeja">
-                <ScalarProperty Name="IdCloroCisterna" ColumnName="IdCloroCisterna" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
-                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
-                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
-                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_Reporte_CloroCisternaDescongeladoBandejaAprobados" FunctionName="ASIS_PRODModel.Store.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados">
@@ -10614,6 +10562,66 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Reporte_CloroCisternaDescongeladoBandeja" FunctionName="ASIS_PRODModel.Store.sp_Reporte_CloroCisternaDescongeladoBandeja">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandeja">
+                <ScalarProperty Name="IdCloroCisterna" ColumnName="IdCloroCisterna" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
+              <MappingFragment StoreEntitySet="CABECERA_CONTROL_ESTERILIZACION_CONSERVAS">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="TipoLinea" ColumnName="TipoLinea" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdCabControlEsterilizado" ColumnName="IdCabControlEsterilizado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
+              <MappingFragment StoreEntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="TemperaturaProductoSalida" ColumnName="TemperaturaProductoSalida" />
+                <ScalarProperty Name="TiempoEnfriamiento" ColumnName="TiempoEnfriamiento" />
+                <ScalarProperty Name="HoraFinalEsterilizacion" ColumnName="HoraFinalEsterilizacion" />
+                <ScalarProperty Name="HoraInicioEsterilizacion" ColumnName="HoraInicioEsterilizacion" />
+                <ScalarProperty Name="HoraInicioCalentamiento" ColumnName="HoraInicioCalentamiento" />
+                <ScalarProperty Name="HoraInicioLlenado" ColumnName="HoraInicioLlenado" />
+                <ScalarProperty Name="TemperaturaTermDigital" ColumnName="TemperaturaTermDigital" />
+                <ScalarProperty Name="HoraCierreViento" ColumnName="HoraCierreViento" />
+                <ScalarProperty Name="HoraInicioViento" ColumnName="HoraInicioViento" />
+                <ScalarProperty Name="TemperaturaInicial" ColumnName="TemperaturaInicial" />
+                <ScalarProperty Name="IdCabControlEsterilizacionConservas" ColumnName="IdCabControlEsterilizacionConservas" />
+                <ScalarProperty Name="IdCabeceraCoche" ColumnName="IdCabeceraCoche" />
+                <ScalarProperty Name="IdDetalleControlEsterilizacionConserva" ColumnName="IdDetalleControlEsterilizacionConserva" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

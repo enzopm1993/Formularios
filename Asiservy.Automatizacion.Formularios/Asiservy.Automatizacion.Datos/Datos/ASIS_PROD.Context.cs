@@ -108,13 +108,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<COCHE_AUTOCLAVE> COCHE_AUTOCLAVE { get; set; }
         public virtual DbSet<MAPEO_PRODUCTO_TUNEL> MAPEO_PRODUCTO_TUNEL { get; set; }
         public virtual DbSet<COCHE_AUTOCLAVE_DETALLE> COCHE_AUTOCLAVE_DETALLE { get; set; }
-        public virtual DbSet<CABECERA_CONTROL_ESTERILIZACION_CONSERVAS> CABECERA_CONTROL_ESTERILIZACION_CONSERVAS { get; set; }
-        public virtual DbSet<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
         public virtual DbSet<RESIDUAL_CLORO> RESIDUAL_CLORO { get; set; }
         public virtual DbSet<RESIDUAL_CLORO_DETALLE> RESIDUAL_CLORO_DETALLE { get; set; }
         public virtual DbSet<TIPO_ESTERILIZACION_CONSERVA> TIPO_ESTERILIZACION_CONSERVA { get; set; }
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO> CC_CLORO_CISTERNA_DESCONGELADO { get; set; }
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO_DETALLE> CC_CLORO_CISTERNA_DESCONGELADO_DETALLE { get; set; }
+        public virtual DbSet<CABECERA_CONTROL_ESTERILIZACION_CONSERVAS> CABECERA_CONTROL_ESTERILIZACION_CONSERVAS { get; set; }
+        public virtual DbSet<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1566,11 +1566,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongelado>("sp_Reporte_CloroCisternaDescongelado", fechaCabParameter);
         }
     
-        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandeja> sp_Reporte_CloroCisternaDescongeladoBandeja()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandeja>("sp_Reporte_CloroCisternaDescongeladoBandeja");
-        }
-    
         public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandejaAprobados> sp_Reporte_CloroCisternaDescongeladoBandejaAprobados(Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
         {
             var fechaInicioParameter = fechaInicio.HasValue ?
@@ -1595,6 +1590,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IdCloroCisterna", typeof(long));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoDetalle>("sp_Reporte_CloroCisternaDescongeladoDetalle", fechaCabParameter, idCloroCisternaParameter);
+        }
+    
+        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandeja> sp_Reporte_CloroCisternaDescongeladoBandeja()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandeja>("sp_Reporte_CloroCisternaDescongeladoBandeja");
         }
     }
 }
