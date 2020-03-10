@@ -8,6 +8,7 @@ using System.Data.Entity.Validation;
 using Asiservy.Automatizacion.Formularios.Models;
 using RestSharp;
 using Newtonsoft.Json;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.App;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -82,7 +83,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-
                 lsUsuario = User.Identity.Name.Split('_');
                 string Cedula = lsUsuario[1];
 
@@ -106,8 +106,34 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 return Json(ex, JsonRequestBehavior.AllowGet);
             }
+        }
 
 
+        [HttpGet]
+        public JsonResult ObtenerMarcacionesDia(string fechaIni, string fechaFin,string cedula)
+        {
+            try
+            {
+
+
+                var client = new RestClient(clsAtributos.BASE_URL_WS);
+
+                string URL = "/api/Empleado/Marcaciones/" + fechaIni + "/" + fechaFin + "/" + cedula;
+
+                var request = new RestRequest(URL, Method.GET);
+                IRestResponse response = client.Execute(request);
+                var content = response.Content;
+                ClsMarcaciones dataView =  JsonConvert.DeserializeObject<ClsMarcaciones>(content);
+
+                JsonResult result = Json(dataView.LogMarcaciones, JsonRequestBehavior.AllowGet);
+
+                result.MaxJsonLength = 50000000;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return Json(ex, JsonRequestBehavior.AllowGet);
+            }
         }
         protected void SetErrorMessage(string message)
         {

@@ -118,7 +118,6 @@
                 $("#iconSearch").addClass(iconSearch);
                 $("#generarMarcaciones").removeClass("btnWait");
 
-                console.log(resultado);
                 $("#tblDataTable tbody").empty();
 
 
@@ -130,6 +129,37 @@
                     { data: 'INGRESO' },
                     { data: 'SALIDA' }
                 ];
+
+                config.opcionesDT.aoColumnDefs = [
+                    {
+                        "aTargets": [3], // Column to target
+                        "mRender": function (data, type, full) {
+                         
+                            // 'full' is the row's data object, and 'data' is this column's data
+                            if (data == "--") {
+                                return '<a class="justificaMarcacion badge badge-danger" title="Ver log de marcación" data-tipo="INGRESO" data-dia="' + full.FECHA_MARCA + '" data-cedula="' + full.CEDULA + '" data-nombre="' + full.EMPLEADO +'" href="#">' + data+'</a>';
+                            } else {
+                                return data;
+                            }
+                           
+                        }
+                    },
+                    {
+                        "aTargets": [4], // Column to target
+                        "mRender": function (data, type, full) {
+                      //      console.log(full);
+                            // 'full' is the row's data object, and 'data' is this column's data
+                            if (data == "--") {
+                                return '<a class="justificaMarcacion badge badge-danger"  title="Ver log de marcación" data-tipo="SALIDA" data-dia="' + full.FECHA_MARCA + '" data-cedula="' + full.CEDULA + '" data-nombre="' + full.EMPLEADO +'"href="#">' + data + '</a>';
+                            } else {
+                                return data;
+                            }
+
+                        }
+                    }
+                ];
+
+
                 table.DataTable().destroy();
                 table.DataTable(config.opcionesDT);
                 //table.DataTable().draw();
@@ -138,7 +168,6 @@
                 table.DataTable().draw();
             },
             error: function (resultado) {
-                console.log(resultado);
                 $("#generarMarcaciones").attr('href', "#");
                 $("#iconSearch").removeClass(iconLoader);
                 $("#iconSearch").addClass(iconSearch);
@@ -152,4 +181,59 @@
 
     });
     $("#generarMarcaciones").trigger('click');
+
+    $("#bodyMarcaciones").on('click', '.justificaMarcacion', function () {
+
+        var nombre = $(this).data('nombre');
+        var dia = $(this).data('dia');
+        var tipo = $(this).data('tipo');
+        var cedula = $(this).data('cedula');
+
+        var fechaEnvia = moment(dia, 'DD/MM/YYYY');
+        fechaEnvia = fechaEnvia.format('YYYY-MM-DD');
+
+        $("#tipoMarcacion").html(tipo);
+        $("#listaTipoMarcacion").val(tipo);
+        $("#diaMarcacionFalta").html(dia);
+        $("#cedulaUser").val(cedula);
+        $("#nombrePersonaJustifica").html(nombre);
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: "../Marcaciones/ObtenerMarcacionesDia",
+            type: "GET",
+            data: {
+                'fechaIni': fechaEnvia,
+                'fechaFin': fechaEnvia,
+                'cedula': cedula
+            },
+            success: function (resultado) {
+                $("#listLogMarcaciones").empty();
+                if (resultado.length > 0) {
+                    $.each(resultado, function (i, item) {
+                        var newRowContent = '<li><label class="checkbox-inline"><input type="radio" name="optMarcacion" value="' + item.TIPO_MARCACION + '_' + item.HORA + '"> <span class="log_hora_marca">' + item.HORA + '</span> <i class="fas fa-arrow-alt-circle-right"></i> <span class="log_marcacion">' + item.TIPO_MARCACION + '</span></label> </li>';
+                        $("#listLogMarcaciones").append(newRowContent);
+                    });
+                }
+                $("#listLogMarcaciones").append('<li><label class="checkbox-inline"><input type="radio" name="optMarcacion" value="NUEVA"> NUEVA</label></li>');
+                $("#ModalLogMarcacion").modal({ backdrop: 'static', keyboard: false, show: true });
+
+            },
+            error: function (resultado) {         
+                MensajeError(resultado.statusText, false);
+
+            }
+        });
+
+
+    });
+
+    $('#listLogMarcaciones').on("click", 'input[name="optMarcacion"]', function (e) {
+
+        var valorSeleccionado = $(this).val();
+        if (valorSeleccionado == "NUEVA") {
+            $("#seccionNuevaMarcacion").addClass('muestraSeccion');
+        } else {
+            $("#seccionNuevaMarcacion").removeClass('muestraSeccion');
+        }
+    });
 });
