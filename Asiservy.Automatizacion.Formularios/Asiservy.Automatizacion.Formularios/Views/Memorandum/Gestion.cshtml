@@ -1,0 +1,32 @@
+﻿<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<h3 style="float: left;">Gestión de formatos de memorandum</h3>
+
+<div class="col-md-12 col-12">
+    <hr />
+    <div class="row">
+
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                <label>Nombre del formato del memorandum</label>
+                <input type="text" class="form-control" value="" placeholder="Ingresa un nombre descriptivo" />
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="form-group">
+                <label>Plantilla</label>
+                <textarea id="txtPlantilla" class="form-control" rows="20"></textarea>
+            </div>
+        </div>
+        
+        <div class="col-md-12  col-12">
+            <a class="btn btn-success" title="Editar" alt="Editar" href="#" id="btnEditar" onclick="editarForm()"><i class="fas fa-pen"></i> Editar datos</a>>
+            <a class="btn btn-danger" title="Cancelar" alt="Cancelar" href="#" id="btnCancelar" onclick="cancelar()"><i class="fas fa-ban"></i> Cancelar edición</a>
+
+        </div>
+    </div>
+
+</div>

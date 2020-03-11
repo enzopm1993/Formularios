@@ -3275,6 +3275,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MapeoProductoTunelController.cs" />
     <Compile Include="Controllers\MarcacionesController.cs" />
+    <Compile Include="Controllers\MemorandumController.cs" />
     <Compile Include="Controllers\MensajeController.cs" />
     <Compile Include="Controllers\MoverPersonalController.cs" />
     <Compile Include="Controllers\NominaController.cs" />
@@ -3603,6 +3604,7 @@
     <Content Include="Views\CloroCisternaDescongelado\BandejaCloroCisternaDescongeladoPartial.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\BandejaAprobadosCloroCisternaDescongeladoPartial.cshtml" />
+    <Content Include="Views\Memorandum\Gestion.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
