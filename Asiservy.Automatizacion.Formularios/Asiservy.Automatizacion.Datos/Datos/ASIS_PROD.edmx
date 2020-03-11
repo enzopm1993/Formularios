@@ -1363,6 +1363,15 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="PlantillasMemorandum">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Titulo" Type="varchar" MaxLength="250" />
+          <Property Name="Plantilla" Type="text" />
+          <Property Name="Estado" Type="bit" />
+        </EntityType>
         <EntityType Name="PRODUCTO_TERMINADO">
           <Key>
             <PropertyRef Name="IdProductoTerminado" />
@@ -2591,6 +2600,7 @@
           <EntitySet Name="PALLET" EntityType="Self.PALLET" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PARAMETRO" EntityType="Self.PARAMETRO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERIODO" EntityType="Self.PERIODO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlantillasMemorandum" EntityType="Self.PlantillasMemorandum" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PRODUCTO_TERMINADO" EntityType="Self.PRODUCTO_TERMINADO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PRODUCTO_TERMINADO_DANIADOS" EntityType="Self.PRODUCTO_TERMINADO_DANIADOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PRODUCTO_TERMINADO_DETALLE" EntityType="Self.PRODUCTO_TERMINADO_DETALLE" Schema="dbo" store:Type="Tables" />
@@ -3618,6 +3628,7 @@
             <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
             <End Role="TIPO_ESTERILIZACION_CONSERVA" EntitySet="TIPO_ESTERILIZACION_CONSERVA" />
           </AssociationSet>
+          <EntitySet Name="PlantillasMemorandum" EntityType="ASIS_PRODModel.PlantillasMemorandum" />
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -7009,6 +7020,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PlantillasMemorandum">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Titulo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Plantilla" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10619,6 +10639,16 @@
                 <ScalarProperty Name="IdCabControlEsterilizacionConservas" ColumnName="IdCabControlEsterilizacionConservas" />
                 <ScalarProperty Name="IdCabeceraCoche" ColumnName="IdCabeceraCoche" />
                 <ScalarProperty Name="IdDetalleControlEsterilizacionConserva" ColumnName="IdDetalleControlEsterilizacionConserva" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlantillasMemorandum">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.PlantillasMemorandum">
+              <MappingFragment StoreEntitySet="PlantillasMemorandum">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Plantilla" ColumnName="Plantilla" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

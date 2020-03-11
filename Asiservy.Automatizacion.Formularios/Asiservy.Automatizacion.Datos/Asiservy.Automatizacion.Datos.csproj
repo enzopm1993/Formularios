@@ -288,6 +288,9 @@
     <Compile Include="Datos\PERIODO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\PlantillasMemorandum.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\PRODUCTO_TERMINADO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
