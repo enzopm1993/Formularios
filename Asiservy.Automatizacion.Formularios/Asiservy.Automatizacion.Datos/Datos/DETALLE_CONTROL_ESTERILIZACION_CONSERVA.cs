@@ -21,8 +21,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         }
     
         public int IdDetalleControlEsterilizacionConserva { get; set; }
-        public Nullable<int> IdCabeceraCoche { get; set; }
-        public Nullable<int> IdCabControlEsterilizacionConservas { get; set; }
+        public int IdCabeceraCoche { get; set; }
+        public int IdCabControlEsterilizacionConservas { get; set; }
         public Nullable<int> TemperaturaInicial { get; set; }
         public Nullable<System.DateTime> HoraInicioViento { get; set; }
         public Nullable<System.DateTime> HoraCierreViento { get; set; }
