@@ -11,12 +11,16 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsultaResidualCloro
+    public partial class spConsultaMonitoreoDescongelado
     {
-        public int IdResidualCloro { get; set; }
+        public int IdMonitoreoDescongelado { get; set; }
         public System.DateTime Fecha { get; set; }
+        public string Tanque { get; set; }
         public System.DateTime Hora { get; set; }
-        public string Observacion { get; set; }
-        public int ValidaIngreso { get; set; }
+        public string Tipo { get; set; }
+        public Nullable<decimal> TemperaturaAgua { get; set; }
+        public int Muestra1 { get; set; }
+        public int Muestra2 { get; set; }
+        public int Muestra3 { get; set; }
     }
 }

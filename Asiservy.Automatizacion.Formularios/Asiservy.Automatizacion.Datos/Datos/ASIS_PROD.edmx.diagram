@@ -129,6 +129,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" />
         <AssociationConnector Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.MONITOREO_DESCONGELADO" Width="1.5" PointX="29.375" PointY="10.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
