@@ -3214,6 +3214,7 @@
     <Compile Include="AccesoDatos\General\clsDParametro.cs" />
     <Compile Include="AccesoDatos\GenerarDatosServicio\clsDGenerarDatosServicio.cs" />
     <Compile Include="AccesoDatos\MapeoProductoTunel\clsDMapeoProductoTunel.cs" />
+    <Compile Include="AccesoDatos\Memorandum\ClsMemorandum.cs" />
     <Compile Include="AccesoDatos\Memorandum\ModelMemorandum.cs" />
     <Compile Include="AccesoDatos\MoverPersonal\ClsDMoverPersonal.cs" />
     <Compile Include="AccesoDatos\Nomina\ClsEmpleado.cs" />

@@ -18,5 +18,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Titulo { get; set; }
         public string Plantilla { get; set; }
         public Nullable<bool> Estado { get; set; }
+        public string UsuarioIngresa { get; set; }
+        public string UsuarioModifica { get; set; }
+        public Nullable<System.DateTime> FechaCrea { get; set; }
+        public Nullable<System.DateTime> FechaModifica { get; set; }
+        public string TerminalImgresa { get; set; }
+        public string TerminalModifica { get; set; }
     }
 }

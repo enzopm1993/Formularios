@@ -1371,6 +1371,12 @@
           <Property Name="Titulo" Type="varchar" MaxLength="250" />
           <Property Name="Plantilla" Type="text" />
           <Property Name="Estado" Type="bit" />
+          <Property Name="UsuarioIngresa" Type="varchar" MaxLength="50" />
+          <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" />
+          <Property Name="FechaCrea" Type="datetime" />
+          <Property Name="FechaModifica" Type="datetime" />
+          <Property Name="TerminalImgresa" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModifica" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PRODUCTO_TERMINADO">
           <Key>
@@ -7028,6 +7034,12 @@
           <Property Name="Titulo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Plantilla" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Estado" Type="Boolean" />
+          <Property Name="UsuarioIngresa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UsuarioModifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCrea" Type="DateTime" Precision="3" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+          <Property Name="TerminalImgresa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -10645,6 +10657,12 @@
           <EntitySetMapping Name="PlantillasMemorandum">
             <EntityTypeMapping TypeName="ASIS_PRODModel.PlantillasMemorandum">
               <MappingFragment StoreEntitySet="PlantillasMemorandum">
+                <ScalarProperty Name="TerminalModifica" ColumnName="TerminalModifica" />
+                <ScalarProperty Name="TerminalImgresa" ColumnName="TerminalImgresa" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="UsuarioIngresa" ColumnName="UsuarioIngresa" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Plantilla" ColumnName="Plantilla" />
                 <ScalarProperty Name="Titulo" ColumnName="Titulo" />
