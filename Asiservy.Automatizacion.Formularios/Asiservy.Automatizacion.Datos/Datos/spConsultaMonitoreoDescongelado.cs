@@ -19,8 +19,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime Hora { get; set; }
         public string Tipo { get; set; }
         public Nullable<decimal> TemperaturaAgua { get; set; }
-        public int Muestra1 { get; set; }
-        public int Muestra2 { get; set; }
-        public int Muestra3 { get; set; }
+        public decimal Muestra1 { get; set; }
+        public decimal Muestra2 { get; set; }
+        public decimal Muestra3 { get; set; }
     }
 }
