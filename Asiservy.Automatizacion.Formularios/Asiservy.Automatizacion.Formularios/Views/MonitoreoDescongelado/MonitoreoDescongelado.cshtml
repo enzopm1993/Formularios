@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "MonitoreoDescongelado";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<h4>Control Monitoreo de Descongelado</h4>
+<hr />
+<div class="card shadow" id="divCabecera" style="padding:10px">
+    <div class="row" id="divCabecera1">
+        <div class="col-md-4 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarMonitoreoDescongelado()" id="txtFecha" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-12">
+            <label>Tipo</label>
+            <select class="form-control" id="selectTipo">
+                <option value="D">Descongelado</option>
+                <option value="E">Emparrillado</option>
+                <option value="C">Ingreso Cocina</option>
+            </select>
+        </div>
+        <div class="col-md-4 text-md-left col-sm-12 col-12 text-center">
+            <label class="">Acción</label>
+            <div class="form-group">
+                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarMonitoreoDescongelado()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="divCabecera2" hidden>
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalMonitoreo">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Monitoreo Descongelado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtIdControl"  name="name" value="0" />
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-6">
+                        <label>Tanque</label>
+                        <input type="text" disabled id="txtTanque" class="form-control" name="name" value="" />
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-6">
+                        <label>Lote</label>
+                        <input type="text" disabled id="txtLote" class="form-control" name="name" value="" />
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-6">
+                        <label>Tipo</label>
+                        <input type="text" disabled id="txtTipo" class="form-control" name="name" value="" />
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-12 col-md-12">
+                        <div class="card shadow">
+                            <div id="divDetalle" style="padding:5px">
+                                <div class="row">
+                                    <div class="col-md-4 col-6 col-sm-6">
+                                        <label>Hora</label>
+                                        <input type="datetime-local" autocomplete="off" class="form-control" id="txtHora" name="name" value="" />
+                                    </div>
+                                    <div class="col-md-2 col-6 col-sm-6" id="divTemperaturaAgua">
+                                        <label>Temperatura de Agua</label>
+                                        <input type="number" autocomplete="off" class="form-control" min="0" id="txtTemperaturaAgua" name="name" value="" />
+                                    </div>
+                                    <div class="col-md-2 col-6 col-sm-6">
+                                        <label>Muestra 1</label>
+                                        <input type="number" autocomplete="off" class="form-control" min="0" id="txtMuestra1" name="name" value="" />
+                                    </div>
+                                    <div class="col-md-2 col-6 col-sm-6">
+                                        <label>Muestra 2</label>
+                                        <input type="number" autocomplete="off" class="form-control" min="0" id="txtMuestra2" name="name" value="" />
+                                    </div>
+                                    <div class="col-md-2 col-6 col-sm-6">
+                                        <label>Muestra 3</label>
+                                        <input type="number" autocomplete="off" class="form-control" min="0" id="txtMuestra3" name="name" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" disabled id="btnGuardarMonitoreo" onclick="GuardarMonitoreoDescongelado()" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

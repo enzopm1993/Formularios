@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.AccesoDatos.BLZ.RegistroDescongeladoEmparrilladoMP>
+@using Newtonsoft.Json;
+
+@{ 
+    var Control = ViewBag.Control;
+
+}
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                Tanque
+            </th>
+            <th>
+                Lote
+            </th>
+            <th>
+               Especie
+            </th>
+            <th>
+              Talla
+            </th>            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+        <tr onclick="SeleccionarControl(@json)">
+            <td>
+                <i class="fas fa-check-circle" style="color:chartreuse"></i>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.U_SYP_TANQUE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.U_SYP_LOTE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.U_SYP_ESPECIE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.U_SYP_TALLA)
+            </td>           
+        </tr>
+        }
+    </tbody>
+</table>
