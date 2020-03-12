@@ -3,6 +3,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.App;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.MoverPersonal;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina;
+using Asiservy.Automatizacion.Formularios.Models;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -42,6 +43,50 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.DateRangePicker = "1";
                 return View();
 
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult DatosPersonales()
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                var client = new RestClient(clsAtributos.BASE_URL_WS);
+
+                var request = new RestRequest("/api/Empleado/"+ lsUsuario[1], Method.GET);
+                IRestResponse response = client.Execute(request);
+                var content = response.Content;
+                ClsEmpleado retornar = JsonConvert.DeserializeObject<ClsEmpleado>(content);
+
+                DatosEmpleadosViewModel datosEmpleadosViewModel = new DatosEmpleadosViewModel();
+
+                datosEmpleadosViewModel.DatosEmpleado = retornar;
+
+                request = new RestRequest("/api/Empleado/CambioDatosPendientes/" + lsUsuario[1], Method.GET);
+                response = client.Execute(request);
+                content = response.Content;
+
+                var idPendiente = JsonConvert.DeserializeObject<Int32>(content);
+                if (idPendiente > 0)
+                {
+                    datosEmpleadosViewModel.idSolicitud = idPendiente;
+                    datosEmpleadosViewModel.MensajeMuestra = "Existe una solicitud pendiente de revisión, no es posible actualizar los datos en este momento. Anule la solicitud pendiente para enviar una nueva o bien espere hasta que el área encargada valide su solicitud de actualización de datos.";
+                }
+
+
+
+                ViewBag.Title = "Datos personales";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View(datosEmpleadosViewModel);
             }
             catch (Exception ex)
             {
@@ -508,6 +553,27 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
 
+        }
+
+
+        [HttpPost]
+        public ActionResult EnviaSolicitudCambioDeDatos(ParamCambioDatos datosEmpleado)
+        {
+
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
+            var request = new RestRequest("/api/Empleado/CambiarDatos", Method.POST);
+            request.AddParameter("username", datosEmpleado.username);
+            request.AddParameter("cedula", datosEmpleado.cedula);
+            request.AddParameter("direccion", datosEmpleado.direccion);
+            request.AddParameter("barrio", datosEmpleado.barrio);
+            request.AddParameter("telefono", datosEmpleado.telefono);
+            request.AddParameter("celular", datosEmpleado.celular);
+            request.AddParameter("correo", datosEmpleado.correoPersonal);
+
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            var datos = JsonConvert.DeserializeObject<ClsKeyValue>(content);
+            return Json(datos, JsonRequestBehavior.AllowGet);
         }
     }
 

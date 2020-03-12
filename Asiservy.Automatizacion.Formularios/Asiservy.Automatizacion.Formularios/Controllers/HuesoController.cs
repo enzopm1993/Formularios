@@ -691,7 +691,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                ViewBag.Apexcharts = "1";
 
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
@@ -773,6 +773,42 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
+        public JsonResult ConsultaKpiAvanceLimpiadora(DateTime Fecha, string Cedula)
+        {
+            try
+            {
+                // lsUsuario = User.Identity.Name.Split('_');
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDControlHueso = new clsDControlHueso();
+                var model = clsDControlHueso.ConsultaKpiAvanceDiarioPorLimpiadora(Fecha, Cedula);
+                return Json(model,JsonRequestBehavior.AllowGet);
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
 
 
         [Authorize]

@@ -1,0 +1,71 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.sp_Reporte_CloroCisternaDescongelado
+
+@{
+    ViewBag.Title = "ReporteCloroCisternaDescongelado";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%
+    }
+</style>
+<div class="row" id="DivFiltros">
+    <div class="col-md-4 col-sm-6 form-group">
+        <label>Fecha:</label>
+        <input type="date" id="txtFecha" value="@DateTime.Now.ToString("yyyy-MM-dd")"  class="form-control" />
+    </div>
+    <div class="col-5">
+        <label>Acciones</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarReporteControlCloro()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+
+<br />
+<div id="spinnerCargando" hidden class="text-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+
+<center> <h5 id="MensajeRegistros" hidden class="text-warning">No existe registro de la fecha indicada.</h5></center>
+<!-- Modal -->
+<div class="text-center">
+    <h4 class="" style="color:black">REPORTE CONTROL DE CLORO EN CISTERNA DESCONGELADO <label class="text-danger" id="txtEstado"></label></h4>
+
+</div>
+<div class="table-responsive" id="DivReporteControlCloro">
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableReporte">
+        <thead>
+            <tr>
+                <th>HORA</th>
+                <th>PPM CLORO</th>
+                <th>CISTERNA</th>
+                <th>USUARIO</th>
+                <th>OBSERVACIONES</th>
+            </tr>
+        </thead>
+        <tbody style="font-size:14px"></tbody>
+        <tfoot style="font-size:14px">
+            <tr>
+                <td colspan="5">
+                    <b>OBSERVACIONES: </b> <label id="txtObservacionesCabecera" />
+                </td>              
+            </tr>
+        </tfoot>
+    </table>   
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                Frecuencia: 3 horas<br />
+                Min: 0.3 ppm<br />
+                Max: 1.5 ppm
+            </div>
+        </div>
+    </div>
+</div>
+            

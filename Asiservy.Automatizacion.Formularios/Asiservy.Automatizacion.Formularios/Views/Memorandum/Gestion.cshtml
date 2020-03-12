@@ -1,0 +1,64 @@
+﻿@model Asiservy.Automatizacion.Formularios.Models.ModelViewMemorandum
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .lista_tags li.nav-item {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+</style>
+<h3>Gestión de formatos de memorandum</h3>
+
+<div class="col-md-12 col-12">
+    <div class="row">
+        <input type="hidden" id="idModalidad" value="@Model.Memorandum.IdMemorandum" />
+        <div class="col-md-12  col-12">
+            <div class="form-group">
+                <a data-toggle="modal" data-target="#modalTags" data-backdrop="static" data-keyboard="false" class="btn btn-primary" title="Editar" alt="Editar" href="#" id="btnEditar"><i class="fas fa-tag"></i> Tags</a>
+                <a class="btn btn-success" title="Editar" alt="Editar" href="#" id="btnEditar" onclick="editarForm()"><i class="fas fa-save"></i> Guardar</a>
+                <a class="btn btn-danger" title="Cancelar" alt="Cancelar" href="#" id="btnCancelar" onclick="cancelar()"><i class="fas fa-ban"></i> Cancelar</a>
+            </div>
+        </div>
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                <label>Nombre del formato del memorandum</label>
+                <input type="text" class="form-control" id="txtTituloMemo" value="@Model.Memorandum.IdMemorandum" placeholder="Ingresa un nombre descriptivo" />
+            </div>
+        </div>
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                <label>Plantilla</label>
+                <textarea id="txtPlantilla" class="form-control" rows="50">@Model.Memorandum.Plantilla</textarea>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modalTags" tabindex="-1" role="dialog" aria-labelledby="modalTags" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Etiquetas disponibles</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Seleccione una etiqueta para usar en la plantilla</p>
+                <ul class="nav nav-pills lista_tags">
+                    @foreach (var tag in Model.TagsPlantilla)
+                    {
+                        <li class="nav-item"><a href="#" class="btn-info btn asignaEtiqueta" data-tag="@tag.Codigo">@tag.Descripcion</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

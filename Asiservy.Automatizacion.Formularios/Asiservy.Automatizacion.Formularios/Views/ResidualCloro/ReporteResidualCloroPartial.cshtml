@@ -1,0 +1,52 @@
+﻿
+@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteResidualCloro>
+@{ 
+    var pediluvios = ViewBag.Pediluvios;
+    var horas = Model.Select(x => x.Hora).Distinct().ToList();
+}
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>           
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            @foreach(var x in pediluvios) {
+                <td>@x.Descripcion</td>
+            }
+            
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in horas)
+        {
+        <tr>
+            <td>@item.ToString("HH:mm")</td>
+            @foreach(var x in pediluvios)
+            {
+                var cantidad = Model.FirstOrDefault(y => y.Hora == item && y.CodPeliduvio == x.Codigo);
+                if (cantidad != null)
+                {
+            <td>
+                @if (cantidad.Cantidad < 200)
+                {
+                    <span class="badge badge-danger">@cantidad.Cantidad</span>
+                }
+                else
+                {
+                    <span class="badge badge-success">@cantidad.Cantidad</span>
+
+                }
+
+            </td>
+                }
+                else {
+                    <td>0</td>
+                }
+            }
+        </tr>
+           
+        }
+    </tbody>
+</table>

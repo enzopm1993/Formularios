@@ -7,6 +7,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
 {
     public static class clsAtributos
     {
+        //ESTADO DE REPORTE false=PENDIENTE; true=APROBADO
+        public static bool EstadoReporteActivo = true;
+        public static bool EstadoReportePendiente = false;
         //BASES DE DATOS
         public static string DesarrolloBD = "ASIS_DESARROLLO"; 
         public static string PreProduccionBD = "ASIS_PRE_PROD"; 
@@ -259,6 +262,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //TIPO  LINEA CONTROL  DE ESTERILIZACION DE CONSERVAS
         public static string TipoLineaLata = "L";
         public static string TipoLineaPouch = "P";
+
+        //CODIGO GRUPO PELIDUVIOS 
+        public static string CodGrupoPediluvioPreparacion = "033";
+        public static string CodGrupoPediluvioProceso = "034";
+
+        //CODIGO GRUPO AREAS CALIDAD
+        public static string CodGrupoAreasResidualCloro = "035";
+
 
         //CONTROL CONSERVAS TIEMPOS INICIO, MEDIO Y FINAL
         public static string Inicio = "I";

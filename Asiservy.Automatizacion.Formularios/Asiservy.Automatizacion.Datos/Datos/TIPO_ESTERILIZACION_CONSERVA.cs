@@ -16,10 +16,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdTipoControlEsterilizacionConserva { get; set; }
         public string Tipo { get; set; }
-        public string Panel { get; set; }
-        public string Chart { get; set; }
-        public string TermometroDigital { get; set; }
-        public string HoraChequeo { get; set; }
+        public Nullable<decimal> Panel { get; set; }
+        public Nullable<decimal> Chart { get; set; }
+        public Nullable<decimal> TermometroDigital { get; set; }
+        public Nullable<int> PresionManometro { get; set; }
+        public Nullable<System.DateTime> HoraChequeo { get; set; }
         public Nullable<int> IdDetalleControlEsterilizacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
