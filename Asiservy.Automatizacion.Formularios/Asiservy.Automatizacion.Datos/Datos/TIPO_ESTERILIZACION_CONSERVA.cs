@@ -19,6 +19,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<decimal> Panel { get; set; }
         public Nullable<decimal> Chart { get; set; }
         public Nullable<decimal> TermometroDigital { get; set; }
+        public Nullable<int> PresionManometro { get; set; }
         public Nullable<System.DateTime> HoraChequeo { get; set; }
         public Nullable<int> IdDetalleControlEsterilizacion { get; set; }
         public string EstadoRegistro { get; set; }
@@ -28,7 +29,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<int> PresionManometro { get; set; }
     
         public virtual DETALLE_CONTROL_ESTERILIZACION_CONSERVA DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
     }
