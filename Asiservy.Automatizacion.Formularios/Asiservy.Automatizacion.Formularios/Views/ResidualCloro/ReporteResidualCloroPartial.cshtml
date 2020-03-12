@@ -28,7 +28,18 @@
                 var cantidad = Model.FirstOrDefault(y => y.Hora == item && y.CodPeliduvio == x.Codigo);
                 if (cantidad != null)
                 {
-                <td>@cantidad.Cantidad</td>
+            <td>
+                @if (cantidad.Cantidad < 200)
+                {
+                    <span class="badge badge-danger">@cantidad.Cantidad</span>
+                }
+                else
+                {
+                    <span class="badge badge-success">@cantidad.Cantidad</span>
+
+                }
+
+            </td>
                 }
                 else {
                     <td>0</td>
