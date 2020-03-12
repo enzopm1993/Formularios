@@ -1,15 +1,16 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.AccesoDatos.BLZ.RegistroDescongeladoEmparrilladoMP>
+@using Asiservy.Automatizacion.Datos.Datos;
 @using Newtonsoft.Json;
 
 @{ 
-    var Control = ViewBag.Control;
+    var Control = ViewBag.Control as List<spConsultaMonitoreoDescongelado>;
 
 }
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
-            <th></th>
+            <th>Control</th>
             <th>
                 Tanque
             </th>
@@ -21,16 +22,33 @@
             </th>
             <th>
               Talla
-            </th>            
+            </th>      
+            
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             var json = JsonConvert.SerializeObject(item);
+            var Descongelado = Control.FirstOrDefault(x => x.Tanque == item.U_SYP_TANQUE && x.Tipo == "D");
+            var Emparrillado = Control.FirstOrDefault(x => x.Tanque == item.U_SYP_TANQUE && x.Tipo == "E");
+            var Cocina = Control.FirstOrDefault(x => x.Tanque == item.U_SYP_TANQUE && x.Tipo == "C");
+
+
         <tr onclick="SeleccionarControl(@json)">
             <td>
-                <i class="fas fa-check-circle" style="color:chartreuse"></i>
+                @if (Descongelado != null)
+                {
+                    <i class="fas fa-check-circle" style="color: dodgerblue"></i>
+                }
+                @if (Emparrillado != null)
+                {
+                    <i class="fas fa-check-circle" style="color:royalblue"></i>
+                }
+                @if (Cocina != null)
+                {
+                    <i class="fas fa-check-circle" style="color:darkblue"></i>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.U_SYP_TANQUE)

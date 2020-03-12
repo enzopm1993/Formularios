@@ -127,14 +127,14 @@ function Validar() {
     } else {
         $("#txtHora").css('borderColor', '#ced4da');
     }
-
-    if ($("#txtTemperaturaAgua").val() == "") {
-        $("#txtTemperaturaAgua").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#txtTemperaturaAgua").css('borderColor', '#ced4da');
+    if ($("#selectTipo").val() != 'C') {
+        if ($("#txtTemperaturaAgua").val() == "") {
+            $("#txtTemperaturaAgua").css('borderColor', '#FA8072');
+            valida = false;
+        } else {
+            $("#txtTemperaturaAgua").css('borderColor', '#ced4da');
+        }
     }
-
     if ($("#txtMuestra1").val() == "") {
         $("#txtMuestra1").css('borderColor', '#FA8072');
         valida = false;
@@ -185,8 +185,10 @@ function GuardarMonitoreoDescongelado() {
             if (resultado == "101") {
                 window.location.reload();
             }
+           
             MensajeCorrecto(resultado);         
             $("#ModalMonitoreo").modal("hide");
+            ConsultarMonitoreoDescongelado();
         },
         error: function (resultado) {
             MensajeError("Error: Comuníquese con sistemas", false);
