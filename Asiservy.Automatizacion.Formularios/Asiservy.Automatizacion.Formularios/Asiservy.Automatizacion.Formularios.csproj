@@ -3305,6 +3305,7 @@
     <Compile Include="Models\OrdenFabricacionAutoclave.cs" />
     <Compile Include="Models\OrdenFabricacionAvance.cs" />
     <Compile Include="Models\OrdenFabricacionConsumoInsumo.cs" />
+    <Compile Include="Models\Produccion\EsterilizacionConservas\DetalleEsterilizacionConservaVieModel.cs" />
     <Compile Include="Models\Produccion\Textura.cs" />
     <Compile Include="Models\ProyeccionProgramacion\ProyeccionProgramacionViewModel.cs" />
     <Compile Include="Models\RespuestaGeneral.cs" />
@@ -3577,6 +3578,7 @@
     <Content Include="Views\CocheAutoclave\ReporteCocheAutoclaveDetallePartial.cshtml" />
     <Content Include="Views\EsterilizacionConserva\ControlEsterilizacionConserva.cshtml" />
     <Content Include="Views\EsterilizacionConserva\PartialCocheAutoclave.cshtml" />
+    <Content Include="Views\EsterilizacionConserva\PartialDetalleControl.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Produccion.EsterilizacionConservas.DetalleEsterilizacionConservaVieModel>
+@using Newtonsoft.Json;
+<table class="table table-striped table-bordered" id="tblDetalleControl">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autoclave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Esterilizada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th>Detalle Coche</th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.IdDetalleControlEsterilizacionConserva)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.TemperaturaInicial)
+            </th>
+            <th>
+                Hora inicio venteo
+            </th>
+            <th>
+                Hora de cierre de venteo
+            </th>
+            <th>
+                Temperatura term. Digital
+            </th>
+            <th>
+                Hora inicio llenado
+            </th>
+            <th>
+                Hora inicio calentamiento
+            </th>
+            <th>
+                Panel(auto-spray)<br />
+                (auto-convencional)
+            </th>
+            <th>
+                Chart
+            </th>
+            <th>
+                Termómetro digital
+            </th>
+            <th>
+                Presión manómetro
+            </th>
+            <th>
+                Hora inicio esterilización
+            </th>
+            <th>
+                Hora final esterilización
+            </th>
+            <th>
+               Tiempo enfriamiento
+            </th>
+            <th>
+                Temperatura producto a la salida
+            </th>
+            <th>
+                Hora de chequeo
+            </th>
+            
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string json = JsonConvert.SerializeObject(item);
+        <tr>
+            <td class="text-center">
+                <i class="far fa-edit" style="color:green;cursor:pointer" onclick="EditarDetalleControl(@json)"></i>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Autoclave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Esterilizada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producto)
+            </td>
+            <td class="text-center"><i class="fas fa-binoculars" style="color:blue;cursor:pointer" onclick="MostrarDetalleCoche(@item.IdCabCoche)"></i></td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.IdDetalleControlEsterilizacionConserva)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.TemperaturaInicial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraInicioViento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraCierreViento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TemperaturaTermDigital)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraInicioLlenado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraInicioCalentamiento)
+            </td>
+            <td class="text-center"><i class="fas fa-binoculars" style="color:blue;cursor:pointer" onclick="AbrirModalTipos(@item.IdDetalleControlEsterilizacionConserva,'Panel')"></i></td>
+            <td class="text-center"><i class="fas fa-binoculars" style="color:blue;cursor:pointer" onclick="AbrirModalTipos(@item.IdDetalleControlEsterilizacionConserva,'Chart')"></i></td>
+            <td class="text-center"><i class="fas fa-binoculars" style="color:blue;cursor:pointer" onclick="AbrirModalTipos(@item.IdDetalleControlEsterilizacionConserva,'Termometro')"></i></td>
+            <td class="text-center"><i class="fas fa-binoculars" style="color:blue;cursor:pointer" onclick="AbrirModalTipos(@item.IdDetalleControlEsterilizacionConserva,'Presion')"></i></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraInicioEsterilizacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraFinalEsterilizacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TiempoEnfriamiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TemperaturaProductoSalida)
+            </td>
+            <td class="text-center"><i class="fas fa-binoculars" style="color:blue;cursor:pointer" onclick="AbrirModalTipos(@item.IdDetalleControlEsterilizacionConserva,'HoraChequeo')"></i></td>
+            
+        </tr>
+        }
+    </tbody>
+
+</table>
