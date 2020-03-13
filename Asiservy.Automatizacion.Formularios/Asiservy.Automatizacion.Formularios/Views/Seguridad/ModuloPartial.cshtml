@@ -10,6 +10,9 @@
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Orden)
+            </th>
+            <th>
                 <label>Estado</label>
 
             </th>
@@ -43,36 +46,39 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr  onclick="CargarModulo('@item.IdModulo','@item.Nombre','@item.EstadoRegistro')">
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdModulo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EstadoRegistro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
-                </td>
+        <tr onclick="CargarModulo('@item.IdModulo','@item.Nombre','@item.EstadoRegistro','@item.Orden')">
+            <td>
+                @Html.DisplayFor(modelItem => item.IdModulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Orden)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoRegistro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+            </td>
 
-            </tr>
+        </tr>
         }
     </tbody>
 
