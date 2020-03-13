@@ -21,7 +21,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<decimal> TermometroDigital { get; set; }
         public Nullable<int> PresionManometro { get; set; }
         public Nullable<System.DateTime> HoraChequeo { get; set; }
-        public Nullable<int> IdDetalleControlEsterilizacion { get; set; }
+        public int IdDetalleControlEsterilizacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
