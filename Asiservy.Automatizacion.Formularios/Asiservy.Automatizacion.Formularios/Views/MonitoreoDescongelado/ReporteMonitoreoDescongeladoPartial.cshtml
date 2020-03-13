@@ -1,0 +1,160 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaMonitoreoDescongelado>
+
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th rowspan="2" class="text-center">@Html.DisplayNameFor(model => model.Tanque)</th>
+            <th rowspan="2" class="text-center"> @Html.DisplayNameFor(model => model.Lote)</th>
+            <th rowspan="2" class="text-center"> @Html.DisplayNameFor(model => model.Especie)</th>
+            <th colspan="5" class="text-center">Inicio Descongelado</th>
+            <th colspan="5" class="text-center">Emparrillado</th>
+            <th colspan="4" class="text-center">Ingreso Cocina</th>           
+        </tr>
+        <tr>
+            <th>
+                Hora
+            </th>
+            <th>
+                Temperatura
+            </th>
+            <th>
+                Muestra 1
+            </th>
+            <th>
+                Muestra 2
+            </th>
+            <th>
+                Muestra 3
+            </th>
+
+            <th>
+                Hora
+            </th>
+            <th>
+                Temperatura
+            </th>
+            <th>
+                Muestra 1
+            </th>
+            <th>
+                Muestra 2
+            </th>
+            <th>
+                Muestra 3
+            </th>
+
+            <th>
+                Hora
+            </th>
+            <th>
+                Muestra 1
+            </th>
+            <th>
+                Muestra 2
+            </th>
+            <th>
+                Muestra 3
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var Descongelado = Model.FirstOrDefault(x => x.Tanque == item.Tanque && x.Tipo == "D");
+            var Emparrillado = Model.FirstOrDefault(x => x.Tanque == item.Tanque && x.Tipo == "E");
+            var Cocina = Model.FirstOrDefault(x => x.Tanque == item.Tanque && x.Tipo == "C");
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tanque)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Especie)
+            </td>
+            @if (Descongelado != null)
+            {
+                <td>
+                    @Descongelado.Hora.ToString("HH:mm")
+                </td>
+                <td>
+                    @Descongelado.TemperaturaAgua
+                </td>
+                <td>
+                    @Descongelado.Muestra1
+                </td>
+                <td>
+                    @Descongelado.Muestra2
+                </td>
+                <td>
+                    @Descongelado.Muestra3
+                </td>
+            }
+            else
+            {
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            }
+
+            @if (Emparrillado != null)
+            {
+                <td>
+                    @Emparrillado.Hora.ToString("HH:mm")
+                </td>
+                <td>
+                    @Emparrillado.TemperaturaAgua
+                </td>
+                <td>
+                    @Emparrillado.Muestra1
+                </td>
+                <td>
+                    @Emparrillado.Muestra2
+                </td>
+                <td>
+                    @Emparrillado.Muestra3
+                </td>
+            }
+            else
+            {
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            }
+
+            @if (Cocina != null)
+            {
+                <td>
+                    @Cocina.Hora.ToString("HH:mm")
+                </td>
+                
+                <td>
+                    @Cocina.Muestra1
+                </td>
+                <td>
+                    @Cocina.Muestra2
+                </td>
+                <td>
+                    @Cocina.Muestra3
+                </td>
+            }
+            else
+            {
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            }
+
+        </tr>
+        }
+    </tbody>
+</table>
