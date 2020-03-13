@@ -2542,6 +2542,11 @@
           <Parameter Name="CodLinea" Type="varchar" Mode="In" />
           <Parameter Name="Turno" Type="char" Mode="In" />
         </Function>
+        <Function Name="spReporteEsterilizacionDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fecha" Type="date" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
+          <Parameter Name="Linea" Type="char" Mode="In" />
+        </Function>
         <Function Name="spReporteMapeoProductoTunelDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="date" Mode="In" />
         </Function>
@@ -3661,6 +3666,11 @@
             <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
             <End Role="TIPO_ESTERILIZACION_CONSERVA" EntitySet="TIPO_ESTERILIZACION_CONSERVA" />
           </AssociationSet>
+          <FunctionImport Name="spReporteEsterilizacionDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteEsterilizacionDetalle)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+            <Parameter Name="Linea" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -7105,6 +7115,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spReporteEsterilizacionDetalle">
+          <Property Type="Int32" Name="IdCocheAutoclave" Nullable="false" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="IdDetalleControlEsterilizacionConserva" Nullable="false" />
+          <Property Type="Int32" Name="NumeroAutoclave" Nullable="false" />
+          <Property Type="Int32" Name="NumeroEsterilizada" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodigoProducto" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Envase" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TemperaturaInicial" Nullable="true" />
+          <Property Type="DateTime" Name="HoraInicioViento" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="HoraCierreViento" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="TemperaturaTermDigital" Nullable="true" />
+          <Property Type="DateTime" Name="HoraInicioLlenado" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="HoraInicioCalentamiento" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="HoraInicioEsterilizacion" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="HoraFinalEsterilizacion" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="MinutosTotalesEsterilizado" Nullable="true" />
+          <Property Type="DateTime" Name="TiempoEnfriamiento" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="TemperaturaProductoSalida" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10780,6 +10811,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spReporteEsterilizacionDetalle" FunctionName="ASIS_PRODModel.Store.spReporteEsterilizacionDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteEsterilizacionDetalle">
+                <ScalarProperty Name="IdCocheAutoclave" ColumnName="IdCocheAutoclave" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="IdDetalleControlEsterilizacionConserva" ColumnName="IdDetalleControlEsterilizacionConserva" />
+                <ScalarProperty Name="NumeroAutoclave" ColumnName="NumeroAutoclave" />
+                <ScalarProperty Name="NumeroEsterilizada" ColumnName="NumeroEsterilizada" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
+                <ScalarProperty Name="Envase" ColumnName="Envase" />
+                <ScalarProperty Name="TemperaturaInicial" ColumnName="TemperaturaInicial" />
+                <ScalarProperty Name="HoraInicioViento" ColumnName="HoraInicioViento" />
+                <ScalarProperty Name="HoraCierreViento" ColumnName="HoraCierreViento" />
+                <ScalarProperty Name="TemperaturaTermDigital" ColumnName="TemperaturaTermDigital" />
+                <ScalarProperty Name="HoraInicioLlenado" ColumnName="HoraInicioLlenado" />
+                <ScalarProperty Name="HoraInicioCalentamiento" ColumnName="HoraInicioCalentamiento" />
+                <ScalarProperty Name="HoraInicioEsterilizacion" ColumnName="HoraInicioEsterilizacion" />
+                <ScalarProperty Name="HoraFinalEsterilizacion" ColumnName="HoraFinalEsterilizacion" />
+                <ScalarProperty Name="MinutosTotalesEsterilizado" ColumnName="MinutosTotalesEsterilizado" />
+                <ScalarProperty Name="TiempoEnfriamiento" ColumnName="TiempoEnfriamiento" />
+                <ScalarProperty Name="TemperaturaProductoSalida" ColumnName="TemperaturaProductoSalida" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
