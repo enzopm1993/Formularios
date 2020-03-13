@@ -144,6 +144,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.Select2 = "1";
 
                 ConsultaOpciones();
                 return View();
@@ -234,20 +235,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         [Authorize]
-        public ActionResult OpcionPartial(int idModulo)
+        public ActionResult OpcionPartial(int idModulo, string Clase)
         {
             try
             {
                 clsDopcion = new clsDOpcion();
-                List<OPCION> opciones = clsDopcion.ConsultarOpciones(new OPCION {IdModulo= idModulo }).OrderByDescending(x=> x.IdOpcion).ToList();
-                var hijos = clsDopcion.ConsultarOpciones(new OPCION { Clase="H"}); 
-                foreach(var x in hijos)
-                {
-                    bool padre = opciones.Any(y => y.IdOpcion == x.Padre);
-                    if (x.Clase == "H" && padre)
-                        opciones.Add(x);
+                List<OPCION> opciones = clsDopcion.ConsultarOpciones(new OPCION {IdModulo= idModulo}).OrderByDescending(x=> x.IdOpcion).ToList();
+                var hijos = clsDopcion.ConsultarOpciones(new OPCION { Clase= Clase });
+                if (Clase == "H") { 
+                foreach (var x in hijos)
+                    {
+                        bool padre = opciones.Any(y => y.IdOpcion == x.Padre);
+                        if (x.Clase == "H" && padre)
+                            opciones.Add(x);
+                    }
                 }
-               
 
                 return PartialView(opciones);
 
