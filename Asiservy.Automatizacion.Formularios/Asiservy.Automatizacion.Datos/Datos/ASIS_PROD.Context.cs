@@ -52,7 +52,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_COCHE_LINEA> CONTROL_COCHE_LINEA { get; set; }
         public virtual DbSet<CONTROL_ENFUNDADO> CONTROL_ENFUNDADO { get; set; }
         public virtual DbSet<CONTROL_ENFUNDADO_DETALLE> CONTROL_ENFUNDADO_DETALLE { get; set; }
-        public virtual DbSet<MODULO> MODULO { get; set; }
         public virtual DbSet<PARAMETRO> PARAMETRO { get; set; }
         public virtual DbSet<PERIODO> PERIODO { get; set; }
         public virtual DbSet<BITACORA_PROYECCION> BITACORA_PROYECCION { get; set; }
@@ -110,11 +109,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<COCHE_AUTOCLAVE_DETALLE> COCHE_AUTOCLAVE_DETALLE { get; set; }
         public virtual DbSet<RESIDUAL_CLORO> RESIDUAL_CLORO { get; set; }
         public virtual DbSet<RESIDUAL_CLORO_DETALLE> RESIDUAL_CLORO_DETALLE { get; set; }
-        public virtual DbSet<TIPO_ESTERILIZACION_CONSERVA> TIPO_ESTERILIZACION_CONSERVA { get; set; }
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO> CC_CLORO_CISTERNA_DESCONGELADO { get; set; }
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO_DETALLE> CC_CLORO_CISTERNA_DESCONGELADO_DETALLE { get; set; }
         public virtual DbSet<CABECERA_CONTROL_ESTERILIZACION_CONSERVAS> CABECERA_CONTROL_ESTERILIZACION_CONSERVAS { get; set; }
+        public virtual DbSet<MONITOREO_DESCONGELADO> MONITOREO_DESCONGELADO { get; set; }
         public virtual DbSet<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
+        public virtual DbSet<MODULO> MODULO { get; set; }
+        public virtual DbSet<TIPO_ESTERILIZACION_CONSERVA> TIPO_ESTERILIZACION_CONSERVA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1509,19 +1510,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteCocheAutoclaveDetalle>("spReporteCocheAutoclaveDetalle", ofParameter);
         }
     
-        public virtual ObjectResult<spConsultaResidualCloro> spConsultaResidualCloro(Nullable<System.DateTime> fecha, string area)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            var areaParameter = area != null ?
-                new ObjectParameter("Area", area) :
-                new ObjectParameter("Area", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaResidualCloro>("spConsultaResidualCloro", fechaParameter, areaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaResidualCloroDetalle> spConsultaResidualCloroDetalle(Nullable<int> idControl)
         {
             var idControlParameter = idControl.HasValue ?
@@ -1595,6 +1583,62 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandeja> sp_Reporte_CloroCisternaDescongeladoBandeja()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandeja>("sp_Reporte_CloroCisternaDescongeladoBandeja");
+        }
+    
+        public virtual ObjectResult<spConsultaResidualCloro> spConsultaResidualCloro(Nullable<System.DateTime> fecha, string area)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var areaParameter = area != null ?
+                new ObjectParameter("Area", area) :
+                new ObjectParameter("Area", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaResidualCloro>("spConsultaResidualCloro", fechaParameter, areaParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaCocheAutoclaveEsterilizacion> spConsultaCocheAutoclaveEsterilizacion(Nullable<System.DateTime> fecha, string turno, Nullable<int> idcabEsterilizacion)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            var idcabEsterilizacionParameter = idcabEsterilizacion.HasValue ?
+                new ObjectParameter("IdcabEsterilizacion", idcabEsterilizacion) :
+                new ObjectParameter("IdcabEsterilizacion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCocheAutoclaveEsterilizacion>("spConsultaCocheAutoclaveEsterilizacion", fechaParameter, turnoParameter, idcabEsterilizacionParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaMonitoreoDescongelado> spConsultaMonitoreoDescongelado(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMonitoreoDescongelado>("spConsultaMonitoreoDescongelado", fechaParameter);
+        }
+    
+        public virtual ObjectResult<spReporteEsterilizacionDetalle> spReporteEsterilizacionDetalle(Nullable<System.DateTime> fecha, string turno, string linea)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEsterilizacionDetalle>("spReporteEsterilizacionDetalle", fechaParameter, turnoParameter, lineaParameter);
         }
     }
 }

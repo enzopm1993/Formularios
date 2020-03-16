@@ -271,5 +271,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string CodGrupoAreasResidualCloro = "035";
 
 
+        //CONTROL CONSERVAS TIEMPOS INICIO, MEDIO Y FINAL
+        public static string Inicio = "I";
+        public static string Medio = "M";
+        public static string Final = "F";
     }
 }

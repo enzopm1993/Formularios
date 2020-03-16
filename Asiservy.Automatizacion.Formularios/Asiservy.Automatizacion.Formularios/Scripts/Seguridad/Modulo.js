@@ -5,9 +5,10 @@ $(document).ready(function () {
 });
 
 
-function CargarModulo(id, nombre, estado) {
+function CargarModulo(id, nombre, estado,orden) {
     $("#txtId").val(id);
     $("#txtNombre").val(nombre);
+    $("#txtOrden").val(orden);
 
     if (estado == "A") {
         CambioEstado(true);
@@ -22,6 +23,8 @@ function CargarModulo(id, nombre, estado) {
 function Limpiar() {
     $("#txtId").val("0");
     $("#txtNombre").val("");
+    $("#txtOrden").val("");
+
     $('#LabelEstado').text('Activo');
     $("#CheckEstadoRegistro").prop('checked', true);
 
@@ -37,12 +40,22 @@ function CambioEstado(valor) {
 }
 function GuargarModulo() {
     var Nombre = $("#txtNombre").val();
+    var Orden = $("#txtOrden").val();
     if (Nombre == "") {
         $("#ValidaNombre").prop("hidden", false);
         return;
     }
     else {
         $("#ValidaNombre").prop("hidden", true);
+
+    }
+
+    if (Orden == "") {
+        $("#ValidaOrden").prop("hidden", false);
+        return;
+    }
+    else {
+        $("#ValidaOrden").prop("hidden", true);
 
     }
     var Estado = $("#CheckEstadoRegistro").prop('checked'); 
@@ -58,15 +71,17 @@ function GuargarModulo() {
         data: {
             IdModulo: $("#txtId").val(),
             Nombre: Nombre,
-            EstadoRegistro: Estado
+            EstadoRegistro: Estado,
+            Orden: Orden
         },
         success: function (resultado) {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
                 return;
             }
-            MensajeCorrecto(resultado);      
             CargarOpciones();
+            MensajeCorrecto(resultado);      
+           
 
         },
         error: function (resultado) {
@@ -77,6 +92,9 @@ function GuargarModulo() {
 
 
 function CargarOpciones() {
+    var bitacora = $('#DivTableModulos');
+    bitacora.html('');
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: "../Seguridad/ModuloPartial",
         type: "GET",
@@ -84,11 +102,15 @@ function CargarOpciones() {
             
             var bitacora = $('#DivTableModulos');
             bitacora.html('');
+            $("#spinnerCargando").prop("hidden", true);
             bitacora.html(resultado);
+
 
         },
         error: function (resultado) {
             MensajeError(resultado, false);
+            $("#spinnerCargando").prop("hidden", true);
+
         }
     });
 }

@@ -1,14 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "ReporteResidualCloro";
+    ViewBag.Title = "ReporteMonitoreoDescongelado";
 }
-<style>
-    input, select, textarea {
-        max-width: 100%;
-    }
-</style>
+<h2>Reporte de Control y Monitoreo de Descongelado</h2>
 
-<h4>Reporte Residual de Cloro</h4>
+
 
 
 <div class="card shadow" id="divCabecera" style="padding:10px">
@@ -17,13 +13,6 @@
             <div class="form-group">
                 <label>Fecha</label>
                 <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarReporte()" id="txtFecha" class="form-control" />
-            </div>
-        </div>
-
-        <div class="col-md-3 col-6 col-sm-6">
-            <div class="form-group">
-                <label>Area</label>
-                @Html.DropDownList("Area", new SelectList(ViewBag.Areas, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @Id = "selectArea", @onchange = "ConsultarReporte()" })
             </div>
         </div>
         <div class="col-md-3 col-12 text-center text-md-left">
@@ -38,18 +27,18 @@
             </div>
         </div>
 
-        <div class="col-md-3 col-6">
-            <div class="form-group">
-                <br />
-                <div style="border:inset">
-                    <div>
-                        <label>Frecuencia: <b>3horas</b></label>
-                        <br />
-                        <label>Min: <b>200ppm</b></label>
+        @*<div class="col-md-3 col-6">
+                <div class="form-group">
+                    <br />
+                    <div style="border:inset">
+                        <div>
+                            <label>Frecuencia: <b>3horas</b></label>
+                            <br />
+                            <label>Min: <b>200ppm</b></label>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div>*@
     </div>
 </div>
 

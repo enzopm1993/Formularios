@@ -11,12 +11,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsultaResidualCloro
+    public partial class spConsultaCocheAutoclaveEsterilizacion
     {
-        public int IdResidualCloro { get; set; }
+        public int IdCocheAutoclave { get; set; }
         public System.DateTime Fecha { get; set; }
-        public System.DateTime Hora { get; set; }
+        public string Turno { get; set; }
+        public int OrdenFabricacion { get; set; }
+        public string Lote { get; set; }
+        public int Autoclave { get; set; }
+        public int Parada { get; set; }
+        public string Producto { get; set; }
+        public string CodigoProducto { get; set; }
+        public string Envase { get; set; }
         public string Observacion { get; set; }
-        public int ValidaIngreso { get; set; }
     }
 }

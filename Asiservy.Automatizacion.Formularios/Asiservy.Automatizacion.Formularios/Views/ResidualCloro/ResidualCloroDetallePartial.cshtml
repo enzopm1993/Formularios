@@ -21,7 +21,14 @@
             @Html.DisplayFor(modelItem => item.Pediluvio)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Cantidad)
+            @if (item.Cantidad < 200)
+            {
+                <span class="badge badge-danger">@item.Cantidad</span>
+            }
+            else
+            {
+                <span class="badge badge-success">@item.Cantidad</span>
+            }
         </td>
         <td>
             @{string json = JsonConvert.SerializeObject(item); }
