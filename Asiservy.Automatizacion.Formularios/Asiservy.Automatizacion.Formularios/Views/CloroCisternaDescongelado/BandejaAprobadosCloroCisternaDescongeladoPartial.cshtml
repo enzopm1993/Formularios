@@ -9,8 +9,8 @@
                 <th>Fecha</th>
                 <th>Observaciones</th>
                 <th>Aprobado Por</th>
-                <th>Fecha Aprovación</th>
-                <th>Estado del Reporte</th>
+                <th>Fecha Aprobación</th>
+                <th>Estado Reporte</th>
             </tr>
         </thead>
         <tbody style="font-size:14px">
@@ -26,7 +26,9 @@
                         <td>@m.Fecha.ToString("dd-MM-yyyy")</td>
                         <td>@m.Observaciones</td>
                         <td>@m.AprobadoPor</td>
-                        <td>@m.FechaAprobacion</td>                      
+                        <td>                          
+                                @m.FechaAprobacion                            
+                        </td>                      
                         <td><span class="badge badge-success">Aprobado</span></td>                       
                     </tr>
                 }

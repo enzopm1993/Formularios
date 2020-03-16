@@ -43,8 +43,6 @@ var configModal = {
 }
 //CARGAR BANDEJA
 function CargarBandeja() {
-    var table = $("#tblDataTable");
-    table.DataTable().clear();
     $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: "../CloroCisternaDescongelado/BandejaCloroCisternaDescongeladoPartial",
@@ -70,46 +68,48 @@ function CargarBandeja() {
 
 function SeleccionarBandeja(model) {
     var table = $("#tblDataTableAprobar");        
-        table.DataTable().clear();    
+    table.DataTable().clear();    
+    
+    $("#ModalAgregarDetalle").modal("show");
         listaDatos = model;
-    $.ajax({
-        url: "../CloroCisternaDescongelado/BandejaAprobarCloroCisternaDescongelado",
-        type: "GET",
-        data: {
-            Fecha:model.Fecha,
-            IdCloroCisterna: model.IdCloroCisterna
-        },
-        success: function (resultado) {
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado == "102") {
-                MensajeAdvertencia("No existen datos para este model.");
-            }
-            if (resultado == "0") {
-                MensajeAdvertencia("Faltan parametros.");
-            } else {
-                $("#tblDataTableAprobar tbody").empty();
-                configModal.opcionesDT.order = [];
-                configModal.opcionesDT.columns = [
-                    { data: 'Hora' },
-                    { data: 'Ppm_Cloro' },
-                    { data: 'Cisterna' },
-                    { data: 'UsuarioIngresoLog'},
-                    { data: 'Observaciones' }
-                ];
-                table.DataTable().destroy();
-                table.DataTable(configModal.opcionesDT);                
-                table.DataTable().rows.add(resultado);
-                table.DataTable().draw();
-                $("#ModalApruebaCntrolCloro").modal("show");
-            }
-        },
-        error: function (resultado) {
-            MensajeError(resultado.responseText, false);
-            $("#spinnerCargandoMaterial").prop("hidden", true);
-        }
-    });
+    //$.ajax({
+    //    url: "../CloroCisternaDescongelado/BandejaAprobarCloroCisternaDescongelado",
+    //    type: "GET",
+    //    data: {
+    //        Fecha:model.Fecha,
+    //        IdCloroCisterna: model.IdCloroCisterna
+    //    },
+    //    success: function (resultado) {
+    //        if (resultado == "101") {
+    //            window.location.reload();
+    //        }
+    //        if (resultado == "102") {
+    //            MensajeAdvertencia("No existen datos para este model.");
+    //        }
+    //        if (resultado == "0") {
+    //            MensajeAdvertencia("Faltan parametros.");
+    //        } else {
+    //            $("#tblDataTableAprobar tbody").empty();
+    //            configModal.opcionesDT.order = [];
+    //            configModal.opcionesDT.columns = [
+    //                { data: 'Hora' },
+    //                { data: 'Ppm_Cloro' },
+    //                { data: 'Cisterna' },
+    //                { data: 'UsuarioIngresoLog'},
+    //                { data: 'Observaciones' }
+    //            ];
+    //            table.DataTable().destroy();
+    //            table.DataTable(configModal.opcionesDT);                
+    //            table.DataTable().rows.add(resultado);
+    //            table.DataTable().draw();
+    //            $("#ModalApruebaCntrolCloro").modal("show");
+    //        }
+    //    },
+    //    error: function (resultado) {
+    //        MensajeError(resultado.responseText, false);
+    //        $("#spinnerCargandoMaterial").prop("hidden", true);
+    //    }
+    //});
 }
 
 function AprobarControlCloroDetalle(data) {
@@ -138,8 +138,11 @@ function AprobarControlCloroDetalle(data) {
 }
 
 function FiltrarAprobadosFecha() {       
-    if ($("#selectEstadoRegistro").val() == 'false') {
+    var date = new Date();
+    if ($("#selectEstadoRegistro").val() == 'false') {        
+        $("#divDateRangePicker").prop('hidden', true);
         CargarBandeja();
+        
     } else {    
         $("#spinnerCargando").prop("hidden", false);
         $.ajax({
@@ -151,15 +154,17 @@ function FiltrarAprobadosFecha() {
                 estadoRegistro: $("#selectEstadoRegistro").val()
             },
             success: function (resultado) {
-                $("#spinnerCargando").prop("hidden", true);
-                $('#divPartialControlCloro').html(resultado);               
-                $("#btnPendiente").prop("hidden", false);
-                $("#btnAprobado").prop("hidden", true);
                 if (resultado == '0') {
                     $('#MensajeRegistros').show();
                 } else {
                     $('#MensajeRegistros').hide();
                 }
+                $("#spinnerCargando").prop("hidden", true);
+                $('#divPartialControlCloro').html(resultado);               
+                $("#btnPendiente").prop("hidden", false);
+                $("#btnAprobado").prop("hidden", true);
+                
+                $("#divDateRangePicker").prop('hidden', false);
             },
             error: function (resultado) {
                 $("#spinnerCargando").prop("hidden", true);
@@ -169,11 +174,9 @@ function FiltrarAprobadosFecha() {
     }
 }
 
+
 //FECHA DataRangePicker
 $(function () {
-
-    var iconLoader = "fa-spinner fa-pulse";
-    var iconSearch = "fa-search"
     var start = moment();
     var end = moment();
     var mesesLetras = {
@@ -192,7 +195,6 @@ $(function () {
     }
 
     function cb(start, end) {
-
         var fechaMuestraDesde = mesesLetras[start.format('MM')] + ' ' + start.format('D') + ', ' + start.format('YYYY');
         var fechaMuestraHasta = mesesLetras[end.format('MM')] + ' ' + end.format('D') + ', ' + end.format('YYYY');
         $("#fechaDesde").val(start.format('YYYY-MM-DD'));

@@ -1,5 +1,7 @@
 ﻿var ListaDatos = [];
+var ListaDatosDetalle = [];
 ListaDatos.IdCloroCisterna = 0;
+ListaDatosDetalle.IdCloroCisternaDetalle = 0;
 $(document).ready(function () {
     CargarCabecera();
 });
@@ -34,7 +36,8 @@ function CargarCabecera() {
                         $("#txtEstado").removeClass('text-danger');
                         $("#txtEstado").addClass('text-success');
                         $("#btnModalEditar").prop("hidden", true);
-                        $("#btnModalEliminar").prop("hidden", true);                        
+                        $("#btnModalEliminar").prop("hidden", true);                         
+                        
                         $("#btnModalGenerar").prop("hidden", true);                        
                     } else {                        
                         $("#txtEstado").html("(PENDIENTE)");
@@ -129,7 +132,7 @@ function EliminarCabeceraNo() {
 function ActualizarCabeceraActivarCotroles() {
     $("#txtObservacion").prop("disabled", false)
     $("#btnModalEliminar").prop("hidden", true);
-    $("#btnModalGenerar").prop("hidden", false);
+    $("#btnModalGenerarRegistro").prop("hidden", false);
     $("#btnModalEditar").prop("hidden",true);   
 }
 
@@ -158,6 +161,7 @@ function GuardarControlCloroDetalle() {
             type: "POST",
             data: {
                 IdCloroCisternaCabecera: ListaDatos.IdCloroCisterna,
+                IdCloroCisternaDetalle: ListaDatosDetalle.IdCloroCisternaDetalle,
                 Hora: $("#txtHora").val(),
                 Ppm_Cloro: $("#txtPpm").val(),
                 Cisterna: $("#txtCisterna").val(),
@@ -176,8 +180,7 @@ function GuardarControlCloroDetalle() {
                 MensajeError(resultado.responseText, false);
             }
         });
-    } 
-   
+    }   
 }
 
 function CargarControlCloroCisternaDetalle() {
@@ -188,7 +191,8 @@ function CargarControlCloroCisternaDetalle() {
         type: "GET",
         data: {
             Fecha: $("#txtFecha").val(),
-            IdCloroCisterna:ListaDatos.IdCloroCisterna
+            IdCloroCisterna: ListaDatos.IdCloroCisterna,
+            Estado: ListaDatos.EstadoReporte
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -203,12 +207,7 @@ function CargarControlCloroCisternaDetalle() {
                 $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", true);
                 $("#divTableEntregaProductoDetalle").prop("hidden", false);   
                 $("#divTableEntregaProductoDetalle").html(resultado);       
-                $("#divDetalleControlCloro").prop("hidden", false);
-                if (ListaDatos.EstadoReporte == true) {
-                    $("#btnEliminar").prop("hidden", true);
-                } else {
-                    $("#btnEliminar").prop("hidden", false);
-                }             
+                $("#divDetalleControlCloro").prop("hidden", false);        
             }
         },
         error: function (resultado) {
@@ -220,8 +219,6 @@ function CargarControlCloroCisternaDetalle() {
 
 
 function EliminarControlCloroCisternaDetalle(dato) {
-    console.log(dato);
-
     $.ajax({
         url: "../CloroCisternaDescongelado/EliminarCloroCisternaDescongeladoDetalle",
         type: "POST",
@@ -266,4 +263,15 @@ function ControlMayorA() {
         MensajeAdvertencia('El PPM CLORO no puede ser mayor a 5');
         return false;
     }
+}
+
+function ActulizarControlCloroCisternaDetalle(jdata) {
+    var data = jdata;
+    ListaDatosDetalle = jdata;
+    $("#ModalGenerarHoraControlCloroCisterna").modal('show');
+    //var date = moment($("#txtFecha").val() + " " + data.Hora).format("DD-MM-YYYYTHH:mm");
+    $("#txtHora").val(moment($("#txtFecha").val() + " " + data.Hora).format("YYYY-MM-DDTHH:mm"));
+    $("#txtPpm").val(data.Ppm_Cloro);
+    $("#txtCisterna").val(data.Cisterna);
+    $("#txtObservacionDetalle").val(data.Observaciones);
 }
