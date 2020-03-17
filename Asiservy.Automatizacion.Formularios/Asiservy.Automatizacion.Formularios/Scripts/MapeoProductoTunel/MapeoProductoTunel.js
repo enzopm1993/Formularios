@@ -152,8 +152,9 @@ function CargarMapeoProductoTunel() {
             } else {
                 $("#spinnerCargando").prop("hidden", true);
                 $("#chartCabecera2").html(resultado);
-                config.opcionesDT.pageLength = 10;
-                $('#tblDataTable').DataTable(config.opcionesDT);
+                config.opcionesDT.pageLength = -1;
+                config.opcionesDT.order = [];
+                $('#tblDataTable2').DataTable(config.opcionesDT);
             }
           //  $('#btnConsultar').prop("disabled", true);
         },
