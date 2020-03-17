@@ -3286,7 +3286,7 @@
     <Compile Include="Controllers\PRODUCCION\CocheAutoclaveController.cs" />
     <Compile Include="Controllers\PRODUCCION\EsterilizacionConservaController.cs" />
     <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
-    <Compile Include="Controllers\SeguridadController.cs" />
+    <Compile Include="Controllers\PRODUCCION\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
     <Compile Include="Global.asax.cs">
