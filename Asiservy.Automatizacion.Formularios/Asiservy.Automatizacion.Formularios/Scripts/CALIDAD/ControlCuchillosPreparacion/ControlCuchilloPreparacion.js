@@ -181,6 +181,7 @@ function EliminarCabeceraSi() {
             }
             limpiar();            
             OcultaControles();
+            $("#btnModalGenerarRegistro").prop("hidden", false); 
             ListarControlCuchillos(0);
         },
         error: function (resultado) {
@@ -286,7 +287,7 @@ function ConsultarControlCuchilloDetalle(idCuchilloPreparacion, idControlCuchill
             $("#tblDataTableCargarDetalle tbody").empty();
             configDetalle.opcionesDT.order = [];
             configDetalle.opcionesDT.columns = [
-                { data: 'IdCuchilloPreparacion' },
+                { data: 'CodigoCuchillo' },
                 { data: 'Estado' },
                 { data: 'UsuarioIngresoLog' },
                 { data: 'UsuarioModificacionLog' }

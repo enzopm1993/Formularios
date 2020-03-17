@@ -72,44 +72,44 @@ function SeleccionarBandeja(model) {
     
     $("#ModalAgregarDetalle").modal("show");
         listaDatos = model;
-    //$.ajax({
-    //    url: "../CloroCisternaDescongelado/BandejaAprobarCloroCisternaDescongelado",
-    //    type: "GET",
-    //    data: {
-    //        Fecha:model.Fecha,
-    //        IdCloroCisterna: model.IdCloroCisterna
-    //    },
-    //    success: function (resultado) {
-    //        if (resultado == "101") {
-    //            window.location.reload();
-    //        }
-    //        if (resultado == "102") {
-    //            MensajeAdvertencia("No existen datos para este model.");
-    //        }
-    //        if (resultado == "0") {
-    //            MensajeAdvertencia("Faltan parametros.");
-    //        } else {
-    //            $("#tblDataTableAprobar tbody").empty();
-    //            configModal.opcionesDT.order = [];
-    //            configModal.opcionesDT.columns = [
-    //                { data: 'Hora' },
-    //                { data: 'Ppm_Cloro' },
-    //                { data: 'Cisterna' },
-    //                { data: 'UsuarioIngresoLog'},
-    //                { data: 'Observaciones' }
-    //            ];
-    //            table.DataTable().destroy();
-    //            table.DataTable(configModal.opcionesDT);                
-    //            table.DataTable().rows.add(resultado);
-    //            table.DataTable().draw();
-    //            $("#ModalApruebaCntrolCloro").modal("show");
-    //        }
-    //    },
-    //    error: function (resultado) {
-    //        MensajeError(resultado.responseText, false);
-    //        $("#spinnerCargandoMaterial").prop("hidden", true);
-    //    }
-    //});
+    $.ajax({
+        url: "../CloroCisternaDescongelado/BandejaAprobarCloroCisternaDescongelado",
+        type: "GET",
+        data: {
+            Fecha:model.Fecha,
+            IdCloroCisterna: model.IdCloroCisterna
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "102") {
+                MensajeAdvertencia("No existen datos para este model.");
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan parametros.");
+            } else {
+                $("#tblDataTableAprobar tbody").empty();
+                configModal.opcionesDT.order = [];
+                configModal.opcionesDT.columns = [
+                    { data: 'Hora' },
+                    { data: 'Ppm_Cloro' },
+                    { data: 'Cisterna' },
+                    { data: 'UsuarioIngresoLog'},
+                    { data: 'Observaciones' }
+                ];
+                table.DataTable().destroy();
+                table.DataTable(configModal.opcionesDT);                
+                table.DataTable().rows.add(resultado);
+                table.DataTable().draw();
+                $("#ModalApruebaCntrolCloro").modal("show");
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoMaterial").prop("hidden", true);
+        }
+    });
 }
 
 function AprobarControlCloroDetalle(data) {

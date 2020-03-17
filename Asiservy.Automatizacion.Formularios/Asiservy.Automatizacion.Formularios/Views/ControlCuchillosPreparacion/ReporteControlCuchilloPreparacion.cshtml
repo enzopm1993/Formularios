@@ -1,0 +1,64 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.sp_Reporte_Control_Cuchillos_Preparacion
+
+@{
+    ViewBag.Title = "ReporteControlCuchilloPreparacion";
+}
+
+<h2>Reporte Control Cuchillo</h2>
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .selectbox {
+        background: #fff;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+</style>
+
+
+@*@ViewBag.Linea*@
+<hr />
+<div class="row" id="divCabecera1">
+    <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker">
+        <label>Filtrar por Fecha:</label>
+        <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        <div id="reportrange" class="selectbox">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down"></i>
+        </div>
+    </div>
+
+    <div class="col-5">
+        <label>Acciones</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="ReporteControlCuchilloPreparacionPartial(1)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+        </div>
+    </div>
+
+</div>
+<hr />
+<div class="d-flex justify-content-center">
+    <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+@* CARGAR TABLA CON LOS CUCHILLOS EXISTENTES *@
+<div class="table-responsive" id="DivReporteCuchillos">
+   
+</div>
+

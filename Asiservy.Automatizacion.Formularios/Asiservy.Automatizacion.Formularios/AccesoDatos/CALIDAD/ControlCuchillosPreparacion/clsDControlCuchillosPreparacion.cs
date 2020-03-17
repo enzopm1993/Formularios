@@ -91,7 +91,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
             }
         }
 
-        //--------------------------------------CONTROL CUCHILLO DETALLE------------------------------------------------------------------------------
+        //--------------------------------------CONTROL CUCHILLO DETALLE--------------------------------------------------------------------------
         public List<sp_Control_Cuchillos_Preparacion_Detalle> ConsultarControlCuchilloDetalle(int idCuchilloPreparacion, int idControlCuchillo, int idControlCuchilloDetalle, int opcion)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -142,6 +142,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
                     valor=1;
                 }
                 return valor;
+            }
+        }
+
+        //--------------------------------------CONTROL CUCHILLO DETALLE--------------------------------------------------------------
+        public List<sp_Reporte_Control_Cuchillos_Preparacion> ReporteControlCuchilloPreparacion(DateTime filtroFechaDesde, DateTime filtroFechaHasta, int opcion)
+        {
+            using (ASIS_PRODEntities db= new ASIS_PRODEntities())
+            {
+                var listado = db.sp_Reporte_Control_Cuchillos_Preparacion(filtroFechaDesde, filtroFechaHasta, opcion).ToList();
+                return listado;
             }
         }
     }

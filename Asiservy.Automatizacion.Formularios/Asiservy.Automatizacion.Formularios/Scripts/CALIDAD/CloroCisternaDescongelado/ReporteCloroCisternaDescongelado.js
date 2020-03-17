@@ -17,6 +17,7 @@ function CargarReporteControlCloroCabecera() {
             },
             success: function (resultado) {
                 listaDatos = resultado;
+                $("#spinnerCargando").prop("hidden", true);
             },
             error: function (resultado) {
                 MensajeError(resultado.responseText, false);

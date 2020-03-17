@@ -2163,6 +2163,7 @@
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.js" />
+    <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\MonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
@@ -3619,6 +3620,8 @@
     <Content Include="Views\MonitoreoDescongelado\ReporteMonitoreoDescongelado.cshtml" />
     <Content Include="Views\ControlCuchillosPreparacion\MantenimientoCuchilloPreparacion.cshtml" />
     <Content Include="Views\ControlCuchillosPreparacion\ControlCuchilloPreparacion.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacionPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
