@@ -40,19 +40,32 @@
     <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableReporte">
         <thead>
             <tr>
-                <th>HORA</th>
-                <th>PPM CLORO</th>
-                <th>CISTERNA</th>
-                <th>USUARIO</th>
-                <th>OBSERVACIONES</th>
+                <th>Hora</th>
+                <th>Ppm Cloro</th>
+                <th>Cisterna</th>
+                <th>Usuario/FechaCreación</th>
+                <th>Usuario/FechaModifición</th>
+                <th>Observaciones</th>
             </tr>
         </thead>
         <tbody style="font-size:14px"></tbody>
         <tfoot style="font-size:14px">
             <tr>
-                <td colspan="5">
+                <td colspan="6">
                     <b>OBSERVACIONES: </b> <label id="txtObservacionesCabecera" />
-                </td>              
+                </td>
+            </tr>
+            <tr>
+                <td style=" border: inset 0pt;padding-bottom:0px" colspan="6">
+                    <center><label id="txtUsuarioAprobacionCabecera"></label></center>
+                </td>
+            </tr>
+            
+            <tr>
+                <td style=" border: inset 0pt" colspan="6">
+                    <center>
+                    <b>USUARIO APROBACION</b></center>
+                </td>
             </tr>
         </tfoot>
     </table>   

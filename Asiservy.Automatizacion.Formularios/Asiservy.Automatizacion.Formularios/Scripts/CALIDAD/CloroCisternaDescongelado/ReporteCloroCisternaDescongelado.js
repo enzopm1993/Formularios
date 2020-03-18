@@ -17,6 +17,7 @@ function CargarReporteControlCloroCabecera() {
             },
             success: function (resultado) {
                 listaDatos = resultado;
+                $("#spinnerCargando").prop("hidden", true);
             },
             error: function (resultado) {
                 MensajeError(resultado.responseText, false);
@@ -33,8 +34,7 @@ function CargarReporteControlCloro() {
     table.DataTable().draw();   
     if (fecha == '') {
         MensajeAdvertencia("Ingrese la FECHA correctamente");
-        $("#txtEstado").html("");    
-        //$("#txtEstado").addClass('text-danger');
+        $("#txtEstado").html("");
         $("#DivReporteControlCloro").hide();
         return;
     } else {
@@ -60,7 +60,6 @@ function CargarReporteControlCloro() {
                     $("#DivReporteControlCloro").hide();
                     $("#txtEstado").html("");
                 } else {
-                    console.log(listaDatos);
                     $("#tblDataTableReporte tbody").empty();
                     $("#DivReporteControlCloro").show();
                     $('#MensajeRegistros').prop("hidden", true);
@@ -71,6 +70,7 @@ function CargarReporteControlCloro() {
                         { data: 'Ppm_Cloro' },
                         { data: 'Cisterna' },
                         { data: 'UsuarioIngresoLog' },
+                        { data: 'UsuarioModificacionLog' },
                         { data: 'Observaciones' }
                     ];
 
@@ -87,9 +87,18 @@ function CargarReporteControlCloro() {
                     table.DataTable().destroy();
                     table.DataTable(config.opcionesDT);
                     table.DataTable().clear();
-                    table.DataTable().rows.add(resultado);
+                    var objControlCloroDetalle = resultado;                    
+                    for (var item in objControlCloroDetalle) {
+                        objControlCloroDetalle[item].UsuarioIngresoLog = objControlCloroDetalle[item].UsuarioIngresoLog + ' - ' + objControlCloroDetalle[item].FechaIngresoLog
+                        if (objControlCloroDetalle[item].UsuarioModificacionLog!=null) {
+                            objControlCloroDetalle[item].UsuarioModificacionLog = objControlCloroDetalle[item].UsuarioModificacionLog + ' - ' + objControlCloroDetalle[item].FechaModificacionLog
+                        }                
+                        //alert(objControlCloroDetalle[item].UsuarioIngresoLog +' - '+ objControlCloroDetalle[item].FechaIngresoLog );
+                    }
+                    table.DataTable().rows.add(objControlCloroDetalle);
                     table.DataTable().draw();
                     $("#txtObservacionesCabecera").html(listaDatos.Observaciones);
+                    $("#txtUsuarioAprobacionCabecera").html(listaDatos.AprobadoPor);
                     $("#ModalApruebaCntrolCloro").modal("show");
                 }
             },

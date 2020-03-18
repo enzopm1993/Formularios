@@ -86,26 +86,26 @@
                     <input type="hidden" id="txtIdEntregaProductoTerminadoDetalle" name="name" value="0" />
                     <div class="col-md-5 col-6 col-sm-6">
                         <div class="form-group">
-                            <label>HORA</label>
+                            <label>Hora</label>
                             <input class="form-control" id="txtHora" type="datetime-local" onchange="controlDiaMayorMenor()" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
                         </div>
                     </div>
 
                     <div class="col-md-3 col-6 col-sm-6">
                         <div class="form-group">
-                            <label>PPM CLORO</label>
+                            <label>Ppm Cloro</label>
                             <input class="form-control" id="txtPpm" type="number" min="0" max="5" step="0.1" placeholder="0.0" name="name"  />
                         </div>
                     </div>
                     <div class="col-md-3 col-6 col-sm-6">
                         <div class="form-group">
-                            <label>CISTERNA</label>
+                            <label>Cisterna</label>
                             <input class="form-control " id="txtCisterna" type="number" placeholder="0" max="10" min="0" name="name" value="" />
                         </div>
                     </div>
                     <div class="col-md-12 col-6 col-sm-6">
                         <div class="form-group">
-                            <label>OBSERVACIONES</label>
+                            <label>Observaciones</label>
                             <input class="form-control" id="txtObservacionDetalle" placeholder="Texto de observación" type="text" name="name" value="" />
                         </div>
                     </div>                    
@@ -159,5 +159,17 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                Frecuencia: 3 horas<br />
+                Min: 0.3 ppm<br />
+                Max: 1.5 ppm
+            </div>
+        </div>
     </div>
 </div>
