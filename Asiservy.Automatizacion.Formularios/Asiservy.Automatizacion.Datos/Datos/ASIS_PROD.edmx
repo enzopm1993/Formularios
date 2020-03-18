@@ -1089,6 +1089,20 @@
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="EnvioOnlyControl" Type="bit" />
         </EntityType>
+        <EntityType Name="MANTENIMIENTO_CONDICION">
+          <Key>
+            <PropertyRef Name="IdMantenimientoCondicion" />
+          </Key>
+          <Property Name="IdMantenimientoCondicion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="MANTENIMIENTO_PREPARACION">
           <Key>
             <PropertyRef Name="IdMantenimientoPreparacion" />
@@ -2614,6 +2628,7 @@
           <EntitySet Name="ERROR" EntityType="Self.ERROR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTADO_SOLICITUD" EntityType="Self.ESTADO_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JUSTICA_SOLICITUD" EntityType="Self.JUSTICA_SOLICITUD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MANTENIMIENTO_CONDICION" EntityType="Self.MANTENIMIENTO_CONDICION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MANTENIMIENTO_PREPARACION" EntityType="Self.MANTENIMIENTO_PREPARACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAPEO_PRODUCTO_TUNEL" EntityType="Self.MAPEO_PRODUCTO_TUNEL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAPEO_PRODUCTO_TUNEL_DETALLE" EntityType="Self.MAPEO_PRODUCTO_TUNEL_DETALLE" Schema="dbo" store:Type="Tables" />
@@ -3671,6 +3686,7 @@
             <Parameter Name="Turno" Mode="In" Type="String" />
             <Parameter Name="Linea" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="MANTENIMIENTO_CONDICION" EntityType="ASIS_PRODModel.MANTENIMIENTO_CONDICION" />
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -7136,6 +7152,20 @@
           <Property Type="DateTime" Name="TiempoEnfriamiento" Nullable="true" Precision="23" />
           <Property Type="Int32" Name="TemperaturaProductoSalida" Nullable="true" />
         </ComplexType>
+        <EntityType Name="MANTENIMIENTO_CONDICION">
+          <Key>
+            <PropertyRef Name="IdMantenimientoCondicion" />
+          </Key>
+          <Property Name="IdMantenimientoCondicion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10836,6 +10866,21 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="MANTENIMIENTO_CONDICION">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.MANTENIMIENTO_CONDICION">
+              <MappingFragment StoreEntitySet="MANTENIMIENTO_CONDICION">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdMantenimientoCondicion" ColumnName="IdMantenimientoCondicion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
