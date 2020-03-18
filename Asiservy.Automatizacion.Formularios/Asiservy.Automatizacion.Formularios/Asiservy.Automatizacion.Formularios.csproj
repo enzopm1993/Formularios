@@ -2163,6 +2163,7 @@
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.js" />
+    <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\MonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
@@ -3188,6 +3189,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\CondicionPersonal\clsDCondicionPersonal.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\clsDMonitoreoDescongelado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
@@ -3284,6 +3286,7 @@
     <Compile Include="Controllers\NominaController.cs" />
     <Compile Include="Controllers\PeriodoController.cs" />
     <Compile Include="Controllers\PRODUCCION\CocheAutoclaveController.cs" />
+    <Compile Include="Controllers\PRODUCCION\CondicionPersonalController.cs" />
     <Compile Include="Controllers\PRODUCCION\EsterilizacionConservaController.cs" />
     <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\PRODUCCION\SeguridadController.cs" />
@@ -3613,6 +3616,8 @@
     <Content Include="Views\EsterilizacionConserva\PartialDetalleControl.cshtml" />
     <Content Include="Views\MonitoreoDescongelado\ReporteMonitoreoDescongeladoPartial.cshtml" />
     <Content Include="Views\MonitoreoDescongelado\ReporteMonitoreoDescongelado.cshtml" />
+    <Content Include="Views\CondicionPersonal\MantenimientoCondicion.cshtml" />
+    <Content Include="Views\CondicionPersonal\MantenimientoCondicionPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
