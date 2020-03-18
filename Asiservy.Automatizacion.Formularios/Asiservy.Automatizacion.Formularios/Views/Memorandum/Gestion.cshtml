@@ -13,7 +13,7 @@
 
 <div class="col-md-12 col-12">
     <div class="row">
-        <input type="hidden" id="idModalidad" value="@Model.Memorandum.IdMemorandum" />
+        <input type="hidden" id="idModalidad" value="@Model.Memorandum.id" />
         <div class="col-md-12  col-12">
             <div class="form-group">
                 <a data-toggle="modal" data-target="#modalTags" data-backdrop="static" data-keyboard="false" class="btn btn-primary" title="Editar" alt="Editar" href="#" id="btnEditar"><i class="fas fa-tag"></i> Tags</a>
@@ -24,7 +24,7 @@
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label>Nombre del formato del memorandum</label>
-                <input type="text" class="form-control" id="txtTituloMemo" value="@Model.Memorandum.IdMemorandum" placeholder="Ingresa un nombre descriptivo" />
+                <input type="text" class="form-control" id="txtTituloMemo" value="@Model.Memorandum.Titulo" placeholder="Ingresa un nombre descriptivo" />
             </div>
         </div>
         <div class="col-md-12 col-12">

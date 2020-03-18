@@ -11,7 +11,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Memorandum
         public string Titulo { get; set; }
         public string Plantilla { get; set; }
         public bool Estado { get; set; }
-
+        public string userEnvia { get; set; }
+        public string terminalEnvia { get; set; }
 
     }
 }
