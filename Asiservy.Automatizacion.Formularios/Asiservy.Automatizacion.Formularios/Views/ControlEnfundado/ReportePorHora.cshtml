@@ -26,7 +26,13 @@
                 <label>Enfundadoras</label>
             </th>
             <th>
+                <label>Total Fundas Teoricas</label>
+            </th>
+            <th>
                 <label>Total Fundas</label>
+            </th>
+            <th>
+                <label>Avance</label>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Funda)
@@ -46,6 +52,13 @@
         </tr>
     </thead>
     <tbody>
+        @{ 
+            int MaxHora = Model.Max(x => x.Hora.Hours);
+            int MinHora =  Model.Min(x=> x.Hora.Hours);
+            int TotalHoras = MaxHora-MinHora;
+            int TotalEmpacadoras = Model.Sum(x=> x.TotalEnfundadora??0);
+            int TotalFundas = Model.Sum(x=> x.TotalFunda??0);
+        }
         @foreach (var item in Model)
         {
         <tr>
@@ -57,10 +70,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Hora)
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Lote)
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.TeoricoFunda)
             </td>
@@ -71,12 +86,29 @@
                 @Html.DisplayFor(modelItem => item.TotalEnfundadora)
             </td>
             <td>
+                @{
+                    int fundasteoricas = item.TeoricoFunda * item.TotalEnfundadora ?? 0;
+                }
+                @fundasteoricas
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.TotalFunda)
+            </td>
+
+            <td>
+                @{
+                    double avance = 0;
+                    if(item.TotalFunda!=null && item.TotalFunda>0)
+                    {
+                        int tf = item.TotalFunda ?? 0;
+                        avance = Math.Round(((double)tf / (double)fundasteoricas),2);
+                    }
+                }
+                @avance
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Funda)
             </td>
-
             <td>
                 @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
             </td>
@@ -90,6 +122,25 @@
         </tr>
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>@TotalHoras Horas</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>@TotalEmpacadoras Enfundadoras</td>
+            <td>@TotalFundas </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+        </tr>
+    </tfoot>
 </table>
 
 

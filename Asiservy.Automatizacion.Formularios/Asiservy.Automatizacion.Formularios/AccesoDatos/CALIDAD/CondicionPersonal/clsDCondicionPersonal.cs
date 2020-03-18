@@ -54,5 +54,54 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
 
             }
         }
+
+
+        public List<CC_CONDICION_PERSONAL> ConsultaCondicionPersonal(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.CC_CONDICION_PERSONAL.Where(x=> x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                return lista;
+            }
+        }
+
+        public void GuardarModificarCondicionPersonal(CC_CONDICION_PERSONAL model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var poControl = entities.CC_CONDICION_PERSONAL.FirstOrDefault(x => x.IdCondicionPersonal == model.IdCondicionPersonal);
+                if (poControl != null)
+                {
+                   // poControl.hora = model.Observacion;
+                    poControl.Observacion = model.Observacion;
+                    // poControl.Hora = model.Hora;
+                    poControl.TerminalModificacionLog = model.TerminalIngresoLog;
+                    poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    poControl.FechaModificacionLog = model.FechaIngresoLog;
+                }
+                else
+                {
+                    entities.CC_CONDICION_PERSONAL.Add(model);
+                }
+                entities.SaveChanges();
+            }
+        }
+
+        public void EliminarCondicionPersonal(MANTENIMIENTO_CONDICION model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var poControl = entities.MANTENIMIENTO_CONDICION.FirstOrDefault(x => x.IdMantenimientoCondicion == model.IdMantenimientoCondicion);
+                if (poControl != null)
+                {
+                    poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    poControl.TerminalModificacionLog = model.TerminalIngresoLog;
+                    poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    poControl.FechaModificacionLog = model.FechaIngresoLog;
+                    entities.SaveChanges();
+                }
+
+            }
+        }
     }
 }

@@ -2,6 +2,8 @@
 
 
 function Consultar() {
+    $("#DivReporte").html("");
+
     if ($("#txtFecha").val() == "") {
         $("#ValidaFecha").prop("hidden", false);
         return;
@@ -22,7 +24,7 @@ function Consultar() {
     } else {
         Url = "../ControlEnfundado/ReportePorHora";
     }
-    $("#DivReporte").html("");
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: Url,
         type: "POST",
@@ -36,10 +38,14 @@ function Consultar() {
             } else {
                 $("#DivReporte").html(resultado);
             }
+            $("#spinnerCargando").prop("hidden", true);
+
             
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);           
+            MensajeError(resultado.responseText, false);  
+            $("#spinnerCargando").prop("hidden", true);
+
         }
     });
 

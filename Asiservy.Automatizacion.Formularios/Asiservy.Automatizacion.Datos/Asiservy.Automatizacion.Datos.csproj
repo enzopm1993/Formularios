@@ -105,6 +105,9 @@
     <Compile Include="Datos\CC_CLORO_CISTERNA_DESCONGELADO_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_CONDICION_PERSONAL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_CONTROL_CUCHILLOS_PREPARACION.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
