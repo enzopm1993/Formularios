@@ -74,7 +74,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
                 {
                    // poControl.hora = model.Observacion;
                     poControl.Observacion = model.Observacion;
-                    // poControl.Hora = model.Hora;
+                    poControl.Hora = model.Hora;
+                    poControl.CodCondicion = model.CodCondicion;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poControl.FechaModificacionLog = model.FechaIngresoLog;
@@ -87,11 +88,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
             }
         }
 
-        public void EliminarCondicionPersonal(MANTENIMIENTO_CONDICION model)
+        public void EliminarCondicionPersonal(CC_CONDICION_PERSONAL model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.MANTENIMIENTO_CONDICION.FirstOrDefault(x => x.IdMantenimientoCondicion == model.IdMantenimientoCondicion);
+                var poControl = entities.CC_CONDICION_PERSONAL.FirstOrDefault(x => x.IdCondicionPersonal == model.IdCondicionPersonal);
                 if (poControl != null)
                 {
                     poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;

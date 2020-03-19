@@ -3291,7 +3291,7 @@
     <Compile Include="Controllers\NominaController.cs" />
     <Compile Include="Controllers\PeriodoController.cs" />
     <Compile Include="Controllers\PRODUCCION\CocheAutoclaveController.cs" />
-    <Compile Include="Controllers\PRODUCCION\CondicionPersonalController.cs" />
+    <Compile Include="Controllers\CALIDAD\CondicionPersonalController.cs" />
     <Compile Include="Controllers\PRODUCCION\EsterilizacionConservaController.cs" />
     <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\PRODUCCION\SeguridadController.cs" />
@@ -3627,6 +3627,8 @@
     <Content Include="Views\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacionPartial.cshtml" />
     <Content Include="Views\CondicionPersonal\MantenimientoCondicion.cshtml" />
     <Content Include="Views\CondicionPersonal\MantenimientoCondicionPartial.cshtml" />
+    <Content Include="Views\CondicionPersonal\CondicionPersonal.cshtml" />
+    <Content Include="Views\CondicionPersonal\CondicionPersonalPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

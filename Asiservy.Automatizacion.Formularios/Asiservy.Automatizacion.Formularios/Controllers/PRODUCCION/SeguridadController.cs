@@ -907,14 +907,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        [Authorize]
+  
         public ActionResult ClasificadorPartial()
         {
             try
             {
                 clsDClasificador = new clsDClasificador();
-                 List<Clasificador> Clasificador = new List<Clasificador>();
-                Clasificador = clsDClasificador.ConsultaClasificador(new Clasificador()).OrderBy(x=> x.Grupo).ToList();               
+                 List<spConsultaClasificador> Clasificador = new List<spConsultaClasificador>();
+                Clasificador = clsDClasificador.ConsultarClasificador().OrderBy(x=> x.Grupo).ToList();               
                 return PartialView(Clasificador);
 
             }
