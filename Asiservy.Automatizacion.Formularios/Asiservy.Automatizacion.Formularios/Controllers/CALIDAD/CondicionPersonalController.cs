@@ -16,6 +16,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
         // GET: CondicionPersonal
         string[] lsUsuario = null;
         clsDError clsDError = null;
+        clsDClasificador clsDClasificador = null;
+        clsDEmpleado clsDEmpleado = null;
         clsDCondicionPersonal clsDCondicionPersonal = null;
 
         [Authorize]
@@ -140,7 +142,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                //  ViewBag.select2 = "1";
+                ViewBag.select2 = "1";
+                clsDCondicionPersonal = new clsDCondicionPersonal();
+                clsDClasificador = new clsDClasificador();
+                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
+                ViewBag.Condiciones = clsDCondicionPersonal.ConsultaManteminetoCondicion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 lsUsuario = User.Identity.Name.Split('_');
                 return View();
             }
@@ -164,6 +170,46 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
 
+
+        [HttpPost]
+        public ActionResult CondicionPersonal(CC_CONDICION_PERSONAL model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+                clsDCondicionPersonal = new clsDCondicionPersonal();
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.FechaIngresoLog = DateTime.Now;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                clsDCondicionPersonal.GuardarModificarCondicionPersonal(model);
+
+                return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         public ActionResult CondicionPersonalPartial()
         {
@@ -205,6 +251,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
         }
 
 
+     
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;

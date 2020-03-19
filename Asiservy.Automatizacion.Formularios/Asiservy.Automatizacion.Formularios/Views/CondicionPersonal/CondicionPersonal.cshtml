@@ -15,29 +15,51 @@
 <hr />
 <div class="card shadow" id="divCabecera" style="padding:10px">
     <div class="row" id="divCabecera1">
-
-        <div class="col-md-2 col-6 col-sm-6">
+        <div class="col-md-4 col-6 col-sm-6">
             <div class="form-group">
-                <label>Id</label>
-                <input type="text" disabled class="form-control" id="txtIdControl" name="name" value="0" />
+                <label>Fecha</label>
+                <input type="date" class="form-control" id="txtFecha" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+        <div class="col-md-4 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Hora</label>
+                <input type="time" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("HH:mm")" />
+            </div>
+        </div>
+        <div class="col-md-4 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Condición</label>
+                @Html.DropDownList("selectCondicion", new SelectList(ViewBag.Condiciones, "IdMantenimientoCondicion", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-md-3 col-6 col-sm-6">
+            <div class="form-group">
+                <label class="label-control"> Linea</label>
+                @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-3 col-12 col-sm-12">
+            <div class="form-group">
+                <label class="control-label">Nombre</label>
+                <input type="hidden" id="Cedula" name="name" value="" />
+                <div id="" class="input-group">
+                    <input type="text" class="form-control" id="Nombre" readonly name="name" value="" />
+                    <button type="button" onclick="CargarEmpleados('CargarEmpleadoAS');" id="CargarEmpleadoAS">
+                        <img src="~/Content/images/buscar.png" />
+                    </button><br />
+                </div>
             </div>
         </div>
 
         <div class="col-md-6 col-6 col-sm-6">
             <div class="form-group">
-                <label>Descripción</label>
-                <input type="text" class="form-control" size="250" id="txtDescripcion" autocomplete="off" name="name" value="" />
+                <label class="label-control"> Observacion</label>
+                <input type="text" size="250" class="form-control" id="txtObservacion" name="name" value="" />
             </div>
         </div>
-        <div class="col-md-3 col-sm-12">
-            <div class="form-group">
-                <label></label>
-                <div class="custom-control custom-checkbox mb-3">
-                    @Html.CheckBox("EstadoRegistro", true, new { @id = "CheckEstadoRegistro", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
-                    <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
 
@@ -80,4 +102,7 @@
             <div id="chartCabecera2" class="table-responsive"></div>
         </div>
     </div>
+</div>
+
+<div id="ModelCargarEmpleados">
 </div>
