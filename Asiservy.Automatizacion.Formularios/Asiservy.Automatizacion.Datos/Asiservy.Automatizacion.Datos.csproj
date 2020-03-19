@@ -363,6 +363,9 @@
     <Compile Include="Datos\spConsultaCentroCostos.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaClasificador.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultaCocheAutoclave.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

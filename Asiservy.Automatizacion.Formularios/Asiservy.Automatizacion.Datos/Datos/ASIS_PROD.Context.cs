@@ -120,6 +120,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CONTROL_CUCHILLOS_PREPARACION> CC_CONTROL_CUCHILLOS_PREPARACION { get; set; }
         public virtual DbSet<CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE> CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE { get; set; }
         public virtual DbSet<CC_CUCHILLOS_PREPARACION> CC_CUCHILLOS_PREPARACION { get; set; }
+        public virtual DbSet<CC_CONDICION_PERSONAL> CC_CONDICION_PERSONAL { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1711,6 +1712,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_Control_Cuchillos_Preparacion>("sp_Reporte_Control_Cuchillos_Preparacion", filtroFechaDesdeParameter, filtroFechaHastaParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaClasificador> spConsultaClasificador()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaClasificador>("spConsultaClasificador");
         }
     }
 }
