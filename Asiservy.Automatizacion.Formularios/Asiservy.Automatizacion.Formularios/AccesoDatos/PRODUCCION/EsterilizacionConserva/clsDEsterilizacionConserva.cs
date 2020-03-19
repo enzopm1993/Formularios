@@ -176,6 +176,34 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
                 return resultado;
             }
         }
+        public List<spReporteEsterilizacionDetalle> ConsultarDetalleReporteControlEsterilizacion(DateTime Fecha, string Turno, string Linea)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                db.Database.CommandTimeout = 180;
+                return db.spReporteEsterilizacionDetalle(Fecha, Turno, Linea).ToList();
+            }
+        }
+        public List<COCHE_AUTOCLAVE_DETALLE> ConsultarReporteDetallesCoches(int[] IdCoches)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                List<COCHE_AUTOCLAVE_DETALLE> resultado = (from d in db.COCHE_AUTOCLAVE_DETALLE
+                                 where IdCoches.Contains(d.IdCocheAutoclave)
+                                 select d).ToList();
+                return resultado;
+            }
+        }
+        public List<TIPO_ESTERILIZACION_CONSERVA> ConsultarTiposReporteEsterilizado(int[] IdDetalle)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                List<TIPO_ESTERILIZACION_CONSERVA> resultado = (from t in db.TIPO_ESTERILIZACION_CONSERVA
+                                                                where IdDetalle.Contains(t.IdDetalleControlEsterilizacion)
+                                                                select t).ToList();
+                return resultado;
+            }
+        }
 
     }
 }

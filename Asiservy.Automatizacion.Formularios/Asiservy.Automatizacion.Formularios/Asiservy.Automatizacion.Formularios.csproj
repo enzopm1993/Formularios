@@ -2185,6 +2185,7 @@
     <Content Include="Scripts\EntregaUniforme\BandejaEntregaUniforme.js" />
     <Content Include="Scripts\EntregaUniforme\EntregaUniforme.js" />
     <Content Include="Scripts\Home\Home.js" />
+    <Content Include="Scripts\html2canvas.js" />
     <Content Include="Scripts\Hueso\ReporteControlAvanceDiarioGeneral.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
@@ -3131,9 +3132,12 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\printThis.js" />
     <Content Include="Scripts\PRODUCCION\CocheAutoclave\CocheAutoclave.js" />
     <Content Include="Scripts\PRODUCCION\CocheAutoclave\ReporteCocheAutoclave.js" />
     <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ControlEsterilizacionConserva.js" />
+    <Content Include="Scripts\PRODUCCION\EsterilizacionConserva\ReporteControlEsterilizacionConserva.js" />
+    <Content Include="Scripts\PRODUCCION\ProductoPouchCuarentena\ProductoDePouchEnCuarentena.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionPreparacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\EditarProyeccionProgramacionProduccion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\FinalizaProyeccionProgramacionPreparacion.js" />
@@ -3284,6 +3288,7 @@
     <Compile Include="Controllers\PeriodoController.cs" />
     <Compile Include="Controllers\PRODUCCION\CocheAutoclaveController.cs" />
     <Compile Include="Controllers\PRODUCCION\EsterilizacionConservaController.cs" />
+    <Compile Include="Controllers\PRODUCCION\ProductoPouchCuarentenaController.cs" />
     <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
@@ -3323,6 +3328,7 @@
     <Compile Include="Models\OrdenFabricacionAvance.cs" />
     <Compile Include="Models\OrdenFabricacionConsumoInsumo.cs" />
     <Compile Include="Models\Produccion\EsterilizacionConservas\DetalleEsterilizacionConservaVieModel.cs" />
+    <Compile Include="Models\Produccion\EsterilizacionConservas\ReporteEsterilizacionViewModel.cs" />
     <Compile Include="Models\Produccion\Textura.cs" />
     <Compile Include="Models\ProyeccionProgramacion\ProyeccionProgramacionViewModel.cs" />
     <Compile Include="Models\RespuestaGeneral.cs" />
@@ -3610,6 +3616,9 @@
     <Content Include="Views\MonitoreoDescongelado\MonitoreoDescongeladoPartial.cshtml" />
     <Content Include="Views\MonitoreoDescongelado\MonitoreoDescongelado.cshtml" />
     <Content Include="Views\EsterilizacionConserva\PartialDetalleControl.cshtml" />
+    <Content Include="Views\EsterilizacionConserva\ReporteControlEsterilizacionConserva.cshtml" />
+    <Content Include="Views\EsterilizacionConserva\PartialReporteControl.cshtml" />
+    <Content Include="Views\ProductoPouchCuarentena\ProductoDePouchEnCuarentena.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

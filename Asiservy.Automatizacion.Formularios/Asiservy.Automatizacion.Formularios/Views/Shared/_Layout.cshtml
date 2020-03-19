@@ -25,7 +25,7 @@
 
 
 
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css"/>
 
     <!-- Custom fonts for this template-->
     <link href="~/Content/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -425,7 +425,7 @@
                 "dom": 'Bfrtip',
                 //"scrollX": "auto",
                 //"scrollY": "auto",
-                "order": [[0, "desc"], [1, "desc"]],               
+                "order": [[0, "desc"], [1, "desc"]],
                 "buttons": [
                     {
                         extend: 'pageLength',
@@ -529,7 +529,10 @@
     @if (ViewBag.JavaScrip != null)
     {
         <script src="~/Scripts/linq.js"></script>
-        string js = ViewBag.JavaScrip;
+        @*<script src="~/Scripts/printThis.js"></script>
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>*@
+        @*<script src = "~/Scripts/html2canvas.js" ></script>*@
+         string js = ViewBag.JavaScrip;
         string url = "/Scripts/" + js + ".js?v=1.2";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
