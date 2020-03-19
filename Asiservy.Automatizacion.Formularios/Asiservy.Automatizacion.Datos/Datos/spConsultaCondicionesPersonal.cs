@@ -17,6 +17,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime Fecha { get; set; }
         public System.TimeSpan Hora { get; set; }
         public string Cedula { get; set; }
+        public string Nombre { get; set; }
         public string CodCondicion { get; set; }
         public string Condicion { get; set; }
         public string Observacion { get; set; }

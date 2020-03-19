@@ -3840,14 +3840,14 @@
           </FunctionImport>
           <EntitySet Name="CC_CONDICION_PERSONAL" EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" />
           <FunctionImport Name="spConsultaClasificador" ReturnType="Collection(ASIS_PRODModel.spConsultaClasificador)" />
-          <FunctionImport Name="spConsultaCondicionesPersonal" ReturnType="Collection(ASIS_PRODModel.spConsultaCondicionesPersonal)">
-          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <EntitySet Name="TIPO_ESTERILIZACION_CONSERVA" EntityType="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" />
           <AssociationSet Name="FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
             <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
             <End Role="TIPO_ESTERILIZACION_CONSERVA" EntitySet="TIPO_ESTERILIZACION_CONSERVA" />
           </AssociationSet>
+          <FunctionImport Name="spConsultaCondicionesPersonal" ReturnType="Collection(ASIS_PRODModel.spConsultaCondicionesPersonal)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -7447,15 +7447,6 @@
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="spConsultaCondicionesPersonal">
-          <Property Type="Int32" Name="IdCondicionPersonal" Nullable="false" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="Time" Name="Hora" Nullable="false" />
-          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
-          <Property Type="String" Name="CodCondicion" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="Condicion" Nullable="false" MaxLength="250" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
-        </ComplexType>
         <EntityType Name="TIPO_ESTERILIZACION_CONSERVA">
           <Key>
             <PropertyRef Name="IdTipoControlEsterilizacionConserva" />
@@ -7489,6 +7480,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spConsultaCondicionesPersonal">
+          <Property Type="Int32" Name="IdCondicionPersonal" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="Time" Name="Hora" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CodCondicion" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="Condicion" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11332,19 +11333,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaCondicionesPersonal" FunctionName="ASIS_PRODModel.Store.spConsultaCondicionesPersonal">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCondicionesPersonal">
-                <ScalarProperty Name="IdCondicionPersonal" ColumnName="IdCondicionPersonal" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="CodCondicion" ColumnName="CodCondicion" />
-                <ScalarProperty Name="Condicion" ColumnName="Condicion" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="TIPO_ESTERILIZACION_CONSERVA">
             <EntityTypeMapping TypeName="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA">
               <MappingFragment StoreEntitySet="TIPO_ESTERILIZACION_CONSERVA">
@@ -11366,6 +11354,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaCondicionesPersonal" FunctionName="ASIS_PRODModel.Store.spConsultaCondicionesPersonal">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCondicionesPersonal">
+                <ScalarProperty Name="IdCondicionPersonal" ColumnName="IdCondicionPersonal" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodCondicion" ColumnName="CodCondicion" />
+                <ScalarProperty Name="Condicion" ColumnName="Condicion" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
