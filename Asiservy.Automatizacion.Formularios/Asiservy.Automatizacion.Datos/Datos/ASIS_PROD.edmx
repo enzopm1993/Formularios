@@ -2314,6 +2314,9 @@
         <Function Name="spConsultaCodigosEnfermedad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsultaCondicionesPersonal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fecha" Type="date" Mode="In" />
+        </Function>
         <Function Name="spConsultaConsumoDetalleAditivo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdControl" Type="int" Mode="In" />
         </Function>
@@ -3798,11 +3801,6 @@
           <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <EntitySet Name="MODULO" EntityType="ASIS_PRODModel.MODULO" />
-          <EntitySet Name="TIPO_ESTERILIZACION_CONSERVA" EntityType="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" />
-          <AssociationSet Name="FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
-            <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
-            <End Role="TIPO_ESTERILIZACION_CONSERVA" EntitySet="TIPO_ESTERILIZACION_CONSERVA" />
-          </AssociationSet>
           <FunctionImport Name="spReporteEsterilizacionDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteEsterilizacionDetalle)">
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Turno" Mode="In" Type="String" />
@@ -3842,6 +3840,14 @@
           </FunctionImport>
           <EntitySet Name="CC_CONDICION_PERSONAL" EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" />
           <FunctionImport Name="spConsultaClasificador" ReturnType="Collection(ASIS_PRODModel.spConsultaClasificador)" />
+          <FunctionImport Name="spConsultaCondicionesPersonal" ReturnType="Collection(ASIS_PRODModel.spConsultaCondicionesPersonal)">
+          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="TIPO_ESTERILIZACION_CONSERVA" EntityType="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" />
+          <AssociationSet Name="FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
+            <End Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" EntitySet="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
+            <End Role="TIPO_ESTERILIZACION_CONSERVA" EntitySet="TIPO_ESTERILIZACION_CONSERVA" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -7253,39 +7259,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Orden" Type="Int32" />
         </EntityType>
-        <EntityType Name="TIPO_ESTERILIZACION_CONSERVA">
-          <Key>
-            <PropertyRef Name="IdTipoControlEsterilizacionConserva" />
-          </Key>
-          <Property Name="IdTipoControlEsterilizacionConserva" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Panel" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="Chart" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="TermometroDigital" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="PresionManometro" Type="Int32" />
-          <Property Name="HoraChequeo" Type="DateTime" Precision="3" />
-          <Property Name="IdDetalleControlEsterilizacion" Type="Int32" Nullable="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Relationship="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" FromRole="TIPO_ESTERILIZACION_CONSERVA" ToRole="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
-        </EntityType>
-        <Association Name="FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
-          <End Type="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" Role="TIPO_ESTERILIZACION_CONSERVA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
-              <PropertyRef Name="IdDetalleControlEsterilizacionConserva" />
-            </Principal>
-            <Dependent Role="TIPO_ESTERILIZACION_CONSERVA">
-              <PropertyRef Name="IdDetalleControlEsterilizacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spReporteEsterilizacionDetalle">
           <Property Type="Int32" Name="IdCocheAutoclave" Nullable="false" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
@@ -7474,6 +7447,48 @@
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="spConsultaCondicionesPersonal">
+          <Property Type="Int32" Name="IdCondicionPersonal" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="Time" Name="Hora" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="CodCondicion" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="Condicion" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <EntityType Name="TIPO_ESTERILIZACION_CONSERVA">
+          <Key>
+            <PropertyRef Name="IdTipoControlEsterilizacionConserva" />
+          </Key>
+          <Property Name="IdTipoControlEsterilizacionConserva" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Panel" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Chart" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="TermometroDigital" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="PresionManometro" Type="Int32" />
+          <Property Name="HoraChequeo" Type="DateTime" Precision="3" />
+          <Property Name="IdDetalleControlEsterilizacion" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Relationship="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" FromRole="TIPO_ESTERILIZACION_CONSERVA" ToRole="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
+        </EntityType>
+        <Association Name="FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
+          <End Type="ASIS_PRODModel.DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" Role="TIPO_ESTERILIZACION_CONSERVA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DETALLE_CONTROL_ESTERILIZACION_CONSERVA">
+              <PropertyRef Name="IdDetalleControlEsterilizacionConserva" />
+            </Principal>
+            <Dependent Role="TIPO_ESTERILIZACION_CONSERVA">
+              <PropertyRef Name="IdDetalleControlEsterilizacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11128,27 +11143,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TIPO_ESTERILIZACION_CONSERVA">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA">
-              <MappingFragment StoreEntitySet="TIPO_ESTERILIZACION_CONSERVA">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="IdDetalleControlEsterilizacion" ColumnName="IdDetalleControlEsterilizacion" />
-                <ScalarProperty Name="HoraChequeo" ColumnName="HoraChequeo" />
-                <ScalarProperty Name="PresionManometro" ColumnName="PresionManometro" />
-                <ScalarProperty Name="TermometroDigital" ColumnName="TermometroDigital" />
-                <ScalarProperty Name="Chart" ColumnName="Chart" />
-                <ScalarProperty Name="Panel" ColumnName="Panel" />
-                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
-                <ScalarProperty Name="IdTipoControlEsterilizacionConserva" ColumnName="IdTipoControlEsterilizacionConserva" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spReporteEsterilizacionDetalle" FunctionName="ASIS_PRODModel.Store.spReporteEsterilizacionDetalle">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteEsterilizacionDetalle">
@@ -11338,6 +11332,40 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaCondicionesPersonal" FunctionName="ASIS_PRODModel.Store.spConsultaCondicionesPersonal">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCondicionesPersonal">
+                <ScalarProperty Name="IdCondicionPersonal" ColumnName="IdCondicionPersonal" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="CodCondicion" ColumnName="CodCondicion" />
+                <ScalarProperty Name="Condicion" ColumnName="Condicion" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="TIPO_ESTERILIZACION_CONSERVA">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA">
+              <MappingFragment StoreEntitySet="TIPO_ESTERILIZACION_CONSERVA">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="IdDetalleControlEsterilizacion" ColumnName="IdDetalleControlEsterilizacion" />
+                <ScalarProperty Name="HoraChequeo" ColumnName="HoraChequeo" />
+                <ScalarProperty Name="PresionManometro" ColumnName="PresionManometro" />
+                <ScalarProperty Name="TermometroDigital" ColumnName="TermometroDigital" />
+                <ScalarProperty Name="Chart" ColumnName="Chart" />
+                <ScalarProperty Name="Panel" ColumnName="Panel" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="IdTipoControlEsterilizacionConserva" ColumnName="IdTipoControlEsterilizacionConserva" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

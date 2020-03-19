@@ -115,12 +115,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<MONITOREO_DESCONGELADO> MONITOREO_DESCONGELADO { get; set; }
         public virtual DbSet<DETALLE_CONTROL_ESTERILIZACION_CONSERVA> DETALLE_CONTROL_ESTERILIZACION_CONSERVA { get; set; }
         public virtual DbSet<MODULO> MODULO { get; set; }
-        public virtual DbSet<TIPO_ESTERILIZACION_CONSERVA> TIPO_ESTERILIZACION_CONSERVA { get; set; }
         public virtual DbSet<MANTENIMIENTO_CONDICION> MANTENIMIENTO_CONDICION { get; set; }
         public virtual DbSet<CC_CONTROL_CUCHILLOS_PREPARACION> CC_CONTROL_CUCHILLOS_PREPARACION { get; set; }
         public virtual DbSet<CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE> CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE { get; set; }
         public virtual DbSet<CC_CUCHILLOS_PREPARACION> CC_CUCHILLOS_PREPARACION { get; set; }
         public virtual DbSet<CC_CONDICION_PERSONAL> CC_CONDICION_PERSONAL { get; set; }
+        public virtual DbSet<TIPO_ESTERILIZACION_CONSERVA> TIPO_ESTERILIZACION_CONSERVA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1717,6 +1717,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual ObjectResult<spConsultaClasificador> spConsultaClasificador()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaClasificador>("spConsultaClasificador");
+        }
+    
+        public virtual ObjectResult<spConsultaCondicionesPersonal> spConsultaCondicionesPersonal(Nullable<System.DateTime> fecha)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCondicionesPersonal>("spConsultaCondicionesPersonal", fechaParameter);
         }
     }
 }

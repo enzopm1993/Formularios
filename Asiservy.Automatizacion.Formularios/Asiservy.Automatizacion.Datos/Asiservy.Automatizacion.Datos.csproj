@@ -381,6 +381,9 @@
     <Compile Include="Datos\spConsultaCodigosEnfermedad.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaCondicionesPersonal.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultaConsumoDetalleAditivo.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
