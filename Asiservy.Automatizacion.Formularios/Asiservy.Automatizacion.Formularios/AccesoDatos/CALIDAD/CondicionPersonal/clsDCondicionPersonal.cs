@@ -56,11 +56,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
         }
 
 
-        public List<CC_CONDICION_PERSONAL> ConsultaCondicionPersonal(DateTime Fecha)
+        public List<spConsultaCondicionesPersonal> ConsultaCondicionPersonal(DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.CC_CONDICION_PERSONAL.Where(x=> x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                var lista = entities.spConsultaCondicionesPersonal(Fecha).ToList();
                 return lista;
             }
         }

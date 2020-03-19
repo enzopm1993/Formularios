@@ -211,7 +211,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
 
-        public ActionResult CondicionPersonalPartial()
+        public ActionResult CondicionPersonalPartial(DateTime Fecha)
         {
             try
             {
@@ -223,7 +223,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 clsDCondicionPersonal = new clsDCondicionPersonal();
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsDCondicionPersonal.ConsultaManteminetoCondicion();
+                var model = clsDCondicionPersonal.ConsultaCondicionPersonal(Fecha);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

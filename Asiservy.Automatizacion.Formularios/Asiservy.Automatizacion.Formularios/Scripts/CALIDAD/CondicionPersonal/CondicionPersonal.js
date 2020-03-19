@@ -1,6 +1,47 @@
 ﻿$(document).ready(function () {
     $("#selectCondicion").select2();
+    ConsultarControl();
 });
+
+
+function ConsultarControl() {
+    $("#chartCabecera2").html('');
+    if ($("#txtFecha").val() == '') {
+        return;
+    }
+    $("#spinnerCargando").prop("hidden", false);
+    $.ajax({
+        url: "../CondicionPersonal/CondicionPersonalPartial",
+        type: "GET",
+        data: {
+            Fecha:$("#txtFecha").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            $("#divCabecera2").prop("hidden", false);
+            if (resultado == "0") {
+                $("#chartCabecera2").html("No existen registros");
+                $("#spinnerCargando").prop("hidden", true);
+            } else {
+                $("#spinnerCargando").prop("hidden", true);
+                $("#chartCabecera2").html(resultado);
+                config.opcionesDT.pageLength = -1;
+                config.opcionesDT.order = false;
+                config.opcionesDT.ordering = false;
+                $('#tblDataTable').DataTable(config.opcionesDT);
+            }
+            //  $('#btnConsultar').prop("disabled", true);
+        },
+        error: function (resultado) {
+            console.log(resultado);
+            MensajeError("Error: Comuníquese con sistemas", false);
+            $('#btnConsultar').prop("disabled", false);
+            $("#spinnerCargando").prop("hidden", true);
+        }
+    });
+}
 
 function ValidarEmpleado() {
     var valida = true;
@@ -44,12 +85,28 @@ function CargarEmpleados(formulario) {
 
 }
 
+function SeleccionarControl(model) {
+    //console.log(model);
+    $("#CargarEmpleadoAS").prop("disabled",true);
+    $("#txtFecha").prop("disabled", true);
+    $("#Lineas").prop("disabled", true);
+    $("#Cedula").val(model.Cedula);
+    $("#Nombre").val(model.Nombre);
+    $("#txtIdCondicionPersonal").val(model.IdCondicionPersonal);
+    $("#txtHora").val(model.Hora);
+    $("#txtObservacion").val(model.Observacion);
+    $("#selectCondicion").val(model.CodCondicion).change();
+    //$("#Lineas").prop("selectedIndex", 0);
+}
 
 function NuevoControl() {
+    $("#CargarEmpleadoAS").prop("disabled", false);
+    $("#txtFecha").prop("disabled", false);
+    $("#Lineas").prop("disabled", false);
     $("#Lineas").css("border-color", "#d1d3e2");
     $("#Cedula").val('');
     $("#Nombre").val('');
-    //$("#txtFecha").val('');
+    $("#txtIdCondicionPersonal").val('0');
     $("#txtHora").val(moment().format("HH:mm"));
     $("#txtObservacion").val('');
     $("#selectCondicion").prop("selectedIndex", 0).change();
@@ -108,7 +165,7 @@ function GuardarControl() {
         url: "../CondicionPersonal/CondicionPersonal",
         type: "POST",
         data: {
-            IdCondicionPersonal: $("#txtIdControl").val(),
+            IdCondicionPersonal: $("#txtIdCondicionPersonal").val(),
             Fecha: $("#txtFecha").val(),
             Hora: $("#txtHora").val(),
             Cedula: $("#Cedula").val(),
@@ -124,7 +181,7 @@ function GuardarControl() {
                 return;
             } else {
                 NuevoControl();
-                ConsultarReporte();
+                ConsultarControl();
             }
             //  $('#btnConsultar').prop("disabled", true);
         },

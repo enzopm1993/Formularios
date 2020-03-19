@@ -15,10 +15,11 @@
 <hr />
 <div class="card shadow" id="divCabecera" style="padding:10px">
     <div class="row" id="divCabecera1">
+        <input type="hidden" id="txtIdCondicionPersonal" name="name" value="0" />
         <div class="col-md-4 col-6 col-sm-6">
             <div class="form-group">
                 <label>Fecha</label>
-                <input type="date" class="form-control" id="txtFecha" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                <input type="date" class="form-control" id="txtFecha" name="name" onchange="ConsultarControl()" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             </div>
         </div>
         <div class="col-md-4 col-6 col-sm-6">
