@@ -26,24 +26,25 @@
 
 <h5>Bandeja Control de Cloro en Cisterna</h5>
 <br />
-<div class="row" id="DivFiltros">  
-    <div class="col-md-5 col-sm-6 form-group">
-        <label>Filtrar por Fecha:</label>
-        <input type="hidden" id="fechaDesde" value="" />
-        <input type="hidden" id="fechaHasta" value="" />
-        <div id="reportrange" class="selectbox">
-           <i class="fa fa-calendar"></i>&nbsp;
-           <span></span> <i class="fa fa-caret-down"></i>
-        </div>
-    </div>
-
+<div class="row" id="DivFiltros">
     <div class="col-md-2 col-sm-6 form-group">
         <label>Estado del Registro</label>
-        <select id="selectEstadoRegistro" class="form-control">
+        <select id="selectEstadoRegistro" class="form-control" onchange="FiltrarAprobadosFecha()">
             <option value="false" default>PENDIENTE</option>
             <option value="true">APROBADO</option>
         </select>
     </div>
+
+    <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker">
+        <label>Filtrar por Fecha:</label>
+        <input type="hidden" id="fechaDesde" value="" />
+        <input type="hidden" id="fechaHasta" value="" />
+        <div id="reportrange" class="selectbox">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down"></i>
+        </div>
+    </div>
+
     <div class="col-5">
         <label>Acciones</label>
         <div class="form-group">
@@ -63,7 +64,7 @@
    
 </div>
 
-<center> <h5 id="MensajeRegistros" class="text-warning"> No Existen Controles de Cloro que Aprobar(Filtre por fecha)</h5></center>
+<center> <h5 id="MensajeRegistros" class="text-warning">No Existen Controles de Cloro que Aprobar(Filtre por fecha)</h5></center>
 <!-- Modal -->
 <div class="modal fade" id="ModalApruebaCntrolCloro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -82,7 +83,7 @@
                                 <th>Hora</th>
                                 <th>Ppm_Cloro</th>
                                 <th>Cisterna</th>
-                                <th>UsuarioIngresoLog</th>
+                                <th>Usuario Ingreso</th>
                                 <th>Observaciones</th>                                
                             </tr>
                         </thead>

@@ -16,6 +16,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdMonitoreoDescongelado { get; set; }
         public System.DateTime Fecha { get; set; }
         public string Tanque { get; set; }
+        public string Lote { get; set; }
+        public string Especie { get; set; }
+        public string Talla { get; set; }
         public System.DateTime Hora { get; set; }
         public string Tipo { get; set; }
         public Nullable<decimal> TemperaturaAgua { get; set; }

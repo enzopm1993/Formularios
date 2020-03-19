@@ -26,8 +26,8 @@ function ConsultarReporte() {
             } else {
                 $("#chartDetalle").html(resultado);
                 config.opcionesDT.pageLength = -1;
-                config.opcionesDT.order = false;
-                config.opcionesDT.ordering = false;
+                //config.opcionesDT.order = false;
+                //config.opcionesDT.ordering = false;
                 $('#tblDataTable').DataTable(config.opcionesDT);
             }
         },

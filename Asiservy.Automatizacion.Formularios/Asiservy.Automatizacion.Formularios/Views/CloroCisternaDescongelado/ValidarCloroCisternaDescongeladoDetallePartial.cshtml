@@ -12,12 +12,15 @@
             @Html.DisplayNameFor(model => model.Cisterna)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
+            Usuario Ingreso
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Observaciones)
         </th>
-        <th>Opción</th>
+        @if (!ViewBag.Estado)
+        {
+            <th>Opción</th>
+        }
     </tr>
     @foreach (var item in Model)
     {
@@ -50,10 +53,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Observaciones)
             </td>
+        @if (!ViewBag.Estado)
+        {
             <td>
                 @{string json = JsonConvert.SerializeObject(item); }
+                <button id="btnActualizar" class="btn btn-link" onclick="ActulizarControlCloroCisternaDetalle(@json)">Editar</button>
                 <button id="btnEliminar" class="btn btn-link" onclick="EliminarControlCloroCisternaDetalle(@json)">Eliminar</button>
             </td>
+         }
         </tr>
     }
 

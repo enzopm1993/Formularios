@@ -2163,7 +2163,13 @@
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.js" />
+    <Content Include="Scripts\CALIDAD\CondicionPersonal\CondicionPersonal.js" />
+    <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
+    <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\MonitoreoDescongelado.js" />
+    <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
+    <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
+    <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\MantenimientoCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
@@ -3191,7 +3197,9 @@
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\CondicionPersonal\clsDCondicionPersonal.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\clsDMonitoreoDescongelado.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\ControlCuchillosPreparacion\clsDControlCuchillosPreparacion.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
     <Compile Include="AccesoDatos\ControlConsumoInsumo\clsDControlConsumoInsumo.cs" />
@@ -3228,12 +3236,12 @@
     <Compile Include="AccesoDatos\PRODUCCION\CocheAutoclave\clsDCcocheAutoclave.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\EsterilizacionConserva\clsDEsterilizacionConserva.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
-    <Compile Include="AccesoDatos\Seguridad\clsDModulo.cs" />
-    <Compile Include="AccesoDatos\Seguridad\clsDNivelUsuario.cs" />
-    <Compile Include="AccesoDatos\Seguridad\clsDOpcion.cs" />
-    <Compile Include="AccesoDatos\Seguridad\clsDOpcionRol.cs" />
-    <Compile Include="AccesoDatos\Seguridad\clsDRol.cs" />
-    <Compile Include="AccesoDatos\Seguridad\clsDUsuarioRol.cs" />
+    <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDModulo.cs" />
+    <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDNivelUsuario.cs" />
+    <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDOpcion.cs" />
+    <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDOpcionRol.cs" />
+    <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDRol.cs" />
+    <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDUsuarioRol.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermiso.cs" />
     <Compile Include="AccesoDatos\General\clsDLogin.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />
@@ -3259,6 +3267,7 @@
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
     <Compile Include="Controllers\CALIDAD\MonitoreoDescongeladoController.cs" />
+    <Compile Include="Controllers\CALIDAD\ControlCuchillosPreparacionController.cs" />
     <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\ControlBalanzaController.cs" />
@@ -3287,10 +3296,11 @@
     <Compile Include="Controllers\NominaController.cs" />
     <Compile Include="Controllers\PeriodoController.cs" />
     <Compile Include="Controllers\PRODUCCION\CocheAutoclaveController.cs" />
+    <Compile Include="Controllers\CALIDAD\CondicionPersonalController.cs" />
     <Compile Include="Controllers\PRODUCCION\EsterilizacionConservaController.cs" />
     <Compile Include="Controllers\PRODUCCION\ProductoPouchCuarentenaController.cs" />
     <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
-    <Compile Include="Controllers\SeguridadController.cs" />
+    <Compile Include="Controllers\PRODUCCION\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -3619,6 +3629,17 @@
     <Content Include="Views\EsterilizacionConserva\ReporteControlEsterilizacionConserva.cshtml" />
     <Content Include="Views\EsterilizacionConserva\PartialReporteControl.cshtml" />
     <Content Include="Views\ProductoPouchCuarentena\ProductoDePouchEnCuarentena.cshtml" />
+    <Content Include="Views\MonitoreoDescongelado\ReporteMonitoreoDescongeladoPartial.cshtml" />
+    <Content Include="Views\MonitoreoDescongelado\ReporteMonitoreoDescongelado.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\MantenimientoCuchilloPreparacion.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\ControlCuchilloPreparacion.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacionPartial.cshtml" />
+    <Content Include="Views\CondicionPersonal\MantenimientoCondicion.cshtml" />
+    <Content Include="Views\CondicionPersonal\MantenimientoCondicionPartial.cshtml" />
+    <Content Include="Views\CondicionPersonal\CondicionPersonal.cshtml" />
+    <Content Include="Views\CondicionPersonal\CondicionPersonalPartial.cshtml" />
+    <Content Include="Views\General\EmpleadoBuscar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3629,7 +3650,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Comunicados\" />
-    <Folder Include="Views\General\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
