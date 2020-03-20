@@ -249,9 +249,50 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        public ActionResult EliminarCondicionPersonal(CC_CONDICION_PERSONAL model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdCondicionPersonal == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                clsDCondicionPersonal = new clsDCondicionPersonal();
+                clsDCondicionPersonal.EliminarCondicionPersonal(model);
+                return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
-     
+
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;

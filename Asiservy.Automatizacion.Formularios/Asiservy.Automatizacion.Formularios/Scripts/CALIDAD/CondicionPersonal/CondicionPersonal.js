@@ -96,6 +96,7 @@ function SeleccionarControl(model) {
     $("#txtHora").val(model.Hora);
     $("#txtObservacion").val(model.Observacion);
     $("#selectCondicion").val(model.CodCondicion).change();
+    $("#btnEliminar").prop("hidden", false);
     //$("#Lineas").prop("selectedIndex", 0);
 }
 
@@ -111,6 +112,8 @@ function NuevoControl() {
     $("#txtObservacion").val('');
     $("#selectCondicion").prop("selectedIndex", 0).change();
     $("#Lineas").prop("selectedIndex", 0);
+    $("#btnEliminar").prop("hidden", true);
+
 }
 
 function Validar() {
@@ -192,3 +195,50 @@ function GuardarControl() {
 
     //alert("generado");
 }
+
+
+
+function InactivarControl() {
+    $.ajax({
+        url: "../CondicionPersonal/EliminarCondicionPersonal",
+        type: "POST",
+        data: {
+            IdCondicionPersonal: $("#txtIdCondicionPersonal").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+            }
+            ConsultarControl();
+            NuevoControl();
+            $("#modalEliminarControl").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $('#btnConsultar').prop("disabled", false);
+            $("#spinnerCargando").prop("hidden", true);
+        }
+    });
+}
+
+function EliminarControl() {
+  //  $("#txtEliminarDetalle").val($("#txtIdCondicionPersonal").val());
+    //$("#pModalDetalle").html("Hora: " + moment(model.HoraInicio).format('HH:mm') + ' - ' + moment(model.HoraFin).format('HH:mm'));
+    if ($("#txtIdCondicionPersonal").val() > 0) {
+        $("#modalEliminarControlDetalle").modal('show');
+    } else {
+        MensajeAdvertencia("Seleccione un control.");
+    }
+}
+
+$("#modal-detalle-si").on("click", function () {
+    InactivarControl();
+    $("#modalEliminarControlDetalle").modal('hide');
+});
+
+$("#modal-detalle-no").on("click", function () {
+    $("#modalEliminarControlDetalle").modal('hide');
+});
