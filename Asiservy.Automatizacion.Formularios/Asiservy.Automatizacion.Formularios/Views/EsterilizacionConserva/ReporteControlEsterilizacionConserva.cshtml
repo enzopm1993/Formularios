@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "ReporteControlEsterilizacionConserva";
+}
+<style>
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+
+<h4>Reporte Control Esterilización Conserva</h4>
+
+<div class="row">
+    <div class="col-md-4 col-sm-12">
+        <div class="form-group">
+            <label>Fecha Producción:</label>
+            <input type="date" id="FechaProduccion" class="form-control" />
+            <label class="text-danger" id="msjerrorfecha" hidden>Debe ingresar una fecha</label>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="form-group">
+            <label>Turno</label>
+            <select class="form-control" id="Turno">
+                <option value="1">Seleccione...</option>
+                <option value="1">Turno A</option>
+                <option value="2">Turno B</option>
+            </select>
+            <label class="text-danger" id="msjerrorturno" hidden>Debe seleccionar un turno</label>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="form-group">
+            <label>Línea:</label>
+            <select class="form-control" id="Linea">
+                <option value="L">Seleccione...</option>
+                <option value="L">Lata</option>
+                <option value="P">Pouch</option>
+            </select>
+            <label class="text-danger" id="msjerrorLinea" hidden>Debe seleccionar una línea</label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class=" col-12 text-center">
+        <button class="btn btn-primary" type="button" disabled hidden id="btnCargando">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Espere...
+        </button>
+        <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarReporte()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/ver24.png" />
+        </button>
+
+    </div>
+</div>
+<br />
+@*<input type="button" onclick="printDiv('DivReporte')" value="imprimir div" />
+<input type="button" onclick="ImprimeDiv()" value="imprime div2" />
+<input type="button" onclick="imprimir3()" value="imprime 3" />
+<input type="button" onclick="imprime4()" value="imprime 4" />*@
+
+<button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnimprimir" onclick="imprime4()" style="border-color:#2c3e50" type="button" hidden>
+    <img style="width:100%" src="~/Content/icons/print24.png" />
+</button><br />
+@*<input type="button" onclick="imprimirCanvas()" value="imprime 5" />
+<input type="button" onclick="PrintDiv()" value="imprime 6" />*@
+
+<center><h4 id="mensajegeneral" class="text-warning" hidden>No existen registros para mostrar</h4></center>
+<div id="DivReporte" style="padding-top:5px">
+
+</div>
