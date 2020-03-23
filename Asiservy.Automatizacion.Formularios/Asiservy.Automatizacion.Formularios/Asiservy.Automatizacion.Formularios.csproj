@@ -3218,6 +3218,7 @@
     <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
     <Compile Include="AccesoDatos\EntregaProductoTerminado\clsDEntregaProductoTerminado.cs" />
     <Compile Include="AccesoDatos\EntregaUniforme\clsDEntregaUniforme.cs" />
+    <Compile Include="AccesoDatos\General\clsApiGeneral.cs" />
     <Compile Include="AccesoDatos\General\clsApiUsuario.cs" />
     <Compile Include="AccesoDatos\General\clsDApiOrdenFabricacion.cs" />
     <Compile Include="AccesoDatos\General\clsDApiProduccion.cs" />
@@ -3643,6 +3644,7 @@
     <Content Include="Views\General\EmpleadoBuscar.cshtml" />
     <Content Include="Views\CondicionPersonal\ReporteCondicionPersonalPartial.cshtml" />
     <Content Include="Views\CondicionPersonal\ReporteCondicionPersonal.cshtml" />
+    <Content Include="Views\Home\ConsultaComunicados.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
