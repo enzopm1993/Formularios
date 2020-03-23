@@ -2278,6 +2278,7 @@
     <Content Include="Scripts\MapeoProductoTunel\ReporteMapeoProductoTunel.js" />
     <Content Include="Scripts\Marcaciones\PorEmpleado.js" />
     <Content Include="Scripts\Marcaciones\PorLinea.js" />
+    <Content Include="Scripts\Marcaciones\Produccion.js" />
     <Content Include="Scripts\MoverPersonal\BandejaMovimientoPersonalRRHH.js" />
     <Content Include="Scripts\MoverPersonal\MoverPersonalDataLife.js" />
     <Content Include="Scripts\ControlCuchillo\ControlCuchillo.js" />
@@ -3229,6 +3230,7 @@
     <Compile Include="AccesoDatos\General\clsDParametro.cs" />
     <Compile Include="AccesoDatos\GenerarDatosServicio\clsDGenerarDatosServicio.cs" />
     <Compile Include="AccesoDatos\MapeoProductoTunel\clsDMapeoProductoTunel.cs" />
+    <Compile Include="AccesoDatos\Marcaciones\ClsMarcaciones.cs" />
     <Compile Include="AccesoDatos\MoverPersonal\ClsDMoverPersonal.cs" />
     <Compile Include="AccesoDatos\Nomina\ClsEmpleado.cs" />
     <Compile Include="AccesoDatos\Nomina\ClsNomina.cs" />
@@ -3644,6 +3646,7 @@
     <Content Include="Views\General\EmpleadoBuscar.cshtml" />
     <Content Include="Views\CondicionPersonal\ReporteCondicionPersonalPartial.cshtml" />
     <Content Include="Views\CondicionPersonal\ReporteCondicionPersonal.cshtml" />
+    <Content Include="Views\Marcaciones\Produccion.cshtml" />
     <Content Include="Views\Home\ConsultaComunicados.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

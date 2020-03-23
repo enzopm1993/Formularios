@@ -1727,5 +1727,26 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCondicionesPersonal>("spConsultaCondicionesPersonal", fechaParameter);
         }
+    
+        public virtual ObjectResult<spObtieneMarcaciones_Empleado_Result> spObtieneMarcaciones_Empleado(Nullable<System.DateTime> fecha_ini, Nullable<System.DateTime> fecha_fin, string cedula, string tipo)
+        {
+            var fecha_iniParameter = fecha_ini.HasValue ?
+                new ObjectParameter("fecha_ini", fecha_ini) :
+                new ObjectParameter("fecha_ini", typeof(System.DateTime));
+    
+            var fecha_finParameter = fecha_fin.HasValue ?
+                new ObjectParameter("fecha_fin", fecha_fin) :
+                new ObjectParameter("fecha_fin", typeof(System.DateTime));
+    
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("tipo", tipo) :
+                new ObjectParameter("tipo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spObtieneMarcaciones_Empleado_Result>("spObtieneMarcaciones_Empleado", fecha_iniParameter, fecha_finParameter, cedulaParameter, tipoParameter);
+        }
     }
 }

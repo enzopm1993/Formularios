@@ -13,5 +13,6 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public string EMPLEADO { get; set; }
         public string INGRESO { get; set; }
         public string SALIDA { get; set; }
+        public string LINEA { get; set; }
     }
 }

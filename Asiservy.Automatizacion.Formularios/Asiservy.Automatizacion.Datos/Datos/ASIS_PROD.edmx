@@ -2619,6 +2619,12 @@
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="cedula" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spObtieneMarcaciones_Empleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha_ini" Type="date" Mode="In" />
+          <Parameter Name="fecha_fin" Type="date" Mode="In" />
+          <Parameter Name="cedula" Type="varchar" Mode="In" />
+          <Parameter Name="tipo" Type="char" Mode="In" />
+        </Function>
         <Function Name="spReporteAsistencia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FechaInicio" Type="date" Mode="In" />
           <Parameter Name="FechaFin" Type="date" Mode="In" />
@@ -3846,7 +3852,13 @@
             <End Role="TIPO_ESTERILIZACION_CONSERVA" EntitySet="TIPO_ESTERILIZACION_CONSERVA" />
           </AssociationSet>
           <FunctionImport Name="spConsultaCondicionesPersonal" ReturnType="Collection(ASIS_PRODModel.spConsultaCondicionesPersonal)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spObtieneMarcaciones_Empleado" ReturnType="Collection(ASIS_PRODModel.spObtieneMarcaciones_Empleado_Result)">
+            <Parameter Name="fecha_ini" Mode="In" Type="DateTime" />
+            <Parameter Name="fecha_fin" Mode="In" Type="DateTime" />
+            <Parameter Name="cedula" Mode="In" Type="String" />
+            <Parameter Name="tipo" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -7489,6 +7501,15 @@
           <Property Type="String" Name="CodCondicion" Nullable="false" MaxLength="5" />
           <Property Type="String" Name="Condicion" Nullable="false" MaxLength="250" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="spObtieneMarcaciones_Empleado_Result">
+          <Property Type="String" Name="FECHA_MARCA" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="LINEA" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DIA" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="EMPLEADO" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="INGRESO" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="SALIDA" Nullable="true" MaxLength="5" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -11365,6 +11386,19 @@
                 <ScalarProperty Name="CodCondicion" ColumnName="CodCondicion" />
                 <ScalarProperty Name="Condicion" ColumnName="Condicion" />
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spObtieneMarcaciones_Empleado" FunctionName="ASIS_PRODModel.Store.spObtieneMarcaciones_Empleado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spObtieneMarcaciones_Empleado_Result">
+                <ScalarProperty Name="FECHA_MARCA" ColumnName="FECHA_MARCA" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="DIA" ColumnName="DIA" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="EMPLEADO" ColumnName="EMPLEADO" />
+                <ScalarProperty Name="INGRESO" ColumnName="INGRESO" />
+                <ScalarProperty Name="SALIDA" ColumnName="SALIDA" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

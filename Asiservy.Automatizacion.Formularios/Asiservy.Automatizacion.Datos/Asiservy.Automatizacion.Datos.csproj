@@ -618,6 +618,9 @@
     <Compile Include="Datos\spKpiAvancePorLimpiadora.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spObtieneMarcaciones_Empleado_Result.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spReporteAsistencia.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
