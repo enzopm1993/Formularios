@@ -77,6 +77,36 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home", "Home");
             }
         }
+        public ActionResult Produccion()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.Title = "Registro de marcaciones de producción";
+
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
 
         [HttpGet]
         public JsonResult ObtenerMarcacionesEmpleados(string fechaIni, string fechaFin, string desde)
@@ -87,17 +117,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 string Cedula = lsUsuario[1];
 
                 MarcacionesEmpleadoLineaViewModel dataView = new MarcacionesEmpleadoLineaViewModel();
-
-                var client = new RestClient(clsAtributos.BASE_URL_WS);
-             
-                string URL = "/api/Marcaciones/"+ fechaIni + "/"+ fechaFin + "/" + Cedula + "/"+ desde;
-
-                var request = new RestRequest(URL, Method.GET);
-                IRestResponse response = client.Execute(request);
-                var content = response.Content;
-                var datos = JsonConvert.DeserializeObject<List<MarcacionesEmpleadoLineaViewModel>>(content);
-
-                JsonResult result = Json(datos, JsonRequestBehavior.AllowGet);
+                AccesoDatos.Marcaciones.ClsMarcaciones metodos = new AccesoDatos.Marcaciones.ClsMarcaciones();
+                var resultado = metodos.ObtenerMarcaciones(Convert.ToDateTime(fechaIni), Convert.ToDateTime(fechaFin), Cedula, desde).ToList();
+                
+                JsonResult result = Json(resultado, JsonRequestBehavior.AllowGet);
 
                 result.MaxJsonLength = 50000000;
                 return result;
