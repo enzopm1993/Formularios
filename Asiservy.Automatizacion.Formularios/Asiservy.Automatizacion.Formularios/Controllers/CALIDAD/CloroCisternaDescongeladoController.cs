@@ -207,7 +207,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ValidarCloroCisternaDescongeladoDetallePartial(DateTime fecha, int IdCloroCisterna)
+        public ActionResult ValidarCloroCisternaDescongeladoDetallePartial(DateTime fecha, int IdCloroCisterna, bool Estado)
         {
             try
             {
@@ -221,6 +221,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (poCloroCisterna != null && poCloroCisterna.Any())
                 {
                     // return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
+                    ViewBag.Estado = Estado;
                     return PartialView(poCloroCisterna);
                 }
                 else

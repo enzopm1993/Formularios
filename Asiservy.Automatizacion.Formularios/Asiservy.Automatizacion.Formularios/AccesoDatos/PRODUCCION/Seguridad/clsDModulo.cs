@@ -37,6 +37,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                 if (poModulo != null)
                 {
                     poModulo.Nombre = doModulo.Nombre;
+                    poModulo.Orden = doModulo.Orden;
                     poModulo.EstadoRegistro = doModulo.EstadoRegistro;
                     poModulo.FechaModificacionLog = doModulo.FechaIngresoLog;
                     poModulo.UsuarioModificacionLog = doModulo.UsuarioIngresoLog;

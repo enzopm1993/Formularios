@@ -19,7 +19,9 @@
                 }
             }
 
-
+            <th>
+                Total Fundas
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.UsuarioIngresoLog)
             </th>
@@ -37,6 +39,8 @@
         }
         @foreach (var item in ListadoCedulas)
         {
+            int totalFundas = 0;
+
             <tr>
                 <td>
                     @item
@@ -45,16 +49,26 @@
                     @Model.FirstOrDefault(x=>x.Cedula==item).nombre
                 </td>
                 @{
-                    var ListadoHora = Model.Where(x => x.Cedula == item).Select(x => x.Fundas).ToList();
+                    
 
                 }
-                @foreach (var x in ListadoHora)
+                @foreach (var x in ListadoHoras)
                 {
+                    var Fundas = Model.FirstOrDefault(y => y.Cedula == item && y.Hora ==x);
                     <td>
-                        @x
+                        @if(Fundas!=null){
+                            @Fundas.Fundas
+                            totalFundas = totalFundas + Fundas.Fundas;
+                        }
+                        else{
+                            @:-
+                        }
                     </td>
                 }
 
+                <td>
+                    @totalFundas
+                </td>
                     <td>
                         @Model.FirstOrDefault(x => x.Cedula == item).UsuarioIngresoLog
                     </td>

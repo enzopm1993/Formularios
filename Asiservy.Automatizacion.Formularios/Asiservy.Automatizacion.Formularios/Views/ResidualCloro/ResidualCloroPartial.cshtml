@@ -5,27 +5,37 @@
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
+
             <th>
                 @Html.DisplayNameFor(model => model.Hora)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
+            <th>
 
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             var json = JsonConvert.SerializeObject(item);
-            <tr onclick="SeleccionarControl(@json)">
-                <td>
-                    @item.Hora.ToString("HH:mm")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacion)
-                </td>
-            </tr>
+        <tr onclick="SeleccionarControl(@json)">
+
+            <td>
+                @item.Hora.ToString("HH:mm")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+            <td>
+                @if (item.ValidaIngreso == 1)
+                {
+                    <i class="fas fa-check-circle" style="color:chartreuse"></i>
+                }
+            </td>
+        </tr>
         }
     </tbody>
 </table>

@@ -164,7 +164,7 @@ function SeleccionarControl(model) {
     $("#txtObservacion2").val(model.Observacion);
     $("#txtIdResidualCloro").val(model.IdResidualCloro);
 
-    $("#txtDescripcionCabecera").html(moment(model.Hora).format("YYYY/MM/DD HH:MM"));
+    $("#txtDescripcionCabecera").html(moment(model.Hora).format("YYYY/MM/DD HH:mm"));
     DatosCabecera = model;
     CargarResidualCloroDetalle();
 }

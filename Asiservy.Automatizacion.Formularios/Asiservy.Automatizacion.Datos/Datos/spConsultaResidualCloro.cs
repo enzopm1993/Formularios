@@ -17,5 +17,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime Fecha { get; set; }
         public System.DateTime Hora { get; set; }
         public string Observacion { get; set; }
+        public int ValidaIngreso { get; set; }
     }
 }

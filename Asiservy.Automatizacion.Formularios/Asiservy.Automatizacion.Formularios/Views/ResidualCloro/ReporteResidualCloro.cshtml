@@ -13,20 +13,20 @@
 
 <div class="card shadow" id="divCabecera" style="padding:10px">
     <div class="row" id="divCabecera1">
-        <div class="col-md-4 col-6 col-sm-6">
+        <div class="col-md-3 col-6 col-sm-6">
             <div class="form-group">
                 <label>Fecha</label>
                 <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarReporte()" id="txtFecha" class="form-control" />
             </div>
         </div>
 
-        <div class="col-md-4 col-6 col-sm-6">
+        <div class="col-md-3 col-6 col-sm-6">
             <div class="form-group">
                 <label>Area</label>
                 @Html.DropDownList("Area", new SelectList(ViewBag.Areas, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @Id = "selectArea", @onchange = "ConsultarReporte()" })
             </div>
         </div>
-        <div class="col-md-4 col-12 text-center text-md-left">
+        <div class="col-md-3 col-12 text-center text-md-left">
             <label class="">Acción</label>
 
             <div class="form-group">
@@ -35,6 +35,19 @@
                     <img style="width:100%" src="~/Content/icons/ver24.png" />
                 </button>
 
+            </div>
+        </div>
+
+        <div class="col-md-3 col-6">
+            <div class="form-group">
+                <br />
+                <div style="border:inset">
+                    <div>
+                        <label>Frecuencia: <b>3horas</b></label>
+                        <br />
+                        <label>Min: <b>200ppm</b></label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

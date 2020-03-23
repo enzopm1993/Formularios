@@ -1,4 +1,5 @@
-﻿using Asiservy.Automatizacion.Formularios.Models;
+﻿using Asiservy.Automatizacion.Formularios.AccesoDatos.BLZ;
+using Asiservy.Automatizacion.Formularios.Models;
 using Asiservy.Automatizacion.Formularios.Models.Produccion;
 using Newtonsoft.Json;
 using RestSharp;
@@ -35,9 +36,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
         {
             var client = new RestClient("http://192.168.0.31:8003");
             RestRequest request;
-         
+
             request = new RestRequest("/api/Produccion/Observaciones", Method.GET);
-           
+
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
@@ -73,8 +74,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
         {
             var client = new RestClient("http://192.168.0.31:8870");
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
-            RestRequest request;          
-            request = new RestRequest("/api/Produccion/LotesPorFecha/" + Fecha.Year+"-"+Fecha.Month+"-"+Fecha.Day+ "/", Method.GET);
+            RestRequest request;
+            request = new RestRequest("/api/Produccion/LotesPorFecha/" + Fecha.Year + "-" + Fecha.Month + "-" + Fecha.Day + "/", Method.GET);
             IRestResponse response = client.Execute(request);
             if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
@@ -108,7 +109,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             request = new RestRequest("/api/Produccion/Barcos", Method.GET);
             IRestResponse response = client.Execute(request);
             var content = response.Content;
-            if(response.StatusCode == HttpStatusCode.InternalServerError)
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
                 return null;
             }
@@ -130,5 +131,20 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             var Lista = JsonConvert.DeserializeObject<List<InsumosProduccion>>(content);
             return Lista;
         }
+
+
+        public List<RegistroDescongeladoEmparrilladoMP> ConsultaControlDescongeladoEmparrilladoMP(DateTime fechaPrd)
+        {
+            var client = new RestClient(clsAtributos.BASE_URL_WS);
+
+            string URL = "/api/Produccion/ControlDescongeladoEmparrilladoMP/" + fechaPrd.ToString("yyyy-MM-dd");
+
+            var request = new RestRequest(URL, Method.GET);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+            var datos = JsonConvert.DeserializeObject<List<RegistroDescongeladoEmparrilladoMP>>(content);
+            return datos;
+         }
+
     }
 }

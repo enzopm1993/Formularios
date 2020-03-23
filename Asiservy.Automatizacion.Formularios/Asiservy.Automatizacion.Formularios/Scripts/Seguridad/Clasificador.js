@@ -66,6 +66,7 @@ function CambioEstadoRegistro(valor) {
 
 
 function CargarTablaClasificadores() {
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: "../Seguridad/ClasificadorPartial",
         type: "GET",
@@ -73,9 +74,13 @@ function CargarTablaClasificadores() {
 
             var bitacora = $('#DivTableClasificador');
             bitacora.html(resultado);
+            $("#spinnerCargando").prop("hidden", true);
+
         },
         error: function (resultado) {
             MensajeError(resultado, false);
+            $("#spinnerCargando").prop("hidden", true);
+
         }
     });
 }

@@ -12,17 +12,16 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class PlantillasMemorandum
+    public partial class MANTENIMIENTO_CONDICION
     {
-        public int id { get; set; }
-        public string Titulo { get; set; }
-        public string Plantilla { get; set; }
-        public Nullable<bool> Estado { get; set; }
-        public string UsuarioIngresa { get; set; }
-        public string UsuarioModifica { get; set; }
-        public Nullable<System.DateTime> FechaCrea { get; set; }
-        public Nullable<System.DateTime> FechaModifica { get; set; }
-        public string TerminalImgresa { get; set; }
-        public string TerminalModifica { get; set; }
+        public int IdMantenimientoCondicion { get; set; }
+        public string Descripcion { get; set; }
+        public string EstadoRegistro { get; set; }
+        public System.DateTime FechaIngresoLog { get; set; }
+        public string UsuarioIngresoLog { get; set; }
+        public string TerminalIngresoLog { get; set; }
+        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
+        public string UsuarioModificacionLog { get; set; }
+        public string TerminalModificacionLog { get; set; }
     }
 }
