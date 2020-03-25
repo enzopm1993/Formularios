@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA>
+@using Newtonsoft.Json;
+
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            @*<th>
+                @Html.DisplayNameFor(model => model.IdSubDetalleProdPouchCuarentena)
+            </th>*@
+            @*<th>
+                @Html.DisplayNameFor(model => model.IdCocheAutoclave)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Autoclave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Esterilizacion)
+            </th>
+            <th>
+                Carro
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Funda)
+            </th>
+            
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+           
+                var json = JsonConvert.SerializeObject(new { item.IdSubDetalleProdPouchCuarentena, item.Autoclave, item.Esterilizacion, item.NCarro, item.Funda });
+            
+            <tr style="cursor:pointer;" onclick="ModificarSubDetalle(@json)">
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.IdSubDetalleProdPouchCuarentena)
+                </td>*@
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.IdCocheAutoclave)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Autoclave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Esterilizacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NCarro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Funda)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>

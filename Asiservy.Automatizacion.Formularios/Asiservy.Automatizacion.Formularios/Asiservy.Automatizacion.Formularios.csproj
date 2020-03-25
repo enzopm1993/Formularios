@@ -3239,6 +3239,7 @@
     <Compile Include="AccesoDatos\Periodo\clsDPeriodo.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\CocheAutoclave\clsDCcocheAutoclave.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\EsterilizacionConserva\clsDEsterilizacionConserva.cs" />
+    <Compile Include="AccesoDatos\PRODUCCION\ProductoPouchCuarentena\clsDProductoPouchCuarentena.cs" />
     <Compile Include="AccesoDatos\ProyeccionProgramacion\clsDProyeccionProgramacion.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDModulo.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDNivelUsuario.cs" />
@@ -3648,6 +3649,9 @@
     <Content Include="Views\CondicionPersonal\ReporteCondicionPersonal.cshtml" />
     <Content Include="Views\Marcaciones\Produccion.cshtml" />
     <Content Include="Views\Home\ConsultaComunicados.cshtml" />
+    <Content Include="Views\ProductoPouchCuarentena\PartialDetalleControl.cshtml" />
+    <Content Include="Views\ProductoPouchCuarentena\PartialCocheAutoclave.cshtml" />
+    <Content Include="Views\ProductoPouchCuarentena\PartialSubDetalleControl.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

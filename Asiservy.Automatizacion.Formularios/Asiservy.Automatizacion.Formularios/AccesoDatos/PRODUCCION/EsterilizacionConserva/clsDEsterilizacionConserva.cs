@@ -21,11 +21,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
             using (var db = new ASIS_PRODEntities())
             {
                 object[] resultado = new object[3];
-                db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Add(poEsterilizacionConserva);
-                db.SaveChanges();
-                resultado[0] = "000";
-                resultado[1] = "Registro actualizado con éxito";
-                resultado[2] = poEsterilizacionConserva;
+                var buscarCabecera = db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Where(x => x.Fecha == poEsterilizacionConserva.Fecha && x.Turno == poEsterilizacionConserva.Turno
+                  && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                if (buscarCabecera == null)
+                {
+                    db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Add(poEsterilizacionConserva);
+                    db.SaveChanges();
+                    resultado[0] = "000";
+                    resultado[1] = "Registro actualizado con éxito";
+                    resultado[2] = poEsterilizacionConserva;
+                }
+                else
+                {
+                    resultado[0] = "002";
+                    resultado[1] = "Error, el registro ya existe";
+                    resultado[2] = buscarCabecera;
+                }
+                
                 return resultado;
             }
         }
