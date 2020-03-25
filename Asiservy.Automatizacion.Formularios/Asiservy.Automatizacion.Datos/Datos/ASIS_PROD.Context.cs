@@ -128,6 +128,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_PROTEINA> CC_MANTENIMIENTO_PROTEINA { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_SABOR> CC_MANTENIMIENTO_SABOR { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_TEXTURA> CC_MANTENIMIENTO_TEXTURA { get; set; }
+        public virtual DbSet<CC_CONTROL_LAVADO_DESINFECCION_MANOS> CC_CONTROL_LAVADO_DESINFECCION_MANOS { get; set; }
+        public virtual DbSet<CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE> CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_COLOR> CC_MANTENIMIENTO_COLOR { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1754,6 +1757,36 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("tipo", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spObtieneMarcaciones_Empleado_Result>("spObtieneMarcaciones_Empleado", fecha_iniParameter, fecha_finParameter, cedulaParameter, tipoParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Lavado_Desinfeccion_Manos> sp_Control_Lavado_Desinfeccion_Manos(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> opcion)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("FechaDesde", fechaDesde) :
+                new ObjectParameter("FechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("FechaHasta", fechaHasta) :
+                new ObjectParameter("FechaHasta", typeof(System.DateTime));
+    
+            var opcionParameter = opcion.HasValue ?
+                new ObjectParameter("opcion", opcion) :
+                new ObjectParameter("opcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos>("sp_Control_Lavado_Desinfeccion_Manos", fechaDesdeParameter, fechaHastaParameter, opcionParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Lavado_Desinfeccion_Manos_Detalle> sp_Control_Lavado_Desinfeccion_Manos_Detalle(Nullable<int> idDesinfeccionManos, Nullable<int> opcion)
+        {
+            var idDesinfeccionManosParameter = idDesinfeccionManos.HasValue ?
+                new ObjectParameter("IdDesinfeccionManos", idDesinfeccionManos) :
+                new ObjectParameter("IdDesinfeccionManos", typeof(int));
+    
+            var opcionParameter = opcion.HasValue ?
+                new ObjectParameter("opcion", opcion) :
+                new ObjectParameter("opcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos_Detalle>("sp_Control_Lavado_Desinfeccion_Manos_Detalle", idDesinfeccionManosParameter, opcionParameter);
         }
     }
 }
