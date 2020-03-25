@@ -3652,6 +3652,7 @@
     <Content Include="Views\ProductoPouchCuarentena\PartialDetalleControl.cshtml" />
     <Content Include="Views\ProductoPouchCuarentena\PartialCocheAutoclave.cshtml" />
     <Content Include="Views\ProductoPouchCuarentena\PartialSubDetalleControl.cshtml" />
+    <Content Include="Views\ProductoPouchCuarentena\ReporteProductoPouchCuarentena.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

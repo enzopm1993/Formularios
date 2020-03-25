@@ -373,7 +373,7 @@ function AbrirModalSubDetalle(data) {
             return respuesta.text();
         })
         .then(function (resultado) {
-            if (resultado == "101") {
+            if (resultado == '"101"') {
                 window.location.reload();
             }
             if (Error == 0) {

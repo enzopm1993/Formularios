@@ -58,6 +58,37 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 return RedirectToAction("Home", "Home");
             }
         }
+        [Authorize]
+        public ActionResult ReporteProductoPouchCuarentena()
+        {
+            try
+            {
+                ViewBag.JavaScrip = "PRODUCCION/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dataTableJS = "1";
+                ViewBag.select2 = "1";
+                lsUsuario = User.Identity.Name.Split('_');
+
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
         [HttpPost]
         public JsonResult GuardarCabeceraConttrol(CABECERA_PRODUCTO_POUCH_CUARENTENA CabControl)
         {
