@@ -11,13 +11,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class sp_Reporte_CloroCisternaDescongeladoBandejaAprobados
+    public partial class sp_Reporte_Control_Cuchillos_Preparacion
     {
-        public long IdCloroCisterna { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public string Observaciones { get; set; }
-        public string AprobadoPor { get; set; }
-        public string FechaAprobacion { get; set; }
-        public bool EstadoReporte { get; set; }
+        public string Fecha { get; set; }
+        public string Hora { get; set; }
+        public int IdCuchilloPreparacion { get; set; }
+        public string CodigoCuchillo { get; set; }
+        public bool Estado { get; set; }
     }
 }

@@ -212,47 +212,53 @@ function ActualizarControlSi() {
 }
 
 //GUARDAR DETALLE
-function GuardarControlDetalle() {
-    var estado = $("#CheckEstadoRegistroOp").prop('checked');
-    var idCuchillopreparacion = $('#txtCodigoCuchillo').val();
-    var p=$('#txtCodigoCuchilloDetalle').val();
-    if ($('#txtActualizar').val() == '1') {
-        if ($('#txtCodigoCuchilloDetalle').val() != '') {
-            idCuchillopreparacion = $('#txtCodigoCuchilloDetalle').val();
-            estado = $("#CheckEstadoRegistroOpD").prop('checked');
-        }
-    } else {
-        if ($('#txtCodigoCuchillo').val() == "") {
-            MensajeAdvertencia('Seleccione el CUCHILLO ');
-            return;
-        }
-    }    
-    $.ajax({
-        url: "../ControlCuchillosPreparacion/GuardarModificarControlCuchilloDetalle",
-        type: "POST",
-        data: {
-            IdControlCuchillo: datosCabecera.IdControlCuchillo,
-            IdControlCuchilloDetalle: datosDetalle.IdControlCuchilloDetalle,
-            IdCuchillopreparacion: idCuchillopreparacion,
-            Estado: estado
-        },
-        success: function (resultado) {
-            if (resultado == 0) {
-                LimpiarDetalle();
-                $("#ModalIngresoDetalle").modal('hide');
-                $("#ModalEliminarActualizarDetalle").modal('hide');
-               MensajeCorrecto("Registro Exitoso");
-            } else {
-                $("#ModalIngresoDetalle").modal('hide');
-                $("#ModalEliminarActualizarDetalle").modal('hide');
-                MensajeCorrecto("Actualización Exitoso");
+function GuardarControlDetalle(op) {
+    if (ValidarCuchilloExiste(op) == true) {
+        return;
+    }
+    else {
+        var estado = $("#CheckEstadoRegistroOp").prop('checked');
+        var idCuchillopreparacion = $('#txtCodigoCuchillo').val();
+        var p = $('#txtCodigoCuchilloDetalle').val();
+        if ($('#txtActualizar').val() == '1') {
+            if ($('#txtCodigoCuchilloDetalle').val() != '') {
+                idCuchillopreparacion = $('#txtCodigoCuchilloDetalle').val();
+                estado = $("#CheckEstadoRegistroOpD").prop('checked');
             }
-            ConsultarControlCuchilloDetalle(0, datosCabecera.IdControlCuchillo, 0, 1);
-        },
-        error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+        } else {
+            if ($('#txtCodigoCuchillo').val() == "") {
+                MensajeAdvertencia('Seleccione el CUCHILLO ');
+                return;
+            }
         }
-    });
+        $.ajax({
+            url: "../ControlCuchillosPreparacion/GuardarModificarControlCuchilloDetalle",
+            type: "POST",
+            data: {
+                IdControlCuchillo: datosCabecera.IdControlCuchillo,
+                IdControlCuchilloDetalle: datosDetalle.IdControlCuchilloDetalle,
+                IdCuchillopreparacion: idCuchillopreparacion,
+                Estado: estado
+            },
+            success: function (resultado) {
+                if (resultado == 0) {
+                    LimpiarDetalle();
+                    $("#ModalIngresoDetalle").modal('hide');
+                    $("#ModalEliminarActualizarDetalle").modal('hide');
+                    MensajeCorrecto("Registro Exitoso");
+                } else {
+                    $("#ModalIngresoDetalle").modal('hide');
+                    $("#ModalEliminarActualizarDetalle").modal('hide');
+                    MensajeCorrecto("Actualización Exitoso");
+                }
+                ConsultarControlCuchilloDetalle(0, datosCabecera.IdControlCuchillo, 0, 1);
+                datosDetalle = [];
+            },
+            error: function (resultado) {
+                MensajeError(resultado.responseText, false);
+            }
+        });
+    }
 }
 
 function ConsultarControlCuchilloDetalle(idCuchilloPreparacion, idControlCuchillo, idControlCuchilloDetalle, opcion) {
@@ -302,19 +308,9 @@ function ConsultarControlCuchilloDetalle(idCuchilloPreparacion, idControlCuchill
                         clscolor = "badge-success";    
                         checked = 'checked';
                     }
-                    return '<center><span class="badge ' + clscolor + '"><input type="checkbox" ' + checked+' disabled id="vehicle2" name="Estado" value="Estado"></span></center>';
-                       
+                    return '<center><span class="badge ' + clscolor + '"><input type="checkbox" ' + checked+' disabled id="vehicle2" name="Estado" value="Estado"></span></center>';                       
                 }
             }];
-            //configDetalle.opcionesDT.aoColumn[
-            //    {
-            //        "aTargets": [5],
-            //    "mData": "UsuarioModificacionLog",
-            //        "mRender": function (data, type, full) {
-            //            return '<button href="#"' + 'id="' + data + '">Edit</button>';
-            //        }
-            //    }
-            //];
             table.DataTable().destroy();
             table.DataTable(configDetalle.opcionesDT);
             table.DataTable().clear();
@@ -348,14 +344,39 @@ function ModalGenerarDetalle() {
 }
 
 function SeleccionarDetalle(model) {
-    datosDetalle = model;
-    
+    datosDetalle = model;    
     $("#txtCodigoCuchilloDetalle").val(datosDetalle.IdCuchilloPreparacion);
     $("#EstadoRegistroDetalle").val(datosDetalle.Estado);
     CambioEstadoDetalle(datosDetalle.Estado);
     $("#CheckEstadoRegistroOpD").prop('checked', datosDetalle.Estado);    
     $("#ModalEliminarActualizarDetalle").modal('show');
     //ConsultarControlCuchilloDetalle(0, datosCabecera.IdControlCuchillo, 0, 1);
+}
+
+function ValidarCuchilloExiste(op) {    
+    var sel = '';
+    if (op == 0) {
+        sel = document.getElementById('txtCodigoCuchillo');
+    } else {
+        sel = document.getElementById('txtCodigoCuchilloDetalle');
+    }
+    
+    var selected = sel.options[sel.selectedIndex].text;
+    if (datosDetalle.CodigoCuchillo == selected) {        
+        return false;
+    } else {
+        var table = $("#tblDataTableCargarDetalle").DataTable();
+        var form_data = table.rows().data();
+        for (var i in form_data) {
+            if (form_data[i].CodigoCuchillo == selected) {
+                MensajeAdvertencia("<span class='badge badge-danger'>!Ya existe un cuchillo con ese código registrado:    " + form_data[i].CodigoCuchillo +"</span>", 10);
+                return true;                
+            }
+            console.log(form_data[i].CodigoCuchillo);
+        }
+        //GuardarControlDetalle();
+    }
+    return false;
 }
 
 function CambioEstadoDetalle(valor) {
@@ -381,6 +402,7 @@ function EliminarDetalleSi() {
                 //$("#modalEliminarControl").modal("hide");
                 return;
             }
+            MensajeCorrecto("¡Registro eliminado correctamente!");
             LimpiarDetalle();
             $("#ModalEliminarActualizarDetalle").modal('hide');
             ConsultarControlCuchilloDetalle(0, datosCabecera.IdControlCuchillo, 0, 1);
