@@ -124,6 +124,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CABECERA_PRODUCTO_POUCH_CUARENTENA> CABECERA_PRODUCTO_POUCH_CUARENTENA { get; set; }
         public virtual DbSet<DETALLE_PRODUCTO_POUCH_CUARENTENA> DETALLE_PRODUCTO_POUCH_CUARENTENA { get; set; }
         public virtual DbSet<SUBDETALLE_PRODUCTO_POUCH_CUARENTENA> SUBDETALLE_PRODUCTO_POUCH_CUARENTENA { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_OLOR> CC_MANTENIMIENTO_OLOR { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_PROTEINA> CC_MANTENIMIENTO_PROTEINA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

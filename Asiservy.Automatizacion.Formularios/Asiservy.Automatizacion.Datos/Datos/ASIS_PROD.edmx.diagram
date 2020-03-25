@@ -142,6 +142,8 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="35.875" PointY="6.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_OLOR" Width="1.5" PointX="3.375" PointY="31.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" Width="1.5" PointX="31.375" PointY="11.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
