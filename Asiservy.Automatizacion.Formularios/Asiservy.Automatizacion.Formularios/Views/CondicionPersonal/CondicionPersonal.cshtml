@@ -79,13 +79,11 @@
                 <img style="width:100%" src="~/Content/icons/clear24.png" />
             </button>
 
-            @*<button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="ModalEditarControl()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/edit24.png" />
-            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/cancel24.png" />
+        </button>
 
-            <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/atras24.png" />
-            </button>*@
+       
         </div>
     </div>
 </div>
@@ -106,4 +104,20 @@
 </div>
 
 <div id="ModelCargarEmpleados">
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar este control de condición del personal?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -2164,6 +2164,7 @@
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\CondicionPersonal.js" />
+    <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\MonitoreoDescongelado.js" />
@@ -2277,6 +2278,7 @@
     <Content Include="Scripts\MapeoProductoTunel\ReporteMapeoProductoTunel.js" />
     <Content Include="Scripts\Marcaciones\PorEmpleado.js" />
     <Content Include="Scripts\Marcaciones\PorLinea.js" />
+    <Content Include="Scripts\Marcaciones\Produccion.js" />
     <Content Include="Scripts\MoverPersonal\BandejaMovimientoPersonalRRHH.js" />
     <Content Include="Scripts\MoverPersonal\MoverPersonalDataLife.js" />
     <Content Include="Scripts\ControlCuchillo\ControlCuchillo.js" />
@@ -3217,6 +3219,7 @@
     <Compile Include="AccesoDatos\Empleado\clsDEmpleadoEsfero.cs" />
     <Compile Include="AccesoDatos\EntregaProductoTerminado\clsDEntregaProductoTerminado.cs" />
     <Compile Include="AccesoDatos\EntregaUniforme\clsDEntregaUniforme.cs" />
+    <Compile Include="AccesoDatos\General\clsApiGeneral.cs" />
     <Compile Include="AccesoDatos\General\clsApiUsuario.cs" />
     <Compile Include="AccesoDatos\General\clsDApiOrdenFabricacion.cs" />
     <Compile Include="AccesoDatos\General\clsDApiProduccion.cs" />
@@ -3227,6 +3230,7 @@
     <Compile Include="AccesoDatos\General\clsDParametro.cs" />
     <Compile Include="AccesoDatos\GenerarDatosServicio\clsDGenerarDatosServicio.cs" />
     <Compile Include="AccesoDatos\MapeoProductoTunel\clsDMapeoProductoTunel.cs" />
+    <Compile Include="AccesoDatos\Marcaciones\ClsMarcaciones.cs" />
     <Compile Include="AccesoDatos\MoverPersonal\ClsDMoverPersonal.cs" />
     <Compile Include="AccesoDatos\Nomina\ClsEmpleado.cs" />
     <Compile Include="AccesoDatos\Nomina\ClsNomina.cs" />
@@ -3641,6 +3645,10 @@
     <Content Include="Views\CondicionPersonal\CondicionPersonal.cshtml" />
     <Content Include="Views\CondicionPersonal\CondicionPersonalPartial.cshtml" />
     <Content Include="Views\General\EmpleadoBuscar.cshtml" />
+    <Content Include="Views\CondicionPersonal\ReporteCondicionPersonalPartial.cshtml" />
+    <Content Include="Views\CondicionPersonal\ReporteCondicionPersonal.cshtml" />
+    <Content Include="Views\Marcaciones\Produccion.cshtml" />
+    <Content Include="Views\Home\ConsultaComunicados.cshtml" />
     <Content Include="Views\ProductoPouchCuarentena\PartialDetalleControl.cshtml" />
     <Content Include="Views\ProductoPouchCuarentena\PartialCocheAutoclave.cshtml" />
     <Content Include="Views\ProductoPouchCuarentena\PartialSubDetalleControl.cshtml" />
