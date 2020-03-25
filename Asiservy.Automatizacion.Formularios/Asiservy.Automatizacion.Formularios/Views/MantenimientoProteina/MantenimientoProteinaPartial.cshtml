@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MANTENIMIENTO_PROTEINA>
+@using Newtonsoft.Json;
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Fecha Ingresp
+            </th>
+            <th>
+                Usuario Ingreso
+            </th>
+            <th>
+                Terminal Ingreso
+            </th>
+            <th>
+                Fecha Modificación
+            </th>
+            <th>
+                Usuario Modificación
+            </th>
+            <th>
+                Terminal Modificación
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarControl(@json)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProteina)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoRegistro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

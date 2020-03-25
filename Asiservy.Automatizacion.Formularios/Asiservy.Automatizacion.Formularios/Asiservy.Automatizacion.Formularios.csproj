@@ -2167,6 +2167,10 @@
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoOlor\MantenimientoOlor.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\MonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
@@ -3200,6 +3204,10 @@
     <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CondicionPersonal\clsDCondicionPersonal.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoOlor.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoProteina.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoSabor.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoTextura.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\clsDMonitoreoDescongelado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ControlCuchillosPreparacion\clsDControlCuchillosPreparacion.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
@@ -3271,6 +3279,10 @@
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoOlorController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoProteinaController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoSaborController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoTexturaController.cs" />
     <Compile Include="Controllers\CALIDAD\MonitoreoDescongeladoController.cs" />
     <Compile Include="Controllers\CALIDAD\ControlCuchillosPreparacionController.cs" />
     <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
@@ -3305,7 +3317,7 @@
     <Compile Include="Controllers\PRODUCCION\EsterilizacionConservaController.cs" />
     <Compile Include="Controllers\PRODUCCION\ProductoPouchCuarentenaController.cs" />
     <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
-    <Compile Include="Controllers\PRODUCCION\SeguridadController.cs" />
+    <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -3652,6 +3664,14 @@
     <Content Include="Views\ProductoPouchCuarentena\PartialDetalleControl.cshtml" />
     <Content Include="Views\ProductoPouchCuarentena\PartialCocheAutoclave.cshtml" />
     <Content Include="Views\ProductoPouchCuarentena\PartialSubDetalleControl.cshtml" />
+    <Content Include="Views\MantenimientoOlor\MantenimientoOlor.cshtml" />
+    <Content Include="Views\MantenimientoOlor\MantenimientoOlorPartial.cshtml" />
+    <Content Include="Views\MantenimientoProteina\MantenimientoProteina.cshtml" />
+    <Content Include="Views\MantenimientoProteina\MantenimientoProteinaPartial.cshtml" />
+    <Content Include="Views\MantenimientoSabor\MantenimientoSabor.cshtml" />
+    <Content Include="Views\MantenimientoSabor\MantenimientoSaborPartial.cshtml" />
+    <Content Include="Views\MantenimientoTextura\MantenimientoTextura.cshtml" />
+    <Content Include="Views\MantenimientoTextura\MantenimientoTexturaPartial.cshtml" />
     <Content Include="Views\ProductoPouchCuarentena\ReporteProductoPouchCuarentena.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -5,10 +5,10 @@ $(document).ready(function () {
 
 function ConsultarReporte() {
     $("#chartCabecera2").html('');
-     $("#spinnerCargando").prop("hidden", false);
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
-        url: "../CondicionPersonal/MantenimientoCondicionPartial",
-        type: "GET",      
+        url: "../MantenimientoOlor/MantenimientoOlorPartial",
+        type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
@@ -35,7 +35,7 @@ function ConsultarReporte() {
         }
     });
 }
-  
+
 
 function GuardarControl() {
 
@@ -52,10 +52,10 @@ function GuardarControl() {
     }
 
     $.ajax({
-        url: "../CondicionPersonal/MantenimientoCondicion",
+        url: "../MantenimientoOlor/MantenimientoOlor",
         type: "POST",
         data: {
-            IdMantenimientoCondicion: $("#txtIdControl").val(),
+            IdOlor: $("#txtIdControl").val(),
             Descripcion: $("#txtDescripcion").val(),
             EstadoRegistro: estado
         },
@@ -92,7 +92,7 @@ function CambioEstado(valor) {
 function NuevoControl() {
     $("#txtIdControl").val('0');
     $("#txtDescripcion").val('');
-    $("#CheckEstadoRegistro").prop("checked",true);
+    $("#CheckEstadoRegistro").prop("checked", true);
     $('#LabelEstado').text('Activo');
 }
 
