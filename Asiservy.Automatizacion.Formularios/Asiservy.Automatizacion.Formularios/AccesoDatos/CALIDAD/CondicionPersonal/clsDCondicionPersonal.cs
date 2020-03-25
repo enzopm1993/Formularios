@@ -25,7 +25,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
                 if (poControl != null)
                 {
                     poControl.Descripcion = model.Descripcion;
-                   // poControl.Hora = model.Hora;
+                    // poControl.Hora = model.Hora;
+                    poControl.EstadoRegistro = model.EstadoRegistro;
+
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poControl.FechaModificacionLog = model.FechaIngresoLog;

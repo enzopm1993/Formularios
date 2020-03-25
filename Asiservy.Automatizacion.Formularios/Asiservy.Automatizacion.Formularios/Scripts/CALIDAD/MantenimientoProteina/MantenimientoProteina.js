@@ -5,10 +5,10 @@ $(document).ready(function () {
 
 function ConsultarReporte() {
     $("#chartCabecera2").html('');
-     $("#spinnerCargando").prop("hidden", false);
+    $("#spinnerCargando").prop("hidden", false);
     $.ajax({
-        url: "../CondicionPersonal/MantenimientoCondicionPartial",
-        type: "GET",      
+        url: "../MantenimientoProteina/MantenimientoProteinaPartial",
+        type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
@@ -35,27 +35,27 @@ function ConsultarReporte() {
         }
     });
 }
-  
+
 
 function GuardarControl() {
 
     if ($("#SelectTipoLimpieza").val() == "") {
-        $("#SelectTipoLimpieza").css('borderColor', '#FA8072');
+        $("#SelectTipoLimpieza").css('borderCProteina', '#FA8072');
         return;
     } else {
-        $("#SelectTipoLimpieza").css('borderColor', '#ced4da');
+        $("#SelectTipoLimpieza").css('borderCProteina', '#ced4da');
     }
 
     var estado = 'A';
     if (!$("#CheckEstadoRegistro").prop("checked")) {
         estado = 'I'
     }
-
+  //  alert($("#CheckEstadoRegistro").prop("checked"));
     $.ajax({
-        url: "../CondicionPersonal/MantenimientoCondicion",
+        url: "../MantenimientoProteina/MantenimientoProteina",
         type: "POST",
         data: {
-            IdMantenimientoCondicion: $("#txtIdControl").val(),
+            IdProteina: $("#txtIdControl").val(),
             Descripcion: $("#txtDescripcion").val(),
             EstadoRegistro: estado
         },
@@ -92,10 +92,9 @@ function CambioEstado(valor) {
 function NuevoControl() {
     $("#txtIdControl").val('0');
     $("#txtDescripcion").val('');
-    $("#CheckEstadoRegistro").prop("checked",true);
+    $("#CheckEstadoRegistro").prop("checked", true);
     $('#LabelEstado').text('Activo');
 }
-
 
 function SeleccionarControl(model) {
     $("#txtIdControl").val(model.IdProteina);
