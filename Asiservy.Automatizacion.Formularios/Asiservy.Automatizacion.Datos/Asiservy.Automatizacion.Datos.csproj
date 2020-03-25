@@ -96,6 +96,9 @@
     <Compile Include="Datos\CABECERA_CONTROL_PESO_CODIFICACION.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CABECERA_PRODUCTO_POUCH_CUARENTENA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CAMBIO_PERSONAL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -226,6 +229,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\DETALLE_LOTE_CONTROL_PESO_CODIFICACION.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\DETALLE_PRODUCTO_POUCH_CUARENTENA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\DETALLE_USO_CONTROL_PESO_CODIFICACION.cs">
@@ -724,6 +730,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_SolicitudesRealizadasPorLinea_Result.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\SUBDETALLE_PRODUCTO_POUCH_CUARENTENA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sysdiagrams.cs">
