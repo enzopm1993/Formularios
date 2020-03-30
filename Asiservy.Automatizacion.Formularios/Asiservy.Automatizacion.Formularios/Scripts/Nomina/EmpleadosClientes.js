@@ -78,6 +78,7 @@ function enviarSAP() {
             $('.checkEmpleado:checkbox:checked').each(function (t, ck) {
                 cedu.push($(ck).data('cedula'));
             });
+            $('html, body').css("cursor", "wait");
             $.ajax({
                 url: "../Nomina/ProcesarEnvioEmpleados",
                 type: "POST",
@@ -86,10 +87,12 @@ function enviarSAP() {
                     'Cedulas': cedu.join(",")
                 }),
                 success: function (resultado) {
+                    $('html, body').css("cursor", "auto");
                     alert(resultado.StatusCodeDescription);
                     window.location.reload(false);
                 },
                 error: function (resultado) {
+                    $('html, body').css("cursor", "auto");
                     MensajeError(resultado, false);
                 }
             });
