@@ -1788,5 +1788,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos_Detalle>("sp_Control_Lavado_Desinfeccion_Manos_Detalle", idDesinfeccionManosParameter, opcionParameter);
         }
+    
+        public virtual ObjectResult<sp_ObtenerInfoEmpleadoParaSAP_Result> sp_ObtenerInfoEmpleadoParaSAP(string cedula)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ObtenerInfoEmpleadoParaSAP_Result>("sp_ObtenerInfoEmpleadoParaSAP", cedulaParameter);
+        }
     }
 }
