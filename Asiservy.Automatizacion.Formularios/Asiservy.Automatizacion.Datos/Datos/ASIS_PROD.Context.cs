@@ -131,6 +131,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CONTROL_LAVADO_DESINFECCION_MANOS> CC_CONTROL_LAVADO_DESINFECCION_MANOS { get; set; }
         public virtual DbSet<CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE> CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_COLOR> CC_MANTENIMIENTO_COLOR { get; set; }
+        public virtual DbSet<CC_OPERATIVIDAD_DETECTOR_METAL> CC_OPERATIVIDAD_DETECTOR_METAL { get; set; }
+        public virtual DbSet<CC_OPERATIVIDAD_METAL> CC_OPERATIVIDAD_METAL { get; set; }
+        public virtual DbSet<CC_OPERATIVIDAD_METAL_DETALLE> CC_OPERATIVIDAD_METAL_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1787,6 +1790,28 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("opcion", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos_Detalle>("sp_Control_Lavado_Desinfeccion_Manos_Detalle", idDesinfeccionManosParameter, opcionParameter);
+        }
+    
+        public virtual ObjectResult<spReporteProdPouchCuarentenaDetalle> spReporteProdPouchCuarentenaDetalle(Nullable<System.DateTime> fechäProduccion, string turno)
+        {
+            var fechäProduccionParameter = fechäProduccion.HasValue ?
+                new ObjectParameter("FechäProduccion", fechäProduccion) :
+                new ObjectParameter("FechäProduccion", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteProdPouchCuarentenaDetalle>("spReporteProdPouchCuarentenaDetalle", fechäProduccionParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spReporteProdPouchCuarentenaSubDetalle> spReporteProdPouchCuarentenaSubDetalle(Nullable<int> idCabProdPouchCuarentena)
+        {
+            var idCabProdPouchCuarentenaParameter = idCabProdPouchCuarentena.HasValue ?
+                new ObjectParameter("IdCabProdPouchCuarentena", idCabProdPouchCuarentena) :
+                new ObjectParameter("IdCabProdPouchCuarentena", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteProdPouchCuarentenaSubDetalle>("spReporteProdPouchCuarentenaSubDetalle", idCabProdPouchCuarentenaParameter);
         }
     
         public virtual ObjectResult<sp_ObtenerInfoEmpleadoParaSAP_Result> sp_ObtenerInfoEmpleadoParaSAP(string cedula)

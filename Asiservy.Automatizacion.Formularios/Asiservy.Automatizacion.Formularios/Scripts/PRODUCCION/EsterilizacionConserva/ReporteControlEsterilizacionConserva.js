@@ -42,7 +42,7 @@
         })
     .then(function (resultado) {
         //console.log(resultado);
-        if (resultado == "101") {
+        if (resultado == '"101"') {
             window.location.reload();
         }
         $('#DivReporte').html(resultado);
@@ -62,29 +62,29 @@
         $('#btnConsultar').prop('hidden', false);
     })
 }
-function printDiv(nombreDiv) {
-    var contenido = document.getElementById(nombreDiv).innerHTML;
-    var contenidoOriginal = document.body.innerHTML;
+//function printDiv(nombreDiv) {
+//    var contenido = document.getElementById(nombreDiv).innerHTML;
+//    var contenidoOriginal = document.body.innerHTML;
 
-    document.body.innerHTML = contenido;
+//    document.body.innerHTML = contenido;
 
-    window.print();
+//    window.print();
 
-    document.body.innerHTML = contenidoOriginal;
-}
-function ImprimeDiv() {
-    var divToPrint = document.getElementById('DivReporte');
-    //var divToPrint = $('DivReporte').html();
-    var newWin = window.open('', 'Print-Window', 'width=1000,height=600');
-    newWin.document.open();
-    newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+//    document.body.innerHTML = contenidoOriginal;
+//}
+//function ImprimeDiv() {
+//    var divToPrint = document.getElementById('DivReporte');
+//    //var divToPrint = $('DivReporte').html();
+//    var newWin = window.open('', 'Print-Window', 'width=1000,height=600');
+//    newWin.document.open();
+//    newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
     
-    newWin.document.close();
-    setTimeout(function () { newWin.close(); }, 10);
-}
-function imprimir3() {
-    $('#DivReporte').printThis();
-}
+//    newWin.document.close();
+//    setTimeout(function () { newWin.close(); }, 10);
+//}
+//function imprimir3() {
+//    $('#DivReporte').printThis();
+//}
 function imprimirElemento(elemento) {
     var ventana = window.open('', 'PRINT', 'height=768,width=1024');
     ventana.document.write('<html><head><title>' + document.title + '</title>');
@@ -104,73 +104,25 @@ function imprime4() {
     var div = document.querySelector("#DivReporte");
     imprimirElemento(div);
 }
-//document.addEventListener('keydown', function (e) {
-//    e.preventDefault();
-//    if (e.ctrlKey && e.key === 'p') {
-//        takeScreenshot(function (screenshot) {
-//            printPage(screenshot);
-//        });
-//    }
-//});
-//function printPage(screenshot) {
-//    var win = window.open('', 'prueba');
-//    win.document.write('<html>');
-//    win.document.write('<head></head>');
-//    win.document.write('<body>');
-//    win.document.write('<img src="' + screenshot + '"/>');
-//    win.document.write('</body>');
-//    win.document.write('</html>');
-//    win.print();
-//    win.close();
-//}
 
-//function takeScreenshot(cb) {
-//    html2canvas(document.getElementById('DivReporte'), {
-//        useCORS: true,
-//        onrendered: function (canvas) {
-//            var image = canvas.toDataURL();
-//            cb(image);
-//        }
-//    });
+//function imprimirCanvas() {
+
+//    var canvas = html2canvas($("#DivReporte"));
+//    var img = canvas.toDataUrl("image/png");
+//    doc = new jsPDF("px", "a4");
+//    doc.addImage(img, "png", 50, 50);
+//    doc.save("demo.pdf");
 //}
-function imprimirCanvas() {
-    //console.log("hola");
-    //html2canvas(document.getElementById('DivReporte'), {
-    //    useCORS: true,
-    //    onrendered: function (canvas) {
-    //        var image = canvas.toDataURL();
-    //        //canvas.toBlob(function (blob) {
-    //        //    saveAs(blob, "Dashboard.png");
-    //        //});
-            
-    //            var win = window.open('', 'prueba');
-    //            win.document.write('<html>');
-    //            win.document.write('<head></head>');
-    //            win.document.write('<body>');
-    //            win.document.write('<img src="' + image + '"/>');
-    //            win.document.write('</body>');
-    //            win.document.write('</html>');
-    //            win.print();
-    //            win.close();
-         
-    //    }
-    //});
-    ////html2canvas(document.querySelector("#DivReporte")).then(canvas => {
-    //    document.body.appendChild(canvas)
-    //});
-    var canvas = html2canvas($("#DivReporte"));
-    var img = canvas.toDataUrl("image/png");
-    doc = new jsPDF("px", "a4");
-    doc.addImage(img, "png", 50, 50);
-    doc.save("demo.pdf");
-}
-function PrintDiv() {
-    var divContents = document.getElementById("DivReporte").innerHTML;
-    var printWindow = window.open('', '', 'height=200,width=400');
-    printWindow.document.write('<html><head><title>DIV Contents</title>');
-    printWindow.document.write('</head><body >');
-    printWindow.document.write(divContents);
-    printWindow.document.write('</body></html>');
-    printWindow.document.close();
-    printWindow.print();
+//function PrintDiv() {
+//    var divContents = document.getElementById("DivReporte").innerHTML;
+//    var printWindow = window.open('', '', 'height=200,width=400');
+//    printWindow.document.write('<html><head><title>DIV Contents</title>');
+//    printWindow.document.write('</head><body >');
+//    printWindow.document.write(divContents);
+//    printWindow.document.write('</body></html>');
+//    printWindow.document.close();
+//    printWindow.print();
+//}
+function imprimirw() {
+    window.print();
 }
