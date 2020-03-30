@@ -380,7 +380,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 IRestResponse response = client.Execute(request);
                 var content = response.Content;
                 var ListaEmpleados = JsonConvert.DeserializeObject<List<clsEmpleadoCliente>>(content);
-                return PartialView(ListaEmpleados);
+                var listFiltrada = ListaEmpleados.Where(c => !c.EXISTE_SAP).ToList();
+                return PartialView(listFiltrada);
 
             }
             catch (DbEntityValidationException e)
@@ -575,6 +576,63 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             var datos = JsonConvert.DeserializeObject<ClsKeyValue>(content);
             return Json(datos, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult ProcesarEnvioEmpleados(parametrosEnvioSAP ParametrosEnvio)
+        {
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)192 | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+            ServicePointManager.Expect100Continue = true;
+            var client = new RestClient("https://192.168.0.30:50000");
+            var request = new RestRequest("/b1s/v1/Login", Method.POST);
+            request.AddHeader("Content-Type", "application/json;odata=minimalmetadata;charset=utf-8");
+
+            EnvioSapLogin obLogin = new EnvioSapLogin();
+            obLogin.CompanyDB = "SBO_ASISERVY_PROD";
+            obLogin.UserName = "gintriago";
+            obLogin.Password = "Agia1991*";
+            request.AddJsonBody(obLogin);
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
+
+            ReturnProcesoEnvioSAP returnSapLogin = new ReturnProcesoEnvioSAP();
+            dynamic respResponse = JsonConvert.DeserializeObject(content);
+            if (HttpStatusCode.OK == response.StatusCode)
+            {
+
+                string SessionId = respResponse.SessionId;
+
+                var clientWS = new RestClient(clsAtributos.BASE_URL_WS);
+                var requestWS = new RestRequest("/api/Empleado/SapClientes", Method.GET);
+                IRestResponse responseWS = clientWS.Execute(requestWS);
+                var contentWS = responseWS.Content;
+                var ListaEmpleados = JsonConvert.DeserializeObject<List<clsEmpleadoCliente>>(contentWS);
+
+                List<string> listaCedulas = ParametrosEnvio.Cedulas.Split(',').ToList();
+
+                ClsNomina clsNomina = new ClsNomina();
+
+                foreach (string _cedula in listaCedulas)
+                {
+
+                }
+
+            }
+            else if (HttpStatusCode.Unauthorized == response.StatusCode)
+            {
+                returnSapLogin.Estado = 0;
+                returnSapLogin.StatusCodeDescription = respResponse.error.message.value;
+            }
+            else 
+            {
+                returnSapLogin.Estado = -1;
+                returnSapLogin.StatusCodeDescription = response.StatusDescription;
+            }
+            
+
+            return Json(returnSapLogin);
+
+        }
     }
 
     public class Respuesta
@@ -668,5 +726,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         public string DIA_FIN_PERMISO { get; set; }
         public string HORA_INICIA_PERMISO { get; set; }
         public string HORA_FIN_PERMISO { get; set; }
+    }
+
+    class EnvioSapLogin
+    {        
+        public string CompanyDB { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+    class ReturnProcesoEnvioSAP
+    {
+        public int Estado { get; set; }
+        public string StatusCodeDescription { get; set; }
+        public string Mensaje { get; set; }
+    }
+
+    public class parametrosEnvioSAP
+    {
+        public string Cedulas { get; set; }
     }
 }

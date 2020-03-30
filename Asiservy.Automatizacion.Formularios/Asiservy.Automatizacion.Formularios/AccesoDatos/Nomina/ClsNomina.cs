@@ -36,5 +36,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
             return objTablas;
         }
 
+        public sp_ObtenerInfoEmpleadoParaSAP_Result ObtenerInfoEmpleadoParaSAP(string cedula)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                return db.sp_ObtenerInfoEmpleadoParaSAP(cedula).FirstOrDefault();
+            }
+        }
     }
 }

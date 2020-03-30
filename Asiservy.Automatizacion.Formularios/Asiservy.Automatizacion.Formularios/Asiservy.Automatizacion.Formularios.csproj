@@ -3674,6 +3674,7 @@
     <Content Include="Views\MantenimientoSabor\MantenimientoSaborPartial.cshtml" />
     <Content Include="Views\MantenimientoTextura\MantenimientoTextura.cshtml" />
     <Content Include="Views\MantenimientoTextura\MantenimientoTexturaPartial.cshtml" />
+    <Content Include="Views\ProductoPouchCuarentena\ReporteProductoPouchCuarentena.cshtml" />
     <Content Include="Views\OperatividadMetal\OperatividadMetal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
