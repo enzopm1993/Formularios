@@ -2971,6 +2971,13 @@
         <Function Name="spReporteMapeoProductoTunelDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="date" Mode="In" />
         </Function>
+        <Function Name="spReporteProdPouchCuarentenaDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FechäProduccion" Type="date" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
+        </Function>
+        <Function Name="spReporteProdPouchCuarentenaSubDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCabProdPouchCuarentena" Type="int" Mode="In" />
+        </Function>
         <Function Name="spReporteResidualCloro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="date" Mode="In" />
           <Parameter Name="Area" Type="varchar" Mode="In" />
@@ -4223,6 +4230,13 @@
             <End Role="CC_OPERATIVIDAD_METAL" EntitySet="CC_OPERATIVIDAD_METAL" />
             <End Role="CC_OPERATIVIDAD_METAL_DETALLE" EntitySet="CC_OPERATIVIDAD_METAL_DETALLE" />
           </AssociationSet>
+          <FunctionImport Name="spReporteProdPouchCuarentenaDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteProdPouchCuarentenaDetalle)">
+            <Parameter Name="FechäProduccion" Mode="In" Type="DateTime" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spReporteProdPouchCuarentenaSubDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteProdPouchCuarentenaSubDetalle)">
+            <Parameter Name="IdCabProdPouchCuarentena" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -8180,6 +8194,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spReporteProdPouchCuarentenaDetalle">
+          <Property Type="Int32" Name="IdDetalleProdPouchCuarentena" Nullable="false" />
+          <Property Type="Int32" Name="IdCabProdPouchCuarentena" Nullable="false" />
+          <Property Type="Int32" Name="Pallet" Nullable="true" />
+          <Property Type="DateTime" Name="HoraInicio" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="HoraFin" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="FechaProduccion" Nullable="false" />
+          <Property Type="DateTime" Name="FechaTerminado" Nullable="true" />
+          <Property Type="String" Name="Codigo" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="PedidoVenta" Nullable="true" />
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TamanoFunda" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TotalCajas" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spReporteProdPouchCuarentenaSubDetalle">
+          <Property Type="Int32" Name="IdDetalleProdPouchCuarentena" Nullable="false" />
+          <Property Type="Int32" Name="Autoclave" Nullable="true" />
+          <Property Type="Int32" Name="Esterilizacion" Nullable="true" />
+          <Property Type="Int32" Name="NCarro" Nullable="true" />
+          <Property Type="Int32" Name="Funda" Nullable="true" />
+          <Property Type="Int32" Name="SumaSubDetalle" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12328,6 +12365,37 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spReporteProdPouchCuarentenaDetalle" FunctionName="ASIS_PRODModel.Store.spReporteProdPouchCuarentenaDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteProdPouchCuarentenaDetalle">
+                <ScalarProperty Name="IdDetalleProdPouchCuarentena" ColumnName="IdDetalleProdPouchCuarentena" />
+                <ScalarProperty Name="IdCabProdPouchCuarentena" ColumnName="IdCabProdPouchCuarentena" />
+                <ScalarProperty Name="Pallet" ColumnName="Pallet" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="FechaTerminado" ColumnName="FechaTerminado" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="PedidoVenta" ColumnName="PedidoVenta" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="TamanoFunda" ColumnName="TamanoFunda" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="TotalCajas" ColumnName="TotalCajas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spReporteProdPouchCuarentenaSubDetalle" FunctionName="ASIS_PRODModel.Store.spReporteProdPouchCuarentenaSubDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteProdPouchCuarentenaSubDetalle">
+                <ScalarProperty Name="IdDetalleProdPouchCuarentena" ColumnName="IdDetalleProdPouchCuarentena" />
+                <ScalarProperty Name="Autoclave" ColumnName="Autoclave" />
+                <ScalarProperty Name="Esterilizacion" ColumnName="Esterilizacion" />
+                <ScalarProperty Name="NCarro" ColumnName="NCarro" />
+                <ScalarProperty Name="Funda" ColumnName="Funda" />
+                <ScalarProperty Name="SumaSubDetalle" ColumnName="SumaSubDetalle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1791,5 +1791,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos_Detalle>("sp_Control_Lavado_Desinfeccion_Manos_Detalle", idDesinfeccionManosParameter, opcionParameter);
         }
+    
+        public virtual ObjectResult<spReporteProdPouchCuarentenaDetalle> spReporteProdPouchCuarentenaDetalle(Nullable<System.DateTime> fechäProduccion, string turno)
+        {
+            var fechäProduccionParameter = fechäProduccion.HasValue ?
+                new ObjectParameter("FechäProduccion", fechäProduccion) :
+                new ObjectParameter("FechäProduccion", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteProdPouchCuarentenaDetalle>("spReporteProdPouchCuarentenaDetalle", fechäProduccionParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spReporteProdPouchCuarentenaSubDetalle> spReporteProdPouchCuarentenaSubDetalle(Nullable<int> idCabProdPouchCuarentena)
+        {
+            var idCabProdPouchCuarentenaParameter = idCabProdPouchCuarentena.HasValue ?
+                new ObjectParameter("IdCabProdPouchCuarentena", idCabProdPouchCuarentena) :
+                new ObjectParameter("IdCabProdPouchCuarentena", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteProdPouchCuarentenaSubDetalle>("spReporteProdPouchCuarentenaSubDetalle", idCabProdPouchCuarentenaParameter);
+        }
     }
 }
