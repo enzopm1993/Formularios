@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.Models.Produccion.ProductoPouchCuarentena;
+
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.ProductoPouchCuarentena
 {
     public class clsDProductoPouchCuarentena
@@ -214,6 +216,22 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.ProductoPou
                 resultado[1] = "Registro Inactivado con éxito";
                 resultado[2] = poCabecera;
                 return resultado;
+            }
+        }
+        public ReporteProductoPouchCuarentenaViewModel ReporteProductoPouchCuarentena(DateTime Fecha, string Turno)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                List<spReporteProdPouchCuarentenaDetalle> Detalle = db.spReporteProdPouchCuarentenaDetalle(Fecha, Turno).ToList();
+                List<spReporteProdPouchCuarentenaSubDetalle> SubDetalle = null;
+                if (Detalle.Count > 0)
+                {
+                    SubDetalle = db.spReporteProdPouchCuarentenaSubDetalle(Detalle.FirstOrDefault().IdCabProdPouchCuarentena).ToList();
+                }
+                ReporteProductoPouchCuarentenaViewModel Reporte = new ReporteProductoPouchCuarentenaViewModel();
+                Reporte.ListaReporteDetalle = Detalle;
+                Reporte.ListaSubDetalle = SubDetalle;
+                return Reporte;
             }
         }
     }
