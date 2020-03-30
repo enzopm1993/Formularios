@@ -1813,5 +1813,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteProdPouchCuarentenaSubDetalle>("spReporteProdPouchCuarentenaSubDetalle", idCabProdPouchCuarentenaParameter);
         }
+    
+        public virtual ObjectResult<sp_ObtenerInfoEmpleadoParaSAP_Result> sp_ObtenerInfoEmpleadoParaSAP(string cedula)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ObtenerInfoEmpleadoParaSAP_Result>("sp_ObtenerInfoEmpleadoParaSAP", cedulaParameter);
+        }
     }
 }

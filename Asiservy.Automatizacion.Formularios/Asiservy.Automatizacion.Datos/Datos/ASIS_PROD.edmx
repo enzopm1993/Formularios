@@ -2527,6 +2527,9 @@
           <Parameter Name="ColorCuchillo" Type="char" Mode="In" />
           <Parameter Name="Fecha" Type="date" Mode="In" />
         </Function>
+        <Function Name="sp_ObtenerInfoEmpleadoParaSAP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cedula" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_obtenerVacacionesEmpleados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="cedula" Type="varchar" Mode="In" />
           <Parameter Name="tipo" Type="char" Mode="In" />
@@ -4235,7 +4238,10 @@
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spReporteProdPouchCuarentenaSubDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteProdPouchCuarentenaSubDetalle)">
-            <Parameter Name="IdCabProdPouchCuarentena" Mode="In" Type="Int32" />
+          <Parameter Name="IdCabProdPouchCuarentena" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ObtenerInfoEmpleadoParaSAP" ReturnType="Collection(ASIS_PRODModel.sp_ObtenerInfoEmpleadoParaSAP_Result)">
+            <Parameter Name="cedula" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -8216,6 +8222,46 @@
           <Property Type="Int32" Name="NCarro" Nullable="true" />
           <Property Type="Int32" Name="Funda" Nullable="true" />
           <Property Type="Int32" Name="SumaSubDetalle" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_ObtenerInfoEmpleadoParaSAP_Result">
+          <Property Type="String" Name="CardCode" Nullable="true" MaxLength="11" />
+          <Property Type="String" Name="CardName" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="FederalTaxID" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Phone1" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Cellular" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="MailAddress" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="EmailAddress" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="U_SYP_BPNO" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="U_SYP_BPN2" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="U_SYP_BPAP" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="U_SYP_BPAM" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="U_SYP_FNACIM" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="U_SYP_GENERO" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_EST_CIVIL" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="ContactPerson" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="SalesPersonCode" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="DebitorAccount" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="Properties13" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="U_SYP_BPTD" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="U_SYP_PARTREL" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_TIPPROV" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_CONTABILIDAD" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_TCONTRIB" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_FPAGO" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_TIPOPAGO" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_TIPOREGI" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_PAISPAGOGEN" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="U_SYP_PAISPAGO" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="U_SYP_ORIGEN_INGRESO" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_ADTPAGO" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_PESRET" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_BPAT" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_BROKER" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="U_SYP_COMI_BROKER" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="U_SYP_TIPBROKER" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="Currency" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="CardType" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="GroupCode" Nullable="false" MaxLength="3" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -12393,6 +12439,50 @@
                 <ScalarProperty Name="NCarro" ColumnName="NCarro" />
                 <ScalarProperty Name="Funda" ColumnName="Funda" />
                 <ScalarProperty Name="SumaSubDetalle" ColumnName="SumaSubDetalle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ObtenerInfoEmpleadoParaSAP" FunctionName="ASIS_PRODModel.Store.sp_ObtenerInfoEmpleadoParaSAP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_ObtenerInfoEmpleadoParaSAP_Result">
+                <ScalarProperty Name="CardCode" ColumnName="CardCode" />
+                <ScalarProperty Name="CardName" ColumnName="CardName" />
+                <ScalarProperty Name="FederalTaxID" ColumnName="FederalTaxID" />
+                <ScalarProperty Name="Phone1" ColumnName="Phone1" />
+                <ScalarProperty Name="Cellular" ColumnName="Cellular" />
+                <ScalarProperty Name="MailAddress" ColumnName="MailAddress" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="U_SYP_BPNO" ColumnName="U_SYP_BPNO" />
+                <ScalarProperty Name="U_SYP_BPN2" ColumnName="U_SYP_BPN2" />
+                <ScalarProperty Name="U_SYP_BPAP" ColumnName="U_SYP_BPAP" />
+                <ScalarProperty Name="U_SYP_BPAM" ColumnName="U_SYP_BPAM" />
+                <ScalarProperty Name="U_SYP_FNACIM" ColumnName="U_SYP_FNACIM" />
+                <ScalarProperty Name="U_SYP_GENERO" ColumnName="U_SYP_GENERO" />
+                <ScalarProperty Name="U_SYP_EST_CIVIL" ColumnName="U_SYP_EST_CIVIL" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="SalesPersonCode" ColumnName="SalesPersonCode" />
+                <ScalarProperty Name="DebitorAccount" ColumnName="DebitorAccount" />
+                <ScalarProperty Name="Properties13" ColumnName="Properties13" />
+                <ScalarProperty Name="U_SYP_BPTD" ColumnName="U_SYP_BPTD" />
+                <ScalarProperty Name="U_SYP_PARTREL" ColumnName="U_SYP_PARTREL" />
+                <ScalarProperty Name="U_SYP_TIPPROV" ColumnName="U_SYP_TIPPROV" />
+                <ScalarProperty Name="U_SYP_CONTABILIDAD" ColumnName="U_SYP_CONTABILIDAD" />
+                <ScalarProperty Name="U_SYP_TCONTRIB" ColumnName="U_SYP_TCONTRIB" />
+                <ScalarProperty Name="U_SYP_FPAGO" ColumnName="U_SYP_FPAGO" />
+                <ScalarProperty Name="U_SYP_TIPOPAGO" ColumnName="U_SYP_TIPOPAGO" />
+                <ScalarProperty Name="U_SYP_TIPOREGI" ColumnName="U_SYP_TIPOREGI" />
+                <ScalarProperty Name="U_SYP_PAISPAGOGEN" ColumnName="U_SYP_PAISPAGOGEN" />
+                <ScalarProperty Name="U_SYP_PAISPAGO" ColumnName="U_SYP_PAISPAGO" />
+                <ScalarProperty Name="U_SYP_ORIGEN_INGRESO" ColumnName="U_SYP_ORIGEN_INGRESO" />
+                <ScalarProperty Name="U_SYP_ADTPAGO" ColumnName="U_SYP_ADTPAGO" />
+                <ScalarProperty Name="U_SYP_PESRET" ColumnName="U_SYP_PESRET" />
+                <ScalarProperty Name="U_SYP_BPAT" ColumnName="U_SYP_BPAT" />
+                <ScalarProperty Name="U_SYP_BROKER" ColumnName="U_SYP_BROKER" />
+                <ScalarProperty Name="U_SYP_COMI_BROKER" ColumnName="U_SYP_COMI_BROKER" />
+                <ScalarProperty Name="U_SYP_TIPBROKER" ColumnName="U_SYP_TIPBROKER" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="CardType" ColumnName="CardType" />
+                <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
