@@ -20,7 +20,6 @@
                 <label>Recurso</label>
             </th>
             <th>
-                <label>Estado SAP</label>
             </th>
         </tr>
     </thead>
@@ -28,10 +27,10 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="td_cedula cedula_@item.CEDULA" >
                     @if (!item.EXISTE_SAP)
                     {
-                        <input type="checkbox" data-cedula="@item.CEDULA" class="checkEmpleado" name="" />
+                        <input type="checkbox" data-cedula="@item.CEDULA" class="checkEmpleado" id="chk_@item.CEDULA" name="" />
                     }
 
                 </td>

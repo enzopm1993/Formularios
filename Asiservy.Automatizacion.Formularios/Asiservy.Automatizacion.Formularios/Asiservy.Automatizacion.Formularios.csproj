@@ -3211,6 +3211,7 @@
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoTextura.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MonitoreoDescongelado\clsDMonitoreoDescongelado.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ControlCuchillosPreparacion\clsDControlCuchillosPreparacion.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\OperatividadMetal\clsDOperatividadMetal.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
     <Compile Include="AccesoDatos\ControlConsumoInsumo\clsDControlConsumoInsumo.cs" />
@@ -3286,6 +3287,7 @@
     <Compile Include="Controllers\CALIDAD\MantenimientoTexturaController.cs" />
     <Compile Include="Controllers\CALIDAD\MonitoreoDescongeladoController.cs" />
     <Compile Include="Controllers\CALIDAD\ControlCuchillosPreparacionController.cs" />
+    <Compile Include="Controllers\CALIDAD\OperatividadMetalController.cs" />
     <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\ControlBalanzaController.cs" />
@@ -3675,6 +3677,7 @@
     <Content Include="Views\MantenimientoTextura\MantenimientoTextura.cshtml" />
     <Content Include="Views\MantenimientoTextura\MantenimientoTexturaPartial.cshtml" />
     <Content Include="Views\ProductoPouchCuarentena\ReporteProductoPouchCuarentena.cshtml" />
+    <Content Include="Views\OperatividadMetal\OperatividadMetal.cshtml" />
     <Content Include="Views\ProductoPouchCuarentena\PartialReporteProductoPouchCuarentena.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
