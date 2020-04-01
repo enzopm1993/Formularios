@@ -28,7 +28,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
                     db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Add(poEsterilizacionConserva);
                     db.SaveChanges();
                     resultado[0] = "000";
-                    resultado[1] = "Registro actualizado con éxito";
+                    resultado[1] = "Registro ingresado con éxito";
                     resultado[2] = poEsterilizacionConserva;
                 }
                 else

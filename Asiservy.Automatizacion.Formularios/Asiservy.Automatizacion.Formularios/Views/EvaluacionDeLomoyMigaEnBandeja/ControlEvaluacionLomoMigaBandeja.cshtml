@@ -1,0 +1,341 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
+
+<style>
+    textarea {
+        resize: none;
+    }
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    fieldset {
+        border: 1px solid #ddd !important;
+        margin: 0;
+        xmin-width: 0;
+        padding: 10px;
+        position: relative;
+        border-radius: 4px;
+        background-color: #f5f5f5;
+        padding-left: 10px !important;
+    }
+
+    legend {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 0px;
+        /*width: 35%;*/
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px 5px 5px 10px;
+        background-color: #ffffff;
+    }
+
+    #lgnprod {
+        width: 25%;
+    }
+
+    #lgndestino {
+        width: 60%;
+    }
+</style>
+<h4>Evaluacón de lomos y migas en bandejas</h4>
+<hr />
+<div class="card">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                Fecha de producción:
+                <input type="date" class="form-control" id="txtFechaProduccion" onchange="LLenarComboOrdenes()" />
+                <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                Orden de Fabricación:
+
+                <select id="cmbOrdeneFabricacion" class="form-control" onchange="DatosOrdenFabricacion()">
+                    <option>Seleccione..</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                Cliente:
+                <input type="text" id="txtCliente" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <fieldset>
+                <legend id="lgnprod">Producto</legend>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Lomo" value="">Lomo
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Miga" value="">Miga
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="col-md-4">
+            <fieldset>
+                <legend id="lgndestino">Destino de lomos o migas</legend>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Empaque" value="">Empaque
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Enlatado" value="">Enlatado
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="Pouch" value="">Pouch
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                Nivel de limpieza:
+                @Html.DropDownList("cmbNivelLimpieza", (IEnumerable<SelectListItem>)ViewBag.NivelLimpieza, "Seleccione..", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                Observación:
+                <textarea id="Observacion" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-12 text-center">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnCargando">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabceraControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/save20.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiar" onclick="LimpiarControles()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarCabeceraControl" onclick="ConfirmarEliminarCab()" style="border-color:#2c3e50" type="button" disabled>
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+<center>   <h4 id="mensajeRegistros" class="text-warning" hidden> No se encontraron Registros</h4></center>
+
+<div class="card" id="CardDetalle" @*hidden*@>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#informacion">Información general lotes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#evaluacion">Evaluación organoléptica</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#verificacion">Verificación de limpieza</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane container-fluid active" id="informacion">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Hora</label>
+                                <input type="datetime-local" id="txtHora" class=" form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Línea</label>
+                                @Html.DropDownList("cmbLinea", (IEnumerable<SelectListItem>)ViewBag.Lineas, "Seleccione..", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Lote</label>
+                                <select id="cmbLote" class="form-control" onchange="DatosLote()">
+                                    <option>Seleccione..</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Buque</label>
+                                <input type="text" class="form-control" id="txtBuque" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane container-fluid fade" id="evaluacion">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Sabor</label>
+                                @Html.DropDownList("cmbSabor", (IEnumerable<SelectListItem>)ViewBag.Sabor, "Seleccione..", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Textura</label>
+                                @Html.DropDownList("cmbTextura", (IEnumerable<SelectListItem>)ViewBag.Textura, "Seleccione..", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Color</label>
+                                <select id="cmbColor" class="form-control">
+                                    <option>Seleccione..</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Olor</label>
+                                @Html.DropDownList("cmbOlor", (IEnumerable<SelectListItem>)ViewBag.Olor, "Seleccione..", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Moretones</label>
+                                <input type="number" id="txtMoretones" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Hematomas profundos</label>
+                                <input type="number" id="txtHematomas" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Proteínas</label>
+                                @Html.DropDownList("cmbProteina", (IEnumerable<SelectListItem>)ViewBag.Proteina, "Seleccione..", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Trozos</label>
+                                <input type="number" id="txtTrozos" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane container-fluid fade" id="verificacion">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>Venas</label>
+                                <input type="number" id="txtVenas" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>Espinas</label>
+                                <input type="number" id="txtEspinas" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>Sangre</label>
+                                <input type="number" id="txtSangre" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Escamas</label>
+                                <input type="number" id="txtEscamas" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Piel</label>
+                                <input type="number" id="txtPiel" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class=" col-12 text-center">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnCargandoSubDetalle">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>*@
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardarDetalle" onclick="GuardarDetalleControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/save20.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiarDetalle" onclick="LimpiarDetalleControles()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarDetalleControl" onclick="ConfirmarEliminarDetalle()" style="border-color:#2c3e50" type="button" disabled>
+                    <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                </button>
+        </div>
+    </div>
+    <br />
+</div>
+
+    @*modal eliminar cabecera*@
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarCabecera" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarCabecera()">Si</button>
+                    <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>

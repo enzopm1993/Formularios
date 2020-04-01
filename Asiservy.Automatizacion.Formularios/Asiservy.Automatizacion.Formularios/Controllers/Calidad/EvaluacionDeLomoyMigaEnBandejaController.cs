@@ -1,27 +1,88 @@
-﻿using Asiservy.Automatizacion.Datos.Datos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
-using Asiservy.Automatizacion.Formularios.Models;
+﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLomosyMigasEnBandeja;
+using System.Net;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoOlor;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos;
+using Asiservy.Automatizacion.Formularios.Models.Calidad;
 
-namespace Asiservy.Automatizacion.Formularios.Controllers
+namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
-    public class GeneralController : Controller
+    public class EvaluacionDeLomoyMigaEnBandejaController : Controller
     {
+        // GET: EvaluacionDeLomoyMigaEnBandeja
         string[] lsUsuario = null;
         clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
-        clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
-        // GET: General
+        clsDMantenimientoOlor clsDMantenimientoOlor = null;
+        clsDMantenimientoTextura clsDMantenimientoTextura = null;
+        clsDMantenimientoSabor clsDMantenimientoSabor = null;
+        clsDMantenimientoProteina clsDMantenimientoProteina = null;
+        clsDClasificador clsDClasificador = null;
+        clsDEvaluacionDeLomosYMigasEnBandeja clsDEvaluacionDeLomosYMigasEnBandeja = null;
+        protected void SetSuccessMessage(string message)
+        {
+            TempData["MensajeConfirmacion"] = message;
+        }
+        protected void SetErrorMessage(string message)
+        {
+            TempData["MensajeError"] = message;
+        }
+        [Authorize]
+        public ActionResult ControlEvaluacionLomoMigaBandeja()
+        {
+            try
+            {
 
-        //PRDOCUTO TERMINADO
-        public JsonResult ConsultarOFNivel1(DateTime Fecha)
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dataTableJS = "1";
+                ViewBag.select2 = "1";
+                lsUsuario = User.Identity.Name.Split('_');
+                clsDMantenimientoOlor = new clsDMantenimientoOlor();
+                clsDMantenimientoTextura = new clsDMantenimientoTextura();
+                clsDMantenimientoSabor = new clsDMantenimientoSabor();
+                clsDMantenimientoProteina = new clsDMantenimientoProteina();
+                clsDClasificador = new clsDClasificador();
+                var ListaTiposLimpieza = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoTipoLimpiezaPescado).OrderBy(x=>x.Codigo);
+                var Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion).OrderBy(x => x.Codigo);
+                var Olor = clsDMantenimientoOlor.ConsultaManteminetoOlor();
+                var Textura = clsDMantenimientoTextura.ConsultaManteminetoTextura();
+                var Sabor = clsDMantenimientoSabor.ConsultaManteminetoSabor();
+                var Proteina = clsDMantenimientoProteina.ConsultaManteminetoProteina();
+                ViewBag.Olor = new SelectList(Olor, "IdOlor", "Descripcion");
+                ViewBag.Textura = new SelectList(Textura, "IdTextura", "Descripcion");
+                ViewBag.Sabor = new SelectList(Sabor, "IdSabor", "Descripcion");
+                ViewBag.Proteina = new SelectList(Proteina, "IdProteina", "Descripcion");
+                ViewBag.NivelLimpieza =new SelectList(ListaTiposLimpieza, "Codigo","Descripcion");
+                ViewBag.Lineas = new SelectList(Lineas, "Codigo", "Descripcion");
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+        [HttpPost]
+        public JsonResult GuardarCabeceraControl(CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA poCabeceraControl)
         {
             try
             {
@@ -30,9 +91,24 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
-                var ordenes = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProductoTerminado(Fecha);
-                return Json(ordenes, JsonRequestBehavior.AllowGet);
+                poCabeceraControl.FechaIngresoLog = DateTime.Now;
+                poCabeceraControl.UsuarioIngresoLog = lsUsuario[0];
+                poCabeceraControl.TerminalIngresoLog = Request.UserHostAddress;
+                poCabeceraControl.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                object[] resultado = null;
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                if (poCabeceraControl.IdEvaluacionDeLomosYMigasEnBandejas == 0)
+                {
+                    resultado = clsDEvaluacionDeLomosYMigasEnBandeja.GuardarCabeceraControl(poCabeceraControl);
+                }
+                else
+                {
+                    resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ActualizarCabeceraControl(poCabeceraControl);
+                }
+
+                //clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
+                //string resultado = clsDControlConsumoInsumo.GuardarPallet(pallet);
+                return Json(resultado, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -53,13 +129,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
-        /// <summary>
-        /// PARA EL CONTROL DE AVANCE EN LA SALA DE PROCESO
-        /// </summary>
-        /// <param name="Orden"></param>
-        /// <returns></returns>
-        public JsonResult ConsultarLotesPorLinea(int Orden)
+        [HttpPost]
+        public JsonResult ConsultarCabeceraControl(CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA poCabControl)
         {
             try
             {
@@ -68,106 +139,32 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDEmpleado = new clsDEmpleado();
-                var Linea = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
-                dynamic result = clsDApiOrdenFabricacion.ConsultaLotesPorOrdenFabricacionLinea(Orden, Linea.CODIGOLINEA);
-                List<ClasificadorGenerico> Listado = new List<ClasificadorGenerico>();
-                foreach (var x in result)
+                CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA resultado = null;
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarCabeceraControl(poCabControl.FechaProduccion.Value);
+                if (resultado != null)
                 {
-                    Listado.Add(new ClasificadorGenerico { descripcion = x.Lote });
-                }
+                    return Json(new
+                    {
+                        resultado.IdEvaluacionDeLomosYMigasEnBandejas,
+                        resultado.FechaProduccion,
+                        resultado.Cliente,
+                        resultado.Lomo,
+                        resultado.Miga,
+                        resultado.Empaque,
 
-                return Json(Listado, JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        /// <summary>
-        /// CONSULTA DE LOS LOTES POR UNA ORDEN DE FABRICACION
-        /// </summary>
-        /// <param name="Orden"></param>
-        /// <returns></returns>
-        public JsonResult ConsultarLotesPorOf(int Orden)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
+                        resultado.Enlatado,
+                        resultado.Pouch,
+                        resultado.NivelLimpieza,
+                        resultado.OrdenFabricacion,
+                        resultado.Observacion
+                    }, JsonRequestBehavior.AllowGet);
                 }
-                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
-                dynamic result = clsDApiOrdenFabricacion.ConsultaLotesPorOrdenFabricacion(Orden);
-                List<ClasificadorGenerico> Listado = new List<ClasificadorGenerico>();
-                foreach (var x in result)
-                {
-                    Listado.Add(new ClasificadorGenerico { descripcion = x.Lote, Especie=x.Especie, Barco=x.Barco });
-                }
-
-                return Json(Listado, JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        /// <summary>
-        /// PRODUCTO SEMI ELABORADO
-        /// </summary>
-        public JsonResult ConsultaOFNivel2(DateTime Fecha, string Orden)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
-                List<OrdenFabricacionAutoclave> result = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaAutoclave(Fecha);
-                if (!result.Any())
+                else
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
+                }
 
-                }
-                if (!string.IsNullOrEmpty(Orden))
-                {
-                    result = result.Where(x => x.ORDEN_FABRICACION == Orden).ToList();
-                }
-                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -188,77 +185,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
-        //PRODUCTOS CONGELADOS -> SOLO OF
-        public JsonResult ConsultaSoloOFNivel3(DateTime Fecha)
-        {
-            try
-            {
-                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
-                dynamic result = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaProduccion(Fecha);
-                List<OrdenFabricacion> Listado = new List<OrdenFabricacion>();
-                foreach (var x in result)
-                {
-                    Listado.Add(new OrdenFabricacion { Orden = x.OrdenFabricacion });
-                }
-                return Json(Listado, JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        //PRODUCTO CONGELADO LOMOS - DATOS OF
-        public JsonResult ConsultarDatosOFNivel3(DateTime Fecha)
-        {
-            try
-            {
-                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
-                dynamic result = clsDApiOrdenFabricacion.ConsultaOFNivel3(Fecha);
-                List<OrdenFabricacion> Listado = new List<OrdenFabricacion>();
-                foreach (var x in result)
-                {
-                    Listado.Add(new OrdenFabricacion { Orden = x.ORDEN_FABRICACION });
-                }
-                return Json(Listado, JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-
-        public JsonResult ConsultarDatosOrdenFabricacion(string Orden)
+        [HttpPost]
+        public JsonResult EliminarCabeceraControl(int IdCabecera)
         {
             try
             {
@@ -267,20 +195,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                if (string.IsNullOrEmpty(Orden))
+                CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA poCabecera = new CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA()
                 {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-
-                }
-                clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
-                OrdenFabricacionConsumoInsumo result = new OrdenFabricacionConsumoInsumo();
-                result = clsDApiOrdenFabricacion.ConsultaOrdenFabricacionPorFechaConsumoInsumo(Orden).FirstOrDefault();
-                if (result == null)
-                {
-                    return Json("1", JsonRequestBehavior.AllowGet);
-
-                }
-                return Json(result, JsonRequestBehavior.AllowGet);
+                    IdEvaluacionDeLomosYMigasEnBandejas = IdCabecera,
+                    UsuarioIngresoLog = lsUsuario[0],
+                    FechaIngresoLog = DateTime.Now,
+                    TerminalIngresoLog = Request.UserHostAddress
+                };
+                object[] Respuesta = null;
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                Respuesta = clsDEvaluacionDeLomosYMigasEnBandeja.InactivarCabeceraControl(poCabecera);
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -301,16 +226,34 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
-
-        public ActionResult EmpleadoBuscar(string dsLinea, string dsArea, string dsCargo)
+        [HttpPost]
+        public JsonResult GuardarDetalleControl(CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE poDetalleControl)
         {
             try
             {
-                clsDEmpleado = new clsDEmpleado();
-                List<spConsutaEmpleadosFiltro> lista = clsDEmpleado.ConsultaEmpleadosFiltro(dsLinea, dsArea, dsCargo);
-                return PartialView(lista);
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                poDetalleControl.FechaIngresoLog = DateTime.Now;
+                poDetalleControl.UsuarioIngresoLog = lsUsuario[0];
+                poDetalleControl.TerminalIngresoLog = Request.UserHostAddress;
+                poDetalleControl.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                object[] resultado = null;
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                if (poDetalleControl.IdDetalleEvaluacionLomoyMigasEnBandeja == 0)
+                {
+                    resultado = clsDEvaluacionDeLomosYMigasEnBandeja.GuardarDetalleControl(poDetalleControl);
+                }
+                else
+                {
+                    resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ActualizarDetalleControl(poDetalleControl);
+                }
 
+                //clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
+                //string resultado = clsDControlConsumoInsumo.GuardarPallet(pallet);
+                return Json(resultado, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -330,11 +273,86 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
-
         }
+        [HttpPost]
+        public JsonResult EliminarDetalleControl(int IdDetalle)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE poDetControl = new CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE()
+                {
+                    IdDetalleEvaluacionLomoyMigasEnBandeja = IdDetalle,
+                    UsuarioIngresoLog = lsUsuario[0],
+                    FechaIngresoLog = DateTime.Now,
+                    TerminalIngresoLog = Request.UserHostAddress
+                };
+                object[] Respuesta = null;
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                Respuesta = clsDEvaluacionDeLomosYMigasEnBandeja.InactivarDetalle(poDetControl);
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult PartialDetalleControl(int IdCabeceraControl)
+        {
+            try
+            {
 
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
 
-
-
+                List<DetalleEvaluacionLomosMIgasBandejaViewModel> resultado;
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarDetalleControl(IdCabeceraControl);
+                if (resultado.Count == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return PartialView(resultado);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
