@@ -16,7 +16,7 @@
         <div class="col-md-3 col-6 col-sm-6">
             <div class="form-group">
                 <label>Fecha</label>
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarMonitoreoDescongelado()" id="txtFecha" class="form-control" />
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarControl()" id="txtFecha" class="form-control" />
             </div>
         </div>
 
@@ -38,16 +38,42 @@
 </div>
 
 <br />
-<div id="">
-    <div class="card shadow">
-        <div class="card-body">
-            <div class="d-flex justify-content-center">
-                <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-            <div id="divDetalle" class="table-responsive">
+<div id="divDetalle" class="">
+    <div class="row">
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-4">
+                            <div class="form-group">
+                                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControlDetalle()" style="border-color:#2c3e50" type="button">
+                                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                                </button>
+                                            
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-8">
+                            <h5>Datos del Proceso</h5>
+                                       
+                        </div>
+                    </div>
 
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div id="divTableDetalle" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>

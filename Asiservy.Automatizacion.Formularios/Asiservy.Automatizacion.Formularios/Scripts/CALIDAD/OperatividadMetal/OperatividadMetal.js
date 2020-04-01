@@ -5,7 +5,7 @@
 
 
 function ConsultarControl() {
-    $("#divDetalle").html('');  
+  //  $("#divDetalle").html('');  
     $.ajax({
         url: "../OperatividadMetal/OperatividadMetalPartial",
         type: "GET",
@@ -19,7 +19,7 @@ function ConsultarControl() {
             if (resultado == "0") {
                 $("#btnGenerar").prop("hidden", false);
                 $("#btnEditar").prop("hidden", true);
-
+              //  $("#divDetalle").html('NO SE HA GENERADO EL CONTROL');  
             } else {
                 //$("#txtPcc").prop("disabled", true);
                 //$("#txtCodDetectorMetal").prop("disabled", true);
