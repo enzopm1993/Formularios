@@ -21,11 +21,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
             using (var db = new ASIS_PRODEntities())
             {
                 object[] resultado = new object[3];
-                db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Add(poEsterilizacionConserva);
-                db.SaveChanges();
-                resultado[0] = "000";
-                resultado[1] = "Registro actualizado con éxito";
-                resultado[2] = poEsterilizacionConserva;
+                var buscarCabecera = db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Where(x => x.Fecha == poEsterilizacionConserva.Fecha && x.Turno == poEsterilizacionConserva.Turno
+                  && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                if (buscarCabecera == null)
+                {
+                    db.CABECERA_CONTROL_ESTERILIZACION_CONSERVAS.Add(poEsterilizacionConserva);
+                    db.SaveChanges();
+                    resultado[0] = "000";
+                    resultado[1] = "Registro actualizado con éxito";
+                    resultado[2] = poEsterilizacionConserva;
+                }
+                else
+                {
+                    resultado[0] = "002";
+                    resultado[1] = "Error, el registro ya existe";
+                    resultado[2] = buscarCabecera;
+                }
+                
                 return resultado;
             }
         }
@@ -173,6 +185,34 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
                 var resultado = (from t in db.TIPO_ESTERILIZACION_CONSERVA
                                  where t.IdDetalleControlEsterilizacion == piDetalleEsterilizacion && t.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                  select t).ToList();
+                return resultado;
+            }
+        }
+        public List<spReporteEsterilizacionDetalle> ConsultarDetalleReporteControlEsterilizacion(DateTime Fecha, string Turno, string Linea)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                db.Database.CommandTimeout = 180;
+                return db.spReporteEsterilizacionDetalle(Fecha, Turno, Linea).ToList();
+            }
+        }
+        public List<COCHE_AUTOCLAVE_DETALLE> ConsultarReporteDetallesCoches(int[] IdCoches)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                List<COCHE_AUTOCLAVE_DETALLE> resultado = (from d in db.COCHE_AUTOCLAVE_DETALLE
+                                 where IdCoches.Contains(d.IdCocheAutoclave)
+                                 select d).ToList();
+                return resultado;
+            }
+        }
+        public List<TIPO_ESTERILIZACION_CONSERVA> ConsultarTiposReporteEsterilizado(int[] IdDetalle)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                List<TIPO_ESTERILIZACION_CONSERVA> resultado = (from t in db.TIPO_ESTERILIZACION_CONSERVA
+                                                                where IdDetalle.Contains(t.IdDetalleControlEsterilizacion)
+                                                                select t).ToList();
                 return resultado;
             }
         }

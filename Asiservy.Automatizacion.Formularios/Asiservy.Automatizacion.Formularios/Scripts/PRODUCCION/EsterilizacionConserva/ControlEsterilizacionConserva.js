@@ -162,7 +162,13 @@ function GuardarCabEsterilizacion() {
             if (resultado[0] == "001") {
                 MensajeCorrecto("Registro actualizado con éxito");
             }
-            ConsultarCoches();
+            if (resultado[0] == "002") {
+                MensajeAdvertencia("Error, el registro ya existe");
+            }
+            if (resultado[0] != "002") {
+                ConsultarCoches();
+            }
+            
             //  $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {

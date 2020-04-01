@@ -1,0 +1,113 @@
+﻿@model Asiservy.Automatizacion.Formularios.Models.Produccion.ProductoPouchCuarentena.ReporteProductoPouchCuarentenaViewModel
+
+<div class="card" id="divcarddet">
+    <div>
+        <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnimprimir" onclick="imprimirw()" style="border-color:#2c3e50" type="button">
+            <img style="width:100%" src="~/Content/icons/print24.png" />
+        </button><br />
+      
+    </div>
+    <div id="DivReporteImp">
+        
+        <div class="row">
+            <div class="col-md-12 table-responsive">
+
+                <table class="texto7" width="100%">
+                    <tr>
+                        <td>FECHA DE PRODUCCIÓN: @Model.ListaReporteDetalle.FirstOrDefault().FechaProduccion.ToShortDateString()</td>
+                        <td>PRODUCTO:  @Model.ListaReporteDetalle.FirstOrDefault().Producto</td>
+                    </tr>
+                    <tr>
+                        <td>FECHA DE TERMINADO:  @Model.ListaReporteDetalle.FirstOrDefault().FechaTerminado.Value.ToShortDateString()</td>
+                        <td>TAMAÑO FUNDA:  @Model.ListaReporteDetalle.FirstOrDefault().TamanoFunda</td>
+                    </tr>
+                    <tr>
+                        <td>CÓDIGO:  @Model.ListaReporteDetalle.FirstOrDefault().Codigo</td>
+                        <td>CLIENTE/ETIQUETA: @Model.ListaReporteDetalle.FirstOrDefault().Cliente</td>
+                    </tr>
+                    <tr>
+                        <td>PEDIDO DE VENTA: @Model.ListaReporteDetalle.FirstOrDefault().PedidoVenta</td>
+                        <td>TOTAL CAJAS:  @Model.ListaReporteDetalle.FirstOrDefault().TotalCajas</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model.ListaReporteDetalle)
+            {
+                <div class="col-md-6 table-responsive" style="padding-bottom:10px" id="TablasDetalles">
+                    <table>
+                        <thead>
+                            <tr class="text-center">
+                                <th>PALLET</th>
+                                <th>AUTOCLAVE</th>
+                                <th>ESTERILIZADO</th>
+                                <th>CARRO N°</th>
+                                <th>FUNDAS</th>
+                                <th>H.INI-FIN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int cont = 1;
+                                int cont2 = 1;
+                                var Subdetalle = (from s in Model.ListaSubDetalle
+                                                  where s.IdDetalleProdPouchCuarentena == item.IdDetalleProdPouchCuarentena
+                                                  select s).ToList();
+                            }
+
+                            @foreach (var reg in Subdetalle)
+                            {
+                                <tr class=texto6>
+                                    @if (cont == 1)
+                                    {
+                                        <td rowspan="@Subdetalle.Count" style="border-bottom-color:transparent">@item.Pallet</td>
+                                        cont++;
+                                    }
+                                    <td>@reg.Autoclave</td>
+                                    <td>@reg.Esterilizacion</td>
+                                    <td>@reg.NCarro</td>
+                                    <td>@reg.Funda</td>
+                                    @if (cont2 == 1)
+                                    {
+                                        <td rowspan="@Subdetalle.Count">@item.HoraInicio</td>
+                                        cont2++;
+                                    }
+                                </tr>
+                            }
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>@Subdetalle.FirstOrDefault().SumaSubDetalle</td>
+                                <td>@item.HoraFin</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            }
+
+        </div>
+        <div class="row">
+
+            <div class="col-md-12 table-responsive" id="TablaFirma">
+                <br /><br /><br />
+                <center>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>SUPERVISOR DE ETIQUETADO</td>
+                                <td>JEFE DE PRODUCCIÓN</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+

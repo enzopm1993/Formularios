@@ -1,4 +1,5 @@
 ﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Memorandum;
 using Asiservy.Automatizacion.Formularios.Models;
 using Newtonsoft.Json;
 using RestSharp;
@@ -12,6 +13,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class MemorandumController : Controller
     {
+        ClsMemorandum clsMemorandum;
         // GET: Memorandum
         public ActionResult Gestion(int? id)
         {
@@ -30,7 +32,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             ModelViewMemorandum modeloVistaMemos = new ModelViewMemorandum();
             modeloVistaMemos.TagsPlantilla = listaTags;
 
-            modeloVistaMemos.Memorandum = new AccesoDatos.Memorandum.ModelMemorandum();
+            if (id != null)
+            {
+                clsMemorandum = new ClsMemorandum();
+                modeloVistaMemos.Memorandum  =  clsMemorandum.ObtenerMemo(id);
+            }
+            else
+            {
+                modeloVistaMemos.Memorandum = new Datos.Datos.PlantillasMemorandum();
+                
+            }
 
             return View(modeloVistaMemos);
         }

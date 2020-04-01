@@ -1,0 +1,283 @@
+﻿
+@{
+    ViewBag.Title = "ProductoDePouchEnCuarentena";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+</style>
+<h4>Producto de pouch en cuarentena</h4>
+
+<div class="card">
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Fecha producción:</label>
+                <input type="date" id="txtFechaProduccion" class="form-control" onchange="LLenarComboOrdenes()" />
+                <label class="text-danger" id="msjErrorFechaProduccion" hidden>seleccione una fecha</label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Turno:</label>
+                <select class="form-control" id="cmbTurno">
+                    <option value="">Seleccione...</option>
+                    <option value="1">Turno A</option>
+                    <option value="2">Turno B</option>
+                </select>
+                <label class="text-danger" id="msjerrorturno" hidden>Debe seleccionar un turno</label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Orden de fabricación:</label>
+                <select class="form-control" id="cmbOrdeneFabricacion" onchange="DatosOrdenFabricacion()">
+                    <option value="1">Seleccione...</option>
+                </select>
+                <label class="text-danger" id="msjerrorOrdenFabricacion" hidden>Debe seleccionar una orden de fabricación</label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Tamaño funda:</label>
+                <input type="text" id="txtTamanoFunda" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <label>Producto:</label>
+                <input type="text" id="txtProducto" class="form-control" disabled />
+                <input type="hidden" id="CodProducto" />
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Cliente/Etiqueta:</label>
+                <input type="text" id="txtCliente" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Pedido de venta:</label>
+                <input type="text" id="txtPedidoVenta" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Código:</label>
+                <input type="text" id="txtCodigo" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Fecha de terminado:</label>
+                <input type="date" id="txtFechaTerminado" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label>Total Cajas::</label>
+                <input type="number" id="txtTotalCajas" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-12 text-center">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnCargando">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabceraControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/save20.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiar" onclick="LimpiarControles()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarCabeceraControl" onclick="ConfirmarEliminarCab()" style="border-color:#2c3e50" type="button" disabled>
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+<br />
+<center><h4 id="mensajeRegistros" class="text-warning" hidden>No existen registros</h4></center>
+<div class="card" id="CardDetalle" hidden>
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <label>Pallet:</label>
+                <input type="number" id="txtPallet" class="form-control" />
+                <label class="text-danger" id="msjErrorPallet" hidden>Debe ingresar un pallet</label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <label>Hora Inicio:</label>
+                <input type="datetime-local" id="txtHoraInicio" class="form-control" />
+                <label class="text-danger" id="msjErrorHoraInicio" hidden>Debe ingresar una hora de inicio</label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <label>Hora Final:</label>
+                <input type="datetime-local" id="txtHoraFinal" class="form-control" />
+                <label class="text-danger" id="msjErrorHoraFin" hidden>Debe ingresar una hora final</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-12 text-center">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnCargandoSubDetalle">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+            @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>*@
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardarDetalle" onclick="GuardarDetalleControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/save20.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiarDetalle" onclick="LimpiarDetalleControles()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+            @*<button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarCabeceraControl" onclick="ConfirmarEliminarCab()" style="border-color:#2c3e50" type="button" disabled>
+                    <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                </button>*@
+        </div>
+    </div>
+    <br />
+    <div id="DivDetalles" class="table-responsive">
+
+    </div>
+</div>
+
+@*modal subdetalle*@
+<div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalSubdetalle" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+            </div>
+            <div id="DivCochesAutoclave" class="table-responsive">
+
+            </div><br />
+            <div class="row" style="padding-left:10px;padding-right:10px">
+                <div class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        <label>Autoclave:</label>
+                        <input type="text" id="txtAutoclave" class="form-control" disabled />
+                        <label class="text-danger" id="msjerrorAutoclave" hidden>Debe seleccionar un Auto clave</label>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        <label>Esterilización:</label>
+                        <input type="text" id="txtEsterilizacion" class="form-control" disabled />
+                        <label class="text-danger" id="msjerrorEsterilizacion" hidden>Debe ingresar esterilizacion</label>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        <label>Carro:</label>
+                        <select id="cmbCarro" class="form-control"></select>
+                        <label class="text-danger" id="msjerrorCarro" hidden>Debe seleccionar un Carro</label>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        <label>Funda:</label>
+                        <input type="number" id="txtFunda" class="form-control" />
+                        <label class="text-danger" id="msjerrorFunda" hidden>Debe el número de fundas</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=" col-12 text-center">
+                    <button class="btn btn-primary" type="button" disabled hidden id="btnCargandoSubDetalle">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Espere...
+                    </button>
+
+                    <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardarSubDetalle" onclick="GuardarSubDetalleControl()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/save20.png" />
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiarSubDetalle" onclick="LimpiarSubDetalleControles()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/clear24.png" />
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarSubDetalleControl" onclick="ConfirmarEliminarSubDetalle()" style="border-color:#2c3e50" type="button" disabled>
+                        <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                    </button>
+                </div>
+            </div>
+            <br />
+            <div id="DivSubDetalle" class="table-responsive" style="padding-left:10px;padding-right:10px">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*modal eliminar subdetalle*@
+<div class="modal fade" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarSubDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsiSubDetalle" onclick="EliminarSubDetalle()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnoSubDetalle" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal eliminar detalle*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsiDetalle" onclick="EliminarDetalle()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnoDetalle" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal eliminar cabecera*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarCabecera" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarCabecera()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>

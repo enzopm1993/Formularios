@@ -20,5 +20,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.App
         public string ColorCategoria { get; set; }
         public string ColorPrioridad { get; set; }
         public string EstadoPublicacion { get; set; }
+        public string FechaComunicado { get; set; }
     }
 }

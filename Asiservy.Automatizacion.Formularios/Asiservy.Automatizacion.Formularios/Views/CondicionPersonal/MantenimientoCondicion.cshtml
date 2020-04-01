@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "MantenimientoCondicion";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<h4>Mantenimiento de Condiciones del Personal</h4>
+
+<hr />
+<div class="card shadow" id="divCabecera" style="padding:10px">
+    <div class="row" id="divCabecera1">
+        
+        <div class="col-md-2 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Id</label>
+                <input type="text" disabled class="form-control" id="txtIdControl" name="name" value="0" />
+            </div>
+        </div>
+
+        <div class="col-md-6 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Descripción</label>
+                <input type="text" class="form-control" size="250" id="txtDescripcion"  autocomplete = "off" name="name" value="" />
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <div class="form-group">
+                <label></label>
+                <div class="custom-control custom-checkbox mb-3">
+                    @Html.CheckBox("EstadoRegistro", true, new { @id = "CheckEstadoRegistro", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
+                    <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-12 text-center">
+        <label class="">Acciones</label>
+
+        <div class="form-group">
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="GuardarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+
+            @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+            <button data-toggle="tooltip" data-placement="top" title="Nuevo" class="btn" id="btnNuevo" onclick="NuevoControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+
+            @*<button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="ModalEditarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/edit24.png" />
+            </button>
+
+            <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="AtrasControlPrincipal()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/atras24.png" />
+            </button>*@
+        </div>
+    </div>
+</div>
+
+
+<div id="divCabecera2" hidden>
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+            <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>

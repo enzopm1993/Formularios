@@ -258,7 +258,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDMapeoProductoTunel = new clsDMapeoProductoTunel();
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
 
-             
+                model.Producto = model.Producto.ToUpper();
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
