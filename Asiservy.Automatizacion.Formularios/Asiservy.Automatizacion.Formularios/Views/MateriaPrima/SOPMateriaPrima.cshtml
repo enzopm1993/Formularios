@@ -1,0 +1,625 @@
+﻿<h2>Ingreso de Materia Prima</h2>
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<hr />
+<div class="col-md-2 col-6 col-sm-6 float-right">
+    <div class="form-group">
+        <label>Filtro por año:</label>
+        <select id="selectAnio" class="form-control" onchange=""></select>
+    </div>
+</div>
+
+<div class="row" id="divCabecera1">
+
+    <div class="col-md-2 col-9  text-md-left text-center">
+        <label class="" id="lblAcciones">Nuevo Registro</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="CrearNuevoRegistro()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+        </div>
+    </div>
+
+</div>
+<hr />
+<div class="table-responsive" id="divCargarMateriaPrima">
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+        <thead>
+            <tr>
+                <th>Barco</th>
+                <th>Orígen</th>
+                <th>ZC</th>
+                <th>Calificación</th>
+                <th>Veda</th>
+                <th>Empieza VDA</th>
+                <th>Sale a PCA</th>
+                <th>Capacidad</th>
+                <th>Mercado</th>
+                <th>Producción</th>
+                <th>Mercado</th>
+                <th>Producción</th>
+                <th>Mareas</th>
+                <th>TM Mercado</th>
+                <th>TM Producción</th>
+                <th>Enero</th>
+                <th>Febrero</th>
+                <th>Marzo</th>
+                <th>Abril</th>
+                <th>Mayo</th>
+                <th>Junio</th>
+                <th>Julio</th>
+                <th>Agosto</th>
+                <th>Septiembre</th>
+                <th>Octubre</th>
+                <th>Noviembre</th>
+                <th>Diciembre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody style="font-size:14px">
+            <tr>
+                <td class="xl148">CARIBE TUNA</td>
+                <td>NO</td>
+                <td class="xl67">FAO 77-87</td>
+                <td class="xl67">BUENA</td>
+                <td align="right">1</td>
+                <td class="xl68" align="right">29/7/2019</td>
+                <td class="xl68" align="right">8/10/2019</td>
+                <td class="xl69" align="right">700</td>
+                <td class="xl70" align="right">100,00%</td>
+                <td class="xl70" align="right">0,00%</td>
+                <td class="xl71" align="right">700</td>
+                <td class="xl71" align="right">0</td>
+                <td class="xl72" align="right">3</td>
+                <td class="xl71" align="right">2.100</td>
+                <td class="xl71" align="right">0</td>
+                <td class="xl73"></td>
+                <td class="xl73"></td>
+                <td class="xl73">800</td>
+                <td class="xl74"></td>
+                <td class="xl73"></td>
+                <td class="xl73"></td>
+                <td class="xl74">800</td>
+                <td class="xl73"></td>
+                <td class="xl73"></td>
+                <td class="xl73"></td>
+                <td class="xl74">800</td>
+                <td class="xl73"></td>
+                <td>
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera()">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarDetalle()">Eliminar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>LOS ROQUES</td>
+                <td>NO</td>
+                <td class="xl67">&nbsp;</td>
+                <td class="xl67">BUENA</td>
+                <td align="right">2</td>
+                <td class="xl68" align="right">9/11/2019</td>
+                <td class="xl68" align="right">19/1/2020</td>
+                <td class="xl69" align="right">800</td>
+                <td class="xl70" align="right">100,00%</td>
+                <td class="xl70" align="right">0,00%</td>
+                <td class="xl71" align="right">800</td>
+                <td class="xl71" align="right">0</td>
+                <td class="xl72" align="right">3</td>
+                <td class="xl71" align="right">2.400</td>
+                <td class="xl71" align="right">0</td>
+                <td class="xl73"></td>
+                <td class="xl73">800</td>
+                <td class="xl73"></td>
+                <td class="xl75"></td>
+                <td class="xl75"></td>
+                <td class="xl74">800</td>
+                <td class="xl75"></td>
+                <td class="xl73"></td>
+                <td class="xl75"></td>
+                <td class="xl74">800</td>
+                <td class="xl75"></td>
+                <td class="xl73"></td>
+                <td>
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera()">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarDetalle()">Eliminar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>TAURUS I</td>
+                <td>NO</td>
+                <td class="xl67">FAO 77-87</td>
+                <td class="xl67">BUENA</td>
+                <td align="right">2</td>
+                <td class="xl68" align="right">9/11/2019</td>
+                <td class="xl68" align="right">19/1/2020</td>
+                <td class="xl69" align="right">1.000</td>
+                <td class="xl70" align="right">100,00%</td>
+                <td class="xl70" align="right">0,00%</td>
+                <td class="xl71" align="right">1.000</td>
+                <td class="xl71" align="right">0</td>
+                <td class="xl72" align="right">3</td>
+                <td class="xl71" align="right">3.000</td>
+                <td class="xl71" align="right">0</td>
+                <td class="xl73"></td>
+                <td class="xl73"></td>
+                <td class="xl74"></td>
+                <td class="xl74">1.000</td>
+                <td class="xl73"></td>
+                <td class="xl73"></td>
+                <td class="xl74">1.000</td>
+                <td class="xl73"></td>
+                <td class="xl73"></td>
+                <td class="xl73"></td>
+                <td class="xl74">1.000</td>
+                <td class="xl73"></td>
+                <td>
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera()">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarDetalle()">Eliminar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>GLORIA C</td>
+                <td>SI</td>
+                <td class="xl67">FAO 87</td>
+                <td class="xl67">S/D</td>
+                <td align="right">2</td>
+                <td class="xl68" align="right">9/11/2020</td>
+                <td class="xl68" align="right">19/1/2021</td>
+                <td class="xl69" align="right">190</td>
+                <td class="xl70" align="right">10,00%</td>
+                <td class="xl70" align="right">90,00%</td>
+                <td class="xl71" align="right">19</td>
+                <td class="xl71" align="right">171</td>
+                <td class="xl72" align="right">7</td>
+                <td class="xl71" align="right">133</td>
+                <td class="xl71" align="right">1.197</td>
+                <td class="xl76"></td>
+                <td class="xl77">190</td>
+                <td class="xl77">190</td>
+                <td class="xl77">190</td>
+                <td></td>
+                <td class="xl77">190</td>
+                <td class="xl77">190</td>
+                <td class="xl77">190</td>
+                <td class="xl77">190</td>
+                <td class="xl77">190</td>
+                <td class="xl76"></td>
+                <td class="xl76"></td>
+                <td>
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera()">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarDetalle()">Eliminar</button>
+                </td>
+            </tr>
+            <tr style="height:15.5pt" height="21">
+                <td>CARMEN D</td>
+                <td>SI</td>
+                <td class="xl67">FAO 87</td>
+                <td class="xl67">S/D</td>
+                <td></td>
+                <td class="xl68"></td>
+                <td class="xl68"></td>
+                <td class="xl69" align="right">400</td>
+                <td class="xl70" align="right">85,00%</td>
+                <td class="xl70" align="right">15,00%</td>
+                <td class="xl71" align="right">340</td>
+                <td class="xl71" align="right">60</td>
+                <td class="xl72" align="right">6</td>
+                <td class="xl71" align="right">2.040</td>
+                <td class="xl71" align="right">360</td>
+                <td class="xl76"></td>
+                <td class="xl76"></td>
+                <td class="xl76"></td>
+                <td class="xl76"></td>
+                <td class="xl76"></td>
+                <td class="xl76"></td>
+                <td class="xl76"></td>
+                <td class="xl79">&nbsp;</td>
+                <td class="xl79">&nbsp;</td>
+                <td class="xl79">&nbsp;</td>
+                <td class="xl76">380</td>
+                <td class="xl76"></td>
+                <td>
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera()">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarDetalle()">Eliminar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>MARIA FATIMA</td>
+                <td class="xl80">NO</td>
+                <td class="xl67">FAO 87</td>
+                <td class="xl67">REGUL</td>
+                <td align="right">2</td>
+                <td class="xl68" align="right">9/11/2019</td>
+                <td class="xl68" align="right">19/1/2020</td>
+                <td class="xl69" align="right">200</td>
+                <td class="xl70" align="right">10,00%</td>
+                <td class="xl70" align="right">90,00%</td>
+                <td class="xl71" align="right">20</td>
+                <td class="xl71" align="right">180</td>
+                <td class="xl72" align="right">7</td>
+                <td class="xl71" align="right">140</td>
+                <td class="xl71" align="right">1.260</td>
+                <td class="xl73"></td>
+                <td class="">200</td>
+                <td class=""></td>
+                <td class="">200</td>
+                <td class="">200</td>
+                <td class="">200</td>
+                <td class=""></td>
+                <td class="">200</td>
+                <td class="">200</td>
+                <td class="xl73">200</td>
+                <td class="xl79"></td>
+                <td class="xl79"></td>
+                <td>
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera()">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarDetalle()">Eliminar</button>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+@* MODAL PARA EL INGRESO DE LOS CONTROLES CHECKBOX *@
+<div class="modal" tabindex="-1" id="ModalIngresoCabecera" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Crear Nuevo Registro</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="CerrarModalCabecera()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button id="btnCrearBarco" style="font-size:11px" class="btn btn-link" onclick="CrearBarco()">Crear barco</button>
+                <div class="row">
+
+                    <div class="col-md-3 col-6 col-sm-6">
+
+                        <div class="form-group">
+
+                            <label>Seleccion Barco</label>
+                            <select id="selectLinea" class="form-control" onchange="">
+                                <option value="" default>Seleccione..</option>
+                                <option value="001">CARIBE TUNA</option>
+                                <option value="002">LOS ROQUES</option>
+                                <option value="003">TAURUS I</option>
+                                <option value="004">GLORIA C</option>
+                                <option value="005">OCEAN LADY</option>
+                                <option value="006">DALMACIA</option>
+                                <option value="007">CARMEN D</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Origén</label>
+                            <select id="selectLinea" class="form-control" onchange="">
+                                <option value="" default>Seleccione..</option>
+                                <option value="001">SI</option>
+                                <option value="002">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>ZC</label>
+                            <input type="text" name="name" value="" id="txtZc" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Calificacion</label>
+                            <select id="selectLinea" class="form-control" onchange="">
+                                <option value="" default>Seleccione..</option>
+                                <option value="001">Buena</option>
+                                <option value="002">Regular</option>
+                                <option value="003">Mala</option>
+                                <option value="004">S/D</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Veda</label>
+                            <select id="selectLinea" class="form-control" onchange="">
+                                <option value="" default>Seleccione..</option>
+                                <option value="001">0</option>
+                                <option value="002">1</option>
+                                <option value="003">2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Empieza VDA</label>
+                            <input id="txtHora" onchange=";" class="form-control" type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Sale a Pesca</label>
+                            <input id="txtHora" onchange=";" class="form-control" type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Capacidad</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Mercado</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Producción</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Mercado</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Producción</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Mareas</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>TM Mercado</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>TM Prod</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                        </div>
+                    </div>
+                    <br />
+                    @*<div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Enero</label>
+                                <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Febrero</label>
+                                <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Marzo</label>
+                                <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Abril</label>
+                                <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Mayo</label>
+                                <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Junio</label>
+                                <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Julio</label>
+                                <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Agosto</label>
+                                <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Septiembre</label>
+                                <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Octubre</label>
+                                <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Noviembre</label>
+                                <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Diciembre</label>
+                                <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txtZc" class="form-control" />
+                            </div>
+                        </div>*@
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="GuardarControlDetalle()" id="btnGenerarControlRegistro">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* MODAL INGRESO DE MESES *@
+<div class="modal" tabindex="-1" id="ModalIngresoMeses" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ingresar mes</h5><br />
+                <button type="button" class="close" data-dismiss="modal" onclick="CerrarModalCabecera()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button><br />
+            </div>
+            <center> <input type="text" disabled id="lblBarco" style="border:0px;" /></center>          
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Enero</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txt_01" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Febrero</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txt_02" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Marzo</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txt_03" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Abril</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txt_04" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Mayo</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txt_05" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Junio</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txt_06" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Julio</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txt_07" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Agosto</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txt_08" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Septiembre</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txt_09" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Octubre</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txt_10" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Noviembre</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txt_11" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Diciembre</label>
+                            <input type="number" name="name" placeholder="1000" max="10000" min="100" value="" id="txt_12" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="GuardarControlDetalle()" id="btnGenerarControlRegistro">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* INGRESAR BARCO *@
+<div class="modal" tabindex="-1" id="ModalIngresoBarco" style="background-color:#858796" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ingresar el BARCO</h5><br />
+                <button type="button" class="close" data-dismiss="modal" onclick="CerrarModalBarco()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button><br />
+            </div>
+           
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Enero</label>
+                            <input type="text" name="name" placeholder="Nombre barco" value="" id="txt_01" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Febrero</label>
+                            <input type="text" name="name" placeholder="Grupo" value="" id="txt_02" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Marzo</label>
+                            <input type="text" name="name" placeholder="Descripción" value="" id="txt_03" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="GuardarControlDetalle()" id="btnGenerarControlRegistro">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<script src="~/Scripts/General/dataTableJS.js"></script>

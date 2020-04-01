@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Termoencogido_Sellado_Detalle>
+@using Newtonsoft.Json;
+
+<table class="table table-light table-striped"  id="tblDataTable">
+    <thead>
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Hora-Verificación
+        </th>
+        <th>
+            Temperatura
+        </th>
+        <th>
+            Correcto-Sellado
+        </th>
+        <th>
+            Observación
+        </th>
+        <th>Acciones</th>
+    </tr>
+        </thead>
+    <tbody style="font-size:12px">
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    <center>
+                         @item.HoraVerificacion.ToString("HH:mm")
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.Temperatura)
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @if (item.CorrectoSellado == true)
+                        {
+                            <span class="badge badge-success">SI</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">NO</span>
+                        }
+                    </center>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+                <td id="tdAcciones">
+                    @{string json = JsonConvert.SerializeObject(item);
+                    }
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActulizarDetalle(@json)">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarDetalle(@json)">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/Scripts/General/dataTableJS.js"></script>

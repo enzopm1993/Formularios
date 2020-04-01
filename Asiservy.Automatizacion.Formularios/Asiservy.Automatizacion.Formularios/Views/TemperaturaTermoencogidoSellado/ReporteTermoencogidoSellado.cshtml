@@ -1,0 +1,50 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE
+
+@{
+    ViewBag.Title = "ReporteTermoencogidoSellado";
+}
+
+<h3>REPORTE DE TEMPERATURA TERMOENCOGIDO Y CALIDAD DE SELLADO</h3>
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<hr />
+<div class="row" id="divCabecera1">
+    <div class="col-md-3 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(0)" id="txtFecha" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-7 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Observación</label>
+            <input type="text" name="name" value="" id="txtObservacion" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-2 col-12  text-md-left text-center">
+        <label class="" id="lblAcciones">Acciones</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="GuardarCabecera()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarConfirmar()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+            <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ActualizarCabeceraActivarCotroles(true)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/edit24.png" />
+            </button>
+        </div>
+    </div>
+
+</div>
+<hr />
+
+<div id="divTableEntregaProductoDetalle" class="table-responsive">
+
+</div>
+
