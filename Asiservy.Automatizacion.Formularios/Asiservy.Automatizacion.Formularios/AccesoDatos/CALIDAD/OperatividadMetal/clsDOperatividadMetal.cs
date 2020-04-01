@@ -35,6 +35,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
                     model.Pcc = lista.Pcc;
                     model.Observacion = lista.Observacion;
                     model.DetectorMetal = lista.DetectorMetal;
+                    model.IdOperatividadMetal = lista.IdOperatividadMetal;
                 }
                 else
                 {
@@ -58,6 +59,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
                     poControl.DetectorMetal= model.DetectorMetal;
                     poControl.Ferroso= model.Ferroso;
                     poControl.Lomos= model.Lomos;
+                    poControl.Latas = model.Latas;
                     poControl.NoFerroso= model.NoFerroso;
                     poControl.Observacion= model.Observacion;
                     poControl.Pcc= model.Pcc;

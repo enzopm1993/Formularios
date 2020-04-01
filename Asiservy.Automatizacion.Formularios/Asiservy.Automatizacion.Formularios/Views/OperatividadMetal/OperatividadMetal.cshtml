@@ -32,13 +32,17 @@
                 <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="AbrirModal()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/edit24.png" />
                 </button>
+                <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                </button>
             </div>
         </div>
     </div>
 </div>
 
 <br />
-<div id="divDetalle" class="">
+<div class="text-center" id="divMensaje"></div>
+<div id="divDetalle" hidden class="">
     <div class="row">
         <div class="col-md-12 col-12 col-sm-12">
             <div class="card shadow">
@@ -50,12 +54,11 @@
                                 <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnModalGenerar" onclick="ModalGenerarControlDetalle()" style="border-color:#2c3e50" type="button">
                                     <img style="width:100%" src="~/Content/icons/add24.png" />
                                 </button>
-                                            
+
                             </div>
                         </div>
                         <div class="col-md-9 col-sm-9 col-8">
-                            <h5>Datos del Proceso</h5>
-                                       
+                            <h5>Verificación de operatividad con patrones</h5>
                         </div>
                     </div>
 
@@ -80,6 +83,23 @@
 </div>
 
 
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar todo el control de operatividad de metal?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="modal" tabindex="-1" role="dialog" id="ModalCabecera">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -96,11 +116,11 @@
 
                     <div class="col-md-6 col-sm-6 col-6">
                         <label>PCC</label>
-                        <input type="text"autocomplete="off" class="form-control" id="txtPcc" name="name" value="" />
+                        <input type="text" autocomplete="off" class="form-control" id="txtPcc" name="name" value="" />
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
                         <label>Codigo Detector Metal</label>
-                        <input type="text"autocomplete="off" class="form-control" id="txtCodDetectorMetal" name="name" value="" />
+                        <input type="text" autocomplete="off" class="form-control" id="txtCodDetectorMetal" name="name" value="" />
                     </div>
 
                     <div class="col-md-6 col-sm-6 col-6">
@@ -116,25 +136,93 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
                         <label>Ferroso</label>
-                        <input type="number" min="0"autocomplete="off" class="form-control" id="txtFerroso" name="name" value="" />
+                        <input type="number" min="0" autocomplete="off" class="form-control" id="txtFerroso" name="name" value="" />
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
                         <label>No Ferroso</label>
-                        <input type="number" min="0"autocomplete="off" class="form-control" id="txtNoFerroso" name="name" value="" />
+                        <input type="number" min="0" autocomplete="off" class="form-control" id="txtNoFerroso" name="name" value="" />
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
                         <label>Acero Inoxidable</label>
-                        <input type="number" min="0"autocomplete="off" class="form-control" id="txtAceroInoxidable" name="name" value="" />
+                        <input type="number" min="0" autocomplete="off" class="form-control" id="txtAceroInoxidable" name="name" value="" />
                     </div>
                     <div class="col-md-12 col-sm-12 col-12">
                         <label>Observación</label>
-                        <input type="text"autocomplete="off" class="form-control" id="txtObservacion" name="name" value="" />
+                        <input type="text" autocomplete="off" class="form-control" id="txtObservacion" name="name" value="" />
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="GenerarControl()">Generar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal" tabindex="-1" id="ModalGenerarControlConsumoInsumoDetalle" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Control Consumo de Insumos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="txtIdControlConsumoInsumoDetalle" name="name" value="0" />
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Hora</label>
+                            <input class="form-control" id="txtHoraInicioDetalle" type="datetime-local" name="name" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Patrones</label>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="chkFerroso">
+                                <label class="custom-control-label" for="chkFerroso">Ferroso</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="chkNoFerroso">
+                                <label class="custom-control-label" for="chkNoFerroso">No Ferroso</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="chkAceroInoxidable">
+                                <label class="custom-control-label" for="chkAceroInoxidable">Acero Inoxidable</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarControlConsumoDetalle()" id="btnGenerarControlConsumo">Generar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar el Detalle de Consumo Insumos</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
             </div>
         </div>
     </div>
