@@ -1,4 +1,5 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +9,39 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
 {
     public class clsDOperatividadMetal
     {
-        public CC_OPERATIVIDAD_METAL ConsultaOperatividadMetal(DateTime Fecha)
+        public OperatividadMetalModel ConsultaOperatividadMetal(DateTime Fecha)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                CC_OPERATIVIDAD_METAL lista = entities.CC_OPERATIVIDAD_METAL.Where(x =>
+                var lista = entities.CC_OPERATIVIDAD_METAL.Where(x =>
                             x.Fecha == Fecha
                             && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
-                return lista;
+
+                OperatividadMetalModel model = new OperatividadMetalModel();
+                if (lista != null)
+                {
+                    model.AceroInoxidable = lista.AceroInoxidable;
+                    model.Ferroso = lista.Ferroso;
+                    model.NoFerroso = lista.NoFerroso;
+                    model.Fecha = lista.Fecha;
+                    model.FechaIngresoLog = lista.FechaIngresoLog;
+                    model.TerminalIngresoLog = lista.TerminalIngresoLog;
+                    model.UsuarioIngresoLog = lista.UsuarioIngresoLog;
+                    model.FechaModificacionLog = lista.FechaModificacionLog;
+                    model.UsuarioModificacionLog = lista.UsuarioModificacionLog;
+                    model.TerminalModificacionLog = lista.TerminalModificacionLog;
+                    model.Lomos = lista.Lomos;
+                    model.Latas = lista.Latas;
+                    model.Pcc = lista.Pcc;
+                    model.Observacion = lista.Observacion;
+                    model.DetectorMetal = lista.DetectorMetal;
+                }
+                else
+                {
+                    return null;
+                }
+
+                return model;
             }
         }
 
@@ -24,7 +50,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_OPERATIVIDAD_METAL.FirstOrDefault(x => x.IdOperatividadMetal == model.IdOperatividadMetal);
+                var poControl = entities.CC_OPERATIVIDAD_METAL.FirstOrDefault(x => x.IdOperatividadMetal == model.IdOperatividadMetal
+                                ||(x.Fecha==model.Fecha && x.EstadoRegistro ==clsAtributos.EstadoRegistroActivo));
                 if (poControl != null)
                 {
                     poControl.AceroInoxidable= model.AceroInoxidable;

@@ -2175,6 +2175,7 @@
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\MantenimientoCuchilloPreparacion.js" />
+    <Content Include="Scripts\CALIDAD\OperatividadMetal\OperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
@@ -3335,6 +3336,7 @@
     <Compile Include="Models\Asistencia\EmpleadoCuchilloViewModel.cs" />
     <Compile Include="Models\Asistencia\EmpleadoRpt.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
+    <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
     <Compile Include="Models\ControlCocheLinea\ControlCocheLineaViewModel.cs" />
     <Compile Include="Models\ControlConsumoInsumos\DetalleCuerpo.cs" />

@@ -3,5 +3,113 @@
     ViewBag.Title = "OperatividadMetal";
 }
 
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 <h4>Operatividad Detector de Metal</h4>
 
+<hr />
+<div class="card shadow" id="divCabecera" style="padding:10px">
+    <div class="row" id="divCabecera1">
+        <div class="col-md-3 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarMonitoreoDescongelado()" id="txtFecha" class="form-control" />
+            </div>
+        </div>
+
+
+        <div class="col-md-3 text-md-left col-sm-6 col-6 text-center">
+            <label class="">Acción</label>
+            <div class="form-group">
+                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                <button hidden data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnGenerar" onclick="AbrirModal()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                </button>
+
+                <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="AbrirModal()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/edit24.png" />
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<div id="">
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div id="divDetalle" class="table-responsive">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalCabecera">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Operatividad de Metal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtIdControl" name="name" value="0" />
+
+                <div class="row">
+
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <label>PCC</label>
+                        <input type="text"autocomplete="off" class="form-control" id="txtPcc" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <label>Codigo Detector Metal</label>
+                        <input type="text"autocomplete="off" class="form-control" id="txtCodDetectorMetal" name="name" value="" />
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <label>Destino</label>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="chkLomo">
+                            <label class="custom-control-label" for="chkLomo">Empaque Lomo</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="chkLata">
+                            <label class="custom-control-label" for="chkLata">Lata y Pouch</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <label>Ferroso</label>
+                        <input type="number" min="0"autocomplete="off" class="form-control" id="txtFerroso" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <label>No Ferroso</label>
+                        <input type="number" min="0"autocomplete="off" class="form-control" id="txtNoFerroso" name="name" value="" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <label>Acero Inoxidable</label>
+                        <input type="number" min="0"autocomplete="off" class="form-control" id="txtAceroInoxidable" name="name" value="" />
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-12">
+                        <label>Observación</label>
+                        <input type="text"autocomplete="off" class="form-control" id="txtObservacion" name="name" value="" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarControl()">Generar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
