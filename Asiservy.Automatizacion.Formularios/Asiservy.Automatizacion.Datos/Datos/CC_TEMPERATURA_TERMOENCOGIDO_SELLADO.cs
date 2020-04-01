@@ -12,10 +12,17 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_MANTENIMIENTO_PROTEINA
+    public partial class CC_TEMPERATURA_TERMOENCOGIDO_SELLADO
     {
-        public int IdProteina { get; set; }
-        public string Descripcion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CC_TEMPERATURA_TERMOENCOGIDO_SELLADO()
+        {
+            this.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE = new HashSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE>();
+        }
+    
+        public int Id { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -23,5 +30,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE { get; set; }
     }
 }

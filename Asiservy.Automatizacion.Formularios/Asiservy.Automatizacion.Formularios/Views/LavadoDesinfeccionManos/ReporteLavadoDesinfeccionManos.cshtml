@@ -1,0 +1,57 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Desinfeccion_Manos
+
+@{
+    ViewBag.Title = "ReporteLavadoDesinfeccionManos";
+}
+
+<h3>LAVADO Y DESINFECCION DE MANOS DEL PERSONAL DE PRODUCCION</h3>
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<hr />
+<div class="row" id="divCabecera1">
+    <div class="col-md-3 col-6 col-sm-6">
+        <div class="form-group">
+            <center>
+                <label>Fecha</label>
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(0)" id="txtFecha" class="form-control" />
+            </center>
+        </div>
+    </div>
+    <div id="divObservacion" class="col-md-7 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Observación</label>
+            <input type="text" disabled name="name" value="" id="txtObservacion" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-2 col-12  text-md-left text-center">
+        <label class="" id="lblAcciones">Acciones</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarCabecera(0)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+        </div>
+    </div>
+
+</div>
+<hr />
+
+@*MODAL BOTON DETALLE DE HORAS*@
+ <div id="divTableEntregaProductoDetalle" class="table-responsive">
+     </div>                        
+    
+ <div class="row">
+     <div class="col-md-4">
+         <div class="card shadow">
+             <div class="card-body">
+                 NO CUMPLE: <span class="badge badge-danger"> N</span><br />
+                 CUMPLE: <span class="badge badge-success">C</span><br />
+                 FRECUENCIA = <span class="badge badge-info">CADA 2 HORAS</span><br />
+             </div>
+         </div>
+     </div>
+ </div>

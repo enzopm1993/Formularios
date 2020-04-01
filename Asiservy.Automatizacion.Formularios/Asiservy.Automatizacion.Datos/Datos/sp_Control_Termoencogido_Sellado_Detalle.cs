@@ -11,14 +11,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spObtieneMarcaciones_Empleado_Result
+    public partial class sp_Control_Termoencogido_Sellado_Detalle
     {
-        public string FECHA_MARCA { get; set; }
-        public string LINEA { get; set; }
-        public string DIA { get; set; }
-        public string CEDULA { get; set; }
-        public string EMPLEADO { get; set; }
-        public string INGRESO { get; set; }
-        public string SALIDA { get; set; }
+        public int Id { get; set; }
+        public int IdCabecera { get; set; }
+        public System.DateTime HoraVerificacion { get; set; }
+        public decimal Temperatura { get; set; }
+        public bool CorrectoSellado { get; set; }
+        public string Observacion { get; set; }
     }
 }

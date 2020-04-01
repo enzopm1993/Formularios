@@ -125,6 +125,7 @@ function EliminarCabeceraSi() {
         }
     });
 }
+
 function EliminarCabeceraNo() {
     $("#modalEliminarControl").modal("hide");
 }
@@ -141,6 +142,7 @@ function ModalGenerarHoraControlCloroCisterna() {
     $("#ModalGenerarHoraControlCloroCisterna").modal("show");
     CargarHora();
 }
+
 function CargarHora() {
     var fechaactual = new Date();
     var horaactual = moment(fechaactual).format('HH:mm');
@@ -148,12 +150,14 @@ function CargarHora() {
     var fechahora = moment(fecha + " " + horaactual).format('YYYY-MM-DDTHH:mm');
     $("#txtHora").val(fechahora); 
 }
+
 function limpiarDetalle() {
     $("#txtHora").val('');
     $("#txtPpm").val('');
     $("#txtCisterna").val('');
     $("#txtObservacionDetalle").val('');
 }
+
 function GuardarControlCloroDetalle() {
     if (ControlMayorA()!=false) {
         $.ajax({
@@ -216,7 +220,6 @@ function CargarControlCloroCisternaDetalle() {
         }
     });
 }
-
 
 function EliminarControlCloroCisternaDetalle(dato) {
     $.ajax({

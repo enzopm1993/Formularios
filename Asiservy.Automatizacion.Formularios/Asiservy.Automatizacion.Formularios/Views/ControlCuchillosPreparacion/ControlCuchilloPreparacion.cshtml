@@ -4,7 +4,7 @@
     ViewBag.Title = "ControlCuchilloPreparacion";
 }
 
-<h2>Control de Cuchillo Preparacion</h2>
+<h2>CONTROL DE CUCHILLOS DE PREPARACION</h2>
 
 <div class="row" id="divCabecera">
     <div class="col-md-3 col-6 col-sm-6">
@@ -117,7 +117,7 @@
                     <div class="col-md-5 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Código Cuchillo</label>
-                            @Html.DropDownList("txtCodigoCuchillo", new SelectList(ViewBag.Cuchillos, "IdCuchilloPreparacion", "CodigoCuchillo"), "Seleccione", new { @class = "form-control", @onchange = "" })
+                            @Html.DropDownList("txtCodigoCuchillo", new SelectList(ViewBag.Cuchillos, "IdCuchilloPreparacion", "CodigoCuchillo"), "Seleccione", new { @class = "form-control", @onchange = "ValidarCuchilloExiste(0)" })
                         </div>
                     </div>
 
@@ -126,14 +126,14 @@
                             <label>Estado</label>
                             <div class="custom-control custom-checkbox mb-3">
                                 @Html.CheckBox("EstadoRegistro", false, new { @id = "CheckEstadoRegistroOp", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
-                                <label class="custom-control-label" for="CheckEstadoRegistroOp" id="LabelEstado">Estao Registro</label>
+                                <label class="custom-control-label" for="CheckEstadoRegistroOp" id="LabelEstado">Estado Registro</label>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="GuardarControlDetalle()" id="btnGenerarControlDetalle">Guardar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarControlDetalle(0)" id="btnGenerarControlDetalle">Guardar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
             </div>
         </div>
@@ -189,7 +189,7 @@
                     <div class="col-md-5 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Código Cuchillo</label>
-                            @Html.DropDownList("txtCodigoCuchilloDetalle", new SelectList(ViewBag.Cuchillos, "IdCuchilloPreparacion", "CodigoCuchillo"), "Seleccione", new { @class = "form-control", @onchange = "" })
+                            @Html.DropDownList("txtCodigoCuchilloDetalle", new SelectList(ViewBag.Cuchillos, "IdCuchilloPreparacion", "CodigoCuchillo"), "Seleccione", new { @class = "form-control", @onchange = "ValidarCuchilloExiste(1)" })
                         </div>
                     </div>
 
@@ -207,7 +207,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" onclick="EliminarDetalleSi()" id="btnEliminarDetalle">Eliminar</button>
-                <button type="button" class="btn btn-primary" onclick="GuardarControlDetalle()" id="btnActualizarDetalle">Actualizar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarControlDetalle(1)" id="btnActualizarDetalle">Actualizar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
             </div>
         </div>

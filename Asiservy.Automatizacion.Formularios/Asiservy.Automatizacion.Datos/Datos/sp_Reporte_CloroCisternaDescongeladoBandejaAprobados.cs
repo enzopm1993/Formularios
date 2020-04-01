@@ -17,7 +17,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime Fecha { get; set; }
         public string Observaciones { get; set; }
         public string AprobadoPor { get; set; }
-        public Nullable<System.DateTime> FechaAprobacion { get; set; }
+        public string FechaAprobacion { get; set; }
         public bool EstadoReporte { get; set; }
     }
 }

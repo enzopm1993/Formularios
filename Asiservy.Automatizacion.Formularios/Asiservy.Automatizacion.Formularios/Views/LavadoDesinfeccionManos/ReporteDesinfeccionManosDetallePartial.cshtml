@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Desinfeccion_Manos_Detalle>
+@using Newtonsoft.Json;
+
+<table class="table table-light table-striped border"  id="tblDataTable">
+    <thead style="height:15px; font-family:50px">
+        <tr>
+            <th style="border-right:0.4px solid #e3e6f0"></th>
+            <th></th>
+            <th style="border:0.4px solid #e3e6f0" colspan="5"><center>LIMIEZA DE ATUN</center></th>
+            <th><center>EMPAQUE</center></th>
+            <th colspan="2" style="border:0.4px solid #e3e6f0"><center>CONSERVAS</center></th>            
+        </tr>
+        <tr>
+            <th style="border-right:0.4px solid #e3e6f0">#</th>
+            <th>
+                HORA
+            </th>
+            @foreach (var item in ViewBag.cabeceraTable)
+            {
+                <th style="border:0.4px solid #e3e6f0">
+                    @item.Descripcion
+                </th>
+            }
+        </tr>        
+    </thead>
+    @{
+        var listaColumnasCabecera = ViewBag.cabeceraTable;
+        var listaHora = (from ssi in Model
+                         group ssi by new { ssi.Hora } into g
+                         select new { Hora = g.Key.Hora, Count = g.Count() }).ToList();
+        var ordenColumnasTabla = ViewBag.cabeceraTable;//Aqui obtengo como es el orden de muestreo del detalle ya que la cabecera esta dibujada. linea1, linea 2, etc
+        var con = 0;
+    }
+    <tbody style="font-size:14px">
+        @foreach (var subListaHora in listaHora)
+        {
+            con++;
+            var itemColumna = (from x in Model
+                               where x.Hora == subListaHora.Hora
+                               select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.Hora }).ToList();
+            <tr>
+                <td>@con</td>
+                <td>
+                    @subListaHora.Hora
+                </td>
+                @foreach (var lc in listaColumnasCabecera)
+                {
+
+                    int dibujarTDDiNo = 0;
+                    foreach (var ic in itemColumna)
+                    {
+                        if (ic.CodigoLinea == lc.Codigo)
+                        {
+                            dibujarTDDiNo = 1;
+                            if (ic.EstadoCumplimiento == true)
+                            {
+                                <td id="@ic.CodigoLinea"> <center><span class="badge badge-success">C</span></center></td>
+                            }
+                            else if (ic.EstadoCumplimiento == false)
+                            {
+                                <td id="@ic.CodigoLinea"> <center><span class="badge badge-danger">N</span></center></td>
+                            }
+                        }
+                    }
+                    if (itemColumna.Count != listaColumnasCabecera.Count && dibujarTDDiNo == 0)
+                    {
+                       <td id="@lc.Codigo"><span class="badge badge-primary"> SIN DATOS</span></td>                   
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+    <tfoot></tfoot>
+</table>
+
+<script src="~/Scripts/General/dataTableJS.js"></script>

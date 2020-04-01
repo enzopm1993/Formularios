@@ -12,10 +12,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_MANTENIMIENTO_SABOR
+    public partial class CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE
     {
-        public int IdSabor { get; set; }
-        public string Descripcion { get; set; }
+        public int Id { get; set; }
+        public int IdCabecera { get; set; }
+        public System.DateTime HoraVerificacion { get; set; }
+        public decimal Temperatura { get; set; }
+        public bool CorrectoSellado { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -23,5 +27,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        public virtual CC_TEMPERATURA_TERMOENCOGIDO_SELLADO CC_TEMPERATURA_TERMOENCOGIDO_SELLADO { get; set; }
     }
 }
