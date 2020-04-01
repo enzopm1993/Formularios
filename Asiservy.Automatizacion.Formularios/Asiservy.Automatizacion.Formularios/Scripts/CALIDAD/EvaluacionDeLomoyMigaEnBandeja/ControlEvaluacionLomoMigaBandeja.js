@@ -461,9 +461,9 @@ function GuardarDetalleControl() {
                 MensajeCorrecto(resultado[1]);
                 //$('#CardDetalle').prop('hidden', false);
                 //ConsultarDetalleControl();
-                ConsultarSubDetalleControl();
+                ConsultarDetalleControl();
             }
-            //LimpiarSubDetalleControles();
+            LimpiarDetalleControles();
         }
         $('#btnGuardarDetalle').prop('hidden', false);
         $('#btnLimpiarDetalle').prop('hidden', false);
@@ -476,4 +476,10 @@ function GuardarDetalleControl() {
             MensajeError(resultado.responseText, false);
 
         })
+}
+function ConsultarDetalleControl() {
+
+}
+function ConsultarDetalleControl() {
+
 }
