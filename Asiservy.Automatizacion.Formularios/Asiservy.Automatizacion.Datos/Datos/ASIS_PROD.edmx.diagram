@@ -138,10 +138,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" Width="1.5" PointX="35.875" PointY="29.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="31.375" PointY="6.125" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="33.625" PointY="6.625" />
         <EntityTypeShape EntityType="ASIS_PRODModel.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="35.875" PointY="6.5" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_OLOR" Width="1.5" PointX="3.375" PointY="31.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" Width="1.5" PointX="31.375" PointY="11.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_SABOR" Width="1.5" PointX="32.375" PointY="15.75" />
@@ -162,6 +159,9 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE" Width="1.5" PointX="12.625" PointY="35" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="33.625" PointY="6.75" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

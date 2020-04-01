@@ -4339,16 +4339,7 @@
             <Parameter Name="tipo" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="CABECERA_PRODUCTO_POUCH_CUARENTENA" EntityType="ASIS_PRODModel.CABECERA_PRODUCTO_POUCH_CUARENTENA" />
-          <EntitySet Name="DETALLE_PRODUCTO_POUCH_CUARENTENA" EntityType="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" />
           <EntitySet Name="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" EntityType="ASIS_PRODModel.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" />
-          <AssociationSet Name="FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA">
-            <End Role="CABECERA_PRODUCTO_POUCH_CUARENTENA" EntitySet="CABECERA_PRODUCTO_POUCH_CUARENTENA" />
-            <End Role="DETALLE_PRODUCTO_POUCH_CUARENTENA" EntitySet="DETALLE_PRODUCTO_POUCH_CUARENTENA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA">
-            <End Role="DETALLE_PRODUCTO_POUCH_CUARENTENA" EntitySet="DETALLE_PRODUCTO_POUCH_CUARENTENA" />
-            <End Role="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" EntitySet="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" />
-          </AssociationSet>
           <EntitySet Name="CC_MANTENIMIENTO_OLOR" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_OLOR" />
           <EntitySet Name="CC_MANTENIMIENTO_PROTEINA" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" />
           <EntitySet Name="CC_MANTENIMIENTO_SABOR" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_SABOR" />
@@ -4412,6 +4403,15 @@
             <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="DETALLE_PRODUCTO_POUCH_CUARENTENA" EntityType="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" />
+          <AssociationSet Name="FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA">
+            <End Role="CABECERA_PRODUCTO_POUCH_CUARENTENA" EntitySet="CABECERA_PRODUCTO_POUCH_CUARENTENA" />
+            <End Role="DETALLE_PRODUCTO_POUCH_CUARENTENA" EntitySet="DETALLE_PRODUCTO_POUCH_CUARENTENA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA">
+            <End Role="DETALLE_PRODUCTO_POUCH_CUARENTENA" EntitySet="DETALLE_PRODUCTO_POUCH_CUARENTENA" />
+            <End Role="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" EntitySet="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -8088,25 +8088,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DETALLE_PRODUCTO_POUCH_CUARENTENA" Relationship="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" FromRole="CABECERA_PRODUCTO_POUCH_CUARENTENA" ToRole="DETALLE_PRODUCTO_POUCH_CUARENTENA" />
         </EntityType>
-        <EntityType Name="DETALLE_PRODUCTO_POUCH_CUARENTENA">
-          <Key>
-            <PropertyRef Name="IdDetalleProdPouchCuarentena" />
-          </Key>
-          <Property Name="IdDetalleProdPouchCuarentena" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Pallet" Type="Int32" />
-          <Property Name="HoraInicio" Type="DateTime" Precision="3" />
-          <Property Name="HoraFin" Type="DateTime" Precision="3" />
-          <Property Name="IdCabProdPouchCuarentena" Type="Int32" Nullable="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CABECERA_PRODUCTO_POUCH_CUARENTENA" Relationship="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" FromRole="DETALLE_PRODUCTO_POUCH_CUARENTENA" ToRole="CABECERA_PRODUCTO_POUCH_CUARENTENA" />
-          <NavigationProperty Name="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Relationship="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" FromRole="DETALLE_PRODUCTO_POUCH_CUARENTENA" ToRole="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" />
-        </EntityType>
         <EntityType Name="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA">
           <Key>
             <PropertyRef Name="IdSubDetalleProdPouchCuarentena" />
@@ -8127,30 +8108,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DETALLE_PRODUCTO_POUCH_CUARENTENA" Relationship="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" FromRole="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" ToRole="DETALLE_PRODUCTO_POUCH_CUARENTENA" />
         </EntityType>
-        <Association Name="FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA">
-          <End Type="ASIS_PRODModel.CABECERA_PRODUCTO_POUCH_CUARENTENA" Role="CABECERA_PRODUCTO_POUCH_CUARENTENA" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" Role="DETALLE_PRODUCTO_POUCH_CUARENTENA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CABECERA_PRODUCTO_POUCH_CUARENTENA">
-              <PropertyRef Name="IdCabProdPouchCuarentena" />
-            </Principal>
-            <Dependent Role="DETALLE_PRODUCTO_POUCH_CUARENTENA">
-              <PropertyRef Name="IdCabProdPouchCuarentena" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA">
-          <End Type="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" Role="DETALLE_PRODUCTO_POUCH_CUARENTENA" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Role="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DETALLE_PRODUCTO_POUCH_CUARENTENA">
-              <PropertyRef Name="IdDetalleProdPouchCuarentena" />
-            </Principal>
-            <Dependent Role="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA">
-              <PropertyRef Name="IdDetalleProductoPouchCuarentena" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="CC_MANTENIMIENTO_OLOR">
           <Key>
             <PropertyRef Name="IdOlor" />
@@ -8574,6 +8531,49 @@
           <Property Type="Boolean" Name="CorrectoSellado" Nullable="false" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
         </ComplexType>
+        <EntityType Name="DETALLE_PRODUCTO_POUCH_CUARENTENA">
+          <Key>
+            <PropertyRef Name="IdDetalleProdPouchCuarentena" />
+          </Key>
+          <Property Name="IdDetalleProdPouchCuarentena" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Pallet" Type="Int32" />
+          <Property Name="HoraInicio" Type="DateTime" Precision="3" />
+          <Property Name="HoraFin" Type="DateTime" Precision="3" />
+          <Property Name="IdCabProdPouchCuarentena" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CABECERA_PRODUCTO_POUCH_CUARENTENA" Relationship="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" FromRole="DETALLE_PRODUCTO_POUCH_CUARENTENA" ToRole="CABECERA_PRODUCTO_POUCH_CUARENTENA" />
+          <NavigationProperty Name="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Relationship="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" FromRole="DETALLE_PRODUCTO_POUCH_CUARENTENA" ToRole="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" />
+        </EntityType>
+        <Association Name="FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA">
+          <End Type="ASIS_PRODModel.CABECERA_PRODUCTO_POUCH_CUARENTENA" Role="CABECERA_PRODUCTO_POUCH_CUARENTENA" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" Role="DETALLE_PRODUCTO_POUCH_CUARENTENA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CABECERA_PRODUCTO_POUCH_CUARENTENA">
+              <PropertyRef Name="IdCabProdPouchCuarentena" />
+            </Principal>
+            <Dependent Role="DETALLE_PRODUCTO_POUCH_CUARENTENA">
+              <PropertyRef Name="IdCabProdPouchCuarentena" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA">
+          <End Type="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" Role="DETALLE_PRODUCTO_POUCH_CUARENTENA" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Role="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DETALLE_PRODUCTO_POUCH_CUARENTENA">
+              <PropertyRef Name="IdDetalleProdPouchCuarentena" />
+            </Principal>
+            <Dependent Role="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA">
+              <PropertyRef Name="IdDetalleProductoPouchCuarentena" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12490,24 +12490,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DETALLE_PRODUCTO_POUCH_CUARENTENA">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA">
-              <MappingFragment StoreEntitySet="DETALLE_PRODUCTO_POUCH_CUARENTENA">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="IdCabProdPouchCuarentena" ColumnName="IdCabProdPouchCuarentena" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="Pallet" ColumnName="Pallet" />
-                <ScalarProperty Name="IdDetalleProdPouchCuarentena" ColumnName="IdDetalleProdPouchCuarentena" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA">
             <EntityTypeMapping TypeName="ASIS_PRODModel.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA">
               <MappingFragment StoreEntitySet="SUBDETALLE_PRODUCTO_POUCH_CUARENTENA">
@@ -12924,6 +12906,24 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="DETALLE_PRODUCTO_POUCH_CUARENTENA">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA">
+              <MappingFragment StoreEntitySet="DETALLE_PRODUCTO_POUCH_CUARENTENA">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="IdCabProdPouchCuarentena" ColumnName="IdCabProdPouchCuarentena" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="Pallet" ColumnName="Pallet" />
+                <ScalarProperty Name="IdDetalleProdPouchCuarentena" ColumnName="IdDetalleProdPouchCuarentena" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

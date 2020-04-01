@@ -10,14 +10,18 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_Reporte_CloroCisternaDescongeladoDetalle
+    public partial class MANTENIMIENTO_CONDICION
     {
-        public long IdCloroCisternaDetalle { get; set; }
-        public string Hora { get; set; }
-        public decimal Ppm_Cloro { get; set; }
-        public int Cisterna { get; set; }
+        public int IdMantenimientoCondicion { get; set; }
+        public string Descripcion { get; set; }
+        public string EstadoRegistro { get; set; }
+        public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
-        public string Observaciones { get; set; }
+        public string TerminalIngresoLog { get; set; }
+        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
+        public string UsuarioModificacionLog { get; set; }
+        public string TerminalModificacionLog { get; set; }
     }
 }
