@@ -11,5 +11,6 @@ namespace Asiservy.Automatizacion.Formularios.Models
         public string descripcion { get; set; }
 
         public string Especie { get; set; }
+        public string Barco { get; set; }//agregado 31/3/2020
     }
 }

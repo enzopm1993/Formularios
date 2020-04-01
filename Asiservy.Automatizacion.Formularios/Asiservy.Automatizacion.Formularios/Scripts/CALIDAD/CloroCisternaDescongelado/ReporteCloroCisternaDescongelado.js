@@ -25,6 +25,7 @@ function CargarReporteControlCloroCabecera() {
         });
     }
 }
+
 function CargarReporteControlCloro() {
     CargarReporteControlCloroCabecera();
     var fecha = $('#txtFecha').val();  
