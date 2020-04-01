@@ -12,6 +12,8 @@ using System.Data;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 
@@ -601,22 +603,89 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
 
                 string SessionId = respResponse.SessionId;
-
-                var clientWS = new RestClient(clsAtributos.BASE_URL_WS);
-                var requestWS = new RestRequest("/api/Empleado/SapClientes", Method.GET);
-                IRestResponse responseWS = clientWS.Execute(requestWS);
-                var contentWS = responseWS.Content;
-                var ListaEmpleados = JsonConvert.DeserializeObject<List<clsEmpleadoCliente>>(contentWS);
-
+               
                 List<string> listaCedulas = ParametrosEnvio.Cedulas.Split(',').ToList();
 
                 ClsNomina clsNomina = new ClsNomina();
-
+                EnvioClienteSAP obJsonCliente;
                 foreach (string _cedula in listaCedulas)
                 {
 
+                    var datosEmpleado = clsNomina.ObtenerInfoEmpleadoParaSAP(_cedula);
+                    obJsonCliente = new EnvioClienteSAP();
+
+                    obJsonCliente.CardCode = datosEmpleado.CardCode;
+                    obJsonCliente.CardName = datosEmpleado.CardName;
+                    obJsonCliente.CardType = datosEmpleado.CardType;
+                    obJsonCliente.GroupCode = Convert.ToInt32(datosEmpleado.GroupCode);
+                    obJsonCliente.FederalTaxID = datosEmpleado.FederalTaxID;
+                    obJsonCliente.Currency = datosEmpleado.Currency;
+                    obJsonCliente.Phone1 = datosEmpleado.Phone1;
+                    obJsonCliente.Cellular = datosEmpleado.Cellular;
+                    obJsonCliente.MailAddress = datosEmpleado.MailAddress;
+                    obJsonCliente.EmailAddress = datosEmpleado.EmailAddress;
+                    obJsonCliente.ContactPerson = datosEmpleado.ContactPerson;
+                    obJsonCliente.SalesPersonCode = datosEmpleado.SalesPersonCode;
+                    obJsonCliente.DebitorAccount = datosEmpleado.DebitorAccount;
+                    obJsonCliente.Properties13 = datosEmpleado.Properties13;
+                    obJsonCliente.U_SYP_BPTD = datosEmpleado.U_SYP_BPTD;
+                    obJsonCliente.U_SYP_PARTREL = datosEmpleado.U_SYP_PARTREL;
+                    obJsonCliente.U_SYP_TIPPROV = datosEmpleado.U_SYP_TIPPROV;
+                    obJsonCliente.U_SYP_CONTABILIDAD = datosEmpleado.U_SYP_CONTABILIDAD;
+                    obJsonCliente.U_SYP_TCONTRIB = datosEmpleado.U_SYP_TCONTRIB;
+                    obJsonCliente.U_SYP_FPAGO = datosEmpleado.U_SYP_FPAGO;
+                    obJsonCliente.U_SYP_TIPOPAGO = datosEmpleado.U_SYP_TIPOPAGO;
+                    obJsonCliente.U_SYP_TIPOREGI = datosEmpleado.U_SYP_TIPOREGI;
+                    obJsonCliente.U_SYP_PAISPAGOGEN = datosEmpleado.U_SYP_PAISPAGOGEN;
+                    obJsonCliente.U_SYP_PAISPAGO = datosEmpleado.U_SYP_PAISPAGO;
+                    obJsonCliente.U_SYP_BPNO = datosEmpleado.U_SYP_BPNO;
+                    obJsonCliente.U_SYP_BPN2 = datosEmpleado.U_SYP_BPN2;
+                    obJsonCliente.U_SYP_BPAP = datosEmpleado.U_SYP_BPAP;
+                    obJsonCliente.U_SYP_BPAM = datosEmpleado.U_SYP_BPAM;
+                    obJsonCliente.U_SYP_FNACIM = datosEmpleado.U_SYP_FNACIM;
+                    obJsonCliente.U_SYP_GENERO = datosEmpleado.U_SYP_GENERO;
+                    obJsonCliente.U_SYP_EST_CIVIL = datosEmpleado.U_SYP_EST_CIVIL;
+                    obJsonCliente.U_SYP_ORIGEN_INGRESO = datosEmpleado.U_SYP_ORIGEN_INGRESO;
+                    obJsonCliente.U_SYP_ADTPAGO = datosEmpleado.U_SYP_ADTPAGO;
+                    obJsonCliente.U_SYP_PESRET = datosEmpleado.U_SYP_PESRET;
+                    obJsonCliente.U_SYP_BPAT = datosEmpleado.U_SYP_BPAT;
+                    obJsonCliente.U_SYP_BROKER = datosEmpleado.U_SYP_BROKER;
+                    obJsonCliente.U_SYP_COMI_BROKER = Convert.ToDecimal(datosEmpleado.U_SYP_COMI_BROKER);
+                    obJsonCliente.U_SYP_TIPBROKER = datosEmpleado.U_SYP_TIPBROKER;
+                    List<ClienteContactEmployees>  ContactEmployees = new List<ClienteContactEmployees>();
+                    ContactEmployees.Add(new ClienteContactEmployees
+                    {
+                        CardCode = datosEmpleado.CardCode, Name = "DOCELECTRONICOS" , E_Mail = datosEmpleado.EmailAddress
+                    });
+                    obJsonCliente.ContactEmployees = ContactEmployees;
+
+                    var requestEmp = new RestRequest("/b1s/v1/BusinessPartners", Method.POST);
+                    requestEmp.AddHeader("Content-Type", "application/json;odata=minimalmetadata;charset=utf-8");
+                    requestEmp.AddHeader("Authorization", "Bearer " + SessionId);
+                    requestEmp.AddCookie("B1SESSION", SessionId);
+                    requestEmp.AddJsonBody(obJsonCliente);
+                    IRestResponse responseEmp = client.Execute(requestEmp);
+                    var contentEmp = responseEmp.Content;
+                    dynamic respResponseEmp = JsonConvert.DeserializeObject(content);
+
+                    if (responseEmp.StatusCode != HttpStatusCode.Created)
+                    {
+                        returnSapLogin.Estado = -1;
+                        returnSapLogin.StatusCodeDescription = "No se terminó de procesar el envío por un problema interno con el registro: "+ datosEmpleado.FederalTaxID + " - " + datosEmpleado.CardName + ", intente nuevamente";
+                        break;
+                    }
+                    else
+                    {
+                        returnSapLogin.StatusCodeDescription = "Proceso completado con éxito";
+                    }
+                    //statusCode = Created
                 }
 
+
+                var requestLogout = new RestRequest("/b1s/v1/Logout", Method.POST);
+                requestLogout.AddCookie("B1SESSION", SessionId);
+                IRestResponse responseLogout = client.Execute(requestLogout);
+                
             }
             else if (HttpStatusCode.Unauthorized == response.StatusCode)
             {
@@ -744,5 +813,53 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
     public class parametrosEnvioSAP
     {
         public string Cedulas { get; set; }
+    }
+    public class EnvioClienteSAP {
+        public string CardCode { get; set; }
+        public string CardName { get; set; }
+        public string CardType { get; set; }
+        public int GroupCode { get; set; }
+        public string FederalTaxID { get; set; }
+        public string Currency { get; set; }
+        public string Phone1 { get; set; }
+        public string Cellular { get; set; }
+        public string MailAddress { get; set; }
+        public string EmailAddress { get; set; }
+        public string ContactPerson { get; set; }
+        public string SalesPersonCode { get; set; }
+        public string DebitorAccount { get; set; }
+        public string Properties13 { get; set; }
+        public string U_SYP_BPTD { get; set; }
+        public string U_SYP_PARTREL { get; set; }
+        public string U_SYP_TIPPROV { get; set; }
+        public string U_SYP_CONTABILIDAD { get; set; }
+        public string U_SYP_TCONTRIB { get; set; }
+        public string U_SYP_FPAGO { get; set; }
+        public string U_SYP_TIPOPAGO { get; set; }
+        public string U_SYP_TIPOREGI { get; set; }
+        public string U_SYP_PAISPAGOGEN { get; set; }
+        public string U_SYP_PAISPAGO { get; set; }
+        public string U_SYP_BPNO { get; set; }
+        public string U_SYP_BPN2 { get; set; }
+        public string U_SYP_BPAP { get; set; }
+        public string U_SYP_BPAM { get; set; }
+        public string U_SYP_FNACIM { get; set; }
+        public string U_SYP_GENERO { get; set; }
+        public string U_SYP_EST_CIVIL { get; set; }
+        public string U_SYP_ORIGEN_INGRESO { get; set; }
+        public string U_SYP_ADTPAGO { get; set; }
+        public string U_SYP_PESRET { get; set; }
+        public string U_SYP_BPAT { get; set; }
+        public string U_SYP_BROKER { get; set; }
+        public decimal U_SYP_COMI_BROKER { get; set; }
+        public string U_SYP_TIPBROKER { get; set; }
+
+        public List<ClienteContactEmployees> ContactEmployees { get; set; }
+    }
+    public class ClienteContactEmployees
+    {
+        public string CardCode { get; set; }
+        public string Name { get; set; }
+        public string E_Mail { get; set; }
     }
 }

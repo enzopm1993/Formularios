@@ -19,5 +19,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int Cisterna { get; set; }
         public string UsuarioIngresoLog { get; set; }
         public string Observaciones { get; set; }
+        public string FechaIngresoLog { get; set; }
+        public string UsuarioModificacionLog { get; set; }
+        public string FechaModificacionLog { get; set; }
     }
 }

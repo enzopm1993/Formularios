@@ -96,9 +96,6 @@
     <Compile Include="Datos\CABECERA_CONTROL_PESO_CODIFICACION.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\CABECERA_PRODUCTO_POUCH_CUARENTENA.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datos\CAMBIO_PERSONAL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -106,9 +103,6 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_CLORO_CISTERNA_DESCONGELADO_DETALLE.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_CONDICION_PERSONAL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_CONTROL_CUCHILLOS_PREPARACION.cs">
@@ -126,28 +120,19 @@
     <Compile Include="Datos\CC_CUCHILLOS_PREPARACION.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_MANTENIMIENTO_CISTERNA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_COLOR.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_OLOR.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\CC_MANTENIMIENTO_PROTEINA.cs">
+    <Compile Include="Datos\CC_TEMPERATURA_TERMOENCOGIDO_SELLADO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\CC_MANTENIMIENTO_SABOR.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_MANTENIMIENTO_TEXTURA.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_OPERATIVIDAD_DETECTOR_METAL.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_OPERATIVIDAD_METAL.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_OPERATIVIDAD_METAL_DETALLE.cs">
+    <Compile Include="Datos\CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CLASIFICADOR.cs">
@@ -261,9 +246,6 @@
     <Compile Include="Datos\DETALLE_LOTE_CONTROL_PESO_CODIFICACION.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\DETALLE_PRODUCTO_POUCH_CUARENTENA.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datos\DETALLE_USO_CONTROL_PESO_CODIFICACION.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -289,9 +271,6 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\JUSTICA_SOLICITUD.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\MANTENIMIENTO_CONDICION.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\MANTENIMIENTO_PREPARACION.cs">
@@ -399,9 +378,6 @@
     <Compile Include="Datos\spConsultaCentroCostos.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\spConsultaClasificador.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datos\spConsultaCocheAutoclave.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -415,9 +391,6 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaCodigosEnfermedad.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\spConsultaCondicionesPersonal.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaConsumoDetalleAditivo.cs">
@@ -654,9 +627,6 @@
     <Compile Include="Datos\spKpiAvancePorLimpiadora.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\spObtieneMarcaciones_Empleado_Result.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datos\spReporteAsistencia.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -699,12 +669,6 @@
     <Compile Include="Datos\spReporteMapeoProductoTunelDetalle.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\spReporteProdPouchCuarentenaDetalle.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\spReporteProdPouchCuarentenaSubDetalle.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datos\spReporteResidualCloro.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -733,6 +697,12 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_Control_Lavado_Desinfeccion_Manos_Detalle.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\sp_Control_Termoencogido_Sellado.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\sp_Control_Termoencogido_Sellado_Detalle.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_GrupoEnfermedades.cs">
@@ -775,9 +745,6 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_SolicitudesRealizadasPorLinea_Result.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\SUBDETALLE_PRODUCTO_POUCH_CUARENTENA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sysdiagrams.cs">

@@ -12,15 +12,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class SUBDETALLE_PRODUCTO_POUCH_CUARENTENA
+    public partial class CC_MANTENIMIENTO_CISTERNA
     {
-        public int IdSubDetalleProdPouchCuarentena { get; set; }
-        public int IdCocheAutoclave { get; set; }
-        public Nullable<int> Autoclave { get; set; }
-        public Nullable<int> Esterilizacion { get; set; }
-        public Nullable<int> NCarro { get; set; }
-        public Nullable<int> Funda { get; set; }
-        public int IdDetalleProductoPouchCuarentena { get; set; }
+        public int IdCisterna { get; set; }
+        public string Descripcion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -28,7 +23,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        public virtual DETALLE_PRODUCTO_POUCH_CUARENTENA DETALLE_PRODUCTO_POUCH_CUARENTENA { get; set; }
     }
 }

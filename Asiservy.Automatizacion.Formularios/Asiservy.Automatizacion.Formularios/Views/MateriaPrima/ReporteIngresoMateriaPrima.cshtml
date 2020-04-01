@@ -1,0 +1,66 @@
+﻿
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .selectbox {
+        background: #fff;
+        color: #1d3b4a;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .box_filters {
+        float: right;
+    }
+
+    .itemFilter {
+        float: left;
+        margin-right: 4px;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+
+    ._bloque {
+        margin-bottom: 10px;
+    }
+</style>
+<div class="row">
+    <div class="col-12">
+        <h3 style="float: left;">Reporte de ingreso de Materia Prima</h3>
+        <div id="DatosLoadAjax" class="cargandoAjax fa-2x"> <i class="fas fa-spinner fa-pulse"></i> </div>
+        <div class="box_filters">
+            <div class="itemFilter">
+                <div class="col-md-12 col-6 col-sm-6 float-right">
+                    <div class="form-group">
+                        <label>Filtro por año:</label>
+                        <select id="selectAnio" class="form-control" onchange=""></select>
+                    </div>
+                </div>
+            </div>
+            <div class="itemFilter">
+                <a href="#" id="generarAsistencia" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="row _bloque">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Reporte</h6>
+            </div>
+            <div class="card-body">
+                <div id="wdr-component"></div>
+            </div>
+        </div>
+    </div>
+</div>

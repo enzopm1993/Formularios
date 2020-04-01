@@ -19,8 +19,7 @@
             <th>
                 <label>Recurso</label>
             </th>
-            <th>
-            </th>
+            
         </tr>
     </thead>
     <tbody>
@@ -49,16 +48,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.RECURSO)
                 </td>
-                <td>
-                    @if (!item.EXISTE_SAP)
-                    {
-                        <a class="badge badge-success enviarSap"  data-cedula="@item.CEDULA"  href="#">Enviar a SAP</a>
-                    }
-                    else
-                    {
-                        <label>Existe en SAP</label>
-                    }
-                </td>
+                
             </tr>
         }
     </tbody>   

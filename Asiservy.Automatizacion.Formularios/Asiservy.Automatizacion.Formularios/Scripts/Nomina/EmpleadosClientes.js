@@ -1,18 +1,5 @@
 ﻿$(document).ready(function () {
     CargarOpciones();
-    
-    $("#DivTableEmpleadosClientes").on("click", ".enviarSap", function () {
-        
-        return false;
-    });
-    $("#DivTableEmpleadosClientes").on("click", "#enviarMarcadosSap", function () {
-
-        return false;
-    });
-
-
-    
-
   
 
     var nuevoBtn = {
@@ -55,7 +42,7 @@ function CargarOpciones() {
 
             $('#tblDataTable thead tr').clone(true).appendTo('#tblDataTable thead');
             $('#tblDataTable thead tr:eq(1) th').each(function (i) {
-                if (i > 0 && i < 6) {
+                if (i > 0 ) {
                     var title = $(this).text();
                     $(this).html('<input type="text" placeholder="Buscar ' + $.trim(title) + '" />');
 
@@ -65,6 +52,8 @@ function CargarOpciones() {
                                 .column(i)
                                 .search(this.value)
                                 .draw();
+
+
                         }
                     });
                 }
@@ -80,17 +69,32 @@ function CargarOpciones() {
     });
 }
 function enviarSAP() {
+
+    $('#tblDataTable thead input').val('').change();
+    $("#tblDataTable").DataTable().search("").draw();
     var totalSeleccionados = $('.checkEmpleado:checkbox:checked').length;
     if (totalSeleccionados > 0) {
         var resp = confirm("Se ha seleccionado " + totalSeleccionados + " empleado(s), ¿Está seguro de enviar a crear como Clientes en SAP?");
         if (resp) {
+            var cedu = [];
+            $('.checkEmpleado:checkbox:checked').each(function (t, ck) {
+                cedu.push($(ck).data('cedula'));
+            });
+            $('html, body').css("cursor", "wait");
             $.ajax({
                 url: "../Nomina/ProcesarEnvioEmpleados",
                 type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    'Cedulas': cedu.join(",")
+                }),
                 success: function (resultado) {
-
+                    $('html, body').css("cursor", "auto");
+                    alert(resultado.StatusCodeDescription);
+                    window.location.reload(false);
                 },
                 error: function (resultado) {
+                    $('html, body').css("cursor", "auto");
                     MensajeError(resultado, false);
                 }
             });

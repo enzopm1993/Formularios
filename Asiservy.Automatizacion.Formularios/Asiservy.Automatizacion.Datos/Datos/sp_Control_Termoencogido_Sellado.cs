@@ -11,15 +11,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsultaCondicionesPersonal
+    public partial class sp_Control_Termoencogido_Sellado
     {
-        public int IdCondicionPersonal { get; set; }
+        public int Id { get; set; }
         public System.DateTime Fecha { get; set; }
-        public System.TimeSpan Hora { get; set; }
-        public string Cedula { get; set; }
-        public string Nombre { get; set; }
-        public string CodCondicion { get; set; }
-        public string Condicion { get; set; }
         public string Observacion { get; set; }
     }
 }

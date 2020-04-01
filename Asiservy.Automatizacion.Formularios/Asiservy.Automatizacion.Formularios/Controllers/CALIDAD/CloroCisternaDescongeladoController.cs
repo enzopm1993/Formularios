@@ -220,7 +220,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var poCloroCisterna = clsDCloroCisternaDescongelado.Consultar_ReporteCloroCisternaDescongeladoDetalle(fecha, IdCloroCisterna);
                 if (poCloroCisterna != null && poCloroCisterna.Any())
                 {
-                    // return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
                     ViewBag.Estado = Estado;
                     return PartialView(poCloroCisterna);
                 }
