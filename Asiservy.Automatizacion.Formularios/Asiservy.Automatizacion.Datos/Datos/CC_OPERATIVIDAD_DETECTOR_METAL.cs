@@ -10,18 +10,22 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_Reporte_CloroCisternaDescongeladoBandeja
+    public partial class CC_OPERATIVIDAD_DETECTOR_METAL
     {
-        public long IdCloroCisterna { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public string Observaciones { get; set; }
-        public string AprobadoPor { get; set; }
-        public Nullable<System.DateTime> FechaAprobacion { get; set; }
-        public bool EstadoReporte { get; set; }
-        public string UsuarioIngresoLog { get; set; }
+        public int IdOperatividadDetectorMetal { get; set; }
+        public int IdOperatividadMetal { get; set; }
+        public string Novedad { get; set; }
+        public byte[] Imagen { get; set; }
+        public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
-        public string UsuarioModificacionLog { get; set; }
+        public string UsuarioIngresoLog { get; set; }
+        public string TerminalIngresoLog { get; set; }
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
+        public string UsuarioModificacionLog { get; set; }
+        public string TerminalModificacionLog { get; set; }
+    
+        public virtual CC_OPERATIVIDAD_METAL CC_OPERATIVIDAD_METAL { get; set; }
     }
 }
