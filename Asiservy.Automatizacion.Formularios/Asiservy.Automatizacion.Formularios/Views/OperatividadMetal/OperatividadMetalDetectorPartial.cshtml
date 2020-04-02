@@ -21,9 +21,10 @@
                     @Html.DisplayFor(modelItem => item.Novedad)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                  
+                    <button class="btn btn-link" onclick="EditarConsumoInsumoDetalle2(@item.IdOperatividadDetectorMetal,'@item.Novedad')">Editar</button>
+                    |
+                    <button class="btn btn-link" onclick="EliminarControlDetalle2(@item.IdOperatividadDetectorMetal,'@item.Novedad')">Eliminar</button>
                 </td>
             </tr>
         }

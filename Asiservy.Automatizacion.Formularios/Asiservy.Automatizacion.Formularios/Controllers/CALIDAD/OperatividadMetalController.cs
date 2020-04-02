@@ -112,7 +112,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 clsdOperatividadMetal.GuardarModificarOperatividadMetal(control);
-                return Json("`Registro Exitoso", JsonRequestBehavior.AllowGet);
+                return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -152,7 +152,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 clsdOperatividadMetal.EliminarOperatividadMetal(control);
-                return Json("`Registro Exitoso", JsonRequestBehavior.AllowGet);
+                return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -235,7 +235,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 clsdOperatividadMetal.GuardarModificarOperatividadMetalDetalle(control);
-                return Json("`Registro Exitoso", JsonRequestBehavior.AllowGet);
+                return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -358,7 +358,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 clsdOperatividadMetal.GuardarModificarOperatividadMetalDetector(control);
-                return Json("`Registro Exitoso", JsonRequestBehavior.AllowGet);
+                return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
