@@ -3,8 +3,8 @@ var ListaDatosDetalle = [];
 var horaActualizar = '';//0=No, 1=Yes
 
 $(document).ready(function () {
-    CargarCabecera(0);
-    $("#tdAcciones").prop('hidden',true);
+    CargarCabecera(0);  
+    
 });
 
 
@@ -12,6 +12,7 @@ function CargarCabecera(opcion) {
     MostrarModalCargando();
     var op = opcion;
     if ($("#txtFecha").val() == '') {
+        CerrarModalCargando();
         return;
     } else {
         $.ajax({
@@ -32,19 +33,17 @@ function CargarCabecera(opcion) {
                     $("#btnModalEditar").prop("hidden", true);
                     $("#btnModalEliminar").prop("hidden", true);
                     $("#btnModalGenerar").prop("hidden", false);
-                    $("#btnModalGenerarRegistro").prop("hidden", false);
-                    ListaDatos = resultado;
+                    ListaDatos = [];
                 } else {
                     $("#divDetalleControlCloro").prop("hidden", false);
                     $("#btnModalGenerar").prop("hidden", false);
                     $("#btnModalEditar").prop("hidden", false);
                     $("#btnModalEliminar").prop("hidden", false);
                     $("#txtObservacion").prop("disabled", true);
-                    $("#btnModalGenerarRegistro").prop("hidden", true);
-                    $("#txtObservacion").val(resultado.Observacion);
+                    $("#txtObservacion").val(resultado.Observacion);   
                     ListaDatos = resultado;
-                    CargarDetalle(0);
                 }
+                CargarDetalle(0);
                 setTimeout(function () {
                     CerrarModalCargando();
                 }, 500);
@@ -60,7 +59,7 @@ function CargarCabecera(opcion) {
 function CargarDetalle(opcion) {
     var op = opcion;
     if (ListaDatos.length == 0) {
-        ListaDatos.IdCabecera = 0;
+        ListaDatos.Id = 0;
     }
     if (ListaDatosDetalle.length == 0) {
         ListaDatosDetalle.Id = 0;
@@ -85,6 +84,14 @@ function CargarDetalle(opcion) {
                 $("#divTableEntregaProductoDetalle").prop("hidden", false);
                 $("#divTableEntregaProductoDetalle").html(resultado);
                 $("#divDetalleControlCloro").prop("hidden", false);
+                //Oculto la columna Acciones
+                var oTable = $('#tblDataTable').DataTable();
+                var info = oTable.page.info();
+                var count = info.recordsTotal;
+                for (var i = 0; i < count; i++) {
+                    document.getElementById("tdAccionesBody_" + i).style.display = "none";
+                }                
+                document.getElementById("tdAccionesHead").style.display = "none";                
             }
         },
         error: function (resultado) {

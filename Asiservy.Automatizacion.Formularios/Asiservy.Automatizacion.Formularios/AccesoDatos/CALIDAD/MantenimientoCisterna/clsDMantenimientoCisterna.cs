@@ -21,10 +21,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoC
             int valor = 0;
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
-                var model = db.CC_MANTENIMIENTO_CISTERNA.FirstOrDefault(x=> x.IdCisterna ==guardarmodificar.IdCisterna && x.EstadoRegistro ==guardarmodificar.EstadoRegistro);
+                var model = db.CC_MANTENIMIENTO_CISTERNA.FirstOrDefault(x=> x.IdCisterna ==guardarmodificar.IdCisterna);
                 if (model!=null)
                 {
-                    model.Descripcion = guardarmodificar.Descripcion;
+                    model.NDescripcion = guardarmodificar.NDescripcion;
+                    model.Ubicacion = guardarmodificar.Ubicacion;
+                    model.Asignacion = guardarmodificar.Asignacion;
+                    model.Tipo = guardarmodificar.Tipo;
+                    model.Capacidad = guardarmodificar.Capacidad;
                     model.EstadoRegistro = guardarmodificar.EstadoRegistro;
                     model.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
                     model.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;

@@ -2167,6 +2167,10 @@
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
+    <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.js" />
+    <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoCisterna\MantenimientoCisterna.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoColor\MantenimientoColor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoOlor\MantenimientoOlor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
@@ -2178,6 +2182,10 @@
     <Content Include="Scripts\CALIDAD\OperatividadMetal\OperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
+    <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.js" />
+    <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.js" />
+    <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\ReporteIngresoMateriaPrima.js" />
+    <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\SOPMateriaPrima.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
     <Content Include="Scripts\ControlBalanza\ReporteControlBalanza.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
@@ -3206,6 +3214,9 @@
     <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CondicionPersonal\clsDCondicionPersonal.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\LavadoDesinfeccionManos\clsDLavadoDesinfeccionManos.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\MantenimientoCisterna\clsDMantenimientoCisterna.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\MantenimientoColor\clsDMantenimientoColor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoOlor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoProteina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoSabor.cs" />
@@ -3214,6 +3225,7 @@
     <Compile Include="AccesoDatos\CALIDAD\ControlCuchillosPreparacion\clsDControlCuchillosPreparacion.cs" />
     <Compile Include="AccesoDatos\CALIDAD\OperatividadMetal\clsDOperatividadMetal.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\TemperaturaTermoencogidoSellado\clsDTemperaturaTermoencogidoSellado.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
     <Compile Include="AccesoDatos\ControlConsumoInsumo\clsDControlConsumoInsumo.cs" />
     <Compile Include="AccesoDatos\ControlCuchillo\clsDCuchillo.cs" />
@@ -3282,6 +3294,9 @@
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
+    <Compile Include="Controllers\CALIDAD\LavadoDesinfeccionManosController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoCisternaController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoColorController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoOlorController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoProteinaController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoSaborController.cs" />
@@ -3290,6 +3305,8 @@
     <Compile Include="Controllers\CALIDAD\ControlCuchillosPreparacionController.cs" />
     <Compile Include="Controllers\CALIDAD\OperatividadMetalController.cs" />
     <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
+    <Compile Include="Controllers\CALIDAD\TemperaturaTermoencogidoSelladoController.cs" />
+    <Compile Include="Controllers\COMERCIALIZACION\MateriaPrimaController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\ControlBalanzaController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
@@ -3681,6 +3698,20 @@
     <Content Include="Views\ProductoPouchCuarentena\ReporteProductoPouchCuarentena.cshtml" />
     <Content Include="Views\OperatividadMetal\OperatividadMetal.cshtml" />
     <Content Include="Views\ProductoPouchCuarentena\PartialReporteProductoPouchCuarentena.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\IngresoLavadoDesinfeccionManosDetallePartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\LavadoDesinfeccionManosDetallePartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\ReporteDesinfeccionManosDetallePartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.cshtml" />
+    <Content Include="Views\MantenimientoCisterna\MantenimientoCisterna.cshtml" />
+    <Content Include="Views\MantenimientoCisterna\MantenimientoCisternaPartial.cshtml" />
+    <Content Include="Views\MantenimientoColor\MantenimientoColor.cshtml" />
+    <Content Include="Views\MantenimientoColor\MantenimientoColorPartial.cshtml" />
+    <Content Include="Views\MateriaPrima\ReporteIngresoMateriaPrima.cshtml" />
+    <Content Include="Views\MateriaPrima\SOPMateriaPrima.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\ControlTermoencogidoSelladoPartial.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

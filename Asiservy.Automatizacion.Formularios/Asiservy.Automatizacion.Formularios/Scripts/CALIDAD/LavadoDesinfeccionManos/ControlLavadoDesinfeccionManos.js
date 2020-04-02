@@ -10,6 +10,7 @@ function CargarCabecera(opcion) {
     MostrarModalCargando(); 
     var op = opcion;
     if ($("#txtFecha").val() == '') {
+        CerrarModalCargando();
         return;
     } else {
         $.ajax({
@@ -32,7 +33,7 @@ function CargarCabecera(opcion) {
                     $("#btnModalEliminar").prop("hidden", true);
                     $("#btnModalGenerar").prop("hidden", false);
                     $("#btnModalGenerarRegistro").prop("hidden", false);
-                    ListaDatos = resultado;
+                    ListaDatos = [];
                 } else {
                     $("#divDetalleControlCloro").prop("hidden", false);
                     $("#btnModalGenerar").prop("hidden", false);

@@ -14,16 +14,10 @@
 
 <hr />
 <div class="row" id="divCabecera1">
-    <div id="divDescripcion" class="col-md-7 col-6 col-sm-6">
-        <div class="form-group">
-            <label>Descripción de la Cisterna *</label>
-            <input type="text" name="name" value="" id="txtDescripcion" class="form-control" />
-        </div>
-    </div>
     <div class="col-md-2 col-12  text-md-left text-center">
-        <label class="" id="lblAcciones">Acciones</label>
+        <label class="" id="lblAcciones">Nuevo Registro</label>
         <div class="form-group">
-            <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="GuardarCabecera()" style="border-color:#2c3e50" type="button">
+            <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro"onclick="ModalIngresoCabecera()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/add24.png" />
             </button>
         </div>
@@ -41,13 +35,68 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel"></h4>
                 <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">¿Eliminar Registro?</h4>
+
+                @*<label id="lblMensaje"></label>*@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" onclick="EliminarCabeceraSi()" id="modal-detalle-si">Si</button>
                 <button type="button" class="btn btn-outline-primary" onclick="EliminarCabeceraNo()" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* MODAL PARA EL INGRESO NUEVO REGISTRO *@
+<div class="modal" tabindex="-1" id="ModalIngresoCabecera" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Crear Nuevo Registro</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarCabecera()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>Nº</label>
+                            <input type="text" name="name" value="" onchange="OnChangeTextBox()"  id="txtNDescripcion" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>UBICACION</label>
+                            <input type="text" name="name" value="" onchange="OnChangeTextBox()"  id="txtUbicacion" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>ASIGNACION</label>
+                            <input type="text" name="name" value="" onchange="OnChangeTextBox()"  id="txtAsignacion" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>TIPO</label>
+                            <input type="text" name="name" value="" onchange="OnChangeTextBox()"  id="txtTipo" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 col-sm-6">
+                        <div class="form-group">
+                            <label>CAPACIDAD</label>
+                            <input type="text" name="name" value="" onchange="OnChangeTextBox()"  id="txtCapacidad" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="ValidarDatosVacios()" id="btnGenerarControlRegistro">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarCabecera()">Cancelar</button>
+                </div>
             </div>
         </div>
     </div>

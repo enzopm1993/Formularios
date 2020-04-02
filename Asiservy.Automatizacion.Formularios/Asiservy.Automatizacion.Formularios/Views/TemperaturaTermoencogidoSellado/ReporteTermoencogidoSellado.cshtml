@@ -29,15 +29,9 @@
     <div class="col-md-2 col-12  text-md-left text-center">
         <label class="" id="lblAcciones">Acciones</label>
         <div class="form-group">
-            <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="GuardarCabecera()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/add24.png" />
-            </button>
-            <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarConfirmar()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/cancel24.png" />
-            </button>
-            <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ActualizarCabeceraActivarCotroles(true)" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/edit24.png" />
-            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Consultar registro" class="btn" id="btnModalGenerarRegistro" onclick="CargarCabecera(0)" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>          
         </div>
     </div>
 

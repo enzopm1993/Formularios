@@ -178,8 +178,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMantenimientoColor = new clsDMantenimientoColor();
-                model.FechaIngresoLog = DateTime.Now;
-                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                model.FechaIngresoLog = DateTime.Now;                
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 var valor = clsDMantenimientoColor.EliminarMantenimientoColor(model);
