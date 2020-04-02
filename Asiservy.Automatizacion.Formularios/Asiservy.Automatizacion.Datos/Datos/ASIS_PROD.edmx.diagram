@@ -149,9 +149,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_DETECTOR_METAL" Width="1.5" PointX="7.625" PointY="39.625" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL" Width="1.5" PointX="5.375" PointY="36.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" Width="1.5" PointX="7.625" PointY="35.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="34.375" PointY="16.875" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Width="1.5" PointX="36.625" PointY="16.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CISTERNA" Width="1.5" PointX="18.375" PointY="34.75" />
@@ -163,6 +161,8 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PlantillasMemorandum" Width="1.5" PointX="20.375" PointY="34.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" Width="1.5" PointX="7.625" PointY="44.125" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
