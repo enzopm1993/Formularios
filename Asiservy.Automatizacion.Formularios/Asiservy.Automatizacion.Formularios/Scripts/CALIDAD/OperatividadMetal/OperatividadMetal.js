@@ -246,7 +246,18 @@ function ValidarGenerarControlDetalle() {
     } else {
         $("#txtHora").css('borderColor', '#ced4da');
     }
-  
+
+    if (!$("#chkFerroso").prop("checked") || !$("#chkNoFerroso").prop("checked") || !$("#chkAceroInoxidable").prop("checked") ) {
+        if ($("#txtObservacionDetalle").val() == "") {
+            $("#txtObservacionDetalle").css('borderColor', '#FA8072');
+            valida = false;
+        } else {
+            $("#txtObservacionDetalle").css('borderColor', '#ced4da');
+        }
+    } else {
+        $("#txtObservacionDetalle").css('borderColor', '#ced4da');
+    }
+
 
     return valida;
 }
@@ -254,7 +265,7 @@ function GenerarControlDetalle() {
     if (!ValidarGenerarControlDetalle()) {
         return;
     }
-    $("#spinnerCargandoDetalle").prop("hidden", false);
+ //   $("#spinnerCargandoDetalle").prop("hidden", false);
     $.ajax({
         url: "../OperatividadMetal/OperatividadMetalDetalle",
         type: "POST",
@@ -264,14 +275,16 @@ function GenerarControlDetalle() {
             Hora: $("#txtHora").val(),
             Ferroso: $("#chkFerroso").prop("checked"),
             NoFerroso: $("#chkNoFerroso").prop("checked"),
-            AceroInoxidable: $("#chkAceroInoxidable").prop("checked")
+            AceroInoxidable: $("#chkAceroInoxidable").prop("checked"),
+            Observacion: $("#txtObservacionDetalle").val()
         },
         success: function (resultado) {
-            $("#spinnerCargandoDetalle").prop("hidden", true);
+          //  $("#spinnerCargandoDetalle").prop("hidden", true);
             if (resultado == "101") {
                 window.location.reload();
             }
             CargarControlDetalle();
+            MensajeCorrecto(resultado);
             $("#ModalGenerarControlDetalle").modal("hide");
         },
         error: function (resultado) {
@@ -289,18 +302,19 @@ function EditarConsumoInsumoDetalle(model) {
     $("#chkFerroso").prop("checked", model.Ferroso);
     $("#chkNoFerroso").prop("checked", model.NoFerroso);
     $("#chkAceroInoxidable").prop("checked", model.AceroInoxidable);
+    $("#txtObservacionDetalle").val(model.Observacion);
 
 
     $("#ModalGenerarControlDetalle").modal("show");
     //ModalGenerarControlDetalle();
 }
 
-function InactivarControlConsumoDetalle() {
+function InactivarControlDetalle() {
     $.ajax({
         url: "../OperatividadMetal/EliminarOperatividadMetalDetalle",
         type: "POST",
         data: {
-            IdOperatividadMetalDetalle: $("#txtIdControlDetalle").val()
+            IdOperatividadMetalDetalle: $("#txtEliminarDetalle").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -309,11 +323,11 @@ function InactivarControlConsumoDetalle() {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
             }
-            CargarControlConsumoInsumoDetalle();
+            CargarControlDetalle();
             $("#modalEliminarControl").modal("hide");
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError("Error: Comuníquese con sistemas," +resultado.responseText, false);
             $('#btnConsultar').prop("disabled", false);
             $("#spinnerCargando").prop("hidden", true);
         }
@@ -328,7 +342,7 @@ function EliminarControlDetalle(model) {
 }
 
 $("#modal-detalle-si").on("click", function () {
-    InactivarControlConsumoDetalle();
+    InactivarControlDetalle();
     $("#modalEliminarControlDetalle").modal('hide');
 });
 

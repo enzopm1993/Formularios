@@ -115,6 +115,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
                     poControl.AceroInoxidable = model.AceroInoxidable;
                     poControl.Ferroso = model.Ferroso;
                     poControl.NoFerroso = model.NoFerroso;
+                    poControl.Observacion = model.Observacion;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poControl.FechaModificacionLog = model.FechaIngresoLog;

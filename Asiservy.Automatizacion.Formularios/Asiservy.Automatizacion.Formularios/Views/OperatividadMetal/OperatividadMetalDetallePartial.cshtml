@@ -14,43 +14,55 @@
                 @Html.DisplayNameFor(model => model.Ferroso)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NoFerroso)
+                No Ferroso
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AceroInoxidable)
+               Acero Inoxidable
             </th>
-
+            <th>
+                Observación
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Hora)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ferroso)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NoFerroso)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AceroInoxidable)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ferroso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoFerroso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AceroInoxidable)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
 
-                <td>
-                    @{string json = JsonConvert.SerializeObject(new OperatividadMetalDetalleModel { IdOperatividadMetal= item.IdOperatividadMetal,
-                            IdOperatividadMetalDetalle= item.IdOperatividadMetalDetalle, AceroInoxidable = item.AceroInoxidable, Hora=item.Hora
-                       , Ferroso = item.Ferroso, NoFerroso =item.NoFerroso} ); }
-                    <button class="btn btn-link" onclick="EditarConsumoInsumoDetalle(@json)">Editar</button>
-                    |
-                    <button class="btn btn-link" onclick="EliminarControlDetalle(@json)">Eliminar</button>
+            <td>
+                @{string json = JsonConvert.SerializeObject(new OperatividadMetalDetalleModel
+                    {
+                        IdOperatividadMetal = item.IdOperatividadMetal,
+                        IdOperatividadMetalDetalle = item.IdOperatividadMetalDetalle,
+                        AceroInoxidable = item.AceroInoxidable,
+                        Hora = item.Hora
+                       ,
+                        Ferroso = item.Ferroso,
+                        NoFerroso = item.NoFerroso
+                    }); }
+                <button class="btn btn-link" onclick="EditarConsumoInsumoDetalle(@json)">Editar</button>
+                |
+                <button class="btn btn-link" onclick="EliminarControlDetalle(@json)">Eliminar</button>
 
-                </td>
-            </tr>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
