@@ -273,9 +273,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 control.UsuarioIngresoLog = lsUsuario[0];
                 control.FechaIngresoLog = DateTime.Now;
                 control.TerminalIngresoLog = Request.UserHostAddress;
-                control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                control.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 clsdOperatividadMetal.EliminarOperatividadMetalDetalle(control);
-                return Json("`Registro Exitoso", JsonRequestBehavior.AllowGet);
+                return Json("Registro Eliminado con Exito", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

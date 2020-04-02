@@ -249,6 +249,7 @@
                     });
 
                     var keysGenerosTotales = Object.keys(resultado.TotalGeneros[0]);
+                    console.log(keysGenerosTotales);
                     var columns_series = [];
                     $.each(keysGenerosTotales, function (i, it1) {
                         if (it1 == 'AusentesConPermiso' || it1 == 'Ausentes' || it1 == "AusentesSinPermiso") {

@@ -20,6 +20,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public bool Ferroso { get; set; }
         public bool NoFerroso { get; set; }
         public bool AceroInoxidable { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

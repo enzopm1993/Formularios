@@ -43,6 +43,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.Pivot = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.DateRangePicker = "1";
+                ViewBag.Apexcharts = "1";
                 return View();
 
             }
@@ -359,7 +360,27 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 List<ModeloVistaPersonalPresente> modeloVistaTablasPersonalPresente = clsNomina.ObtenerTablasPersonalAsistente(Convert.ToDateTime(fechaIni), Convert.ToDateTime(fechaFin));
 
-                JsonResult result = Json(modeloVistaTablasPersonalPresente, JsonRequestBehavior.AllowGet);
+
+                ModeloVistaRetornaAsistencia objRetorna = new ModeloVistaRetornaAsistencia();
+                objRetorna.modeloVistaPersonalPresentes = modeloVistaTablasPersonalPresente;
+
+
+                List<ModeloVistaPersonalPresenteBiometrico> modeloVistaTablasPersonalPresenteBiometrico = clsNomina.ObtenerAsistenciaBiomentrico(Convert.ToDateTime(fechaIni), Convert.ToDateTime(fechaFin));
+                objRetorna.modeloVistaPersonalPresentesBiometrico = modeloVistaTablasPersonalPresenteBiometrico;
+
+
+                var resultLineasAsistentesTotales = modeloVistaTablasPersonalPresenteBiometrico.Where(c=>c.TIPO_PROCESO == "PRODUCCIÓN")
+                   .GroupBy(x => x.LINEA)                  
+                   .Select(g => new ClsKpiLineasASistentes
+                   {
+                       Linea = g.Key,
+                       Presentes = g.Sum(x => x.ESTADO_ASISTENCIA == "PRESENTE" ? 1 : 0),
+                       Ausentes = g.Sum(x => x.ESTADO_ASISTENCIA == "AUSENTE" ? 1 : 0),
+
+                   }).ToList();
+                objRetorna.LineasAsistentesTotales = resultLineasAsistentesTotales;
+
+                JsonResult result = Json(objRetorna, JsonRequestBehavior.AllowGet);
 
                 result.MaxJsonLength = 50000000;
                 return result;
