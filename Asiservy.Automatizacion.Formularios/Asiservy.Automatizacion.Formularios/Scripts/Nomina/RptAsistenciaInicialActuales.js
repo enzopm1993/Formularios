@@ -25,7 +25,29 @@
 
         $('#reportrange span').html(fechaMuestraDesde + ' - ' + fechaMuestraHasta);
     }
-
+    var optionsLineasGraficoAsistencia = {
+        chart: {
+            type: 'bar'
+        },
+        series: [{ name: '', data: [] }],
+        xaxis: {
+            categories: []
+        },
+        yaxis: {
+            title: {
+                text: '# (personas)'
+            }
+        },
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return val + " personas"
+                }
+            }
+        }
+    }
+    var chartLineasAsistentes = new ApexCharts(document.querySelector("#grafico-lineas-asistentes"), optionsLineasGraficoAsistencia);
+    chartLineasAsistentes.render();
 
     $('#reportrange').daterangepicker({
         startDate: start,
@@ -80,7 +102,7 @@
     }, cb);
 
     cb(start, end);
-
+    var fAwesomeSpinner = '<i id="iconCargandoBox" class="fas fa-spinner fa-pulse fa-3x"></i>';
     var iconLoader = "fa-spinner fa-pulse";
     var iconSearch = "fa-search"
        
@@ -88,6 +110,12 @@
         var fechaIni = $("#fechaDesde").val();
         var fechaFin = $("#fechaHasta").val();
         $("#wdr-component").empty();
+        $("#wdr-component-biometrico").empty();
+        $("#wdr-component-bio-novedades").empty();
+
+        $("#wdr-component").html(fAwesomeSpinner);
+        $("#wdr-component-biometrico").html(fAwesomeSpinner);
+        $("#wdr-component-bio-novedades").html(fAwesomeSpinner);
 
         $("#generarAsistencia").attr('href', "javascript:void(0)");
         $("#iconSearch").removeClass(iconSearch);
@@ -102,6 +130,11 @@
                 'fechaFin': fechaFin
             },
             success: function (resultado) {
+
+                $("#wdr-component").empty();
+                $("#wdr-component-biometrico").empty();
+                $("#wdr-component-bio-novedades").empty();
+
                 $("#generarAsistencia").attr('href', "#");
                 $("#iconSearch").removeClass(iconLoader);
                 $("#iconSearch").addClass(iconSearch);
@@ -109,7 +142,7 @@
 
               
                 var _fechas = [];
-                $.each(resultado, function (i, rowObj) {
+                $.each(resultado.modeloVistaPersonalPresentes, function (i, rowObj) {
                     if (jQuery.inArray(rowObj.Fecha, _fechas) === -1) {
                         _fechas.push(rowObj.Fecha);
                     }
@@ -121,7 +154,6 @@
                 });
 
 
-                console.log(tuplesColum);
                 
                 var pivot = new WebDataRocks({
                     container: "#wdr-component",
@@ -129,13 +161,11 @@
                     beforetoolbarcreated: customizeToolbar,
                     report: {
                         dataSource: {
-                            data: resultado
+                            data: resultado.modeloVistaPersonalPresentes
                         },
                         "slice": {
                             "rows": [
-                                {
-                                    "uniqueName": "CentroCosto"
-                                },
+                               
                                 {
                                     "uniqueName": "Linea"
                                 },
@@ -188,9 +218,185 @@
                     }
                 });
 
+
+                var rptBiometrico = resultado.modeloVistaPersonalPresentesBiometrico;
+                var _fechas_bio = [];
+                $.each(rptBiometrico, function (i, rowObj) {
+                    if (jQuery.inArray(rowObj.FECHA, _fechas_bio) === -1) {
+                        _fechas_bio.push(rowObj.FECHA);
+                    }
+                });
+
+                var tuplesColum_bio = [];
+                $.each(_fechas_bio, function (i, _rowFecha) {
+                    tuplesColum_bio.push({ "tuple": ["FECHA." + _rowFecha] });
+                });
+                var pivot_biometrico = new WebDataRocks({
+                    container: "#wdr-component-biometrico",
+                    toolbar: true,
+                    beforetoolbarcreated: customizeToolbar,
+                    report: {
+                        dataSource: {
+                            data: rptBiometrico
+                        },
+                        "slice": {
+                            "reportFilters": [
+                                {
+                                    "uniqueName": "TIPO_PROCESO",
+                                    "filter": {
+                                        "members": [
+                                            "TIPO_PROCESO.PRODUCCIÓN"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "rows": [
+                                {
+                                    "uniqueName": "LINEA"
+                                },
+                                {
+                                    "uniqueName": "NOMBRES"
+                                }
+                            ],
+                            "columns": [
+                                {
+                                    "uniqueName": "FECHA"
+                                },
+                                {
+                                    "uniqueName": "Measures"
+                                },
+                                {
+                                    "uniqueName": "ESTADO_ASISTENCIA"
+                                }
+                            ],
+                            "measures": [
+                                {
+                                    "uniqueName": "CEDULA",
+                                    "aggregation": "count"
+                                }
+                            ],
+                            "expands": {
+                                "columns": tuplesColum_bio
+                            }
+                        },
+                        "options": {
+                            "grid": {
+                                "showTotals": "rows",
+                                "showGrandTotals": "columns"
+                            }
+                        }
+                        
+                    },
+                    global: {
+                        // replace this path with the path to your own translated file
+                        localization: config.baseUrl + "Content/webdatarocks/es.json"
+                    }
+                });
+
+                var pivot_biometrico_nove = new WebDataRocks({
+                    container: "#wdr-component-bio-novedades",
+                    toolbar: true,
+                    beforetoolbarcreated: customizeToolbar,
+                    report: {
+                        dataSource: {
+                            data: rptBiometrico
+                        },
+                        "slice": {
+                            "reportFilters": [
+                                {
+                                    "uniqueName": "TIPO_PROCESO",
+                                    "filter": {
+                                        "members": [
+                                            "TIPO_PROCESO.PRODUCCIÓN"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "uniqueName": "ESTADO_ASISTENCIA",
+                                    "filter": {
+                                        "members": [
+                                            "ESTADO_ASISTENCIA.AUSENTE"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "rows": [
+                                {
+                                    "uniqueName": "NOVEDAD"
+                                },
+                                {
+                                    "uniqueName": "LINEA"
+                                },
+                                {
+                                    "uniqueName": "NOMBRES"
+                                }
+                            ],
+                            "columns": [
+                                {
+                                    "uniqueName": "FECHA"
+                                },
+                                {
+                                    "uniqueName": "Measures"
+                                }
+                            ],
+                            "measures": [
+                                {
+                                    "uniqueName": "CEDULA",
+                                    "aggregation": "count"
+                                }
+                            ]
+                        },
+                        "options": {
+                            "grid": {
+                                "showTotals": "rows",
+                                "showGrandTotals": "columns"
+                            }
+                        }
+                    },
+                    global: {
+                        // replace this path with the path to your own translated file
+                        localization: config.baseUrl + "Content/webdatarocks/es.json"
+                    }
+                });
+
+
+
+               // $("#detallePorGeneroPermisos").addClass('mostrarBloques');
+                var LineasAsistentesTotales = resultado.LineasAsistentesTotales;
+                var categorias = [];
+                var _series = [];               
+
+                $.each(LineasAsistentesTotales, function (i, it0) {  
+                    categorias[i] = it0.Linea;
+                });
+                var columns_series = ['Ausentes', 'Presentes'];
+                $.each(columns_series, function (i3, cols) {
+                    var _data = [];
+                    $.each(categorias, function (i, cat) {
+                        $.each(LineasAsistentesTotales, function (i2, item) {
+                            if (cat == item.Linea) {
+                                _data.push(item[cols]);
+                            }
+                        });
+                    });
+                    var itemSerie = {
+                        name: cols,
+                        data: _data
+                    }
+                    _series.push(itemSerie);
+                });
+                chartLineasAsistentes.updateOptions({
+                    xaxis: {
+                        categories: categorias
+                    }
+                });
+                chartLineasAsistentes.updateSeries(_series);
             },
             error: function (resultado) {
                 console.log(resultado);
+                $("#wdr-component").empty();
+                $("#wdr-component-biometrico").empty();
+                $("#wdr-component-bio-novedades").empty();
                 $("#generarAsistencia").attr('href', "#");
                 $("#iconSearch").removeClass(iconLoader);
                 $("#iconSearch").addClass(iconSearch);

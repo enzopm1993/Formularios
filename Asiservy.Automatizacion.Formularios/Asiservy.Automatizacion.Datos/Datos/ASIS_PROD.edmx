@@ -2673,6 +2673,10 @@
           <Parameter Name="fechaIni" Type="date" Mode="In" />
           <Parameter Name="fechaFin" Type="date" Mode="In" />
         </Function>
+        <Function Name="sp_obtenerAsistenciaBiometrico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fechaIni" Type="date" Mode="In" />
+          <Parameter Name="fechaFin" Type="date" Mode="In" />
+        </Function>
         <Function Name="sp_ObtenerCuchillosSobrantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ColorCuchillo" Type="char" Mode="In" />
           <Parameter Name="Fecha" Type="date" Mode="In" />
@@ -4430,6 +4434,10 @@
             <End Role="CC_OPERATIVIDAD_METAL" EntitySet="CC_OPERATIVIDAD_METAL" />
             <End Role="CC_OPERATIVIDAD_METAL_DETALLE" EntitySet="CC_OPERATIVIDAD_METAL_DETALLE" />
           </AssociationSet>
+          <FunctionImport Name="sp_obtenerAsistenciaBiometrico" ReturnType="Collection(ASIS_PRODModel.sp_obtenerAsistenciaBiometrico_Result)">
+            <Parameter Name="fechaIni" Mode="In" Type="DateTime" />
+            <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -8608,6 +8616,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="sp_obtenerAsistenciaBiometrico_Result">
+          <Property Type="DateTime" Name="FECHA" Nullable="true" />
+          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="COD_LINEA" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="COD_CENTRO_COSTO" Nullable="true" MaxLength="7" />
+          <Property Type="String" Name="COD_RECURSO" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="ROL" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="LINEA" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="RECURSO" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CENTRO_COSTO" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ESTADO_ASISTENCIA" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="ESTADO_ASISTENCIA_EXONERADO" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="TIPO_PROCESO" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="HORA_ENTRADA" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="HORA_SALIDA" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="NOVEDAD" Nullable="false" MaxLength="30" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12975,6 +13001,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_obtenerAsistenciaBiometrico" FunctionName="ASIS_PRODModel.Store.sp_obtenerAsistenciaBiometrico">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_obtenerAsistenciaBiometrico_Result">
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="COD_LINEA" ColumnName="COD_LINEA" />
+                <ScalarProperty Name="COD_CENTRO_COSTO" ColumnName="COD_CENTRO_COSTO" />
+                <ScalarProperty Name="COD_RECURSO" ColumnName="COD_RECURSO" />
+                <ScalarProperty Name="ROL" ColumnName="ROL" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="RECURSO" ColumnName="RECURSO" />
+                <ScalarProperty Name="CENTRO_COSTO" ColumnName="CENTRO_COSTO" />
+                <ScalarProperty Name="ESTADO_ASISTENCIA" ColumnName="ESTADO_ASISTENCIA" />
+                <ScalarProperty Name="ESTADO_ASISTENCIA_EXONERADO" ColumnName="ESTADO_ASISTENCIA_EXONERADO" />
+                <ScalarProperty Name="TIPO_PROCESO" ColumnName="TIPO_PROCESO" />
+                <ScalarProperty Name="HORA_ENTRADA" ColumnName="HORA_ENTRADA" />
+                <ScalarProperty Name="HORA_SALIDA" ColumnName="HORA_SALIDA" />
+                <ScalarProperty Name="NOVEDAD" ColumnName="NOVEDAD" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

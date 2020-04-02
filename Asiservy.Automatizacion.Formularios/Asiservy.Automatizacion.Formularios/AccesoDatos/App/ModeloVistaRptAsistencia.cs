@@ -28,6 +28,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.App
         public Int32 AusentesConPermiso { get; set; }
         public Int32 AusentesSinPermiso { get; set; }
     }
+    public class ClsKpiLineasASistentes
+    {
+        public String Linea { get; set; }
+        public Int32 Presentes { get; set; }
+        public Int32 Ausentes { get; set; }
+    }
     public class ClsKpiDescripcionTotal
     {
         public String Descripcion { get; set; }

@@ -1858,5 +1858,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Termoencogido_Sellado_Detalle>("sp_Control_Termoencogido_Sellado_Detalle", idParameter, idCabeceraParameter, opParameter);
         }
+    
+        public virtual ObjectResult<sp_obtenerAsistenciaBiometrico_Result> sp_obtenerAsistenciaBiometrico(Nullable<System.DateTime> fechaIni, Nullable<System.DateTime> fechaFin)
+        {
+            var fechaIniParameter = fechaIni.HasValue ?
+                new ObjectParameter("fechaIni", fechaIni) :
+                new ObjectParameter("fechaIni", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("fechaFin", fechaFin) :
+                new ObjectParameter("fechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtenerAsistenciaBiometrico_Result>("sp_obtenerAsistenciaBiometrico", fechaIniParameter, fechaFinParameter);
+        }
     }
 }
