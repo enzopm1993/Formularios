@@ -162,6 +162,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="33.625" PointY="6.75" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.PlantillasMemorandum" Width="1.5" PointX="20.375" PointY="34.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
