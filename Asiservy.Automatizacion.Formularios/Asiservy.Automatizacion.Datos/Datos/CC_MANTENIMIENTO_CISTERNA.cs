@@ -15,7 +15,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class CC_MANTENIMIENTO_CISTERNA
     {
         public int IdCisterna { get; set; }
-        public string Descripcion { get; set; }
+        public string NDescripcion { get; set; }
+        public string Ubicacion { get; set; }
+        public string Asignacion { get; set; }
+        public string Tipo { get; set; }
+        public string Capacidad { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

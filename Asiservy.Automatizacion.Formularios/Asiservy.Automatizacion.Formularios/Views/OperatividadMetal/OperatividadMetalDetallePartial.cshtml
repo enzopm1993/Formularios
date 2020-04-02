@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_OPERATIVIDAD_METAL_DETALLE>
+@using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
+@using Newtonsoft.Json;
+
+
+<table class="table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ferroso)
+            </th>
+            <th>
+                No Ferroso
+            </th>
+            <th>
+               Acero Inoxidable
+            </th>
+            <th>
+                Observación
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Hora)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Ferroso)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.NoFerroso)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.AceroInoxidable)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+
+            <td>
+                @{string json = JsonConvert.SerializeObject(new OperatividadMetalDetalleModel
+                    {
+                        IdOperatividadMetal = item.IdOperatividadMetal,
+                        IdOperatividadMetalDetalle = item.IdOperatividadMetalDetalle,
+                        AceroInoxidable = item.AceroInoxidable,
+                        Hora = item.Hora
+                       ,
+                        Ferroso = item.Ferroso,
+                        NoFerroso = item.NoFerroso
+                    }); }
+                <button class="btn btn-link" onclick="EditarConsumoInsumoDetalle(@json)">Editar</button>
+                |
+                <button class="btn btn-link" onclick="EliminarControlDetalle(@json)">Eliminar</button>
+
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

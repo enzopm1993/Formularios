@@ -43,5 +43,44 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
                 return db.sp_ObtenerInfoEmpleadoParaSAP(cedula).FirstOrDefault();
             }
         }
+
+        public List<ModeloVistaPersonalPresenteBiometrico> ObtenerAsistenciaBiomentrico(DateTime fechaIni, DateTime fechaFin)
+        {
+
+
+            List<ModeloVistaPersonalPresenteBiometrico> objTablas = new List<ModeloVistaPersonalPresenteBiometrico>();
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var asistentes = db.sp_obtenerAsistenciaBiometrico(fechaIni, fechaFin).ToList();
+
+                foreach (sp_obtenerAsistenciaBiometrico_Result item in asistentes)
+                {
+
+                    objTablas.Add(new ModeloVistaPersonalPresenteBiometrico
+                    {
+                        FECHA = String.Format("{0:dd/MM/yyyy}", item.FECHA),
+                        CEDULA = item.CEDULA,
+                        NOMBRES = item.NOMBRES,
+                        COD_LINEA = item.COD_LINEA,
+                        COD_CENTRO_COSTO = item.COD_CENTRO_COSTO,
+                        COD_RECURSO = item.COD_RECURSO,
+                        ROL = item.ROL,
+                        LINEA = item.LINEA,
+                        RECURSO = item.RECURSO,
+                        CENTRO_COSTO = item.CENTRO_COSTO,
+                        ESTADO_ASISTENCIA = item.ESTADO_ASISTENCIA,
+                        ESTADO_ASISTENCIA_EXONERADO = item.ESTADO_ASISTENCIA_EXONERADO,
+                        TIPO_PROCESO = item.TIPO_PROCESO,
+                        HORA_ENTRADA = item.HORA_ENTRADA,
+                        HORA_SALIDA = item.HORA_SALIDA,
+                        NOVEDAD = item.NOVEDAD
+                    });
+                }
+
+            }
+
+            return objTablas;
+           
+        }
     }
 }

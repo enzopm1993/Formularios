@@ -189,11 +189,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.ProductoPou
             using (var db = new ASIS_PRODEntities())
             {
                 object[] resultado = new object[3];
-                var buscarSubDetalle = db.DETALLE_PRODUCTO_POUCH_CUARENTENA.FirstOrDefault(x => x.IdDetalleProdPouchCuarentena == poDetalle.IdDetalleProdPouchCuarentena);
-                buscarSubDetalle.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                buscarSubDetalle.FechaModificacionLog = poDetalle.FechaIngresoLog;
-                buscarSubDetalle.UsuarioModificacionLog = poDetalle.UsuarioIngresoLog;
-                buscarSubDetalle.TerminalModificacionLog = poDetalle.TerminalIngresoLog;
+                var buscarDetalle = db.DETALLE_PRODUCTO_POUCH_CUARENTENA.FirstOrDefault(x => x.IdDetalleProdPouchCuarentena == poDetalle.IdDetalleProdPouchCuarentena);
+                buscarDetalle.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                buscarDetalle.FechaModificacionLog = poDetalle.FechaIngresoLog;
+                buscarDetalle.UsuarioModificacionLog = poDetalle.UsuarioIngresoLog;
+                buscarDetalle.TerminalModificacionLog = poDetalle.TerminalIngresoLog;
                 db.SaveChanges();
                 resultado[0] = "002";
                 resultado[1] = "Registro Inactivado con éxito";

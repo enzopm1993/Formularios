@@ -52,6 +52,8 @@ function CargarOpciones() {
                                 .column(i)
                                 .search(this.value)
                                 .draw();
+
+
                         }
                     });
                 }
