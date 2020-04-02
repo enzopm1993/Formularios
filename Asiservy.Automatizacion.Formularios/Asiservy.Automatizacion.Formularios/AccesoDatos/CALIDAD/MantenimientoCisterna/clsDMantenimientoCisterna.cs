@@ -24,7 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoC
                 var model = db.CC_MANTENIMIENTO_CISTERNA.FirstOrDefault(x=> x.IdCisterna ==guardarmodificar.IdCisterna && x.EstadoRegistro ==guardarmodificar.EstadoRegistro);
                 if (model!=null)
                 {
-                    model.Descripcion = guardarmodificar.Descripcion;
+                    model.NDescripcion = guardarmodificar.NDescripcion;
                     model.EstadoRegistro = guardarmodificar.EstadoRegistro;
                     model.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
                     model.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;

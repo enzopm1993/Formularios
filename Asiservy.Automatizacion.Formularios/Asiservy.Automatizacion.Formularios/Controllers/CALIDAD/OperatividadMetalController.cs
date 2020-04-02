@@ -298,7 +298,129 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
 
+        #region DETECCION DE METALES EN BANDEJAS 
 
+        public ActionResult OperatividadMetalDetectorPartial(int IdControl)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsdOperatividadMetal = new clsDOperatividadMetal();
+                //ViewBag.Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha);
+                // clsDEmpleado = new clsDEmpleado();
+                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                var model = clsdOperatividadMetal.ConsultaOperatividadMetalDetector(IdControl);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return PartialView(model);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult OperatividadMetalDetector(CC_OPERATIVIDAD_DETECTOR_METAL control, HttpPostedFileBase imagen)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsdOperatividadMetal = new clsDOperatividadMetal();
+                // clsDEmpleado = new clsDEmpleado();
+                // var Empleado = clsDEmpleado.ConsultaEmpleado(lssUsuario[1]).FirstOrDefault();
+                control.UsuarioIngresoLog = lsUsuario[0];
+                control.FechaIngresoLog = DateTime.Now;
+                control.TerminalIngresoLog = Request.UserHostAddress;
+                control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                clsdOperatividadMetal.GuardarModificarOperatividadMetalDetector(control);
+                return Json("`Registro Exitoso", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EliminarOperatividadMetalDetector(CC_OPERATIVIDAD_DETECTOR_METAL control)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsdOperatividadMetal = new clsDOperatividadMetal();
+                // clsDEmpleado = new clsDEmpleado();
+                // var Empleado = clsDEmpleado.ConsultaEmpleado(lssUsuario[1]).FirstOrDefault();
+                control.UsuarioIngresoLog = lsUsuario[0];
+                control.FechaIngresoLog = DateTime.Now;
+                control.TerminalIngresoLog = Request.UserHostAddress;
+                control.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                clsdOperatividadMetal.EliminarOperatividadMetalDetector(control);
+                return Json("Registro Eliminado con Exito", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        #endregion
 
         protected void SetSuccessMessage(string message)
         {

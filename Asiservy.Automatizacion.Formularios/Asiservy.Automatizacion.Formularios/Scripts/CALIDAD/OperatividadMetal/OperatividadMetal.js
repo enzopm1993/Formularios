@@ -7,6 +7,7 @@
 function ConsultarControl() {
     $("#divMensaje").html('');
     $("#divDetalle").prop("hidden", true);
+    $("#divDetalle2").prop("hidden", true);
     $("#btnGenerar").prop("hidden", false);
     $("#btnEditar").prop("hidden", true);
     $("#btnEliminar").prop("hidden", true);
@@ -44,6 +45,7 @@ function ConsultarControl() {
                 //$("#chkLomo").prop("disabled", true);
                 //$("#chkLata").prop("disabled", true);
                 $("#divDetalle").prop("hidden", false);
+                $("#divDetalle2").prop("hidden", false);
                 $("#btnEditar").prop("hidden", false);
                 $("#btnEliminar").prop("hidden", false);
                 $("#btnGenerar").prop("hidden", true);
@@ -58,6 +60,7 @@ function ConsultarControl() {
                 $("#txtCodDetectorMetal").val(resultado.DetectorMetal);
                 $("#txtObservacion").val(resultado.Observacion);
                 CargarControlDetalle();
+                CargarControlDetalle2();
               //  console.log(resultado);
 
             }
@@ -349,3 +352,183 @@ $("#modal-detalle-si").on("click", function () {
 $("#modal-detalle-no").on("click", function () {
     $("#modalEliminarControlDetalle").modal('hide');
 });
+
+
+
+
+
+///////////////////////////////////////// DETECCION DE MENTALES /////////////////////////////////////////////////////
+function CargarControlDetalle2() {
+    $("#divTableDetalle2").html('');
+    $("#spinnerCargandoDetalle2").prop("hidden", false);
+    $.ajax({
+        url: "../OperatividadMetal/OperatividadMetalDetectorPartial",
+        type: "GET",
+        data: {
+            IdControl: $("#txtIdControl").val()
+            //  Tipo: $("#txtLineaNegocio").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#divTableDetalle2").html("No existen registros");
+                $("#spinnerCargandoDetalle2").prop("hidden", true);
+            } else {
+                $("#spinnerCargandoDetalle2").prop("hidden", true);
+                $("#divTableDetalle2").html(resultado);
+                //config.opcionesDT.pageLength = 10;
+                //      config.opcionesDT.order = [[0, "asc"]];
+                //    $('#tblDataTable').DataTable(config.opcionesDT);
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoDetalle2").prop("hidden", true);
+        }
+    });
+}
+
+function ModalGenerarControlDetalle2() {
+    //$("#txtIdControlDetalle").val(0);
+    //$("#txtHoraInicioDetalle").val("");
+    //$("#txtHoraFinDetalle").val("");
+    $("#ModalGenerarControlDetalle2").modal("show");
+
+}
+
+function ValidarGenerarControlDetalle2() {
+    var valida = true;
+    if ($("#txtNovedad").val() == "") {
+        $("#txtNovedad").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#txtNovedad").css('borderColor', '#ced4da');
+    }
+
+
+
+    return valida;
+}
+function GenerarControlDetalle2() {
+
+    //console.log($("#imgFoto"));
+    //var img = $("#imgFoto")[0];
+   // alert($("#imgFoto")[0].files[0]);
+    // salida = URL.createObjectURL(event.target.files[0]);
+    //console.log(img);
+
+
+    if (!ValidarGenerarControlDetalle2()) {
+        return;
+    }
+    //   $("#spinnerCargandoDetalle").prop("hidden", false);
+    $.ajax({
+        url: "../OperatividadMetal/OperatividadMetalDetector",
+        type: "POST",
+        data: {
+            IdOperatividadDetectorMetal: $("#txtIdControlDetalle2").val(),
+            IdOperatividadMetal: $("#txtIdControl").val(),
+            Novedad: $("#txtNovedad").val()
+      //      imagen: img
+        },
+        success: function (resultado) {
+            //  $("#spinnerCargandoDetalle").prop("hidden", true);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            CargarControlDetalle2();
+            MensajeCorrecto(resultado);
+            $("#ModalGenerarControlDetalle2").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoDetalle2").prop("hidden", true);
+        }
+    });
+}
+
+
+function EditarConsumoInsumoDetalle2(model) {
+    // console.log(model);
+    $("#txtIdControlDetalle").val(model.IdOperatividadMetalDetalle);
+    $("#txtHora").val(model.Hora);
+    $("#chkFerroso").prop("checked", model.Ferroso);
+    $("#chkNoFerroso").prop("checked", model.NoFerroso);
+    $("#chkAceroInoxidable").prop("checked", model.AceroInoxidable);
+    $("#txtObservacionDetalle").val(model.Observacion);
+
+
+    $("#ModalGenerarControlDetalle").modal("show");
+    //ModalGenerarControlDetalle();
+}
+
+function InactivarControlDetalle2() {
+    $.ajax({
+        url: "../OperatividadMetal/EliminarOperatividadMetalDetector",
+        type: "POST",
+        data: {
+            IdOperatividadMetalDetalle: $("#txtEliminarDetalle").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+            }
+            CargarControlDetalle2();
+            $("#modalEliminarControl").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas," + resultado.responseText, false);
+         //   $('#btnConsultar').prop("disabled", false);
+            $("#modalEliminarControl").modal("hide");
+           // $("#spinnerCargando").prop("hidden", true);
+        }
+    });
+}
+
+function EliminarControlDetalle2(model) {
+    $("#txtEliminarDetalle2").val(model.IdOperatividadMetalDetalle);
+    //$("#pModalDetalle").html("Hora: " + moment(model.HoraInicio).format('HH:mm') + ' - ' + moment(model.HoraFin).format('HH:mm'));
+    $("#labelMensaje").html("HORA: " + moment(model.Hora).format("HH:mm"));
+    $("#modalEliminarControlDetalle2").modal('show');
+}
+
+$("#modal-detalle-si").on("click", function () {
+    InactivarControlDetalle2();
+    $("#modalEliminarControlDetalle2").modal('hide');
+});
+
+$("#modal-detalle-no").on("click", function () {
+    $("#modalEliminarControlDetalle2").modal('hide');
+});
+
+
+//$(window).load(function () {
+
+//    $(function () {
+//        $('#file-input').change(function (e) {
+//            addImage(e);
+//        });
+
+//        function addImage(e) {
+//            var file = e.target.files[0],
+//                imageType = /image.*/;
+
+//            if (!file.type.match(imageType))
+//                return;
+
+//            var reader = new FileReader();
+
+//            reader.onload = function (e) {
+//                var result = e.target.result;
+//                $('#imgSalida').attr("src", result);
+//            }
+
+//            reader.readAsDataURL(file);
+//        }
+//    });
+//});

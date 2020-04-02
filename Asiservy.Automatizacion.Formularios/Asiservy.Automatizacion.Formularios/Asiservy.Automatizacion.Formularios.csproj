@@ -3719,6 +3719,7 @@
     <Content Include="Views\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.cshtml" />
     <Content Include="Views\TemperaturaTermoencogidoSellado\ControlTermoencogidoSelladoPartial.cshtml" />
     <Content Include="Views\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.cshtml" />
+    <Content Include="Views\OperatividadMetal\OperatividadMetalDetectorPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

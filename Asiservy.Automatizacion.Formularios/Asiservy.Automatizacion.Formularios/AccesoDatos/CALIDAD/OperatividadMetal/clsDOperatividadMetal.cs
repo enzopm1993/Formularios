@@ -147,5 +147,55 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
 
 
 
+        public List<CC_OPERATIVIDAD_DETECTOR_METAL> ConsultaOperatividadMetalDetector(int idControl)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.CC_OPERATIVIDAD_DETECTOR_METAL.Where(x =>
+                            x.IdOperatividadMetal == idControl
+                            && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+                return lista;
+            }
+        }
+
+
+        public void GuardarModificarOperatividadMetalDetector(CC_OPERATIVIDAD_DETECTOR_METAL model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var poControl = entities.CC_OPERATIVIDAD_DETECTOR_METAL.FirstOrDefault(x => x.IdOperatividadDetectorMetal == model.IdOperatividadDetectorMetal);
+                if (poControl != null)
+                {
+                    poControl.Novedad = model.Novedad;
+                    poControl.Imagen = model.Imagen;
+                    poControl.TerminalModificacionLog = model.TerminalIngresoLog;
+                    poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    poControl.FechaModificacionLog = model.FechaIngresoLog;
+                }
+                else
+                {
+                    entities.CC_OPERATIVIDAD_DETECTOR_METAL.Add(model);
+                }
+                entities.SaveChanges();
+            }
+        }
+
+        public void EliminarOperatividadMetalDetector(CC_OPERATIVIDAD_DETECTOR_METAL model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var poControl = entities.CC_OPERATIVIDAD_DETECTOR_METAL.FirstOrDefault(x => x.IdOperatividadDetectorMetal == model.IdOperatividadDetectorMetal);
+                if (poControl != null)
+                {
+                    poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    poControl.TerminalModificacionLog = model.TerminalIngresoLog;
+                    poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    poControl.FechaModificacionLog = model.FechaIngresoLog;
+                    entities.SaveChanges();
+                }
+
+            }
+        }
+
     }
 }
