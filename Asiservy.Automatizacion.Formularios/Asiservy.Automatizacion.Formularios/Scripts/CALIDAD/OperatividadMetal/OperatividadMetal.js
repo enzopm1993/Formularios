@@ -184,24 +184,23 @@ function InactivarControl() {
 function EliminarControl() {
    // $("#txtEliminarDetalle").val(model.IdControlConsumoInsumoDetalle);
     //$("#pModalDetalle").html("Hora: " + moment(model.HoraInicio).format('HH:mm') + ' - ' + moment(model.HoraFin).format('HH:mm'));
-    $("#modalEliminarControlDetalle").modal('show');
+    $("#modalEliminarControl").modal('show');
 }
 
-$("#modal-detalle-si").on("click", function () {
+$("#modal-si").on("click", function () {
     InactivarControl();
-    $("#modalEliminarControlDetalle").modal('hide');
+    $("#modalEliminarControl").modal('hide');
 });
 
-$("#modal-detalle-no").on("click", function () {
-    $("#modalEliminarControlDetalle").modal('hide');
+$("#modal-no").on("click", function () {
+    $("#modalEliminarControl").modal('hide');
 });
 
 
 ////////////////////////////////////////////// --DETALLE-- ////////////////////////////////////////////7
-
 function CargarControlDetalle() {
-    $("#spinnerCargandoDetalle").prop("hidden", false);
     $("#divTableDetalle").html('');
+    $("#spinnerCargandoDetalle").prop("hidden", false);
     $.ajax({
         url: "../OperatividadMetal/OperatividadMetalDetallePartial",
         type: "GET",
@@ -232,51 +231,48 @@ function CargarControlDetalle() {
 }
 
 function ModalGenerarControlDetalle() {
-    //$("#txtIdControlConsumoInsumoDetalle").val(0);
+    //$("#txtIdControlDetalle").val(0);
     //$("#txtHoraInicioDetalle").val("");
     //$("#txtHoraFinDetalle").val("");
-    $("#ModalGenerarControlConsumoInsumoDetalle").modal("show");
+    $("#ModalGenerarControlDetalle").modal("show");
 
 }
 
-function ValidarGenerarControlConsumoDetalle() {
+function ValidarGenerarControlDetalle() {
     var valida = true;
-    if ($("#txtHoraInicioDetalle").val() == "") {
-        $("#txtHoraInicioDetalle").css('borderColor', '#FA8072');
+    if ($("#txtHora").val() == "") {
+        $("#txtHora").css('borderColor', '#FA8072');
         valida = false;
     } else {
-        $("#txtHoraInicioDetalle").css('borderColor', '#ced4da');
+        $("#txtHora").css('borderColor', '#ced4da');
     }
-    if ($("#txtHoraFinDetalle").val() == "") {
-        $("#txtHoraFinDetalle").css('borderColor', '#FA8072');
-        valida = false;
-    } else {
-        $("#txtHoraFinDetalle").css('borderColor', '#ced4da');
-    }
+  
 
     return valida;
 }
-function GenerarControlConsumoDetalle() {
-    if (!ValidarGenerarControlConsumoDetalle()) {
+function GenerarControlDetalle() {
+    if (!ValidarGenerarControlDetalle()) {
         return;
     }
     $("#spinnerCargandoDetalle").prop("hidden", false);
     $.ajax({
-        url: "../ControlConsumoInsumo/ControlConsumoInsumoDetalle",
+        url: "../OperatividadMetal/OperatividadMetalDetalle",
         type: "POST",
         data: {
-            IdControlConsumoInsumoDetalle: $("#txtIdControlConsumoInsumoDetalle").val(),
-            IdControlConsumoInsumos: ListadoControl.IdControlConsumoInsumos,
-            HoraInicio: $("#txtHoraInicioDetalle").val(),
-            HoraFin: $("#txtHoraFinDetalle").val(),
+            IdOperatividadMetalDetalle: $("#txtIdControlDetalle").val(),
+            IdOperatividadMetal: $("#txtIdControl").val(),
+            Hora: $("#txtHora").val(),
+            Ferroso: $("#chkFerroso").prop("checked"),
+            NoFerroso: $("#chkNoFerroso").prop("checked"),
+            AceroInoxidable: $("#chkAceroInoxidable").prop("checked")
         },
         success: function (resultado) {
             $("#spinnerCargandoDetalle").prop("hidden", true);
             if (resultado == "101") {
                 window.location.reload();
             }
-            CargarControlConsumoInsumoDetalle();
-            $("#ModalGenerarControlConsumoInsumoDetalle").modal("hide");
+            CargarControlDetalle();
+            $("#ModalGenerarControlDetalle").modal("hide");
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -288,19 +284,23 @@ function GenerarControlConsumoDetalle() {
 
 function EditarConsumoInsumoDetalle(model) {
     // console.log(model);
-    $("#txtIdControlConsumoInsumoDetalle").val(model.IdControlConsumoInsumoDetalle);
-    $("#txtHoraInicioDetalle").val(model.HoraInicio);
-    $("#txtHoraFinDetalle").val(model.HoraFin);
-    $("#ModalGenerarControlConsumoInsumoDetalle").modal("show");
+    $("#txtIdControlDetalle").val(model.IdOperatividadMetalDetalle);    
+    $("#txtHora").val(model.Hora);
+    $("#chkFerroso").prop("checked", model.Ferroso);
+    $("#chkNoFerroso").prop("checked", model.NoFerroso);
+    $("#chkAceroInoxidable").prop("checked", model.AceroInoxidable);
+
+
+    $("#ModalGenerarControlDetalle").modal("show");
     //ModalGenerarControlDetalle();
 }
 
 function InactivarControlConsumoDetalle() {
     $.ajax({
-        url: "../ControlConsumoInsumo/EliminarControlConsumoInsumoDetalle",
+        url: "../OperatividadMetal/EliminarOperatividadMetalDetalle",
         type: "POST",
         data: {
-            IdControlConsumoInsumoDetalle: $("#txtEliminarDetalle").val()
+            IdOperatividadMetalDetalle: $("#txtIdControlDetalle").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -320,10 +320,11 @@ function InactivarControlConsumoDetalle() {
     });
 }
 
-function EliminarProcesoConsumoInsumoDetalle(model) {
-    $("#txtEliminarDetalle").val(model.IdControlConsumoInsumoDetalle);
+function EliminarControlDetalle(model) {
+    $("#txtEliminarDetalle").val(model.IdOperatividadMetalDetalle);
     //$("#pModalDetalle").html("Hora: " + moment(model.HoraInicio).format('HH:mm') + ' - ' + moment(model.HoraFin).format('HH:mm'));
-    $("#modalEliminarControlDetalle").modal('show');
+    $("#labelMensaje").html("HORA: "+moment(model.Hora).format("HH:mm"));
+  $("#modalEliminarControlDetalle").modal('show');
 }
 
 $("#modal-detalle-si").on("click", function () {

@@ -3185,6 +3185,7 @@
     <Content Include="Scripts\Vacaciones\Empleados.js" />
     <Content Include="Scripts\Vacaciones\PorLinea.js" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Memorandum\Gestion.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3208,6 +3209,9 @@
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CondicionPersonal\clsDCondicionPersonal.cs" />
     <Compile Include="AccesoDatos\CALIDAD\EvaluacionDeLomosyMigasEnBandeja\clsDEvaluacionDeLomosYMigasEnBandeja.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\LavadoDesinfeccionManos\clsDLavadoDesinfeccionManos.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\MantenimientoCisterna\clsDMantenimientoCisterna.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\MantenimientoColor\clsDMantenimientoColor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoOlor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoProteina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoSabor.cs" />
@@ -3216,6 +3220,7 @@
     <Compile Include="AccesoDatos\CALIDAD\ControlCuchillosPreparacion\clsDControlCuchillosPreparacion.cs" />
     <Compile Include="AccesoDatos\CALIDAD\OperatividadMetal\clsDOperatividadMetal.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\TemperaturaTermoencogidoSellado\clsDTemperaturaTermoencogidoSellado.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
     <Compile Include="AccesoDatos\ControlConsumoInsumo\clsDControlConsumoInsumo.cs" />
     <Compile Include="AccesoDatos\ControlCuchillo\clsDCuchillo.cs" />
@@ -3244,6 +3249,8 @@
     <Compile Include="AccesoDatos\GenerarDatosServicio\clsDGenerarDatosServicio.cs" />
     <Compile Include="AccesoDatos\MapeoProductoTunel\clsDMapeoProductoTunel.cs" />
     <Compile Include="AccesoDatos\Marcaciones\ClsMarcaciones.cs" />
+    <Compile Include="AccesoDatos\Memorandum\ClsMemorandum.cs" />
+    <Compile Include="AccesoDatos\Memorandum\ModelMemorandum.cs" />
     <Compile Include="AccesoDatos\MoverPersonal\ClsDMoverPersonal.cs" />
     <Compile Include="AccesoDatos\Nomina\ClsEmpleado.cs" />
     <Compile Include="AccesoDatos\Nomina\ClsNomina.cs" />
@@ -3285,6 +3292,9 @@
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionDeLomoyMigaEnBandejaController.cs" />
+    <Compile Include="Controllers\CALIDAD\LavadoDesinfeccionManosController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoCisternaController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoColorController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoOlorController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoProteinaController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoSaborController.cs" />
@@ -3293,6 +3303,8 @@
     <Compile Include="Controllers\CALIDAD\ControlCuchillosPreparacionController.cs" />
     <Compile Include="Controllers\CALIDAD\OperatividadMetalController.cs" />
     <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
+    <Compile Include="Controllers\CALIDAD\TemperaturaTermoencogidoSelladoController.cs" />
+    <Compile Include="Controllers\COMERCIALIZACION\MateriaPrimaController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\ControlBalanzaController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
@@ -3315,6 +3327,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MapeoProductoTunelController.cs" />
     <Compile Include="Controllers\MarcacionesController.cs" />
+    <Compile Include="Controllers\MemorandumController.cs" />
     <Compile Include="Controllers\MensajeController.cs" />
     <Compile Include="Controllers\MoverPersonalController.cs" />
     <Compile Include="Controllers\NominaController.cs" />
@@ -3339,6 +3352,7 @@
     <Compile Include="Models\Asistencia\EmpleadoCuchilloViewModel.cs" />
     <Compile Include="Models\Asistencia\EmpleadoRpt.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
+    <Compile Include="Models\CALIDAD\OperatividadMetalDetalleModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
     <Compile Include="Models\Calidad\DetalleEvaluacionLomosMIgasBandejaViewModel.cs" />
     <Compile Include="Models\ClasificadorGenerico.cs" />
@@ -3355,6 +3369,7 @@
     <Compile Include="AccesoDatos\clsAtributos.cs" />
     <Compile Include="Models\InsumosProduccion.cs" />
     <Compile Include="Models\MarcacionesEmpleadoLineaViewModel.cs" />
+    <Compile Include="Models\ModelViewMemorandum.cs" />
     <Compile Include="Models\OfLote.cs" />
     <Compile Include="Models\MantenimientoPallet\PalletViewModel.cs" />
     <Compile Include="Models\Motivo.cs" />
@@ -3688,6 +3703,20 @@
     <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\ControlEvaluacionLomoMigaBandeja.cshtml" />
     <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\PartialDetalleControl.cshtml" />
     <Content Include="Views\OperatividadMetal\OperatividadMetalDetallePartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\IngresoLavadoDesinfeccionManosDetallePartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\LavadoDesinfeccionManosDetallePartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\ReporteDesinfeccionManosDetallePartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.cshtml" />
+    <Content Include="Views\MantenimientoCisterna\MantenimientoCisterna.cshtml" />
+    <Content Include="Views\MantenimientoCisterna\MantenimientoCisternaPartial.cshtml" />
+    <Content Include="Views\MantenimientoColor\MantenimientoColor.cshtml" />
+    <Content Include="Views\MantenimientoColor\MantenimientoColorPartial.cshtml" />
+    <Content Include="Views\MateriaPrima\ReporteIngresoMateriaPrima.cshtml" />
+    <Content Include="Views\MateriaPrima\SOPMateriaPrima.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\ControlTermoencogidoSelladoPartial.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
