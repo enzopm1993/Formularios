@@ -24,7 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoC
             {
                 var model = db.CC_MANTENIMIENTO_COLOR.FirstOrDefault(x => x.IdColor == GuardarModigicar.IdColor && x.EstadoRegistro == GuardarModigicar.EstadoRegistro);
                 if (model != null)
-                {                    
+                {
                     model.Descripcion = GuardarModigicar.Descripcion;
                     model.EstadoRegistro = GuardarModigicar.EstadoRegistro;
                     model.FechaModificacionLog = GuardarModigicar.FechaIngresoLog;
