@@ -16,27 +16,19 @@
             <th>
                 @Html.DisplayNameFor(model => model.Lote)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.CodSabor)
-            </th>*@
+      
             <th>
                 @Html.DisplayNameFor(model => model.Sabor)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.CodTextura)
-            </th>*@
+          
             <th>
                 @Html.DisplayNameFor(model => model.Textura)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.CodColor)
-            </th>*@
+           
             <th>
                 @Html.DisplayNameFor(model => model.Color)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.CodOlor)
-            </th>*@
+           
             <th>
                 @Html.DisplayNameFor(model => model.Olor)
             </th>
@@ -46,9 +38,7 @@
             <th>
                 Hematomas profundos
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.CodProteinas)
-            </th>*@
+           
             <th>
                 @Html.DisplayNameFor(model => model.Proteinas)
             </th>
@@ -70,7 +60,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Piel)
             </th>
-            <th></th>
+          
         </tr>
     </thead>
 
@@ -78,7 +68,7 @@
         @foreach (var item in Model)
         {
             var json = JsonConvert.SerializeObject(item);
-            <tr onclick="ModificarDetalle(@json)">
+            <tr onclick="ModificarDetalle(@json)" style="cursor:pointer">
                 <td>
                     @Html.DisplayFor(modelItem => item.Hora)
                 </td>

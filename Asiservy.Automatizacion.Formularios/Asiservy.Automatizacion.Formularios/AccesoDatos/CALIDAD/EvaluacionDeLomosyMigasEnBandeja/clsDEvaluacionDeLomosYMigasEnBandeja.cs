@@ -162,9 +162,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                 join s in db.CC_MANTENIMIENTO_SABOR on new { d.Sabor, EstadoRegistro =clsAtributos.EstadoRegistroActivo} equals new { Sabor=s.IdSabor,s.EstadoRegistro}
                                 join t in db.CC_MANTENIMIENTO_TEXTURA on new { d.Textura, EstadoRegistro =clsAtributos.EstadoRegistroActivo} equals new {Textura=t.IdTextura,t.EstadoRegistro }
                                 join p in db.CC_MANTENIMIENTO_PROTEINA on new {d.Proteina, EstadoRegistro=clsAtributos.EstadoRegistroActivo } equals new {Proteina=p.IdProteina,p.EstadoRegistro }
+                                where d.IdCabeceraEvaluacionLomosYMigasEnBandeja==idCabeceraControl&&d.EstadoRegistro==clsAtributos.EstadoRegistroActivo
                                 select new DetalleEvaluacionLomosMIgasBandejaViewModel { Buque=d.buque,CodColor=c.IdColor,CodOlor=o.IdOlor,CodProteinas=p.IdProteina,CodSabor=s.IdSabor,
                                 CodTextura=t.IdTextura,Color=c.Descripcion,Escamas=d.Escamas,Espinas=d.Espinas,HematomasProfundos=d.HematomasProfundos,Hora=d.Hora,Linea=d.Linea,Lote=d.Lote,
-                                Moretones=d.Moretones,Olor=o.Descripcion,Piel=d.Piel,Proteinas=p.Descripcion,Sabor=s.Descripcion,Sangre=d.Sangre,Textura=t.Descripcion,Trozos=d.Trozo,Venas=d.Venas}).ToList();
+                                Moretones=d.Moretones,Olor=o.Descripcion,Piel=d.Piel,Proteinas=p.Descripcion,Sabor=s.Descripcion,Sangre=d.Sangre,Textura=t.Descripcion,Trozos=d.Trozo,Venas=d.Venas,IdDetalle=d.IdDetalleEvaluacionLomoyMigasEnBandeja}).ToList();
                 return resultado;
             }
         }

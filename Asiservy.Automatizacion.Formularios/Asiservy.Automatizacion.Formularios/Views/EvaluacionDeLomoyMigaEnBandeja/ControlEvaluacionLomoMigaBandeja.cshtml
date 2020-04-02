@@ -49,7 +49,7 @@
         width: 60%;
     }
 </style>
-<h4>Evaluacón de lomos y migas en bandejas</h4>
+<h4>Evaluación de lomos y migas en bandejas</h4>
 <hr />
 <div class="card">
     <div class="row">
@@ -157,20 +157,20 @@
     </div>
 </div>
 <center>   <h4 id="mensajeRegistros" class="text-warning" hidden> No se encontraron Registros</h4></center>
-
-<div class="card" id="CardDetalle" @*hidden*@>
+<br />
+<div class="card" id="CardDetalle" hidden>
     <div class="row">
         <div class="col-md-12 col-sm-12">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#informacion">Información general lotes</a>
+                    <a class="nav-link active" data-toggle="tab" href="#informacion" id="info">Información general lotes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#evaluacion">Evaluación organoléptica</a>
+                    <a class="nav-link" data-toggle="tab" href="#evaluacion" id="evalu">Evaluación organoléptica</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#verificacion">Verificación de limpieza</a>
+                    <a class="nav-link" data-toggle="tab" href="#verificacion" id="verif">Verificación de limpieza</a>
                 </li>
             </ul>
 
@@ -183,12 +183,14 @@
                             <div class="form-group">
                                 <label>Hora</label>
                                 <input type="datetime-local" id="txtHora" class=" form-control" />
+                                <label id="msjHora" class="text-danger" hidden>Debe ingresar la hora</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Línea</label>
                                 @Html.DropDownList("cmbLinea", (IEnumerable<SelectListItem>)ViewBag.Lineas, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjLinea" class="text-danger" hidden>Debe ingresar una línea</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
@@ -197,6 +199,7 @@
                                 <select id="cmbLote" class="form-control" onchange="DatosLote()">
                                     <option>Seleccione..</option>
                                 </select>
+                                <label id="msjLote" class="text-danger" hidden>Debe seleccionar un lote</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
@@ -214,26 +217,28 @@
                             <div class="form-group">
                                 <label>Sabor</label>
                                 @Html.DropDownList("cmbSabor", (IEnumerable<SelectListItem>)ViewBag.Sabor, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjSabor" class="text-danger" hidden>Debe seleccionar un sabor</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Textura</label>
                                 @Html.DropDownList("cmbTextura", (IEnumerable<SelectListItem>)ViewBag.Textura, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjTextura" class="text-danger" hidden>Debe seleccionar una textura</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Color</label>
-                                <select id="cmbColor" class="form-control">
-                                    <option>Seleccione..</option>
-                                </select>
+                                @Html.DropDownList("cmbColor", (IEnumerable<SelectListItem>)ViewBag.Color, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjColor" class="text-danger" hidden>Debe seleccionar un color</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Olor</label>
                                 @Html.DropDownList("cmbOlor", (IEnumerable<SelectListItem>)ViewBag.Olor, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjOlor" class="text-danger" hidden>Debe seleccionar una olor</label>
                             </div>
                         </div>
 
@@ -253,6 +258,7 @@
                             <div class="form-group">
                                 <label>Proteínas</label>
                                 @Html.DropDownList("cmbProteina", (IEnumerable<SelectListItem>)ViewBag.Proteina, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjProteina" class="text-danger" hidden>Debe seleccionar una proteina</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
@@ -300,7 +306,7 @@
             </div>
         </div>
     </div>
-    <br />
+    <br /><hr />
     <div class="row">
         <div class=" col-12 text-center">
             <button class="btn btn-primary" type="button" disabled hidden id="btnCargandoSubDetalle">
@@ -317,25 +323,43 @@
                 <img style="width:100%" src="~/Content/icons/clear24.png" />
             </button>
             <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarDetalleControl" onclick="ConfirmarEliminarDetalle()" style="border-color:#2c3e50" type="button" disabled>
-                    <img style="width:100%" src="~/Content/icons/cancel24.png" />
-                </button>
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
         </div>
     </div>
     <br />
+    <div id="DivDetalles" class="table-responsive">
+
+    </div>
 </div>
 
-    @*modal eliminar cabecera*@
-    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarCabecera" data-backdrop="static">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarCabecera()">Si</button>
-                    <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
-                </div>
+@*modal eliminar cabecera*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarCabecera" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarCabecera()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
             </div>
         </div>
     </div>
+</div>
+@*modal eliminar Detalle*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsidet" onclick="EliminarDetalle()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnodet" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,6 +7,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.Calidad
 {
     public class DetalleEvaluacionLomosMIgasBandejaViewModel
     {
+        public int IdDetalle {get;set;}
         public DateTime? Hora { get; set; }
         public string Linea { get; set; }
         public string Buque { get; set; }

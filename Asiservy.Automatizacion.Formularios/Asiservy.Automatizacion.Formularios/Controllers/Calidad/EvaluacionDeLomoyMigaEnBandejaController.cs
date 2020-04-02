@@ -11,6 +11,7 @@ using System.Net;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoOlor;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos;
 using Asiservy.Automatizacion.Formularios.Models.Calidad;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoColor;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -23,6 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         clsDMantenimientoTextura clsDMantenimientoTextura = null;
         clsDMantenimientoSabor clsDMantenimientoSabor = null;
         clsDMantenimientoProteina clsDMantenimientoProteina = null;
+        clsDMantenimientoColor clsDMantenimientoColor = null;
         clsDClasificador clsDClasificador = null;
         clsDEvaluacionDeLomosYMigasEnBandeja clsDEvaluacionDeLomosYMigasEnBandeja = null;
         protected void SetSuccessMessage(string message)
@@ -47,16 +49,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDMantenimientoTextura = new clsDMantenimientoTextura();
                 clsDMantenimientoSabor = new clsDMantenimientoSabor();
                 clsDMantenimientoProteina = new clsDMantenimientoProteina();
+                clsDMantenimientoColor = new clsDMantenimientoColor();
                 clsDClasificador = new clsDClasificador();
                 var ListaTiposLimpieza = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoTipoLimpiezaPescado).OrderBy(x=>x.Codigo);
                 var Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion).OrderBy(x => x.Codigo);
-                var Olor = clsDMantenimientoOlor.ConsultaManteminetoOlor();
-                var Textura = clsDMantenimientoTextura.ConsultaManteminetoTextura();
-                var Sabor = clsDMantenimientoSabor.ConsultaManteminetoSabor();
-                var Proteina = clsDMantenimientoProteina.ConsultaManteminetoProteina();
+                var Olor = clsDMantenimientoOlor.ConsultaManteminetoOlor().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                var Textura = clsDMantenimientoTextura.ConsultaManteminetoTextura().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                var Sabor = clsDMantenimientoSabor.ConsultaManteminetoSabor().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                var Proteina = clsDMantenimientoProteina.ConsultaManteminetoProteina().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                var Color = clsDMantenimientoColor.ConsultarMantenimientoColor().Where(x=>x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
                 ViewBag.Olor = new SelectList(Olor, "IdOlor", "Descripcion");
                 ViewBag.Textura = new SelectList(Textura, "IdTextura", "Descripcion");
                 ViewBag.Sabor = new SelectList(Sabor, "IdSabor", "Descripcion");
+                ViewBag.Color = new SelectList(Color, "IdColor", "Descripcion");
                 ViewBag.Proteina = new SelectList(Proteina, "IdProteina", "Descripcion");
                 ViewBag.NivelLimpieza =new SelectList(ListaTiposLimpieza, "Codigo","Descripcion");
                 ViewBag.Lineas = new SelectList(Lineas, "Codigo", "Descripcion");
@@ -236,6 +241,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+         
                 poDetalleControl.FechaIngresoLog = DateTime.Now;
                 poDetalleControl.UsuarioIngresoLog = lsUsuario[0];
                 poDetalleControl.TerminalIngresoLog = Request.UserHostAddress;

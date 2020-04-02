@@ -169,8 +169,9 @@ function ConsultarCabControl() {
             $('#Observacion').val(resultado.Observacion);
             $('#CardDetalle').prop('hidden', false);
             $('#btnEliminarCabeceraControl').prop('disabled', false);
-            //LlenarComboLotes();
+            LlenarComboLotes(resultado.OrdenFabricacion);
             //ConsultarDetalleControl();
+            ConsultarDetalleControl();
         } else {
             $('#mensajeRegistros').prop('hidden', false);
         }
@@ -187,7 +188,7 @@ function ConsultarCabControl() {
         MensajeError(resultado.responseText, false);
 
     });
-    LlenarComboLotes();
+    //LlenarComboLotes();
 }
 function GuardarCabceraControl() {
     var Lomo = false;
@@ -276,10 +277,10 @@ function GuardarCabceraControl() {
         })
 }
 function LimpiarControles() {
-    //IdSubdetalle = 0;
+
     IdCabecera = 0;
     Error = 0;
-    //IdDetalle = 0;
+    IdDetalle = 0;
     $('#txtFechaProduccion').val('');
     $('#cmbOrdeneFabricacion').empty();
     $('#cmbOrdeneFabricacion').append('<option>Seleccione...</option>');
@@ -293,6 +294,7 @@ function LimpiarControles() {
     $('#Pouch').prop('checked', false);
     $('#Observacion').val('');
     $('#CardDetalle').prop('hidden', true);
+    LimpiarDetalleControles();
     $('#DivDetalles').empty();
     $('#btnEliminarCabeceraControl').prop('disabled', true);
 }
@@ -344,12 +346,13 @@ function EliminarCabecera() {
 
         })
 }
-function LlenarComboLotes() {
+function LlenarComboLotes(orden) {
     Error = 0;
     $('#cmbLote').empty();
     $('#cmbLote').append('<option>Seleccione...</option>');
+
     let params = {
-        Orden: $("#cmbOrdeneFabricacion").val()
+        Orden: orden /*$("#cmbOrdeneFabricacion").val()*/
     }
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
@@ -399,18 +402,65 @@ function DatosLote(){
 }
 function GuardarDetalleControl() {
     Error = 0;
-    //if ($('#txtAutoclave').val() == '') {
-    //    $('#msjerrorAutoclave').prop('hidden', false);
-    //    return false;
-    //} else {
-    //    $('#msjerrorAutoclave').prop('hidden', true);
-    //}
-    //if ($('#txtEsterilizacion').val() == '') {
-    //    $('#msjerrorEsterilizacion').prop('hidden', false);
-    //    return false;
-    //} else {
-    //    $('#msjerrorEsterilizacion').prop('hidden', true);
-    //}
+    if ($('#txtHora').val() == '') {
+        $('#msjHora').prop('hidden', false);
+        ActivaInfo();
+        return false;
+    } else {
+        $('#msjHora').prop('hidden', true);
+    }
+    if ($('#cmbLinea').prop('selectedIndex') == 0) {
+        $('#msjLinea').prop('hidden', false);
+        ActivaInfo();
+        return false;
+    } else {
+        $('#msjLinea').prop('hidden', true);
+    }
+    if ($('#cmbLote').prop('selectedIndex') == 0) {
+        $('#msjLote').prop('hidden', false);
+        ActivaInfo();
+        return false;
+    } else {
+        $('#msjLote').prop('hidden', true);
+    }
+
+    if ($('#cmbProteina').prop('selectedIndex') == 0) {
+        $('#msjProteina').prop('hidden', false);
+        ActivaEvaluacion();
+        return false;
+    } else {
+        $('#msjProteina').prop('hidden', true);
+    }
+
+    if ($('#cmbSabor').prop('selectedIndex') == 0) {
+        $('#msjSabor').prop('hidden', false);
+        ActivaEvaluacion();
+        return false;
+    } else {
+        $('#msjSabor').prop('hidden', true);
+    }
+    if ($('#cmbTextura').prop('selectedIndex') == 0) {
+        $('#msjTextura').prop('hidden', false);
+        ActivaEvaluacion();
+        return false;
+    } else {
+        $('#msjTextura').prop('hidden', true);
+    }
+    if ($('#cmbColor').prop('selectedIndex') == 0) {
+        $('#msjColor').prop('hidden', false);
+        ActivaEvaluacion();
+        return false;
+    } else {
+        $('#msjColor').prop('hidden', true);
+    }
+    if ($('#cmbOlor').prop('selectedIndex') == 0) {
+        $('#msjOlor').prop('hidden', false);
+        ActivaEvaluacion();
+        return false;
+    } else {
+        $('#msjOlor').prop('hidden', true);
+    }
+    
   
 
     $('#btnEliminarDetalleControl').prop('hidden', true);
@@ -461,14 +511,173 @@ function GuardarDetalleControl() {
                 MensajeCorrecto(resultado[1]);
                 //$('#CardDetalle').prop('hidden', false);
                 //ConsultarDetalleControl();
-                ConsultarSubDetalleControl();
+                ConsultarDetalleControl();
             }
-            //LimpiarSubDetalleControles();
+            LimpiarDetalleControles();
         }
         $('#btnGuardarDetalle').prop('hidden', false);
         $('#btnLimpiarDetalle').prop('hidden', false);
         $('#btnCargandoDetalle').prop('hidden', true);
         $('#btnEliminarDetalleControl').prop('hidden', false);
+    })
+        .catch(function (resultado) {
+            //console.log('error');
+            //console.log(resultado);
+            MensajeError(resultado.responseText, false);
+
+        })
+}
+function ConsultarDetalleControl() {
+    Error = 0;
+    let params = {
+        IdCabeceraControl: IdCabecera
+    }
+    let query = Object.keys(params)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&');
+
+    let url = '../EvaluacionDeLomoyMigaEnBandeja/PartialDetalleControl?' + query;
+    fetch(url)
+        //,body: data
+        .then(function (respuesta) {
+            return respuesta.text();
+        })
+        .then(function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado != '"0"') {
+                $('#DivDetalles').empty();
+                $('#DivDetalles').html(resultado);
+                config.opcionesDT.pageLength = 10;
+                $('#TableDetalle').DataTable(config.opcionesDT);
+                LimpiarDetalleControles();
+            } else {
+                $('#DivDetalles').empty();
+            }
+            //console.log(resultado);
+        })
+        .catch(function (resultado) {
+            console.log(resultado);
+            MensajeError(resultado.responseText, false);
+            $('#btnCargando').prop('hidden', true);
+            $('#btnConsultar').prop('hidden', false);
+        })
+}
+function LimpiarDetalleControles() {
+    $('#txtHora').prop('disabled', false);
+    $('#btnEliminarDetalleControl').prop('disabled', true);
+    $('#txtHora').val('');
+    $('#txtBuque').val('');
+    $('#txtMoretones').val('');
+    $('#txtHematomas').val('');
+    $('#txtTrozos').val('');
+    $('#txtVenas').val('');
+    $('#txtEspinas').val('');
+    $('#txtSangre').val('');
+    $('#txtEscamas').val('');
+    $('#txtPiel').val('')
+    $('#cmbProteina').prop('selectedIndex', 0);
+    $('#cmbLinea').prop('selectedIndex', 0);
+    $('#cmbLote').prop('selectedIndex', 0);
+    $('#cmbSabor').prop('selectedIndex', 0);
+    $('#cmbTextura').prop('selectedIndex', 0);
+    $('#cmbColor').prop('selectedIndex', 0);
+    $('#cmbOlor').prop('selectedIndex', 0);
+    IdDetalle = 0;
+    ActivaInfo();
+
+}
+function ModificarDetalle(data) {
+    IdDetalle = data.IdDetalle;
+    $('#txtHora').val(moment(data.Hora).format('YYYY-MM-DDThh:mm'));
+    $('#txtBuque').val(data.Buque);
+    $('#txtMoretones').val(data.Moretones);
+    $('#txtHematomas').val(data.HematomasProfundos);
+    $('#txtTrozos').val(data.Trozos);
+    $('#txtVenas').val(data.Venas);
+    $('#txtEspinas').val(data.Espinas);
+    $('#txtSangre').val(data.Sangre);
+    $('#txtEscamas').val(data.Escamas);
+    $('#txtPiel').val(data.Piel);
+    $('#cmbLinea').val(data.Linea);
+    $('#cmbLote').val(data.Lote);
+    $('#cmbSabor').val(data.CodSabor);
+    $('#cmbTextura').val(data.CodTextura);
+    $('#cmbColor').val(data.CodColor);
+    $('#cmbOlor').val(data.CodOlor);
+    $('#cmbProteina').val(data.CodProteinas);
+    $('#txtHora').prop('disabled', true);
+    $('#btnEliminarDetalleControl').prop('disabled', false);
+}
+function ActivaInfo() {
+    $('#info').addClass("active");
+    $('#evalu').removeClass("active");
+    $('#verif').removeClass("active");
+    $("#informacion").removeClass("active fade");
+    $("#evaluacion").removeClass("active fade");
+    $("#verificacion").removeClass("active fade");
+    $('#informacion').addClass("active");
+}
+function ActivaEvaluacion() {
+    $('#evalu').addClass("active");
+    $('#info').removeClass("active");
+    $('#verif').removeClass("active");
+    $("#informacion").removeClass("active fade");
+    $("#evaluacion").removeClass("active fade");
+    $("#verificacion").removeClass("active fade");
+    $('#evaluacion').addClass("active");
+}
+function ActivaVerificacion() {
+    $('#verif').addClass("active");
+    $('#evalu').removeClass("active");
+    $('#info').removeClass("active");
+    $("#informacion").removeClass("active fade");
+    $("#evaluacion").removeClass("active fade");
+    $("#verificacion").removeClass("active fade");
+    $('#verificacion').addClass("active");
+}
+function ConfirmarEliminarDetalle() {
+    $('#ModalEliminarDetalle').modal('show');
+}
+function EliminarDetalle() {
+    $('#btnsicdet').prop('disabled', true);
+    $('#btnnodet').prop('disabled', true);
+    Error = 0;
+    const data = new FormData();
+    data.append('IdDetalle', IdDetalle);
+
+
+    fetch("../EvaluacionDeLomoyMigaEnBandeja/EliminarDetalleControl", {
+        method: 'POST',
+        body: data
+    }).then(function (respuesta) {
+        if (!respuesta.ok) {
+            //MensajeError(respuesta.statusText);
+            MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+            Error = 1;
+        }
+        return respuesta.json();
+    }).then(function (resultado) {
+        //console.log(respuesta);
+        if (resultado == "101") {
+            window.location.reload();
+        }
+        if (Error == 0) {
+            $('#ModalEliminarDetalle').modal('hide');
+            //if (resultado[0] == "002") {
+            //    MensajeAdvertencia(resultado[1]);
+            //} else {
+            MensajeCorrecto(resultado[1]);
+
+            LimpiarDetalleControles();
+            ConsultarDetalleControl();
+            //}
+
+        }
+        $('#btnsidet').prop('disabled', false);
+        $('#btnnodet').prop('disabled', false);
+
     })
         .catch(function (resultado) {
             //console.log('error');
