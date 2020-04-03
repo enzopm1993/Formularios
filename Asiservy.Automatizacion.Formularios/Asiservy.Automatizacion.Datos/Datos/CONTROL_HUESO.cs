@@ -39,6 +39,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
         public Nullable<int> TotalLimpiadoras { get; set; }
         public string Limpieza { get; set; }
+        public string Turno { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONTROL_HUESO_DETALLE> CONTROL_HUESO_DETALLE { get; set; }

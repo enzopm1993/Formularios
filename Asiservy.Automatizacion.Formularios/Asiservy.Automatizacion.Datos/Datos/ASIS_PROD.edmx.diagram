@@ -59,10 +59,8 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.AVANCE_KILOS_HORA" Width="1.5" PointX="11.375" PointY="23.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" Width="1.5" PointX="19.375" PointY="23.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_MOVER_EMPLEADO" Width="1.5" PointX="16.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_HUESO" Width="1.5" PointX="21.375" PointY="24.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_HUESO_DETALLE" Width="1.5" PointX="23.625" PointY="24.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_MIGA" Width="1.5" PointX="25.875" PointY="25" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_MIGA_CONTROL_HUESO_DETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MOVER_PERSONAL" Width="1.5" PointX="18.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CAMBIO_PERSONAL" Width="1.5" PointX="24.375" PointY="5.75" />
@@ -163,6 +161,8 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" Width="1.5" PointX="0.75" PointY="23.625" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION_DETALLE" Width="1.5" PointX="3" PointY="21.875" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PROYECCION_PROGRAMACION_DETALLE_PROYECCION_PROGRAMACION" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_HUESO" Width="1.5" PointX="21.375" PointY="44" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
