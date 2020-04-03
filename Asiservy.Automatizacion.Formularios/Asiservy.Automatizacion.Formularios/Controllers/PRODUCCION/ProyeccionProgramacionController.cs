@@ -164,7 +164,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public JsonResult ValidarProyeccionProgramacionPreparacion(DateTime Fecha)
+        public JsonResult ValidarProyeccionProgramacionPreparacion(DateTime Fecha, string Turno)
         {
             try
             {
@@ -175,7 +175,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 RespuestaGeneral respuesta = new RespuestaGeneral();
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
-                int idProyeccion = clsDProyeccionProgramacion.ValidarProyeccionProgramacion(Fecha);
+                int idProyeccion = clsDProyeccionProgramacion.ValidarProyeccionProgramacion(Fecha, Turno);
                 if (idProyeccion > 0)
                 {
                     var pro = clsDProyeccionProgramacion.ConsultaProyeccionProgramacion(idProyeccion);
@@ -270,7 +270,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return RedirectToAction("Home", "Home");
             }
         }
-        public JsonResult ValidarProyeccionProgramacionProduccion(DateTime Fecha)
+        public JsonResult ValidarProyeccionProgramacionProduccion(DateTime Fecha, string Turno)
         {
             try
             {
@@ -281,7 +281,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 RespuestaGeneral respuesta = new RespuestaGeneral();
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
-                int idProyeccion = clsDProyeccionProgramacion.ValidarProyeccionProgramacion(Fecha);
+                int idProyeccion = clsDProyeccionProgramacion.ValidarProyeccionProgramacion(Fecha, Turno);
                 if (idProyeccion > 0)
                 {
                     var pro = clsDProyeccionProgramacion.ConsultaProyeccionProgramacion(idProyeccion);
@@ -351,6 +351,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.Select2 = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDClasificador = new clsDClasificador();
                 clsDApiProduccion = new clsDApiProduccion();
@@ -475,7 +476,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult ValidarProyeccionProgramacion(DateTime Fecha)
+        public JsonResult ValidarProyeccionProgramacion(DateTime Fecha,string Turno)
         {
             try
             {
@@ -486,7 +487,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 RespuestaGeneral respuesta = new RespuestaGeneral();
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
-                int idProyeccion = clsDProyeccionProgramacion.ValidarProyeccionProgramacion(Fecha);
+                int idProyeccion = clsDProyeccionProgramacion.ValidarProyeccionProgramacion(Fecha, Turno);
                 if(idProyeccion>0)
                 {
                     var pro = clsDProyeccionProgramacion.ConsultaProyeccionProgramacion(idProyeccion);

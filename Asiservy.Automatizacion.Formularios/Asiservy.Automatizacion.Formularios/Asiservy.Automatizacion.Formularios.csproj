@@ -3339,7 +3339,7 @@
     <Compile Include="Controllers\CALIDAD\CondicionPersonalController.cs" />
     <Compile Include="Controllers\PRODUCCION\EsterilizacionConservaController.cs" />
     <Compile Include="Controllers\PRODUCCION\ProductoPouchCuarentenaController.cs" />
-    <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
+    <Compile Include="Controllers\PRODUCCION\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
