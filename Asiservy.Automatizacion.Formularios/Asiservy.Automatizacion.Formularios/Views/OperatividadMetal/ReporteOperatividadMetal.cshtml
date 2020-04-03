@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "ReporteOperatividadMetal";
+}
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<h4>Reporte de verificación de operatividad detector de metales</h4>
+
+
+<hr />
+<div class="card shadow" id="divCabecera" style="padding:10px">
+    <div class="row" id="divCabecera1">
+        <div class="col-md-3 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarControl()" id="txtFecha" class="form-control" />
+            </div>
+        </div>
+
+
+        <div class="col-md-3 text-md-left col-sm-6 col-6 text-center">
+            <label class="">Acción</label>
+            <div class="form-group">
+                @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnGenerar" onclick="ConsultarControl()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>
+            </div>
+        </div>
+        
+
+    </div>
+</div>
+
+
+<br />
+<div class="text-center" id="divMensaje"></div>
+
+<div id="divDetalle" hidden class="">
+    <div class="row">
+        <div class="col-md-12 col-12 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-12">
+                            <h5>Verificación de operatividad con patrones</h5>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <div class="d-flex justify-content-center">
+                            <div id="spinnerCargandoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 col-sm-6 col-6">
+                                <div class="card shadow text-justify">
+                                    <div class="card-body">
+                                        <b> Empaque Lomos: </b><label id="lblLomos"> </label> <br />
+                                        <b>Conservas Latas y Pouch: </b><label id="lblLatas"> </label> <br />
+                                        <b>Ferroso:</b><label id="lblFerroro"> </label> <br />
+                                        <b>No Ferroso:</b><label id="lblNoFerroso"> </label> <br />
+                                        <b>Acero Inoxidable:</b> <label id="lblAceroInoxidable"> </label><br />
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12 col-12">
+                                <div class="card shadow text-justify">
+                                    <div class="card-body">
+                                        <p>Limite Control: 100% de bandejas de lomos pasadas por el detector de metales. Metales Ferrosos(3.5/2.5 mm), Metales No-Ferrosos(3.5/2.8 mm) y Acero Inoxidable (5/3.5 mm).</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-12 col-md-12">
+                                <div class="card shadow text-justify">
+                                    <div class="card-body">
+                                        <b>Observaciones:</b> <p id="pObservacion"></p> <br />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="divTableDetalle" class="table-responsive">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />

@@ -2177,6 +2177,7 @@
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\MantenimientoCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\OperatividadMetal.js" />
+    <Content Include="Scripts\CALIDAD\OperatividadMetal\ReporteOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
@@ -3720,6 +3721,8 @@
     <Content Include="Views\TemperaturaTermoencogidoSellado\ControlTermoencogidoSelladoPartial.cshtml" />
     <Content Include="Views\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.cshtml" />
     <Content Include="Views\OperatividadMetal\OperatividadMetalDetectorPartial.cshtml" />
+    <Content Include="Views\OperatividadMetal\ReporteOperatividadMetal.cshtml" />
+    <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
