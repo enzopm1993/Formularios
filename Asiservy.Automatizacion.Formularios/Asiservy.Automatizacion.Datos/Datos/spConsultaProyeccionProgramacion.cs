@@ -19,8 +19,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string OrdenFabricacion { get; set; }
         public Nullable<int> Toneladas { get; set; }
         public string Lineas { get; set; }
-        public Nullable<System.TimeSpan> HoraProcesoInicio { get; set; }
-        public Nullable<System.TimeSpan> HoraProcesoFin { get; set; }
+        public Nullable<System.DateTime> HoraProcesoInicio { get; set; }
+        public Nullable<System.DateTime> HoraProcesoFin { get; set; }
         public string CodDestino { get; set; }
         public string Destino { get; set; }
         public string CodTipoLimpieza { get; set; }
