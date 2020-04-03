@@ -15,7 +15,7 @@ function ValidarEstado() {
     $.ajax({
         url: "../ProyeccionProgramacion/ValidarProyeccionProgramacionEstado",
         type: "GET",
-        data: { Fecha: $('#txtFecha').val() },
+        data: { Fecha: $('#txtFecha').val(), Turno: $('#selectTurno').val()},
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
@@ -43,8 +43,7 @@ function ValidarEstado() {
 
 function CargarReporte() {
 
-    if ($('#txtFecha').val() == "") {
-        MensajeAdvertencia("Ingrese una fecha");
+    if ($('#txtFechaProduccion').val() == "" || $('#selectTurno').val() == "") {
         return;
     }
 
@@ -53,7 +52,7 @@ function CargarReporte() {
     $.ajax({
         url: "../ProyeccionProgramacion/ReporteProyeccionProgramacionPartial",
         type: "GET",
-        data: { Fecha: $('#txtFecha').val() },
+        data: { Fecha: $('#txtFecha').val(), Turno: $('#selectTurno').val() },
         success: function (resultado) {     
             if (resultado == "101") {
                 window.location.reload();

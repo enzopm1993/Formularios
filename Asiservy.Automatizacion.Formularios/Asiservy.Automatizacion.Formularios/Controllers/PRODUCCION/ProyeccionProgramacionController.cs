@@ -443,7 +443,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public JsonResult ValidarProyeccionProgramacionEstado(DateTime Fecha)
+        public JsonResult ValidarProyeccionProgramacionEstado(DateTime Fecha, string Turno)
         {
             try
             {
@@ -454,7 +454,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 RespuestaGeneral respuesta = new RespuestaGeneral();
                 clsDProyeccionProgramacion = new clsDProyeccionProgramacion();
-                int Estado = clsDProyeccionProgramacion.ValidarProyeccionProgramacionEstado(Fecha);
+                int Estado = clsDProyeccionProgramacion.ValidarProyeccionProgramacionEstado(Fecha, Turno);
                 return Json(Estado, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -881,7 +881,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         
-        public ActionResult ReporteProyeccionProgramacionPartial(DateTime Fecha)
+        public ActionResult ReporteProyeccionProgramacionPartial(DateTime Fecha, string Turno)
         {
             try
             {
@@ -905,7 +905,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
 
 
-                var modal = clsDProyeccionProgramacion.ConsultaProyeccionProgramacionReporte(Fecha);
+                var modal = clsDProyeccionProgramacion.ConsultaProyeccionProgramacionReporte(Fecha, Turno);
                 return PartialView(modal);
             }
             catch (Exception ex)

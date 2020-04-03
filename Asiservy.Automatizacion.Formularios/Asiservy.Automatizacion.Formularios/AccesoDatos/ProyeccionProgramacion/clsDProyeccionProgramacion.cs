@@ -50,11 +50,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
                 return Listado;
             }
         }
-        public List<spConsultaProyeccionProgramacion> ConsultaProyeccionProgramacionReporte(DateTime fecha)
+        public List<spConsultaProyeccionProgramacion> ConsultaProyeccionProgramacionReporte(DateTime fecha, string Turno)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var pro = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == fecha && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
+                var pro = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == fecha
+                                                                        && ((Turno == clsAtributos.TurnoUno && (x.Turno == clsAtributos.TurnoUno || x.Turno == null))
+                                                                       || (Turno == clsAtributos.TurnoDos && x.Turno == Turno))
+                                                                        && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
+
+                //var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == Fecha
+                //                && ((Turno == clsAtributos.TurnoUno && (x.Turno == clsAtributos.TurnoUno || x.Turno == null))
+                //                || (Turno == clsAtributos.TurnoDos && x.Turno == Turno))
+                //                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
 
                 List<spConsultaProyeccionProgramacion> Listado = new List<spConsultaProyeccionProgramacion>();
                 if(pro!=null)
@@ -137,11 +145,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ProyeccionProgramacion
         }
 
 
-        public int ValidarProyeccionProgramacionEstado(DateTime Fecha)
+        public int ValidarProyeccionProgramacionEstado(DateTime Fecha, string Turno)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                var proyeccion = db.PROYECCION_PROGRAMACION.FirstOrDefault(x => x.FechaProduccion == Fecha
+                                                            && ((Turno == clsAtributos.TurnoUno && (x.Turno == clsAtributos.TurnoUno || x.Turno == null))
+                                                            || (Turno == clsAtributos.TurnoDos && x.Turno == Turno))
+                                                            && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (proyeccion != null)
                 {
                     if (proyeccion.IngresoPreparacion) { return 1; }
