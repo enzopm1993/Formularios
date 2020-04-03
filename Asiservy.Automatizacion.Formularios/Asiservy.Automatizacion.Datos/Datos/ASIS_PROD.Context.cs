@@ -55,10 +55,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<PARAMETRO> PARAMETRO { get; set; }
         public virtual DbSet<PERIODO> PERIODO { get; set; }
         public virtual DbSet<BITACORA_PROYECCION> BITACORA_PROYECCION { get; set; }
-        public virtual DbSet<PROYECCION_PROGRAMACION> PROYECCION_PROGRAMACION { get; set; }
         public virtual DbSet<MANTENIMIENTO_PREPARACION> MANTENIMIENTO_PREPARACION { get; set; }
         public virtual DbSet<BARCO> BARCO { get; set; }
-        public virtual DbSet<PROYECCION_PROGRAMACION_DETALLE> PROYECCION_PROGRAMACION_DETALLE { get; set; }
         public virtual DbSet<MATERIAL_LINEA> MATERIAL_LINEA { get; set; }
         public virtual DbSet<MATERIAL_QUEBRADIZO> MATERIAL_QUEBRADIZO { get; set; }
         public virtual DbSet<CONTROL_MATERIAL> CONTROL_MATERIAL { get; set; }
@@ -140,6 +138,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_CISTERNA> CC_MANTENIMIENTO_CISTERNA { get; set; }
         public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA> CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA { get; set; }
         public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE> CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE { get; set; }
+        public virtual DbSet<PROYECCION_PROGRAMACION> PROYECCION_PROGRAMACION { get; set; }
+        public virtual DbSet<PROYECCION_PROGRAMACION_DETALLE> PROYECCION_PROGRAMACION_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -445,15 +445,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Fecha", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlEnfundadoPorHora>("spReporteControlEnfundadoPorHora", fechaParameter);
-        }
-    
-        public virtual ObjectResult<spConsultaProyeccionProgramacion> spConsultaProyeccionProgramacion(Nullable<int> idProyeccion)
-        {
-            var idProyeccionParameter = idProyeccion.HasValue ?
-                new ObjectParameter("IdProyeccion", idProyeccion) :
-                new ObjectParameter("IdProyeccion", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProyeccionProgramacion>("spConsultaProyeccionProgramacion", idProyeccionParameter);
         }
     
         public virtual ObjectResult<spConsultarAuditoriaSangreDiaria> spConsultarAuditoriaSangreDiaria(Nullable<System.DateTime> fecha)
@@ -1473,7 +1464,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarAsistenciasGeneradas>("spConsultarAsistenciasGeneradas", fechaParameter);
         }
     
-        public virtual ObjectResult<string> spInactivarAsistencia(string linea, string turno, Nullable<System.DateTime> fecha, string generado)
+        public virtual ObjectResult<string> spInactivarAsistencia(string linea, string turno, Nullable<System.DateTime> fecha, string generado, string usuario, string terminal)
         {
             var lineaParameter = linea != null ?
                 new ObjectParameter("Linea", linea) :
@@ -1491,7 +1482,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Generado", generado) :
                 new ObjectParameter("Generado", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spInactivarAsistencia", lineaParameter, turnoParameter, fechaParameter, generadoParameter);
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            var terminalParameter = terminal != null ?
+                new ObjectParameter("Terminal", terminal) :
+                new ObjectParameter("Terminal", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spInactivarAsistencia", lineaParameter, turnoParameter, fechaParameter, generadoParameter, usuarioParameter, terminalParameter);
         }
     
         public virtual ObjectResult<spConsultaMapeoProductoTunel> spConsultaMapeoProductoTunel(Nullable<System.DateTime> fecha)
@@ -1870,6 +1869,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtenerAsistenciaBiometrico_Result>("sp_obtenerAsistenciaBiometrico", fechaIniParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaProyeccionProgramacion> spConsultaProyeccionProgramacion(Nullable<int> idProyeccion)
+        {
+            var idProyeccionParameter = idProyeccion.HasValue ?
+                new ObjectParameter("IdProyeccion", idProyeccion) :
+                new ObjectParameter("IdProyeccion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProyeccionProgramacion>("spConsultaProyeccionProgramacion", idProyeccionParameter);
         }
     }
 }
