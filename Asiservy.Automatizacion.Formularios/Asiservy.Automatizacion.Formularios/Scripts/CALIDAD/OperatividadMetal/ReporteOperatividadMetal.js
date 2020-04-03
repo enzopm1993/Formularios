@@ -33,12 +33,15 @@ function ConsultarControl() {
                 $("#divDetalle").prop("hidden", false);
                 $("#divDetalle2").prop("hidden", false);
                 model = resultado;
+
+                //console.log(model);
+
                 $("#divMensaje").html('');
                 if (model.Lomos) {
                     $("#lblLomos").html("<i class='fas fa-check-circle' style='color:greenyellow'></i>");
                 }
-                if (model.lblLatas) {
-                    $("#lblLomos").html("<i class='fas fa-check-circle' style='color:greenyellow'></i>");
+                if (model.Latas) {
+                    $("#lblLatas").html("<i class='fas fa-check-circle' style='color:greenyellow'></i>");
                 }
                 $("#lblFerroro").html(model.Ferroso);
                 $("#lblNoFerroso").html(model.NoFerroso);
