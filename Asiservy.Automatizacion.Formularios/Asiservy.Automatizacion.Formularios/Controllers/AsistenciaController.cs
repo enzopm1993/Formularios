@@ -20,6 +20,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDGeneral clsDGeneral = null;
         clsDEmpleado clsDEmpleado = null;
         clsDAsistencia clsDAsistencia = null;
+        clsDParametro clsDParametro = null;
         clsDCambioPersonal clsDCambioPersonal = null;
         string[] liststring;
         clsDError clsDError = null;
@@ -60,7 +61,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDAsistencia = new clsDAsistencia();
-                string resultado = clsDAsistencia.EliminarAsistenciaTotal(LineaCod, Turno, Fecha, Generado);
+                string resultado = clsDAsistencia.EliminarAsistenciaTotal(LineaCod, Turno, Fecha, Generado, liststring[0], Request.UserHostAddress);
                 return Json(resultado, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -598,6 +599,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 liststring = User.Identity.Name.Split('_');
                 clsDCambioPersonal = new clsDCambioPersonal();
                 clsDClasificador = new clsDClasificador();
+                clsDParametro = new clsDParametro();
+                ViewBag.Parametro = clsDParametro.ConsultaParametros(new PARAMETRO { Codigo = "004" }).FirstOrDefault().Valor;
+
                 var EstadoAsistencia = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
@@ -670,6 +674,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 liststring = User.Identity.Name.Split('_');
                 clsDCambioPersonal = new clsDCambioPersonal();
                 clsDClasificador = new clsDClasificador();
+                clsDParametro = new clsDParametro();
+                ViewBag.Parametro = clsDParametro.ConsultaParametros(new PARAMETRO { Codigo = "004" }).FirstOrDefault().Valor;
+
                 var EstadoAsistencia = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 
@@ -713,6 +720,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 liststring = User.Identity.Name.Split('_');
                 clsDCambioPersonal = new clsDCambioPersonal();
                 clsDClasificador = new clsDClasificador();
+                clsDParametro = new clsDParametro();
+                ViewBag.Parametro = clsDParametro.ConsultaParametros(new PARAMETRO { Codigo="004"}).FirstOrDefault().Valor;
                 var EstadoAsistencia = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodigoGrupoEstadoAsistencia, EstadoRegistro = clsAtributos.EstadoRegistroActivo });
                 ViewBag.EstadoAsistencia = EstadoAsistencia;
 

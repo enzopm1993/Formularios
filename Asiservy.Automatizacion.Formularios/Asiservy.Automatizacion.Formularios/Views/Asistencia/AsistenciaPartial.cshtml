@@ -57,12 +57,12 @@
                 {
                     cont++;
                     string color = "";
-                    if (item.Bloquear == 1) { color = "#E3D6D3"; } else { color = "FFFFFF"; }
+                    if (item.Bloquear == 1 && ViewBag.Parametro == 1) { color = "#E3D6D3"; } else { color = "FFFFFF"; }
 
-                    @*if (item.Bloquear == 1)
+                    if (item.Bloquear == 1 && ViewBag.Parametro==1)
                     {
                         <script>DeshabilitarControles('@cont')</script>
-                    }*@
+                    }
                     <tr bgcolor="@color" id="@cont">
                         <td hidden>
                             @Html.TextBoxFor(x => x.ControlAsistencia[cont - 1].Cedula)
