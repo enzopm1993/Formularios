@@ -24,7 +24,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div id="divCabecera">
             <div class="row">
-                <div class="col-md-3 col-6">
+                <div class="col-md-3 col-6 col-sm-6">
                     <div class="form-group">
 
                         <label>Fecha Producción</label>
@@ -32,7 +32,17 @@
 
                     </div>
                 </div>
-                <div class="col-md-3 col-6">
+                <div class="col-md-3 col-6 col-sm-6">
+                    <div class="form-group">
+
+                        <label>Turno</label>
+                        <select class="form-control" id="selectTurno" onchange="CargarControlHueso()">
+                            <option value="1">Turno A</option>
+                            <option value="2">Turno B</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 col-sm-6">
                     <div class="form-group">
                         <label>Orden Fabricación</label>
                         <div class="input-group">
@@ -42,8 +52,8 @@
                             </button><br />
                         </div>
                     </div>
-                </div>              
-                <div class="col-md-3 col-6">
+                </div>
+                <div class="col-md-3 col-6 col-sm-6">
                     <div class="form-group">
                         <label>Lote</label>
                         <select id="SelectLote" class="form-control">
@@ -51,29 +61,26 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3 col-6">
+                <div class="col-md-2 col-6 col-sm-6">
                     <label>Tipo Control</label>
                     @Html.DropDownList("TipoControlHueso", new SelectList(ViewBag.TipoControlHueso, "Codigo", "Descripcion"), new { @class = "form-control", @id = "SelectTipoControl", @onchange = "SeleccionarTipoControl(this.value)" })
                 </div>
-            </div>
-            <div class="row">
-
-
+           
                 <input type="hidden" name="name" id="txtLinea" value="@ViewBag.CodLinea" />
                 <input type="hidden" name="name" id="txtIdControlHueso" value="0" />
-                <div class="col-md-2 col-6">
+                <div class="col-md-2 col-6 col-sm-6">
                     <div class="form-group">
                         <label>Hora Inicio</label>
                         <input class="form-control" type="time" name="name" value="" id="txtHoraInicio" />
                     </div>
                 </div>
-                <div class="col-md-2 col-6">
+                <div class="col-md-2 col-6 col-sm-6">
                     <div class="form-groupf">
                         <label>Hora Fin</label>
                         <input class="form-control" type="time" name="name" value="" id="txtHoraFin" />
                     </div>
                 </div>
-                <div class="col-md-4 col-4">
+                <div class="col-md-2 col-6 col-sm-6">
                     <div class="form-group">
                         <label>Limpieza</label>
                         <select class="form-control" id="selectLimpieza">
@@ -85,7 +92,7 @@
                         @*<input class="form-control" type="text" name="name" value="" id="txtLimpieza" maxlength="100" />*@
                     </div>
                 </div>
-                <div class="col-md-4 col-8">
+                <div class="col-md-4 col-12 col-sm-12">
                     <div class="form-groupf">
                         <label>Observación</label>
                         <input class="form-control" type="text" name="name" value="" id="txtObservacion" maxlength="100" />

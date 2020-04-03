@@ -67,11 +67,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 return result;
             }
         }
-        public List<spConsultaControlHueso> ConsultaControlHueso(DateTime Fecha, string CodLinea)
+        public List<spConsultaControlHueso> ConsultaControlHueso(DateTime Fecha, string CodLinea, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var result = entities.spConsultaControlHueso(Fecha).Where(x=> x.CodLinea == CodLinea).ToList();
+                var result = entities.spConsultaControlHueso(Fecha,CodLinea,Turno).ToList();
                 return result;
             }
         }

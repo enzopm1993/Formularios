@@ -72,7 +72,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
        
-        public ActionResult ControlHuesoPartialCabecera(DateTime Fecha)
+        public ActionResult ControlHuesoPartialCabecera(DateTime Fecha, string Turno)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDEmpleado = new clsDEmpleado();
                 var linea = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
             
-                var model = clsDControlHueso.ConsultaControlHueso(Fecha, linea.CODIGOLINEA);
+                var model = clsDControlHueso.ConsultaControlHueso(Fecha, linea.CODIGOLINEA,Turno);
                 return PartialView(model);
             }
             catch (DbEntityValidationException e)
