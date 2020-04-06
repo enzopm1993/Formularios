@@ -1041,8 +1041,8 @@
           <Property Name="IdControlHueso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Linea" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
-          <Property Name="HoraInicio" Type="time" Precision="7" Nullable="false" />
-          <Property Name="HoraFin" Type="time" Precision="7" Nullable="false" />
+          <Property Name="HoraInicio" Type="datetime" Nullable="false" />
+          <Property Name="HoraFin" Type="datetime" Nullable="false" />
           <Property Name="Lote" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="OrdenFabricacion" Type="int" Nullable="false" />
           <Property Name="TipoControlHueso" Type="int" Nullable="false" />
@@ -4434,6 +4434,14 @@
           <FunctionImport Name="spConsultaProyeccionProgramacion" ReturnType="Collection(ASIS_PRODModel.spConsultaProyeccionProgramacion)">
           <Parameter Name="IdProyeccion" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spInactivarAsistencia" ReturnType="Collection(String)">
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Generado" Mode="In" Type="String" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="Terminal" Mode="In" Type="String" />
+          </FunctionImport>
           <EntitySet Name="CONTROL_HUESO" EntityType="ASIS_PRODModel.CONTROL_HUESO" />
           <AssociationSet Name="FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" Association="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO">
             <End Role="CONTROL_HUESO" EntitySet="CONTROL_HUESO" />
@@ -4443,14 +4451,6 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Linea" Mode="In" Type="String" />
             <Parameter Name="Turno" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spInactivarAsistencia" ReturnType="Collection(String)">
-            <Parameter Name="Linea" Mode="In" Type="String" />
-            <Parameter Name="Turno" Mode="In" Type="String" />
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="Generado" Mode="In" Type="String" />
-            <Parameter Name="Usuario" Mode="In" Type="String" />
-            <Parameter Name="Terminal" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -8607,8 +8607,8 @@
           <Property Name="IdControlHueso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Linea" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="HoraInicio" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="HoraFin" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="HoraInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HoraFin" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Lote" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="OrdenFabricacion" Type="Int32" Nullable="false" />
           <Property Name="TipoControlHueso" Type="Int32" Nullable="false" />
@@ -8646,8 +8646,8 @@
           <Property Type="String" Name="OrdenFabricacion" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="500" />
           <Property Type="DateTime" Name="Fecha" Nullable="true" />
-          <Property Type="Time" Name="HoraInicio" Nullable="true" />
-          <Property Type="Time" Name="HoraFin" Nullable="true" />
+          <Property Type="DateTime" Name="HoraInicio" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="HoraFin" Nullable="true" Precision="23" />
           <Property Type="Int32" Name="CodTipoControl" Nullable="true" />
           <Property Type="String" Name="TipoControlHueso" Nullable="true" MaxLength="20" />
           <Property Type="Int32" Name="TotalPieza" Nullable="true" />
@@ -13002,6 +13002,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spInactivarAsistencia" FunctionName="ASIS_PRODModel.Store.spInactivarAsistencia" />
           <EntitySetMapping Name="CONTROL_HUESO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_HUESO">
               <MappingFragment StoreEntitySet="CONTROL_HUESO">
@@ -13048,7 +13049,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spInactivarAsistencia" FunctionName="ASIS_PRODModel.Store.spInactivarAsistencia" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
