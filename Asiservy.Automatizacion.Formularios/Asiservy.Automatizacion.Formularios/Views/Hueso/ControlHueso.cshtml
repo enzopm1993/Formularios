@@ -23,99 +23,103 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div id="divCabecera">
-            <div class="row">
-                <div class="col-md-3 col-6 col-sm-6">
-                    <div class="form-group">
+            <div class="card shadow">
+                <div class="card-body">
 
-                        <label>Fecha Producción</label>
-                        <input type="date" id="txtFechaProduccion" name="name" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarControlHueso(this.value)" />
+                    <div class="row">
+                        <div class="col-md-3 col-6 col-sm-6">
+                            <div class="form-group">
 
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 col-sm-6">
-                    <div class="form-group">
+                                <label>Fecha Producción</label>
+                                <input type="date" id="txtFechaProduccion" name="name" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarControlHueso(this.value)" />
 
-                        <label>Turno</label>
-                        <select class="form-control" id="selectTurno" onchange="CargarControlHueso()">
-                            <option value="1">Turno A</option>
-                            <option value="2">Turno B</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 col-sm-6">
-                    <div class="form-group">
-                        <label>Orden Fabricación</label>
-                        <div class="input-group">
-                            @Html.TextBox("txtOrdenFabricacion", null, new { style = "width: 75%; border: 1px solid #d1d3e2; border-radius: 0.35rem", @readonly = "readonly" })
-                            <button type="button" onclick="" id="btnOrden">
-                                <img src="~/Content/images/buscar.png" />
-                            </button><br />
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 col-sm-6">
-                    <div class="form-group">
-                        <label>Lote</label>
-                        <select id="SelectLote" class="form-control">
-                            <option value="0">Seleccione</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-2 col-6 col-sm-6">
-                    <label>Tipo Control</label>
-                    @Html.DropDownList("TipoControlHueso", new SelectList(ViewBag.TipoControlHueso, "Codigo", "Descripcion"), new { @class = "form-control", @id = "SelectTipoControl", @onchange = "SeleccionarTipoControl(this.value)" })
-                </div>
-           
-                <input type="hidden" name="name" id="txtLinea" value="@ViewBag.CodLinea" />
-                <input type="hidden" name="name" id="txtIdControlHueso" value="0" />
-                <div class="col-md-2 col-6 col-sm-6">
-                    <div class="form-group">
-                        <label>Hora Inicio</label>
-                        <input class="form-control" type="time" name="name" value="" id="txtHoraInicio" />
-                    </div>
-                </div>
-                <div class="col-md-2 col-6 col-sm-6">
-                    <div class="form-groupf">
-                        <label>Hora Fin</label>
-                        <input class="form-control" type="time" name="name" value="" id="txtHoraFin" />
-                    </div>
-                </div>
-                <div class="col-md-2 col-6 col-sm-6">
-                    <div class="form-group">
-                        <label>Limpieza</label>
-                        <select class="form-control" id="selectLimpieza">
-                            <option value="0">Seleccione</option>
-                            <option value="SIMPLE">SIMPLE</option>
-                            <option value="INTERMEDIA">INTERMEDIA</option>
-                            <option value="DOBLE">DOBLE</option>
-                        </select>
-                        @*<input class="form-control" type="text" name="name" value="" id="txtLimpieza" maxlength="100" />*@
-                    </div>
-                </div>
-                <div class="col-md-4 col-12 col-sm-12">
-                    <div class="form-groupf">
-                        <label>Observación</label>
-                        <input class="form-control" type="text" name="name" value="" id="txtObservacion" maxlength="100" />
-                    </div>
-                </div>
-                <div class="col-md-2 col-12" hidden id="divPiezas">
-                    <div class="form-groupf">
-                        <label>Total Piezas</label>
-                        <input class="form-control" type="number" name="name" value="0" id="txtPiezas" />
-                    </div>
-                </div>
-                <div class="col-md-2 col-12" hidden id="divLimpiadoras">
-                    <div class="form-groupf">
-                        <label>Total Limpiadoras</label>
-                        <input class="form-control" type="number" name="name" value="0" id="txtLimpiadoras" />
-                    </div>
-                </div>
+                        <div class="col-md-3 col-6 col-sm-6">
+                            <div class="form-group">
 
+                                <label>Turno</label>
+                                <select class="form-control" id="selectTurno" onchange="CargarControlHueso()">
+                                    <option value="1">Turno A</option>
+                                    <option value="2">Turno B</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Orden Fabricación</label>
+                                <div class="input-group">
+                                    @Html.TextBox("txtOrdenFabricacion", null, new { style = "width: 75%; border: 1px solid #d1d3e2; border-radius: 0.35rem", @readonly = "readonly" })
+                                    <button type="button" onclick="" id="btnOrden">
+                                        <img src="~/Content/images/buscar.png" />
+                                    </button><br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Lote</label>
+                                <select id="SelectLote" class="form-control">
+                                    <option value="0">Seleccione</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <label>Tipo Control</label>
+                            @Html.DropDownList("TipoControlHueso", new SelectList(ViewBag.TipoControlHueso, "Codigo", "Descripcion"), new { @class = "form-control", @id = "SelectTipoControl", @onchange = "SeleccionarTipoControl(this.value)" })
+                        </div>
+
+                        <input type="hidden" name="name" id="txtLinea" value="@ViewBag.CodLinea" />
+                        <input type="hidden" name="name" id="txtIdControlHueso" value="0" />
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Hora Inicio</label>
+                                <input class="form-control" type="datetime-local" name="name" value="" id="txtHoraInicio" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-groupf">
+                                <label>Hora Fin</label>
+                                <input class="form-control" type="datetime-local" name="name" value="" id="txtHoraFin" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Limpieza</label>
+                                <select class="form-control" id="selectLimpieza">
+                                    <option value="0">Seleccione</option>
+                                    <option value="SIMPLE">SIMPLE</option>
+                                    <option value="INTERMEDIA">INTERMEDIA</option>
+                                    <option value="DOBLE">DOBLE</option>
+                                </select>
+                                @*<input class="form-control" type="text" name="name" value="" id="txtLimpieza" maxlength="100" />*@
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-12 col-sm-12">
+                            <div class="form-groupf">
+                                <label>Observación</label>
+                                <input class="form-control" type="text" name="name" value="" id="txtObservacion" maxlength="100" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-12" hidden id="divPiezas">
+                            <div class="form-groupf">
+                                <label>Total Piezas</label>
+                                <input class="form-control" type="number" name="name" value="0" id="txtPiezas" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-12" hidden id="divLimpiadoras">
+                            <div class="form-groupf">
+                                <label>Total Limpiadoras</label>
+                                <input class="form-control" type="number" name="name" value="0" id="txtLimpiadoras" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-            <br />
         </div>
 
-
+        <br />
         <div class="col-12 text-center">
             @*<input type="button" id="btnGenerar" name="Generar" value="Generar" class="btn btn-primary" onclick="GenerarControlHueso()" />
                 <input type="button" id="btnNuevo" name="Nuevo" value="Nuevo" class="btn btn-info" onclick="NuevoControlHueso()" />*@
@@ -140,13 +144,17 @@
             </div>
         </div>
         <div class="row">
-            <div id="DivTableControlHuesoDetalle" class="table-responsive"></div>
-            <div id="DivTableControlHueso" class="table-responsive"></div>
+            <div class="col-md-12 col-12 col-sm-12">
+                <div class="card shadow">
+                    <div class="card-body">
 
+                        <div id="DivTableControlHuesoDetalle" class="table-responsive"></div>
+                        <div id="DivTableControlHueso" class="table-responsive"></div>
 
+                    </div>
+                </div>
+            </div>
         </div>
-
-
     </div>
 }
 

@@ -186,7 +186,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        
+        [HttpPost]
         public ActionResult GenerarControlHueso(CONTROL_HUESO model)
         {
             try
@@ -201,8 +201,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     || model.Lote == "0"
                     || model.Limpieza == "0"
                     || string.IsNullOrEmpty(model.Limpieza)                   
-                    || model.HoraInicio == TimeSpan.Parse("00:00")
-                    || model.HoraFin == TimeSpan.Parse("00:00")
+                    || model.HoraInicio == null
+                    || model.HoraFin == null
                     )
                 {
                     Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -218,6 +218,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDControlHueso = new clsDControlHueso();
                 int id = clsDControlHueso.GenerarControlHueso(new CONTROL_HUESO
                 {
+                    Turno = model.Turno,
                     Linea = model.Linea,
                     TipoControlHueso = model.TipoControlHueso,
                     HoraInicio = model.HoraInicio,
@@ -367,8 +368,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 }
                 RespuestaGeneral respuesta = new RespuestaGeneral();
                 if (model.IdControlHueso == 0 ||
-                    model.HoraInicio == new TimeSpan(0,0,0) || 
-                    model.HoraFin == new TimeSpan(0, 0, 0) || string.IsNullOrEmpty(model.Limpieza))
+                    model.HoraInicio == null || 
+                    model.HoraFin == null|| string.IsNullOrEmpty(model.Limpieza))
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
 
