@@ -6,14 +6,15 @@ function CargarReporteAvanceLimpiadora() {
     var selectLinea = $('#selectLinea').val();
     $('#btnConsultar').prop("disabled", true);
     $("#spinnerCargando").prop("hidden", false);
-    var bitacora = $('#DivTableReporteControlAvancePorLimpiadora');
+    var bitacora = $('#DivTableReporteControlAvancesPorLimpiadora');
     bitacora.html('');
     $.ajax({
         url: "../Hueso/ReporteAvanceDiarioPorLimpiadoraPartial",
         type: "GET",
         data: {
             ddFecha: txtFecha,
-            dsLinea: selectLinea
+            dsLinea: selectLinea,
+            dsTurno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -77,7 +78,7 @@ function ConsultaKpi() {
             console.log(Avance);
             var options = {
                 series: [{
-                    name: "Desktops",
+                    name: "Avance",
                     data: Avance
                 }],
                 chart: {
@@ -114,6 +115,7 @@ function ConsultaKpi() {
 
             var options = {
                 series: [{
+                    name: "Avance",
                     data: Avance
                 }],
                 chart: {

@@ -602,6 +602,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.DateRangePicker = "1";
 
 
                 lsUsuario = User.Identity.Name.Split('_');
@@ -739,7 +740,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         
-        public ActionResult ReporteAvanceDiarioPorLimpiadoraPartial(DateTime ddFecha, string dsLinea)
+        public ActionResult ReporteAvanceDiarioPorLimpiadoraPartial(DateTime ddFecha, string dsLinea, string dsTurno)
         {
             try
             {
@@ -750,7 +751,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaControlAvanceDiarioPorLimpiadora(ddFecha.Date, dsLinea);
+                var model = clsDControlHueso.ConsultaControlAvanceDiarioPorLimpiadora(ddFecha.Date, dsLinea, dsTurno);
                 return PartialView(model);
             }
 

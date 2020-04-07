@@ -7,24 +7,72 @@
     input, select, textarea {
         max-width: 100%;
     }
+
+    .selectbox {
+        background: #fff;
+        color: #1d3b4a;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .box_filters {
+        float: right;
+    }
+
+    .itemFilter {
+        float: left;
+        margin-right: 4px;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+
+    ._bloque {
+        margin-bottom: 10px;
+    }
 </style>
+
 
 <h4>Reporte Control Avance Diario</h4>
 <hr />
 <div class="">
     <div class="row">
-        <div class="col-md-2 col-12">
-            <div class="form-group">
-                <label>Fecha Desde</label>
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="txtFechaDesde" class="form-control" />
+        @*<div class="col-md-2 col-12">
+                <div class="form-group">
+                    <label>Fecha Desde</label>
+                    <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="txtFechaDesde" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-2 col-12">
+                <div class="form-group">
+                    <label>Fecha Hasta</label>
+                    <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="txtFechaHasta" class="form-control" />
+                </div>
+            </div>*@
+        <div class="col-md-4 text-center">
+            <div id="DatosLoadAjax" class="cargandoAjax fa-2x"> <i class="fas fa-spinner fa-pulse"></i> </div>
+            <br />
+            <div class="box_filters">
+                <div class="itemFilter">
+                    <input type="hidden" id="txtFechaDesde" value="" />
+                    <input type="hidden" id="txtFechaHasta" value="" />
+                    <div id="reportrange" class="selectbox">
+                        <i class="fa fa-calendar"></i>&nbsp;
+                        <span></span> <i class="fa fa-caret-down"></i>
+                    </div>
+                </div>
+                @*<div class="itemFilter">
+                <a href="#" id="generarAsistencia" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
+            </div>*@
+
             </div>
         </div>
-        <div class="col-md-2 col-12">
-            <div class="form-group">
-                <label>Fecha Hasta</label>
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="txtFechaHasta" class="form-control" />
-            </div>
-        </div>
+
         <div class="col-md-2 col-6 col-sm-6">
             <div class="form-group">
 
@@ -35,7 +83,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-2 col-12">
+        <div class="col-md-2 col-6 col-sm-6">
             <div class="form-group">
                 <label>Linea</label>
                 @if (ViewBag.SupervisorGeneral != null)
@@ -60,7 +108,7 @@
 
             <div class="form-group">
                 @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
-                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="Nuevo" onclick="CargarReporteAvance()" style="border-color:#2c3e50" type="button">
+                <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnConsultar" onclick="CargarReporteAvance()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/ver24.png" />
                 </button>
             </div>
