@@ -12,20 +12,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_MANTENIMIENTO_CISTERNA
+    public partial class CC_LAVADO_CISTERNA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_MANTENIMIENTO_CISTERNA()
+        public CC_LAVADO_CISTERNA()
         {
             this.CC_INTERMEDIA_CTRL_MANT_CISTERNA = new HashSet<CC_INTERMEDIA_CTRL_MANT_CISTERNA>();
         }
     
-        public int IdCisterna { get; set; }
-        public string NDescripcion { get; set; }
-        public string Ubicacion { get; set; }
-        public string Asignacion { get; set; }
-        public string Tipo { get; set; }
-        public string Capacidad { get; set; }
+        public int IdLavadoCisterna { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string QuimUtilizados { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

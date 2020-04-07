@@ -12,20 +12,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_MANTENIMIENTO_CISTERNA
+    public partial class CC_INTERMEDIA_CTRL_MANT_CISTERNA
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_MANTENIMIENTO_CISTERNA()
-        {
-            this.CC_INTERMEDIA_CTRL_MANT_CISTERNA = new HashSet<CC_INTERMEDIA_CTRL_MANT_CISTERNA>();
-        }
-    
-        public int IdCisterna { get; set; }
-        public string NDescripcion { get; set; }
-        public string Ubicacion { get; set; }
-        public string Asignacion { get; set; }
-        public string Tipo { get; set; }
-        public string Capacidad { get; set; }
+        public int IdIntermedia { get; set; }
+        public int IdMantCisterna { get; set; }
+        public int IdCtrlLavadoCisterna { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -34,7 +25,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_INTERMEDIA_CTRL_MANT_CISTERNA> CC_INTERMEDIA_CTRL_MANT_CISTERNA { get; set; }
+        public virtual CC_LAVADO_CISTERNA CC_LAVADO_CISTERNA { get; set; }
+        public virtual CC_MANTENIMIENTO_CISTERNA CC_MANTENIMIENTO_CISTERNA { get; set; }
     }
 }
