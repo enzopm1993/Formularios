@@ -2733,6 +2733,7 @@
         <Function Name="spConsultaAvanceDiarioPorLimpiadora" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
         </Function>
         <Function Name="spConsultaCambioPersonalFecha" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="date" Mode="In" />
@@ -3935,10 +3936,6 @@
           <FunctionImport Name="spConsultaReporteAvanceDiario" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteAvanceDiario)">
           <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaAvanceDiarioPorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="linea" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaDetalleToalla" ReturnType="Collection(ASIS_PRODModel.spConsultaDetalleToalla)">
           <Parameter Name="IdCabToalla" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -4455,6 +4452,11 @@
             <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
             <Parameter Name="Turno" Mode="In" Type="String" />
             <Parameter Name="linea" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaAvanceDiarioPorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -5855,16 +5857,6 @@
           <Property Type="String" Name="Linea" Nullable="true" MaxLength="20" />
           <Property Type="Decimal" Name="Avance" Nullable="true" Precision="18" Scale="0" />
           <Property Type="Int32" Name="limpiadoras" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="spConsultaAvanceDiarioPorLimpiadora">
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="60" />
-          <Property Type="Int32" Name="TotalHueso" Nullable="true" />
-          <Property Type="Int32" Name="HuesoTeorico" Nullable="true" />
-          <Property Type="Decimal" Name="Avance" Nullable="true" Precision="5" Scale="2" />
-          <Property Type="Decimal" Name="MigaTotal" Nullable="true" Precision="8" Scale="2" />
-          <Property Type="Decimal" Name="MigaPromedio" Nullable="true" Precision="3" Scale="2" />
-          <Property Type="Decimal" Name="MigaPorcentaje" Nullable="true" Precision="3" Scale="2" />
         </ComplexType>
         <ComplexType Name="spConsultaDetalleToalla">
           <Property Type="Int32" Name="IdDetalleControlToalla" Nullable="false" />
@@ -8660,6 +8652,16 @@
           <Property Type="Int32" Name="PiezasTeoricaLimpiadora" Nullable="true" />
           <Property Type="Decimal" Name="Miga" Nullable="true" Precision="5" Scale="2" />
         </ComplexType>
+        <ComplexType Name="spConsultaAvanceDiarioPorLimpiadora">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="60" />
+          <Property Type="Int32" Name="TotalHueso" Nullable="true" />
+          <Property Type="Int32" Name="HuesoTeorico" Nullable="true" />
+          <Property Type="Decimal" Name="Avance" Nullable="true" Precision="6" Scale="2" />
+          <Property Type="Decimal" Name="MigaTotal" Nullable="true" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="MigaPromedio" Nullable="false" Precision="3" Scale="2" />
+          <Property Type="Decimal" Name="MigaPorcentaje" Nullable="false" Precision="4" Scale="2" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10368,20 +10370,6 @@
                 <ScalarProperty Name="Linea" ColumnName="Linea" />
                 <ScalarProperty Name="Avance" ColumnName="Avance" />
                 <ScalarProperty Name="limpiadoras" ColumnName="limpiadoras" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaAvanceDiarioPorLimpiadora" FunctionName="ASIS_PRODModel.Store.spConsultaAvanceDiarioPorLimpiadora">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="TotalHueso" ColumnName="TotalHueso" />
-                <ScalarProperty Name="HuesoTeorico" ColumnName="HuesoTeorico" />
-                <ScalarProperty Name="Avance" ColumnName="Avance" />
-                <ScalarProperty Name="MigaTotal" ColumnName="MigaTotal" />
-                <ScalarProperty Name="MigaPromedio" ColumnName="MigaPromedio" />
-                <ScalarProperty Name="MigaPorcentaje" ColumnName="MigaPorcentaje" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -13054,6 +13042,20 @@
                 <ScalarProperty Name="KiloTeoricoLimpiadora" ColumnName="KiloTeoricoLimpiadora" />
                 <ScalarProperty Name="PiezasTeoricaLimpiadora" ColumnName="PiezasTeoricaLimpiadora" />
                 <ScalarProperty Name="Miga" ColumnName="Miga" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaAvanceDiarioPorLimpiadora" FunctionName="ASIS_PRODModel.Store.spConsultaAvanceDiarioPorLimpiadora">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaAvanceDiarioPorLimpiadora">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="TotalHueso" ColumnName="TotalHueso" />
+                <ScalarProperty Name="HuesoTeorico" ColumnName="HuesoTeorico" />
+                <ScalarProperty Name="Avance" ColumnName="Avance" />
+                <ScalarProperty Name="MigaTotal" ColumnName="MigaTotal" />
+                <ScalarProperty Name="MigaPromedio" ColumnName="MigaPromedio" />
+                <ScalarProperty Name="MigaPorcentaje" ColumnName="MigaPorcentaje" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

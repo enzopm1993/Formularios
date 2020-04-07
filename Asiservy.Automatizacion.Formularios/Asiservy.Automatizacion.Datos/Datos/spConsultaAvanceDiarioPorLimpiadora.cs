@@ -19,7 +19,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> HuesoTeorico { get; set; }
         public Nullable<decimal> Avance { get; set; }
         public Nullable<decimal> MigaTotal { get; set; }
-        public Nullable<decimal> MigaPromedio { get; set; }
-        public Nullable<decimal> MigaPorcentaje { get; set; }
+        public decimal MigaPromedio { get; set; }
+        public decimal MigaPorcentaje { get; set; }
     }
 }
