@@ -164,8 +164,8 @@ function SeleccionControlHueso(model) {
 
     //$('#txtFechaProduccion').val(model.Fecha);
     $('#txtIdControlHueso').val(model.IdControlHueso);
-    $('#txtHoraInicio').val(model.HoraInicio);
-    $('#txtHoraFin').val(model.HoraFin);
+    $('#txtHoraInicio').val(moment(model.HoraInicio).format("yyyy-MM-ddThh:mm"));
+    $('#txtHoraFin').val(moment(model.HoraFin).format("yyyy-MM-ddThh:mm"));
     $('#SelectTipoControl').val(model.CodTipoControl);
     $('#txtObservacion').val(model.Observacion);
     $('#txtPiezas').val(model.TotalPieza);
@@ -241,7 +241,7 @@ function CargarControlHuesoDetalle(id) {
 }
 function CargarControlHueso() {
     //console.log($("#txtFechaProduccion").val());
-    if ($("#txtFechaProduccion").val() == '' || $("#txtFechaProduccion").val() == null)
+    if ($("#txtFechaProduccion").val() == '' || $("#txtFechaProduccion").val() == null || $("#selectTurno").val() == '')
         return;
     $("#spinnerCargando").prop("hidden", false);
     $('#DivTableControlHueso').html('');
@@ -250,7 +250,8 @@ function CargarControlHueso() {
         url: "../Hueso/ControlHuesoPartialCabecera",
         type: "GET",
         data: {
-            Fecha: $("#txtFechaProduccion").val()
+            Fecha: $("#txtFechaProduccion").val(),
+            Turno: $("#selectTurno").val()
         },
     
         success: function (resultado) {
@@ -329,7 +330,7 @@ function GenerarControlHueso() {
     $('#btnGenerar').prop("disabled", true);     
     $.ajax({
         url: "../Hueso/GenerarControlHueso",
-        type: "GET",
+        type: "POST",
         data: {
             Linea: $('#txtLinea').val(),
             Lote: lote,
@@ -341,7 +342,8 @@ function GenerarControlHueso() {
             TotalLimpiadoras: $('#txtLimpiadoras').val(),
             OrdenFabricacion: $('#SelectOrdenFabricacion').val(),
             Fecha: $('#txtFechaProduccion').val(),
-            Limpieza: $('#selectLimpieza').val()
+            Limpieza: $('#selectLimpieza').val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {

@@ -23,8 +23,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdControlHueso { get; set; }
         public string Linea { get; set; }
         public System.DateTime Fecha { get; set; }
-        public System.TimeSpan HoraInicio { get; set; }
-        public System.TimeSpan HoraFin { get; set; }
+        public System.DateTime HoraInicio { get; set; }
+        public System.DateTime HoraFin { get; set; }
         public string Lote { get; set; }
         public int OrdenFabricacion { get; set; }
         public int TipoControlHueso { get; set; }
@@ -39,6 +39,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
         public Nullable<int> TotalLimpiadoras { get; set; }
         public string Limpieza { get; set; }
+        public string Turno { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONTROL_HUESO_DETALLE> CONTROL_HUESO_DETALLE { get; set; }

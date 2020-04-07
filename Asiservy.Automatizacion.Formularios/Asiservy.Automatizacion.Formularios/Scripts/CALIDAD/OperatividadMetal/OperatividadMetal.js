@@ -79,7 +79,6 @@ function AbrirModal() {
     } else {
         $("#txtFecha").css('borderColor', '#ced4da');
         $("#ModalCabecera").modal("show");
-
     }
 }
 
@@ -450,17 +449,12 @@ function GenerarControlDetalle2() {
 }
 
 
-function EditarConsumoInsumoDetalle2(model) {
+function EditarConsumoInsumoDetalle2(id,novedad) {
     // console.log(model);
-    $("#txtIdControlDetalle").val(model.IdOperatividadMetalDetalle);
-    $("#txtHora").val(model.Hora);
-    $("#chkFerroso").prop("checked", model.Ferroso);
-    $("#chkNoFerroso").prop("checked", model.NoFerroso);
-    $("#chkAceroInoxidable").prop("checked", model.AceroInoxidable);
-    $("#txtObservacionDetalle").val(model.Observacion);
-
-
-    $("#ModalGenerarControlDetalle").modal("show");
+    $("#txtIdControlDetalle2").val(id);
+    $("#txtNovedad").val(novedad);
+    
+    $("#ModalGenerarControlDetalle2").modal("show");
     //ModalGenerarControlDetalle();
 }
 
@@ -469,7 +463,7 @@ function InactivarControlDetalle2() {
         url: "../OperatividadMetal/EliminarOperatividadMetalDetector",
         type: "POST",
         data: {
-            IdOperatividadMetalDetalle: $("#txtEliminarDetalle").val()
+            IdOperatividadDetectorMetal: $("#txtEliminarDetalle2").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -490,19 +484,19 @@ function InactivarControlDetalle2() {
     });
 }
 
-function EliminarControlDetalle2(model) {
-    $("#txtEliminarDetalle2").val(model.IdOperatividadMetalDetalle);
+function EliminarControlDetalle2(id,novedad) {
+    $("#txtEliminarDetalle2").val(id);
     //$("#pModalDetalle").html("Hora: " + moment(model.HoraInicio).format('HH:mm') + ' - ' + moment(model.HoraFin).format('HH:mm'));
-    $("#labelMensaje").html("HORA: " + moment(model.Hora).format("HH:mm"));
+    $("#labelMensaje2").html("NOVEDAD: " + novedad);
     $("#modalEliminarControlDetalle2").modal('show');
 }
 
-$("#modal-detalle-si").on("click", function () {
+$("#modal-detalle2-si").on("click", function () {
     InactivarControlDetalle2();
     $("#modalEliminarControlDetalle2").modal('hide');
 });
 
-$("#modal-detalle-no").on("click", function () {
+$("#modal-detalle2-no").on("click", function () {
     $("#modalEliminarControlDetalle2").modal('hide');
 });
 

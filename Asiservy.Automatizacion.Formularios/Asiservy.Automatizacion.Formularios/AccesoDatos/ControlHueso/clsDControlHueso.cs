@@ -67,11 +67,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 return result;
             }
         }
-        public List<spConsultaControlHueso> ConsultaControlHueso(DateTime Fecha, string CodLinea)
+        public List<spConsultaControlHueso> ConsultaControlHueso(DateTime Fecha, string CodLinea, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var result = entities.spConsultaControlHueso(Fecha).Where(x=> x.CodLinea == CodLinea).ToList();
+                var result = entities.spConsultaControlHueso(Fecha,CodLinea,Turno).ToList();
                 return result;
             }
         }
@@ -123,13 +123,17 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 && x.HoraInicio == doControl.HoraInicio               
                 && x.Fecha == doControl.Fecha
                 && x.Linea==doControl.Linea
+                && ((doControl.Turno == clsAtributos.TurnoUno && (x.Turno == clsAtributos.TurnoUno || x.Turno == null))
+                || (doControl.Turno == clsAtributos.TurnoDos && x.Turno == doControl.Turno))
+                // && x.Turno==doControl.Turno
                 && x.TipoControlHueso == doControl.TipoControlHueso
                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (ControlHueso == null)
                 {
                     if (doControl.TipoControlHueso == clsAtributos.Hueso || doControl.TipoControlHueso == clsAtributos.Roto)
                     {
-                        detalle = clsDAsistencia.ConsultaMovimientoPersonalDiario( doControl.Fecha,doControl.HoraInicio.Add(new TimeSpan(0,10,0)) ,doControl.Linea).Where(x=> x.CodCargo==clsAtributos.CargoLimpiadora).ToList();
+                        TimeSpan HoraIni = new TimeSpan(doControl.HoraInicio.Hour, doControl.HoraInicio.Minute, 0);
+                        detalle = clsDAsistencia.ConsultaMovimientoPersonalDiario( doControl.Fecha, HoraIni, doControl.Linea).Where(x=> x.CodCargo==clsAtributos.CargoLimpiadora).ToList();
                         foreach (var x in detalle)
                         {
                             doControl.CONTROL_HUESO_DETALLE.Add(new CONTROL_HUESO_DETALLE
@@ -145,22 +149,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                     }
                     entities.CONTROL_HUESO.Add(doControl);
                     entities.SaveChanges();
+                    return doControl.IdControlHueso;
                 }
                 else
                 {
                     return 0;
                 }
-
-                var idControlHueso = entities.CONTROL_HUESO.FirstOrDefault(x =>
-                   x.Linea == doControl.Linea
-                   && x.Lote == doControl.Lote
-                   && x.HoraInicio == doControl.HoraInicio
-                   && x.HoraFin == doControl.HoraFin
-                   && x.OrdenFabricacion == doControl.OrdenFabricacion
-                   && x.Fecha == doControl.Fecha
-                  // && x.FechaIngresoLog == doControl.FechaIngresoLog
-                   && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-                return idControlHueso.IdControlHueso;
             }
         }   
 

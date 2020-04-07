@@ -2182,6 +2182,7 @@
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\MantenimientoCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\OperatividadMetal.js" />
+    <Content Include="Scripts\CALIDAD\OperatividadMetal\ReporteOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.js" />
@@ -3336,7 +3337,7 @@
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\HuesoController.cs" />
+    <Compile Include="Controllers\PRODUCCION\HuesoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MapeoProductoTunelController.cs" />
     <Compile Include="Controllers\MarcacionesController.cs" />
@@ -3349,7 +3350,7 @@
     <Compile Include="Controllers\CALIDAD\CondicionPersonalController.cs" />
     <Compile Include="Controllers\PRODUCCION\EsterilizacionConservaController.cs" />
     <Compile Include="Controllers\PRODUCCION\ProductoPouchCuarentenaController.cs" />
-    <Compile Include="Controllers\ProyeccionProgramacionController.cs" />
+    <Compile Include="Controllers\PRODUCCION\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
@@ -3733,6 +3734,8 @@
     <Content Include="Views\OperatividadMetal\OperatividadMetalDetectorPartial.cshtml" />
     <Content Include="Views\LavadoCisterna\LavadoCisterna.cshtml" />
     <Content Include="Views\LavadoCisterna\LavadoCisternaPartial.cshtml" />
+    <Content Include="Views\OperatividadMetal\ReporteOperatividadMetal.cshtml" />
+    <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
