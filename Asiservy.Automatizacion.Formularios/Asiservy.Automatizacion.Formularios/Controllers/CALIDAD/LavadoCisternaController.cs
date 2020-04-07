@@ -7,23 +7,29 @@ using System.Data.Entity.Validation;
 using System.Net;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Datos.Datos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.TemperaturaTermoencogidoSellado;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlLavadoCisterna;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoCisterna;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
-    public class TemperaturaTermoencogidoSelladoController : Controller
+    public class LavadoCisternaController : Controller
     {
         clsDError clsDError = null;
         clsDEmpleado clsDEmpleado = null;
-        clsDTemperaturaTermoencogidoSellado clsDTemperaturaTermoencogidoSellado = null;
+        clsDControlLavadoCisterna clsDControlLavadoCisterna = null;
         string[] lsUsuario;
-        public ActionResult ControlTermoencogidoSellado()
+        public ActionResult LavadoCisterna()
         {
             try
             {
+                clsDMantenimientoCisterna c = new clsDMantenimientoCisterna();
+                var codigoCisterna = c.ConsultarMantenimientoCisterna();
+                var listaCisterna =  (from x in codigoCisterna
+                                          where x.EstadoRegistro=="A"
+                                          select new {x.IdCisterna, x.NDescripcion}).ToList();
+                ViewBag.listaCisterna = listaCisterna;
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -45,9 +51,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-
-        //PartialView
-        public ActionResult ControlTermoencogidoSelladoPartial(int id, int idCabecera, int op)
+        
+        public ActionResult LavadoCisternaPartial(DateTime fechaDesde, DateTime fechaHasta, int op)
         {
             try
             {
@@ -56,8 +61,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
-                var detalleTabla = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSelladoDetalle(id, idCabecera, op);
+                clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
+                var detalleTabla = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, fechaHasta, op);
+
                 if (detalleTabla != null)
                 {
                     return PartialView(detalleTabla);
@@ -87,8 +93,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        //---------------------------------------------------CABECERA-----------------------------------------------
-        public JsonResult ConsultarTermoencogidoSellado(DateTime fecha, int opcion)
+        //---------------------------------------------------CABECERA---------------------------------------------------------------
+        public JsonResult ConsultarLavadoCisterna(DateTime fechaDesde, DateTime fechaHasta, int op)
         {
             try
             {
@@ -97,8 +103,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
-                var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSellado(fecha,opcion).FirstOrDefault();
+                clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
+                var poCloroCisterna = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde,fechaHasta, op).FirstOrDefault();
                 if (poCloroCisterna != null)
                 {
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
@@ -130,8 +136,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public JsonResult GuardarModificarTermoencogidoSellado(CC_TEMPERATURA_TERMOENCOGIDO_SELLADO model)
+        public JsonResult GuardarModificarLavadoCisterna(CC_LAVADO_CISTERNA model, string idMantCisterna)
         {
+            var splitIdMantCisterna = idMantCisterna.Split(';');            
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
@@ -139,12 +146,25 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
+                clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDTemperaturaTermoencogidoSellado.GuardarModificarTermoencogidoSellado(model);
+                var valor = clsDControlLavadoCisterna.GuardarModificarLavadoCisterna(model);
+                var lista = clsDControlLavadoCisterna.ConsultarLavadoCisterna(model.FechaIngresoLog, model.FechaIngresoLog, 0);//Crear una nueva opcion SP
+                var IdCtrlLavadoCisterna = (from x in lista
+                                            select new { x.IdLavadoCisterna }).ToString();
+                if (model.IdLavadoCisterna != 0) {
+                    IdCtrlLavadoCisterna = model.IdLavadoCisterna.ToString();
+                }                
+                    foreach (var item in splitIdMantCisterna) {
+                        CC_INTERMEDIA_CTRL_MANT_CISTERNA modelIntermedia = new CC_INTERMEDIA_CTRL_MANT_CISTERNA();
+                        modelIntermedia.IdCtrlLavadoCisterna =Convert.ToInt32(IdCtrlLavadoCisterna);
+                        modelIntermedia.IdMantCisterna =Convert.ToInt32(item);                        
+                        var guardar = clsDControlLavadoCisterna.GuardarModificarLavadoCisternaIntermedia(modelIntermedia);
+                    }
+               
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -172,7 +192,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public JsonResult EliminarTermoencogidoSellado(CC_TEMPERATURA_TERMOENCOGIDO_SELLADO model)
+        public JsonResult EliminarLavadoCisterna(CC_LAVADO_CISTERNA model)
         {
             try
             {
@@ -181,96 +201,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
+                clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDTemperaturaTermoencogidoSellado.EliminarTermoencogidoSellado(model);
-                if (valor == 0)
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-                else return Json("1", JsonRequestBehavior.AllowGet); ;
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        //---------------------------------------------------DETALLE-----------------------------------------------
-        //public JsonResult ConsultarTermoencogidoSelladoDetalle(int id,int idCabecera, int op)
-        //{
-        //    try
-        //    {
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        if (string.IsNullOrEmpty(lsUsuario[0]))
-        //        {
-        //            return Json("101", JsonRequestBehavior.AllowGet);
-        //        }
-        //        clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
-        //        var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSelladoDetalle(id, idCabecera, op).FirstOrDefault();
-        //        if (poCloroCisterna != null)
-        //        {
-        //            return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
-
-        //        }
-        //        else
-        //        {
-        //            return Json("0", JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-        [HttpPost]
-        public JsonResult GuardarModificarTermoencogidoSelladoDetalle(CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE model)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
-                model.FechaIngresoLog = DateTime.Now;
-                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                model.TerminalIngresoLog = Request.UserHostAddress;
-                model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDTemperaturaTermoencogidoSellado.GuardarModificarTermoencogidoSelladoDetalle(model);
+                var valor = clsDControlLavadoCisterna.EliminarLavadoCisterna(model);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -298,7 +234,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult EliminarTermoencogidoSelladoDetalle(CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE model)
+        public JsonResult GuardarModificarLavadoCisternaIntermedia(CC_INTERMEDIA_CTRL_MANT_CISTERNA modelIntermedia)
         {
             try
             {
@@ -307,12 +243,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
-                model.FechaIngresoLog = DateTime.Now;
-                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                model.TerminalIngresoLog = Request.UserHostAddress;
-                model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDTemperaturaTermoencogidoSellado.EliminarTermoencogidoSelladoDetalle(model);
+                clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
+                modelIntermedia.FechaIngresoLog = DateTime.Now;
+                modelIntermedia.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                modelIntermedia.TerminalIngresoLog = Request.UserHostAddress;
+                modelIntermedia.UsuarioIngresoLog = lsUsuario[0];
+                var valor = clsDControlLavadoCisterna.GuardarModificarLavadoCisternaIntermedia(modelIntermedia);       
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -338,35 +274,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        //------------------------------------------------REPORTE-----------------------------------------------------
-        public ActionResult ReporteTermoencogidoSellado()
-        {
-            try
-            {
-                ViewBag.dataTableJS = "1";
-                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-                return View();
-            }
-            catch (DbEntityValidationException e)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
-            }
-            catch (Exception ex)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
-            }
-        }
-
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
@@ -375,5 +282,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             TempData["MensajeError"] = message;
         }
+
     }
 }

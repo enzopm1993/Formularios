@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Cisterna>
+
+
+<table class="table table-light table-striped" tabindex="1" id="tblDataTableIngreso">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                FECHA
+            </th>
+            <th>
+                QUIMICOS UTILIZADOS
+            </th>
+            <th>
+                OBSERVACIONES
+            </th>
+            
+            <th>
+                FECHA DE INGRESO
+            </th>
+            
+            <th>
+               FECHA MODIFICACION
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody style="font-size:14px">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdLavadoCisterna)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuimUtilizados.ToUpper())
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion.ToUpper())
+                </td>
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+                </td>
+                
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+</tbody>
+</table>

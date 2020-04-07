@@ -57,12 +57,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoC
                     model.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
                     model.UsuarioModificacionLog = guardarmodificar.UsuarioIngresoLog;
                     valor = 1;
-                }
-                else
-                {
-                    db.CC_MANTENIMIENTO_CISTERNA.Add(guardarmodificar);
-                }
-                db.SaveChanges();
+                    db.SaveChanges();
+                }           
                 return valor;
             }
         }
