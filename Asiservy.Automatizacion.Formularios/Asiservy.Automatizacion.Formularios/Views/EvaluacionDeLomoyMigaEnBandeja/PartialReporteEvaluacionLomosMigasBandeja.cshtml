@@ -1,0 +1,267 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteEvaluacionLomosMigasBandeja>
+
+@{
+    int reg = Model.Count() + 1;
+    decimal Promedio = Convert.ToDecimal(Model.Sum(z => z.SumaScorch) / Model.Count());
+}
+<div class="card">
+    <div class="row">
+        <div class="col-md-12 table-responsive">
+            <table class="table table-bordered" id="tablaCab">
+                <tbody>
+                    <tr>
+                        <td colspan="5">
+                            <strong>FECHA DE PRODUCCIÓN:</strong> @Model.FirstOrDefault().FechaProduccion.Value.ToString("yyyy/MM/dd")
+                        </td>
+                        <td colspan="11">
+                            <strong>CLIENTE:</strong> @Model.FirstOrDefault().Cliente
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            PRODUCTO
+                        </td>
+                        <td colspan="6">
+                            DESTINO DE LOMOS O MIGAS
+                        </td>
+                        <td colspan="6">
+                            NIVEL DE LIMPIEZA
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            LOMOS
+                        </td>
+                        <td>
+                            @if (Model.FirstOrDefault().Lomo==true)
+                            {
+                                <i class="fas fa-check"></i>
+                            }
+                        </td>
+                        <td>
+                            MIGAS
+                        </td>
+                        <td>
+                            @if (Model.FirstOrDefault().Miga==true)
+                            {
+                                <i class="fas fa-check"></i>
+                            }
+                        </td>
+                        <td>
+                            EMPAQUE
+                        </td>
+                        <td>
+                            @if (Model.FirstOrDefault().Empaque == true)
+                            {
+                                <i class="fas fa-check"></i>
+                            }
+                        </td>
+                        <td>ENLATADO</td>
+                        <td>
+                            @if (Model.FirstOrDefault().Enlatado == true)
+                            {
+                                <i class="fas fa-check"></i>
+                            }
+                        </td>
+                        <td>
+                            POUCH
+                        </td>
+                        <td>
+                            @if (Model.FirstOrDefault().Pouch == true)
+                            {
+                                <i class="fas fa-check"></i>
+                            }
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            @if (Model.FirstOrDefault().TipoLimpieza == "Sencilla")
+                            {
+                                <i class="fas fa-check"></i>
+                            }
+                        </td>
+                        <td>
+                            1 1/2
+                        </td>
+                        <td>
+                            @if (Model.FirstOrDefault().TipoLimpieza == "Intermedia")
+                            {
+                                <i class="fas fa-check"></i>
+                            }
+                        </td>
+                        <td>2</td>
+                        <td>
+                            @if (Model.FirstOrDefault().TipoLimpieza == "Doble")
+                            {
+                                <i class="fas fa-check"></i>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered" id="tblReporte">
+               
+                <tbody>
+                    <tr>
+                        <td colspan="@reg" class="text-center"><strong>INFORMACIÓN GENERAL LOTES</strong></td>
+                    </tr>
+                    <tr>
+
+                        <td>Hora</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Hora</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Línea</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Linea</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Buque pesquero</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.buque</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Lote</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Lote</td>
+                        }
+                    </tr>
+                    <tr>
+
+                        <td colspan="@reg" class="text-center"><strong>EVALUACIÓN ORGANOLÉPTICA</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Sabor</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Sabor</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Textura</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Textura</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Color</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Color</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Olor</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Olor</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Moretones</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Moretones</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Hematomas profundos</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.HematomasProfundos</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Proteínas</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Proteinas</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Trozos</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Trozo</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td colspan="@reg" class="text-center"><strong>VERIFICACIÓN DE LIMPIEZA</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Venas</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Venas</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Espinas</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Espinas</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Sangre</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Sangre</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Escamas</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Escamas</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Piel</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Piel</td>
+                        }
+                    </tr>
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            TOTAL GENERAL
+                        </td>
+                        <td colspan="@reg">
+                            @Model.Sum(x => x.SumaScorch)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            PROMEDIO
+                        </td>
+                        <td colspan="@reg">
+                            @Promedio
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            OBSERVACIONES:
+                        </td>
+                        <td colspan="@reg">
+                            @Model.FirstOrDefault().Observacion
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

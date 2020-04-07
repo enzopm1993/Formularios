@@ -2168,6 +2168,7 @@
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ControlEvaluacionLomoMigaBandeja.js" />
+    <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ReporteEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoOlor\MantenimientoOlor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
@@ -3723,6 +3724,8 @@
     <Content Include="Views\OperatividadMetal\OperatividadMetalDetectorPartial.cshtml" />
     <Content Include="Views\OperatividadMetal\ReporteOperatividadMetal.cshtml" />
     <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalDetallePartial.cshtml" />
+    <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\ReporteEvaluacionLomoMigaBandeja.cshtml" />
+    <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\PartialReporteEvaluacionLomosMigasBandeja.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
