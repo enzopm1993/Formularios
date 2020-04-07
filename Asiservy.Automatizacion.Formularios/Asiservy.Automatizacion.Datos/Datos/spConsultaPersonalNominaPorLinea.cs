@@ -11,10 +11,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class spConsultaPresentesPorAreaLinea
+    public partial class spConsultaPersonalNominaPorLinea
     {
-        public string Linea { get; set; }
-        public string Cargo { get; set; }
-        public Nullable<int> Presentes { get; set; }
+        public string Area { get; set; }
+        public string PuestoTrabajo { get; set; }
+        public Nullable<int> Linea1 { get; set; }
+        public Nullable<int> Linea2 { get; set; }
+        public Nullable<int> Linea3 { get; set; }
+        public Nullable<int> Linea4 { get; set; }
+        public Nullable<int> Linea5 { get; set; }
+        public Nullable<int> Total { get; set; }
     }
 }

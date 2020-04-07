@@ -11,19 +11,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
     
-    public partial class sp_obtener_asistenia_inicio_vs_actual_Result
+    public partial class spConsultaPresentesPorAreaLinea_Result
     {
-        public Nullable<System.DateTime> Fecha { get; set; }
-        public string CodCentroCosto { get; set; }
-        public string CodRecurso { get; set; }
-        public string CodCargo { get; set; }
-        public string CodLinea { get; set; }
-        public string Cedula { get; set; }
-        public string CentroCosto { get; set; }
-        public string Recurso { get; set; }
-        public string Cargo { get; set; }
         public string Linea { get; set; }
-        public string Nombre { get; set; }
-        public string Asistencia { get; set; }
+        public string Cargo { get; set; }
+        public Nullable<int> Presentes { get; set; }
     }
 }
