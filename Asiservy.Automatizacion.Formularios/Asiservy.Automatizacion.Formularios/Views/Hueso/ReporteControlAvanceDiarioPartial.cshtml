@@ -5,6 +5,12 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrdenFabricacion)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Lote)
             </th>
             <th>
@@ -76,9 +82,15 @@
             TotalHueso = TotalHueso + item.Huesos??0;
             TotalLimpiadoras = TotalLimpiadoras + item.Limpiadoras ?? 0;
             TotalKiloReal = TotalKiloReal + item.KiloReal ?? 0;
-            TotalKiloTeorico = TotalKiloTeorico + item.KiloTeorico ?? 0;
+            TotalKiloTeorico = TotalKiloTeorico + item.KiloTeorico;
             TotalAvance = TotalAvance + item.avance??0;
         <tr>
+            <td>
+                @item.Fecha.Value.ToString("yyyy-MM-dd")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Lote)
             </td>
@@ -113,10 +125,10 @@
                 @Html.DisplayFor(modelItem => item.Limpiadoras)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.KiloTeorico) 
+                @Html.DisplayFor(modelItem => item.KiloTeorico)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.KiloReal) 
+                @Html.DisplayFor(modelItem => item.KiloReal)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TipoLimpieza)

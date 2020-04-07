@@ -13,14 +13,29 @@
 <hr />
 <div class="">
     <div class="row">
-        <div class="col-md-4 col-12">
+        <div class="col-md-2 col-12">
             <div class="form-group">
-                <label>Fecha</label>
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="txtFecha" class="form-control" />
+                <label>Fecha Desde</label>
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="txtFechaDesde" class="form-control" />
             </div>
         </div>
+        <div class="col-md-2 col-12">
+            <div class="form-group">
+                <label>Fecha Hasta</label>
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="txtFechaHasta" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-2 col-6 col-sm-6">
+            <div class="form-group">
 
-        <div class="col-md-4 col-12">
+                <label>Turno</label>
+                <select class="form-control" id="selectTurno" onchange="CargarControlHueso()">
+                    <option value="1">Turno A</option>
+                    <option value="2">Turno B</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2 col-12">
             <div class="form-group">
                 <label>Linea</label>
                 @if (ViewBag.SupervisorGeneral != null)
@@ -29,7 +44,7 @@
                 }
                 else
                 {
-                    @Html.DropDownList("Linea", new SelectList(ViewBag.Linea, "Codigo", "Descripcion", ViewBag.LineaEmpleado), "Seleccione", new { @class = "form-control", @readonly = "@readonly", @onchange = "CambioLinea(this.id)", @id = "selectLinea" })
+                    @Html.DropDownList("Linea", new SelectList(ViewBag.Linea, "Codigo", "Descripcion", ViewBag.LineaEmpleado), new { @class = "form-control", @onchange = "CambioLinea(this.id)", @id = "selectLinea" })
                     <script>
                     function CambioLinea(id) {
 
@@ -40,7 +55,7 @@
                 }
             </div>
         </div>
-        <div class="col-md-4 col-12  text-md-left text-center">
+        <div class="col-md-2 col-12  text-md-left text-center">
             <label class="">Acciones</label>
 
             <div class="form-group">
