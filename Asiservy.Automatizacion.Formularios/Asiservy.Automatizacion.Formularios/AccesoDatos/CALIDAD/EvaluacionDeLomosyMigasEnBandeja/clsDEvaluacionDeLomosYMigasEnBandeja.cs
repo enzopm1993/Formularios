@@ -169,5 +169,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 return resultado;
             }
         }
+        public List<spReporteEvaluacionLomosMigasBandeja> ConsultarReporte(DateTime Fecha)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+               return db.spReporteEvaluacionLomosMigasBandeja(Fecha).ToList();
+            }
+        }
     }
 }

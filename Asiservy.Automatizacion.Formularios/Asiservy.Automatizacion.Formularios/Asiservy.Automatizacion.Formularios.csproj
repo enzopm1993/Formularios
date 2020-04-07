@@ -2167,7 +2167,14 @@
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
+    <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
+    <Content Include="Scripts\CALIDAD\LavadoCisterna\ReporteLavadoCisterna.js" />
+    <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.js" />
+    <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoCisterna\MantenimientoCisterna.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoColor\MantenimientoColor.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ControlEvaluacionLomoMigaBandeja.js" />
+    <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ReporteEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoOlor\MantenimientoOlor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
@@ -2180,6 +2187,10 @@
     <Content Include="Scripts\CALIDAD\OperatividadMetal\ReporteOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
+    <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.js" />
+    <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.js" />
+    <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\ReporteIngresoMateriaPrima.js" />
+    <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\SOPMateriaPrima.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
     <Content Include="Scripts\ControlBalanza\ReporteControlBalanza.js" />
     <Content Include="Scripts\ControlCocheLinea\ReporteCochesPorDias.js" />
@@ -3209,6 +3220,7 @@
     <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CondicionPersonal\clsDCondicionPersonal.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\ControlLavadoCisterna\clsDControlLavadoCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\EvaluacionDeLomosyMigasEnBandeja\clsDEvaluacionDeLomosYMigasEnBandeja.cs" />
     <Compile Include="AccesoDatos\CALIDAD\LavadoDesinfeccionManos\clsDLavadoDesinfeccionManos.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoCisterna\clsDMantenimientoCisterna.cs" />
@@ -3295,6 +3307,7 @@
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionDeLomoyMigaEnBandejaController.cs" />
+    <Compile Include="Controllers\CALIDAD\LavadoCisternaController.cs" />
     <Compile Include="Controllers\CALIDAD\LavadoDesinfeccionManosController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoCisternaController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoColorController.cs" />
@@ -3721,8 +3734,14 @@
     <Content Include="Views\TemperaturaTermoencogidoSellado\ControlTermoencogidoSelladoPartial.cshtml" />
     <Content Include="Views\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.cshtml" />
     <Content Include="Views\OperatividadMetal\OperatividadMetalDetectorPartial.cshtml" />
+    <Content Include="Views\LavadoCisterna\LavadoCisterna.cshtml" />
+    <Content Include="Views\LavadoCisterna\LavadoCisternaPartial.cshtml" />
     <Content Include="Views\OperatividadMetal\ReporteOperatividadMetal.cshtml" />
     <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalDetallePartial.cshtml" />
+    <Content Include="Views\LavadoCisterna\ReporteLavadoCisterna.cshtml" />
+    <Content Include="Views\LavadoCisterna\ReporteLavadoCisternaPartial.cshtml" />
+    <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\ReporteEvaluacionLomoMigaBandeja.cshtml" />
+    <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\PartialReporteEvaluacionLomosMigasBandeja.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

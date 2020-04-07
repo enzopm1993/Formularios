@@ -28,18 +28,18 @@ function CargarCabecera() {
     });
 }
 
-function GuardarCabecera() {
-    if ($("#txtDescripcion").val() == '') {
-        MensajeAdvertencia("<span class='badge badge-danger'>!Ingrese una descripción al Color que desea ingresar¡</span>");
-        return;
-    }
+function GuardarCabecera() {    
     MostrarModalCargando();
     $.ajax({
         url: "../MantenimientoCisterna/GuardarModificarMantenimientoCisterna",
         type: "POST",
         data: {
             IdCisterna: itemEditar.IdCisterna,
-            Descripcion: $("#txtDescripcion").val()
+            NDescripcion: $("#txtNDescripcion").val(),
+            Ubicacion: $("#txtUbicacion").val(),
+            Asignacion: $("#txtAsignacion").val(),
+            Tipo: $("#txtTipo").val(),
+            Capacidad: $("#txtCapacidad").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -48,6 +48,8 @@ function GuardarCabecera() {
             CargarCabecera();
             $("#txtDescripcion").val('');
             setTimeout(function () {
+                LimpiarCabecera();
+                $('#ModalIngresoCabecera').modal('hide');
                 CerrarModalCargando();
             }, 500);
         },
@@ -58,18 +60,28 @@ function GuardarCabecera() {
     });
 }
 
-function EliminarConfirmar(jdata) {
+function InactivarConfirmar(jdata) {
     $("#modalEliminarControl").modal("show");
     itemEditar = jdata;
+    $("#myModalLabel").text("¿Desea inactivar el registro?");
+    itemEditar.EstadoRegistro = 'I';
 }
 
-function EliminarCabeceraSi() {
+function ActivarConfirmar(jdata) {
+    $("#modalEliminarControl").modal("show");
+    $("#myModalLabel").text("¿Desea activar el registro?");
+    itemEditar = jdata;
+    itemEditar.EstadoRegistro = 'A';
+}
+
+function EliminarCabeceraSi(estado) {
     MostrarModalCargando();
     $.ajax({
         url: "../MantenimientoCisterna/EliminarMantenimientoCisterna",
         type: "POST",
         data: {
-            IdCisterna: itemEditar.IdCisterna
+            IdCisterna: itemEditar.IdCisterna,
+            EstadoRegistro: itemEditar.EstadoRegistro
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -83,7 +95,7 @@ function EliminarCabeceraSi() {
             } else if (resultado == "1") {
                 $("#modalEliminarControl").modal("hide");
                 CargarCabecera();
-                MensajeCorrecto("Registro Eliminado con Éxito");
+                MensajeCorrecto("Registro Actualizado con Éxito");
                 setTimeout(function () {
                     CerrarModalCargando();
                 }, 500);
@@ -101,8 +113,65 @@ function EliminarCabeceraNo() {
     $("#modalEliminarControl").modal("hide");
 }
 
-function ActualizarCabecera(jdata) {
-    $("#txtDescripcion").prop("disabled", false);
-    $("#txtDescripcion").val(jdata.Descripcion);
+function ActualizarCabecera(jdata)
+{
+    $("#txtNDescripcion").val(jdata.NDescripcion);
+    $("#txtUbicacion").val(jdata.Ubicacion);
+    $("#txtAsignacion").val(jdata.Asignacion);
+    $("#txtTipo").val(jdata.Tipo);
+    $("#txtCapacidad").val(jdata.Capacidad);
+    $('#ModalIngresoCabecera').modal('show');
     itemEditar = jdata;
+}
+
+function ModalIngresoCabecera() {
+    LimpiarCabecera();
+    $('#ModalIngresoCabecera').modal('show');
+    itemEditar = [];
+}
+
+function LimpiarCabecera() {
+    $('#txtNDescripcion').val('');
+    $('#txtUbicacion').val('');
+    $('#txtAsignacion').val('');
+    $('#txtTipo').val('');
+    $('#txtCapacidad').val('');    
+    $("#txtNDescripcion").css('border', '');
+    $("#txtUbicacion").css('border', '');    
+    $("#txtAsignacion").css('border', '');    
+    $("#txtTipo").css('border', '');    
+    $("#txtCapacidad").css('border', '');
+}
+
+function ValidarDatosVacios() {
+    var vacio = OnChangeTextBox();
+    if (vacio==1) {
+        MensajeAdvertencia('¡Ingrese todo los datos requeridos!');
+        return;
+    }else GuardarCabecera();
+}
+
+function OnChangeTextBox() {
+    var con = 0;
+    if ($('#txtNDescripcion').val() == '') {
+        $("#txtNDescripcion").css('border', '1px dashed red');
+        con = 1;
+    } else $("#txtNDescripcion").css('border', '');
+    if ($('#txtUbicacion').val() == '') {
+        $("#txtUbicacion").css('border', '1px dashed red');
+        con = 1;
+    } else $("#txtUbicacion").css('border', '');
+    if ($('#txtAsignacion').val() == '') {
+        $("#txtAsignacion").css('border', '1px dashed red');
+        con = 1;
+    } else $("#txtAsignacion").css('border', '');
+    if ($('#txtTipo').val() == '') {
+        $("#txtTipo").css('border', '1px dashed red');
+        con = 1;
+    } else $("#txtTipo").css('border', '');
+    if ($('#txtCapacidad').val() == '') {
+        $("#txtCapacidad").css('border', '1px dashed red');
+        con = 1;
+    } else $("#txtCapacidad").css('border', '');
+    return con;
 }

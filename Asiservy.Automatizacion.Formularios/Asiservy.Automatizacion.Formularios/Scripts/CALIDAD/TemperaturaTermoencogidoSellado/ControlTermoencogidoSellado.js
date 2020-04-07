@@ -147,6 +147,7 @@ function ActualizarCabeceraActivarCotroles() {
 //DETALLE INGRESO DE LINEAS (SE LISTA EL CLASIFICADOR PARA PODER ARMAR LA CABECERA DE LA TABLA)
 function ModalGenerarDetalle() {
     $("#ModalGenerarDetalle").modal("show");
+    limpiarDetalle();
 }
 
 function limpiarDetalle() {
@@ -155,46 +156,62 @@ function limpiarDetalle() {
     var date = new Date();
     $("#txtHora").val(moment(date).format("HH:mm"));
     $("#checkSellado").prop('checked', false);
-    $("#LabelEstado").text('Estado Registro');
+    $("#LabelEstado").text('Estado Registro');   
+    $("#txtObservacionDetalle").css('border', '');
+    $("#txtHora").css('border', '');
+}
+
+function ValidarAntesGuardar() {
+    if ($("#txtHora").val() == '') {
+        $("#txtHora").css('border', '1px dashed red');
+        MensajeAdvertencia('¡Error al validar la HORA!');
+        return;
+    }else if ($("#checkSellado").prop('checked') == false && $("#txtObservacionDetalle").val() == '') {
+        $("#txtObservacionDetalle").css('border', '1px dashed red');
+        MensajeAdvertencia("¡Debe ingresar una OBSERVACION!");
+        return;
+    } else { GuardarDetalle();}
 }
 
 function GuardarDetalle() {
-    MostrarModalCargando();    
-    var fechaHora = $("#txtFecha").val() + " "+$("#txtHora").val();
-    $.ajax({
-        url: "../TemperaturaTermoencogidoSellado/GuardarModificarTermoencogidoSelladoDetalle",
-        type: "POST",
-        data: {
-            Id: ListaDatosDetalle.Id,
-            IdCabecera: ListaDatos.Id,
-            HoraVerificacion: fechaHora,
-            Temperatura: $("#txtTemperatura").val(),
-            CorrectoSellado: $("#checkSellado").prop('checked'),
-            Observacion: $("#txtObservacionDetalle").val()
-        },
-        success: function (resultado) {
-            if (resultado == "101") {
-                window.location.reload();
+     
+        MostrarModalCargando();
+        var fechaHora = $("#txtFecha").val() + " " + $("#txtHora").val();
+        $.ajax({
+            url: "../TemperaturaTermoencogidoSellado/GuardarModificarTermoencogidoSelladoDetalle",
+            type: "POST",
+            data: {
+                Id: ListaDatosDetalle.Id,
+                IdCabecera: ListaDatos.Id,
+                HoraVerificacion: fechaHora,
+                Temperatura: $("#txtTemperatura").val(),
+                CorrectoSellado: $("#checkSellado").prop('checked'),
+                Observacion: $("#txtObservacionDetalle").val()
+            },
+            success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
+                $("#ModalGenerarDetalle").modal("hide");
+                if (resultado == 0) {
+                    MensajeCorrecto("Datos guardados correctamente");
+                } else if (resultado == 1) { MensajeCorrecto("Actualización de datos correcta"); }
+                else {
+                    MensajeError("!Error al Guardar/Actuaizar los datos¡");
+                    return;
+                }
+                CargarCabecera(0);
+                CargarDetalle(0);
+                limpiarDetalle();
+                CerrarModalCargando();
+            },
+            error: function (resultado) {
+                limpiarDetalle();
+                CerrarModalCargando();
+                MensajeError(resultado.responseText, false);
             }
-            $("#ModalGenerarDetalle").modal("hide");
-            if (resultado == 0) {
-                MensajeCorrecto("Datos guardados correctamente");
-            } else if (resultado == 1) { MensajeCorrecto("Actualización de datos correcta"); }
-            else {
-                MensajeError("!Error al Guardar/Actuaizar los datos¡");
-                return;
-            }
-            CargarCabecera(0);
-            CargarDetalle(0);
-            limpiarDetalle();
-            CerrarModalCargando();
-        },
-        error: function (resultado) {
-            limpiarDetalle();
-            CerrarModalCargando();
-            MensajeError(resultado.responseText, false);
-        }
-    });
+        });
+    
 }
 
 //Retorna PartialView
@@ -269,6 +286,8 @@ function ActulizarDetalle(jdata) {
     $("#txtObservacionDetalle").val(jdata.Observacion);    
     $("#txtHora").val(moment(jdata.HoraVerificacion).format("HH:mm"));
     $("#checkSellado").prop('checked', jdata.CorrectoSellado);
+    $("#txtObservacionDetalle").css('border', '');
+    $("#txtHora").css('border', '');
     if (jdata.CorrectoSellado == true) {
         $("#LabelEstado").text('SI');
     } else {

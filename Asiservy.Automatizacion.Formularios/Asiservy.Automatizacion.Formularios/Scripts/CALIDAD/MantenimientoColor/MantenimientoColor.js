@@ -59,9 +59,18 @@ function GuardarCabecera() {
     });
 }
 
-function EliminarConfirmar(jdata) {
+function InactivarConfirmar(jdata) {
     $("#modalEliminarControl").modal("show");
     itemEditar = jdata;
+    $("#myModalLabel").text("¿Desea inactivar el registro?");
+    itemEditar.EstadoRegistro = 'I';
+}
+
+function ActivarConfirmar(jdata) {
+    $("#modalEliminarControl").modal("show");
+    $("#myModalLabel").text("¿Desea activar el registro?");
+    itemEditar = jdata;
+    itemEditar.EstadoRegistro = 'A';
 }
 
 function EliminarCabeceraSi() {
@@ -70,7 +79,8 @@ function EliminarCabeceraSi() {
         url: "../MantenimientoColor/EliminarMantenimientoColor",
         type: "POST",
         data: {
-            IdColor: itemEditar.IdColor
+            IdColor: itemEditar.IdColor,
+            EstadoRegistro: itemEditar.EstadoRegistro 
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -84,7 +94,7 @@ function EliminarCabeceraSi() {
             } else if (resultado == "1") {
                 $("#modalEliminarControl").modal("hide");
                 CargarCabecera();
-                MensajeCorrecto("Registro Eliminado con Éxito");                
+                MensajeCorrecto("Registro Actualizado con Éxito");                
                 setTimeout(function () {
                     CerrarModalCargando();
                 }, 500);
