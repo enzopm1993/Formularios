@@ -4,54 +4,50 @@
 <table class="table table-light table-striped table-hover" id="tblDataTable">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdCisterna)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-
-            <th>
-                Fecha Creación
-            </th>
-
-            <th>
-                Fecha Modificación
-            </th>
-            <th>Acciones</th>
+            <th>Nº</th>
+            <th>UBICACION</th>
+            <th>ASIGNACION</th>
+            <th>TIPO</th>
+            <th>CAPACIDAD</th>
+            <th>ESTADO</th>
+            <th>ACCIONES</th>
         </tr>
     </thead>
-    @{
-        var filtroActivos = (from x in Model
-                             where x.EstadoRegistro == "A"
-                             select new { x.IdCisterna, x.Descripcion, x.FechaIngresoLog, x.FechaModificacionLog }).ToList();
-    }
+   
     <tbody style="font-size:14px">
-        @foreach (var item in filtroActivos)
+        @foreach (var item in Model)
         {
 
-            string fecha = item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm");
+            //string fecha = item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm");
             <tr>
+                <td>@item.NDescripcion.ToUpper()</td>
+                <td>@item.Ubicacion.ToUpper()</td>
+                <td>@item.Asignacion.ToUpper()</td>
+                <td>@item.Tipo.ToUpper()</td>
+                <td>@item.Capacidad.ToUpper()</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdCisterna)
+                    @if(item.EstadoRegistro=="A"){
+                    <span class="badge badge-success">ACTIVO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">INACTIVO</span>
+                    }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
-
-                <td>
-                    @fecha
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
-                </td>
-
-                <td>
-                    @{string json = JsonConvert.SerializeObject(item);
+                    @{
+                        string json = JsonConvert.SerializeObject(item);
                     }
                     <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
-                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarConfirmar(@json)">Eliminar</button>
+                    @if (item.EstadoRegistro == "A")
+                    {
+                        <button id="btnEliminar" class="btn btn-link" onclick="InactivarConfirmar(@json)">Inactivar</button>
+                    }
+                    else
+                    {
+                        <button id="btnEliminar" class="btn btn-link" onclick="ActivarConfirmar(@json)">Activar</button>
+                    }
+
                 </td>
             </tr>
         }

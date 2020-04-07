@@ -22,7 +22,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoC
             int valor = 0;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_MANTENIMIENTO_COLOR.FirstOrDefault(x => x.IdColor == GuardarModigicar.IdColor && x.EstadoRegistro == GuardarModigicar.EstadoRegistro);
+                var model = db.CC_MANTENIMIENTO_COLOR.FirstOrDefault(x => x.IdColor == GuardarModigicar.IdColor );
                 if (model != null)
                 {
                     model.Descripcion = GuardarModigicar.Descripcion;

@@ -1,31 +1,32 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Termoencogido_Sellado_Detalle>
 @using Newtonsoft.Json;
 
-<table class="table table-light table-striped"  id="tblDataTable">
-    <thead>
+<table class="table table-light table-striped table-bordered" style="border-right:1px solid #e3e6f0" id="tblDataTable">
+    <thead style="font-size:13px">
     <tr>
-        <th>
-            Id
+        <th style="border-right:1px solid #e3e6f0">
+            <center>ID</center>
         </th>
-        <th>
-            Hora-Verificación
+        <th style="border-right:1px solid #e3e6f0">
+            <center> HORA<br />VERIFICACION</center>
         </th>
-        <th>
-            Temperatura
+        <th style="border-right:1px solid #e3e6f0">
+            <center> TEMPERATURA °C</center>
         </th>
-        <th>
-            Correcto-Sellado
+        <th style="border-right:1px solid #e3e6f0">
+            <center> CORRECTO<br />SELLADO</center>
         </th>
-        <th>
-            Observación
+        <th style="border-right:1px solid #e3e6f0">
+            <center>OBSERVACION</center>
         </th>
-        <th>Acciones</th>
+        <th id="tdAccionesHead" style="border-right:1px solid #e3e6f0"><center>ACCIONES</center></th>
     </tr>
         </thead>
+    @{int con = 0; }
     <tbody style="font-size:12px">
 
         @foreach (var item in Model)
-        {
+        {           
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Id)
@@ -55,14 +56,15 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Observacion)
                 </td>
-                <td id="tdAcciones">
+                <td id="tdAccionesBody_@con">
                     @{string json = JsonConvert.SerializeObject(item);
                     }
                     <button id="btnActualizar" class="btn btn-link" onclick="ActulizarDetalle(@json)">Editar</button>
                     <button id="btnEliminar" class="btn btn-link" onclick="EliminarDetalle(@json)">Eliminar</button>
                 </td>
             </tr>
-        }
+                            con++;
+                        }
     </tbody>
 </table>
 <script src="~/Scripts/General/dataTableJS.js"></script>

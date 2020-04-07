@@ -140,8 +140,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMantenimientoCisterna = new clsDMantenimientoCisterna();
-                model.FechaIngresoLog = DateTime.Now;
-                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                model.FechaIngresoLog = DateTime.Now;                
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 var valor = clsDMantenimientoCisterna.EliminarMantenimientoCisterna(model);
