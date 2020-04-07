@@ -170,26 +170,31 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
             }
         }
 
-        public List<spConsultaControlAvanceDiarioPorLinea> ConsultaControlAvanceDiarioPorLinea(DateTime Fecha, string Linea)
+        public List<spConsultaControlAvanceDiarioPorLinea> ConsultaControlAvanceDiarioPorLinea(DateTime FechaDesde, DateTime FechaHasta,string Turno, string Linea)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {           
-                GenerarAvanceOrdenesApi(Fecha, Linea);
+                GenerarAvanceOrdenesApi(FechaDesde,FechaHasta, Linea);
                 List<spConsultaControlAvanceDiarioPorLinea> Listado = new List<spConsultaControlAvanceDiarioPorLinea>();
-                Listado = entities.spConsultaControlAvanceDiarioPorLinea(Fecha,Linea).ToList();
+                Listado = entities.spConsultaControlAvanceDiarioPorLinea(FechaDesde,FechaHasta,Turno,Linea).ToList();
                 return Listado;
             }
 
         }
 
-        public void GenerarAvanceOrdenesApi(DateTime Fecha,string Linea)
+        public void GenerarAvanceOrdenesApi(DateTime FechaDesde, DateTime? FechaHasta,string Linea)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
+                if (FechaHasta == null)
+                {
+                    FechaHasta = FechaDesde;
+                }
                 List<CONTROL_AVANCE_API> ListadoControlAvanceApi = new List<CONTROL_AVANCE_API>();
                 clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
                 var ordendesFabricacion = entities.CONTROL_HUESO.Where(x =>
-                x.Fecha == Fecha
+                x.Fecha >= FechaDesde
+               && x.Fecha <= FechaHasta
                && x.Linea == Linea
                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).Select(x => x.OrdenFabricacion).Distinct();
 
@@ -239,7 +244,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                GenerarAvanceOrdenesApi(Fecha, Linea);
+                GenerarAvanceOrdenesApi(Fecha,null, Linea);
                 List<spConsultaAvanceDiarioPorLimpiadora> Listado = new List<spConsultaAvanceDiarioPorLimpiadora>();
                 Listado = entities.spConsultaAvanceDiarioPorLimpiadora(Fecha, Linea).ToList();
                 return Listado;
@@ -267,7 +272,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 var lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion);
                 foreach(var x in lineas)
                 {
-                    GenerarAvanceOrdenesApi(Fecha, x.Codigo);
+                    GenerarAvanceOrdenesApi(Fecha,null, x.Codigo);
                 }
                 List<spConsultaReporteAvanceDiario> Listado = new List<spConsultaReporteAvanceDiario>();
                 Listado = entities.spConsultaReporteAvanceDiario(Fecha).ToList();

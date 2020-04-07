@@ -650,7 +650,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
         
-        public ActionResult ReporteControlAvanceDiarioPartial(DateTime ddFecha,string dsLinea)
+        public ActionResult ReporteControlAvanceDiarioPartial(DateTime ddFechaDesde, DateTime ddFechaHasta, string Turno, string dsLinea)
         {
             try
             {
@@ -660,7 +660,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }                            
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaControlAvanceDiarioPorLinea(ddFecha.Date, dsLinea);
+                var model = clsDControlHueso.ConsultaControlAvanceDiarioPorLinea(ddFechaDesde.Date,ddFechaHasta.Date,Turno, dsLinea);
                 if (!model.Any())
                     return Json("1",JsonRequestBehavior.AllowGet);
                 return PartialView(model);

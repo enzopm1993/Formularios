@@ -164,8 +164,9 @@ function SeleccionControlHueso(model) {
 
     //$('#txtFechaProduccion').val(model.Fecha);
     $('#txtIdControlHueso').val(model.IdControlHueso);
-    $('#txtHoraInicio').val(moment(model.HoraInicio).format("yyyy-MM-ddThh:mm"));
-    $('#txtHoraFin').val(moment(model.HoraFin).format("yyyy-MM-ddThh:mm"));
+    //alert(moment(model.HoraInicio).format("YYYY-MM-DDThh:mm"));
+    $('#txtHoraInicio').val(moment(model.HoraInicio).format("YYYY-MM-DDThh:mm"));
+    $('#txtHoraFin').val(moment(model.HoraFin).format("YYYY-MM-DDThh:mm"));
     $('#SelectTipoControl').val(model.CodTipoControl);
     $('#txtObservacion').val(model.Observacion);
     $('#txtPiezas').val(model.TotalPieza);
