@@ -396,6 +396,7 @@
           <Property Name="IdControlConsumoInsumos" Type="int" Nullable="false" />
           <Property Name="HoraPara" Type="datetime" Nullable="false" />
           <Property Name="HoraReinicio" Type="datetime" />
+          <Property Name="Tipo" Type="varchar" MaxLength="10" />
           <Property Name="Observacion" Type="varchar" MaxLength="250" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
@@ -404,7 +405,6 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
-          <Property Name="Tipo" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="CONTROL_ASISTENCIA">
           <Key>
@@ -938,6 +938,7 @@
           </Key>
           <Property Name="IdDetalleLote" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdCabeceraControlPesoCodificacion" Type="int" />
+          <Property Name="FechaOrdenFabricacion" Type="date" />
           <Property Name="OrdenFabricacion" Type="int" />
           <Property Name="Lote" Type="varchar" MaxLength="10" />
           <Property Name="Lomo" Type="bit" />
@@ -950,7 +951,6 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
-          <Property Name="FechaOrdenFabricacion" Type="date" />
         </EntityType>
         <EntityType Name="DETALLE_USO_CONTROL_PESO_CODIFICACION">
           <Key>
@@ -1117,6 +1117,8 @@
           <Property Name="OrdenFabricacion" Type="int" Nullable="false" />
           <Property Name="Lote" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="TipoLimpieza" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Talla" Type="varchar" MaxLength="50" />
+          <Property Name="Barco" Type="varchar" MaxLength="100" />
           <Property Name="Observacion" Type="varchar" MaxLength="250" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
@@ -1125,8 +1127,6 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
-          <Property Name="Talla" Type="varchar" MaxLength="50" />
-          <Property Name="Barco" Type="varchar" MaxLength="100" />
           <Property Name="Fin" Type="int" />
         </EntityType>
         <EntityType Name="MAPEO_PRODUCTO_TUNEL_DETALLE">
@@ -2258,6 +2258,8 @@
         </Function>
         <Function Name="spConsultaControlHueso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="Linea" Type="varchar" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
         </Function>
         <Function Name="spConsultaControlHuesoDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdControlHueso" Type="int" Mode="In" />
@@ -2503,6 +2505,8 @@
           <Parameter Name="Turno" Type="char" Mode="In" />
           <Parameter Name="Fecha" Type="date" Mode="In" />
           <Parameter Name="Generado" Type="char" Mode="In" />
+          <Parameter Name="Usuario" Type="varchar" Mode="In" />
+          <Parameter Name="Terminal" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spKpiAvancePorLimpiadora" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
@@ -3783,19 +3787,15 @@
           <FunctionImport Name="spConsultaProyeccionProgramacion" ReturnType="Collection(ASIS_PRODModel.spConsultaProyeccionProgramacion)">
           <Parameter Name="IdProyeccion" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spInactivarAsistencia" ReturnType="Collection(String)">
-            <Parameter Name="Linea" Mode="In" Type="String" />
-            <Parameter Name="Turno" Mode="In" Type="String" />
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="Generado" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="CONTROL_HUESO" EntityType="ASIS_PRODModel.CONTROL_HUESO" />
           <AssociationSet Name="FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" Association="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO">
             <End Role="CONTROL_HUESO" EntitySet="CONTROL_HUESO" />
             <End Role="CONTROL_HUESO_DETALLE" EntitySet="CONTROL_HUESO_DETALLE" />
           </AssociationSet>
           <FunctionImport Name="spConsultaControlHueso" ReturnType="Collection(ASIS_PRODModel.spConsultaControlHueso)">
-          <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spConsultaControlAvanceDiarioPorLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaControlAvanceDiarioPorLinea)">
             <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
@@ -3826,11 +3826,19 @@
           <FunctionImport Name="spReporteEvaluacionLomosMigasBandeja" ReturnType="Collection(ASIS_PRODModel.spReporteEvaluacionLomosMigasBandeja)">
             <Parameter Name="FechaProduccion" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="spInactivarAsistencia" ReturnType="Collection(String)">
+            <Parameter Name="Linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Generado" Mode="In" Type="String" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="Terminal" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Reporte_CloroCisternaDescongeladoBandeja" ReturnType="Collection(ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandeja)" />
           <FunctionImport Name="sp_Reporte_CloroCisternaDescongeladoBandejaAprobados" ReturnType="Collection(ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados)">
             <Parameter Name="fechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="sp_Reporte_CloroCisternaDescongeladoBandeja" ReturnType="Collection(ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandeja)" />
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -8114,14 +8122,6 @@
           <Property Type="Int32" Name="Piel" Nullable="true" />
           <Property Type="Int32" Name="SumaScorch" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_Reporte_CloroCisternaDescongeladoBandejaAprobados">
-          <Property Type="Int64" Name="IdCloroCisterna" Nullable="false" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="AprobadoPor" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="FechaAprobacion" Nullable="true" MaxLength="30" />
-          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
-        </ComplexType>
         <ComplexType Name="sp_Reporte_CloroCisternaDescongeladoBandeja">
           <Property Type="Int64" Name="IdCloroCisterna" Nullable="false" />
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
@@ -8133,6 +8133,14 @@
           <Property Type="String" Name="FechaIngresoLog" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="FechaModificacionLog" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_Reporte_CloroCisternaDescongeladoBandejaAprobados">
+          <Property Type="Int64" Name="IdCloroCisterna" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="AprobadoPor" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="FechaAprobacion" Nullable="true" MaxLength="30" />
+          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -11773,7 +11781,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spInactivarAsistencia" FunctionName="ASIS_PRODModel.Store.spInactivarAsistencia" />
           <EntitySetMapping Name="CONTROL_HUESO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_HUESO">
               <MappingFragment StoreEntitySet="CONTROL_HUESO">
@@ -11861,18 +11868,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Reporte_CloroCisternaDescongeladoBandejaAprobados" FunctionName="ASIS_PRODModel.Store.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados">
-                <ScalarProperty Name="IdCloroCisterna" ColumnName="IdCloroCisterna" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
-                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
-                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
-                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spInactivarAsistencia" FunctionName="ASIS_PRODModel.Store.spInactivarAsistencia" />
           <FunctionImportMapping FunctionImportName="sp_Reporte_CloroCisternaDescongeladoBandeja" FunctionName="ASIS_PRODModel.Store.sp_Reporte_CloroCisternaDescongeladoBandeja">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandeja">
@@ -11886,6 +11882,18 @@
                 <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Reporte_CloroCisternaDescongeladoBandejaAprobados" FunctionName="ASIS_PRODModel.Store.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandejaAprobados">
+                <ScalarProperty Name="IdCloroCisterna" ColumnName="IdCloroCisterna" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

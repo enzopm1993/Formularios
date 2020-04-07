@@ -1800,8 +1800,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaProyeccionProgramacion>("spConsultaProyeccionProgramacion", idProyeccionParameter);
         }
     
-        public virtual ObjectResult<string> spInactivarAsistencia(string linea, string turno, Nullable<System.DateTime> fecha, string generado)
+        public virtual ObjectResult<spConsultaControlHueso> spConsultaControlHueso(Nullable<System.DateTime> fecha, string linea, string turno)
         {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
             var lineaParameter = linea != null ?
                 new ObjectParameter("Linea", linea) :
                 new ObjectParameter("Linea", typeof(string));
@@ -1810,24 +1814,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", turno) :
                 new ObjectParameter("Turno", typeof(string));
     
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var generadoParameter = generado != null ?
-                new ObjectParameter("Generado", generado) :
-                new ObjectParameter("Generado", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spInactivarAsistencia", lineaParameter, turnoParameter, fechaParameter, generadoParameter);
-        }
-    
-        public virtual ObjectResult<spConsultaControlHueso> spConsultaControlHueso(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", fechaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHueso>("spConsultaControlHueso", fechaParameter, lineaParameter, turnoParameter);
         }
     
         public virtual ObjectResult<spConsultaControlAvanceDiarioPorLinea> spConsultaControlAvanceDiarioPorLinea(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, string turno, string linea)
@@ -1894,6 +1881,40 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionLomosMigasBandeja>("spReporteEvaluacionLomosMigasBandeja", fechaProduccionParameter);
         }
     
+        public virtual ObjectResult<string> spInactivarAsistencia(string linea, string turno, Nullable<System.DateTime> fecha, string generado, string usuario, string terminal)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("Linea", linea) :
+                new ObjectParameter("Linea", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var generadoParameter = generado != null ?
+                new ObjectParameter("Generado", generado) :
+                new ObjectParameter("Generado", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            var terminalParameter = terminal != null ?
+                new ObjectParameter("Terminal", terminal) :
+                new ObjectParameter("Terminal", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spInactivarAsistencia", lineaParameter, turnoParameter, fechaParameter, generadoParameter, usuarioParameter, terminalParameter);
+        }
+    
+        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandeja> sp_Reporte_CloroCisternaDescongeladoBandeja()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandeja>("sp_Reporte_CloroCisternaDescongeladoBandeja");
+        }
+    
         public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandejaAprobados> sp_Reporte_CloroCisternaDescongeladoBandejaAprobados(Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
         {
             var fechaInicioParameter = fechaInicio.HasValue ?
@@ -1905,11 +1926,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandejaAprobados>("sp_Reporte_CloroCisternaDescongeladoBandejaAprobados", fechaInicioParameter, fechaFinParameter);
-        }
-    
-        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandeja> sp_Reporte_CloroCisternaDescongeladoBandeja()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandeja>("sp_Reporte_CloroCisternaDescongeladoBandeja");
         }
     }
 }
