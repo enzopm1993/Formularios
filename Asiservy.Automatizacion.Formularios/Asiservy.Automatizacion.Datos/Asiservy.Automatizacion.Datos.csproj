@@ -567,10 +567,7 @@
     <Compile Include="Datos\spConsultaPersonalMovidoaLinea.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\spConsultaPersonalNominaPorLinea.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\spConsultaPresentesPorAreaLinea_Result.cs">
+    <Compile Include="Datos\spConsultaPresentesPorAreaLinea.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaProductoTerminado.cs">
@@ -789,9 +786,6 @@
     <Compile Include="Datos\sp_obtener_asistenia_inicio_vs_actual_Result.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\sp_obtener_asistenia_inicio_vs_actual_Result1.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datos\SP_PKI_SOLICITUDES.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -817,9 +811,6 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\SUBDETALLE_PRODUCTO_POUCH_CUARENTENA.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\sysdiagrams.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\TIPO_ESTERILIZACION_CONSERVA.cs">
