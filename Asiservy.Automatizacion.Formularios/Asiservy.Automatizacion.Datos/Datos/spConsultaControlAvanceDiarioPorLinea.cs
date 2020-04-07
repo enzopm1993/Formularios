@@ -13,6 +13,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spConsultaControlAvanceDiarioPorLinea
     {
+        public Nullable<System.DateTime> Fecha { get; set; }
+        public Nullable<int> OrdenFabricacion { get; set; }
         public string Lote { get; set; }
         public string Talla { get; set; }
         public string Especie { get; set; }
@@ -24,7 +26,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<decimal> Promedio { get; set; }
         public Nullable<int> Huesos { get; set; }
         public Nullable<int> Limpiadoras { get; set; }
-        public Nullable<int> KiloTeorico { get; set; }
+        public int KiloTeorico { get; set; }
         public Nullable<decimal> KiloReal { get; set; }
         public string TipoLimpieza { get; set; }
         public Nullable<decimal> avance { get; set; }
