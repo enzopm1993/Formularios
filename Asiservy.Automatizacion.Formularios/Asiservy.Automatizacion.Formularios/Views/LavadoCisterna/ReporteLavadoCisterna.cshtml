@@ -1,0 +1,65 @@
+﻿@model Asiservy.Automatizacion.Datos.Datos.CC_LAVADO_CISTERNA
+
+@{
+    ViewBag.Title = "ReporteLavadoCisterna";
+}
+
+
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .selectbox {
+        background: #fff;
+        color: #1d3b4a;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .box_filters {
+        float: right;
+    }
+
+    .itemFilter {
+        float: left;
+        margin-right: 4px;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+
+    ._bloque {
+        margin-bottom: 10px;
+    }
+</style>
+<br />
+<div class="row">
+    <div class="col-12">
+        <h3 style="float:left">Reporte Lavado de Cisterna</h3>
+        <div class="box_filters">
+            <div class="itemFilter">
+                <input type="hidden" id="fechaDesde" value="" />
+                <input type="hidden" id="fechaHasta" value="" />
+                <div id="reportrange" class="selectbox">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down"></i>
+                </div>
+            </div>
+            <div class="itemFilter">                
+                <a href="#" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i onclick="CargarCabecera(1)" id="iconSearch" class="fas fa-search"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+    <hr />
+
+    @*MODAL MOSTRAR TABLA CABECERA*@
+    <div id="divMostarTablaCabecera" class="table-responsive">
+    </div>

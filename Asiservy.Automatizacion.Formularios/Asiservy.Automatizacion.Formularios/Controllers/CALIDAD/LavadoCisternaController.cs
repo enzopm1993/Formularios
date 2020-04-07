@@ -136,7 +136,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public JsonResult GuardarModificarLavadoCisterna(CC_LAVADO_CISTERNA model, string idMantCisterna)
+        public JsonResult GuardarModificarLavadoCisterna(CC_LAVADO_CISTERNA model, string idMantCisterna, List<string> idIntermedia)
         {
             var splitIdMantCisterna = idMantCisterna.Split(';');            
             try
@@ -152,18 +152,36 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 var valor = clsDControlLavadoCisterna.GuardarModificarLavadoCisterna(model);
-                var lista = clsDControlLavadoCisterna.ConsultarLavadoCisterna(model.FechaIngresoLog, model.FechaIngresoLog, 0);//Crear una nueva opcion SP
-                var IdCtrlLavadoCisterna = (from x in lista
-                                            select new { x.IdLavadoCisterna }).ToString();
-                if (model.IdLavadoCisterna != 0) {
-                    IdCtrlLavadoCisterna = model.IdLavadoCisterna.ToString();
-                }                
-                    foreach (var item in splitIdMantCisterna) {
+                //GUARDAR EN LA TABLA INTERMEDIA
+                int idCisterna = model.IdLavadoCisterna;
+                foreach (var item in splitIdMantCisterna)
+                {
+                    if (!string.IsNullOrWhiteSpace(item))
+                    {
                         CC_INTERMEDIA_CTRL_MANT_CISTERNA modelIntermedia = new CC_INTERMEDIA_CTRL_MANT_CISTERNA();
-                        modelIntermedia.IdCtrlLavadoCisterna =Convert.ToInt32(IdCtrlLavadoCisterna);
-                        modelIntermedia.IdMantCisterna =Convert.ToInt32(item);                        
+                        modelIntermedia.IdCtrlLavadoCisterna = Convert.ToInt32(idCisterna);
+                        modelIntermedia.IdMantCisterna = Convert.ToInt32(item);
+                        modelIntermedia.FechaIngresoLog = DateTime.Now;
+                        modelIntermedia.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                        modelIntermedia.TerminalIngresoLog = Request.UserHostAddress;
+                        modelIntermedia.UsuarioIngresoLog = lsUsuario[0];
                         var guardar = clsDControlLavadoCisterna.GuardarModificarLavadoCisternaIntermedia(modelIntermedia);
                     }
+                }
+                //ELIMINO TODOS LOS REGISTROS DE LA TABLA INTERMEDIA QUE CORESPONDAN AL ITEM A ACTUALIZAR. SEGUN LA LISTA idIntermedia PARAMETRO DE ENTRADA
+                //HAGO ESTO YA QUE ES COMPLICADO ATUALIZAR UNO POR UNO, Y PEOR CUANDO EL USUARIO INGRESA 5 CISTERNAS Y LUEGO ACTUALIZA A 1. 
+                if (idIntermedia!=null) {
+                    foreach (var item in idIntermedia)
+                    {
+                        CC_INTERMEDIA_CTRL_MANT_CISTERNA modelIntermedia = new CC_INTERMEDIA_CTRL_MANT_CISTERNA();
+                        modelIntermedia.IdIntermedia =Convert.ToInt32(item);
+                        modelIntermedia.FechaIngresoLog = DateTime.Now;
+                        modelIntermedia.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                        modelIntermedia.TerminalIngresoLog = Request.UserHostAddress;
+                        modelIntermedia.UsuarioIngresoLog = lsUsuario[0];
+                        var guardar = clsDControlLavadoCisterna.EliminarLavadoCisternaIntermedia(modelIntermedia);
+                    }
+                }
                
                 if (valor == 0)
                 {
@@ -233,8 +251,36 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        [HttpPost]
-        public JsonResult GuardarModificarLavadoCisternaIntermedia(CC_INTERMEDIA_CTRL_MANT_CISTERNA modelIntermedia)
+        public ActionResult ReporteLavadoCisterna()
+        {
+            try
+            {
+                ViewBag.DateRangePicker = "1";
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult ReporteLavadoCisternaPartial(DateTime fechaDesde, DateTime fechaHasta, int op)
         {
             try
             {
@@ -244,36 +290,37 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
-                modelIntermedia.FechaIngresoLog = DateTime.Now;
-                modelIntermedia.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                modelIntermedia.TerminalIngresoLog = Request.UserHostAddress;
-                modelIntermedia.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDControlLavadoCisterna.GuardarModificarLavadoCisternaIntermedia(modelIntermedia);       
-                if (valor == 0)
+                var tablaCabecera = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, fechaHasta, op);
+
+                if (tablaCabecera != null)
+                {
+                    return PartialView(tablaCabecera);
+                }
+                else
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                else return Json("1", JsonRequestBehavior.AllowGet); ;
             }
             catch (DbEntityValidationException e)
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 lsUsuario = User.Identity.Name.Split('_');
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
             }
             catch (Exception ex)
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 lsUsuario = User.Identity.Name.Split('_');
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
             }
         }
+
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;

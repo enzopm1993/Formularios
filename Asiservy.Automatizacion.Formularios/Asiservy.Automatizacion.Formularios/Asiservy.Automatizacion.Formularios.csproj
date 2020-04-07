@@ -2168,6 +2168,7 @@
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
+    <Content Include="Scripts\CALIDAD\LavadoCisterna\ReporteLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoCisterna\MantenimientoCisterna.js" />
@@ -3736,6 +3737,8 @@
     <Content Include="Views\LavadoCisterna\LavadoCisternaPartial.cshtml" />
     <Content Include="Views\OperatividadMetal\ReporteOperatividadMetal.cshtml" />
     <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalDetallePartial.cshtml" />
+    <Content Include="Views\LavadoCisterna\ReporteLavadoCisterna.cshtml" />
+    <Content Include="Views\LavadoCisterna\ReporteLavadoCisternaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

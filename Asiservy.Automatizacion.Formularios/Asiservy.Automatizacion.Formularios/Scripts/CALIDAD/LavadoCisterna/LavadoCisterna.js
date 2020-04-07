@@ -1,6 +1,6 @@
 ﻿var itemEditar = [];
 var inputSelect = [];
-var listaIdMantCisterna = [];
+var listaIdIntermedia = [];
 $(document).ready(function () {
     CargarCabecera(0);
     
@@ -42,10 +42,12 @@ function GuardarCabecera() {
         url: "../LavadoCisterna/GuardarModificarLavadoCisterna",
         type: "POST",
         data: {
-            IdLavadoCisterna: itemEditar.IdLavadoCisterna,
+            IdLavadoCisterna: itemEditar[0],
             Fecha: $("#txtFechaCabecera").val(),
             QuimUtilizados: $("#txtQUtilizados").val(),
-            Observacion: $("#txtObservacion").val()           
+            Observacion: $("#txtObservacion").val(),
+            idMantCisterna: $("#txtNCisterna").val(),
+            idIntermedia: listaIdIntermedia
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -65,42 +67,34 @@ function GuardarCabecera() {
     });
 }
 
-function InactivarConfirmar(jdata) {
+function EliminarConfirmar(jdata) {
     $("#modalEliminarControl").modal("show");
     itemEditar = jdata;
-    $("#myModalLabel").text("¿Desea inactivar el registro?");
-    itemEditar.EstadoRegistro = 'I';
+    $("#myModalLabel").text("¿Desea Eliminar el registro?");
+    
 }
 
-function ActivarConfirmar(jdata) {
-    $("#modalEliminarControl").modal("show");
-    $("#myModalLabel").text("¿Desea activar el registro?");
-    itemEditar = jdata;
-    itemEditar.EstadoRegistro = 'A';
-}
-
-function EliminarCabeceraSi(estado) {
+function EliminarCabeceraSi() {
     MostrarModalCargando();
     $.ajax({
         url: "../LavadoCisterna/EliminarLavadoCisterna",
         type: "POST",
         data: {
-            IdCisterna: itemEditar.IdCisterna,
-            EstadoRegistro: itemEditar.EstadoRegistro
+            IdLavadoCisterna: itemEditar[0],
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Falta Parametro IdDesinfeccionManos");
+                MensajeAdvertencia("Falta Parametro IdLavadoCisterna");
                 $("#modalEliminarControl").modal("hide");
                 CerrarModalCargando();
                 return;
             } else if (resultado == "1") {
                 $("#modalEliminarControl").modal("hide");
-                CargarCabecera();
-                MensajeCorrecto("Registro Actualizado con Éxito");
+                CargarCabecera(0);
+                MensajeCorrecto("Registro eliminado con Éxito");
                 setTimeout(function () {
                     CerrarModalCargando();
                 }, 500);
@@ -118,20 +112,22 @@ function EliminarCabeceraNo() {
     $("#modalEliminarControl").modal("hide");
 }
 
-function ActualizarCabecera(jdata) {
-    $("#txtNDescripcion").val(jdata.NDescripcion);
-    $("#txtUbicacion").val(jdata.Ubicacion);
-    $("#txtAsignacion").val(jdata.Asignacion);
-    $("#txtTipo").val(jdata.Tipo);
-    $("#txtCapacidad").val(jdata.Capacidad);
+function ActualizarCabecera(jdata, jIdIntermedia) {
+    $("#txtFechaCabecera").val(moment(jdata[1]).format("YYYY-DD-MM"));
+    $("#txtNCisterna").val(jdata[2]);
+    $("#txtQUtilizados").val(jdata[3]);
+    $("#txtObservacion").val(jdata[4]);
     $('#ModalIngresoCabecera').modal('show');
     itemEditar = jdata;
+    listaIdIntermedia = jIdIntermedia;
 }
 
 function ModalIngresoCabecera() {
     LimpiarCabecera();
     $('#ModalIngresoCabecera').modal('show');
+    $("#txtFechaCabecera").val(moment($("#txtFecha").val()).format("YYYY-MM-DD"));
     itemEditar = [];
+    listaIdIntermedia = [];
 }
 
 function LimpiarCabecera() {
@@ -190,9 +186,9 @@ function MultiSelectCisterna(jdata) {
         div.className = 'col-md-12 col-6 col-sm-6';
         div.innerHTML = `
                         <div class="form-group">                            
-                            <div class="custom-control custom-checkbox mb-3">
-                                 <input type="checkbox" text="`+ entry.IdCisterna+`" id="CheckNCisterna`+ entry.NDescripcion + `" class="custom-control-input" name="check" value="` + entry.NDescripcion+`" />
-                                <label class="custom-control-label" for="CheckNCisterna`+ entry.NDescripcion + `" id="lblNCisterna">CISTERNA: ` + entry.NDescripcion +`</label>
+                            <div class="custom-control custom-checkbox mb-3">                                  
+                                 <input type="checkbox" id="CheckNCisterna_`+ entry.NDescripcion + `" class="custom-control-input" name="check" value="` + entry.NDescripcion+`" />
+                                <label class="custom-control-label" for="CheckNCisterna_`+ entry.NDescripcion + `" id="lblNCisterna">CISTERNA: ` + entry.NDescripcion +`</label>
                             </div>
                         </div>
                         `;        
@@ -204,7 +200,7 @@ function MultiSelectCisterna(jdata) {
             if (objSplit!='') {
                 jdata.forEach(function (objLista) {
                     if (objSplit == objLista.NDescripcion) {
-                        var nomInput = '#CheckNCisterna' + objSplit;
+                        var nomInput = '#CheckNCisterna_' + objSplit;
                         $(nomInput).prop('checked', true);
                     }
                 });
@@ -217,10 +213,9 @@ function AgregarCisternas() {
     var cadena = "";
     $('#txtNCisterna').val('');
     inputSelect.forEach(function (entry) {
-        var nomInput = '#CheckNCisterna' + entry.NDescripcion;
+        var nomInput = '#CheckNCisterna_' + entry.NDescripcion;
         if ($(nomInput).prop('checked') == true) {
             cadena += $(nomInput).val() + ";";
-            listaIdMantCisterna += $(nomInput).text() + ";";
         }
     });
     $('#txtNCisterna').val(cadena);

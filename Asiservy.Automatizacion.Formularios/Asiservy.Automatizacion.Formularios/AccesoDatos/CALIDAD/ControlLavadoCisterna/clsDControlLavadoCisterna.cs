@@ -67,21 +67,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlLavadoC
             int valor = 0;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_INTERMEDIA_CTRL_MANT_CISTERNA.FirstOrDefault(x => x.IdIntermedia == guardarmodificar.IdIntermedia && x.EstadoRegistro == guardarmodificar.EstadoRegistro);
-                if (model != null)
-                {
-                    model.IdMantCisterna = guardarmodificar.IdMantCisterna;
-                    model.IdCtrlLavadoCisterna = guardarmodificar.IdCtrlLavadoCisterna;                    
-                    model.EstadoRegistro = guardarmodificar.EstadoRegistro;
-                    model.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
-                    model.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
-                    model.UsuarioModificacionLog = guardarmodificar.UsuarioIngresoLog;
-                    valor = 1;
-                }
-                else
-                {
-                    db.CC_INTERMEDIA_CTRL_MANT_CISTERNA.Add(guardarmodificar);
-                }
+                //SOLO CREO, NO ACTUALIZO, CUANDO EL USUARIO ACTULIZA EL REGISTRO PRINCIPAL EN LA TABLA INTERMEDIA CREO NUEVOS REGISTROS Y ELIMINO LOS ANTERIORES
+                //CORRESPONDIENTES AL REGISTRO PRINCIPAL
+                db.CC_INTERMEDIA_CTRL_MANT_CISTERNA.Add(guardarmodificar);
+                
                 db.SaveChanges();
                 return valor;
             }
