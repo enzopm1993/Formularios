@@ -11,7 +11,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.OPCION_ROL" Width="1.5" PointX="8" PointY="9" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ROL" Width="1.5" PointX="5.75" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.SOLICITUD_PERMISO" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ASIS_PRODModel.USUARIO_ROL" Width="1.5" PointX="8" PointY="13" IsExpanded="true" />
         <AssociationConnector Association="ASIS_PRODModel.FK__JUSTICA_S__IdSol__6A30C649" ManuallyRouted="false" />
         <AssociationConnector Association="ASIS_PRODModel.FK__OPCION_RO__IdOpc__4F7CD00D" ManuallyRouted="false" />
@@ -123,50 +122,50 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_CABECERA_CONTROL_ESTERILIZACION_CONSERVAS" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_CONTROL_ESTERILIZACION_CONSERVA_COCHE_AUTOCLAVE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MODULO" Width="1.5" PointX="3.375" PointY="17.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.MANTENIMIENTO_CONDICION" Width="1.5" PointX="5.375" PointY="17.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION" Width="1.5" PointX="30.375" PointY="1.125" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" Width="1.5" PointX="32.625" PointY="1" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION" Width="1.5" PointX="30.375" PointY="16.25" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CUCHILLO" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" Width="1.5" PointX="0.75" PointY="30.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.TIPO_ESTERILIZACION_CONSERVA" Width="1.5" PointX="35.875" PointY="29.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_TIPO_ESTERILIZACION_CONSERVA_DETALLE_CONTROL_ESTERILIZACION_CONSERVA" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="31.375" PointY="6.125" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="35.875" PointY="6.5" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_OLOR" Width="1.5" PointX="3.375" PointY="31.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" Width="1.5" PointX="31.375" PointY="11.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_SABOR" Width="1.5" PointX="32.375" PointY="15.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEXTURA" Width="1.5" PointX="32.375" PointY="19.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS" Width="1.5" PointX="33.375" PointY="24.125" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" Width="1.5" PointX="35.625" PointY="24" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_COLOR" Width="1.5" PointX="33.375" PointY="11.75" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL" Width="1.5" PointX="5.375" PointY="36.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Width="1.5" PointX="10.375" PointY="35.25" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE" Width="1.5" PointX="12.625" PointY="35" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="33.625" PointY="6.75" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PlantillasMemorandum" Width="1.5" PointX="20.375" PointY="34.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" Width="1.5" PointX="7.625" PointY="44.125" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_DETECTOR_METAL" Width="1.5" PointX="7.625" PointY="37.375" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CISTERNA" Width="1.5" PointX="22.375" PointY="34.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="34.375" PointY="16.875" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Width="1.5" PointX="36.625" PointY="16.125" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION" Width="1.5" PointX="0.75" PointY="23.625" />
         <EntityTypeShape EntityType="ASIS_PRODModel.PROYECCION_PROGRAMACION_DETALLE" Width="1.5" PointX="3" PointY="21.875" />
         <AssociationConnector Association="ASIS_PRODModel.FK_PROYECCION_PROGRAMACION_DETALLE_PROYECCION_PROGRAMACION" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_HUESO" Width="1.5" PointX="21.375" PointY="44" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_INTERMEDIA_CTRL_MANT_CISTERNA" Width="1.5" PointX="39.625" PointY="18.125" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_LAVADO_CISTERNA" Width="1.5" PointX="35.375" PointY="1" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="30.75" PointY="1.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION" Width="1.5" PointX="33.75" PointY="35.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" Width="1.5" PointX="36" PointY="22" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS" Width="1.5" PointX="8.75" PointY="35.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" Width="1.5" PointX="11" PointY="35" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION" Width="1.5" PointX="33.75" PointY="22.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="35.75" PointY="36.875" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Width="1.5" PointX="38" PointY="36.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_INTERMEDIA_CTRL_MANT_CISTERNA" Width="1.5" PointX="33" PointY="17" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_LAVADO_CISTERNA" Width="1.5" PointX="30.75" PointY="17" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CISTERNA" Width="1.5" PointX="30.75" PointY="57.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_COLOR" Width="1.5" PointX="13.75" PointY="34.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_OLOR" Width="1.5" PointX="22.75" PointY="34.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" Width="1.5" PointX="24.75" PointY="34.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_SABOR" Width="1.5" PointX="0.75" PointY="35.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEXTURA" Width="1.5" PointX="35.75" PointY="16.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_DETECTOR_METAL" Width="1.5" PointX="34" PointY="7.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL" Width="1.5" PointX="31.75" PointY="8.875" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" Width="1.5" PointX="34" PointY="11.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Width="1.5" PointX="3.75" PointY="35.25" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE" Width="1.5" PointX="6" PointY="35" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.DETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="33" PointY="1.625" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.MANTENIMIENTO_CONDICION" Width="1.5" PointX="36.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="35.25" PointY="1.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CUCHILLO" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_MANTENIMIENTO_CISTERNA" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" Width="1.5" PointX="5.375" PointY="17.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
