@@ -443,15 +443,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteControlEnfundadoPorHora>("spReporteControlEnfundadoPorHora", fechaParameter);
         }
     
-        public virtual ObjectResult<spConsultarAuditoriaSangreDiaria> spConsultarAuditoriaSangreDiaria(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarAuditoriaSangreDiaria>("spConsultarAuditoriaSangreDiaria", fechaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaAsignaMaterialesLinea> spConsultaAsignaMaterialesLinea(string linea)
         {
             var lineaParameter = linea != null ?
@@ -945,23 +936,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("RRHH", typeof(bool));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spEnvioCorreo", identificacionParameter, asuntoParameter, mensajeParameter, rRHHParameter);
-        }
-    
-        public virtual ObjectResult<spReporteAuditoriaSangre> spReporteAuditoriaSangre(string codLinea, Nullable<System.DateTime> fECHA, string tipo)
-        {
-            var codLineaParameter = codLinea != null ?
-                new ObjectParameter("CodLinea", codLinea) :
-                new ObjectParameter("CodLinea", typeof(string));
-    
-            var fECHAParameter = fECHA.HasValue ?
-                new ObjectParameter("FECHA", fECHA) :
-                new ObjectParameter("FECHA", typeof(System.DateTime));
-    
-            var tipoParameter = tipo != null ?
-                new ObjectParameter("Tipo", tipo) :
-                new ObjectParameter("Tipo", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAuditoriaSangre>("spReporteAuditoriaSangre", codLineaParameter, fECHAParameter, tipoParameter);
         }
     
         public virtual ObjectResult<spConsutaReporteEmpleadosTurnos> spConsutaReporteEmpleadosTurnos(string linea, string turno)
@@ -1929,6 +1903,40 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteAvanceDiario>("spConsultaReporteAvanceDiario", fechaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spReporteAuditoriaSangre> spReporteAuditoriaSangre(string codLinea, Nullable<System.DateTime> fECHA, string tipo, string turno)
+        {
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("CodLinea", codLinea) :
+                new ObjectParameter("CodLinea", typeof(string));
+    
+            var fECHAParameter = fECHA.HasValue ?
+                new ObjectParameter("FECHA", fECHA) :
+                new ObjectParameter("FECHA", typeof(System.DateTime));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteAuditoriaSangre>("spReporteAuditoriaSangre", codLineaParameter, fECHAParameter, tipoParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultarAuditoriaSangreDiaria> spConsultarAuditoriaSangreDiaria(Nullable<System.DateTime> fecha, string turno)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultarAuditoriaSangreDiaria>("spConsultarAuditoriaSangreDiaria", fechaParameter, turnoParameter);
         }
     }
 }
