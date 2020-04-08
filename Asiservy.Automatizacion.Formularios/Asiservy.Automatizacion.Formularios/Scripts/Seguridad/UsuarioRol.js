@@ -1,18 +1,14 @@
 ﻿$(document).ready(function () {
     CargarUsuarioRol();
     //NuevoUsuarioRol();
-    $('#IdUsuario2').select2();
-    
-    $('#IdRol2').select2();
-   
+    $('#IdUsuario2').select2();    
+    $('#IdRol2').select2();   
 });
 
 
-$('#NuevoUsuarioRol').click(function () {
-    
+$('#NuevoUsuarioRol').click(function () {  
   
     $('#IdUsuarioRol').val(0); 
-
     $('#IdUsuario').val('');
     $('#IdRol').val('');
     
