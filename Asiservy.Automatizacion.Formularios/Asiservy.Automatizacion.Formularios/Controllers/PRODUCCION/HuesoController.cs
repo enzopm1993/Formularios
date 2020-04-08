@@ -848,7 +848,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
   
-        public ActionResult ReporteControlAvanceDiarioGeneralPartial(DateTime ddFecha)
+        public ActionResult ReporteControlAvanceDiarioGeneralPartial(DateTime ddFecha, string Turno)
         {
             try
             {
@@ -858,9 +858,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                // lsUsuario = User.Identity.Name.Split('_');
+                // lsUsuario = User.Identity.Name.Split('_');s
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaControlAvanceDiario(ddFecha.Date);
+                var model = clsDControlHueso.ConsultaControlAvanceDiario(ddFecha.Date,Turno);
                 if (!model.Any())
                     return Json("1", JsonRequestBehavior.AllowGet);
                 return PartialView(model);
@@ -886,7 +886,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        public ActionResult ConsultaControlAvanceDiarioGeneral(DateTime ddFecha)
+        public ActionResult ConsultaControlAvanceDiarioGeneral(DateTime ddFecha,string Turno)
         {
             try
             {
@@ -898,7 +898,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 // lsUsuario = User.Identity.Name.Split('_');
                 clsDControlHueso = new clsDControlHueso();
-                var model = clsDControlHueso.ConsultaControlAvanceDiario(ddFecha.Date);
+                var model = clsDControlHueso.ConsultaControlAvanceDiario(ddFecha.Date,Turno);
                 return Json(model,JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

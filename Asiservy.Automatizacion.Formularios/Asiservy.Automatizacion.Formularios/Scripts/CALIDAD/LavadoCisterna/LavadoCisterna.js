@@ -46,7 +46,7 @@ function GuardarCabecera() {
             Fecha: $("#txtFechaCabecera").val(),
             QuimUtilizados: $("#txtQUtilizados").val(),
             Observacion: $("#txtObservacion").val(),
-            idMantCisterna: $("#txtNCisterna").val(),
+            idMantCisterna: itemEditar[5],
             idIntermedia: listaIdIntermedia
         },
         success: function (resultado) {
@@ -119,7 +119,7 @@ function ActualizarCabecera(jdata, jIdIntermedia) {
     $("#txtObservacion").val(jdata[4]);
     $('#ModalIngresoCabecera').modal('show');
     itemEditar = jdata;
-    listaIdIntermedia = jIdIntermedia;
+    listaIdIntermedia = jIdIntermedia;//Lista de IDIntermedia a eliminar
 }
 
 function ModalIngresoCabecera() {
@@ -211,13 +211,16 @@ function MultiSelectCisterna(jdata) {
 
 function AgregarCisternas() {
     var cadena = "";
+    var cadenaIdIntermedia = "";
     $('#txtNCisterna').val('');
     inputSelect.forEach(function (entry) {
         var nomInput = '#CheckNCisterna_' + entry.NDescripcion;
         if ($(nomInput).prop('checked') == true) {
             cadena += $(nomInput).val() + ";";
+            cadenaIdIntermedia += entry.IdCisterna + ";";//Guardo una cadena de IdMantCistterna para guardar en la tabla intermedia
         }
     });
+    itemEditar[5] = cadenaIdIntermedia;
     $('#txtNCisterna').val(cadena);
     $('#ModalIngresoCisterna').modal('hide');
     $("#txtNCisterna").css('border', '');

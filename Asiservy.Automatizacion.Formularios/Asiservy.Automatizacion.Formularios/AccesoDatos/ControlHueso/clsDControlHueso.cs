@@ -198,12 +198,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                && x.Linea == Linea
                 && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).Select(x => x.OrdenFabricacion).Distinct();
 
+                //Consulta de servicio 
+                var detalleOrden = clsDApiOrdenFabricacion.ConsultaDatosLotePorRangoFecha(FechaDesde, FechaHasta ?? FechaDesde);
+
+                //recorrer las ordenes de fabricacion para actualizar los datos o agregar.
                 foreach (int x in ordendesFabricacion)
                 {
-                    var detalleOrden = clsDApiOrdenFabricacion.ConsultaLotesPorOrdenFabricacionLinea2(x, Linea);
-                    foreach (var detalle in detalleOrden)
-                    {
-
+                    //foreach (var detalle in detalleOrden)
+                    //{
+                    var detalle = detalleOrden.FirstOrDefault(y => int.Parse(y.OrdenFabricacion) == x);
                         var modelControlAvanceApi = entities.CONTROL_AVANCE_API.FirstOrDefault(y => y.OrdenFabricacion == x && y.Lote == detalle.Lote);
                         if (modelControlAvanceApi == null)
                         {
@@ -230,7 +233,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                             modelControlAvanceApi.Peso = int.Parse(double.Parse(detalle.Peso).ToString());
                             modelControlAvanceApi.Piezas = int.Parse(double.Parse(detalle.Piezas).ToString());                           
                         }
-                    }
+                    //}
                 }
                 if (ListadoControlAvanceApi.Any())
                 {
@@ -264,7 +267,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
         }
 
 
-        public List<spConsultaReporteAvanceDiario> ConsultaControlAvanceDiario (DateTime Fecha)
+        public List<spConsultaReporteAvanceDiario> ConsultaControlAvanceDiario (DateTime Fecha, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -275,7 +278,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                     GenerarAvanceOrdenesApi(Fecha,null, x.Codigo);
                 }
                 List<spConsultaReporteAvanceDiario> Listado = new List<spConsultaReporteAvanceDiario>();
-                Listado = entities.spConsultaReporteAvanceDiario(Fecha).ToList();
+                Listado = entities.spConsultaReporteAvanceDiario(Fecha, Turno).ToList();
                 return Listado;
             }
 

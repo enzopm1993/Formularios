@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public Nullable<System.TimeSpan> Hora { get; set; }
         public string Linea { get; set; }
-        public Nullable<decimal> Avance { get; set; }
+        public decimal Avance { get; set; }
         public Nullable<int> limpiadoras { get; set; }
     }
 }

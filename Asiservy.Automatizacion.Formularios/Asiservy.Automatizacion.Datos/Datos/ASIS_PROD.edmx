@@ -3024,6 +3024,7 @@
         </Function>
         <Function Name="spConsultaReporteAvanceDiario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
         </Function>
         <Function Name="spConsultaReporteControlCochePorLineas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
@@ -3981,9 +3982,6 @@
           <FunctionImport Name="spConsutaEmpleados" ReturnType="Collection(ASIS_PRODModel.spConsutaEmpleados)">
           <Parameter Name="cedula" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaReporteAvanceDiario" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteAvanceDiario)">
-          <Parameter Name="fecha" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <FunctionImport Name="spConsultaDetalleToalla" ReturnType="Collection(ASIS_PRODModel.spConsultaDetalleToalla)">
           <Parameter Name="IdCabToalla" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -4524,6 +4522,10 @@
           <FunctionImport Name="sp_obtener_asistenia_inicio_vs_actual" ReturnType="Collection(ASIS_PRODModel.sp_obtener_asistenia_inicio_vs_actual_Result)">
             <Parameter Name="fechaIni" Mode="In" Type="DateTime" />
             <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaReporteAvanceDiario" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteAvanceDiario)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -5908,12 +5910,6 @@
           <Property Type="String" Name="CODIGORECURSO" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="CorreoPersonal" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="CorreoEmpresa" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="spConsultaReporteAvanceDiario">
-          <Property Type="Time" Name="Hora" Nullable="true" />
-          <Property Type="String" Name="Linea" Nullable="true" MaxLength="20" />
-          <Property Type="Decimal" Name="Avance" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="Int32" Name="limpiadoras" Nullable="true" />
         </ComplexType>
         <ComplexType Name="spConsultaDetalleToalla">
           <Property Type="Int32" Name="IdDetalleControlToalla" Nullable="false" />
@@ -8815,6 +8811,12 @@
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Asistencia" Nullable="true" MaxLength="25" />
         </ComplexType>
+        <ComplexType Name="spConsultaReporteAvanceDiario">
+          <Property Type="Time" Name="Hora" Nullable="true" />
+          <Property Type="String" Name="Linea" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="Avance" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Int32" Name="limpiadoras" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10480,16 +10482,6 @@
                 <ScalarProperty Name="CODIGORECURSO" ColumnName="CODIGORECURSO" />
                 <ScalarProperty Name="CorreoPersonal" ColumnName="CorreoPersonal" />
                 <ScalarProperty Name="CorreoEmpresa" ColumnName="CorreoEmpresa" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaReporteAvanceDiario" FunctionName="ASIS_PRODModel.Store.spConsultaReporteAvanceDiario">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaReporteAvanceDiario">
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="Avance" ColumnName="Avance" />
-                <ScalarProperty Name="limpiadoras" ColumnName="limpiadoras" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -13253,6 +13245,16 @@
                 <ScalarProperty Name="Linea" ColumnName="Linea" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Asistencia" ColumnName="Asistencia" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaReporteAvanceDiario" FunctionName="ASIS_PRODModel.Store.spConsultaReporteAvanceDiario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaReporteAvanceDiario">
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Avance" ColumnName="Avance" />
+                <ScalarProperty Name="limpiadoras" ColumnName="limpiadoras" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
