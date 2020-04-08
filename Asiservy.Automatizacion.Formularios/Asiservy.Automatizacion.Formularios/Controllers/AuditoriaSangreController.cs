@@ -39,7 +39,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
                 ViewBag.TipoAuditoria = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAuditoria, "0");
                 ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion, "0");
-                ViewBag.AuditoriaSangre = clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria(DateTime.Now);
+                ViewBag.AuditoriaSangre = clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria(DateTime.Now,clsAtributos.TurnoUno);
                 
                 return View();
             }
@@ -63,12 +63,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult ReporteAuditoriaSangrePArtial(string CodLinea, DateTime Fecha, string Tipo)
+        public ActionResult ReporteAuditoriaSangrePArtial(string CodLinea, DateTime Fecha, string Tipo, string Turno)
         {
             try
             {
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();
-                var ReporteAuditoriaSangre = clsDAuditoriaSangre.ConsultarReporteAuditoriaSangre(CodLinea,Fecha, Tipo);
+                var ReporteAuditoriaSangre = clsDAuditoriaSangre.ConsultarReporteAuditoriaSangre(CodLinea,Fecha, Tipo,Turno);
                 if (!ReporteAuditoriaSangre.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);                
@@ -125,7 +125,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
        
-        public ActionResult ControlAuditoriaSangrePartial( DateTime Fecha)
+        public ActionResult ControlAuditoriaSangrePartial( DateTime Fecha, string Turno)
         {
             try
             {
@@ -135,7 +135,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDAuditoriaSangre = new clsDAuditoriaSangre();       
-                return PartialView(clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria(Fecha));  
+                return PartialView(clsDAuditoriaSangre.ConsultarAuditoriaSangreDiaria(Fecha,Turno));  
             }
 
             catch (DbEntityValidationException e)
@@ -160,7 +160,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
        
         [HttpPost]
-        public ActionResult ControlAuditoriaSangrePartial(int? IdAuditoria,string Cedula, string Porcentaje, DateTime Fecha,TimeSpan Hora, string estado,string TipoAuditoria,string Observacion, string Linea)
+        public ActionResult ControlAuditoriaSangrePartial(int? IdAuditoria,string Cedula, string Porcentaje, DateTime Fecha,TimeSpan Hora, string estado,string TipoAuditoria,string Observacion, string Linea,string Turno)
         {
             try
             {
@@ -196,7 +196,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                         IdControlAuditoriaSangre = IdAuditoriaS,
                         Linea= Linea,
                         TipoAuditoria= TipoAuditoria,
-                        Observacion= Observacion
+                        Observacion= Observacion,
+                        Turno=Turno
                     });
 
                    return Json("Registro Éxitoso", JsonRequestBehavior.AllowGet);
