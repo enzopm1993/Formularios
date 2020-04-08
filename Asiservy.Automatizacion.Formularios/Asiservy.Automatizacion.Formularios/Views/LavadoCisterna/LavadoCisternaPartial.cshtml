@@ -29,13 +29,14 @@
         @foreach (var item in listaFiltrada)
         {
             string idMantCisterna = ""; DateTime fecha = new DateTime(1900, 01, 01); string quimUtilizados = "";string observacion = "";
+            string NDescripcion = "";
             List<string> listaIdIntermedia=new List<string>();
         <tr>
             @foreach (var subItem in Model)
             {
                 if (item.IdLavadoCisterna == subItem.IdLavadoCisterna)
                 {
-                    idMantCisterna += subItem.IdMantCisterna + "; ";
+                    NDescripcion += subItem.NDescripcion+";";
                     fecha = subItem.Fecha;
                     quimUtilizados = subItem.QuimUtilizados;
                     observacion = subItem.Observacion;
@@ -48,7 +49,7 @@
             <td>
                 @fecha.ToString("dd-MM-yyyy")
             </td>
-            <td>@idMantCisterna</td>
+            <td>@NDescripcion</td>
             <td>
                 @quimUtilizados
             </td>
@@ -60,7 +61,7 @@
                     List<string> lis = new List<string>();
                     lis.Add(item.IdLavadoCisterna.ToString());
                     lis.Add(fecha.ToString("dd-MM-yyyy"));
-                    lis.Add(idMantCisterna);
+                    lis.Add(NDescripcion);
                     lis.Add(quimUtilizados);
                     lis.Add(observacion);
                     string json = JsonConvert.SerializeObject(lis);
