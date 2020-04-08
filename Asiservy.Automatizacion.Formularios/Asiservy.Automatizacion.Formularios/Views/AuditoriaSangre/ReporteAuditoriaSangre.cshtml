@@ -11,7 +11,7 @@
 <h4>Reporte Auditoria Sangre</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4 col-12">
+    <div class="col-md-3 col-12">
 
         <div class="form-group">
             <label>Fecha:</label>
@@ -20,7 +20,17 @@
 
 
     </div>
-    <div class="col-md-3 col-12">
+    <div class="col-md-2 col-sm-12">
+        <div class="form-group">
+            <label>Turno:</label>
+            <select name="cmbTurno" id="cmbTurno" class="form-control" >
+                <option value="1">Turno 1</option>
+                <option value="2">Turno 2</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="col-md-2 col-12">
         <div class="form-group">
             <label>Tipo</label>
             @Html.DropDownList("TipoAuditoria", new SelectList(ViewBag.TipoAuditoria, "Codigo", "Descripcion"), new { @class = "form-control" })
