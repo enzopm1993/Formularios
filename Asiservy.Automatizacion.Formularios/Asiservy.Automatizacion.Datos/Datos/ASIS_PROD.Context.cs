@@ -835,15 +835,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleados>("spConsutaEmpleados", cedulaParameter);
         }
     
-        public virtual ObjectResult<spConsultaReporteAvanceDiario> spConsultaReporteAvanceDiario(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteAvanceDiario>("spConsultaReporteAvanceDiario", fechaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaDetalleToalla> spConsultaDetalleToalla(Nullable<int> idCabToalla)
         {
             var idCabToallaParameter = idCabToalla.HasValue ?
@@ -1925,6 +1916,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("fechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_obtener_asistenia_inicio_vs_actual_Result>("sp_obtener_asistenia_inicio_vs_actual", fechaIniParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaReporteAvanceDiario> spConsultaReporteAvanceDiario(Nullable<System.DateTime> fecha, string turno)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteAvanceDiario>("spConsultaReporteAvanceDiario", fechaParameter, turnoParameter);
         }
     }
 }
