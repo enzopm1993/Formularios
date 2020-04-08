@@ -9,7 +9,11 @@ function CargarReporteAvance() {
     $("#selectLinea").prop("selectedIndex", 0);
     var txtFecha = $('#txtFecha').val();    
     if (txtFecha == "") {
-        MensajeAdvertencia("Igrese una Fecha");
+        MensajeAdvertencia("Igrese una Fecha.");
+        return;
+    }    
+    if ($("#selectTurno").val() == "") {
+        MensajeAdvertencia("Seleccione un turno.");
         return;
     }    
     $('#btnConsultar').prop("disabled", true);
@@ -24,13 +28,16 @@ function CargarReporteAvance() {
         url: "../Hueso/ReporteControlAvanceDiarioGeneralPartial",
         type: "GET",
         data: {
-            ddFecha: txtFecha
+            ddFecha: txtFecha,
+            Turno:$("#selectTurno").val()
            
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
+            $('#btnConsultar').prop("disabled", false);
+
             if (resultado == "1") {
 
                 MensajeAdvertencia("No existen registros para esa linea");
@@ -49,7 +56,7 @@ function CargarReporteAvance() {
 
 
             }
-            $('#btnConsultar').prop("disabled", true);
+            //$('#btnConsultar').prop("disabled", true);
 
         },
         error: function (resultado) {
@@ -171,7 +178,9 @@ function CargarAvanceKPI2() {
 
 function CargarReporteAvanceKPI() {
     var txtFecha = $('#txtFecha').val();
-    if (txtFecha == "") {
+    $("#kpi").prop("hidden", false);
+    $("#spinnerCargandokpi1").prop("hidden", false);
+    if (txtFecha == "" || $("#selectTurno").val() == '') {
         
         return;
     }
@@ -180,7 +189,9 @@ function CargarReporteAvanceKPI() {
         url: "../Hueso/ConsultaControlAvanceDiarioGeneral",
         type: "GET",
         data: {
-            ddFecha: txtFecha
+            ddFecha: txtFecha,
+            Turno: $("#selectTurno").val()
+
         },
         success: function (resultado) {
             ListadoGeneral = resultado;
@@ -321,14 +332,12 @@ function CargarReporteAvanceKPI() {
 
             var chart = new ApexCharts(document.querySelector("#chart"), options);
             chart.render();
-            $("#kpi").prop("hidden", false);
-          
+    $("#spinnerCargandokpi1").prop("hidden", true);
+
 
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-            $('#btnConsultar').prop("disabled", false);
-            $("#spinnerCargando").prop("hidden", true);
         }
     });
 

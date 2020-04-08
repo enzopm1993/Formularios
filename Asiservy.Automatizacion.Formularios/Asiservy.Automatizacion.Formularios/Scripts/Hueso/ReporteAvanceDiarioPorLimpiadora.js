@@ -6,7 +6,7 @@ function CargarReporteAvanceLimpiadora() {
     var selectLinea = $('#selectLinea').val();
     $('#btnConsultar').prop("disabled", true);
     $("#spinnerCargando").prop("hidden", false);
-    var bitacora = $('#DivTableReporteControlAvancesPorLimpiadora');
+    var bitacora = $('#DivTableReporteControlAvancePorLimpiadora');
     bitacora.html('');
     $.ajax({
         url: "../Hueso/ReporteAvanceDiarioPorLimpiadoraPartial",

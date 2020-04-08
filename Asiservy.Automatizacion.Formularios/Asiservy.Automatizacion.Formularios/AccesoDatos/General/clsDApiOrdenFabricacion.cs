@@ -82,6 +82,22 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.General
             return ListaUsuarios;
         }
 
+        public List<OrdenFabricacionAvance> ConsultaDatosLotePorRangoFecha(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            var client = new RestClient("http://192.168.0.31:8870");
+            // client.Authenticator = new HttpBasicAuthenticator(username, password);
+
+            var request = new RestRequest("/api/Produccion/LotesOrdenesPorFechas/" + FechaDesde.ToString("yyyy-MM-dd") + "/" + FechaHasta.ToString("yyyy-MM-dd"), Method.GET);
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
+            }
+            var content = response.Content;
+            var ListaUsuarios = JsonConvert.DeserializeObject<List<OrdenFabricacionAvance>>(content);
+            return ListaUsuarios;
+        }
+
 
         public object ConsultaOrdenFabricacionPorFechaProduccion(DateTime FechaProduccion)
         {
