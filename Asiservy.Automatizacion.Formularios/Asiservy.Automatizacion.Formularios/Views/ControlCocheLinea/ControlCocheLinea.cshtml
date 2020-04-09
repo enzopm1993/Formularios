@@ -21,14 +21,14 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="col-md-2 col-4">
+        <div class="col-md-2 col-2">
             <div class="form-group">
                 <label>Id</label>
                 <input type="text" name="name" id="txtIdControlCoche" value="0" class="form-control" readonly />
             </div>
         </div>
 
-        <div class="col-md-3 col-8">
+        <div class="col-md-3 col-5">
             <div class="form-group">
                 @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label" })
                 @{var FechaActual = DateTime.Now.ToString("yyyy-MM-dd"); }
@@ -37,8 +37,21 @@
 
             </div>
         </div>
+        <div class="col-md-2 col-sm-5">
+            <div class="form-group">
+                <label>Turno:</label>
+                <select name="cmbTurno" id="cmbTurno" class="form-control" onchange="CargarControlCoche()">
+                    <option value="1">Turno 1</option>
+                    <option value="2">Turno 2</option>
+                </select>
 
-        <div class="col-md-2 col-6">
+            </div>
+        </div>
+
+        
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label" })
                 <input type="time" id="txtHoraInicio" name="name" value="" class="form-control" />
@@ -47,7 +60,7 @@
             </div>
         </div>
 
-        <div class="col-md-2 col-6">
+        <div class="col-md-4 col-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.HoraFin, htmlAttributes: new { @class = "control-label" })
                 <input type="time" id="txtHoraFin" name="name" value="" class="form-control" />
@@ -65,7 +78,7 @@
             </div>
         </div>
 
-        <div class="col-md-2 col-6">
+        <div class="col-md-3 col-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.Linea, htmlAttributes: new { @class = "control-label col-md-2" })
                 @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control", @id = "selectLineas" })
@@ -73,7 +86,6 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-4 col-12">
             <div class="form-group">
