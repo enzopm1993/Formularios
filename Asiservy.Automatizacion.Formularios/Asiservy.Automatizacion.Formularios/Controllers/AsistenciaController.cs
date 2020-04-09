@@ -734,7 +734,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //Control de Cuchillos
                 clsDCuchillo = new clsDCuchillo();
                 List<ControlCuchilloViewModel> modelCuchillo = new List<ControlCuchilloViewModel>();
-                modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada, Fecha, false);
+                modelCuchillo = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(CodLinea, clsAtributos.Entrada, Fecha, false,Turno);
                 AsistenciaViewModel.ControlDeCuchillos = modelCuchillo;
 
                 //**

@@ -14,7 +14,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.spConsultaReporteControlCochePorLineas(fecha).ToList();
+                return entities.spConsultaReporteControlCochePorLineas(fecha,"").ToList();
             }
         }
 
