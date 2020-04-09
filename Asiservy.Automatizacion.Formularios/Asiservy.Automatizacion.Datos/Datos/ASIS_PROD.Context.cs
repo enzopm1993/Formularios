@@ -48,7 +48,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<EMPLEADO_ESFERO> EMPLEADO_ESFERO { get; set; }
         public virtual DbSet<CONTROL_ESFERO> CONTROL_ESFERO { get; set; }
         public virtual DbSet<CONTROL_AUDITORIASANGRE> CONTROL_AUDITORIASANGRE { get; set; }
-        public virtual DbSet<CONTROL_COCHE_LINEA> CONTROL_COCHE_LINEA { get; set; }
         public virtual DbSet<CONTROL_ENFUNDADO> CONTROL_ENFUNDADO { get; set; }
         public virtual DbSet<CONTROL_ENFUNDADO_DETALLE> CONTROL_ENFUNDADO_DETALLE { get; set; }
         public virtual DbSet<PARAMETRO> PARAMETRO { get; set; }
@@ -141,6 +140,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CONDICION_PERSONAL> CC_CONDICION_PERSONAL { get; set; }
         public virtual DbSet<MAPEO_PRODUCTO_TUNEL> MAPEO_PRODUCTO_TUNEL { get; set; }
         public virtual DbSet<CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE> CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE { get; set; }
+        public virtual DbSet<CONTROL_COCHE_LINEA> CONTROL_COCHE_LINEA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -286,15 +286,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IdControlHueso", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHuesoDetalle>("spConsultaControlHuesoDetalle", idControlHuesoParameter);
-        }
-    
-        public virtual ObjectResult<spConsultaReporteControlCochePorLineas> spConsultaReporteControlCochePorLineas(Nullable<System.DateTime> fecha)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteControlCochePorLineas>("spConsultaReporteControlCochePorLineas", fechaParameter);
         }
     
         public virtual ObjectResult<spConsultaControlEnfundado> spConsultaControlEnfundado(Nullable<System.DateTime> fecha)
@@ -707,27 +698,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Linea", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCuchillosEmpleadoPrestadoPorFechaLinea>("spConsultaCuchillosEmpleadoPrestadoPorFechaLinea", fechaParameter, lineaParameter);
-        }
-    
-        public virtual ObjectResult<spConsutaEmpleadosCuchillos> spConsutaEmpleadosCuchillos(string linea, string estado, Nullable<System.DateTime> fecha, Nullable<bool> control)
-        {
-            var lineaParameter = linea != null ?
-                new ObjectParameter("linea", linea) :
-                new ObjectParameter("linea", typeof(string));
-    
-            var estadoParameter = estado != null ?
-                new ObjectParameter("estado", estado) :
-                new ObjectParameter("estado", typeof(string));
-    
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            var controlParameter = control.HasValue ?
-                new ObjectParameter("control", control) :
-                new ObjectParameter("control", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosCuchillos>("spConsutaEmpleadosCuchillos", lineaParameter, estadoParameter, fechaParameter, controlParameter);
         }
     
         public virtual ObjectResult<spConsultaReporteControlCuchillo> spConsultaReporteControlCuchillo(Nullable<System.DateTime> fecha, string linea)
@@ -1949,6 +1919,44 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteMapeoProductoTunelDetalle>("spReporteMapeoProductoTunelDetalle", fechaDesdeParameter, fechaHastaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spConsutaEmpleadosCuchillos> spConsutaEmpleadosCuchillos(string linea, string estado, Nullable<System.DateTime> fecha, Nullable<bool> control, string turno)
+        {
+            var lineaParameter = linea != null ?
+                new ObjectParameter("linea", linea) :
+                new ObjectParameter("linea", typeof(string));
+    
+            var estadoParameter = estado != null ?
+                new ObjectParameter("estado", estado) :
+                new ObjectParameter("estado", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var controlParameter = control.HasValue ?
+                new ObjectParameter("control", control) :
+                new ObjectParameter("control", typeof(bool));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosCuchillos>("spConsutaEmpleadosCuchillos", lineaParameter, estadoParameter, fechaParameter, controlParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaReporteControlCochePorLineas> spConsultaReporteControlCochePorLineas(Nullable<System.DateTime> fecha, string turno)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteControlCochePorLineas>("spConsultaReporteControlCochePorLineas", fechaParameter, turnoParameter);
         }
     }
 }

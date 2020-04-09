@@ -15,6 +15,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int id { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
+        public string Turno { get; set; }
         public Nullable<System.TimeSpan> HoraInicio { get; set; }
         public Nullable<System.TimeSpan> HoraFin { get; set; }
         public string Linea1 { get; set; }
