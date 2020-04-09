@@ -15,6 +15,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdMapeoProductoTunelDetalle { get; set; }
         public int IdMapeoProductoTunel { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string PesoProducto { get; set; }
+        public int OrdenFabricacion { get; set; }
+        public string Lote { get; set; }
+        public string TipoLimpieza { get; set; }
+        public string Talla { get; set; }
+        public string Barco { get; set; }
+        public string Observacion { get; set; }
         public int Tunel { get; set; }
         public int Coche { get; set; }
         public string Producto { get; set; }

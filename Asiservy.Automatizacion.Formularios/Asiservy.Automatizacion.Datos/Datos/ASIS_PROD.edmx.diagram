@@ -106,8 +106,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CONSUMO_TIEMPO_MUERTO_CONTROL_CONSUMO_INSUMO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_CONSUMO_INSUMO_DETALLE_CONTROL_CONSUMO_INSUMO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE" Width="1.5" PointX="29.375" PointY="51.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" Width="1.5" PointX="29.375" PointY="46.125" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.COCHE_AUTOCLAVE_DETALLE" Width="1.5" PointX="31.625" PointY="52.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_COCHE_AUTOCLAVE_DETALLE_COCHE_AUTOCLAVE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.RESIDUAL_CLORO" Width="1.5" PointX="7.375" PointY="30" />
@@ -132,7 +130,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_HUESO_DETALLE_CONTROL_HUESO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CABECERA_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="30.75" PointY="1.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION" Width="1.5" PointX="33.75" PointY="35.125" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" Width="1.5" PointX="36" PointY="22" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS" Width="1.5" PointX="8.75" PointY="35.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" Width="1.5" PointX="11" PointY="35" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION" Width="1.5" PointX="33.75" PointY="22.25" />
@@ -155,8 +152,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.MANTENIMIENTO_CONDICION" Width="1.5" PointX="36.75" PointY="6.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="35.25" PointY="1.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CUCHILLO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" />
@@ -166,6 +161,11 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
         <AssociationConnector Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" Width="1.5" PointX="5.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" Width="1.5" PointX="29.375" PointY="46" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" Width="1.5" PointX="39" PointY="28.375" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CUCHILLO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

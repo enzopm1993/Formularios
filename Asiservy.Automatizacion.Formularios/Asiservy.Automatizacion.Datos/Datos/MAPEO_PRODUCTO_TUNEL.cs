@@ -37,6 +37,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public Nullable<int> Fin { get; set; }
+        public string Turno { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MAPEO_PRODUCTO_TUNEL_DETALLE> MAPEO_PRODUCTO_TUNEL_DETALLE { get; set; }
