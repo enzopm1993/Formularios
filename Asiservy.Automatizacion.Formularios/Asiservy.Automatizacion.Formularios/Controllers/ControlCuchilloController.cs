@@ -165,7 +165,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
         [Authorize]
         // GET: Asistencia/ControlCuchillo
-        public ActionResult ControlCuchilloPartial(string dsEstado, DateTime ddFecha)
+        public ActionResult ControlCuchilloPartial(string dsEstado, DateTime ddFecha, string Turno)
         {
             try
             {
@@ -177,7 +177,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 List<ControlCuchilloViewModel> model = new List<ControlCuchilloViewModel>();
                 if (Empleado != null && !string.IsNullOrEmpty(dsEstado))
                 {
-                    model = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(Empleado.CODIGOLINEA, dsEstado, ddFecha, true);
+                    model = clsDCuchillo.ConsultarEmpleadosCuchilloPorLinea(Empleado.CODIGOLINEA, dsEstado, ddFecha, true, Turno);
                     ViewBag.ListadoCuchillosPrestado = clsDCuchillo.ConsultaControlCuchilloPrestado(ddFecha);
 
 

@@ -10,11 +10,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea
     public class clsDControlCocheLinea
     {
         clsDGeneral clsDGeneral = null;
-        public List<spConsultaReporteControlCochePorLineas> ConsultaReporteControlCochePorLinea(DateTime fecha)
+        public List<spConsultaReporteControlCochePorLineas> ConsultaReporteControlCochePorLinea(DateTime fecha,string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.spConsultaReporteControlCochePorLineas(fecha).ToList();
+                return entities.spConsultaReporteControlCochePorLineas(fecha,Turno).ToList();
             }
         }
 
@@ -32,7 +32,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea
                         poControl = poControl.Where(x => x.IdControlCocheLinea == filtros.IdControlCocheLinea);
                     }
 
-                    poControl = poControl.Where(x=> x.Fecha ==  filtros.Fecha);
+                    poControl = poControl.Where(x=> x.Fecha ==  filtros.Fecha&&x.Turno==filtros.Turno);
                 }
 
                 ListadoControl = poControl.ToList();
@@ -68,7 +68,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlCocheLinea
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 var ControlCoche = entities.CONTROL_COCHE_LINEA.FirstOrDefault(x=> (x.IdControlCocheLinea == model.IdControlCocheLinea)
-                || (x.Fecha==model.Fecha && x.HoraInicio == model.HoraInicio && x.HoraFin == model.HoraFin && x.Linea == model.Linea));
+                || (x.Fecha==model.Fecha&&x.Turno==model.Turno && x.HoraInicio == model.HoraInicio && x.HoraFin == model.HoraFin && x.Linea == model.Linea));
 
                 if(ControlCoche != null)
                 {

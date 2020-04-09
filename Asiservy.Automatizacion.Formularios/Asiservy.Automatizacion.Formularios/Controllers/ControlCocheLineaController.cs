@@ -98,7 +98,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
 
        
-        public ActionResult ControlCocheLineaPartial(DateTime Fecha)
+        public ActionResult ControlCocheLineaPartial(DateTime Fecha, string Turno)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //    return Json(respuestaGeneral,JsonRequestBehavior.AllowGet);
                 //}
 
-                var model = clsDControlCocheLinea.ConsultarControlCocheLinea(new Models.ControlCocheLinea.ControlCocheLineaViewModel { Fecha = Fecha });
+                var model = clsDControlCocheLinea.ConsultarControlCocheLinea(new Models.ControlCocheLinea.ControlCocheLineaViewModel { Fecha = Fecha,Turno=Turno });
                 return PartialView(model);
             }
             catch (Exception ex)
@@ -173,12 +173,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         }
 
       
-        public ActionResult ReporteControlCocheLineaPartial(DateTime Fecha)
+        public ActionResult ReporteControlCocheLineaPartial(DateTime Fecha, string Turno)
         {
             try
             {
                 clsDControlCocheLinea = new clsDControlCocheLinea();
-                var model = clsDControlCocheLinea.ConsultaReporteControlCochePorLinea(Fecha);
+                var model = clsDControlCocheLinea.ConsultaReporteControlCochePorLinea(Fecha,Turno);
                 return PartialView(model);
             }
             catch (Exception ex)

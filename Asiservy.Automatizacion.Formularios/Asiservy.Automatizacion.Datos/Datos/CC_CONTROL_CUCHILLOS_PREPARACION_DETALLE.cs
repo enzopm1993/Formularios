@@ -17,6 +17,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdControlCuchilloDetalle { get; set; }
         public int IdControlCuchillo { get; set; }
         public int IdCuchilloPreparacion { get; set; }
+        public string CedulaEmpleado { get; set; }
+        public bool EstadoReporte { get; set; }
         public bool Estado { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }

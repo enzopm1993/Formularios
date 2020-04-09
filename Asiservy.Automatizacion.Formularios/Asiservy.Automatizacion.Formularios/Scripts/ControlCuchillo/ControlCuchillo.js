@@ -12,8 +12,8 @@ function SelectEstado(valor) {
 function CargarControlCuchillo(estado) {
     if (estado < 1)
         return;
-
-    if ($("#txtFecha").val() == '' || $("#txtFecha").val() == null) {
+    
+    if ($("#txtFecha").val() == '' || $("#selectTurno").val() == '' || $("#txtFecha").val() == null) {
 
         MensajeAdvertencia("Ingrese una Fecha");
         return;
@@ -25,7 +25,8 @@ function CargarControlCuchillo(estado) {
         type: "GET",
         data: {
             dsEstado: estado,
-            ddFecha: $("#txtFecha").val()
+            ddFecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
