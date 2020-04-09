@@ -3341,7 +3341,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PRODUCCION\HuesoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\MapeoProductoTunelController.cs" />
+    <Compile Include="Controllers\PRODUCCION\MapeoProductoTunelController.cs" />
     <Compile Include="Controllers\MarcacionesController.cs" />
     <Compile Include="Controllers\MemorandumController.cs" />
     <Compile Include="Controllers\MensajeController.cs" />

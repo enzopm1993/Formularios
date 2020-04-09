@@ -19,6 +19,16 @@
             <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarMapeoProductoTunel()" id="txtFecha" class="form-control" />
         </div>
     </div>
+    <div class="col-md-3 col-6 col-sm-6">
+        <div class="form-group">
+
+            <label>Turno</label>
+            <select class="form-control" id="selectTurno" onchange="CargarMapeoProductoTunel()">
+                <option value="1">Turno A</option>
+                <option value="2">Turno B</option>
+            </select>
+        </div>
+    </div>
     <div class="col-md-3 col-6">
         <div class="form-group">
             <label>Orden Fabricación</label>
@@ -44,7 +54,7 @@
             @Html.DropDownList("SelectTipoLimpieza", new SelectList(ViewBag.TipoLimpieza, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
         </div>
     </div>
-    <div class="col-md-12 col-6">
+    <div class="col-md-9 col-6">
         <div class="form-group">
             <label>Observacion</label>
             <input type="text" size="250" class="form-control" id="txtObservacion" name="name" value="" />

@@ -1,13 +1,12 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaMapeoProductoTunel>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteMapeoProductoTunelDetalle>
 @using Asiservy.Automatizacion.Datos.Datos;
-
-@{
-    List<spReporteMapeoProductoTunelDetalle> Detalle = ViewBag.Detalle;
-}
-
+    
 <table class=" table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
+            <th>
+                Fecha
+            </th>
             <th>
                 Tunel
             </th>
@@ -60,12 +59,11 @@
     <tbody>
         @foreach (var item in Model)
         {
-            var poDetalle = Detalle.Where(x => x.IdMapeoProductoTunel == item.IdMapeoProductoTunel);
-            foreach (var itemDetalle in poDetalle)
-            {
+           
         <tr>
-            <td>@itemDetalle.Tunel</td>
-            <td>@itemDetalle.Coche</td>
+            <td>@item.Fecha.ToString("yyyy-MM-dd")</td>
+            <td>@item.Tunel</td>
+            <td>@item.Coche</td>
             <td>
                 @Html.DisplayFor(modelItem => item.OrdenFabricacion)
             </td>
@@ -78,20 +76,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Barco)
             </td>
-            <td>@itemDetalle.Producto</td>
-            <td>@itemDetalle.Especie</td>
-            <td>@itemDetalle.Textura</td>
-            <td>@itemDetalle.Fundas</td>
+            <td>@item.Producto</td>
+            <td>@item.Especie</td>
+            <td>@item.Textura</td>
+            <td>@item.Fundas</td>
 
             <td>
                 @Html.DisplayFor(modelItem => item.TipoLimpieza)
             </td>
-            <td>@itemDetalle.HoraInicio.ToString("HH:mm")</td>
-            <td>@itemDetalle.HoraFin.ToString("HH:mm")</td>
+            <td>@item.HoraInicio.ToString("HH:mm")</td>
+            <td>@item.HoraFin.ToString("HH:mm")</td>
             <td>
-                @if (itemDetalle.HoraFinLote != null)
+                @if (item.HoraFinLote != null)
                 {
-                    @itemDetalle.HoraFinLote.Value.ToString("HH:mm")
+                    @item.HoraFinLote.Value.ToString("HH:mm")
                 }
             </td>
 
@@ -99,6 +97,7 @@
                 @Html.DisplayFor(modelItem => item.Observacion)
             </td>
         </tr>
-            }
-        }</tbody>
+            
+        }
+    </tbody>
 </table>

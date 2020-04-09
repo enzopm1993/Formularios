@@ -65,7 +65,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public ActionResult MapeoProductoTunelPartial(DateTime Fecha)
+        public ActionResult MapeoProductoTunelPartial(DateTime Fecha, string Turno)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDMapeoProductoTunel = new clsDMapeoProductoTunel();
                 clsDEmpleado = new clsDEmpleado();
                 var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsDMapeoProductoTunel.ConsultaMapeoProductoTunel(Fecha);
+                var model = clsDMapeoProductoTunel.ConsultaMapeoProductoTunel(Fecha, Turno);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -337,6 +337,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
+                ViewBag.DateRangePicker = "1";
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -359,7 +360,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public ActionResult ReporteMapeoProductoTunelPartial(DateTime Fecha)
+        public ActionResult ReporteMapeoProductoTunelPartial(DateTime FechaDesde,DateTime FechaHasta, string Turno)
         {
             try
             {
@@ -369,8 +370,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMapeoProductoTunel = new clsDMapeoProductoTunel();
-                ViewBag.Detalle = clsDMapeoProductoTunel.ConsultaReporteMapeoProductoTunel(Fecha);
-                var model = clsDMapeoProductoTunel.ConsultaMapeoProductoTunel(Fecha);
+                //ViewBag.Detalle = clsDMapeoProductoTunel.ConsultaReporteMapeoProductoTunel(Fecha);
+                var model = clsDMapeoProductoTunel.ConsultaReporteMapeoProductoTunel(FechaDesde,FechaHasta,Turno);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
