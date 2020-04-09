@@ -13,12 +13,27 @@
             <th>ACCIONES</th>
         </tr>
     </thead>
-   
+    @{ //Se realiza este filtro para evadir el error del DISPOSE 
+        var listaMantCisterna = (from x in Model
+                 select new {
+                     x.Asignacion,
+                     x.Capacidad,
+                     x.EstadoRegistro,
+                     x.FechaIngresoLog,
+                     x.FechaModificacionLog,
+                     x.IdCisterna,
+                     x.NDescripcion,
+                     x.TerminalIngresoLog,
+                     x.TerminalModificacionLog,
+                     x.Tipo,
+                     x.Ubicacion,
+                     x.UsuarioIngresoLog,
+                     x.UsuarioModificacionLog
+                 });
+    }
     <tbody style="font-size:14px">
-        @foreach (var item in Model)
+        @foreach (var item in listaMantCisterna)
         {
-
-            //string fecha = item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm");
             <tr>
                 <td>@item.NDescripcion.ToUpper()</td>
                 <td>@item.Ubicacion.ToUpper()</td>
@@ -26,17 +41,19 @@
                 <td>@item.Tipo.ToUpper()</td>
                 <td>@item.Capacidad.ToUpper()</td>
                 <td>
-                    @if(item.EstadoRegistro=="A"){
-                    <span class="badge badge-success">ACTIVO</span>
+                    @if (item.EstadoRegistro == "A")
+                    {
+                        <span class="badge badge-success">ACTIVO</span>
                     }
                     else
                     {
                         <span class="badge badge-danger">INACTIVO</span>
                     }
                 </td>
+               
                 <td>
                     @{
-                        string json = JsonConvert.SerializeObject(item);
+                        var json = JsonConvert.SerializeObject(item);
                     }
                     <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
                     @if (item.EstadoRegistro == "A")

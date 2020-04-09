@@ -8,13 +8,13 @@
 });
 
 
-function ListarCuchillocPreparacion(opcion) {
+function ListarCuchillocPreparacion(opcion) {    
     $('#CheckEstadoRegistroOp').prop('checked', false);
     $('#LabelEstado').text('Estado Registro');
     $("#txtDescripcion").val('');
-    $("#ModalCheckBox").hide();
     var op = opcion;
-    if (op!=1) {
+    if (op != 1) {
+        $('#cargac').show();
         var table = $("#tblDataTableCargar");
         table.DataTable().destroy();
         table.DataTable().clear();
@@ -27,7 +27,7 @@ function ListarCuchillocPreparacion(opcion) {
             CodigoCuchillo: $("#txtCodigoCuchillo").val().toUpperCase(),
             opcion: op
         },
-        success: function (resultado) {
+        success: function (resultado) {            
             if (resultado == "101") {
                 window.location.reload();
             }
@@ -45,20 +45,19 @@ function ListarCuchillocPreparacion(opcion) {
                                 $('#CheckEstadoRegistroOp').prop('checked', false);
                                 $('#LabelEstado').text('Inactivo');//.addClass('badge badge-danger');
                             } 
-                        }                    
+                        }                       
                     return;
                 } else {
                     $("#tblDataTableCargar tbody").empty();
                     $('#MensajeRegistros').prop("hidden", true);
                     config.opcionesDT.order = [];
                     config.opcionesDT.columns = [
-                        { data: 'IdCuchilloPreparacion' },
                         { data: 'CodigoCuchillo' },
                         { data: 'DescripcionCuchillo' },
                         { data: 'EstadoRegistro' }
                     ];
                     config.opcionesDT.aoColumnDefs = [{
-                        "aTargets": [3], // Columna a la que se quiere aplicar el css
+                        "aTargets": [2], // Columna a la que se quiere aplicar el css
                         "mRender": function (data, type, full) {
                             var inactivo = 'Inactivo';
                             var clscolor = "badge-danger";
@@ -76,8 +75,13 @@ function ListarCuchillocPreparacion(opcion) {
                     table.DataTable().draw();
                 }
             }
+            setTimeout(function(){
+                $('#cargac').hide();
+            }, 300);
+            
         },
         error: function (resultado) {
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });
@@ -86,7 +90,7 @@ function ListarCuchillocPreparacion(opcion) {
 function GuardarModificarCuchilloPreparacion() {
     var estadoRegistro = 'I';
     if ($("#txtCodigoCuchillo").val().toUpperCase()=='') {
-        MensajeError("¡El código del cuchillo no puede estar vacío!", false);
+        MensajeAdvertencia("¡El código del cuchillo no puede estar vacío!");
         return;
     }
     if ($("#CheckEstadoRegistroOp").prop('checked')) {
@@ -101,10 +105,10 @@ function GuardarModificarCuchilloPreparacion() {
             EstadoRegistro: estadoRegistro
         },
         success: function (resultado) {
+            $("#ModalIngresoRegistro").modal('hide');
             listaDatos = resultado;
-            limpiar();
+            LimpiarCabecera();
             ListarCuchillocPreparacion(0);
-
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -112,10 +116,11 @@ function GuardarModificarCuchilloPreparacion() {
     });
 }
 
-function limpiar() {
+function LimpiarCabecera() {
     $("#txtCodigoCuchillo").val('');
     $("#txtDescripcion").val('');
-    $("#txtCodigoCuchillo").val('');
+    $('#CheckEstadoRegistroOp').prop('checked', false);
+    $('#LabelEstado').text('Estado Registro');
 }
 
 function CambioEstado(valor) {
@@ -123,10 +128,10 @@ function CambioEstado(valor) {
         $('#LabelEstado').text('Activo');
     else
         $('#LabelEstado').text('Inactivo');
-
 }
 
 function SelecionarFila(data) {
+    ModalNuevoRegistro();
     $("#txtDescripcion").val(data.DescripcionCuchillo);
     $("#txtCodigoCuchillo").val(data.CodigoCuchillo);
     $("#ModalCheckBox").show();
@@ -137,4 +142,9 @@ function SelecionarFila(data) {
         $('#CheckEstadoRegistroOp').prop('checked', false);
         $('#LabelEstado').text('Inactivo');//.addClass('badge badge-danger');
     } 
+}
+
+function ModalNuevoRegistro() {
+    $("#ModalIngresoRegistro").modal('show');
+    LimpiarCabecera();    
 }

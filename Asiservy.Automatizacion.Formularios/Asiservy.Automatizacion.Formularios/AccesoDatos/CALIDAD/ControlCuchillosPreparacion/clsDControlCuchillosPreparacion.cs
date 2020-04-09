@@ -57,7 +57,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
                 var model = db.CC_CONTROL_CUCHILLOS_PREPARACION.FirstOrDefault(x => x.IdControlCuchillo == GuardarModigicar.IdControlCuchillo && x.EstadoRegistro == GuardarModigicar.EstadoRegistro);
                 if (model != null)
                 {
-                    model.Observacion = GuardarModigicar.Observacion;                    
+                    model.Observacion = GuardarModigicar.Observacion;
+                    model.Hora = GuardarModigicar.Hora;
                     model.EstadoRegistro = GuardarModigicar.EstadoRegistro;
                     model.FechaModificacionLog = GuardarModigicar.FechaIngresoLog;
                     model.TerminalModificacionLog = GuardarModigicar.TerminalIngresoLog;
@@ -112,6 +113,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
                     model.Estado = GuardarModigicar.Estado;
                     model.EstadoRegistro = GuardarModigicar.EstadoRegistro;
                     model.IdCuchilloPreparacion = GuardarModigicar.IdCuchilloPreparacion;
+                    model.CedulaEmpleado = GuardarModigicar.CedulaEmpleado;
                     model.FechaModificacionLog = GuardarModigicar.FechaIngresoLog;
                     model.TerminalModificacionLog = GuardarModigicar.TerminalIngresoLog;
                     model.UsuarioModificacionLog = GuardarModigicar.UsuarioIngresoLog;
