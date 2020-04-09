@@ -2,20 +2,32 @@
 @{
     ViewBag.Title = "ReporteControlCocheLinea";
 }
-
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 <h4>Reporte Control de Coche Por Linea</h4>
 
 <div>
 
     <div class="row">
-        <div class="col-md-3 col-12">
-
+        <div class="col-md-3 col-sm-12">
+            <label>Fecha:</label>
             <input type="date" name="name" id="txtFecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
             <span class="field-validation-valid text-danger" hidden id="txtValidaFecha"> Ingrese la Fecha </span>
 
         </div>
-
-        <div class="col-md-4 col-12 text-md-left text-center">
+        <div class="col-md-3 col-sm-12">
+            <label>Turno</label>
+            <select name="cmbTurno" id="cmbTurno" class="form-control" >
+                <option value="1">Turno 1</option>
+                <option value="2">Turno 2</option>
+            </select>
+        </div>
+        
+        <div class="col-md-4 col-sm-12 text-md-left text-center">
+            <br />
             <button data-toggle="tooltip" data-placement="top" title="Mostrar" class="btn" id="btnGuardar" onclick="CargarControlCoche()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/ver24.png" />
             </button>

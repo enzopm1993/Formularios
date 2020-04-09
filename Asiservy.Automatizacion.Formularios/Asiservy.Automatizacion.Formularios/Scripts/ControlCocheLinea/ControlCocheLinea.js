@@ -26,7 +26,8 @@ function CargarControlCoche() {
         url: "../ControlCocheLinea/ControlCocheLineaPartial",
         type: "GET",
         data: {
-            Fecha: $("#txtFecha").val()
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#cmbTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -160,6 +161,7 @@ function GuardarControl() {
             Linea: $("#selectLineas").val(),
             Talla: $("#selectTalla").val(),
             Observacion: $("#txtObservacion").val(),
+            Turno: $("#cmbTurno").val()
         },
         success: function (resultado) {           
             CargarControlCoche();            
