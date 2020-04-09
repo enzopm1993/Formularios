@@ -129,7 +129,7 @@ function CargarLotes(valor) {
 
 function CargarMapeoProductoTunel() { 
     $("#chartCabecera2").html('');
-    if ($("#txtFecha").val() == '') {
+    if ($("#txtFecha").val() == '' || $("#selectTurno").val()=='') {
         return;
     }
     $("#spinnerCargando").prop("hidden", false);
@@ -139,7 +139,8 @@ function CargarMapeoProductoTunel() {
         url: "../MapeoProductoTunel/MapeoProductoTunelPartial",
         type: "GET",
         data: {
-            Fecha: $("#txtFecha").val()      
+            Fecha: $("#txtFecha").val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -171,7 +172,7 @@ function NuevoControl() {
     $("#txtObservacion").val('');    
     $("#SelectLote").empty();
     $("#SelectLote").append("<option value='0' >-- Seleccionar Opción--</option>");
-    $("#SelectTipoLimpieza").prop("SelectedIndex", 0);
+    $("#SelectTipoLimpieza").prop("selectedIndex", 0);
     $("#txtIdControl").val("0");
    
 }
@@ -202,6 +203,12 @@ function Validar() {
     } else {
         $("#SelectTipoLimpieza").css('borderColor', '#ced4da');
     }
+    if ($("#selectTurno").val() == "") {
+        $("#selectTurno").css('borderColor', '#FA8072');
+        valida = false;
+    } else {
+        $("#selectTurno").css('borderColor', '#ced4da');
+    }
     return valida;
 }
 
@@ -218,7 +225,8 @@ function GenerarControl() {
             OrdenFabricacion: $("#txtOrdenFabricacion").val(),
             Lote: $("#SelectLote").val(),
             TipoLimpieza: $("#SelectTipoLimpieza").val(),
-            Observacion: $("#txtObservacion").val()
+            Observacion: $("#txtObservacion").val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -332,6 +340,7 @@ function SeleccionarControl(model) {
 
     $("#txtFecha").prop("disabled", true);
     $("#txtOrdenFabricacion").prop("disabled", true);
+    $("#selectTurno").prop("disabled", true);
     $("#btnOrden").prop("disabled", true);   
     $("#SelectLote").prop("disabled", true);   
     $("#SelectTipoLimpieza").prop("disabled", true);   
@@ -366,6 +375,7 @@ function AtrasControlPrincipal() {
 
     $("#txtFecha").prop("disabled", false);
     $("#txtOrdenFabricacion").prop("disabled", false);
+    $("#selectTurno").prop("disabled", false);
     $("#btnOrden").prop("disabled", false);
     $("#SelectLote").prop("disabled", false);
     $("#SelectTipoLimpieza").prop("disabled", false);

@@ -11,11 +11,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.MapeoProductoTunel
     public class clsDMapeoProductoTunel
     {
         clsDApiProduccion clsDApiProduccion = null;
-        public List<spConsultaMapeoProductoTunel> ConsultaMapeoProductoTunel(DateTime Fecha)
+        public List<spConsultaMapeoProductoTunel> ConsultaMapeoProductoTunel(DateTime Fecha,string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.spConsultaMapeoProductoTunel(Fecha).ToList();
+                var lista = entities.spConsultaMapeoProductoTunel(Fecha, Turno).ToList();
                 return lista;
             }
         }
@@ -125,12 +125,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.MapeoProductoTunel
             }
         }
 
-        public List<spReporteMapeoProductoTunelDetalle> ConsultaReporteMapeoProductoTunel(DateTime Fecha)
+        public List<spReporteMapeoProductoTunelDetalle> ConsultaReporteMapeoProductoTunel(DateTime FechaDesde, DateTime FechaHasta, string Turno)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 clsDApiProduccion = new clsDApiProduccion();
-                var lista = entities.spReporteMapeoProductoTunelDetalle(Fecha).ToList();
+                var lista = entities.spReporteMapeoProductoTunelDetalle(FechaDesde,FechaHasta, Turno).ToList();
                 var texturas = clsDApiProduccion.ConsultarObservaciones();
                 foreach(var x in lista)
                 {
