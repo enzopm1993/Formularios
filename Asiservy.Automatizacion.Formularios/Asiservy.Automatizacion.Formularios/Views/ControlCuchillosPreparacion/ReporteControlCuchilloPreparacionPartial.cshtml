@@ -33,7 +33,7 @@
                 num++;
                 <tr>
                     <td>@num</td>
-                    <td>@item.Fecha</td>
+                    <td>@item.Fecha.Replace("/","-")</td>
                     <td>@item.Hora</td>
                     @foreach (var lh in listaCodigoCuchillo)
                     {

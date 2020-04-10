@@ -57,10 +57,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMantenimientoCisterna = new clsDMantenimientoCisterna();
-                var poCloroCisterna = clsDMantenimientoCisterna.ConsultarMantenimientoCisterna().ToList();
-                if (poCloroCisterna != null)
+                var lista = clsDMantenimientoCisterna.ConsultarMantenimientoCisterna();
+                if (lista != null)
                 {
-                    return PartialView(poCloroCisterna);
+                    return PartialView(lista);
                 }
                 else
                 {
