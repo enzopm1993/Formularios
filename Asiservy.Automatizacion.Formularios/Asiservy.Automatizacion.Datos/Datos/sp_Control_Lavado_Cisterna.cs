@@ -14,13 +14,17 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class sp_Control_Lavado_Cisterna
     {
         public int IdLavadoCisterna { get; set; }
-        public int IdMantCisterna { get; set; }
         public int IdIntermedia { get; set; }
+        public string EstadoRegistroIntermedia { get; set; }
+        public int IdMantCisterna { get; set; }
+        public string NDescripcion { get; set; }
+        public string EstadoRegistroMant { get; set; }
         public System.DateTime Fecha { get; set; }
         public string QuimUtilizados { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
-        public System.DateTime FechaIngresoLog { get; set; }
-        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
+        public string UsuarioIngresoLog { get; set; }
+        public string fechaCreacion { get; set; }
+        public string fechaModificacion { get; set; }
     }
 }
