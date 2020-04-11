@@ -251,6 +251,7 @@
           <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="Hora" Type="datetime" Nullable="false" />
           <Property Name="Observacion" Type="varchar" MaxLength="200" />
+          <Property Name="EstadoReporte" Type="bit" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -267,7 +268,6 @@
           <Property Name="IdControlCuchillo" Type="int" Nullable="false" />
           <Property Name="IdCuchilloPreparacion" Type="int" Nullable="false" />
           <Property Name="CedulaEmpleado" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="EstadoReporte" Type="bit" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
@@ -974,6 +974,7 @@
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="Tipo" Type="char" MaxLength="1" />
           <Property Name="Observacion" Type="varchar" MaxLength="250" />
+          <Property Name="Turno" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="CONTROL_ENFUNDADO">
           <Key>
@@ -2693,7 +2694,8 @@
           <Parameter Name="opcion" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_Control_Cuchillos_Preparacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="fecha" Type="datetime" Mode="In" />
+          <Parameter Name="fechaDesde" Type="datetime" Mode="In" />
+          <Parameter Name="fechaHasta" Type="datetime" Mode="In" />
           <Parameter Name="IdControlCuchillo" Type="int" Mode="In" />
           <Parameter Name="opcion" Type="int" Mode="In" />
         </Function>
@@ -3041,6 +3043,7 @@
         <Function Name="spConsultaReporteControlCuchillo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="datetime" Mode="In" />
           <Parameter Name="linea" Type="varchar" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
         </Function>
         <Function Name="spConsultaResidualCloro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fecha" Type="date" Mode="In" />
@@ -3749,7 +3752,6 @@
           </AssociationSet>
           <EntitySet Name="BITACORA_CAMBIO_PERSONAL" EntityType="ASIS_PRODModel.BITACORA_CAMBIO_PERSONAL" />
           <EntitySet Name="CUCHILLO" EntityType="ASIS_PRODModel.CUCHILLO" />
-          <EntitySet Name="CONTROL_CUCHILLO" EntityType="ASIS_PRODModel.CONTROL_CUCHILLO" />
           <EntitySet Name="EMPLEADO_CUCHILLO" EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO" />
           <FunctionImport Name="sp_ConsultaEmpleadosMovidos" ReturnType="Collection(ASIS_PRODModel.sp_ConsultaEmpleadosMovidos)">
           <Parameter Name="Cedula" Mode="In" Type="String" />
@@ -3941,10 +3943,6 @@
           <FunctionImport Name="spConsultaCuchillosEmpleadoPrestadoPorFechaLinea" ReturnType="Collection(ASIS_PRODModel.spConsultaCuchillosEmpleadoPrestadoPorFechaLinea)">
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Linea" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spConsultaReporteControlCuchillo" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteControlCuchillo)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="linea" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spConsultaMovimientoPersonalDiario" ReturnType="Collection(ASIS_PRODModel.spConsultaMovimientoPersonalDiario)">
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
@@ -4436,7 +4434,8 @@
             <Parameter Name="opcion" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_Control_Cuchillos_Preparacion" ReturnType="Collection(ASIS_PRODModel.sp_Control_Cuchillos_Preparacion)">
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
+            <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
             <Parameter Name="IdControlCuchillo" Mode="In" Type="Int32" />
             <Parameter Name="opcion" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -4527,15 +4526,6 @@
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="CC_CONTROL_CUCHILLOS_PREPARACION" EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION" />
-          <EntitySet Name="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
-          <AssociationSet Name="FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE">
-            <End Role="CC_CONTROL_CUCHILLOS_PREPARACION" EntitySet="CC_CONTROL_CUCHILLOS_PREPARACION" />
-            <End Role="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" EntitySet="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CUCHILLO" Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CUCHILLO">
-            <End Role="CC_CUCHILLOS_PREPARACION" EntitySet="CC_CUCHILLOS_PREPARACION" />
-            <End Role="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" EntitySet="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
-          </AssociationSet>
           <FunctionImport Name="sp_Control_Cuchillos_Preparacion_Detalle" ReturnType="Collection(ASIS_PRODModel.sp_Control_Cuchillos_Preparacion_Detalle)">
             <Parameter Name="idCuchilloPreparacion" Mode="In" Type="Int32" />
             <Parameter Name="idControlCuchilloDetalle" Mode="In" Type="Int32" />
@@ -4546,6 +4536,21 @@
             <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
             <Parameter Name="op" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="CONTROL_CUCHILLO" EntityType="ASIS_PRODModel.CONTROL_CUCHILLO" />
+          <EntitySet Name="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
+          <AssociationSet Name="FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE">
+            <End Role="CC_CONTROL_CUCHILLOS_PREPARACION" EntitySet="CC_CONTROL_CUCHILLOS_PREPARACION" />
+            <End Role="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" EntitySet="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CUCHILLO" Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CUCHILLO">
+            <End Role="CC_CUCHILLOS_PREPARACION" EntitySet="CC_CUCHILLOS_PREPARACION" />
+            <End Role="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" EntitySet="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
+          </AssociationSet>
+          <FunctionImport Name="spConsultaReporteControlCuchillo" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteControlCuchillo)">
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="linea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -4700,27 +4705,6 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="CONTROL_CUCHILLO">
-          <Key>
-            <PropertyRef Name="IdControlCuchillo" />
-          </Key>
-          <Property Name="IdControlCuchillo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CuchilloBlanco" Type="Int32" />
-          <Property Name="CuchilloRojo" Type="Int32" />
-          <Property Name="CuchilloNegro" Type="Int32" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EstadoCuchillo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EMPLEADO_CUCHILLO">
           <Key>
@@ -5602,39 +5586,6 @@
           <Property Type="Int32" Name="CuchilloRojo" Nullable="true" />
           <Property Type="Int32" Name="CuchilloNegro" Nullable="true" />
           <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-        </ComplexType>
-        <ComplexType Name="spConsultaReporteControlCuchillo">
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="ECBlanco" Nullable="true" />
-          <Property Type="String" Name="EVBlanco" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="ECRojo" Nullable="true" />
-          <Property Type="String" Name="EVRojo" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="ECNegro" Nullable="true" />
-          <Property Type="String" Name="EVNegro" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="ACBlanco" Nullable="true" />
-          <Property Type="String" Name="AVBlanco" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="ACRojo" Nullable="true" />
-          <Property Type="String" Name="AVRojo" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="ACNegro" Nullable="true" />
-          <Property Type="String" Name="AVNegro" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="RCBlanco" Nullable="true" />
-          <Property Type="String" Name="RVBlanco" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="RCRojo" Nullable="true" />
-          <Property Type="String" Name="RVRojo" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="RCNegro" Nullable="true" />
-          <Property Type="String" Name="RVNegro" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="SCBlanco" Nullable="true" />
-          <Property Type="String" Name="SVBlanco" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="SCRojo" Nullable="true" />
-          <Property Type="String" Name="SVRojo" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="SCNegro" Nullable="true" />
-          <Property Type="String" Name="SVNegro" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="ObservacionEntrada" Nullable="true" MaxLength="8000" />
-          <Property Type="String" Name="ObservacionAlmuerzo" Nullable="true" MaxLength="8000" />
-          <Property Type="String" Name="ObservacionRegreso" Nullable="true" MaxLength="8000" />
-          <Property Type="String" Name="ObservacionSalida" Nullable="true" MaxLength="8000" />
         </ComplexType>
         <ComplexType Name="spConsultaMovimientoPersonalDiario">
           <Property Type="Int32" Name="IdCambioPersonal" Nullable="false" />
@@ -8781,7 +8732,61 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" Relationship="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" FromRole="CC_CONTROL_CUCHILLOS_PREPARACION" ToRole="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
+        </EntityType>
+        <ComplexType Name="sp_Control_Cuchillos_Preparacion_Detalle">
+          <Property Type="Int32" Name="IdControlCuchilloDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdControlCuchillo" Nullable="false" />
+          <Property Type="Int32" Name="IdCuchilloPreparacion" Nullable="false" />
+          <Property Type="String" Name="CedulaEmpleado" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
+          <Property Type="Boolean" Name="Estado" Nullable="false" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodigoCuchillo" Nullable="false" MaxLength="5" />
+        </ComplexType>
+        <ComplexType Name="sp_Control_Lavado_Cisterna">
+          <Property Type="Int32" Name="IdLavadoCisterna" Nullable="false" />
+          <Property Type="Int32" Name="IdIntermedia" Nullable="false" />
+          <Property Type="String" Name="EstadoRegistroIntermedia" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="IdMantCisterna" Nullable="false" />
+          <Property Type="String" Name="NDescripcion" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="EstadoRegistroMant" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+          <Property Type="String" Name="QuimUtilizados" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="fechaCreacion" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="fechaModificacion" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <EntityType Name="CONTROL_CUCHILLO">
+          <Key>
+            <PropertyRef Name="IdControlCuchillo" />
+          </Key>
+          <Property Name="IdControlCuchillo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CuchilloBlanco" Type="Int32" />
+          <Property Name="CuchilloRojo" Type="Int32" />
+          <Property Name="CuchilloNegro" Type="Int32" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EstadoCuchillo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Turno" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
         <EntityType Name="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE">
           <Key>
@@ -8791,7 +8796,6 @@
           <Property Name="IdControlCuchillo" Type="Int32" Nullable="false" />
           <Property Name="IdCuchilloPreparacion" Type="Int32" Nullable="false" />
           <Property Name="CedulaEmpleado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
@@ -8827,36 +8831,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="sp_Control_Cuchillos_Preparacion_Detalle">
-          <Property Type="Int32" Name="IdControlCuchilloDetalle" Nullable="false" />
-          <Property Type="Int32" Name="IdControlCuchillo" Nullable="false" />
-          <Property Type="Int32" Name="IdCuchilloPreparacion" Nullable="false" />
-          <Property Type="String" Name="CedulaEmpleado" Nullable="false" MaxLength="10" />
-          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
-          <Property Type="Boolean" Name="Estado" Nullable="false" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CodigoCuchillo" Nullable="false" MaxLength="5" />
-        </ComplexType>
-        <ComplexType Name="sp_Control_Lavado_Cisterna">
-          <Property Type="Int32" Name="IdLavadoCisterna" Nullable="false" />
-          <Property Type="Int32" Name="IdIntermedia" Nullable="false" />
-          <Property Type="String" Name="EstadoRegistroIntermedia" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="IdMantCisterna" Nullable="false" />
-          <Property Type="String" Name="NDescripcion" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="EstadoRegistroMant" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
-          <Property Type="String" Name="QuimUtilizados" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="fechaCreacion" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="fechaModificacion" Nullable="true" MaxLength="30" />
+        <ComplexType Name="spConsultaReporteControlCuchillo">
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ECBlanco" Nullable="true" />
+          <Property Type="String" Name="EVBlanco" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ECRojo" Nullable="true" />
+          <Property Type="String" Name="EVRojo" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ECNegro" Nullable="true" />
+          <Property Type="String" Name="EVNegro" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ACBlanco" Nullable="true" />
+          <Property Type="String" Name="AVBlanco" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ACRojo" Nullable="true" />
+          <Property Type="String" Name="AVRojo" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ACNegro" Nullable="true" />
+          <Property Type="String" Name="AVNegro" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="RCBlanco" Nullable="true" />
+          <Property Type="String" Name="RVBlanco" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="RCRojo" Nullable="true" />
+          <Property Type="String" Name="RVRojo" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="RCNegro" Nullable="true" />
+          <Property Type="String" Name="RVNegro" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="SCBlanco" Nullable="true" />
+          <Property Type="String" Name="SVBlanco" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="SCRojo" Nullable="true" />
+          <Property Type="String" Name="SVRojo" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="SCNegro" Nullable="true" />
+          <Property Type="String" Name="SVNegro" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ObservacionEntrada" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="ObservacionAlmuerzo" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="ObservacionRegreso" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="ObservacionSalida" Nullable="true" MaxLength="8000" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9151,28 +9157,6 @@
                 <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
                 <ScalarProperty Name="ColorCuchillo" ColumnName="ColorCuchillo" />
                 <ScalarProperty Name="NumeroCuchillo" ColumnName="NumeroCuchillo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CONTROL_CUCHILLO">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_CUCHILLO">
-              <MappingFragment StoreEntitySet="CONTROL_CUCHILLO">
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="EstadoCuchillo" ColumnName="EstadoCuchillo" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="CuchilloNegro" ColumnName="CuchilloNegro" />
-                <ScalarProperty Name="CuchilloRojo" ColumnName="CuchilloRojo" />
-                <ScalarProperty Name="CuchilloBlanco" ColumnName="CuchilloBlanco" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="IdControlCuchillo" ColumnName="IdControlCuchillo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -10161,43 +10145,6 @@
                 <ScalarProperty Name="CuchilloRojo" ColumnName="CuchilloRojo" />
                 <ScalarProperty Name="CuchilloNegro" ColumnName="CuchilloNegro" />
                 <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaReporteControlCuchillo" FunctionName="ASIS_PRODModel.Store.spConsultaReporteControlCuchillo">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaReporteControlCuchillo">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
-                <ScalarProperty Name="ECBlanco" ColumnName="ECBlanco" />
-                <ScalarProperty Name="EVBlanco" ColumnName="EVBlanco" />
-                <ScalarProperty Name="ECRojo" ColumnName="ECRojo" />
-                <ScalarProperty Name="EVRojo" ColumnName="EVRojo" />
-                <ScalarProperty Name="ECNegro" ColumnName="ECNegro" />
-                <ScalarProperty Name="EVNegro" ColumnName="EVNegro" />
-                <ScalarProperty Name="ACBlanco" ColumnName="ACBlanco" />
-                <ScalarProperty Name="AVBlanco" ColumnName="AVBlanco" />
-                <ScalarProperty Name="ACRojo" ColumnName="ACRojo" />
-                <ScalarProperty Name="AVRojo" ColumnName="AVRojo" />
-                <ScalarProperty Name="ACNegro" ColumnName="ACNegro" />
-                <ScalarProperty Name="AVNegro" ColumnName="AVNegro" />
-                <ScalarProperty Name="RCBlanco" ColumnName="RCBlanco" />
-                <ScalarProperty Name="RVBlanco" ColumnName="RVBlanco" />
-                <ScalarProperty Name="RCRojo" ColumnName="RCRojo" />
-                <ScalarProperty Name="RVRojo" ColumnName="RVRojo" />
-                <ScalarProperty Name="RCNegro" ColumnName="RCNegro" />
-                <ScalarProperty Name="RVNegro" ColumnName="RVNegro" />
-                <ScalarProperty Name="SCBlanco" ColumnName="SCBlanco" />
-                <ScalarProperty Name="SVBlanco" ColumnName="SVBlanco" />
-                <ScalarProperty Name="SCRojo" ColumnName="SCRojo" />
-                <ScalarProperty Name="SVRojo" ColumnName="SVRojo" />
-                <ScalarProperty Name="SCNegro" ColumnName="SCNegro" />
-                <ScalarProperty Name="SVNegro" ColumnName="SVNegro" />
-                <ScalarProperty Name="ObservacionEntrada" ColumnName="ObservacionEntrada" />
-                <ScalarProperty Name="ObservacionAlmuerzo" ColumnName="ObservacionAlmuerzo" />
-                <ScalarProperty Name="ObservacionRegreso" ColumnName="ObservacionRegreso" />
-                <ScalarProperty Name="ObservacionSalida" ColumnName="ObservacionSalida" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -13248,6 +13195,7 @@
           <EntitySetMapping Name="CC_CONTROL_CUCHILLOS_PREPARACION">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION">
               <MappingFragment StoreEntitySet="CC_CONTROL_CUCHILLOS_PREPARACION">
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
@@ -13259,25 +13207,6 @@
                 <ScalarProperty Name="Hora" ColumnName="Hora" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="IdControlCuchillo" ColumnName="IdControlCuchillo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE">
-              <MappingFragment StoreEntitySet="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
-                <ScalarProperty Name="CedulaEmpleado" ColumnName="CedulaEmpleado" />
-                <ScalarProperty Name="IdCuchilloPreparacion" ColumnName="IdCuchilloPreparacion" />
-                <ScalarProperty Name="IdControlCuchillo" ColumnName="IdControlCuchillo" />
-                <ScalarProperty Name="IdControlCuchilloDetalle" ColumnName="IdControlCuchilloDetalle" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -13317,6 +13246,84 @@
                 <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="fechaModificacion" ColumnName="fechaModificacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CONTROL_CUCHILLO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_CUCHILLO">
+              <MappingFragment StoreEntitySet="CONTROL_CUCHILLO">
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="EstadoCuchillo" ColumnName="EstadoCuchillo" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="CuchilloNegro" ColumnName="CuchilloNegro" />
+                <ScalarProperty Name="CuchilloRojo" ColumnName="CuchilloRojo" />
+                <ScalarProperty Name="CuchilloBlanco" ColumnName="CuchilloBlanco" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdControlCuchillo" ColumnName="IdControlCuchillo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE">
+              <MappingFragment StoreEntitySet="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CedulaEmpleado" ColumnName="CedulaEmpleado" />
+                <ScalarProperty Name="IdCuchilloPreparacion" ColumnName="IdCuchilloPreparacion" />
+                <ScalarProperty Name="IdControlCuchillo" ColumnName="IdControlCuchillo" />
+                <ScalarProperty Name="IdControlCuchilloDetalle" ColumnName="IdControlCuchilloDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaReporteControlCuchillo" FunctionName="ASIS_PRODModel.Store.spConsultaReporteControlCuchillo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaReporteControlCuchillo">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="ECBlanco" ColumnName="ECBlanco" />
+                <ScalarProperty Name="EVBlanco" ColumnName="EVBlanco" />
+                <ScalarProperty Name="ECRojo" ColumnName="ECRojo" />
+                <ScalarProperty Name="EVRojo" ColumnName="EVRojo" />
+                <ScalarProperty Name="ECNegro" ColumnName="ECNegro" />
+                <ScalarProperty Name="EVNegro" ColumnName="EVNegro" />
+                <ScalarProperty Name="ACBlanco" ColumnName="ACBlanco" />
+                <ScalarProperty Name="AVBlanco" ColumnName="AVBlanco" />
+                <ScalarProperty Name="ACRojo" ColumnName="ACRojo" />
+                <ScalarProperty Name="AVRojo" ColumnName="AVRojo" />
+                <ScalarProperty Name="ACNegro" ColumnName="ACNegro" />
+                <ScalarProperty Name="AVNegro" ColumnName="AVNegro" />
+                <ScalarProperty Name="RCBlanco" ColumnName="RCBlanco" />
+                <ScalarProperty Name="RVBlanco" ColumnName="RVBlanco" />
+                <ScalarProperty Name="RCRojo" ColumnName="RCRojo" />
+                <ScalarProperty Name="RVRojo" ColumnName="RVRojo" />
+                <ScalarProperty Name="RCNegro" ColumnName="RCNegro" />
+                <ScalarProperty Name="RVNegro" ColumnName="RVNegro" />
+                <ScalarProperty Name="SCBlanco" ColumnName="SCBlanco" />
+                <ScalarProperty Name="SVBlanco" ColumnName="SVBlanco" />
+                <ScalarProperty Name="SCRojo" ColumnName="SCRojo" />
+                <ScalarProperty Name="SVRojo" ColumnName="SVRojo" />
+                <ScalarProperty Name="SCNegro" ColumnName="SCNegro" />
+                <ScalarProperty Name="SVNegro" ColumnName="SVNegro" />
+                <ScalarProperty Name="ObservacionEntrada" ColumnName="ObservacionEntrada" />
+                <ScalarProperty Name="ObservacionAlmuerzo" ColumnName="ObservacionAlmuerzo" />
+                <ScalarProperty Name="ObservacionRegreso" ColumnName="ObservacionRegreso" />
+                <ScalarProperty Name="ObservacionSalida" ColumnName="ObservacionSalida" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
