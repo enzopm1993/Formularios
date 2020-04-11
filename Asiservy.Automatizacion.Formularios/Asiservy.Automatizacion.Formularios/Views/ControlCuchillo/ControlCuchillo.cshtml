@@ -9,7 +9,7 @@
 <hr />
 <div class="">
     <div class="row">
-        <div class="col-md-4 col-12">
+        <div class="col-md-3 col-12">
             <div class="form-group">
                 <label>Fecha</label>
                 <input type="date" class="form-control" id="txtFecha" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="SelectEstado('')" />
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="col-md-4 col-12">
+        <div class="col-md-3 col-12">
             <div class="form-group">
                 <label>Estado</label>
                 @Html.DropDownList("EstadoControlCuchillo", new SelectList(ViewBag.EstadosControlCuchillo, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @onchange = "SelectEstado(this.value)", @id = "EstadoControlCuchillo" })

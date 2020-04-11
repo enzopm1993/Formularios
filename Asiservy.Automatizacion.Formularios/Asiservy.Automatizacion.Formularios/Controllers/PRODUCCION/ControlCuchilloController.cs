@@ -57,11 +57,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
         [Authorize]
-        public ActionResult GuardarControlCuchillo(string dsCedula, string dsColor, string dsNumero, string dsEstado, bool dbCheck, DateTime ddFecha, string Observacion, bool dbTipo = false)
+        public ActionResult GuardarControlCuchillo(string dsCedula, string dsColor, string dsNumero, string dsEstado, bool dbCheck, DateTime ddFecha, string Observacion, string Turno, bool dbTipo = false)
         {
             try
             {
-                if (string.IsNullOrEmpty(dsCedula) || string.IsNullOrEmpty(dsColor) || string.IsNullOrEmpty(dsNumero) || string.IsNullOrEmpty(dsEstado))
+                if (string.IsNullOrEmpty(dsCedula) || string.IsNullOrEmpty(dsColor) || string.IsNullOrEmpty(dsNumero) || string.IsNullOrEmpty(dsEstado) || string.IsNullOrEmpty(Turno))
                 {
                     ClasificadorGenerico ClaRespuesta = new ClasificadorGenerico { codigo = 1, descripcion = "Ningun Parametro debe estar vacio" };
 
@@ -75,6 +75,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 poControlCuchillo.CuchilloRojo = dsColor == "R" ? int.Parse(dsNumero) : 0;
                 poControlCuchillo.CuchilloNegro = dsColor == "N" ? int.Parse(dsNumero) : 0;
                 poControlCuchillo.Fecha = ddFecha;
+                poControlCuchillo.Turno = Turno;
                 poControlCuchillo.Observacion = Observacion;
                 poControlCuchillo.EstadoCuchillo = dsEstado;
                 poControlCuchillo.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -527,7 +528,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         [Authorize]
         // GET: Asistencia/ReporteControlCuchilloPartial
-        public ActionResult ReporteControlCuchilloPartial(DateTime Fecha, string Linea)
+        public ActionResult ReporteControlCuchilloPartial(DateTime Fecha, string Linea, string Turno)
         {
             try
             {
@@ -537,7 +538,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDCuchillo = new clsDCuchillo();
-                var model = clsDCuchillo.ConsultaControlCuchillo(Fecha, Linea);
+                var model = clsDCuchillo.ConsultaControlCuchillo(Fecha, Linea, Turno);
                 return PartialView(model);
 
             }

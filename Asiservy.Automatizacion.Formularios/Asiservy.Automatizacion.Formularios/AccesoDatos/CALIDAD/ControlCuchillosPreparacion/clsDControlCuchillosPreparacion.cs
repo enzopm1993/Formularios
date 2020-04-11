@@ -44,7 +44,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var listado = db.sp_Control_Cuchillos_Preparacion(fecha, IdControlCuchillo, opcion).ToList();
+                var listado = db.sp_Control_Cuchillos_Preparacion(fecha,null, IdControlCuchillo, opcion).ToList();
                 return listado;
             }
         }

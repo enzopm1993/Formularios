@@ -348,7 +348,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
                 model.FechaIngresoLog = DateTime.Now;
-                model.EstadoReporte = clsAtributos.EstadoReportePendiente;                
+              //  model.EstadoReporte = clsAtributos.EstadoReportePendiente;                
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.UsuarioIngresoLog = lsUsuario[0];
