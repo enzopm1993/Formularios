@@ -1,5 +1,62 @@
-﻿
+﻿function CargarBandeja() {
+    $("#spinnerCargando").prop("hidden", false);
+    $.ajax({
+        url: "../CloroCisternaDescongelado/BandejaCloroCisternaDescongeladoPartial",
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == '0') {
+                $('#MensajeRegistros').show();
+            } else {
+                $('#MensajeRegistros').hide();
+            }
+            $("#btnPendiente").prop("hidden", true);
+            $("#btnAprobado").prop("hidden", false);
+            $("#spinnerCargando").prop("hidden", true);
+            $('#divPartialControlCloro').empty();
+            $('#divPartialControlCloro').html(resultado);
+        },
+        error: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+function FiltrarAprobadosFecha() {
+    var date = new Date();
+    if ($("#cmbEstadoControl").val() == 'false') {
+        $("#divDateRangePicker").prop('hidden', true);
+        CargarBandeja();
 
+    } else {
+        $('#cargarc').show();
+        $.ajax({
+            url: "../CloroCisternaDescongelado/BandejaAprobadosCloroCisternaDescongeladoPartial",
+            type: "GET",
+            data: {
+                FechaInicio: $("#fechaDesde").val(),
+                FechaFin: $("#fechaHasta").val(),
+                EstadoControl: $("#cmbEstadoRegistro").val()
+            },
+            success: function (resultado) {
+                if (resultado == '0') {
+                    $('#MensajeRegistros').show();
+                } else {
+                    $('#MensajeRegistros').hide();
+                }
+                $('#cargarc').hide();
+                $('#divPartialControlCloro').html(resultado);
+                $("#btnPendiente").prop("hidden", false);
+                $("#btnAprobado").prop("hidden", true);
+
+                $("#divDateRangePicker").prop('hidden', false);
+            },
+            error: function (resultado) {
+                $('#cargarc').hide();
+                MensajeError(resultado.responseText, false);
+            }
+        });
+    }
+}
 //FECHA DataRangePicker
 $(function () {
     var start = moment();
