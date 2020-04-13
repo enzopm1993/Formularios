@@ -117,7 +117,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CONTROL_LAVADO_DESINFECCION_MANOS> CC_CONTROL_LAVADO_DESINFECCION_MANOS { get; set; }
         public virtual DbSet<CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE> CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE { get; set; }
         public virtual DbSet<CC_CUCHILLOS_PREPARACION> CC_CUCHILLOS_PREPARACION { get; set; }
-        public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA> CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA { get; set; }
         public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE> CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE { get; set; }
         public virtual DbSet<CC_INTERMEDIA_CTRL_MANT_CISTERNA> CC_INTERMEDIA_CTRL_MANT_CISTERNA { get; set; }
         public virtual DbSet<CC_LAVADO_CISTERNA> CC_LAVADO_CISTERNA { get; set; }
@@ -141,6 +140,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CONTROL_CUCHILLOS_PREPARACION> CC_CONTROL_CUCHILLOS_PREPARACION { get; set; }
         public virtual DbSet<CONTROL_CUCHILLO> CONTROL_CUCHILLO { get; set; }
         public virtual DbSet<CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE> CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE { get; set; }
+        public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA> CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

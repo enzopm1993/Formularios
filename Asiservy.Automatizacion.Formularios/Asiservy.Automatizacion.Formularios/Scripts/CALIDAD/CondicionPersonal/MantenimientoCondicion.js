@@ -98,7 +98,7 @@ function NuevoControl() {
 
 
 function SeleccionarControl(model) {
-    $("#txtIdControl").val(model.IdProteina);
+    $("#txtIdControl").val(model.IdMantenimientoCondicion);
     $("#txtDescripcion").val(model.Descripcion);
     if (model.EstadoRegistro == 'A') {
         $("#CheckEstadoRegistro").prop("checked", true);
