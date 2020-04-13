@@ -30,5 +30,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
         public string Tipo { get; set; }
         public string Observacion { get; set; }
+        public string Turno { get; set; }
     }
 }

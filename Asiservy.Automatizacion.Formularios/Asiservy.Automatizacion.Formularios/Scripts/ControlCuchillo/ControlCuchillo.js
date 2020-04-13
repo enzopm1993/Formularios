@@ -104,7 +104,8 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check, idCheck, O
             dsEstado: estado,
             dbCheck: check,
             ddFecha: $("#txtFecha").val(),
-            Observacion: $(Observacion).val()
+            Observacion: $(Observacion).val(),
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
             if (resultado.codigo == 1) {

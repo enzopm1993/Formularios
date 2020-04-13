@@ -132,6 +132,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
+                clsDEmpleado empleado = new clsDEmpleado();
+                var listaEmpleadoLinea = empleado.ConsultaEmpleadosFiltro("46","0","0");
+                ViewBag.listaEmpleadoLinea = listaEmpleadoLinea;
                 var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarCuchilloPreparacion("", 2);
                 ViewBag.Cuchillos = poCloroCisterna;
                 return View();
@@ -294,6 +297,19 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var poCloroCisterna = clsDControlCuchillosPreparacion.ConsultarControlCuchilloDetalle(idCuchilloPreparacion, idControlCuchillo, idControlCuchilloDetalle, opcion);
                 if (poCloroCisterna != null)
                 {
+                    clsDEmpleado empleado = new clsDEmpleado();
+                    var listaEmpleadoLinea = empleado.ConsultaEmpleadosFiltro("46", "0", "0");
+                    List<string> listaCedula = new List<string>();
+                    foreach (var itemCuchillo in poCloroCisterna) {
+                        listaCedula.Add(itemCuchillo.CedulaEmpleado);
+                        foreach (var itemEmpleado in listaEmpleadoLinea)
+                        {
+                            if (itemCuchillo.CedulaEmpleado==itemEmpleado.CEDULA) {                                
+                                itemCuchillo.CedulaEmpleado+="-"+itemEmpleado.NOMBRES;
+                            }
+                        }
+
+                    }
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -332,6 +348,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
                 model.FechaIngresoLog = DateTime.Now;
+              //  model.EstadoReporte = clsAtributos.EstadoReportePendiente;                
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.UsuarioIngresoLog = lsUsuario[0];
