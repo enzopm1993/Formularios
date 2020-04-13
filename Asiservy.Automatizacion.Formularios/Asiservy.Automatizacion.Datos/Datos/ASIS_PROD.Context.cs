@@ -64,7 +64,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CONTROL_PESO_ENLATADO> CONTROL_PESO_ENLATADO { get; set; }
         public virtual DbSet<CONTROL_PESO_ENLATADO_DETALLE> CONTROL_PESO_ENLATADO_DETALLE { get; set; }
         public virtual DbSet<CONTROL_PESO_ENLATADO_SUBDETALLE> CONTROL_PESO_ENLATADO_SUBDETALLE { get; set; }
-        public virtual DbSet<EMPLEADO_CUCHILLO_PRESTADO> EMPLEADO_CUCHILLO_PRESTADO { get; set; }
         public virtual DbSet<AVANCE_KILOS_HORA> AVANCE_KILOS_HORA { get; set; }
         public virtual DbSet<CONTROL_AVANCE_API> CONTROL_AVANCE_API { get; set; }
         public virtual DbSet<BITACORA_MOVER_EMPLEADO> BITACORA_MOVER_EMPLEADO { get; set; }
@@ -141,6 +140,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE> CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE { get; set; }
         public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA> CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA { get; set; }
         public virtual DbSet<CC_CONDICION_PERSONAL> CC_CONDICION_PERSONAL { get; set; }
+        public virtual DbSet<EMPLEADO_CUCHILLO_PRESTADO> EMPLEADO_CUCHILLO_PRESTADO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

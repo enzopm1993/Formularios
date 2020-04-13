@@ -1413,6 +1413,7 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="Turno" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="EMPLEADO_ESFERO">
           <Key>
@@ -3932,7 +3933,6 @@
           <FunctionImport Name="spReporteControlPesoEnlatadoSubDetalle" ReturnType="Collection(ASIS_PRODModel.spReporteControlPesoEnlatadoSubDetalle)">
           <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <EntitySet Name="EMPLEADO_CUCHILLO_PRESTADO" EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO_PRESTADO" />
           <FunctionImport Name="spConsultaEmpleadoPrestadoPorLineaFecha" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadoPrestadoPorLineaFecha)">
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Linea" Mode="In" Type="String" />
@@ -4553,6 +4553,7 @@
             <End Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" EntitySet="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" />
           </AssociationSet>
           <EntitySet Name="CC_CONDICION_PERSONAL" EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" />
+          <EntitySet Name="EMPLEADO_CUCHILLO_PRESTADO" EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO_PRESTADO" />
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -5545,26 +5546,6 @@
           <Property Type="Int32" Name="Peso" Nullable="false" />
           <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
         </ComplexType>
-        <EntityType Name="EMPLEADO_CUCHILLO_PRESTADO">
-          <Key>
-            <PropertyRef Name="IdEmpleadoCuchilloPrestado" />
-          </Key>
-          <Property Name="IdEmpleadoCuchilloPrestado" Type="Int32" Nullable="false" />
-          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CuchilloBlanco" Type="Int32" />
-          <Property Name="CuchilloRojo" Type="Int32" />
-          <Property Name="CuchilloNegro" Type="Int32" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Linea" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Cargo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-        </EntityType>
         <ComplexType Name="spConsultaEmpleadoPrestadoPorLineaFecha">
           <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
@@ -8866,6 +8847,27 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="EMPLEADO_CUCHILLO_PRESTADO">
+          <Key>
+            <PropertyRef Name="IdEmpleadoCuchilloPrestado" />
+          </Key>
+          <Property Name="IdEmpleadoCuchilloPrestado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CuchilloBlanco" Type="Int32" />
+          <Property Name="CuchilloRojo" Type="Int32" />
+          <Property Name="CuchilloNegro" Type="Int32" />
+          <Property Name="Linea" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Cargo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Turno" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10097,27 +10099,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="EMPLEADO_CUCHILLO_PRESTADO">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.EMPLEADO_CUCHILLO_PRESTADO">
-              <MappingFragment StoreEntitySet="EMPLEADO_CUCHILLO_PRESTADO">
-                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
-                <ScalarProperty Name="Linea" ColumnName="Linea" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="CuchilloNegro" ColumnName="CuchilloNegro" />
-                <ScalarProperty Name="CuchilloRojo" ColumnName="CuchilloRojo" />
-                <ScalarProperty Name="CuchilloBlanco" ColumnName="CuchilloBlanco" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="IdEmpleadoCuchilloPrestado" ColumnName="IdEmpleadoCuchilloPrestado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spConsultaEmpleadoPrestadoPorLineaFecha" FunctionName="ASIS_PRODModel.Store.spConsultaEmpleadoPrestadoPorLineaFecha">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaEmpleadoPrestadoPorLineaFecha">
@@ -13327,6 +13308,28 @@
                 <ScalarProperty Name="Hora" ColumnName="Hora" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="IdCondicionPersonal" ColumnName="IdCondicionPersonal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMPLEADO_CUCHILLO_PRESTADO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.EMPLEADO_CUCHILLO_PRESTADO">
+              <MappingFragment StoreEntitySet="EMPLEADO_CUCHILLO_PRESTADO">
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="CuchilloNegro" ColumnName="CuchilloNegro" />
+                <ScalarProperty Name="CuchilloRojo" ColumnName="CuchilloRojo" />
+                <ScalarProperty Name="CuchilloBlanco" ColumnName="CuchilloBlanco" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdEmpleadoCuchilloPrestado" ColumnName="IdEmpleadoCuchilloPrestado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

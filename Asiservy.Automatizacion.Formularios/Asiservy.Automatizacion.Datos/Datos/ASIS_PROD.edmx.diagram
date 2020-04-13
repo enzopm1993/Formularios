@@ -52,7 +52,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_PESO_ENLATADO_SUBDETALLE" Width="1.5" PointX="27.875" PointY="18.375" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_PESO_ENLATADO_DETALLE_CONTROL_PESO_ENLATADO_DETALLE" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CONTROL_PESO_ENLATADO_SUBDETALLE_CONTROL_PESO_ENLATADO_DETALLE" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO_PRESTADO" Width="1.5" PointX="23.375" PointY="0.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.AVANCE_KILOS_HORA" Width="1.5" PointX="11.375" PointY="23.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" Width="1.5" PointX="19.375" PointY="23.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_MOVER_EMPLEADO" Width="1.5" PointX="16.375" PointY="0.75" />
@@ -166,6 +165,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="35.75" PointY="36.75" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" Width="1.5" PointX="5.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO_PRESTADO" Width="1.5" PointX="22.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
