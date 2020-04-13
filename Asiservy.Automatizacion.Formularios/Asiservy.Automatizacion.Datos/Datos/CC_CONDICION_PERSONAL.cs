@@ -20,6 +20,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Cedula { get; set; }
         public string CodCondicion { get; set; }
         public string Observacion { get; set; }
+        public bool EstadoReporte { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
