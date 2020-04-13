@@ -505,7 +505,8 @@ function GuardarModificarCuchilloEmpleadoPrestado(NumeroCuchillo, Color, Cedula,
             //CuchilloNegro: $("#txtCuchilloNegro").val()
             CuchilloBlanco: $('#Blanco' + Cedula).val(),
             CuchilloRojo: $('#Rojo' + Cedula).val(),
-            CuchilloNegro: $('#Negro' + Cedula).val()
+            CuchilloNegro: $('#Negro' + Cedula).val(),
+            Turno: $('#TurnoGen').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
