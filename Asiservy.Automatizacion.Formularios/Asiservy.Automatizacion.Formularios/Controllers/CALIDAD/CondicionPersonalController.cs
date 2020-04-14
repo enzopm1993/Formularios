@@ -183,6 +183,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 }
 
                 clsDCondicionPersonal = new clsDCondicionPersonal();
+                model.EstadoReporte = false;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];

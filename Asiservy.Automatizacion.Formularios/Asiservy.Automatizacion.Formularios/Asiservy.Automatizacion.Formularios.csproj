@@ -3328,7 +3328,7 @@
     <Compile Include="Controllers\ControlBalanzaController.cs" />
     <Compile Include="Controllers\ControlCocheLineaController.cs" />
     <Compile Include="Controllers\ControlConsumoInsumoController.cs" />
-    <Compile Include="Controllers\ControlCuchilloController.cs" />
+    <Compile Include="Controllers\PRODUCCION\ControlCuchilloController.cs" />
     <Compile Include="Controllers\ControlEnfundadoController.cs" />
     <Compile Include="Controllers\ControlHoraMaquinaController.cs" />
     <Compile Include="Controllers\ControlMaterialQuebradizoController.cs" />

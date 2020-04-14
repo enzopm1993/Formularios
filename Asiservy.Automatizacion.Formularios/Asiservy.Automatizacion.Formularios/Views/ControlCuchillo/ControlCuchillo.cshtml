@@ -9,7 +9,7 @@
 <hr />
 <div class="">
     <div class="row">
-        <div class="col-md-4 col-12">
+        <div class="col-md-3 col-12">
             <div class="form-group">
                 <label>Fecha</label>
                 <input type="date" class="form-control" id="txtFecha" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="SelectEstado('')" />
@@ -19,14 +19,14 @@
             <div class="form-group">
 
                 <label>Turno</label>
-                <select class="form-control" id="selectTurno" onchange="SelectEstado('')">
+                <select class="form-control" id="TurnoGen" onchange="SelectEstado('')">
                     <option value="1">Turno A</option>
                     <option value="2">Turno B</option>
                 </select>
             </div>
         </div>
 
-        <div class="col-md-4 col-12">
+        <div class="col-md-3 col-12">
             <div class="form-group">
                 <label>Estado</label>
                 @Html.DropDownList("EstadoControlCuchillo", new SelectList(ViewBag.EstadosControlCuchillo, "Codigo", "Descripcion"), "seleccione", new { @class = "form-control", @onchange = "SelectEstado(this.value)", @id = "EstadoControlCuchillo" })

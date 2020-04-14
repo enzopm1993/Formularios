@@ -505,7 +505,8 @@ function GuardarModificarCuchilloEmpleadoPrestado(NumeroCuchillo, Color, Cedula,
             //CuchilloNegro: $("#txtCuchilloNegro").val()
             CuchilloBlanco: $('#Blanco' + Cedula).val(),
             CuchilloRojo: $('#Rojo' + Cedula).val(),
-            CuchilloNegro: $('#Negro' + Cedula).val()
+            CuchilloNegro: $('#Negro' + Cedula).val(),
+            Turno: $('#TurnoGen').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -572,6 +573,8 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check) {
             dsEstado: estado,
             dbCheck: check,
             ddFecha: $('#txtFecha').val(),
+            Observacion: $(Observacion).val(),
+            Turno: $("#TurnoGen").val(),
             dbTipo: true
         },
         success: function (resultado) {

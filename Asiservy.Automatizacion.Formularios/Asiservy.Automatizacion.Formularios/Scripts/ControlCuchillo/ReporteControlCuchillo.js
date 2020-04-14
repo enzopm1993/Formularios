@@ -19,7 +19,8 @@ function CargarReporteControlCuchillo() {
         type: "GET",
         data: {
             Fecha: fecha,
-            Linea: linea
+            Linea: linea,
+            Turno: $("#selectTurno").val()
         },
         success: function (resultado) {
 

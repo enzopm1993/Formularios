@@ -13,7 +13,7 @@ function CargarControlCuchillo(estado) {
     if (estado < 1)
         return;
     
-    if ($("#txtFecha").val() == '' || $("#selectTurno").val() == '' || $("#txtFecha").val() == null) {
+    if ($("#txtFecha").val() == '' || $("#TurnoGen").val() == '' || $("#txtFecha").val() == null) {
 
         MensajeAdvertencia("Ingrese una Fecha");
         return;
@@ -26,7 +26,7 @@ function CargarControlCuchillo(estado) {
         data: {
             dsEstado: estado,
             ddFecha: $("#txtFecha").val(),
-            Turno: $("#selectTurno").val()
+            Turno: $("#TurnoGen").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -104,7 +104,8 @@ function GuardarControlCuchillo(cedula, color, numero, estado, check, idCheck, O
             dsEstado: estado,
             dbCheck: check,
             ddFecha: $("#txtFecha").val(),
-            Observacion: $(Observacion).val()
+            Observacion: $(Observacion).val(),
+            Turno: $("#TurnoGen").val()
         },
         success: function (resultado) {
             if (resultado.codigo == 1) {
