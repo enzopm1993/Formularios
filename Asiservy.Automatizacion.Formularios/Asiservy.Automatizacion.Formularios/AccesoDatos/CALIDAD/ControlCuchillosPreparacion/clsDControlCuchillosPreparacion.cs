@@ -40,11 +40,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
         }
 
         //-----------------------------------------CONTROL CUCHILLO----------------------------------------------------------------------------
-        public List<sp_Control_Cuchillos_Preparacion> ConsultarControlCuchilloPreparacion(DateTime fecha, int IdControlCuchillo, int opcion)
+        public List<sp_Control_Cuchillos_Preparacion> ConsultarControlCuchilloPreparacion(DateTime fechaDesde, DateTime fechaHasta, int IdControlCuchillo, int opcion)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var listado = db.sp_Control_Cuchillos_Preparacion(fecha, IdControlCuchillo, opcion).ToList();
+                var listado = db.sp_Control_Cuchillos_Preparacion(fechaDesde, fechaHasta, IdControlCuchillo, opcion).ToList();
                 return listado;
             }
         }
@@ -59,7 +59,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
                 {
                     model.Observacion = GuardarModigicar.Observacion;
                     model.Hora = GuardarModigicar.Hora;
-                    model.EstadoRegistro = GuardarModigicar.EstadoRegistro;
+                    //model.EstadoRegistro = GuardarModigicar.EstadoRegistro;
+                    model.EstadoReporte = GuardarModigicar.EstadoReporte;
                     model.FechaModificacionLog = GuardarModigicar.FechaIngresoLog;
                     model.TerminalModificacionLog = GuardarModigicar.TerminalIngresoLog;
                     model.UsuarioModificacionLog = GuardarModigicar.UsuarioIngresoLog;

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Cuchillos_Preparacion>
+@using Newtonsoft.Json;
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                FECHA
+            </th>
+            <th>
+                HORA
+            </th>
+            <th>
+                OBSERVACION
+            </th>
+            <th style="width:25%">
+                <center> ESTADO APROBACION</center>
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:14px">
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarBandeja(@json)">
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @item.Hora.ToString("HH:mm")
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Observacion))
+                    {
+                        @item.Observacion.ToUpper()
+                    }
+                </td>
+                <td>
+                    @if (item.EstadoReporte == true)
+                    {
+                        <center><span class="badge badge-success">APROBADO</span></center>
+                    }
+                    else {
+                        <center><span class="badge badge-danger">PENDIENTE</span></center>
+                    }
+                </td>                
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/Scripts/General/dataTableJS.js"></script>

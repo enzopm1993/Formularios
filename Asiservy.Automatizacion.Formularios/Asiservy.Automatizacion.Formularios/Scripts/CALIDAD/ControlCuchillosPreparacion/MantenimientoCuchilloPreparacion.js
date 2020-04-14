@@ -77,7 +77,7 @@ function ListarCuchillocPreparacion(opcion) {
             }
             setTimeout(function(){
                 $('#cargac').hide();
-            }, 300);
+            }, 200);
             
         },
         error: function (resultado) {

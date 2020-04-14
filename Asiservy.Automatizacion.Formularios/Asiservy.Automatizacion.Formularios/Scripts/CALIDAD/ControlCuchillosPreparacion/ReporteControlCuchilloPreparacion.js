@@ -33,7 +33,7 @@ $(function () {
         startDate: start,
         endDate: end,
         maxSpan: {
-            "days": 30
+            "days": 60
         },
         minDate: moment("01/10/2019", "DD/MM/YYYY"),
         maxDate: moment(),
@@ -83,9 +83,12 @@ $(function () {
     cb(start, end);
 });
 
-function ReporteControlCuchilloPreparacionPartial(opcion) {   
+function ReporteControlCuchilloPreparacionPartial(opcion) {  
+    $('#cargac').show();
     var op = opcion;
-    $("#spinnerCargando").prop("hidden", false);
+    var table = $('#tblDataTable');    
+    table.DataTable().destroy();
+    table.DataTable().clear(); 
     $.ajax({
         url: "../ControlCuchillosPreparacion/ReporteControlCuchilloPreparacionPartial",
         type: "GET",
@@ -99,12 +102,24 @@ function ReporteControlCuchilloPreparacionPartial(opcion) {
                 $('#MensajeRegistros').show();
             } else {
                 $('#MensajeRegistros').hide();
-            }            
-            $("#spinnerCargando").prop("hidden", true);            
-            $('#DivReporteCuchillos').html(resultado);            
+            }
+            $("#tblDataTable tbody").empty(); 
+            config.opcionesDT.order = [1, 'desc'];
+            //config.opcionesDT.buttons = [{
+            //    extend: 'print',
+            //    text: '<img style="width:100%" src="../../Content/icons/print24.png" />',
+            //    titleAttr: 'Imprimir'
+            //}];
+            table.DataTable().destroy();
+            table.DataTable(config.opcionesDT);
+            table.DataTable().clear();
+            $('#DivReporteCuchillos').html(resultado);   
+            setTimeout(function () {
+                $('#cargac').hide();
+            },200);
         },
         error: function (resultado) {
-            $("#spinnerCargando").prop("hidden", true);
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });

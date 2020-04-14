@@ -2165,7 +2165,9 @@
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\CondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
+    <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
+    <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion_Pivot.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
@@ -3744,6 +3746,8 @@
     <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\ReporteEvaluacionLomoMigaBandeja.cshtml" />
     <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\PartialReporteEvaluacionLomosMigasBandeja.cshtml" />
     <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\BandejaCuchilloPreparacionPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
