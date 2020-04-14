@@ -204,9 +204,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 //recorrer las ordenes de fabricacion para actualizar los datos o agregar.
                 foreach (int x in ordendesFabricacion)
                 {
-                    //foreach (var detalle in detalleOrden)
-                    //{
-                    var detalle = detalleOrden.FirstOrDefault(y => int.Parse(y.OrdenFabricacion) == x);
+                    var ListaLotes = detalleOrden.Where(o => int.Parse(o.OrdenFabricacion) == x).ToList();
+                    foreach (var detalle in ListaLotes)
+                    {
+                        //  var detalle = detalleOrden.FirstOrDefault(y => int.Parse(y.OrdenFabricacion) == x && y.Lote == detalle.Lote);
                         var modelControlAvanceApi = entities.CONTROL_AVANCE_API.FirstOrDefault(y => y.OrdenFabricacion == x && y.Lote == detalle.Lote);
                         if (modelControlAvanceApi == null)
                         {
@@ -233,7 +234,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                             modelControlAvanceApi.Peso = int.Parse(double.Parse(detalle.Peso).ToString());
                             modelControlAvanceApi.Piezas = int.Parse(double.Parse(detalle.Piezas).ToString());                           
                         }
-                    //}
+                    }
                 }
                 if (ListadoControlAvanceApi.Any())
                 {
