@@ -20,6 +20,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
         clsDEmpleado clsDEmpleado = null;
         clsDCondicionPersonal clsDCondicionPersonal = null;
 
+        public ActionResult Prueba()
+        {
+            return View();
+
+        }
+
         [Authorize]
         public ActionResult MantenimientoCondicion()
         {
