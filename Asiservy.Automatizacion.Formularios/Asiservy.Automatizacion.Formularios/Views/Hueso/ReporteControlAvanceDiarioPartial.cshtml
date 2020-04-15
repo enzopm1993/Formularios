@@ -163,6 +163,8 @@
     </tbody>
     <tfoot>
         <tr>
+            <td></td>
+            <td></td>
             <td>@contador Lotes</td>
             <td></td>
             <td></td>
@@ -179,7 +181,8 @@
             <td>
                 @{
                     decimal PromedioAvance = 0;
-                    if (TotalKiloTeorico > 0) {
+                    if (TotalKiloTeorico > 0)
+                    {
                         PromedioAvance = Math.Round((TotalKiloReal / TotalKiloTeorico) * 100, 2);
                     }//returns 2.00
                 }

@@ -7,10 +7,10 @@ $(document).ready(function () {
 });
 
 function CargarCabecera(opcion) {
-    MostrarModalCargando(); 
+    $('#cargac').show();
     var op = opcion;
     if ($("#txtFecha").val() == '') {
-        CerrarModalCargando();
+        $('#cargac').hide();
         return;
     } else {
         $.ajax({
@@ -46,19 +46,19 @@ function CargarCabecera(opcion) {
                     CargarDetalle(0);                    
                 }
                 setTimeout(function () {
-                    CerrarModalCargando();
-                },500);               
+                    $('#cargac').hide();
+                },200);               
             },
             error: function (resultado) {
-                MensajeError(resultado.responseText, false);
-                CerrarModalCargando();
+                $('#cargac').hide();
+                MensajeError(resultado.responseText, false);                
             }
         });
     }
 }
 
 function GuardarCabecera() {
-    MostrarModalCargando();    
+    $('#cargac').show();  
     $.ajax({
         url: "../LavadoDesinfeccionManos/GuardarModificarControlLavadoDesinfeccionManos",
         type: "POST",
@@ -71,18 +71,20 @@ function GuardarCabecera() {
             if (resultado == "101") {
                 window.location.reload();
             }
-            CargarCabecera(0);
+            //CargarCabecera(0);
+            $("#txtObservacion").prop("disabled", true);
+            $("#btnModalGenerarRegistro").prop("hidden", true);
             $("#btnModalGenerar").prop("hidden", true);
             $("#btnModalEditar").prop("hidden", false);
             $("#btnModalEliminar").prop("hidden", false);
             $("#divDetalleProceso").prop("hidden", false);
             $("#divDetalleControlCloro").prop("hidden", false);
             setTimeout(function () {
-                CerrarModalCargando();
-            },500);            
+                $('#cargac').hide();
+            },200);       
         },
         error: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });
@@ -93,7 +95,7 @@ function EliminarConfirmar() {
 }
 
 function EliminarCabeceraSi() {
-    MostrarModalCargando();
+    $('#cargac').show();
     $.ajax({
         url: "../LavadoDesinfeccionManos/EliminarControlLavadoDesinfeccionManos",
         type: "POST",
@@ -107,7 +109,7 @@ function EliminarCabeceraSi() {
             if (resultado == "0") {
                 MensajeAdvertencia("Falta Parametro IdDesinfeccionManos");
                 $("#modalEliminarControl").modal("hide");
-                CerrarModalCargando();
+                $('#cargac').hide();
                 return;
             } else if (resultado=="1"){
                 $("#divTableEntregaProductoDetalle").prop("hidden", true);
@@ -124,12 +126,12 @@ function EliminarCabeceraSi() {
                 $("#divDetalleControlCloro").prop("hidden", true);
                 $("#divCabecera2").prop("hidden", true);
                 setTimeout(function () {
-                    CerrarModalCargando();
+                    $('#cargac').hide();
                 },500);                
             }
         },
         error: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });
@@ -160,13 +162,12 @@ function ModalGenerarDetalle() {
                 return 0;
             } else {                
                 $("#divModalPartialDetalle").prop("hidden", false);
-                $("#divModalPartialDetalle").html(resultado); 
+                $("#divModalPartialDetalle").html(resultado);                 
                 return 1;
             }
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-            $("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", true);
         }
     });
 }
@@ -180,7 +181,8 @@ function limpiarDetalle(data) {
 }
 
 function GuardarDetalle(jdata) {
-    MostrarModalCargando();
+    $('#cargac').show();
+    $("#ModalGenerarDetalle").modal("hide");
     var data = jdata;
     $.ajax({
         url: "../LavadoDesinfeccionManos/GuardarModificarControlLavadoDesinfeccionManosDetalle",
@@ -190,7 +192,7 @@ function GuardarDetalle(jdata) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            $("#ModalGenerarDetalle").modal("hide");
+            
             if (resultado == 0) {
                 MensajeCorrecto("Datos guardados correctamente");
             } else if (resultado == 1) { MensajeCorrecto("Actualización de datos correcta"); }
@@ -198,13 +200,13 @@ function GuardarDetalle(jdata) {
                 MensajeError("!Error al Guardar/Actuaizar los datos¡");
                 return;
             }
-            CargarCabecera(0);
+            //CargarCabecera(0);
             CargarDetalle(0);
             limpiarDetalle(data);
-            CerrarModalCargando();
+            $('#cargac').hide();
         },
         error: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
                 MensajeError(resultado.responseText, false);                
             }
         });            
@@ -212,9 +214,7 @@ function GuardarDetalle(jdata) {
 
 //Retorna PartialView
 function CargarDetalle(opcion) {
-    var op = opcion;
-    //$("#spinnerCargandoConsumoInsumoDetalle").prop("hidden", false);
-    $("#divTableEntregaProductoDetalle").html('');
+    var op = opcion;    
     $.ajax({
         url: "../LavadoDesinfeccionManos/LavadoDesinfeccionManosDetallePartial",
         type: "GET",
@@ -230,50 +230,24 @@ function CargarDetalle(opcion) {
                 $("#divTableEntregaProductoDetalle").html("No existen registros");
             } else {                
                 $("#divTableEntregaProductoDetalle").prop("hidden", false);
+                $("#divTableEntregaProductoDetalle").html('');
                 $("#divTableEntregaProductoDetalle").html(resultado);
                 $("#divDetalleControlCloro").prop("hidden", false);
             }
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
-            CerrarModalCargando();
-        }
-    });
-}
-
-function EliminarDetalle(jdato) {
-    MostrarModalCargando();
-    $.ajax({
-        url: "../LavadoDesinfeccionManos/EliminarLavadoDesinfeccionManosDetalle",
-        type: "POST",
-        data: {
-            model: jdato
-        },
-        success: function (resultado) {
-            CerrarModalCargando();
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado == "0") {
-                MensajeAdvertencia("Faltan Parametros (IdDesinfeccionManosDetalle)");
-                return;
-            }
-            MensajeCorrecto("Registro Eliminado con Éxito");
-            CargarDetalle(0);
-        },
-        error: function (resultado) {
-            CerrarModalCargando();
-            MensajeError(resultado.responseText, false);
-
+            $('#cargac').hide();
+            MensajeError(resultado.responseText, false);            
         }
     });
 }
 
 function ActulizarDetalle(jFilaSeleccionada, jordenColumnasTabla) {
     ListaDatosDetalle = jFilaSeleccionada;//Con esto Guardo el json para usarlo en el metodo prepararAntesGuardar(jdata)
-    MostrarModalCargando();
     ModalGenerarDetalle();
-    setTimeout(function () {
+    $("#ModalGenerarDetalle").modal("hide");
+    $('#cargac').show();    
+    setTimeout(function () {        
         for (var i in jordenColumnasTabla) {
             for (var j in jFilaSeleccionada) {
                 if (jordenColumnasTabla[i].Codigo == jFilaSeleccionada[j].CodigoLinea) {
@@ -284,8 +258,9 @@ function ActulizarDetalle(jFilaSeleccionada, jordenColumnasTabla) {
                 }
             }
         }
-        CerrarModalCargando();
-    }, 5000);   
+        $("#ModalGenerarDetalle").modal("show");
+        $('#cargac').hide();
+    }, 3000);   
 }
 
 function ValidarHoraRepetida() {
@@ -374,4 +349,45 @@ function quitarEstiloSelect(numSelect) {
     var nombreSelect = "#" + numSelect.id;
     $(nombreSelect).css('border', '');
 }
+
+function EliminarConfirmarDetalle(jdata) {
+    ListaDatosDetalle = jdata;
+    $("#modalEliminarDetalle").modal("show");
+}
+
+function EliminarDetalleSi() {
+    var jdato = ListaDatosDetalle;
+    $('#cargac').show();
+    $.ajax({
+        url: "../LavadoDesinfeccionManos/EliminarLavadoDesinfeccionManosDetalle",
+        type: "POST",
+        data: {
+            model: jdato
+        },
+        success: function (resultado) {
+            $('#cargac').hide();
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros (IdDesinfeccionManosDetalle)");
+                return;
+            }
+            $("#modalEliminarDetalle").modal("hide");
+            MensajeCorrecto("Registro Eliminado con Éxito");
+            CargarDetalle(0);
+        },
+        error: function (resultado) {
+            $('#cargac').hide();
+            MensajeError(resultado.responseText, false);
+
+        }
+    });
+}
+
+function EliminarDetalleNo() {
+    ListaDatosDetalle = [];
+    $("#modalEliminarDetalle").modal("hide");
+}
+
 

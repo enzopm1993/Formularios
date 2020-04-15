@@ -57,18 +57,34 @@ function ListarControlCuchillos(opcion) {
             config.opcionesDT.columns = [
                 { data: 'Fecha' },
                 { data: 'Hora' },
-                { data: 'Observacion' }
+                { data: 'Observacion' },
+                { data: 'EstadoReporteControl' }//Esta propiedad lo agrego en el forEach de mas abajo
             ];           
             table.DataTable().destroy();
             table.DataTable(config.opcionesDT);
             table.DataTable().clear();
+            var rowCon = 0;
+            resultado.forEach(function (row) {
+                resultado[rowCon].EstadoReporteControl = row.EstadoReporte;//Agrego EstadoReporteControl para no estropear el uso de EstadoRegistro en las otras funciones
+                var estado = 'PENDIENTE';
+                var css = 'badge-danger';
+                if (row.EstadoReporteControl==true) {
+                    estado = 'APROBADO';
+                    css = 'badge-success';
+                }
+                row.EstadoReporteControl = "<center><span class='badge " + css + "' >" + estado + "</span></center>";
+                rowCon++;
+            });            
             table.DataTable().rows.add(resultado);
             table.DataTable().draw();
             setTimeout(function () {
                 $('#cargac').hide();
-            }, 500);
+            }, 200);
         },
         error: function (resultado) {
+            setTimeout(function () {
+                $('#cargac').hide();
+            }, 200);
             MensajeError(resultado.responseText, false);
         }
     });
@@ -124,26 +140,31 @@ function LimpiarCabecera() {
 }
 
 function SeleccionarCabecera(model) {
-    $('#divBotonNuevo').hide();
-    $('#divCabecera').prop('hidden', false);
-    datosCabecera = model;
-    var table = $("#tblDataTableAprobar");
-    table.DataTable().clear();
-    var data = model;
-    $("#divCargarCuchillosDetalle").prop("hidden", false);
-    $("#divIngresarDetalleHora").prop("hidden",false);
-    $("#divCargarCuchillos").prop("hidden", true);
-    $('#txtFechaFiltro').prop('hidden', true);
-    $('#btnBuscarFecha').prop('hidden', true);
-    $("#txtObservacion").val(data.Observacion);
-    $("#txtObservacion").prop("disabled", true);
-    var fecha = data.Fecha;
-    var fechasplit = fecha.split('-');
-    var fechaMMDDYYYY = fechasplit[1] + "-" + fechasplit[0] + "-" + fechasplit[2] + " " + data.Hora;    
-    var convertDate = new Date(fechaMMDDYYYY);
-    $("#txtFecha").val(moment(convertDate).format('YYYY-MM-DDTHH:mm'));
-    $("#txtFecha").prop("disabled", true);  
-    ConsultarControlCuchilloDetalle(0, datosCabecera.IdControlCuchillo, 0, 1);
+    if (model.EstadoReporte ==true) {
+        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!',5);
+        return;
+    } else {
+        $('#divBotonNuevo').hide();
+        $('#divCabecera').prop('hidden', false);
+        datosCabecera = model;
+        var table = $("#tblDataTableAprobar");
+        table.DataTable().clear();
+        var data = model;
+        $("#divCargarCuchillosDetalle").prop("hidden", false);
+        $("#divIngresarDetalleHora").prop("hidden", false);
+        $("#divCargarCuchillos").prop("hidden", true);
+        $('#txtFechaFiltro').prop('hidden', true);
+        $('#btnBuscarFecha').prop('hidden', true);
+        $("#txtObservacion").val(data.Observacion);
+        $("#txtObservacion").prop("disabled", true);
+        var fecha = data.Fecha;
+        var fechasplit = fecha.split('-');
+        var fechaMMDDYYYY = fechasplit[1] + "-" + fechasplit[0] + "-" + fechasplit[2] + " " + data.Hora;
+        var convertDate = new Date(fechaMMDDYYYY);
+        $("#txtFecha").val(moment(convertDate).format('YYYY-MM-DDTHH:mm'));
+        $("#txtFecha").prop("disabled", true);
+        ConsultarControlCuchilloDetalle(0, datosCabecera.IdControlCuchillo, 0, 1);
+    }
 }
 
 function AtrasControlPrincipal() {
@@ -315,40 +336,39 @@ function ConsultarControlCuchilloDetalle(idCuchilloPreparacion, idControlCuchill
                 { data: 'UsuarioIngresoLog' }
                 //{ data: 'UsuarioModificacionLog' }
             ];
-            configDetalle.opcionesDT.aoColumnDefs = [{
-                "aTargets": [1], // Columna a la que se quiere aplicar el css
-                "mRender": function (data, type, full) {
-                    var clscolor = "badge-danger";
-                    var checked = '';
-                    if (data == true) {
-                        clscolor = "badge-success";
-                        checked = 'checked';
-                    }
-                    return '<center><span class="badge ' + clscolor + '"><input type="checkbox" ' + checked + ' disabled id="vehicle2" name="Estado" value="Estado"></span></center>';
-                }
-            }];
+           
             table.DataTable().destroy();
             table.DataTable(configDetalle.opcionesDT);
             table.DataTable().clear();
             var conRow=0;
-            resultado.forEach(function (row) {                
-                var colummCedula = "";
-                colummCedula = row.CedulaEmpleado;
-                colummCedula = colummCedula.split('-')
-                resultado[conRow].Cedula = colummCedula[0];                
-                row.CedulaEmpleado = colummCedula[1];
+            resultado.forEach(function (row) {  
+                var clscolor = "badge-danger"; //Aplico estilo a la columna Estado 
+                var checked = '';
+                if (row.Estado == true) {
+                    clscolor = "badge-success";
+                    checked = 'checked';
+                }
+                row.Estado = '<center><span class="badge ' + clscolor + '"><input type="checkbox" ' + checked + ' disabled id="vehicle2" name="Estado" value="Estado"></span></center>';
+                var colummCedula = "";//Separo la cedula del monbre ej: 040495857-GALO BAQUE GONZALEZ
+                colummCedula = row.CedulaEmpleado;                
+                var guion = colummCedula.includes("-");
+                if (guion == true) {
+                    colummCedula = colummCedula.split('-')
+                    resultado[conRow].Cedula = colummCedula[0];//Añado la propiedad Cedula al JSon para poder usarlo cuando edito el registro.
+                    row.CedulaEmpleado = colummCedula[1];
+                } else { row.CedulaEmpleado = "<center><span class='badge badge-danger'>NO ASIGNADO</span></center>";}         
                 conRow++;
             });
             table.DataTable().rows.add(resultado);            
             table.DataTable().draw();
             setTimeout(function () {
                 $('#cargac').hide();
-            }, 500);
+            }, 200);
         },
         error: function (resultado) {
             setTimeout(function () {
                 $('#cargac').hide();
-            }, 500);
+            }, 200);
             MensajeError(resultado.responseText, false);
         }
     });

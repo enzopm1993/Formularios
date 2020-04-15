@@ -5,13 +5,27 @@
     ViewBag.Title = "ReporteCondicionPersonal";
     var model = (List<MANTENIMIENTO_CONDICION>)ViewBag.Condiciones;
     var cantidad = model.Count();
- //   var condicionesJSON = JsonConvert.SerializeObject(ViewBag.Condiciones);
+    //   var condicionesJSON = JsonConvert.SerializeObject(ViewBag.Condiciones);
 }
 
 <style>
     input, select, textarea {
         max-width: 100%;
     }
+    .embed-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+    }
+
+        .embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80%;
+        }
 </style>
 
 <h2>Reporte de Condiciones del Personal</h2>
@@ -100,3 +114,8 @@
         </div>
     </div>
 </div>
+
+<br />
+@*<div class="text-center embed-container">
+    <iframe src="~/AspxReportes/WebForm1.aspx" width="1 00" height="100"></iframe>
+</div>*@

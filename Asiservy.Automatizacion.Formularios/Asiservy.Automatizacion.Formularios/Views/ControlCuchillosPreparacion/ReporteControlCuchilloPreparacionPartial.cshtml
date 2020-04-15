@@ -2,21 +2,22 @@
     <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
         <thead>
             <tr>
-                <th>#</th>
+                <th hidden>#</th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Fecha)
+                    FECHA
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Hora)
+                    HORA
                 </th>
-                @{int num = 0;
+                @{
                     //Obtengo los Codigo del cuchillo para armar los TH
                     var listaCodigoCuchillo = (from p in Model
                                                select new { p.CodigoCuchillo }).Distinct().ToList();
 
                     var listaHora = (from ssi in Model
                                      group ssi by new { ssi.Hora, ssi.Fecha } into g
-                                     select new { Hora = g.Key.Hora, Fecha = g.Key.Fecha, Count = g.Count() }).ToList();
+                                     select new { Hora = g.Key.Hora, Fecha = g.Key.Fecha }).ToList();
+                    int con = 0;
                 }
 
                 @foreach (var itemCodigoCuchillo in listaCodigoCuchillo)
@@ -24,22 +25,26 @@
                     <th>
                         <center>@itemCodigoCuchillo.CodigoCuchillo</center>
                     </th>
+                    <th>EMPLEADO-@itemCodigoCuchillo.CodigoCuchillo</th>
                 }
+                <th>ESTADO APROBACION</th>
             </tr>
         </thead>
         <tbody style="font-size:14px">
             @foreach (var item in listaHora)
             {
-                num++;
+                con++;
+                bool estadoReporte = false;
                 <tr>
-                    <td>@num</td>
+                    <td hidden>@con</td>
                     <td>@item.Fecha.Replace("/","-")</td>
                     <td>@item.Hora</td>
                     @foreach (var lh in listaCodigoCuchillo)
                     {
                         var estado = (from c in Model
                                       where c.Fecha == item.Fecha && c.Hora == item.Hora && lh.CodigoCuchillo == c.CodigoCuchillo
-                                      select new { Estado = c.Estado });
+                                      select new { Estado = c.Estado, c.CedulaEmpleado, c.EstadoReporte });
+
                         <td>
                             @foreach (var est in estado)
                             {
@@ -51,12 +56,31 @@
                                 {
                                     <center><span class="badge badge-danger"><input type="checkbox" disabled id="vehicle2" name="Estado" value="Estado"></span></center>
                                 }
-
                             }
 
-
                         </td>
+                        <td>
+                            @foreach (var cedula in estado)
+                            {
+                                if (cedula.CedulaEmpleado.Contains('-'))
+                                {
+                                    var nombres = cedula.CedulaEmpleado.Split('-');
+                                    <span>@nombres[1].ToUpper()</span>
+                                }
+                                estadoReporte = cedula.EstadoReporte;
+                            }
+                        </td>                        
                     }
+                      <td>
+                         <center>
+                                @if (estadoReporte == true)
+                                {
+                                    <span class="badge badge-success">APROBADO</span>
+                                }
+                                else
+                                {<span class="badge badge-danger">PENDIENTE</span>}
+                        </center>
+                      </td>
                 </tr>
             }
         </tbody>

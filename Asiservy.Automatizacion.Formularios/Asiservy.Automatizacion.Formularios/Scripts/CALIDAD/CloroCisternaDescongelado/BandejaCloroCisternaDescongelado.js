@@ -137,8 +137,7 @@ function AprobarControlCloroDetalle(data) {
     });
 }
 
-function FiltrarAprobadosFecha() {       
-    var date = new Date();
+function FiltrarAprobadosFecha() { 
     if ($("#selectEstadoRegistro").val() == 'false') {        
         $("#divDateRangePicker").prop('hidden', true);
         CargarBandeja();
