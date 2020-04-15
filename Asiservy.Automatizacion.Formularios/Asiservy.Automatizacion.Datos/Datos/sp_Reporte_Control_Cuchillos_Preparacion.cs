@@ -15,8 +15,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public string Fecha { get; set; }
         public string Hora { get; set; }
+        public bool EstadoReporte { get; set; }
         public int IdCuchilloPreparacion { get; set; }
         public string CodigoCuchillo { get; set; }
         public bool Estado { get; set; }
+        public string CedulaEmpleado { get; set; }
     }
 }
