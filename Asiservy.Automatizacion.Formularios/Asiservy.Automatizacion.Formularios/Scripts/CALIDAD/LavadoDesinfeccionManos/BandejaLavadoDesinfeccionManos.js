@@ -1,38 +1,69 @@
 ﻿var listaDatos = [];
 $(document).ready(function () {
     CargarBandeja();
+    $('#tblDataTableAprobar tbody').on('click', 'tr', function () {
+        var table = $('#tblDataTableAprobar').DataTable();
+        var dataCabecera = table.row(this).data();
+
+        SeleccionarBandeja(dataCabecera);
+    });
 });
 
 //CARGAR BANDEJA
 function CargarBandeja() {
     $('#cargac').show();
-    var op = 2;
-    if ($('#selectEstadoReporte').val()=='true') {
-        op = 3;
-    }    
+    var op = 3;
+    if ($('#selectEstadoReporte').val() == 'true') {
+        op = 2;
+    }
+    var table = $("#tblDataTableAprobar");
+    table.DataTable().clear();
+    table.DataTable().destroy();
+    table.DataTable().clear();
+    table.DataTable().draw();
     $.ajax({
-        url: "../ControlCuchillosPreparacion/BandejaCuchilloPreparacionPartial",
+        url: "../LavadoDesinfeccionManos/ConsultarControlLavadoDesinfeccionManos",
         data: {
             fechaDesde: $('#fechaDesde').val(),
             fechaHasta: $('#fechaHasta').val(),
-            idControlCuchillo: 0,
             op: op
         },
         type: "GET",
         success: function (resultado) {
-            if (resultado == '0') {
-                $('#MensajeRegistros').show();
-            } else {
-                $('#MensajeRegistros').hide();
+            if (resultado == "102") {
+                MensajeAdvertencia("No existen datos para este model.");
             }
-            $("#btnPendiente").prop("hidden", true);
-            $("#btnAprobado").prop("hidden", false);
-            
-            $('#divTablaAplrobados').empty();
-            $('#divTablaAplrobados').html(resultado);
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan parametros en la consulta.");
+            } else {
+                $("#btnPendiente").prop("hidden", true);
+                $("#btnAprobado").prop("hidden", false);
+
+                $("#tblDataTableAprobar tbody").empty();
+                config.opcionesDT.order = [];
+                config.opcionesDT.columns = [
+                    { data: 'Fecha' },
+                    { data: 'Observacion' },
+                    { data: 'UsuarioIngresoLog' },
+                    { data: 'EstadoReporte' }
+                ];
+                table.DataTable().destroy();
+                table.DataTable(config.opcionesDT);
+                resultado.forEach(function (row) {
+                    var clscolor = "badge-danger"; //Aplico estilo a la columna Estado 
+                    var checked = '';
+                    if (row.Estado == true) {
+                        clscolor = "badge-success";
+                        checked = 'checked';
+                    }
+                    row.Estado = '<center><span class="badge ' + clscolor + '"><input type="checkbox" ' + checked + ' disabled id="vehicle2" name="Estado" value="Estado"></span></center>';                    
+                });
+                table.DataTable().rows.add(resultado);
+                table.DataTable().draw();
+            }
             setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);            
+            }, 200);
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -43,11 +74,6 @@ function CargarBandeja() {
 
 function SeleccionarBandeja(model) {
     $('#cargac').show();
-    var table = $("#tblDataTableAprobar");
-    table.DataTable().clear();
-    table.DataTable().destroy();
-    table.DataTable().clear();
-    table.DataTable().draw(); 
     listaDatos = model;
     if (model.EstadoReporte == true) {
         $('#btnAprobado').prop('hidden', true);
@@ -55,95 +81,60 @@ function SeleccionarBandeja(model) {
     } else {
         $('#btnPendiente').prop('hidden', true);
         $('#btnAprobado').prop('hidden', false);
-    }
-    $.ajax({
-        url: "../ControlCuchillosPreparacion/ConsultarControlCuchilloDetalle",
-        type: "GET",
-        data: {
-            IdCuchilloPreparacion: 0,
-            IdControlCuchilloDetalle: 0,
-            IdControlCuchillo: model.IdControlCuchillo,
-            opcion: 1
-        },
-        success: function (resultado) {
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado == "102") {
-                MensajeAdvertencia("No existen datos para este model.");
-            }
-            if (resultado == "0") {
-                MensajeAdvertencia("Faltan parametros en la consulta.");
-            } else {
-                $("#tblDataTableAprobar tbody").empty();
-                config.opcionesDT.order = [];
-                config.opcionesDT.columns = [
-                    { data: 'CodigoCuchillo' },
-                    { data: 'Estado' },
-                    { data: 'CedulaEmpleado' },
-                    { data: 'UsuarioIngresoLog' }
-                ];                
-                table.DataTable().destroy();
-                table.DataTable(config.opcionesDT);
-                resultado.forEach(function (row) {
-                    var clscolor = "badge-danger"; //Aplico estilo a la columna Estado 
-                    var checked = '';
-                    if (row.Estado == true) {
-                        clscolor = "badge-success";
-                        checked = 'checked';
-                    }
-                    row.Estado = '<center><span class="badge ' + clscolor + '"><input type="checkbox" ' + checked + ' disabled id="vehicle2" name="Estado" value="Estado"></span></center>';
-                    var colummCedula = "";
-                    colummCedula = row.CedulaEmpleado;
-                    var guion = colummCedula.includes("-");//Valido si la cadena tiene algun -, El - significa que hay un Empleado asignado
-                    if (guion == true) {
-                        colummCedula = colummCedula.split('-');
-                        row.CedulaEmpleado = colummCedula[1];
-                    } else { row.CedulaEmpleado = "<center><span class='badge badge-danger' >NO ASIGNADO</span></center>"; }                   
-                });
-                table.DataTable().rows.add(resultado);
-                table.DataTable().draw();            
-            }
-            setTimeout(function () {
-                $('#cargac').hide();
-                if (resultado != "0") {
-                    $("#ModalApruebaPendiente").modal("show");
-                }
-            }, 200);
-        },
-        error: function (resultado) {
-            $('#cargac').hide();
-            MensajeError(resultado.responseText, false);            
-        }
-    });
-}
-
-function AprobarPendiente(estadoReporte) {
+    }    
+        var op = opcion;
         $.ajax({
-            url: "../ControlCuchillosPreparacion/GuardarModificarControlCuchilloPreparacion",
-            type: "POST",
+            url: "../LavadoDesinfeccionManos/LavadoDesinfeccionManosDetallePartial",
+            type: "GET",
             data: {
-                IdControlCuchillo: listaDatos.IdControlCuchillo,
-                Fecha: listaDatos.Fecha,
-                Hora: listaDatos.Hora,
-                Observacion: listaDatos.Observacion,
-                EstadoReporte: estadoReporte
+                IdDesinfeccionManos: listaDatos.IdDesinfeccionManos,
+                opcion: op
             },
             success: function (resultado) {
                 if (resultado == "101") {
                     window.location.reload();
                 }
-                if (resultado == 1) {
-                    MensajeCorrecto('¡Registro aprobado correctamente!');
-                } else { MensajeError('El registro no debe guardase- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion');}
-                
-                $("#ModalApruebaPendiente").modal("hide");
-                CargarBandeja();                
+                if (resultado == "0") {
+                    $("#tblAprobarPendientePartial").html("No existen registros");
+                } else {
+                    $("#tblAprobarPendientePartial").prop("hidden", false);
+                    $("#divTableEntregaProductoDetalle").html('');
+                    $("#tblAprobarPendientePartial").html(resultado);
+                }
             },
             error: function (resultado) {
+                $('#cargac').hide();
                 MensajeError(resultado.responseText, false);
             }
         });
+}
+
+function AprobarPendiente(estadoReporte) {
+    $.ajax({
+        url: "../ControlCuchillosPreparacion/GuardarModificarControlCuchilloPreparacion",
+        type: "POST",
+        data: {
+            IdControlCuchillo: listaDatos.IdControlCuchillo,
+            Fecha: listaDatos.Fecha,
+            Hora: listaDatos.Hora,
+            Observacion: listaDatos.Observacion,
+            EstadoReporte: estadoReporte
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == 1) {
+                MensajeCorrecto('¡Registro aprobado correctamente!');
+            } else { MensajeError('El registro no debe guardase- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion'); }
+
+            $("#ModalApruebaPendiente").modal("hide");
+            CargarBandeja();
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
 }
 //DATE RANGE PICKER
 $(function () {

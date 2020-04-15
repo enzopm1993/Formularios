@@ -27,7 +27,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LavadoDesinfec
                 {
                     model.Fecha = GuardarModigicar.Fecha;
                     model.Observacion = GuardarModigicar.Observacion;
-                    model.EstadoRegistro = GuardarModigicar.EstadoRegistro;
+                    //model.EstadoRegistro = GuardarModigicar.EstadoRegistro;
+                    model.EstadoReporte = GuardarModigicar.EstadoReporte;
                     model.FechaModificacionLog = GuardarModigicar.FechaIngresoLog;
                     model.TerminalModificacionLog = GuardarModigicar.TerminalIngresoLog;
                     model.UsuarioModificacionLog = GuardarModigicar.UsuarioIngresoLog;
@@ -41,6 +42,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LavadoDesinfec
                 return valor;
             }
         }
+
         public int EliminarControlLavadoDesinfeccionManos(CC_CONTROL_LAVADO_DESINFECCION_MANOS GuardarModigicar)
         {
             int valor = 0;

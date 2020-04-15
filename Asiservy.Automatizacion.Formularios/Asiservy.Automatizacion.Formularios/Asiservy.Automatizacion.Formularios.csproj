@@ -2172,6 +2172,7 @@
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\ReporteLavadoCisterna.js" />
+    <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoCisterna\MantenimientoCisterna.js" />
@@ -3748,6 +3749,7 @@
     <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.cshtml" />
     <Content Include="Views\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.cshtml" />
     <Content Include="Views\ControlCuchillosPreparacion\BandejaCuchilloPreparacionPartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
