@@ -38,7 +38,7 @@
 
 </head>
 <body id="page-top">
-    
+
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
@@ -169,17 +169,17 @@
                 }
 
 
-                    <div class="container-fluid relative1" style="padding-top:5px; padding-left:10px; padding-right:10px">
+                <div class="container-fluid relative1" style="padding-top:5px; padding-left:10px; padding-right:10px">
 
-                        <div class="absolute1" style="" hidden id="response">
-                        </div>
-                        <span id="TimeLeft"></span>
-
-                        @RenderBody()
-                        <div class="loadall" id="cargac"></div>
-
-
+                    <div class="absolute1" style="" hidden id="response">
                     </div>
+                    <span id="TimeLeft"></span>
+
+                    @RenderBody()
+                    <div class="loadall" id="cargac"></div>
+
+
+                </div>
                 <!-- Modal -->
                 <div class="modal" style="background-color: white;" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -530,6 +530,8 @@
     @if (ViewBag.JavaScrip != null)
     {
         <script src="~/Scripts/linq.js"></script>
+
+   
         @*<script src="~/Scripts/printThis.js"></script>
             <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>*@
         @*<script src = "~/Scripts/html2canvas.js" ></script>*@
@@ -538,6 +540,8 @@
         string url = "/Scripts/" + js + ".js?v=1.4";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
+
+
 
         //SCRIPT PARA COMBOS DE BUSQUEDA
         @*<script src="~/Scripts/select2.js"></script>
