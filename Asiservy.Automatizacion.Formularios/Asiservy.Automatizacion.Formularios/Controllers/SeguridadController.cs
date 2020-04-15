@@ -921,6 +921,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             catch (Exception ex)
             {
                 //SetErrorMessage(ex.Message);
+                lsUsuario = User.Identity.Name.Split('_');
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 clsDError.GrabarError(new ERROR

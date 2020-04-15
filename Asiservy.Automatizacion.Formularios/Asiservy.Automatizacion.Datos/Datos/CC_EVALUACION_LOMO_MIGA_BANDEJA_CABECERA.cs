@@ -29,7 +29,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<bool> Empaque { get; set; }
         public Nullable<bool> Enlatado { get; set; }
         public Nullable<bool> Pouch { get; set; }
-        public Nullable<int> NivelLimpieza { get; set; }
+        public string NivelLimpieza { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -39,6 +39,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public Nullable<bool> EstadoControl { get; set; }
+        public string AprobadoPor { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE> CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE { get; set; }
