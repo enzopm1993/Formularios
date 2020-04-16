@@ -816,7 +816,7 @@
     <Compile Include="Datos\sp_Reporte_CloroCisternaDescongeladoDetalle.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\sp_Reporte_Control_Cuchillos_Preparacion.cs">
+    <Compile Include="Datos\sp_Reporte_Lavado_Desinfeccion_Manos.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_SolicitudesRealizadas.cs">

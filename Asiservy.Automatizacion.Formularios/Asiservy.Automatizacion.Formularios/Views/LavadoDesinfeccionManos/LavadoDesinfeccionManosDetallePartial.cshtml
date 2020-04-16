@@ -4,17 +4,16 @@
 <table class="table table-light table-striped" tabindex="1" id="tblDataTable">
     <thead>
         <tr>
-            <th>#</th>
             <th>
-                Hora
+                HORA
             </th>
             @foreach (var item in ViewBag.cabeceraTable)
             {
                 <th>
-                    @item.Descripcion
+                    @item.Descripcion.ToUpper()
                 </th>
             }
-            <th>Acción</th>
+            <th >ACCION</th>
         </tr>
     </thead>
     @{
@@ -23,17 +22,14 @@
                          group ssi by new { ssi.Hora } into g
                          select new { Hora = g.Key.Hora,  Count = g.Count() }).ToList();
         var ordenColumnasTabla = ViewBag.cabeceraTable;//Aqui obtengo como es el orden de muestreo del detalle ya que la cabecera esta dibujada. linea1, linea 2, etc
-        var con = 0;
     }
     <tbody style="font-size:14px">
         @foreach (var subListaHora in listaHora)
         {
-            con++;
             var itemColumna = (from x in Model
                                where x.Hora == subListaHora.Hora
                                select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.Hora }).ToList();
         <tr>
-            <td>@con</td>
             <td>
                 @subListaHora.Hora
             </td>
@@ -61,7 +57,7 @@
                     <td id="@lc.Codigo"><span class="badge badge-primary"> SIN DATOS</span></td>
                 }
             }
-            <td id="tdBotones">
+            <td id="tdAcciones">
                 @{string json = JsonConvert.SerializeObject(itemColumna);
                     string jordenColumnasTabla = JsonConvert.SerializeObject(ordenColumnasTabla);
                 }
