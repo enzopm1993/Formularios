@@ -128,14 +128,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                 pListModulosFilter = ListModulos.ConvertAll(x => new ModuloViewModel
                 {
                     IdModulo=x.IdModulo,
-                    NombreModulo=x.NombreModulo
+                    NombreModulo=x.NombreModulo,
+                    Orden=x.OrdenModulo
                 });
                 object[] oresultado = new object[3];
                 //oresultado[0] = pListPadrestotal;
                 //oresultado[1] = pListHijostotal;
                 oresultado[0] = pListPadresfilter.Distinct().OrderBy(Z => Z.Orden).ToList();
                 oresultado[1] = pListHijosfilter.Distinct().OrderBy(Z => Z.Orden).ToList();
-                oresultado[2] = pListModulosFilter.Distinct().OrderByDescending(z=>z.IdModulo).ToList();
+                oresultado[2] = pListModulosFilter.Distinct().OrderBy(z=>z.Orden).ToList();
                 return oresultado;
 
             }
