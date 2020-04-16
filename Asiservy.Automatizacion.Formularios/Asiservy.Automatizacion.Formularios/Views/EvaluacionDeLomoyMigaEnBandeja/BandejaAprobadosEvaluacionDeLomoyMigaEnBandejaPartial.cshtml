@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.CALIDAD.CabeceraEvaluacionLomosMigasViewModel>
+
+<table class="table table-bordered table-hover" id="tblBandejaEvaluacion">
+    <thead>
+        <tr>
+     
+            <th>
+                Fecha de producción
+            </th>
+            <th>
+                Orden de fabricación
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lomo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Miga)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empaque)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enlatado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pouch)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NivelLimpieza)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+          
+           
+            <th>
+                Estado
+            </th>
+       
+            <th>
+                Aprobado por
+            </th>
+            <th>
+                Fecha de aprobación
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr  style="cursor:pointer" onclick="AbrirModalDetalle(@item.IdEvaluacionDeLomosYMigasEnBandejas)">
+             
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaProduccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdenFabricacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente)
+                </td>
+                <td class="text-center">
+                    @if (item.Lomo == true)
+                    {
+                        <i class="far fa-check-circle" style="color:green"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.Miga == true)
+                    {
+                        <i class="far fa-check-circle" style="color:green"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.Empaque == true)
+                    {
+                    <i class="far fa-check-circle" style="color:green"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.Enlatado == true)
+                    {
+                    <i class="far fa-check-circle" style="color:green"></i>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (item.Pouch == true)
+                    {
+                        <i class="far fa-check-circle" style="color:green"></i>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NivelLimpiezaDescripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+                
+                <td class="text-center">
+                    @if (item.EstadoControl == true)
+                    {
+                        <span class="badge badge-success">Aprobado</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">Pendiente</span>
+                    }
+                </td>
+           
+                <td>
+                    @Html.DisplayFor(modelItem => item.AprobadoPor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaAprobacion)
+                </td>
+           
+            </tr>
+        }
+
+    </tbody>
+</table>

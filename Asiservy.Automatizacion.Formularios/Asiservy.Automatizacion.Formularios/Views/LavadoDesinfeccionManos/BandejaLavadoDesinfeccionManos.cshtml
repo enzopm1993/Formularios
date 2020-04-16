@@ -1,7 +1,7 @@
-﻿@model Asiservy.Automatizacion.Datos.Datos.sp_Control_Cuchillos_Preparacion
+﻿@model Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Desinfeccion_Manos
 
 @{
-    ViewBag.Title = "BandejaCuchilloPreparacion";
+    ViewBag.Title = "BandejaLavadoDesinfeccionManos";
 }
 
 <style>
@@ -40,7 +40,7 @@
 
 <div class="row">
     <div class="col-md-6 col-12 col-sm-12">
-        <h4 class="text-md-left text-center" style="float:left">Bandeja Aprobación Cuchillos</h4>
+        <h4 class="text-md-left text-center" style="float:left">Bandeja Lavado Desinfeccion Manos</h4>
     </div>
     <div class="col-md-6 col-12 col-sm-12">
         <div class="box_filters" style="padding-right:7.6%;width:62%">
@@ -55,8 +55,8 @@
             </div>
 
         </div>
-    </div>       
-   
+    </div>
+
 </div>
 
 <div class="row float-right">
@@ -75,45 +75,46 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
-    <br />
-    @* DIV MOSTRAR PARTIAL VIEW *@
-    <div class="table-responsive" id="divTablaAplrobados">
-        <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableAprobar">
-            <thead>
-                <tr>
-                    <th>FECHA</th>
-                    <th>OBSERVACION</th>
-                    <th>USIARIO CREACION</th>
-                    <th>ESTADO APROBACION</th>
-                </tr>
-            </thead>
-            <tbody style="font-size:14px"></tbody>
-        </table>
-    </div>
+<br />
+@* DIV MOSTRAR PARTIAL VIEW *@
+<div class="table-responsive" id="divTablaAplrobados">
 
-    @* MODAL APRUEBA CONTROL CUCHILLO *@
-    <div class="modal fade" id="ModalApruebaPendiente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Aprobar</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+</div>
+
+@* MODAL APRUEBA CONTROL CUCHILLO *@
+<div class="modal fade" id="ModalApruebaPendiente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Aprobar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableAprobar">
+                        <thead>
+                            <tr>
+                                <th>Código Cuchillo</th>
+                                <th>Estado</th>
+                                <th>Empleado</th>
+                                <th>Usuario Creación</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:14px"></tbody>
+                    </table>
                 </div>
-                <div class="modal-body">
-                    <div class="table-responsive" id="tblAprobarPendientePartial">
-                       
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="btnAprobado" hidden class="btn btn-primary" onclick="AprobarPendiente(true)">Aprobar</button>
-                    <button type="button" id="btnPendiente" hidden class="btn btn-primary" onclick="AprobarPendiente(false)">Reversar</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="btnAprobado" hidden class="btn btn-primary" onclick="AprobarPendiente(true)">Aprobar</button>
+                <button type="button" id="btnPendiente" hidden class="btn btn-primary" onclick="AprobarPendiente(false)">Reversar</button>
             </div>
         </div>
     </div>
+</div>
+
 

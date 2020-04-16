@@ -2196,6 +2196,7 @@
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\ReporteLavadoCisterna.js" />
+    <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoCisterna\MantenimientoCisterna.js" />
@@ -3208,6 +3209,7 @@
     <Content Include="Scripts\Seguridad\UsuarioRol.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\signature_pad.umd.js" />
     <Content Include="Scripts\SolicitudPermiso\BandejaAprobacion.js" />
     <Content Include="Scripts\SolicitudPermiso\BandejaMedico.js" />
     <Content Include="Scripts\SolicitudPermiso\BandejaRRHH.js" />
@@ -3410,6 +3412,7 @@
     <Compile Include="Models\Asistencia\EmpleadoCuchilloViewModel.cs" />
     <Compile Include="Models\Asistencia\EmpleadoRpt.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
+    <Compile Include="Models\CALIDAD\CabeceraEvaluacionLomosMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalDetalleModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
     <Compile Include="Models\Calidad\DetalleEvaluacionLomosMIgasBandejaViewModel.cs" />
@@ -3795,6 +3798,9 @@
     <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.cshtml" />
     <Content Include="Views\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.cshtml" />
     <Content Include="Views\ControlCuchillosPreparacion\BandejaCuchilloPreparacionPartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.cshtml" />
+    <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\BandejaAprobadosEvaluacionDeLomoyMigaEnBandejaPartial.cshtml" />
+    <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\PartialDetalleBandeja.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
