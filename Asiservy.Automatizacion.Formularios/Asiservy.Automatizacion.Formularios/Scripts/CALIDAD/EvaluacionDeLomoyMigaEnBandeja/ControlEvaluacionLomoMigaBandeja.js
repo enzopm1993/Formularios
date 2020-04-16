@@ -558,6 +558,8 @@ function ConsultarDetalleControl() {
                 config.opcionesDT.pageLength = 10;
                 $('#TableDetalle').DataTable(config.opcionesDT);
                 LimpiarDetalleControles();
+                ConsultarFirma();
+               
             } else {
                 $('#DivDetalles').empty();
             }
@@ -692,98 +694,118 @@ function EliminarDetalle() {
 
         })
 }
-function BorrarFirma() {
-    $('#DivCanvas').html('');
-    
-    $('#DivCanvas').append('<center><canvas id="pizarra"></canvas></center>');
-}
-//======================================================================
-// VARIABLES
-//======================================================================
-let miCanvas = document.querySelector('#pizarra');
-let lineas = [];
-let correccionX = 0;
-let correccionY = 0;
-let pintarLinea = false;
-
-let posicion = miCanvas.getBoundingClientRect()
-correccionX = posicion.x;
-correccionY = posicion.y;
-
-miCanvas.width = 400;
-miCanvas.height = 100;
-
-
-//======================================================================
-// FUNCIONES
-//======================================================================
-
-/**
- * Funcion que empieza a dibujar la linea
- */
-function empezarDibujo() {
-    pintarLinea = true;
-    lineas.push([]);
-};
-
-/**
- * Funcion dibuja la linea
- */
-function dibujarLinea(event) {
-    event.preventDefault();
-    if (pintarLinea) {
-        let ctx = miCanvas.getContext('2d')
-        // Estilos de linea
-        ctx.lineJoin = ctx.lineCap = 'butt';
-        ctx.lineWidth = 4;
-        // Color de la linea
-        ctx.strokeStyle = '#000';
-        // Marca el nuevo punto
-        let nuevaPosicionX = 0;
-        let nuevaPosicionY = 0;
-        if (event.changedTouches == undefined) {
-            // Versión ratón
-            nuevaPosicionX = event.layerX;
-            nuevaPosicionY = event.layerY;
-        } else {
-            // Versión touch, pantalla tactil
-            nuevaPosicionX = event.changedTouches[0].pageX - correccionX;
-            nuevaPosicionY = event.changedTouches[0].pageY - correccionY;
+function GuardarFirma() {
+    var canvas = document.getElementById("firmacanvas");
+    var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
+    var formData = new FormData();
+    formData.append('imagen', image);
+    formData.append('IdCabecera', IdCabecera);
+    formData.append('Tipo', 'Control');
+    $.ajax({
+        type: 'POST',
+        url: '/EvaluacionDeLomoyMigaEnBandeja/GuardarImagenFirma',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (result) {
+            if (result == "101") {
+                window.location.reload();
+            }
+            //console.log(result);
+            //$('#div_ImagenFirma').empty();
+            $('#div_ImagenFirma').prop('hidden', false);
+            //var img = $('<img />', { id: 'Myid', src: result, alt: 'MyAlt', width: '400px', height: '200px' }).appendTo($('#div_ImagenFirma'));
+            document.getElementById('ImgFirma').src = result;
+            $('#signature-pad').prop('hidden', true);
+            MensajeCorrecto("Firma ingresada Correctamente");
         }
-        // Guarda la linea
-        lineas[lineas.length - 1].push({
-            x: nuevaPosicionX,
-            y: nuevaPosicionY
-        });
-        // Redibuja todas las lineas guardadas
-        ctx.beginPath();
-        lineas.forEach(function (segmento) {
-            ctx.moveTo(segmento[0].x, segmento[0].y);
-            segmento.forEach(function (punto, index) {
-                ctx.lineTo(punto.x, punto.y);
-            });
-        });
-        ctx.stroke();
+    });
+}
+function ConsultarFirma() {
+    $.ajax({
+        url: "../EvaluacionDeLomoyMigaEnBandeja/ConsultarFirma",
+        type: "GET",
+        data: {
+            IdCabecera: IdCabecera
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado != '0') {
+                document.getElementById('ImgFirma').src = resultado;
+                $('#div_ImagenFirma').prop('hidden', false);
+                $('#signature-pad').prop('hidden', true);
+            } else {
+                $('#signature-pad').prop('hidden', false);
+            }
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+            
+        }
+    });
+}
+function VolverAFirmar() {
+    $('#div_ImagenFirma').prop('hidden', true);
+    $('#signature-pad').prop('hidden', false);
+}
+
+//prueba api firma
+
+
+var clearButton = wrapper.querySelector("[data-action=clear]");
+//var changeColorButton = wrapper.querySelector("[data-action=change-color]");
+//var undoButton = wrapper.querySelector("[data-action=undo]");
+//var savePNGButton = wrapper.querySelector("[data-action=save-png]");
+//var saveJPGButton = wrapper.querySelector("[data-action=save-jpg]");
+//var saveSVGButton = wrapper.querySelector("[data-action=save-svg]");
+
+var canvas = document.querySelector("canvas");
+
+var signaturePad = new SignaturePad(canvas);
+signaturePad.on();
+
+function download(dataURL, filename) {
+    if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
+        window.open(dataURL);
+    } else {
+        var blob = dataURLToBlob(dataURL);
+        var url = window.URL.createObjectURL(blob);
+
+        var a = document.createElement("a");
+        a.style = "display: none";
+        a.href = url;
+        a.download = filename;
+
+        document.body.appendChild(a);
+        a.click();
+
+        window.URL.revokeObjectURL(url);
     }
 }
 
-/**
- * Funcion que deja de dibujar la linea
- */
-function pararDibujar() {
-    pintarLinea = false;
+// One could simply use Canvas#toBlob method instead, but it's just to show
+// that it can be done using result of SignaturePad#toDataURL.
+function dataURLToBlob(dataURL) {
+    // Code taken from https://github.com/ebidel/filer.js
+    var parts = dataURL.split(';base64,');
+    var contentType = parts[0].split(":")[1];
+    var raw = window.atob(parts[1]);
+    var rawLength = raw.length;
+    var uInt8Array = new Uint8Array(rawLength);
+
+    for (var i = 0; i < rawLength; ++i) {
+        uInt8Array[i] = raw.charCodeAt(i);
+    }
+
+    return new Blob([uInt8Array], { type: contentType });
 }
 
-//======================================================================
-// EVENTOS
-//======================================================================
+clearButton.addEventListener("click", function (event) {
+    signaturePad.clear();
+});
 
-// Eventos raton
-miCanvas.addEventListener('mousedown', empezarDibujo, false);
-miCanvas.addEventListener('mousemove', dibujarLinea, false);
-miCanvas.addEventListener('mouseup', pararDibujar, false);
 
-// Eventos pantallas táctiles
-miCanvas.addEventListener('touchstart', empezarDibujo, false);
-miCanvas.addEventListener('touchmove', dibujarLinea, false);
+// fin prueba api firma
 
