@@ -3805,6 +3805,7 @@
     <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\PartialDetalleBandeja.cshtml" />
     <Content Include="Views\ReporteMaestro\ReporteMaestro.cshtml" />
     <Content Include="Views\ReporteMaestro\ReporteMaestroPartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManosAprobarPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
