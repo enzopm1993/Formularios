@@ -3199,6 +3199,7 @@
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEditar.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ReporteProyeccionProgramacion.js" />
+    <Content Include="Scripts\ReporteMaestro\ReporteMaestro.js" />
     <Content Include="Scripts\Seguridad\Clasificador.js" />
     <Content Include="Scripts\Seguridad\Modulo.js" />
     <Content Include="Scripts\Seguridad\NivelUsuario.js" />
@@ -3379,7 +3380,7 @@
     <Compile Include="Controllers\DatalifeController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\EntregaProductoTerminadoController.cs" />
-    <Compile Include="Controllers\EntregaUniformeController.cs" />
+    <Compile Include="Controllers\PRODUCCION\EntregaUniformeController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -3397,6 +3398,7 @@
     <Compile Include="Controllers\PRODUCCION\EsterilizacionConservaController.cs" />
     <Compile Include="Controllers\PRODUCCION\ProductoPouchCuarentenaController.cs" />
     <Compile Include="Controllers\PRODUCCION\ProyeccionProgramacionController.cs" />
+    <Compile Include="Controllers\ReporteMaestroController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
@@ -3801,6 +3803,8 @@
     <Content Include="Views\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.cshtml" />
     <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\BandejaAprobadosEvaluacionDeLomoyMigaEnBandejaPartial.cshtml" />
     <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\PartialDetalleBandeja.cshtml" />
+    <Content Include="Views\ReporteMaestro\ReporteMaestro.cshtml" />
+    <Content Include="Views\ReporteMaestro\ReporteMaestroPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
