@@ -630,6 +630,12 @@
     <Compile Include="Datos\spConsultaReporteControlCuchillo.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spConsultaReporteDetalle.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\spConsultaReporteMaestro.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spConsultaResidualCloro.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

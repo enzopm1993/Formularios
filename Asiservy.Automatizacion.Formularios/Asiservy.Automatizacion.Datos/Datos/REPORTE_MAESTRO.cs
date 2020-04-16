@@ -14,6 +14,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class REPORTE_MAESTRO
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public REPORTE_MAESTRO()
+        {
+            this.REPORTE_DETALLE = new HashSet<REPORTE_DETALLE>();
+        }
+    
         public int IdReporteMaestro { get; set; }
         public string Nombre { get; set; }
         public string Codigo { get; set; }
@@ -25,5 +31,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<REPORTE_DETALLE> REPORTE_DETALLE { get; set; }
     }
 }

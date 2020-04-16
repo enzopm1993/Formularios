@@ -10,9 +10,8 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class REPORTE_DETALLE
+    public partial class spConsultaReporteDetalle
     {
         public int IdReporteDetalle { get; set; }
         public int IdReporteMaestro { get; set; }
@@ -25,7 +24,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        public virtual REPORTE_MAESTRO REPORTE_MAESTRO { get; set; }
     }
 }
