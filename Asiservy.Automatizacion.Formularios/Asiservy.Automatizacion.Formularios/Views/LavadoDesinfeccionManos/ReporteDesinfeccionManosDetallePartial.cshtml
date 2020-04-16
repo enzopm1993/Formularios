@@ -1,18 +1,21 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Reporte_Lavado_Desinfeccion_Manos>
 @using Newtonsoft.Json;
 
-<table class="table table-light table-striped border" id="tblDataTableReporte">
+<table class="table table-light table-striped border" id="tblDataTable">
     <thead style="height:15px; font-family:50px">
         <tr>
+            <th style="border-right:0.4px solid #e3e6f0"></th>
             <th style="border-right:0.4px solid #e3e6f0"></th>
             <th></th>
             <th style="border:0.4px solid #e3e6f0" colspan="5"><center>LIMIEZA DE ATUN</center></th>
             <th><center>EMPAQUE</center></th>
             <th colspan="2" style="border:0.4px solid #e3e6f0"><center>CONSERVAS</center></th>
+            <th style="border-right:0.4px solid #e3e6f0"></th>
+            <th></th>
         </tr>
         <tr>
             <th style="border-right:0.4px solid #e3e6f0">FECHA</th>
-            <th>
+            <th style="border-right:0.4px solid #e3e6f0">
                 HORA
             </th>
             <th>
@@ -21,33 +24,36 @@
             @foreach (var item in ViewBag.cabeceraTable)
             {
                 <th style="border:0.4px solid #e3e6f0">
-                    @item.Descripcion
+                    @item.Descripcion.ToUpper()
                 </th>
             }
+            <th style="border-right:0.4px solid #e3e6f0">APROBADO POR</th>
+            <th>ESTADO</th>
         </tr>
     </thead>
     @{
         var listaColumnasCabecera = ViewBag.cabeceraTable;
         var listaHora = (from ssi in Model
-                         group ssi by new { ssi.Hora } into g
-                         select new { Hora = g.Key.Hora, Count = g.Count() }).ToList();
+                         group ssi by new { ssi.Hora, ssi.Fecha, ssi.Observacion } into g
+                         select new { Hora = g.Key.Hora, g.Key.Fecha,g.Key.Observacion, Count = g.Count() }).ToList();
         var ordenColumnasTabla = ViewBag.cabeceraTable;//Aqui obtengo como es el orden de muestreo del detalle ya que la cabecera esta dibujada. linea1, linea 2, etc
     }
     <tbody style="font-size:14px">
         @foreach (var subListaHora in listaHora)
         {
+            string usuarioAprobacion = "";
+            bool estadoReporte = false;
             var itemColumna = (from x in Model
                                where x.Hora == subListaHora.Hora
-                               select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.Hora, x.Fecha }).ToList();
+                               select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.UsuarioModificacionLog, x.EstadoReporteCB}).ToList();
             <tr>
-                <td>Fecha</td>
+                <td>@subListaHora.Fecha.Replace("/","-")</td>
                 <td>
                     @subListaHora.Hora
                 </td>
-                <td>Observacion</td>
+                <td>@subListaHora.Observacion</td>
                 @foreach (var lc in listaColumnasCabecera)
                 {
-
                     int dibujarTDDiNo = 0;
                     foreach (var ic in itemColumna)
                     {
@@ -63,12 +69,25 @@
                                 <td id="@ic.CodigoLinea"> <center><span class="badge badge-danger">N</span></center></td>
                             }
                         }
+                        usuarioAprobacion = ic.UsuarioModificacionLog;
+                        estadoReporte = ic.EstadoReporteCB;
                     }
                     if (itemColumna.Count != listaColumnasCabecera.Count && dibujarTDDiNo == 0)
                     {
-                        <td id="@lc.Codigo"><span class="badge badge-primary"> SIN DATOS</span></td>
-                    }
+                        <td id="@lc.Codigo"><span class="badge badge-primary">SIN DATOS</span></td>
+                    }                   
                 }
+                <td>@usuarioAprobacion</td>
+                <td>
+                    @if (estadoReporte == true)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
             </tr>
         }
     </tbody>
