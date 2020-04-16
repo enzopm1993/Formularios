@@ -27,13 +27,15 @@
                     </th>
                     <th>EMPLEADO-@itemCodigoCuchillo.CodigoCuchillo</th>
                 }
-                <th>ESTADO APROBACION</th>
+                <th>APROBADO POR</th>
+                <th>ESTADO</th>
             </tr>
         </thead>
         <tbody style="font-size:14px">
             @foreach (var item in listaHora)
             {
                 con++;
+                string usuarioAprobacion = "";
                 bool estadoReporte = false;
                 <tr>
                     <td hidden>@con</td>
@@ -43,7 +45,7 @@
                     {
                         var estado = (from c in Model
                                       where c.Fecha == item.Fecha && c.Hora == item.Hora && lh.CodigoCuchillo == c.CodigoCuchillo
-                                      select new { Estado = c.Estado, c.CedulaEmpleado, c.EstadoReporte });
+                                      select new { Estado = c.Estado, c.CedulaEmpleado, c.EstadoReporte, c.UsuarioModificacionLog });
 
                         <td>
                             @foreach (var est in estado)
@@ -67,10 +69,12 @@
                                     var nombres = cedula.CedulaEmpleado.Split('-');
                                     <span>@nombres[1].ToUpper()</span>
                                 }
+                                usuarioAprobacion = cedula.UsuarioModificacionLog;
                                 estadoReporte = cedula.EstadoReporte;
                             }
                         </td>                        
                     }
+                    <td>@usuarioAprobacion</td>
                       <td>
                          <center>
                                 @if (estadoReporte == true)

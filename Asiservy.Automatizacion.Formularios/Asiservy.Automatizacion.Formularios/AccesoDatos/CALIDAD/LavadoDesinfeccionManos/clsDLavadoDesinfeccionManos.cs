@@ -71,6 +71,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LavadoDesinfec
             }
         }
 
+        public List<sp_Reporte_Lavado_Desinfeccion_Manos> ReporteControlLavadoDesinfeccion(DateTime fechaDesde, DateTime fechaHasta, int opcion)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var listado = db.sp_Reporte_Lavado_Desinfeccion_Manos(fechaDesde, fechaHasta, opcion).ToList();
+                return listado;
+            }
+        }
+
         public int GuardarModificarControlLavadoDesinfeccionManosDetalle(CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE GuardarModigicar)
         {
             int valor = 0;
