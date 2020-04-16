@@ -387,6 +387,12 @@
     <Compile Include="Datos\PROYECCION_PROGRAMACION_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\REPORTE_DETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\REPORTE_MAESTRO.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\RESIDUAL_CLORO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
