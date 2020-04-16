@@ -9,6 +9,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.Seguridad
     {
         public int? IdModulo { get; set; }
         public string NombreModulo{get;set;}
+        public int? Orden { get; set; }
 
         #region IEquatable<ConsultaOpcionesxRolViewModel> Members
 

@@ -154,7 +154,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" Width="1.5" PointX="29.375" PointY="46" />
         <AssociationConnector Association="ASIS_PRODModel.FK_MAPEO_PRODUCTO_TUNEL_DETALLE_MAPEO_PRODUCTO_TUNEL" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_COCHE_LINEA" Width="1.5" PointX="16.375" PointY="11.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CUCHILLO" Width="1.5" PointX="36.375" PointY="21.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" Width="1.5" PointX="5.375" PointY="17.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO_PRESTADO" Width="1.5" PointX="22.375" PointY="0.75" />
@@ -164,8 +163,12 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CUCHILLO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS" Width="1.5" PointX="8.75" PointY="35" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="35.75" PointY="36.625" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="35.75" PointY="36.375" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_COCHE_LINEA" Width="1.5" PointX="16.375" PointY="11.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_DETALLE" Width="1.5" PointX="39.625" PointY="1" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_MAESTRO" Width="1.5" PointX="37.375" PointY="1" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

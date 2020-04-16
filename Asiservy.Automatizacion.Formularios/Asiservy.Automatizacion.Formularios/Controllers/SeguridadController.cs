@@ -425,7 +425,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
             foreach (var item in plistOpciones)
             {
-                item.Nombre = item.Nombre + "(" + item.Clase + ")";
+                item.Nombre = item.Nombre + "(" + item.Clase + ")" +" - "+item.Formulario;
             }
             ViewBag.OpcionesOr = plistOpciones;
             clsDRol = new clsDRol();

@@ -7,6 +7,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.Calidad
 {
     public class DetalleEvaluacionLomosMIgasBandejaViewModel
     {
+        public int IdCabecera { get; set; }
         public int IdDetalle {get;set;}
         public DateTime? Hora { get; set; }
         public string Linea { get; set; }
@@ -30,6 +31,7 @@ namespace Asiservy.Automatizacion.Formularios.Models.Calidad
         public int? Sangre { get; set; }
         public int? Escamas { get; set; }
         public int? Piel { get; set; }
+        public bool? Aprobado { get; set; }
 
     }
 }

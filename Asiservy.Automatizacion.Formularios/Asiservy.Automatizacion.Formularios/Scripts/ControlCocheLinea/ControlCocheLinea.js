@@ -9,8 +9,8 @@ function SelectControlCoche(id, fecha, horaInicio, horaFin, Linea, talla,observa
 
     $("#txtIdControlCoche").val(id);
     $("#txtFecha").val(fecha);
-    $("#txtHoraInicio").val(horaInicio);
-    $("#txtHoraFin").val(horaFin);
+    $("#txtHoraInicio").val(moment(horaInicio).format("YYYY-MM-DDThh:mm"));
+    $("#txtHoraFin").val(moment(horaFin).format("YYYY-MM-DDThh:mm"));
     $("#txtCoches").val(coche);
     $("#selectLineas").val(Linea);
     $("#selectTalla").val(talla);

@@ -14,9 +14,9 @@ namespace Asiservy.Automatizacion.Formularios.Models.ControlCocheLinea
         public System.DateTime Fecha { get; set; }
         public string Turno { get; set; }
         [DisplayName("Hora Inicio")]
-        public System.TimeSpan HoraInicio { get; set; }
+        public DateTime? HoraInicio { get; set; }
         [DisplayName("Hora Final")]
-        public System.TimeSpan HoraFin { get; set; }
+        public DateTime?  HoraFin { get; set; }
         [DisplayName("# Coches")]
         public int Coches { get; set; }
         public string Linea { get; set; }

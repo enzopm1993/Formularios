@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.Models.Calidad;
+using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLomosyMigasEnBandeja
 {
@@ -152,20 +153,63 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 return resultado;
             }
         }
+        public string AprobarControl(int idCabecera,string usuario,string terminal)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+
+                var buscarCabecera = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(idCabecera);
+                buscarCabecera.FechaModificacionLog = DateTime.Now;
+                buscarCabecera.UsuarioModificacionLog = usuario;
+                buscarCabecera.TerminalModificacionLog = terminal;
+                buscarCabecera.AprobadoPor = usuario;
+                buscarCabecera.FechaAprobacion = DateTime.Now;
+                buscarCabecera.EstadoControl = true;
+                db.SaveChanges();
+           
+                return "El control ha sido aprobado";
+            }
+        }
         public  List<DetalleEvaluacionLomosMIgasBandejaViewModel> ConsultarDetalleControl(int idCabeceraControl)
         {
             using (var db = new ASIS_PRODEntities())
             {
                 var resultado = (from d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE
-                                join c in db.CC_MANTENIMIENTO_COLOR on new {d.Color, EstadoRegistro=clsAtributos.EstadoRegistroActivo } equals new { Color=c.IdColor, c.EstadoRegistro }
-                                join o in db.CC_MANTENIMIENTO_OLOR on new {d.Olor, EstadoRegistro = clsAtributos.EstadoRegistroActivo }equals new { Olor=o.IdOlor, o.EstadoRegistro}
-                                join s in db.CC_MANTENIMIENTO_SABOR on new { d.Sabor, EstadoRegistro =clsAtributos.EstadoRegistroActivo} equals new { Sabor=s.IdSabor,s.EstadoRegistro}
-                                join t in db.CC_MANTENIMIENTO_TEXTURA on new { d.Textura, EstadoRegistro =clsAtributos.EstadoRegistroActivo} equals new {Textura=t.IdTextura,t.EstadoRegistro }
-                                join p in db.CC_MANTENIMIENTO_PROTEINA on new {d.Proteina, EstadoRegistro=clsAtributos.EstadoRegistroActivo } equals new {Proteina=p.IdProteina,p.EstadoRegistro }
-                                where d.IdCabeceraEvaluacionLomosYMigasEnBandeja==idCabeceraControl&&d.EstadoRegistro==clsAtributos.EstadoRegistroActivo
-                                select new DetalleEvaluacionLomosMIgasBandejaViewModel { Buque=d.buque,CodColor=c.IdColor,CodOlor=o.IdOlor,CodProteinas=p.IdProteina,CodSabor=s.IdSabor,
-                                CodTextura=t.IdTextura,Color=c.Descripcion,Escamas=d.Escamas,Espinas=d.Espinas,HematomasProfundos=d.HematomasProfundos,Hora=d.Hora,Linea=d.Linea,Lote=d.Lote,
-                                Moretones=d.Moretones,Olor=o.Descripcion,Piel=d.Piel,Proteinas=p.Descripcion,Sabor=s.Descripcion,Sangre=d.Sangre,Textura=t.Descripcion,Trozos=d.Trozo,Venas=d.Venas,IdDetalle=d.IdDetalleEvaluacionLomoyMigasEnBandeja}).ToList();
+                                 join c in db.CC_MANTENIMIENTO_COLOR on new { d.Color, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Color = c.IdColor, c.EstadoRegistro }
+                                 join o in db.CC_MANTENIMIENTO_OLOR on new { d.Olor, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Olor = o.IdOlor, o.EstadoRegistro }
+                                 join s in db.CC_MANTENIMIENTO_SABOR on new { d.Sabor, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Sabor = s.IdSabor, s.EstadoRegistro }
+                                 join t in db.CC_MANTENIMIENTO_TEXTURA on new { d.Textura, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Textura = t.IdTextura, t.EstadoRegistro }
+                                 join p in db.CC_MANTENIMIENTO_PROTEINA on new { d.Proteina, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Proteina = p.IdProteina, p.EstadoRegistro }
+                                 join cab in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA on new { IdEvaluacionDeLomosYMigasEnBandejas=d.IdCabeceraEvaluacionLomosYMigasEnBandeja, EstadoRegistro =clsAtributos.EstadoRegistroActivo} equals new {cab.IdEvaluacionDeLomosYMigasEnBandejas, cab.EstadoRegistro }
+                                 where d.IdCabeceraEvaluacionLomosYMigasEnBandeja == idCabeceraControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                 select new DetalleEvaluacionLomosMIgasBandejaViewModel
+                                 {
+                                     Buque = d.buque,
+                                     CodColor = c.IdColor,
+                                     CodOlor = o.IdOlor,
+                                     CodProteinas = p.IdProteina,
+                                     CodSabor = s.IdSabor,
+                                     CodTextura = t.IdTextura,
+                                     Color = c.Descripcion,
+                                     Escamas = d.Escamas,
+                                     Espinas = d.Espinas,
+                                     HematomasProfundos = d.HematomasProfundos,
+                                     Hora = d.Hora,
+                                     Linea = d.Linea,
+                                     Lote = d.Lote,
+                                     Moretones = d.Moretones,
+                                     Olor = o.Descripcion,
+                                     Piel = d.Piel,
+                                     Proteinas = p.Descripcion,
+                                     Sabor = s.Descripcion,
+                                     Sangre = d.Sangre,
+                                     Textura = t.Descripcion,
+                                     Trozos = d.Trozo,
+                                     Venas = d.Venas,
+                                     IdDetalle = d.IdDetalleEvaluacionLomoyMigasEnBandeja,
+                                     IdCabecera=idCabeceraControl,
+                                     Aprobado=cab.EstadoControl
+                                 }).ToList();
                 return resultado;
             }
         }
@@ -175,6 +219,81 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
             {
                return db.spReporteEvaluacionLomosMigasBandeja(Fecha).ToList();
             }
+        }
+        public List<CabeceraEvaluacionLomosMigasViewModel> ConsultarBandejaEvaluacionLomosyMiga(DateTime? FechaInicio, DateTime? FechaFin,bool EstadoControl)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                if (EstadoControl == clsAtributos.EstadoReportePendiente)
+                {
+                    //return db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => (x.EstadoRegistro == clsAtributos.EstadoRegistroActivo & x.EstadoControl == clsAtributos.EstadoReportePendiente)).ToList();
+                    var respuesta = (from x in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
+                                     join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
+                                     join d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE on new { IdCabeceraEvaluacionLomosYMigasEnBandeja=x.IdEvaluacionDeLomosYMigasEnBandejas, EstadoRegistro=clsAtributos.EstadoRegistroActivo } equals new {d.IdCabeceraEvaluacionLomosYMigasEnBandeja,  d.EstadoRegistro }
+                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.EstadoControl == clsAtributos.EstadoReportePendiente && cl.Codigo != "0"
+                                     select new CabeceraEvaluacionLomosMigasViewModel
+                                     {
+                                         Cliente = x.Cliente,
+                                         Empaque = x.Empaque,
+                                         Enlatado = x.Enlatado,
+                                         EstadoControl = x.EstadoControl,
+                                         EstadoRegistro = x.EstadoRegistro,
+                                         FechaIngresoLog = x.FechaIngresoLog,
+                                         FechaModificacionLog = x.FechaModificacionLog,
+                                         FechaProduccion = x.FechaProduccion,
+                                         IdEvaluacionDeLomosYMigasEnBandejas = x.IdEvaluacionDeLomosYMigasEnBandejas,
+                                         Lomo = x.Lomo,
+                                         Miga = x.Miga,
+                                         NivelLimpieza = x.NivelLimpieza,
+                                         Observacion = x.Observacion,
+                                         OrdenFabricacion = x.OrdenFabricacion,
+                                         Pouch = x.Pouch,
+                                         TerminalIngresoLog = x.TerminalIngresoLog,
+                                         TerminalModificacionLog = x.TerminalModificacionLog,
+                                         UsuarioIngresoLog = x.UsuarioIngresoLog,
+                                         UsuarioModificacionLog = x.UsuarioModificacionLog,
+                                         NivelLimpiezaDescripcion=cl.Descripcion,
+                                         AprobadoPor=x.AprobadoPor,
+                                         FechaAprobacion=x.FechaAprobacion
+                                     }).Distinct().ToList();
+
+                    return respuesta;
+                }
+                else
+                {
+                    var respuesta = (from x in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
+                                     join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
+                                     join d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE on new { IdCabeceraEvaluacionLomosYMigasEnBandeja = x.IdEvaluacionDeLomosYMigasEnBandejas, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionLomosYMigasEnBandeja, d.EstadoRegistro }
+                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&(x.FechaProduccion>=FechaInicio&&x.FechaProduccion<=FechaFin) && x.EstadoControl == clsAtributos.EstadoReporteActivo  && cl.Codigo != "0"
+                                     select new CabeceraEvaluacionLomosMigasViewModel
+                                     {
+                                         Cliente = x.Cliente,
+                                         Empaque = x.Empaque,
+                                         Enlatado = x.Enlatado,
+                                         EstadoControl = x.EstadoControl,
+                                         EstadoRegistro = x.EstadoRegistro,
+                                         FechaIngresoLog = x.FechaIngresoLog,
+                                         FechaModificacionLog = x.FechaModificacionLog,
+                                         FechaProduccion = x.FechaProduccion,
+                                         IdEvaluacionDeLomosYMigasEnBandejas = x.IdEvaluacionDeLomosYMigasEnBandejas,
+                                         Lomo = x.Lomo,
+                                         Miga = x.Miga,
+                                         NivelLimpieza = x.NivelLimpieza,
+                                         Observacion = x.Observacion,
+                                         OrdenFabricacion = x.OrdenFabricacion,
+                                         Pouch = x.Pouch,
+                                         TerminalIngresoLog = x.TerminalIngresoLog,
+                                         TerminalModificacionLog = x.TerminalModificacionLog,
+                                         UsuarioIngresoLog = x.UsuarioIngresoLog,
+                                         UsuarioModificacionLog = x.UsuarioModificacionLog,
+                                         NivelLimpiezaDescripcion = cl.Descripcion,
+                                         AprobadoPor = x.AprobadoPor,
+                                         FechaAprobacion = x.FechaAprobacion
+                                     }).Distinct().ToList();
+                    return respuesta;
+                }
+            }
+
         }
     }
 }

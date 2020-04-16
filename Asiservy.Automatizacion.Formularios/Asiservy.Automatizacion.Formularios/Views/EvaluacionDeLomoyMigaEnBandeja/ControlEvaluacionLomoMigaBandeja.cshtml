@@ -48,8 +48,11 @@
     #lgndestino {
         width: 60%;
     }
+    #pizarra {
+        border: 1px solid black;
+    }
 </style>
-<h4>Evaluación de lomos y migas en bandejas</h4>
+<h4>Evaluación de lomos y migas en bandejas</h4><h4 id="EtiquetaEstadoControl" class="text-warning"></h4>
 <hr />
 <div class="card">
     <div class="row">
@@ -330,6 +333,13 @@
     <br />
     <div id="DivDetalles" class="table-responsive">
 
+    </div>
+    <div id="FirmaControl">
+        <br />
+        <div id="DivCanvas">
+            <center><canvas id="pizarra"></canvas></center>
+        </div>
+        <center> <input type="button" class="btn btn-primary"  value="LimpiarFirma" onclick="BorrarFirma()"/> </center>
     </div>
 </div>
 

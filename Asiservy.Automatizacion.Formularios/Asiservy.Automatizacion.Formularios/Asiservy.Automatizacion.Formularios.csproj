@@ -77,7 +77,7 @@
       <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1404.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.1016.290\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -3199,6 +3199,7 @@
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacion.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ProyeccionProgramacionEditar.js" />
     <Content Include="Scripts\ProyeccionProgramacion\ReporteProyeccionProgramacion.js" />
+    <Content Include="Scripts\ReporteMaestro\ReporteMaestro.js" />
     <Content Include="Scripts\Seguridad\Clasificador.js" />
     <Content Include="Scripts\Seguridad\Modulo.js" />
     <Content Include="Scripts\Seguridad\NivelUsuario.js" />
@@ -3209,6 +3210,7 @@
     <Content Include="Scripts\Seguridad\UsuarioRol.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\signature_pad.umd.js" />
     <Content Include="Scripts\SolicitudPermiso\BandejaAprobacion.js" />
     <Content Include="Scripts\SolicitudPermiso\BandejaMedico.js" />
     <Content Include="Scripts\SolicitudPermiso\BandejaRRHH.js" />
@@ -3324,6 +3326,7 @@
     <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDOpcionRol.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDRol.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDUsuarioRol.cs" />
+    <Compile Include="AccesoDatos\Reporte\clsDReporte.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermiso.cs" />
     <Compile Include="AccesoDatos\General\clsDLogin.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />
@@ -3377,7 +3380,7 @@
     <Compile Include="Controllers\DatalifeController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\EntregaProductoTerminadoController.cs" />
-    <Compile Include="Controllers\EntregaUniformeController.cs" />
+    <Compile Include="Controllers\PRODUCCION\EntregaUniformeController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\GenerarDatosServicioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -3395,6 +3398,7 @@
     <Compile Include="Controllers\PRODUCCION\EsterilizacionConservaController.cs" />
     <Compile Include="Controllers\PRODUCCION\ProductoPouchCuarentenaController.cs" />
     <Compile Include="Controllers\PRODUCCION\ProyeccionProgramacionController.cs" />
+    <Compile Include="Controllers\ReporteMaestroController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SolicitudPermisoController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
@@ -3410,6 +3414,7 @@
     <Compile Include="Models\Asistencia\EmpleadoCuchilloViewModel.cs" />
     <Compile Include="Models\Asistencia\EmpleadoRpt.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
+    <Compile Include="Models\CALIDAD\CabeceraEvaluacionLomosMigasViewModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalDetalleModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
     <Compile Include="Models\Calidad\DetalleEvaluacionLomosMIgasBandejaViewModel.cs" />
@@ -3772,7 +3777,7 @@
     <Content Include="Views\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.cshtml" />
     <Content Include="Views\LavadoDesinfeccionManos\IngresoLavadoDesinfeccionManosDetallePartial.cshtml" />
     <Content Include="Views\LavadoDesinfeccionManos\LavadoDesinfeccionManosDetallePartial.cshtml" />
-    <Content Include="Views\LavadoDesinfeccionManos\ReporteDesinfeccionManosDetallePartial1.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\ReporteDesinfeccionManosDetallePartial.cshtml" />
     <Content Include="Views\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.cshtml" />
     <Content Include="Views\MantenimientoCisterna\MantenimientoCisterna.cshtml" />
     <Content Include="Views\MantenimientoCisterna\MantenimientoCisternaPartial.cshtml" />
@@ -3796,8 +3801,10 @@
     <Content Include="Views\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.cshtml" />
     <Content Include="Views\ControlCuchillosPreparacion\BandejaCuchilloPreparacionPartial.cshtml" />
     <Content Include="Views\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.cshtml" />
-    <Content Include="Views\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManosAprobarPartial.cshtml" />
-    <Content Include="Views\LavadoDesinfeccionManos\ReporteDesinfeccionManosDetallePartial.cshtml" />
+    <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\BandejaAprobadosEvaluacionDeLomoyMigaEnBandejaPartial.cshtml" />
+    <Content Include="Views\EvaluacionDeLomoyMigaEnBandeja\PartialDetalleBandeja.cshtml" />
+    <Content Include="Views\ReporteMaestro\ReporteMaestro.cshtml" />
+    <Content Include="Views\ReporteMaestro\ReporteMaestroPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3807,6 +3814,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\REPORTE\" />
     <Folder Include="Views\Comunicados\" />
   </ItemGroup>
   <ItemGroup>

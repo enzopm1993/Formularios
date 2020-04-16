@@ -12,25 +12,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
+    public partial class REPORTE_MAESTRO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA()
+        public REPORTE_MAESTRO()
         {
-            this.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE = new HashSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE>();
+            this.REPORTE_DETALLE = new HashSet<REPORTE_DETALLE>();
         }
     
-        public int IdEvaluacionDeLomosYMigasEnBandejas { get; set; }
-        public Nullable<System.DateTime> FechaProduccion { get; set; }
-        public Nullable<int> OrdenFabricacion { get; set; }
-        public string Cliente { get; set; }
-        public Nullable<bool> Lomo { get; set; }
-        public Nullable<bool> Miga { get; set; }
-        public Nullable<bool> Empaque { get; set; }
-        public Nullable<bool> Enlatado { get; set; }
-        public Nullable<bool> Pouch { get; set; }
-        public string NivelLimpieza { get; set; }
-        public string Observacion { get; set; }
+        public int IdReporteMaestro { get; set; }
+        public string Nombre { get; set; }
+        public string Codigo { get; set; }
+        public string UltimaVersion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -38,13 +31,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<bool> EstadoControl { get; set; }
-        public string AprobadoPor { get; set; }
-        public Nullable<System.DateTime> FechaAprobacion { get; set; }
-        public byte[] FirmaControl { get; set; }
-        public byte[] FirmaAprobacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE> CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE { get; set; }
+        public virtual ICollection<REPORTE_DETALLE> REPORTE_DETALLE { get; set; }
     }
 }

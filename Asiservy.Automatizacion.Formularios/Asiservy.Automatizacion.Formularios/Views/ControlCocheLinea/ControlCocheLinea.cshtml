@@ -54,7 +54,7 @@
         <div class="col-md-4 col-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label" })
-                <input type="time" id="txtHoraInicio" name="name" value="" class="form-control" />
+                <input type="datetime-local" id="txtHoraInicio" name="name" value="" class="form-control" />
                 <span class="field-validation-valid text-danger" hidden id="txtValidaHoraInicio"> Ingrese la Hora </span>
 
             </div>
@@ -63,7 +63,7 @@
         <div class="col-md-4 col-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.HoraFin, htmlAttributes: new { @class = "control-label" })
-                <input type="time" id="txtHoraFin" name="name" value="" class="form-control" />
+                <input type="datetime-local" id="txtHoraFin" name="name" value="" class="form-control" />
                 <span class="field-validation-valid text-danger" hidden id="txtValidaHoraFin"> Ingrese la Hora </span>
 
             </div>
