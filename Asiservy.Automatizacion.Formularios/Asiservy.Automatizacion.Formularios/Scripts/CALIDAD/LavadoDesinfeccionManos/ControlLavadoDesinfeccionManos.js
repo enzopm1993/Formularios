@@ -71,7 +71,7 @@ function GuardarCabecera() {
             if (resultado == "101") {
                 window.location.reload();
             }
-            //CargarCabecera(0);
+            CargarCabecera(0);
             $("#txtObservacion").prop("disabled", true);
             $("#btnModalGenerarRegistro").prop("hidden", true);
             $("#btnModalGenerar").prop("hidden", true);
@@ -219,7 +219,7 @@ function CargarDetalle(opcion) {
         url: "../LavadoDesinfeccionManos/LavadoDesinfeccionManosDetallePartial",
         type: "GET",
         data: {
-            IdDesinfeccionManos: ListaDatos.IdDesinfeccionManos,
+            IdDesinfeccionManos: ListaDatos[0].IdDesinfeccionManos,
             opcion: op
         },
         success: function (resultado) {

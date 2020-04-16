@@ -26,7 +26,7 @@ function CargarBandeja() {
         data: {
             fechaDesde: $('#fechaDesde').val(),
             fechaHasta: $('#fechaHasta').val(),
-            op: op
+            opcion: op
         },
         type: "GET",
         success: function (resultado) {
@@ -34,11 +34,12 @@ function CargarBandeja() {
                 MensajeAdvertencia("No existen datos para este model.");
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Faltan parametros en la consulta.");
+                //MensajeAdvertencia("No existen registros.");
+                $("#divTablaAplrobados").html("No existen registros: "+resultado);
             } else {
                 $("#btnPendiente").prop("hidden", true);
                 $("#btnAprobado").prop("hidden", false);
-
+                $("#divTablaAplrobados").show();
                 $("#tblDataTableAprobar tbody").empty();
                 config.opcionesDT.order = [];
                 config.opcionesDT.columns = [
@@ -49,14 +50,15 @@ function CargarBandeja() {
                 ];
                 table.DataTable().destroy();
                 table.DataTable(config.opcionesDT);
+                $('#cargac').hide();
                 resultado.forEach(function (row) {
-                    var clscolor = "badge-danger"; //Aplico estilo a la columna Estado 
-                    var checked = '';
-                    if (row.Estado == true) {
-                        clscolor = "badge-success";
-                        checked = 'checked';
+                    var estado = 'PENDIENTE';
+                    var css = 'badge-danger';
+                    if (row.EstadoReporteControl == true) {
+                        estado = 'APROBADO';
+                        css = 'badge-success';
                     }
-                    row.Estado = '<center><span class="badge ' + clscolor + '"><input type="checkbox" ' + checked + ' disabled id="vehicle2" name="Estado" value="Estado"></span></center>';                    
+                    row.EstadoReporte = "<center><span class='badge " + css + "' >" + estado + "</span></center>";//Aplico estrilos al estadoReporte
                 });
                 table.DataTable().rows.add(resultado);
                 table.DataTable().draw();

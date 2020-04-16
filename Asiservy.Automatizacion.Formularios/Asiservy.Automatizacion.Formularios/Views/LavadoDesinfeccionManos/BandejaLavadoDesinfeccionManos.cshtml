@@ -77,10 +77,20 @@
     </div>
 </div>
 
-<br />
+<br /><br /><br /><br />
 @* DIV MOSTRAR PARTIAL VIEW *@
 <div class="table-responsive" id="divTablaAplrobados">
-
+    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableAprobar">
+        <thead>
+            <tr>
+                <th>FECHA</th>
+                <th>OBSERVACION</th>
+                <th style="width:200px">USUARIO CREACION</th>
+                <th style="width:200px"><center>ESTADO APROBACION</center></th>
+            </tr>
+        </thead>
+        <tbody style="font-size:14px"></tbody>
+    </table>
 </div>
 
 @* MODAL APRUEBA CONTROL CUCHILLO *@
@@ -95,17 +105,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableAprobar">
-                        <thead>
-                            <tr>
-                                <th>Código Cuchillo</th>
-                                <th>Estado</th>
-                                <th>Empleado</th>
-                                <th>Usuario Creación</th>
-                            </tr>
-                        </thead>
-                        <tbody style="font-size:14px"></tbody>
-                    </table>
+
                 </div>
             </div>
             <div class="modal-footer">

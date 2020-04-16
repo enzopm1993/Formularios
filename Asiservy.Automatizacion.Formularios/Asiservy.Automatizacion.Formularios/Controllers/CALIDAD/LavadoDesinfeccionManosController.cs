@@ -186,7 +186,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDLavadoDesinfeccionManos = new clsDLavadoDesinfeccionManos();
-                var poCloroCisterna = clsDLavadoDesinfeccionManos.ConsultarControlLavadoDesinfeccionManos(fechaDesde, fechaHasta, opcion).FirstOrDefault();
+                var poCloroCisterna = clsDLavadoDesinfeccionManos.ConsultarControlLavadoDesinfeccionManos(fechaDesde, fechaHasta, opcion);
                 if (poCloroCisterna != null)
                 {
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);

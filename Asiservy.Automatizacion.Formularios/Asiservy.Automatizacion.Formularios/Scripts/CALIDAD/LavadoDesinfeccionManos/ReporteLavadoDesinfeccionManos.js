@@ -64,8 +64,8 @@ function CargarDetalle(opcion) {
                 window.location.reload();
             }
             if (resultado == "0") {                
-                $("#divTableEntregaProductoDetalle").html("No existen registros");
-            } else {
+            //    $("#divTableEntregaProductoDetalle").html("No existen registros");
+            //} else {
                 $("#divTableEntregaProductoDetalle").prop("hidden", false);
                 $("#divTableEntregaProductoDetalle").html(resultado);
                 $("#divDetalleControlCloro").prop("hidden", false);                
