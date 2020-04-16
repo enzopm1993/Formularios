@@ -1,10 +1,9 @@
 ﻿var listaDatos = [];
 $(document).ready(function () {
     CargarBandeja();
-    $('#tblDataTableAprobar tbody').on('click', 'tr', function () {
-        var table = $('#tblDataTableAprobar').DataTable();
+    $('#tblDataTableDetalle tbody').on('click', 'tr', function () {
+        var table = $('#tblDataTableDetalle').DataTable();
         var dataCabecera = table.row(this).data();
-
         SeleccionarBandeja(dataCabecera);
     });
 });
@@ -16,7 +15,7 @@ function CargarBandeja() {
     if ($('#selectEstadoReporte').val() == 'true') {
         op = 2;
     }
-    var table = $("#tblDataTableAprobar");
+    var table = $("#tblDataTableDetalle");
     table.DataTable().clear();
     table.DataTable().destroy();
     table.DataTable().clear();
@@ -40,25 +39,27 @@ function CargarBandeja() {
                 $("#btnPendiente").prop("hidden", true);
                 $("#btnAprobado").prop("hidden", false);
                 $("#divTablaAplrobados").show();
-                $("#tblDataTableAprobar tbody").empty();
+                $("#tblDataTableDetalle tbody").empty();
                 config.opcionesDT.order = [];
                 config.opcionesDT.columns = [
                     { data: 'Fecha' },
                     { data: 'Observacion' },
                     { data: 'UsuarioIngresoLog' },
-                    { data: 'EstadoReporte' }
+                    { data: 'EstadoReporteControl' }
                 ];
                 table.DataTable().destroy();
                 table.DataTable(config.opcionesDT);
                 $('#cargac').hide();
+                var conRow = 0;
                 resultado.forEach(function (row) {
                     var estado = 'PENDIENTE';
                     var css = 'badge-danger';
-                    if (row.EstadoReporteControl == true) {
+                    if (row.EstadoReporte == true) {
                         estado = 'APROBADO';
                         css = 'badge-success';
                     }
-                    row.EstadoReporte = "<center><span class='badge " + css + "' >" + estado + "</span></center>";//Aplico estrilos al estadoReporte
+                    resultado[conRow].EstadoReporteControl = "<center><span class='badge " + css + "' >" + estado + "</span></center>";//Aplico estrilos al estadoReporte
+                    conRow++;
                 });
                 table.DataTable().rows.add(resultado);
                 table.DataTable().draw();
@@ -84,9 +85,9 @@ function SeleccionarBandeja(model) {
         $('#btnPendiente').prop('hidden', true);
         $('#btnAprobado').prop('hidden', false);
     }    
-        var op = opcion;
+        var op = 0;
         $.ajax({
-            url: "../LavadoDesinfeccionManos/LavadoDesinfeccionManosDetallePartial",
+            url: "../LavadoDesinfeccionManos/BandejaLavadoDesinfeccionManosAprobarPartial",
             type: "GET",
             data: {
                 IdDesinfeccionManos: listaDatos.IdDesinfeccionManos,
@@ -97,12 +98,14 @@ function SeleccionarBandeja(model) {
                     window.location.reload();
                 }
                 if (resultado == "0") {
-                    $("#tblAprobarPendientePartial").html("No existen registros");
+                    $("#divTblAprobarPendiente").html("No existen registros");
                 } else {
-                    $("#tblAprobarPendientePartial").prop("hidden", false);
-                    $("#divTableEntregaProductoDetalle").html('');
-                    $("#tblAprobarPendientePartial").html(resultado);
-                }
+                    $("#divTblAprobarPendiente").html('');
+                    $("#ModalApruebaPendiente").modal("show");
+                    $("#divTblAprobarPendiente").html(resultado);
+                    //ocultarBotones();
+                }                
+                 $('#cargac').hide();                               
             },
             error: function (resultado) {
                 $('#cargac').hide();
@@ -113,12 +116,11 @@ function SeleccionarBandeja(model) {
 
 function AprobarPendiente(estadoReporte) {
     $.ajax({
-        url: "../ControlCuchillosPreparacion/GuardarModificarControlCuchilloPreparacion",
+        url: "../LavadoDesinfeccionManos/GuardarModificarControlLavadoDesinfeccionManos",
         type: "POST",
         data: {
-            IdControlCuchillo: listaDatos.IdControlCuchillo,
+            IdDesinfeccionManos: listaDatos.IdDesinfeccionManos,
             Fecha: listaDatos.Fecha,
-            Hora: listaDatos.Hora,
             Observacion: listaDatos.Observacion,
             EstadoReporte: estadoReporte
         },
@@ -127,17 +129,19 @@ function AprobarPendiente(estadoReporte) {
                 window.location.reload();
             }
             if (resultado == 1) {
-                MensajeCorrecto('¡Registro aprobado correctamente!');
+                MensajeCorrecto('¡Cambio de ESTADO realizado correctamente!');
             } else { MensajeError('El registro no debe guardase- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion'); }
 
             $("#ModalApruebaPendiente").modal("hide");
             CargarBandeja();
+            listaDatos = [];             
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
         }
     });
 }
+
 //DATE RANGE PICKER
 $(function () {
     var start = moment();

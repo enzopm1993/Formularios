@@ -3772,7 +3772,7 @@
     <Content Include="Views\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.cshtml" />
     <Content Include="Views\LavadoDesinfeccionManos\IngresoLavadoDesinfeccionManosDetallePartial.cshtml" />
     <Content Include="Views\LavadoDesinfeccionManos\LavadoDesinfeccionManosDetallePartial.cshtml" />
-    <Content Include="Views\LavadoDesinfeccionManos\ReporteDesinfeccionManosDetallePartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\ReporteDesinfeccionManosDetallePartial1.cshtml" />
     <Content Include="Views\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.cshtml" />
     <Content Include="Views\MantenimientoCisterna\MantenimientoCisterna.cshtml" />
     <Content Include="Views\MantenimientoCisterna\MantenimientoCisternaPartial.cshtml" />
@@ -3796,6 +3796,8 @@
     <Content Include="Views\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.cshtml" />
     <Content Include="Views\ControlCuchillosPreparacion\BandejaCuchilloPreparacionPartial.cshtml" />
     <Content Include="Views\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManosAprobarPartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\ReporteDesinfeccionManosDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -133,7 +133,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         //SE USA SOLO PARA EL VIEW DEL REPORTE
-        public ActionResult ReporteDesinfeccionManosDetallePartial(int IdDesinfeccionManos, int opcion)
+        public ActionResult ReporteDesinfeccionManosDetallePartial(DateTime fechaDesde, DateTime fechaHasta, int opcion)
         {
             try
             {
@@ -144,7 +144,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDLavadoDesinfeccionManos = new clsDLavadoDesinfeccionManos();
-                var detalleTabla = clsDLavadoDesinfeccionManos.ConsultarControlLavadoDesinfeccionManosDetalle(IdDesinfeccionManos, opcion);
+                var detalleTabla = clsDLavadoDesinfeccionManos.ReporteControlLavadoDesinfeccion(fechaDesde, fechaHasta, opcion);
                 var cabeceraTable = clasificador.ConsultarClasificador(clsAtributos.IdCodigoLineaLavadoDesinfeccionManos).ToList();
                 ViewBag.cabeceraTable = cabeceraTable;
                 if (cabeceraTable != null)
@@ -479,6 +479,49 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (lineas != null)
                 {
                     return PartialView(lineas);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult BandejaLavadoDesinfeccionManosAprobarPartial(int IdDesinfeccionManos, int opcion)
+        {
+            try
+            {
+                clsDClasificador clasificador = new clsDClasificador();
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDLavadoDesinfeccionManos = new clsDLavadoDesinfeccionManos();
+                var detalleTabla = clsDLavadoDesinfeccionManos.ConsultarControlLavadoDesinfeccionManosDetalle(IdDesinfeccionManos, opcion);
+                var cabeceraTable = clasificador.ConsultarClasificador(clsAtributos.IdCodigoLineaLavadoDesinfeccionManos).ToList();
+                ViewBag.cabeceraTable = cabeceraTable;
+                if (cabeceraTable != null)
+                {
+                    return PartialView(detalleTabla);
                 }
                 else
                 {

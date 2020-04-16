@@ -1,29 +1,17 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Reporte_Lavado_Desinfeccion_Manos>
-@using Newtonsoft.Json;
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Desinfeccion_Manos_Detalle>
 
-<table class="table table-light table-striped border" id="tblDataTableReporte">
-    <thead style="height:15px; font-family:50px">
+<table class="table table-light table-striped" tabindex="1" id="tblDataTableAprobar">
+    <thead>
         <tr>
-            <th style="border-right:0.4px solid #e3e6f0"></th>
-            <th></th>
-            <th style="border:0.4px solid #e3e6f0" colspan="5"><center>LIMIEZA DE ATUN</center></th>
-            <th><center>EMPAQUE</center></th>
-            <th colspan="2" style="border:0.4px solid #e3e6f0"><center>CONSERVAS</center></th>
-        </tr>
-        <tr>
-            <th style="border-right:0.4px solid #e3e6f0">FECHA</th>
             <th>
-                HORA
-            </th>
-            <th>
-                OBSERVACION
+                Hora
             </th>
             @foreach (var item in ViewBag.cabeceraTable)
             {
-                <th style="border:0.4px solid #e3e6f0">
+                <th>
                     @item.Descripcion
                 </th>
-            }
+            }           
         </tr>
     </thead>
     @{
@@ -38,13 +26,11 @@
         {
             var itemColumna = (from x in Model
                                where x.Hora == subListaHora.Hora
-                               select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.Hora, x.Fecha }).ToList();
+                               select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.Hora }).ToList();
             <tr>
-                <td>Fecha</td>
                 <td>
                     @subListaHora.Hora
                 </td>
-                <td>Observacion</td>
                 @foreach (var lc in listaColumnasCabecera)
                 {
 
@@ -68,11 +54,11 @@
                     {
                         <td id="@lc.Codigo"><span class="badge badge-primary"> SIN DATOS</span></td>
                     }
-                }
+                }                
             </tr>
         }
     </tbody>
-    <tfoot></tfoot>
 </table>
 
 <script src="~/Scripts/General/dataTableJS.js"></script>
+
