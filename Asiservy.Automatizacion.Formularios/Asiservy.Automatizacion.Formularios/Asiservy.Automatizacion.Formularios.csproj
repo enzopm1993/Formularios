@@ -3323,6 +3323,7 @@
     <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDOpcionRol.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDRol.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\Seguridad\clsDUsuarioRol.cs" />
+    <Compile Include="AccesoDatos\Reporte\clsDReporte.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermiso.cs" />
     <Compile Include="AccesoDatos\General\clsDLogin.cs" />
     <Compile Include="AccesoDatos\SolicitudPermiso\clsDSolicitudPermisoMedico.cs" />
@@ -3803,6 +3804,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\REPORTE\" />
     <Folder Include="Views\Comunicados\" />
   </ItemGroup>
   <ItemGroup>
