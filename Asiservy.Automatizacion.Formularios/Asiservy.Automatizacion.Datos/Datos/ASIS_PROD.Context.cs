@@ -1982,5 +1982,22 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_Lavado_Desinfeccion_Manos>("sp_Reporte_Lavado_Desinfeccion_Manos", fechaDesdeParameter, fechaHastaParameter, opParameter);
         }
+    
+        public virtual ObjectResult<sp_Reporte_Control_Cuchillos_Preparacion> sp_Reporte_Control_Cuchillos_Preparacion(Nullable<System.DateTime> filtroFechaDesde, Nullable<System.DateTime> filtroFechaHasta, Nullable<int> op)
+        {
+            var filtroFechaDesdeParameter = filtroFechaDesde.HasValue ?
+                new ObjectParameter("FiltroFechaDesde", filtroFechaDesde) :
+                new ObjectParameter("FiltroFechaDesde", typeof(System.DateTime));
+    
+            var filtroFechaHastaParameter = filtroFechaHasta.HasValue ?
+                new ObjectParameter("FiltroFechaHasta", filtroFechaHasta) :
+                new ObjectParameter("FiltroFechaHasta", typeof(System.DateTime));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_Control_Cuchillos_Preparacion>("sp_Reporte_Control_Cuchillos_Preparacion", filtroFechaDesdeParameter, filtroFechaHastaParameter, opParameter);
+        }
     }
 }
