@@ -1,7 +1,70 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "ReporteMaestro";
 }
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 
 <h4>Control de Reportes Maestros</h4>
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2 col-sm-6 col-12">
+
+                        <div class="form-group">
+                            <label>Id</label>
+                            <input type="number" disabled class="form-control" name="name" id="txtIdControl" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-12">
+
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" autocomplete="off" class="form-control" name="name" value="" id="txtNombre" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+
+                        <div class="form-group">
+                            <label>Codigo</label>
+                            <input type="text" autocomplete="off" class="form-control" name="name" value="" id="txtCodigo" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-12">
+
+                        <div class="form-group">
+                            <label>Versión</label>
+                            <input type="text" autocomplete="off" class="form-control" name="name" value="" id="txtVersion" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="text-center">
+                    <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="GenerarReporteMaestro()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/add24.png" />
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <div id="chartCabecera">
+
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
