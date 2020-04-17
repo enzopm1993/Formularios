@@ -63,7 +63,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.TemperaturaTer
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.sp_Control_Termoencogido_Sellado_Detalle(id,idCabecera, op).ToList();
+                var lista = db.sp_Control_Termoencogido_Sellado_Detalle(null,null,idCabecera, op).ToList();
                 return lista;
             }
         }

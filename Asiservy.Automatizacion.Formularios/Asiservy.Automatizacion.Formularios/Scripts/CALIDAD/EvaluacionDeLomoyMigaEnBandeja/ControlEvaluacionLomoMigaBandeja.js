@@ -208,6 +208,12 @@ function GuardarCabceraControl() {
     } else {
         $('#msjErrorFechaProduccion').prop('hidden', true);
     }
+    if ($('#cmbOrdeneFabricacion').prop('selectedIndex') == 0) {
+        $('#msjErrorOrdenFabricacion').prop('hidden', false);
+        return false;
+    } else {
+        $('#msjErrorOrdenFabricacion').prop('hidden', true);
+    }
   
     $('#btnCargando').prop('hidden', false);
     $('#btnConsultar').prop('hidden', true);
