@@ -295,5 +295,33 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
             }
 
         }
+        public string GuardarImagenFirma(byte[] firma, int IdCabecera, string Tipo,string Usuario, string Terminal)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                var buscarControl = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(IdCabecera);
+                if (Tipo == "Control")
+                {
+                    buscarControl.FirmaControl = firma;
+                }
+                else
+                {
+                    buscarControl.FirmaAprobacion = firma;
+                }
+                buscarControl.FechaModificacionLog = DateTime.Now;
+                buscarControl.UsuarioModificacionLog = Usuario;
+                buscarControl.TerminalModificacionLog = Terminal;
+                db.SaveChanges();
+                return "Firma guardada correctamente";
+            }
+        }
+        public byte[] ConsultarFirmaControl(int IdCabecera)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                var buscarControl = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(IdCabecera);
+                return buscarControl.FirmaControl;
+            }
+        }
     }
 }

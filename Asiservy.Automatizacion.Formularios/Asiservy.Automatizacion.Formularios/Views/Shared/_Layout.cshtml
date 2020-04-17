@@ -529,12 +529,9 @@
 
     @if (ViewBag.JavaScrip != null)
     {
+        <script src="~/Scripts/signature_pad.umd.js"></script>
         <script src="~/Scripts/linq.js"></script>
 
-   
-        @*<script src="~/Scripts/printThis.js"></script>
-            <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>*@
-        @*<script src = "~/Scripts/html2canvas.js" ></script>*@
 
         string js = ViewBag.JavaScrip;
         string url = "/Scripts/" + js + ".js?v=1.4";

@@ -582,20 +582,91 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult GuardarImagenFirma(string imagen)
+        public JsonResult GuardarImagenFirma(string imagen,int IdCabecera,string Tipo)
         {
+          
             try
             {
-               
-                byte[] bytes = Convert.FromBase64String(imagen);
-                var base64 = Convert.ToBase64String(bytes);
-                var imgSrc = String.Format("data:image/png;base64,{0}", base64);
-                return Json(imgSrc,JsonRequestBehavior.AllowGet);
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                byte[] Firma = Convert.FromBase64String(imagen);
+                var resultado = clsDEvaluacionDeLomosYMigasEnBandeja.GuardarImagenFirma(Firma,IdCabecera,Tipo,lsUsuario[0],Request.UserHostAddress);
+                //var base64 = Convert.ToBase64String(Firma);
+                //var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+                var imagenfirma= String.Format("data:image/png;base64,{0}", imagen);
+                return Json(imagenfirma, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
 
-                throw;
+        }
+        public JsonResult ConsultarFirma(int IdCabecera)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                //byte[] Firma = Convert.FromBase64String(imagen);
+                var resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarFirmaControl(IdCabecera);
+                //var base64 = Convert.ToBase64String(Firma);
+                //var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+                //var imagenfirma = String.Format("data:image/png;base64,{0}", imagen);
+                if (resultado != null)
+                {
+                    var base64 = Convert.ToBase64String(resultado);
+                    var imagenfirma = String.Format("data:image/png;base64,{0}", base64);
+                    return Json(imagenfirma, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
     }

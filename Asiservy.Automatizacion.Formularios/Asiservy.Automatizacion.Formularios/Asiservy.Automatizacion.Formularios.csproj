@@ -2014,6 +2014,7 @@
     <Content Include="Content\icons\justificar24.png" />
     <Content Include="Content\icons\limpiar32.png" />
     <Content Include="Content\icons\login.png" />
+    <Content Include="Content\icons\pallet.png" />
     <Content Include="Content\icons\print24.png" />
     <Content Include="Content\icons\puerta32.png" />
     <Content Include="Content\icons\save20.png" />
@@ -2049,6 +2050,7 @@
     <Content Include="Content\ICO\ms-icon-150x150.png" />
     <Content Include="Content\ICO\ms-icon-310x310.png" />
     <Content Include="Content\ICO\ms-icon-70x70.png" />
+    <Content Include="Content\ie9.css" />
     <Content Include="Content\images\actualizar.png" />
     <Content Include="Content\images\agregar.png" />
     <Content Include="Content\images\agregar1.png" />
@@ -2069,6 +2071,7 @@
     <Content Include="Content\images\loader.gif" />
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\pageError.png" />
+    <Content Include="Content\images\pallet.png" />
     <Content Include="Content\images\pez-salto.gif" />
     <Content Include="Content\images\pez.gif" />
     <Content Include="Content\images\pez.png" />
@@ -2087,6 +2090,7 @@
     <Content Include="Content\Login\Login.css" />
     <Content Include="Content\ProyeccionProgramacionCss\ProyeccionProgramacionEditar.css" />
     <Content Include="Content\PruebaStyle\prueba.css" />
+    <Content Include="Content\signature-pad.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\SolicitudPermisoCss\SolicitudPermiso.css" />
     <Content Include="Content\SolicitudPermisoCss\SolicitudPermisoMedico.css" />
@@ -2170,6 +2174,7 @@
     <Content Include="Scripts\Apexcharts\dist\apexcharts.js" />
     <Content Include="Scripts\Apexcharts\dist\apexcharts.min.js" />
     <Content Include="Scripts\Apexcharts\dist\locales\ko.js" />
+    <Content Include="Scripts\app.js" />
     <Content Include="Scripts\App\Comunicados.js" />
     <Content Include="Scripts\App\MarcacionesJustificar.js" />
     <Content Include="Scripts\App\SolicitudesPendientes.js" />
