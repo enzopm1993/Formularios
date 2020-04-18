@@ -7,7 +7,7 @@ $(document).ready(function () {
 });
 
 function CargarCabecera(opcion) {
-    MostrarModalCargando();
+    $('#cargac').show();
     var op = opcion;
     if ($("#txtFecha").val() == '') {
         return;
@@ -16,7 +16,8 @@ function CargarCabecera(opcion) {
             url: "../TemperaturaTermoencogidoSellado/ConsultarTermoencogidoSellado",
             type: "GET",
             data: {
-                fecha: $("#txtFecha").val(),
+                fechaDesde: $("#txtFecha").val(),
+                fechaHasta: $("#txtFecha").val(),
                 opcion: op
             },
             success: function (resultado) {
@@ -24,11 +25,13 @@ function CargarCabecera(opcion) {
                     window.location.reload();
                 }
                 $("#txtObservacion").val('');
+                $("#txtMostrarFecha").val('');
                 if (resultado == "0") {
                     $("#txtObservacion").prop("disabled", false);
                     $("#divDetalleControlCloro").prop("hidden", true);
                     $("#btnModalEditar").prop("hidden", true);
                     $("#btnModalEliminar").prop("hidden", true);
+                    $("#divCabecera1").prop("hidden", true);
                     $("#btnModalGenerar").prop("hidden", false);
                     $("#btnModalGenerarRegistro").prop("hidden", false);
                     ListaDatos = resultado;
@@ -36,34 +39,45 @@ function CargarCabecera(opcion) {
                     $("#divDetalleControlCloro").prop("hidden", false);
                     $("#btnModalGenerar").prop("hidden", false);
                     $("#btnModalEditar").prop("hidden", false);
-                    $("#btnModalEliminar").prop("hidden", false);
-                    $("#txtObservacion").prop("disabled", true);
+                    $("#btnModalEliminar").prop("hidden", false);             
                     $("#btnModalGenerarRegistro").prop("hidden", true);
+                    $("#txtObservacion").prop("disabled", true);
                     $("#txtObservacion").val(resultado.Observacion);
+                    $("#txtMostrarFecha").val(moment(resultado.Fecha).format('YYYY-MM-DD'));
+                    $("#divCabecera1").prop("hidden", false);                   
                     ListaDatos = resultado;
+                    if (resultado.EstadoReporte == true) {
+                        $("#lblAprobadoPendiente").text("APROBADO");
+                        $("#lblAprobadoPendiente").removeClass('badge-danger');
+                        $("#lblAprobadoPendiente").addClass('badge badge-success');
+                    } else {
+                        $("#lblAprobadoPendiente").text("PENDIENTE");
+                        $("#lblAprobadoPendiente").removeClass('badge-success');
+                        $("#lblAprobadoPendiente").addClass('badge badge-danger');
+                    }
                     CargarDetalle(0);
                 }
                 setTimeout(function () {
-                    CerrarModalCargando();
-                }, 500);
+                    $('#cargac').hide();
+                }, 200);
             },
             error: function (resultado) {
                 MensajeError(resultado.responseText, false);
-                CerrarModalCargando();
+                $('#cargac').hide();
             }
         });
     }
 }
 
 function GuardarCabecera() {
-    MostrarModalCargando();
+    $('#cargac').show();
     $.ajax({
         url: "../TemperaturaTermoencogidoSellado/GuardarModificarTermoencogidoSellado",
         type: "POST",
         data: {
             id: ListaDatos.Id,
-            Fecha: moment($("#txtFecha").val()).format("YYYY-MM-DD"),
-            Observacion: $("#txtObservacion").val()
+            Fecha: moment($("#txtIngresoFecha").val()).format("YYYY-MM-DD"),
+            Observacion: $("#txtIngresoObservacion").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -73,25 +87,32 @@ function GuardarCabecera() {
             $("#btnModalGenerar").prop("hidden", true);
             $("#btnModalEditar").prop("hidden", false);
             $("#btnModalEliminar").prop("hidden", false);
+            $("#divCabecera1").prop("hidden", false);
             $("#divDetalleProceso").prop("hidden", false);
             $("#divDetalleControlCloro").prop("hidden", false);
+            $('#ModalIngresarCabecera').modal('hide');
             setTimeout(function () {
-                CerrarModalCargando();
-            }, 500);
+                $('#cargac').hide();
+            }, 200);
         },
         error: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });
 }
 
 function EliminarConfirmar() {
-    $("#modalEliminarControl").modal("show");
+    if (ListaDatos.EstadoReporte == true) {
+        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+        return;
+    } else {
+        $("#modalEliminarControl").modal("show");
+    }
 }
 
 function EliminarCabeceraSi() {
-    MostrarModalCargando();
+    $('#cargac').show();
     $.ajax({
         url: "../TemperaturaTermoencogidoSellado/EliminarTermoencogidoSellado",
         type: "POST",
@@ -105,29 +126,30 @@ function EliminarCabeceraSi() {
             if (resultado == "0") {
                 MensajeAdvertencia("Falta Parametro IdDesinfeccionManos");
                 $("#modalEliminarControl").modal("hide");
-                CerrarModalCargando();
+                $('#cargac').hide();
                 return;
             } else if (resultado == "1") {
                 $("#divTableEntregaProductoDetalle").prop("hidden", true);
                 CargarCabecera(0);
                 MensajeCorrecto("Registro Eliminado con Éxito");
-                $("#txtFecha").prop("disabled", false);
+                //$("#txtFecha").prop("disabled", false);
                 $("#modalEliminarControl").modal("hide");
                 $("#btnModalGenerar").prop("hidden", false);
                 $("#btnModalEditar").prop("hidden", true);
                 $("#btnModalEliminar").prop("hidden", true);
+                $("#divCabecera1").prop("hidden", true);
                 $("#divDetalleProceso").prop("hidden", true);
                 $("#txtObservacion").prop("disabled", false);
                 $("#txtObservacion").val('');
                 $("#divDetalleControlCloro").prop("hidden", true);
-                $("#divCabecera2").prop("hidden", true);
+                $("#divCabecera1").prop("hidden", true);
                 setTimeout(function () {
-                    CerrarModalCargando();
-                }, 500);
+                    $('#cargac').hide();
+                }, 200);
             }
         },
         error: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });
@@ -138,16 +160,25 @@ function EliminarCabeceraNo() {
 }
 
 function ActualizarCabeceraActivarCotroles() {
-    $("#txtObservacion").prop("disabled", false)
-    $("#btnModalEliminar").prop("hidden", true);
-    $("#btnModalGenerarRegistro").prop("hidden", false);
-    $("#btnModalEditar").prop("hidden", true);
+    if (ListaDatos.EstadoReporte == true) {
+        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+        return;
+    } else {
+        $('#ModalIngresarCabecera').modal('show');
+        $('#txtIngresoFecha').val(moment($('#txtFecha').val()).format('YYYY-MM-DD'));
+        $('#txtIngresoObservacion').val($('#txtObservacion').val());
+    }
 }
 
 //DETALLE INGRESO DE LINEAS (SE LISTA EL CLASIFICADOR PARA PODER ARMAR LA CABECERA DE LA TABLA)
 function ModalGenerarDetalle() {
-    $("#ModalGenerarDetalle").modal("show");
-    limpiarDetalle();
+    if (ListaDatos.EstadoReporte == true) {
+        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+        return;
+    } else {
+        $("#ModalGenerarDetalle").modal("show");
+        limpiarDetalle();
+    }
 }
 
 function limpiarDetalle() {
@@ -173,9 +204,8 @@ function ValidarAntesGuardar() {
     } else { GuardarDetalle();}
 }
 
-function GuardarDetalle() {
-     
-        MostrarModalCargando();
+function GuardarDetalle() {     
+    //$('#cargac').show();
         var fechaHora = $("#txtFecha").val() + " " + $("#txtHora").val();
         $.ajax({
             url: "../TemperaturaTermoencogidoSellado/GuardarModificarTermoencogidoSelladoDetalle",
@@ -197,17 +227,17 @@ function GuardarDetalle() {
                     MensajeCorrecto("Datos guardados correctamente");
                 } else if (resultado == 1) { MensajeCorrecto("Actualización de datos correcta"); }
                 else {
-                    MensajeError("!Error al Guardar/Actuaizar los datos¡");
+                    MensajeError("!Error al Guardar/Actualizar los datos¡");
                     return;
                 }
                 CargarCabecera(0);
                 CargarDetalle(0);
                 limpiarDetalle();
-                CerrarModalCargando();
+                //$('#cargac').hide();
             },
             error: function (resultado) {
                 limpiarDetalle();
-                CerrarModalCargando();
+                $('#cargac').hide();
                 MensajeError(resultado.responseText, false);
             }
         });
@@ -217,19 +247,20 @@ function GuardarDetalle() {
 //Retorna PartialView
 function CargarDetalle(opcion) {
     var op = opcion;
-    if (ListaDatos.length==0) {
-        ListaDatos.IdCabecera = 0;
-    }
-    if (ListaDatosDetalle.length==0) {
-        ListaDatosDetalle.Id = 0;
-    }
-    $("#divTableEntregaProductoDetalle").html('');
+    var idCabecera = 0;
+    if (ListaDatos == 0) {
+        idCabecera = 0;
+    } else {
+        idCabecera = ListaDatos.Id;
+    }    
+    
     $.ajax({
         url: "../TemperaturaTermoencogidoSellado/ControlTermoencogidoSelladoPartial",
         type: "GET",
         data: {
-            id: ListaDatosDetalle.Id,
-            idCabecera: ListaDatos.Id,
+            fechaDesde: $('#txtFecha').val(),
+            fechaHasta: $('#txtFecha').val(),
+            idCabecera: idCabecera,
             op: op
         },
         success: function (resultado) {
@@ -237,6 +268,7 @@ function CargarDetalle(opcion) {
             if (resultado == "101") {
                 window.location.reload();
             }
+            $("#divTableEntregaProductoDetalle").html('');
             if (resultado == "0") {
                 $("#divTableEntregaProductoDetalle").html("No existen registros");
             } else {
@@ -247,21 +279,21 @@ function CargarDetalle(opcion) {
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-            CerrarModalCargando();
+            $('#cargac').hide();
         }
     });
 }
 
-function EliminarDetalle(jdato) {
-    MostrarModalCargando();
+function EliminarDetalle() {
+    $('#cargac').show();
     $.ajax({
         url: "../TemperaturaTermoencogidoSellado/EliminarTermoencogidoSelladoDetalle",
         type: "POST",
         data: {
-            Id: jdato.Id
+            Id: ListaDatosDetalle.Id
         },
         success: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
             if (resultado == "101") {
                 window.location.reload();
             }
@@ -269,32 +301,38 @@ function EliminarDetalle(jdato) {
                 MensajeAdvertencia("Faltan Parametros (IdDesinfeccionManosDetalle)");
                 return;
             }
+            $("#ModalEliminarDetalle").modal("hide");
             MensajeCorrecto("Registro Eliminado con Éxito");
+            ListaDatosDetalle = [];
             CargarDetalle(0);
         },
         error: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
-
         }
     });
 }
 
 function ActulizarDetalle(jdata) {
-    $("#ModalGenerarDetalle").modal('show');
-    $("#txtTemperatura").val(jdata.Temperatura);
-    $("#txtObservacionDetalle").val(jdata.Observacion);    
-    $("#txtHora").val(moment(jdata.HoraVerificacion).format("HH:mm"));
-    $("#checkSellado").prop('checked', jdata.CorrectoSellado);
-    $("#txtObservacionDetalle").css('border', '');
-    $("#txtHora").css('border', '');
-    if (jdata.CorrectoSellado == true) {
-        $("#LabelEstado").text('SI');
+    if (ListaDatos.EstadoReporte == true) {
+        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+        return;
     } else {
-        $("#LabelEstado").text('NO');
+        $("#ModalGenerarDetalle").modal('show');
+        $("#txtTemperatura").val(jdata.Temperatura);
+        $("#txtObservacionDetalle").val(jdata.Observacion);
+        $("#txtHora").val(moment(jdata.HoraVerificacion).format("HH:mm"));
+        $("#checkSellado").prop('checked', jdata.CorrectoSellado);
+        $("#txtObservacionDetalle").css('border', '');
+        $("#txtHora").css('border', '');
+        if (jdata.CorrectoSellado == true) {
+            $("#LabelEstado").text('SI');
+        } else {
+            $("#LabelEstado").text('NO');
+        }
+        ListaDatosDetalle = [];
+        ListaDatosDetalle = jdata;
     }
-    ListaDatosDetalle = [];
-    ListaDatosDetalle = jdata;
 }
 
 function CambioEstado(valor) {
@@ -302,4 +340,25 @@ function CambioEstado(valor) {
         $('#LabelEstado').text('SI');
     else
         $('#LabelEstado').text('NO');
+}
+
+function ModalIngresarCabecera() {
+    $('#ModalIngresarCabecera').modal('show');
+    $('#txtIngresoFecha').val(moment($('#txtFecha').val()).format('YYYY-MM-DD'));
+    $('#txtIngresoObservacion').val('');
+}
+
+function EliminarDetalleNo() {
+    $("#ModalEliminarDetalle").modal("hide");
+    ListaDatosDetalle = [];
+}
+
+function EliminarConfirmarDetalle(jdata) {
+    if (ListaDatos.EstadoReporte == true) {
+        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+        return;
+    } else {
+        ListaDatosDetalle = jdata;
+        $("#ModalEliminarDetalle").modal("show");
+    }
 }

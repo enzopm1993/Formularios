@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Termoencogido_Sellado_Detalle>
+@using Newtonsoft.Json;
+<table class="table  table-striped table-bordered" style="border-right:1px solid #e3e6f0" id="tblDataTable">
+    <thead style="font-size:13px">
+        <tr>
+            <th>FECHA</th>
+            <th style="border-right:1px solid #e3e6f0">
+                <center> HORA<br />VERIFICACION</center>
+            </th>
+            <th style="border-right:1px solid #e3e6f0">
+                <center> TEMPERATURA °C</center>
+            </th>
+            <th style="border-right:1px solid #e3e6f0">
+                <center> CORRECTO<br />SELLADO</center>
+            </th>
+            <th style="border-right:1px solid #e3e6f0">
+                <center>OBSERVACION</center>
+            </th>
+            <th>APROBADO POR</th>
+            <th>ESTADO</th>
+        </tr>
+    </thead>
+    @{int con = 0; }
+    <tbody style="font-size:12px">
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Fecha.ToString("dd-MM-yyyy")</td>
+                <td>
+                    <center>
+                        @item.HoraVerificacion.ToString("HH:mm")
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.Temperatura)
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @if (item.CorrectoSellado == true)
+                        {
+                            <span class="badge badge-success">SI</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">NO</span>
+                        }
+                    </center>
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Observacion))
+                    {
+                    <span>@item.Observacion.ToUpper()</span>
+                    }                    
+                </td>
+                <td>@item.UsuarioModificacionLog</td>
+                <td>
+                    @if (item.EstadoReporte == true)
+                    {
+                    <span class="badge badge-success">APROBADO</span>
+                    } else {
+                    <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
+            </tr>
+            con++;
+        }
+    </tbody>
+</table>
+<script src="~/Scripts/General/dataTableJS.js"></script>

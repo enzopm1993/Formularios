@@ -8,10 +8,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.TemperaturaTer
 {
     public class clsDTemperaturaTermoencogidoSellado
     {
-        public List<sp_Control_Termoencogido_Sellado> ConsultarTermoencogidoSellado(DateTime fecha, int op) {
+        public List<sp_Control_Termoencogido_Sellado> ConsultarTermoencogidoSellado(DateTime fechaDesde, DateTime fechaHasta, int op) {
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
-                var lista = db.sp_Control_Termoencogido_Sellado(fecha,op).ToList();
+                var lista = db.sp_Control_Termoencogido_Sellado(fechaDesde, fechaHasta, op).ToList();
                 return lista;
             }
         }
@@ -24,11 +24,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.TemperaturaTer
                 var model = db.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO.FirstOrDefault(x => x.Id == GuardarModigicar.Id && x.EstadoRegistro == GuardarModigicar.EstadoRegistro);
                 if (model != null)
                 {
-                    model.Observacion = GuardarModigicar.Observacion;
-                    model.FechaModificacionLog = GuardarModigicar.FechaIngresoLog;
-                    model.TerminalModificacionLog = GuardarModigicar.TerminalIngresoLog;
-                    model.UsuarioModificacionLog = GuardarModigicar.UsuarioIngresoLog;
-                    valor = 1;
+                    if (GuardarModigicar.Fecha.ToString() == "1/1/0001 12:00:00 AM" && GuardarModigicar.Observacion == null)
+                    {
+                        model.EstadoReporte = GuardarModigicar.EstadoReporte;
+                        valor = 1;
+                    }
+                    else
+                    {
+                        model.Observacion = GuardarModigicar.Observacion;
+                        model.FechaModificacionLog = GuardarModigicar.FechaIngresoLog;
+                        model.TerminalModificacionLog = GuardarModigicar.TerminalIngresoLog;
+                        model.UsuarioModificacionLog = GuardarModigicar.UsuarioIngresoLog;
+                        valor = 1;
+                    }
                 }
                 else
                 {
@@ -59,11 +67,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.TemperaturaTer
         }
 
         //DETALLE
-        public List<sp_Control_Termoencogido_Sellado_Detalle> ConsultarTermoencogidoSelladoDetalle(int id,int idCabecera, int op)
+        public List<sp_Control_Termoencogido_Sellado_Detalle> ConsultarTermoencogidoSelladoDetalle(DateTime fechaDesde, DateTime fechaHasta,int idCabecera, int op)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.sp_Control_Termoencogido_Sellado_Detalle(id,idCabecera, op).ToList();
+                var lista = db.sp_Control_Termoencogido_Sellado_Detalle(fechaDesde, fechaHasta,idCabecera, op).ToList();
                 return lista;
             }
         }

@@ -1,8 +1,8 @@
 ﻿var listaDatos = [];
 $(document).ready(function () {
     CargarBandeja();
-    $('#tblDataTableDetalle tbody').on('click', 'tr', function () {
-        var table = $('#tblDataTableDetalle').DataTable();
+    $('#tblDataTable tbody').on('click', 'tr', function () {
+        var table = $('#tblDataTable').DataTable();
         var dataCabecera = table.row(this).data();
         SeleccionarBandeja(dataCabecera);
     });
@@ -11,19 +11,21 @@ $(document).ready(function () {
 //CARGAR BANDEJA
 function CargarBandeja() {
     $('#cargac').show();
-    var op = 3;
+    var op = 2;
     if ($('#selectEstadoReporte').val() == 'true') {
-        op = 2;
+        op = 1;
     }
-    var table = $("#tblDataTableDetalle");
+    var table = $("#tblDataTable");
     table.DataTable().clear();
     table.DataTable().destroy();
+    table.DataTable().clear();
     table.DataTable().draw();
     $.ajax({
-        url: "../LavadoDesinfeccionManos/ConsultarControlLavadoDesinfeccionManos",
+        url: "../TemperaturaTermoencogidoSellado/ConsultarBandejaTermoencogidoSellado",
         data: {
             fechaDesde: $('#fechaDesde').val(),
             fechaHasta: $('#fechaHasta').val(),
+            id: 0,
             opcion: op
         },
         type: "GET",
@@ -33,16 +35,16 @@ function CargarBandeja() {
             }
             if (resultado == "0") {
                 //MensajeAdvertencia("No existen registros.");
-                $("#divTablaAplrobados").html("No existen registros: "+resultado);
+                $("#divTablaAplrobados").html("No existen registros: " + resultado);
             } else {
                 $("#btnPendiente").prop("hidden", true);
                 $("#btnAprobado").prop("hidden", false);
                 $("#divTablaAplrobados").show();
-                $("#tblDataTableDetalle tbody").empty();
+                $("#tblDataTable tbody").empty();
                 config.opcionesDT.order = [];
                 config.opcionesDT.columns = [
                     { data: 'Fecha' },
-                    { data: 'Observacion' },
+                    { data: 'ObservacionCAB' },
                     { data: 'UsuarioIngresoLog' },
                     { data: 'EstadoReporteControl' }
                 ];
@@ -51,6 +53,10 @@ function CargarBandeja() {
                 $('#cargac').hide();
                 var conRow = 0;
                 resultado.forEach(function (row) {
+                    row.Fecha = moment(row.Fecha).format('DD-MM-YYYY');
+                    if (row.ObservacionCAB!=null) {
+                        row.ObservacionCAB = row.ObservacionCAB.toUpperCase();
+                    }                   
                     var estado = 'PENDIENTE';
                     var css = 'badge-danger';
                     if (row.EstadoReporte == true) {
@@ -83,44 +89,50 @@ function SeleccionarBandeja(model) {
     } else {
         $('#btnPendiente').prop('hidden', true);
         $('#btnAprobado').prop('hidden', false);
-    }    
-        var op = 0;
-        $.ajax({
-            url: "../LavadoDesinfeccionManos/BandejaLavadoDesinfeccionManosAprobarPartial",
-            type: "GET",
-            data: {
-                IdDesinfeccionManos: listaDatos.IdDesinfeccionManos,
-                opcion: op
-            },
-            success: function (resultado) {
-                if (resultado == "101") {
-                    window.location.reload();
-                }
-                if (resultado == "0") {
-                    $("#divTblAprobarPendiente").html("No existen registros");
-                } else {
-                    $("#divTblAprobarPendiente").html('');
-                    $("#ModalApruebaPendiente").modal("show");
-                    $("#divTblAprobarPendiente").html(resultado);
-                    //ocultarBotones();
-                }                
-                 $('#cargac').hide();                               
-            },
-            error: function (resultado) {
-                $('#cargac').hide();
-                MensajeError(resultado.responseText, false);
+    }
+    var op = 0;
+    $.ajax({
+        url: "../TemperaturaTermoencogidoSellado/BandejaTermoencogidoSelladoPartial",
+        type: "GET",
+        data: {
+            fechaDesde: $('#fechaDesde').val(),
+            fechaHasta: $('#fechaHasta').val(),
+            id: listaDatos.IdCabecera,
+            opcion: op
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
             }
-        });
+            if (resultado == "0") {
+                $("#divTblAprobarPendiente").html("No existen registros");
+            } else {
+                $("#tblAprobarPendientePartial").html('');
+                $("#ModalApruebaPendiente").modal("show");
+                $("#divAprobarPendientePartial").html(resultado);
+                var table = $("#tblDataTable");
+                //table.DataTable().clear();
+                //table.DataTable().destroy();
+                //config.opcionesDT.buttons = [];
+                //table.DataTable(config.opcionesDT);
+                //table.DataTable().draw();
+                //ocultarBotones();
+            }
+            $('#cargac').hide();
+        },
+        error: function (resultado) {
+            $('#cargac').hide();
+            MensajeError(resultado.responseText, false);
+        }
+    });
 }
 
 function AprobarPendiente(estadoReporte) {
     $.ajax({
-        url: "../LavadoDesinfeccionManos/GuardarModificarControlLavadoDesinfeccionManos",
+        url: "../TemperaturaTermoencogidoSellado/GuardarModificarTermoencogidoSellado",
         type: "POST",
         data: {
-            IdDesinfeccionManos: listaDatos.IdDesinfeccionManos,
-            Fecha: listaDatos.Fecha,
-            Observacion: listaDatos.Observacion,
+            Id: listaDatos.IdCabecera,
             EstadoReporte: estadoReporte
         },
         success: function (resultado) {
@@ -129,11 +141,14 @@ function AprobarPendiente(estadoReporte) {
             }
             if (resultado == 1) {
                 MensajeCorrecto('¡Cambio de ESTADO realizado correctamente!');
-            } else { MensajeError('El registro no debe guardase- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion'); }
+            } else {
+                MensajeError('El registro no debe guardarse- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion');
+                return;
+            }
 
             $("#ModalApruebaPendiente").modal("hide");
             CargarBandeja();
-            listaDatos = [];             
+            listaDatos = [];
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);

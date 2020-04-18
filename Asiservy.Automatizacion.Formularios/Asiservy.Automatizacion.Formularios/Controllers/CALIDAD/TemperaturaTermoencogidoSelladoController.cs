@@ -47,7 +47,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         //PartialView
-        public ActionResult ControlTermoencogidoSelladoPartial(int id, int idCabecera, int op)
+        public ActionResult ControlTermoencogidoSelladoPartial(DateTime fechaDesde, DateTime fechaHasta, int idCabecera, int op)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
-                var detalleTabla = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSelladoDetalle(id, idCabecera, op);
+                var detalleTabla = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSelladoDetalle(fechaDesde, fechaHasta, idCabecera, op);
                 if (detalleTabla != null)
                 {
                     return PartialView(detalleTabla);
@@ -87,8 +87,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        //---------------------------------------------------CABECERA-----------------------------------------------
-        public JsonResult ConsultarTermoencogidoSellado(DateTime fecha, int opcion)
+        //---------------------------------------------------CONTROL CABECERA-----------------------------------------------
+        public JsonResult ConsultarTermoencogidoSellado(DateTime fechaDesde, DateTime fechaHasta, int opcion)
         {
             try
             {
@@ -98,9 +98,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
-                var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSellado(fecha,opcion).FirstOrDefault();
+                var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSellado(fechaDesde, fechaHasta,opcion).FirstOrDefault();
                 if (poCloroCisterna != null)
-                {
+                {                    
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
 
                 }
@@ -213,48 +213,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        //---------------------------------------------------DETALLE-----------------------------------------------
-        //public JsonResult ConsultarTermoencogidoSelladoDetalle(int id,int idCabecera, int op)
-        //{
-        //    try
-        //    {
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        if (string.IsNullOrEmpty(lsUsuario[0]))
-        //        {
-        //            return Json("101", JsonRequestBehavior.AllowGet);
-        //        }
-        //        clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
-        //        var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSelladoDetalle(id, idCabecera, op).FirstOrDefault();
-        //        if (poCloroCisterna != null)
-        //        {
-        //            return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
-
-        //        }
-        //        else
-        //        {
-        //            return Json("0", JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
+        //------------------------------------------------ CONTROL DETALLE-----------------------------------------------------
         [HttpPost]
         public JsonResult GuardarModificarTermoencogidoSelladoDetalle(CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE model)
         {
@@ -338,12 +297,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+
         //------------------------------------------------REPORTE-----------------------------------------------------
         public ActionResult ReporteTermoencogidoSellado()
         {
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 return View();
             }
@@ -364,6 +325,185 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
                 return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult ReporteTermoencogidoSelladoPartial(DateTime fechaDesde, DateTime fechaHasta, int id, int opcion)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
+                var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSelladoDetalle(fechaDesde, fechaHasta, id, opcion);
+                if (poCloroCisterna != null)
+                {
+                    return PartialView(poCloroCisterna);
+
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //------------------------------------------------BANDEJA-----------------------------------------------------
+        public ActionResult BandejaTermoencogidoSellado()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public JsonResult ConsultarBandejaTermoencogidoSellado(DateTime fechaDesde, DateTime fechaHasta, int id, int opcion)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
+                var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSelladoDetalle(fechaDesde, fechaHasta, id, opcion);
+                if (poCloroCisterna != null)
+                {
+                    List<sp_Control_Termoencogido_Sellado_Detalle> listaNueva = new List<sp_Control_Termoencogido_Sellado_Detalle>();
+                    sp_Control_Termoencogido_Sellado_Detalle objNuevo;
+                    var listaFecha = (from ssi in poCloroCisterna
+                                      group ssi by new { ssi.Fecha, ssi.ObservacionCAB } into g
+                                      select new { g.Key.Fecha }).ToList();//agrupo por fecha para poder saber el total de las filas 
+
+                    foreach (var item in listaFecha)
+                    {
+                        objNuevo = new sp_Control_Termoencogido_Sellado_Detalle();
+                        var stringLista = (from x in poCloroCisterna
+                                           where x.Fecha == item.Fecha
+                                           select new { x.Fecha, x.ObservacionCAB, x.EstadoReporte, x.UsuarioIngresoLog, x.Id, x.IdCabecera, x.HoraVerificacion,
+                                           x.Temperatura, x.CorrectoSellado, x.Observacion, x.EstadoRegistroCAB}).First();
+                        objNuevo.Fecha = stringLista.Fecha;
+                        objNuevo.ObservacionCAB = stringLista.ObservacionCAB;
+                        objNuevo.EstadoReporte = stringLista.EstadoReporte;
+                        objNuevo.UsuarioIngresoLog = stringLista.UsuarioIngresoLog;
+                        objNuevo.Id = stringLista.Id;
+                        objNuevo.IdCabecera = stringLista.IdCabecera;
+                        objNuevo.HoraVerificacion = stringLista.HoraVerificacion;
+                        objNuevo.Temperatura = stringLista.Temperatura;
+                        objNuevo.CorrectoSellado = stringLista.CorrectoSellado;
+                        objNuevo.Observacion = stringLista.Observacion;
+                        objNuevo.EstadoRegistroCAB = stringLista.EstadoRegistroCAB;
+                        listaNueva.Add(objNuevo);
+                    }
+                    return Json(listaNueva, JsonRequestBehavior.AllowGet);
+
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult BandejaTermoencogidoSelladoPartial(DateTime fechaDesde, DateTime fechaHasta,int id, int opcion)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
+                var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSelladoDetalle(fechaDesde, fechaHasta,id, opcion);
+                if (poCloroCisterna != null)
+                {
+                    return PartialView(poCloroCisterna);
+
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
 

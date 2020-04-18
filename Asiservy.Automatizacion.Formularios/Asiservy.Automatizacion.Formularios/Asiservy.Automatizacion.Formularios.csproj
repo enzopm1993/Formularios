@@ -2220,6 +2220,7 @@
     <Content Include="Scripts\CALIDAD\OperatividadMetal\ReporteOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
+    <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.js" />
     <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\ReporteIngresoMateriaPrima.js" />
@@ -3811,6 +3812,9 @@
     <Content Include="Views\ReporteMaestro\ReporteMaestro.cshtml" />
     <Content Include="Views\ReporteMaestro\ReporteMaestroPartial.cshtml" />
     <Content Include="Views\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManosAprobarPartial.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSellado.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSelladoPartial.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSelladoPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
