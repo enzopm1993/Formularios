@@ -19,5 +19,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public decimal Temperatura { get; set; }
         public bool CorrectoSellado { get; set; }
         public string Observacion { get; set; }
+        public bool EstadoReporte { get; set; }
+        public string UsuarioModificacionLog { get; set; }
+        public string EstadoRegistroCAB { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string UsuarioIngresoLog { get; set; }
+        public string ObservacionCAB { get; set; }
     }
 }
