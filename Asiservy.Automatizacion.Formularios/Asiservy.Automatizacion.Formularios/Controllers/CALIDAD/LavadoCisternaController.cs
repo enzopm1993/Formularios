@@ -52,7 +52,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         
-        public ActionResult LavadoCisternaPartial(DateTime fechaDesde, DateTime fechaHasta, int op)
+        public ActionResult LavadoCisternaPartial(DateTime fechaDesde, DateTime fechaHasta, int idLavadoCisterna, int op)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
-                var detalleTabla = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, fechaHasta, op);
+                var detalleTabla = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, fechaHasta, idLavadoCisterna, op);
 
                 if (detalleTabla != null)
                 {
@@ -93,8 +93,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        //---------------------------------------------------CABECERA---------------------------------------------------------------
-        public JsonResult ConsultarLavadoCisterna(DateTime fechaDesde, DateTime fechaHasta, int op)
+        //---------------------------------------------------CABECERA CONTROL---------------------------------------------------------------
+        public JsonResult ConsultarLavadoCisterna(DateTime fechaDesde, DateTime fechaHasta, int idLavadoCisterna, int op)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
-                var poCloroCisterna = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde,fechaHasta, op).FirstOrDefault();
+                var poCloroCisterna = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, fechaHasta, idLavadoCisterna, op).FirstOrDefault();
                 if (poCloroCisterna != null)
                 {
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
@@ -136,9 +136,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public JsonResult GuardarModificarLavadoCisterna(CC_LAVADO_CISTERNA model, string idMantCisterna, List<string> idIntermedia)
+        public JsonResult GuardarModificarLavadoCisterna(CC_LAVADO_CISTERNA model, string idMantCisterna, List<string> idIntermedia, int siAprobar)
         {
-            var splitIdMantCisterna = idMantCisterna.Split(';');            
+            var splitIdMantCisterna = idMantCisterna.Split(';');          
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
@@ -151,7 +151,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDControlLavadoCisterna.GuardarModificarLavadoCisterna(model);
+                var valor = clsDControlLavadoCisterna.GuardarModificarLavadoCisterna(model, siAprobar);
                 //GUARDAR EN LA TABLA INTERMEDIA
                 int idCisterna = model.IdLavadoCisterna;
                 foreach (var item in splitIdMantCisterna)
@@ -251,6 +251,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
+        //---------------------------------------------------REPORTE---------------------------------------------------------------
         public ActionResult ReporteLavadoCisterna()
         {
             try
@@ -280,7 +281,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ReporteLavadoCisternaPartial(DateTime fechaDesde, DateTime fechaHasta, int op)
+        public ActionResult ReporteLavadoCisternaPartial(DateTime fechaDesde, DateTime fechaHasta, int idLavadoCisterna, int op)
         {
             try
             {
@@ -290,7 +291,182 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
-                var tablaCabecera = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, fechaHasta, op);
+                var tablaCabecera = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, fechaHasta, idLavadoCisterna, op);
+
+                if (tablaCabecera != null)
+                {
+                    return PartialView(tablaCabecera);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        //---------------------------------------------------BANDEJA---------------------------------------------------------------
+        public ActionResult BandejaLavadoCisterna()
+        {
+            try
+            {
+                ViewBag.DateRangePicker = "1";
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult BandejaLavadoCisternaPartial(DateTime fechaDesde, DateTime fechaHasta,int idLavadoCisterna, int op)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
+                var tablaCabecera = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, fechaHasta, idLavadoCisterna, op);
+
+                if (tablaCabecera != null)
+                {
+                    sp_Control_Lavado_Cisterna cisterna;
+                    List<sp_Control_Lavado_Cisterna> listaCisterna = new List<sp_Control_Lavado_Cisterna>();
+                    var listaFiltrada = (from x in tablaCabecera
+                                         group x by new { x.IdLavadoCisterna, x.Fecha } into f
+                                         select new { f.Key.IdLavadoCisterna, f.Key.Fecha }).ToList();//agrupo por IdLavadoCisterna, fecha para poder saber el total de las filas 
+                    foreach (var item in listaFiltrada)
+                    {
+                        cisterna = new sp_Control_Lavado_Cisterna();                       
+                            var listaAgrupada = (from x in tablaCabecera
+                                                 where item.IdLavadoCisterna== x.IdLavadoCisterna && item.Fecha==x.Fecha
+                                                 select new { x.IdLavadoCisterna, x.Fecha, x.QuimUtilizados, x.Observacion, x.EstadoReporteCab
+                                                 , x.NDescripcion, x.UsuarioIngresoLog}).First();
+                        cisterna.IdLavadoCisterna = listaAgrupada.IdLavadoCisterna;
+                        cisterna.Fecha = listaAgrupada.Fecha;
+                        cisterna.QuimUtilizados = listaAgrupada.QuimUtilizados;
+                        cisterna.Observacion = listaAgrupada.Observacion;
+                        cisterna.EstadoReporteCab = listaAgrupada.EstadoReporteCab;
+                        cisterna.NDescripcion = listaAgrupada.NDescripcion;
+                        cisterna.UsuarioIngresoLog = listaAgrupada.UsuarioIngresoLog;
+                        listaCisterna.Add(cisterna);
+                    }
+                    return PartialView(listaCisterna);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GuardarBandejaModificarLavadoCisterna(CC_LAVADO_CISTERNA model, int siAprobar)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                var valor = clsDControlLavadoCisterna.GuardarModificarLavadoCisterna(model, siAprobar);
+                if (valor == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                else return Json("1", JsonRequestBehavior.AllowGet); ;
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult BandejaLavadoCisternaAprobarPartial(DateTime fechaDesde, DateTime fechaHasta, int idLavadoCisterna, int op)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
+                var tablaCabecera = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, fechaHasta, idLavadoCisterna, op);
 
                 if (tablaCabecera != null)
                 {

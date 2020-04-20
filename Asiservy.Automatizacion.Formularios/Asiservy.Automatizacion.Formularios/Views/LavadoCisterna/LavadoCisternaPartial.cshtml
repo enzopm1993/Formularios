@@ -4,11 +4,11 @@
 <table class="table table-light table-striped" tabindex="1" id="tblDataTable">
     <thead>
         <tr>
-            <th>ID</th>
             <th>FECHA</th>
             <th>Nº CISTERNA</th>
             <th>QUIMICOS UTILIZADOS</th>
-            <th>OBSERVACIONES</th>         
+            <th>OBSERVACIONES</th>
+            <th>ESTADO</th>
             <th>ACCIONES</th>
         </tr>
     </thead>
@@ -21,48 +21,61 @@
         @foreach (var item in listaFiltrada)
         {
             DateTime fecha = new DateTime(1900, 01, 01); string quimUtilizados = "";string observacion = "";
-            string NDescripcion = "";
+            string NDescripcion = ""; bool estadoReporte = false;
             List<string> listaIdIntermedia=new List<string>();
-        <tr>
-            @foreach (var subItem in Model)
-            {
-                if (item.IdLavadoCisterna == subItem.IdLavadoCisterna)
+            <tr>
+                @foreach (var subItem in Model)
                 {
-                    NDescripcion += subItem.NDescripcion+";";
-                    fecha = subItem.Fecha;
-                    quimUtilizados = subItem.QuimUtilizados;
-                    observacion = subItem.Observacion;
-                    listaIdIntermedia.Add(subItem.IdIntermedia.ToString());
+                    if (item.IdLavadoCisterna == subItem.IdLavadoCisterna)
+                    {
+                        NDescripcion += subItem.NDescripcion+";";
+                        fecha = subItem.Fecha;
+                        quimUtilizados = subItem.QuimUtilizados;
+                        observacion = subItem.Observacion;
+                        estadoReporte = subItem.EstadoReporteCab;
+                        listaIdIntermedia.Add(subItem.IdIntermedia.ToString());
+                    }
                 }
-            }
-            <td>
-                @item.IdLavadoCisterna
-            </td>
-            <td>
-                @fecha.ToString("dd-MM-yyyy")
-            </td>
-            <td>@NDescripcion</td>
-            <td>
-                @quimUtilizados
-            </td>
-            <td>
-                @observacion
-            </td>
-            <td>
-                @{
-                    List<string> lis = new List<string>();
-                    lis.Add(item.IdLavadoCisterna.ToString());
-                    lis.Add(fecha.ToString("dd-MM-yyyy"));
-                    lis.Add(NDescripcion);
-                    lis.Add(quimUtilizados);
-                    lis.Add(observacion);
-                    string json = JsonConvert.SerializeObject(lis);
-                    string jsonIdIntermedia = JsonConvert.SerializeObject(listaIdIntermedia);
-                        }
-                <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json, @jsonIdIntermedia)">Editar</button>
-                <button id="btnEliminar" class="btn btn-link" onclick="EliminarConfirmar(@json)">Eliminar</button>
-            </td>
-        </tr>
+                <td>
+                    @fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td>@NDescripcion.ToUpper()</td>
+                <td>
+                    @quimUtilizados.ToUpper()
+                </td>
+                @if (!string.IsNullOrEmpty(observacion))
+                {
+                    <td>@observacion.ToUpper()</td>
+                }
+                else {
+                    <td></td>
+                }
+                <td>
+                    @if (estadoReporte)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
+                <td>
+                    @{
+                        List<string> lis = new List<string>();
+                        lis.Add(item.IdLavadoCisterna.ToString());
+                        lis.Add(fecha.ToString("dd-MM-yyyy"));
+                        lis.Add(NDescripcion);
+                        lis.Add(quimUtilizados);
+                        lis.Add(observacion);
+                        lis.Add(estadoReporte.ToString());
+                        string json = JsonConvert.SerializeObject(lis);
+                        string jsonIdIntermedia = JsonConvert.SerializeObject(listaIdIntermedia);
+                            }
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json, @jsonIdIntermedia)">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarConfirmar(@json)">Eliminar</button>
+                </td>
+            </tr>
         }
 </tbody>
 </table>

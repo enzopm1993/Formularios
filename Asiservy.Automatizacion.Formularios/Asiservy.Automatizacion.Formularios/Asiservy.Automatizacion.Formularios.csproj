@@ -2199,6 +2199,7 @@
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion_Pivot.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
+    <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\ReporteLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.js" />
@@ -3815,6 +3816,9 @@
     <Content Include="Views\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSellado.cshtml" />
     <Content Include="Views\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSelladoPartial.cshtml" />
     <Content Include="Views\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSelladoPartial.cshtml" />
+    <Content Include="Views\LavadoCisterna\BandejaLavadoCisterna.cshtml" />
+    <Content Include="Views\LavadoCisterna\BandejaLavadoCisternaPartial.cshtml" />
+    <Content Include="Views\LavadoCisterna\BandejaLavadoCisternaAprobarPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3847,6 +3851,7 @@
     <WCFMetadataStorage Include="Connected Services\OnlyControlService\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AspxReportesRdlc\Rpt_CC_Cuchillos.rdlc" />
     <EmbeddedResource Include="AspxReportesRdlc\Report1.rdlc" />
   </ItemGroup>
   <PropertyGroup>

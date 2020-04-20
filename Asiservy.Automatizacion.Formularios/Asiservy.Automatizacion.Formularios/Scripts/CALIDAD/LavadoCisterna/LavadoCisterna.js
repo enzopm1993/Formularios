@@ -6,12 +6,13 @@ $(document).ready(function () {
     
 });
 function CargarCabecera(op) {
-    MostrarModalCargando();
+    $('#cargac').show();
     $.ajax({
         url: "../LavadoCisterna/LavadoCisternaPartial",
         data: {
             fechaDesde:$("#txtFecha").val(),
             fechaHasta: $("#txtFecha").val(),
+            idLavadoCisterna: 0,
             op: op
         },
         type: "GET",
@@ -26,18 +27,18 @@ function CargarCabecera(op) {
             }
             itemEditar = 0;
             setTimeout(function () {
-                CerrarModalCargando();
-            }, 500);
+                $('#cargac').hide();
+            }, 200);
         },
         error: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });
 }
 
 function GuardarCabecera() {
-    MostrarModalCargando();
+    $('#cargac').show();
     $.ajax({
         url: "../LavadoCisterna/GuardarModificarLavadoCisterna",
         type: "POST",
@@ -47,35 +48,40 @@ function GuardarCabecera() {
             QuimUtilizados: $("#txtQUtilizados").val(),
             Observacion: $("#txtObservacion").val(),
             idMantCisterna: itemEditar[5],
-            idIntermedia: listaIdIntermedia
+            idIntermedia: listaIdIntermedia,
+            siAprobar:0
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            CargarCabecera(0);
+            $('#ModalIngresoCabecera').modal('hide');
             setTimeout(function () {
-                LimpiarCabecera();
-                $('#ModalIngresoCabecera').modal('hide');
-                CerrarModalCargando();
-            }, 500);
+                LimpiarCabecera();          
+                $('#cargac').hide();
+                CargarCabecera(0);
+            }, 200);
         },
         error: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });
 }
 
 function EliminarConfirmar(jdata) {
-    $("#modalEliminarControl").modal("show");
-    itemEditar = jdata;
-    $("#myModalLabel").text("¿Desea Eliminar el registro?");
-    
+    if (jdata[5] == 'True') {
+        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+        return;
+    } else {
+        $("#modalEliminarControl").modal("show");
+        itemEditar = jdata;
+        $("#myModalLabel").text("¿Desea Eliminar el registro?");
+    }
 }
 
 function EliminarCabeceraSi() {
-    MostrarModalCargando();
+    $('#cargac').show();
     $.ajax({
         url: "../LavadoCisterna/EliminarLavadoCisterna",
         type: "POST",
@@ -89,20 +95,20 @@ function EliminarCabeceraSi() {
             if (resultado == "0") {
                 MensajeAdvertencia("Falta Parametro IdLavadoCisterna");
                 $("#modalEliminarControl").modal("hide");
-                CerrarModalCargando();
+                $('#cargac').hide();
                 return;
             } else if (resultado == "1") {
                 $("#modalEliminarControl").modal("hide");
                 CargarCabecera(0);
                 MensajeCorrecto("Registro eliminado con Éxito");
                 setTimeout(function () {
-                    CerrarModalCargando();
-                }, 500);
+                    $('#cargac').hide();
+                }, 200);
             }
             itemEditar = 0;
         },
         error: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });
@@ -113,17 +119,25 @@ function EliminarCabeceraNo() {
 }
 
 function ActualizarCabecera(jdata, jIdIntermedia) {
-    $("#txtFechaCabecera").val(moment(jdata[1]).format("YYYY-DD-MM"));
-    $("#txtNCisterna").val(jdata[2]);
-    $("#txtQUtilizados").val(jdata[3]);
-    $("#txtObservacion").val(jdata[4]);
-    $('#ModalIngresoCabecera').modal('show');
-    itemEditar = jdata;
-    listaIdIntermedia = jIdIntermedia;//Lista de IDIntermedia a eliminar
+    if (jdata[5] == 'True') {
+        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+        return;
+    } else {
+        $("#txtFechaCabecera").prop('disabled',true);
+        var date = $("#txtFechaCabecera").val(moment(jdata[1]).format("YYYY-MM-DD"));        
+        $("#txtFechaCabecera").val(date[0].defaultValue);
+        $("#txtNCisterna").val(jdata[2]);
+        $("#txtQUtilizados").val(jdata[3]);
+        $("#txtObservacion").val(jdata[4]);
+        $('#ModalIngresoCabecera').modal('show');
+        itemEditar = jdata;
+        listaIdIntermedia = jIdIntermedia;//Lista de IDIntermedia a eliminar
+    }
 }
 
 function ModalIngresoCabecera() {
     LimpiarCabecera();
+    $("#txtFechaCabecera").prop('disabled', false);
     $('#ModalIngresoCabecera').modal('show');
     $("#txtFechaCabecera").val(moment($("#txtFecha").val()).format("YYYY-MM-DD"));
     itemEditar = [];
