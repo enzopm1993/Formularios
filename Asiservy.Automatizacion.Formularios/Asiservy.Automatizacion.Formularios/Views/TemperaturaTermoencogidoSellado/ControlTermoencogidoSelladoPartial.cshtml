@@ -3,10 +3,7 @@
 
 <table class="table table-light table-striped table-bordered" style="border-right:1px solid #e3e6f0" id="tblDataTable">
     <thead style="font-size:13px">
-    <tr>
-        <th style="border-right:1px solid #e3e6f0">
-            <center>ID</center>
-        </th>
+    <tr>       
         <th style="border-right:1px solid #e3e6f0">
             <center> HORA<br />VERIFICACION</center>
         </th>
@@ -27,10 +24,7 @@
 
         @foreach (var item in Model)
         {           
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
+            <tr>              
                 <td>
                     <center>
                          @item.HoraVerificacion.ToString("HH:mm")
@@ -54,13 +48,16 @@
                     </center>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Observacion)
+                    @if (!string.IsNullOrEmpty(item.Observacion))
+                    {
+                    <span> @item.Observacion.ToUpper()</span>
+                    }
                 </td>
                 <td id="tdAccionesBody_@con">
                     @{string json = JsonConvert.SerializeObject(item);
                     }
                     <button id="btnActualizar" class="btn btn-link" onclick="ActulizarDetalle(@json)">Editar</button>
-                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarDetalle(@json)">Eliminar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarConfirmarDetalle(@json)">Eliminar</button>
                 </td>
             </tr>
                             con++;

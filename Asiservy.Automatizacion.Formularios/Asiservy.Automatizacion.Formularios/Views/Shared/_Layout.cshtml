@@ -526,20 +526,17 @@
         <script src="~/Scripts/select2.js"></script>
         <link href="~/Content/css/select2.css" rel="stylesheet" />
     }
-
-    @if (ViewBag.JavaScrip != null)
+    @if (ViewBag.FirmaPad == "1")
     {
         <script src="~/Scripts/signature_pad.umd.js"></script>
+    }
+    @if (ViewBag.JavaScrip != null)
+    {
         <script src="~/Scripts/linq.js"></script>
-
-
         string js = ViewBag.JavaScrip;
         string url = "/Scripts/" + js + ".js?v=1.4";
         var res = HttpUtility.UrlDecode(url);
         <script src="@res"></script>
-
-
-
         //SCRIPT PARA COMBOS DE BUSQUEDA
         @*<script src="~/Scripts/select2.js"></script>
             <link href="~/Content/css/select2.css" rel="stylesheet" />*@

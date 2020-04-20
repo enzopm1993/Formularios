@@ -4,23 +4,75 @@
     ViewBag.Title = "ControlTermoencogidoSellado";
 }
 
-<h3>CONTROL DE TEMPERATURA TERMOENCOGIDO Y CALIDAD DE SELLADO</h3>
-
 <style>
     input, select, textarea {
         max-width: 100%;
     }
+
+    .selectbox {
+        background: #fff;
+        color: #1d3b4a;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .box_filters {
+        float: right;
+    }
+
+    .itemFilter {
+        float: left;
+        margin-right: 4px;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+
+    ._bloque {
+        margin-bottom: 10px;
+    }
 </style>
 
-<hr />
-<div class="row" id="divCabecera1">
-    <div class="col-md-3 col-6 col-sm-6">
-        <div class="form-group">
-            <label>Fecha</label>
-            <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(0)" id="txtFecha" class="form-control" />
+<div class="row">
+    <div class="col-md-12 ">
+        <h4 class="text-md-left text-center" style="float:left">Control de Temperatura Termoencogido<label id="lblAprobadoPendiente" class="badge badge-danger">MENSAJES</label></h4>
+        <div class="box_filters">
+            <div class="itemFilter">
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(0)" id="txtFecha" class="form-control" />
+            </div>
+            <div class="itemFilter">
+                <a onclick="CargarCabecera(0)" href="#" id="btnBuscarFecha" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
+            </div>
         </div>
     </div>
-    <div class="col-md-7 col-6 col-sm-6">
+</div>
+<hr />
+<div class="row" id="btnModalGenerarRegistro">
+    <div class="col-md-4 col-12 col-sm-12 text-md-left text-center">
+        <label class="" id="lblAcciones">Nuevo Registro</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnGenerarRegistro" onclick="ModalIngresarCabecera()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/add24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row" id="divCabecera1">
+    <div class="col-md-2 col-12 col-sm-12">
+        <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" disabled name="name" onchange="CargarCabecera(0)" id="txtMostrarFecha" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-7 col-12 col-sm-12">
         <div class="form-group">
             <label>Observación</label>
             <input type="text" name="name" value="" id="txtObservacion" class="form-control" />
@@ -29,9 +81,6 @@
     <div class="col-md-2 col-12  text-md-left text-center">
         <label class="" id="lblAcciones">Acciones</label>
         <div class="form-group">
-            <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistro" onclick="GuardarCabecera()" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/add24.png" />
-            </button>
             <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarConfirmar()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/cancel24.png" />
             </button>
@@ -43,13 +92,8 @@
 
 </div>
 <hr />
-<div class="d-flex justify-content-center">
-    <div id="spinnerCargando" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-        <span class="sr-only">Loading...</span>
-    </div>
-</div>
 
-@*MODAL ELIMINAR FECHA*@
+@*MODAL ELIMINAR CABECERA*@
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -66,6 +110,22 @@
     </div>
 </div>
 
+@*MODAL ELIMINAR DETALLE*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar Registro Detalle?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarDetalle()" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarDetalleNo()" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @* MODAL INGRESO DETALLE *@
 
@@ -91,7 +151,7 @@
                             <label>Temperatura:</label>
                             <input type="number" name="name" placeholder="0" max="100" min="0" value="" id="txtTemperatura" class="form-control" />
                         </div>
-                    </div>                    
+                    </div>
                     <div class="col-md-4 col-6 col-sm-6" id="ModalCheckBox">
                         <div class="form-group">
                             <label>Correcto-Sellado</label>
@@ -110,13 +170,13 @@
                         </div>
                     </div>
                 </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success"  onclick="ValidarAntesGuardar()">Guardar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limpiarDetalle()">Cancelar</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="ValidarAntesGuardar()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limpiarDetalle()">Cancelar</button>
             </div>
         </div>
+    </div>
 </div>
 
 
@@ -127,15 +187,15 @@
             <div class="card shadow">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-2 col-sm-3 col-3">
-                            <div class="form-group">                                
+                        <div class="col-md-1 col-sm-3 col-3">
+                            <div class="form-group">
                                 <button data-toggle="tooltip" data-placement="top" title="Ingresar Lineas" class="btn" id="btnModalGenerar" onclick="ModalGenerarDetalle()" style="border-color:#2c3e50" type="button">
                                     <img style="width:100%" src="~/Content/icons/add24.png" />
                                 </button>
                             </div>
                         </div>
                         <div class="col-md-10 col-sm-9 col-8">
-                            <h4>INGRESO DETALLE</h4>
+                            <h4>Nuevo Detalle</h4>
                         </div>
                     </div>
                 </div>
@@ -158,5 +218,37 @@
     </div>
 </div>
 
-
+@* MODAL INGRESAR CABECERA *@
+<div class="modal" tabindex="-1" id="ModalIngresarCabecera" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Ingreso Cabecera</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="limpiarDetalle()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" name="name" disabled id="txtIngresoFecha" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Observación</label>
+                            <input type="text" name="name" value="" id="txtIngresoObservacion" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="GuardarCabecera()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limpiarDetalle()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
