@@ -83,7 +83,7 @@ function GenerarReporteMaestro() {
         },
         error: function (result) {
            /* console.log(JSON.stringify(result.responseText))*/;
-            MensajeError(resultado.Mensaje, false);
+            MensajeError("Error, comuniquese con sistemas. " + result, false);
         }
     });
 }
@@ -91,4 +91,9 @@ function GenerarReporteMaestro() {
 
 function SeleccionarReporteMaestro(model) {
     alert(model);
+
+    $("#txtIdControl").val(model.IdReporteMaestro);
+    $("#txtNombre").val(model.Nombre);
+    $("#txtCodigo").val(model.Codigo);
+    $("#txtVersion").val(model.UltimaVersion);
 }
