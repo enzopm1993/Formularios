@@ -3815,6 +3815,7 @@
     <Content Include="Views\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSellado.cshtml" />
     <Content Include="Views\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSelladoPartial.cshtml" />
     <Content Include="Views\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSelladoPartial.cshtml" />
+    <Content Include="Views\ReporteMaestro\ReporteDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
