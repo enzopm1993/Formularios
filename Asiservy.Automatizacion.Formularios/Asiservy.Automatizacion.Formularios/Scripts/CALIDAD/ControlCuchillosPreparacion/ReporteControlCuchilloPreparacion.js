@@ -83,7 +83,7 @@ $(function () {
     cb(start, end);
 });
 
-function ReporteControlCuchilloPreparacionPartial(opcion) {  
+function ReporteControlCuchilloPreparacionPartial(opcion) {
     $('#cargac').show();
     var op = opcion;
     var table = $('#tblDataTable');    
@@ -105,6 +105,7 @@ function ReporteControlCuchilloPreparacionPartial(opcion) {
             }
             $("#tblDataTable tbody").empty(); 
             config.opcionesDT.order = [1, 'desc'];
+            config.opcionesDT.buttons = [];
             //config.opcionesDT.buttons = [{
             //    extend: 'print',
             //    text: '<img style="width:100%" src="../../Content/icons/print24.png" />',
@@ -124,3 +125,10 @@ function ReporteControlCuchilloPreparacionPartial(opcion) {
         }
     });
 }
+
+function PrintReport(op) {
+    localStorage.setItem("fechaDesde", $("#fechaDesde").val());
+    var url = $("#RedirectTo").val() + '?' + 'filtroFechaDesde=' + $("#fechaDesde").val() + '&filtroFechaHasta=' + $("#fechaHasta").val() + '&op=' + op;
+    var win = window.open(url, '_blank');    
+}
+
