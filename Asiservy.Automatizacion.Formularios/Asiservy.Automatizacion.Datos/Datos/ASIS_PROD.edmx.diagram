@@ -130,7 +130,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CUCHILLOS_PREPARACION" Width="1.5" PointX="33.75" PointY="22.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Width="1.5" PointX="38" PointY="36.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_INTERMEDIA_CTRL_MANT_CISTERNA" Width="1.5" PointX="33" PointY="17" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_LAVADO_CISTERNA" Width="1.5" PointX="30.75" PointY="17" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_CISTERNA" Width="1.5" PointX="30.75" PointY="57.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_COLOR" Width="1.5" PointX="13.75" PointY="34.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_OLOR" Width="1.5" PointX="22.75" PointY="34.75" />
@@ -145,7 +144,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.MANTENIMIENTO_CONDICION" Width="1.5" PointX="36.75" PointY="6.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.SUBDETALLE_PRODUCTO_POUCH_CUARENTENA" Width="1.5" PointX="35.25" PointY="1.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_MANTENIMIENTO_CISTERNA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" />
@@ -172,6 +170,8 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO" Width="1.5" PointX="38.375" PointY="22.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Width="1.5" PointX="40.625" PointY="22.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_LAVADO_CISTERNA" Width="1.5" PointX="30.75" PointY="16.875" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

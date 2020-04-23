@@ -117,7 +117,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CUCHILLOS_PREPARACION> CC_CUCHILLOS_PREPARACION { get; set; }
         public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE> CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE { get; set; }
         public virtual DbSet<CC_INTERMEDIA_CTRL_MANT_CISTERNA> CC_INTERMEDIA_CTRL_MANT_CISTERNA { get; set; }
-        public virtual DbSet<CC_LAVADO_CISTERNA> CC_LAVADO_CISTERNA { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_CISTERNA> CC_MANTENIMIENTO_CISTERNA { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_COLOR> CC_MANTENIMIENTO_COLOR { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_OLOR> CC_MANTENIMIENTO_OLOR { get; set; }
@@ -145,6 +144,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO { get; set; }
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO> CC_EVALUACION_PRODUCTO_ENFUNDADO { get; set; }
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE> CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE { get; set; }
+        public virtual DbSet<CC_LAVADO_CISTERNA> CC_LAVADO_CISTERNA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1782,27 +1782,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsutaEmpleadosCuchillos>("spConsutaEmpleadosCuchillos", lineaParameter, estadoParameter, fechaParameter, controlParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<sp_Control_Lavado_Cisterna> sp_Control_Lavado_Cisterna(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idLavadoCisterna, Nullable<int> op)
-        {
-            var fechaDesdeParameter = fechaDesde.HasValue ?
-                new ObjectParameter("fechaDesde", fechaDesde) :
-                new ObjectParameter("fechaDesde", typeof(System.DateTime));
-    
-            var fechaHastaParameter = fechaHasta.HasValue ?
-                new ObjectParameter("fechaHasta", fechaHasta) :
-                new ObjectParameter("fechaHasta", typeof(System.DateTime));
-    
-            var idLavadoCisternaParameter = idLavadoCisterna.HasValue ?
-                new ObjectParameter("idLavadoCisterna", idLavadoCisterna) :
-                new ObjectParameter("idLavadoCisterna", typeof(int));
-    
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Cisterna>("sp_Control_Lavado_Cisterna", fechaDesdeParameter, fechaHastaParameter, idLavadoCisternaParameter, opParameter);
-        }
-    
         public virtual ObjectResult<spConsultaReporteControlCuchillo> spConsultaReporteControlCuchillo(Nullable<System.DateTime> fecha, string linea, string turno)
         {
             var fechaParameter = fecha.HasValue ?
@@ -2012,6 +1991,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Termoencogido_Sellado_Detalle>("sp_Control_Termoencogido_Sellado_Detalle", fechaDesdeParameter, fechaHastaParameter, idCabeceraParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Lavado_Cisterna> sp_Control_Lavado_Cisterna(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idLavadoCisterna, Nullable<int> op)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var idLavadoCisternaParameter = idLavadoCisterna.HasValue ?
+                new ObjectParameter("idLavadoCisterna", idLavadoCisterna) :
+                new ObjectParameter("idLavadoCisterna", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Cisterna>("sp_Control_Lavado_Cisterna", fechaDesdeParameter, fechaHastaParameter, idLavadoCisternaParameter, opParameter);
         }
     }
 }
