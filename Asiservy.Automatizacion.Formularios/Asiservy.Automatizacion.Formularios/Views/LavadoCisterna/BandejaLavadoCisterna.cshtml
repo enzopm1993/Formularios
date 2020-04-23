@@ -1,9 +1,8 @@
-﻿@model Asiservy.Automatizacion.Datos.Datos.sp_Control_Termoencogido_Sellado_Detalle
+﻿@model Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Cisterna
 
 @{
-    ViewBag.Title = "BandejaTermoencogidoSellado";
+    ViewBag.Title = "BandejaLavadoCisterna";
 }
-
 
 <style>
     input, select, textarea {
@@ -41,7 +40,7 @@
 
 <div class="row">
     <div class="col-md-6 col-12 col-sm-12">
-        <h4 class="text-md-left text-center" style="float:left">Bandeja Termoencogido y Sellado de Calidad</h4>
+        <h4 class="text-md-left text-center" style="float:left">Bandeja Lavado de Cisterna</h4>
     </div>
     <div class="col-md-6 col-12 col-sm-12">
         <div class="box_filters" style="padding-right:7.6%;width:62%">
@@ -78,20 +77,7 @@
 </div>
 
 <br /><br /><br /><br />
-@* DIV MOSTRAR JSON *@
-<div class="table-responsive" id="divTablaAplrobados">
-    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
-        <thead>
-            <tr>
-                <th>FECHA</th>
-                <th>OBSERVACION</th>
-                <th style="width:150px">USIARIO CREACION</th>
-                <th style="width:150px"><center>ESTADO APROBACION</center></th>
-            </tr>
-        </thead>
-        <tbody style="font-size:14px"></tbody>
-    </table>
-</div>
+
 
 @* MODAL APRUEBA CONTROL*@
 <div class="modal fade" id="ModalApruebaPendiente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -117,5 +103,8 @@
     </div>
 </div>
 
+<div class="table-responsive" id="divMostrarCabeceras">
+
+</div>
 
 

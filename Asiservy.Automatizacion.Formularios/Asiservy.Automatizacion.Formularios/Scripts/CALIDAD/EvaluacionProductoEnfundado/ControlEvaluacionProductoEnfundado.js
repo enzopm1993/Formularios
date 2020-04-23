@@ -1,7 +1,12 @@
-﻿var ListaLotes;
+﻿
+var ListaLotes;
 var Error = 0;
 var IdCabecera = 0;
 var IdDetalle = 0;
+$(document).ready(function () {
+    $('#cmbEmpacador').select2();
+});
+
 function LLenarComboOrdenes(orden) {
     Error = 0;
     //$('#txtProducto').val('');
@@ -38,7 +43,7 @@ function LLenarComboOrdenes(orden) {
                 }
                 if (Error == 0) {
                     //console.log(resultado);
-               
+
                     $.each(resultado, function (key, value) {
                         $('#cmbOrdeneFabricacion').append('<option value=' + value.Orden + '>' + value.Orden + '</option>');
                     });
@@ -50,7 +55,7 @@ function LLenarComboOrdenes(orden) {
             .catch(function (resultado) {
                 console.log(resultado);
                 MensajeError(resultado.responseText, false);
-              
+
             })
     }
 
@@ -90,6 +95,8 @@ function DatosOrdenFabricacion() {
                 }
                 if (Error == 0) {
                     $('#txtCliente').val(resultado.CLIENTE);
+                    $('#txtDestino').val(resultado.DESTINO);
+                    $('#txtMarca').val(resultado.MARCA);
                     //console.log(resultado);
                     //$.each(resultado, function (key, value) {
                     //    $('#cmbLote').append('<option value=' + value.Codigo + '>' + value.Descripcion + '</option>');
@@ -109,7 +116,7 @@ function DatosOrdenFabricacion() {
     LlenarComboLotes($("#cmbOrdeneFabricacion").val());
 }
 function ConsultarCabControl() {
-    
+
     if ($('#txtFechaProduccion').val() == '') {
         $('#msjErrorFechaProduccion').prop('hidden', false);
         return false;
@@ -123,85 +130,113 @@ function ConsultarCabControl() {
     $('#btnGuardar').prop('hidden', true);
     const data = new FormData();
     data.append('FechaProduccion', $("#txtFechaProduccion").val());
-    fetch("../EvaluacionDeLomoyMigaEnBandeja/ConsultarCabeceraControl", {
+    fetch("../EvaluacionProductoEnfundado/ConsultarCabeceraControl", {
         method: 'POST',
         body: data
     }).then(function (respuesta) {
-    if (!respuesta.ok) {
-        //MensajeError(respuesta.statusText);
-        MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
-        Error = 1;
-    }
-    return respuesta.json();
-    })
-    .then(function (resultado) {
-    //console.log(respuesta);
-    if (resultado == "101") {
-        window.location.reload();
-    }
-    if (Error == 0) {
-        //console.log(resultado);
-        $('#txtFechaProduccion').prop('disabled', true);
-
-        LLenarComboOrdenes(resultado.OrdenFabricacion);
-        //$("#cmbTurno").val("2");
-        if (resultado != "0") {
-            $('#mensajeRegistros').prop('hidden', true);
-            IdCabecera = resultado.IdEvaluacionDeLomosYMigasEnBandejas;
-            $('#cmbOrdeneFabricacion').val(resultado.OrdenFabricacion);
-            $('#txtCliente').val(resultado.Cliente);
-            if (resultado.Lomo) {
-                $('#Lomo').prop('checked', true);
-            }
-            if (resultado.Miga) {
-                $('#Miga').prop('checked', true);
-            }
-            if (resultado.Empaque) {
-                $('#Empaque').prop('checked', true);
-            }
-            if (resultado.Enlatado) {
-                $('#Enlatado').prop('checked', true);
-            }
-            if (resultado.Pouch) {
-                $('#Pouch').prop('checked', true);
-            }
-            if (resultado.EstadoControl == true) {
-                $('#EtiquetaEstadoControl').html('<text class="text-success">(Aprobado)</text>');
-            } else {
-                $('#EtiquetaEstadoControl').html('<text class="text-warning">(Pendiente)</text>');
-            }
-            $('#cmbNivelLimpieza').val(resultado.NivelLimpieza);
-            $('#Observacion').val(resultado.Observacion);
-            $('#CardDetalle').prop('hidden', false);
-            $('#btnEliminarCabeceraControl').prop('disabled', false);
-            LlenarComboLotes(resultado.OrdenFabricacion);
-            //ConsultarDetalleControl();
-            ConsultarDetalleControl();
-        } else {
-            $('#mensajeRegistros').prop('hidden', false);
+        if (!respuesta.ok) {
+            //MensajeError(respuesta.statusText);
+            MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+            Error = 1;
         }
-    }
-        $('#btnCargando').prop('hidden', true);
-        $('#btnConsultar').prop('hidden', false);
-        $('#btnLimpiar').prop('hidden', false);
-        $('#btnEliminarCabeceraControl').prop('hidden', false);
-        $('#btnGuardar').prop('hidden', false);
+        return respuesta.json();
     })
-    .catch(function (resultado) {
-        //console.log('error');
-        console.log(resultado);
-        MensajeError(resultado.responseText, false);
+        .then(function (resultado) {
+            //console.log(respuesta);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (Error == 0) {
+                //console.log(resultado);
+                $('#txtFechaProduccion').prop('disabled', true);
 
-    });
+                LLenarComboOrdenes(resultado.OrdenFabricacion);
+                //$("#cmbTurno").val("2");
+                if (resultado != "0") {
+                    $('#mensajeRegistros').prop('hidden', true);
+                    IdCabecera = resultado.IdEvaluacionProductoEnfundado;
+                    $('#cmbOrdeneFabricacion').val(resultado.OrdenFabricacion);
+                    $('#txtCliente').val(resultado.Cliente);
+                    if (resultado.Lomo) {
+                        $('#Lomo').prop('checked', true);
+                    }
+                    if (resultado.Miga) {
+                        $('#Miga').prop('checked', true);
+                    }
+                    if (resultado.Trozo) {
+                        $('#Trozo').prop('checked', true);
+                    }
+                   
+                    if (resultado.EstadoControl == true) {
+                        $('#EtiquetaEstadoControl').html('<text class="text-success">(Aprobado)</text>');
+                    } else {
+                        $('#EtiquetaEstadoControl').html('<text class="text-warning">(Pendiente)</text>');
+                    }
+                    $('#txtDestino').val(resultado.Destino);
+                    $('#txtMarca').val(resultado.Marca);
+                    $('#txtProveedor').val(resultado.Proveedor,);
+                    $('#txtBatch').val(resultado.Batch);
+                    $('#txtLoteProveedor').val(resultado.Lote,);
+                    $('#cmbNivelLimpieza').val(resultado.NivelLimpieza);
+                    $('#Observacion').val(resultado.Observacion);
+                    $('#CardDetalle').prop('hidden', false);
+                    $('#btnEliminarCabeceraControl').prop('disabled', false);
+                    LlenarComboLotes(resultado.OrdenFabricacion);
+                    ConsultarDetalleControl();
+                    //ConsultarDetalleControl();
+                } else {
+                    $('#mensajeRegistros').prop('hidden', false);
+                }
+            }
+            $('#btnCargando').prop('hidden', true);
+            $('#btnConsultar').prop('hidden', false);
+            $('#btnLimpiar').prop('hidden', false);
+            $('#btnEliminarCabeceraControl').prop('hidden', false);
+            $('#btnGuardar').prop('hidden', false);
+        })
+        .catch(function (resultado) {
+            //console.log('error');
+            console.log(resultado);
+            MensajeError(resultado.responseText, false);
+
+        });
     //LlenarComboLotes();
 }
 function GuardarCabceraControl() {
     var Lomo = false;
     var Miga = false;
-    var Empaque = false;
-    var Enlatado = false;
-    var Pouch = false;
-
+    var Trozo = false;
+    if ($('#cmbNivelLimpieza').prop('selectedIndex') == 0) {
+        $('#msgerrorniveldelimpieza').prop('hidden', false);
+        return false;
+    } else {
+        $('#msgerrorniveldelimpieza').prop('hidden', true);
+    }
+    if ($('#txtProveedor').val() == '') {
+        $('#msgerrorproveedor').prop('hidden', false);
+        return false;
+    } else {
+        $('#msgerrorproveedor').prop('hidden', true);
+    }
+    if ($('#txtBatch').val() == '') {
+        $('#msgerrorbatch').prop('hidden', false);
+        return false;
+    } else {
+        $('#msgerrorbatch').prop('hidden', true);
+    }
+    if ($('#txtLoteProveedor').val() == '') {
+        $('#msgerrorloteproveedor').prop('hidden', false);
+        return false;
+    } else {
+        $('#msgerrorloteproveedor').prop('hidden', true);
+    }
+    if (($('#Lomo').prop("checked") == false) && ($('#Miga').prop("checked") == false) && ($('#Trozo').prop("checked") == false)) {
+        $('#msgerrortipoproducto').prop('hidden', false);
+        return false;
+    }
+    else {
+        $('#msgerrortipoproducto').prop('hidden', true);
+    }
     if ($('#txtFechaProduccion').val() == '') {
         $('#msjErrorFechaProduccion').prop('hidden', false);
         return false;
@@ -214,40 +249,39 @@ function GuardarCabceraControl() {
     } else {
         $('#msjErrorOrdenFabricacion').prop('hidden', true);
     }
-  
+
     $('#btnCargando').prop('hidden', false);
     $('#btnConsultar').prop('hidden', true);
     $('#btnLimpiar').prop('hidden', true);
     $('#btnEliminarCabeceraControl').prop('hidden', true);
     $('#btnGuardar').prop('hidden', true);
     const data = new FormData();
-    data.append('IdEvaluacionDeLomosYMigasEnBandejas', IdCabecera);
+    data.append('IdEvaluacionProductoEnfundado', IdCabecera);
     data.append('FechaProduccion', $("#txtFechaProduccion").val());
     data.append('Cliente', $("#txtCliente").val());
     data.append('OrdenFabricacion', $("#cmbOrdeneFabricacion").val());
     data.append('NivelLimpieza', $("#cmbNivelLimpieza").val());
+    data.append('Marca', $('#txtMarca').val()); 
+    data.append('Destino', $('#txtDestino').val()); 
+    data.append('Proveedor', $('#txtProveedor').val()); 
+    data.append('Lote', $('#txtLoteProveedor').val()); 
+    data.append('Batch', $('#txtBatch').val()); 
+    data.append('Observacion', $('#Observacion').val()); 
     if ($('#Lomo').is(":checked")) {
         Lomo = true;
     }
     if ($('#Miga').is(":checked")) {
         Miga = true;
     }
-    if ($('#Empaque').is(":checked")) {
-        Empaque = true;
+    if ($('#Trozo').is(":checked")) {
+        Trozo = true;
     }
-    if ($('#Enlatado').is(":checked")) {
-        Enlatado = true;
-    }
-    if ($('#Pouch').is(":checked")) {
-        Pouch = true;
-    }
+   
     data.append('Lomo', Lomo);
     data.append('Miga', Miga);
-    data.append('Empaque', Empaque);
-    data.append('Enlatado', Enlatado);
-    data.append('Pouch', Pouch);
+    data.append('Trozo', Trozo);
     data.append('Observacion', $('#Observacion').val());
-    fetch("../EvaluacionDeLomoyMigaEnBandeja/GuardarCabeceraControl", {
+    fetch("../EvaluacionProductoEnfundado/GuardarCabeceraControl", {
         method: 'POST',
         body: data
     }).then(function (respuesta) {
@@ -288,7 +322,6 @@ function GuardarCabceraControl() {
         })
 }
 function LimpiarControles() {
-
     IdCabecera = 0;
     Error = 0;
     IdDetalle = 0;
@@ -301,9 +334,13 @@ function LimpiarControles() {
     $('#mensajeRegistros').prop('hidden', true);
     $('#Lomo').prop('checked', false);
     $('#Miga').prop('checked', false);
-    $('#Empaque').prop('checked', false);
-    $('#Enlatado').prop('checked', false);
-    $('#Pouch').prop('checked', false);
+    $('#Trozo').prop('checked', false);
+    $('#txtDestino').val('');
+    $('#txtProveedor').val('');
+    $('#txtBatch').val('');
+    $('#txtLoteProveedor').val('');
+    $('#txtMarca').val('');
+    $('#cmbNivelLimpieza').prop('selectedIndex', 0);
     $('#Observacion').val('');
     $('#CardDetalle').prop('hidden', true);
     LimpiarDetalleControles();
@@ -321,7 +358,7 @@ function EliminarCabecera() {
     data.append('IdCabecera', IdCabecera);
 
 
-    fetch("../EvaluacionDeLomoyMigaEnBandeja/EliminarCabeceraControl", {
+    fetch("../EvaluacionProductoEnfundado/EliminarCabeceraControl", {
         method: 'POST',
         body: data
     }).then(function (respuesta) {
@@ -371,7 +408,7 @@ function LlenarComboLotes(orden) {
         .join('&');
 
     let url = '../General/ConsultarLotesPorOf?' + query;
-    if ($('#cmbOrdeneFabricacion').prop('selectedIndex')== 0) {
+    if ($('#cmbOrdeneFabricacion').prop('selectedIndex') == 0) {
 
     } else {
         fetch(url)
@@ -395,7 +432,7 @@ function LlenarComboLotes(orden) {
                     $.each(resultado, function (key, value) {
                         $('#cmbLote').append('<option value=' + value.descripcion + '>' + value.descripcion + '</option>');
                     });
-                   
+
                 }
             })
             .catch(function (resultado) {
@@ -404,13 +441,6 @@ function LlenarComboLotes(orden) {
 
             })
     }
-}
-function DatosLote(){
-     var Datos = Enumerable.From(ListaLotes)
-         .Where(function (x) { return x.descripcion == $('#cmbLote').val() })
-        .Select(function (x) { return x })
-        .FirstOrDefault();
-    $('#txtBuque').val(Datos.Barco);
 }
 function GuardarDetalleControl() {
     Error = 0;
@@ -421,12 +451,12 @@ function GuardarDetalleControl() {
     } else {
         $('#msjHora').prop('hidden', true);
     }
-    if ($('#cmbLinea').prop('selectedIndex') == 0) {
-        $('#msjLinea').prop('hidden', false);
+    if ($('#cmbEmpacador').prop('selectedIndex') == 0) {
+        $('#msjempacador').prop('hidden', false);
         ActivaInfo();
         return false;
     } else {
-        $('#msjLinea').prop('hidden', true);
+        $('#msjempacador').prop('hidden', true);
     }
     if ($('#cmbLote').prop('selectedIndex') == 0) {
         $('#msjLote').prop('hidden', false);
@@ -472,15 +502,15 @@ function GuardarDetalleControl() {
     } else {
         $('#msjOlor').prop('hidden', true);
     }
-    
-  
+
+
 
     $('#btnEliminarDetalleControl').prop('hidden', true);
     $('#btnGuardarDetalle').prop('hidden', true);
     $('#btnLimpiarDetalle').prop('hidden', true);
     $('#btnCargandoDetalle').prop('hidden', false)
     const data = new FormData();
-    data.append('IdDetalleEvaluacionLomoyMigasEnBandeja', IdDetalle);
+    data.append('IdDetalleEvaluacionProductoEnfundado', IdDetalle);
     data.append('Hora', $("#txtHora").val());
     data.append('Linea', $("#cmbLinea").val());
     data.append('Lote', $("#cmbLote").val());
@@ -498,9 +528,14 @@ function GuardarDetalleControl() {
     data.append('Sangre', $("#txtSangre").val());
     data.append('Escamas', $("#txtEscamas").val());
     data.append('Piel', $("#txtPiel").val());
-    data.append('IdCabeceraEvaluacionLomosYMigasEnBandeja', IdCabecera);
+    data.append('Trozo', $("#txtTrozos").val());
+    data.append('Miga', $("#txtMiga").val());
+    data.append('Empacador', $("#cmbEmpacador").val());
+    data.append('Otro', $("#txtOtros").val());
+    data.append('IdCabeceraEvaluacionProductoEnfundado', IdCabecera);
+    
 
-    fetch("../EvaluacionDeLomoyMigaEnBandeja/GuardarDetalleControl", {
+    fetch("../EvaluacionProductoEnfundado/GuardarDetalleControl", {
         method: 'POST',
         body: data
     }).then(function (respuesta) {
@@ -548,7 +583,7 @@ function ConsultarDetalleControl() {
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
         .join('&');
 
-    let url = '../EvaluacionDeLomoyMigaEnBandeja/PartialDetalleControl?' + query;
+    let url = '../EvaluacionProductoEnfundado/PartialDetalleControl?' + query;
     fetch(url)
         //,body: data
         .then(function (respuesta) {
@@ -565,7 +600,7 @@ function ConsultarDetalleControl() {
                 $('#TableDetalle').DataTable(config.opcionesDT);
                 LimpiarDetalleControles();
                 ConsultarFirma();
-               
+
             } else {
                 $('#DivDetalles').empty();
             }
@@ -590,7 +625,7 @@ function LimpiarDetalleControles() {
     $('#txtEspinas').val('');
     $('#txtSangre').val('');
     $('#txtEscamas').val('');
-    $('#txtPiel').val('')
+    $('#txtPiel').val('');
     $('#cmbProteina').prop('selectedIndex', 0);
     $('#cmbLinea').prop('selectedIndex', 0);
     $('#cmbLote').prop('selectedIndex', 0);
@@ -598,58 +633,13 @@ function LimpiarDetalleControles() {
     $('#cmbTextura').prop('selectedIndex', 0);
     $('#cmbColor').prop('selectedIndex', 0);
     $('#cmbOlor').prop('selectedIndex', 0);
+    $('#cmbEmpacador').prop('selectedIndex', 0).change();
+    $('#txtMiga').val('');
+    $('#txtOtros').val('');
+    
     IdDetalle = 0;
     ActivaInfo();
 
-}
-function ModificarDetalle(data) {
-    IdDetalle = data.IdDetalle;
-    $('#txtHora').val(moment(data.Hora).format('YYYY-MM-DDThh:mm'));
-    $('#txtBuque').val(data.Buque);
-    $('#txtMoretones').val(data.Moretones);
-    $('#txtHematomas').val(data.HematomasProfundos);
-    $('#txtTrozos').val(data.Trozos);
-    $('#txtVenas').val(data.Venas);
-    $('#txtEspinas').val(data.Espinas);
-    $('#txtSangre').val(data.Sangre);
-    $('#txtEscamas').val(data.Escamas);
-    $('#txtPiel').val(data.Piel);
-    $('#cmbLinea').val(data.Linea);
-    $('#cmbLote').val(data.Lote);
-    $('#cmbSabor').val(data.CodSabor);
-    $('#cmbTextura').val(data.CodTextura);
-    $('#cmbColor').val(data.CodColor);
-    $('#cmbOlor').val(data.CodOlor);
-    $('#cmbProteina').val(data.CodProteinas);
-    $('#txtHora').prop('disabled', true);
-    $('#btnEliminarDetalleControl').prop('disabled', false);
-}
-function ActivaInfo() {
-    $('#info').addClass("active");
-    $('#evalu').removeClass("active");
-    $('#verif').removeClass("active");
-    $("#informacion").removeClass("active fade");
-    $("#evaluacion").removeClass("active fade");
-    $("#verificacion").removeClass("active fade");
-    $('#informacion').addClass("active");
-}
-function ActivaEvaluacion() {
-    $('#evalu').addClass("active");
-    $('#info').removeClass("active");
-    $('#verif').removeClass("active");
-    $("#informacion").removeClass("active fade");
-    $("#evaluacion").removeClass("active fade");
-    $("#verificacion").removeClass("active fade");
-    $('#evaluacion').addClass("active");
-}
-function ActivaVerificacion() {
-    $('#verif').addClass("active");
-    $('#evalu').removeClass("active");
-    $('#info').removeClass("active");
-    $("#informacion").removeClass("active fade");
-    $("#evaluacion").removeClass("active fade");
-    $("#verificacion").removeClass("active fade");
-    $('#verificacion').addClass("active");
 }
 function ConfirmarEliminarDetalle() {
     $('#ModalEliminarDetalle').modal('show');
@@ -662,7 +652,7 @@ function EliminarDetalle() {
     data.append('IdDetalle', IdDetalle);
 
 
-    fetch("../EvaluacionDeLomoyMigaEnBandeja/EliminarDetalleControl", {
+    fetch("../EvaluacionProductoEnfundado/EliminarDetalleControl", {
         method: 'POST',
         body: data
     }).then(function (respuesta) {
@@ -700,6 +690,65 @@ function EliminarDetalle() {
 
         })
 }
+function ActivaInfo() {
+    $('#info').addClass("active");
+    $('#evalu').removeClass("active");
+    $('#verif').removeClass("active");
+    $("#informacion").removeClass("active fade");
+    $("#evaluacion").removeClass("active fade");
+    $("#verificacion").removeClass("active fade");
+    $('#informacion').addClass("active");
+}
+function ActivaEvaluacion() {
+    $('#evalu').addClass("active");
+    $('#info').removeClass("active");
+    $('#verif').removeClass("active");
+    $("#informacion").removeClass("active fade");
+    $("#evaluacion").removeClass("active fade");
+    $("#verificacion").removeClass("active fade");
+    $('#evaluacion').addClass("active");
+}
+function ActivaVerificacion() {
+    $('#verif').addClass("active");
+    $('#evalu').removeClass("active");
+    $('#info').removeClass("active");
+    $("#informacion").removeClass("active fade");
+    $("#evaluacion").removeClass("active fade");
+    $("#verificacion").removeClass("active fade");
+    $('#verificacion').addClass("active");
+}
+function DatosLote() {
+    var Datos = Enumerable.From(ListaLotes)
+        .Where(function (x) { return x.descripcion == $('#cmbLote').val() })
+        .Select(function (x) { return x })
+        .FirstOrDefault();
+    $('#txtBuque').val(Datos.Barco);
+}
+function ModificarDetalle(data) {
+    IdDetalle = data.IdDetalle;
+    $('#txtHora').val(moment(data.Hora).format('YYYY-MM-DDThh:mm'));
+    $('#txtBuque').val(data.Buque);
+    $('#txtMoretones').val(data.Moretones);
+    $('#txtHematomas').val(data.HematomasProfundos);
+    $('#txtTrozos').val(data.Trozos);
+    $('#txtVenas').val(data.Venas);
+    $('#txtEspinas').val(data.Espinas);
+    $('#txtSangre').val(data.Sangre);
+    $('#txtEscamas').val(data.Escamas);
+    $('#txtPiel').val(data.Piel);
+    $('#cmbLinea').val(data.Linea);
+    $('#cmbLote').val(data.Lote);
+    $('#cmbSabor').val(data.CodSabor);
+    $('#cmbTextura').val(data.CodTextura);
+    $('#cmbColor').val(data.CodColor);
+    $('#cmbOlor').val(data.CodOlor);
+    $('#cmbProteina').val(data.CodProteinas);
+    $('#txtHora').prop('disabled', true);
+    $('#btnEliminarDetalleControl').prop('disabled', false);
+    $('#txtOtros').val(data.Otro);
+    $('#txtMiga').val(data.Miga);
+    $('#cmbEmpacador').val(data.empacador).change();
+}
 function GuardarFirma() {
     var canvas = document.getElementById("firmacanvas");
     var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
@@ -709,7 +758,7 @@ function GuardarFirma() {
     formData.append('Tipo', 'Control');
     $.ajax({
         type: 'POST',
-        url: '/EvaluacionDeLomoyMigaEnBandeja/GuardarImagenFirma',
+        url: '/EvaluacionProductoEnfundado/GuardarImagenFirma',
         data: formData,
         processData: false,
         contentType: false,
@@ -729,7 +778,7 @@ function GuardarFirma() {
 }
 function ConsultarFirma() {
     $.ajax({
-        url: "../EvaluacionDeLomoyMigaEnBandeja/ConsultarFirma",
+        url: "../EvaluacionProductoEnfundado/ConsultarFirma",
         type: "GET",
         data: {
             IdCabecera: IdCabecera
@@ -748,7 +797,7 @@ function ConsultarFirma() {
         },
         error: function (resultado) {
             MensajeError("Error: Comuníquese con sistemas", false);
-            
+
         }
     });
 }
@@ -756,7 +805,6 @@ function VolverAFirmar() {
     $('#div_ImagenFirma').prop('hidden', true);
     $('#signature-pad').prop('hidden', false);
 }
-
 //prueba api firma
 
 
@@ -814,4 +862,3 @@ clearButton.addEventListener("click", function (event) {
 
 
 // fin prueba api firma
-

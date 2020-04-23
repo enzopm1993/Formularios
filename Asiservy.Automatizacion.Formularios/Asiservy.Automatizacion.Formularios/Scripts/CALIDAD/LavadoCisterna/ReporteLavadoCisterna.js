@@ -8,12 +8,13 @@ function CargarCabecera(op) {
         $("#fechaDesde").val(moment(date).format('YYYY-MM-DD'))
         $("#fechaHasta").val(moment(date).format('YYYY-MM-DD'))
     }
-    MostrarModalCargando();
+    $('#cargac').show();
     $.ajax({
         url: "../LavadoCisterna/ReporteLavadoCisternaPartial",
         data: {
             fechaDesde: $("#fechaDesde").val(),
             fechaHasta: $("#fechaHasta").val(),
+            idLavadoCisterna: 0,
             op: op
         },
         type: "GET",
@@ -28,8 +29,8 @@ function CargarCabecera(op) {
             }
             itemEditar = 0;
             setTimeout(function () {
-                CerrarModalCargando();
-            }, 500);
+                $('#cargac').hide();
+            }, 200);
         },
         error: function (resultado) {
             CerrarModalCargando();
