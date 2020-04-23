@@ -34,7 +34,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
                 var poReporte = entities.REPORTE_MAESTRO.FirstOrDefault(x => x.IdReporteMaestro == model.IdReporteMaestro);
                 if (poReporte != null)
                 {
-                   
+                    poReporte.Nombre = model.Nombre;
+                    poReporte.Codigo = model.Codigo;
+                    poReporte.UltimaVersion = model.UltimaVersion;
                     poReporte.TerminalModificacionLog = model.TerminalIngresoLog;
                     poReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poReporte.FechaModificacionLog = model.FechaIngresoLog;
