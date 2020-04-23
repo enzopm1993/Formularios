@@ -8,26 +8,30 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlLavadoC
 {
     public class clsDControlLavadoCisterna
     {
-        public List<sp_Control_Lavado_Cisterna> ConsultarLavadoCisterna(DateTime fechaDesde, DateTime fechaHasta, int op)
+        public List<sp_Control_Lavado_Cisterna> ConsultarLavadoCisterna(DateTime fechaDesde, DateTime fechaHasta,int idLavadoCisterna, int op)
         {
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
-                var lista = db.sp_Control_Lavado_Cisterna(fechaDesde, fechaHasta, op).ToList();
+                var lista = db.sp_Control_Lavado_Cisterna(fechaDesde, fechaHasta, idLavadoCisterna, op).ToList();
                 return lista;
             }
         }
 
-        public int GuardarModificarLavadoCisterna(CC_LAVADO_CISTERNA guardarmodificar)
+        public int GuardarModificarLavadoCisterna(CC_LAVADO_CISTERNA guardarmodificar, int siAprobar)
         {
             int valor = 0;
             using (ASIS_PRODEntities db=new ASIS_PRODEntities())
             {
                 var model = db.CC_LAVADO_CISTERNA.FirstOrDefault(x=> x.IdLavadoCisterna==guardarmodificar.IdLavadoCisterna && x.EstadoRegistro==guardarmodificar.EstadoRegistro);
                 if (model!=null){
-                    model.Fecha = guardarmodificar.Fecha;
-                    model.QuimUtilizados = guardarmodificar.QuimUtilizados;
-                    model.Observacion = guardarmodificar.Observacion;
-                    model.EstadoRegistro = guardarmodificar.EstadoRegistro;
+                    if (siAprobar == 0)
+                    {
+                        model.Fecha = guardarmodificar.Fecha;
+                        model.QuimUtilizados = guardarmodificar.QuimUtilizados;
+                        model.Observacion = guardarmodificar.Observacion;
+                    } else if (siAprobar==1) {
+                        model.EstadoReporte = guardarmodificar.EstadoReporte;
+                    }
                     model.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
                     model.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
                     model.UsuarioModificacionLog = guardarmodificar.UsuarioIngresoLog;
@@ -39,8 +43,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlLavadoC
                 }
                 db.SaveChanges();
                 return valor;
-            }
-            
+            }            
         }
 
         public int EliminarLavadoCisterna(CC_LAVADO_CISTERNA registroEliminar)

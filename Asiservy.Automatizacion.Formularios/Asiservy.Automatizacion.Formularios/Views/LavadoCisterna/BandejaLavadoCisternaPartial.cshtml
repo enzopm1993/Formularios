@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Cisterna>
+@using Newtonsoft.Json;
+<table class="table table-light table-striped table-hover" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>FECHA</th>
+            <th>QUIMICOS UTILIZADOS</th>
+            <th>OBSERVACIONES</th>
+            <th>USUARIO CREACION</th>
+            <th>ESTADO</th>
+        </tr>
+    </thead>
+   
+    <tbody style="font-size:14px">
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item); 
+            <tr onclick="SeleccionarBandeja(@json)">                
+                <td>@item.Fecha.ToString("dd-MM-yyyy")</td>
+                <td>@item.QuimUtilizados.ToUpper()</td>
+
+                @if (!string.IsNullOrEmpty(item.Observacion))
+                {
+                    <td>@item.Observacion.ToUpper()</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+                <td>@item.UsuarioIngresoLog.ToUpper()</td>
+                <td>
+                    @if (item.EstadoReporteCab)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/Scripts/General/dataTableJS.js"></script>

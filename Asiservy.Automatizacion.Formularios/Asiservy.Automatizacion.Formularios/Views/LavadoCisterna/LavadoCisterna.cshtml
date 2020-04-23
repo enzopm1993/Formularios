@@ -38,7 +38,15 @@
 </style>
 <div class="row">
     <div class="col-12">
-        <h3 style="float:left">Cotrol Lavado de Cisterna</h3>       
+        <h4 style="float:left">Cotrol Lavado de Cisterna</h4>
+        <div class="col.md-4 box_filters">
+            <div class="itemFilter">
+                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(0)" id="txtFecha" class="form-control" />
+            </div>
+            <div class="itemFilter">
+                <a href="#" id="btnModalGenerarRegistro" title="Consultar registro" class="btn btn-primary btn-sm"><i onclick="CargarCabecera(0)" id="iconSearch" class="fas fa-search"></i></a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -52,14 +60,7 @@
                 </button>
             </div>
         </div>
-        <div class="col.md-4 box_filters">
-            <div class="itemFilter">
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(0)" id="txtFecha" class="form-control" />
-            </div>
-            <div class="itemFilter">
-                <a href="#" id="btnModalGenerarRegistro" title="Consultar registro" class="btn btn-primary btn-sm"><i onclick="CargarCabecera(0)" id="iconSearch" class="fas fa-search"></i></a>
-            </div>
-        </div>
+        
     </div>
 </div>
 
@@ -78,7 +79,6 @@
                 <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-                @*<label id="lblMensaje"></label>*@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" onclick="EliminarCabeceraSi()" id="modal-detalle-si">Si</button>
@@ -108,8 +108,7 @@
                     </div>
                     <div class="col-md-5 col-6 col-sm-6">
                         <div class="form-group">
-                            <label>Nº CISTERNA</label>
-                            @*@Html.DropDownList("txtNDescripcion", new MultiSelectList(ViewBag.listaCisterna, "IdCisterna", "NDescripcion"), "Seleccione", new { mutiple = "multiple", @class = " form-control features-segments select2-multiselect-checkbox", @onchange = "OnChangeTextBox()" })*@
+                            <label>Nº CISTERNA</label>                            
                             @{
                                 string json = JsonConvert.SerializeObject(ViewBag.listaCisterna);
                             }
