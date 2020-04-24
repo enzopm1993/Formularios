@@ -97,14 +97,17 @@ function SeleccionarBandeja(model) {
                     window.location.reload();
                 }
                 if (resultado == "0") {
-                    $("#divTblAprobarPendiente").html("No existen registros");
+                    MensajeAdvertencia('¡Este registro no contiene detalle¡');
                 } else {
                     $("#divTblAprobarPendiente").html('');
                     $("#ModalApruebaPendiente").modal("show");
                     $("#divTblAprobarPendiente").html(resultado);
                     //ocultarBotones();
-                }                
-                 $('#cargac').hide();                               
+                }
+                setTimeout(function () {
+                    $('#cargac').hide();  
+                },200);
+                                            
             },
             error: function (resultado) {
                 $('#cargac').hide();

@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Reporte_Lavado_Desinfeccion_Manos>
 @using Newtonsoft.Json;
 
-<table class="table table-light table-striped border" id="tblDataTable">
-    <thead style="height:15px; font-family:50px">
+<table class="table table-bordered" id="tblDataTable">
+    <thead style="height:15px; font-size:12px">
         <tr>
             <th style="border-right:0.4px solid #e3e6f0"></th>
             <th style="border-right:0.4px solid #e3e6f0"></th>
@@ -38,7 +38,7 @@
                          select new { Hora = g.Key.Hora, g.Key.Fecha,g.Key.Observacion, Count = g.Count() }).ToList();
         var ordenColumnasTabla = ViewBag.cabeceraTable;//Aqui obtengo como es el orden de muestreo del detalle ya que la cabecera esta dibujada. linea1, linea 2, etc
     }
-    <tbody style="font-size:14px">
+    <tbody style="font-size:12px">
         @foreach (var subListaHora in listaHora)
         {
             string usuarioAprobacion = "";
@@ -46,52 +46,59 @@
             var itemColumna = (from x in Model
                                where x.Hora == subListaHora.Hora
                                select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.UsuarioModificacionLog, x.EstadoReporteCB}).ToList();
-            <tr>
-                <td>@subListaHora.Fecha.Replace("/","-")</td>
-                <td>
-                    @subListaHora.Hora
-                </td>
-                <td>@subListaHora.Observacion</td>
-                @foreach (var lc in listaColumnasCabecera)
+        <tr>
+            <td>@subListaHora.Fecha.Replace("/", "-")</td>
+            <td>
+                @subListaHora.Hora
+            </td>
+            @if (!string.IsNullOrEmpty(subListaHora.Observacion))
+            {
+                <td>@subListaHora.Observacion.ToUpper()</td>
+            }
+            else
+            {
+                <td></td>
+            }
+            @foreach (var lc in listaColumnasCabecera)
+            {
+                int dibujarTDDiNo = 0;
+                foreach (var ic in itemColumna)
                 {
-                    int dibujarTDDiNo = 0;
-                    foreach (var ic in itemColumna)
+                    if (ic.CodigoLinea == lc.Codigo)
                     {
-                        if (ic.CodigoLinea == lc.Codigo)
+                        dibujarTDDiNo = 1;
+                        if (ic.EstadoCumplimiento == true)
                         {
-                            dibujarTDDiNo = 1;
-                            if (ic.EstadoCumplimiento == true)
-                            {
-                                <td id="@ic.CodigoLinea"> <center><span class="badge badge-success">C</span></center></td>
-                            }
-                            else if (ic.EstadoCumplimiento == false)
-                            {
-                                <td id="@ic.CodigoLinea"> <center><span class="badge badge-danger">N</span></center></td>
-                            }
+                            <td id="@ic.CodigoLinea"> <center><span class="badge badge-success">C</span></center></td>
                         }
-                        usuarioAprobacion = ic.UsuarioModificacionLog;
-                        estadoReporte = ic.EstadoReporteCB;
+                        else if (ic.EstadoCumplimiento == false)
+                        {
+                            <td id="@ic.CodigoLinea"> <center><span class="badge badge-danger">N</span></center></td>
+                        }
                     }
-                    if (itemColumna.Count != listaColumnasCabecera.Count && dibujarTDDiNo == 0)
-                    {
-                        <td id="@lc.Codigo"><span class="badge badge-primary">SIN DATOS</span></td>
-                    }                   
+                    usuarioAprobacion = ic.UsuarioModificacionLog;
+                    estadoReporte = ic.EstadoReporteCB;
                 }
-                <td>@usuarioAprobacion</td>
-                <td>
-                    @if (estadoReporte == true)
-                    {
-                        <span class="badge badge-success">APROBADO</span>
-                    }
-                    else
-                    {
-                        <span class="badge badge-danger">PENDIENTE</span>
-                    }
-                </td>
-            </tr>
+                if (itemColumna.Count != listaColumnasCabecera.Count && dibujarTDDiNo == 0)
+                {
+                    <td id="@lc.Codigo"><span class="badge badge-primary">SIN DATOS</span></td>
+                }
+            }
+            <td>@usuarioAprobacion</td>
+            <td>
+                @if (estadoReporte == true)
+                {
+                    <span class="badge badge-success">APROBADO</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">PENDIENTE</span>
+                }
+            </td>
+        </tr>
         }
     </tbody>
     <tfoot></tfoot>
 </table>
 
-<script src="~/Scripts/General/dataTableJS.js"></script>
+@*<script src="~/Scripts/General/dataTableJS.js"></script>*@

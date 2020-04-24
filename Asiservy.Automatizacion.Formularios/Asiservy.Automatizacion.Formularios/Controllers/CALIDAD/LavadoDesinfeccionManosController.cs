@@ -8,7 +8,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LavadoDesinfeccion
 using Asiservy.Automatizacion.Datos.Datos;
 using System.Data.Entity.Validation;
 using System.Net;
-using RestSharp;
+using Rotativa;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -422,18 +422,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        private void ArmarTablaDetalle(int IdDesinfeccionManos, int opcion) {
-            var lista = clsDLavadoDesinfeccionManos.ConsultarControlLavadoDesinfeccionManosDetalle(IdDesinfeccionManos, opcion).ToList();;
-            var listaCodigoCuchillo = (from p in lista
-                                       select new { p.CodigoLinea }).Distinct().ToList();
-
-            var listaHora = (from ssi in lista
-                             group ssi by new { ssi.Hora} into g
-                             select new { Hora = g.Key.Hora, Count = g.Count() }).ToList();
-
-            //return listaHora;
-        }
-
         //-------------------------------------------------BANDEJA LAVADO Y DESINFECCION DE MANOS----------------------------------------------------
         public ActionResult BandejaLavadoDesinfeccionManos()
         {
@@ -520,7 +508,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var detalleTabla = clsDLavadoDesinfeccionManos.ConsultarControlLavadoDesinfeccionManosDetalle(IdDesinfeccionManos, opcion);
                 var cabeceraTable = clasificador.ConsultarClasificador(clsAtributos.IdCodigoLineaLavadoDesinfeccionManos).ToList();
                 ViewBag.cabeceraTable = cabeceraTable;
-                if (cabeceraTable != null)
+                if (detalleTabla.Count() != 0)
                 {
                     return PartialView(detalleTabla);
                 }
@@ -546,6 +534,73 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
                 return RedirectToAction("Home", "Home");
+            }
+        }
+
+        //-------------------------------------------------IMPRESION PDF LAVADO Y DESINFECCION DE MANOS----------------------------------------------------
+        public ActionResult PrintReport(DateTime filtroFechaDesde, DateTime filtroFechaHasta, int op)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    Response.Redirect(Url.Action("Login", "Login"));
+                }
+                clsDClasificador clasificador = new clsDClasificador();
+                clsDLavadoDesinfeccionManos = new clsDLavadoDesinfeccionManos();
+                var detalleTabla = clsDLavadoDesinfeccionManos.ReporteControlLavadoDesinfeccion(filtroFechaDesde, filtroFechaHasta, op);
+                var cabeceraTable = clasificador.ConsultarClasificador(clsAtributos.IdCodigoLineaLavadoDesinfeccionManos).ToList();
+                ViewBag.cabeceraTable = cabeceraTable;
+                var headerPdf = Server.MapPath("~/Views/LavadoDesinfeccionManos/HeaderPdf.html");//ARCHIVO HTML USADO EN LA CABECERA DEL PDF
+                ViewBag.filtroFechaDesde = filtroFechaDesde;
+                ViewBag.filtroFechaHasta = filtroFechaHasta;
+                string customSwitches = string.Format("--header-html  \"{0}\" " +
+                            "--header-font-size \"15\" ", headerPdf);
+                return new ViewAsPdf("PdfReporteDesinfeccionManosDetallePartial", detalleTabla)
+                {//METODO AL QUE SE HACE REFERENCIA ------------------, OBJETO 
+                 // Establece la Cabecera y el Pie de página
+                    CustomSwitches = customSwitches +
+                    "--page-offset 0 --footer-center [page] --footer-font-size 10",
+                    PageSize = Rotativa.Options.Size.A3,
+                    PageMargins = new Rotativa.Options.Margins(25, 5, 10, 5),
+                    PageOrientation = Rotativa.Options.Orientation.Landscape,
+                };
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult PdfReporteDesinfeccionManosDetallePartial(DateTime fechaDesde, DateTime fechaHasta, int opcion)
+        {
+            clsDClasificador clasificador = new clsDClasificador();
+            clsDLavadoDesinfeccionManos = new clsDLavadoDesinfeccionManos();
+            var detalleTabla = clsDLavadoDesinfeccionManos.ReporteControlLavadoDesinfeccion(fechaDesde, fechaHasta, opcion);
+            var cabeceraTable = clasificador.ConsultarClasificador(clsAtributos.IdCodigoLineaLavadoDesinfeccionManos).ToList();
+            ViewBag.cabeceraTable = cabeceraTable;
+            if (detalleTabla != null)
+            {
+                return PartialView(detalleTabla);
+            }
+            else
+            {
+                return Json("0", JsonRequestBehavior.AllowGet);
             }
         }
 
