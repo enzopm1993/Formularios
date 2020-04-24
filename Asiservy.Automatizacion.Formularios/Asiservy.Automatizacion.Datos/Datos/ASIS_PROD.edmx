@@ -4621,12 +4621,6 @@
             <Parameter Name="control" Mode="In" Type="Boolean" />
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_Control_Lavado_Cisterna" ReturnType="Collection(ASIS_PRODModel.sp_Control_Lavado_Cisterna)">
-            <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
-            <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
-            <Parameter Name="idLavadoCisterna" Mode="In" Type="Int32" />
-            <Parameter Name="op" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="CONTROL_CUCHILLO" EntityType="ASIS_PRODModel.CONTROL_CUCHILLO" />
           <FunctionImport Name="spConsultaReporteControlCuchillo" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteControlCuchillo)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
@@ -4730,6 +4724,12 @@
             <End Role="CC_EVALUACION_PRODUCTO_ENFUNDADO" EntitySet="CC_EVALUACION_PRODUCTO_ENFUNDADO" />
             <End Role="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" EntitySet="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" />
           </AssociationSet>
+          <FunctionImport Name="sp_Control_Lavado_Cisterna" ReturnType="Collection(ASIS_PRODModel.sp_Control_Lavado_Cisterna)">
+            <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
+            <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
+            <Parameter Name="idLavadoCisterna" Mode="In" Type="Int32" />
+            <Parameter Name="op" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -8627,21 +8627,6 @@
           <Property Type="String" Name="ValidaNegro" Nullable="true" MaxLength="1" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
         </ComplexType>
-        <ComplexType Name="sp_Control_Lavado_Cisterna">
-          <Property Type="Int32" Name="IdLavadoCisterna" Nullable="false" />
-          <Property Type="Int32" Name="IdIntermedia" Nullable="false" />
-          <Property Type="String" Name="EstadoRegistroIntermedia" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="IdMantCisterna" Nullable="false" />
-          <Property Type="String" Name="NDescripcion" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="EstadoRegistroMant" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
-          <Property Type="String" Name="QuimUtilizados" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="fechaCreacion" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="fechaModificacion" Nullable="true" MaxLength="30" />
-        </ComplexType>
         <EntityType Name="CONTROL_CUCHILLO">
           <Key>
             <PropertyRef Name="IdControlCuchillo" />
@@ -9228,6 +9213,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="sp_Control_Lavado_Cisterna">
+          <Property Type="Int32" Name="IdLavadoCisterna" Nullable="false" />
+          <Property Type="Int32" Name="IdIntermedia" Nullable="false" />
+          <Property Type="String" Name="EstadoRegistroIntermedia" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="IdMantCisterna" Nullable="false" />
+          <Property Type="String" Name="NDescripcion" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="EstadoRegistroMant" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+          <Property Type="String" Name="QuimUtilizados" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="fechaCreacion" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="fechaModificacion" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="UsuarioModCab" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="EstadoReporteCab" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -13299,25 +13301,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Control_Lavado_Cisterna" FunctionName="ASIS_PRODModel.Store.sp_Control_Lavado_Cisterna">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Control_Lavado_Cisterna">
-                <ScalarProperty Name="IdLavadoCisterna" ColumnName="IdLavadoCisterna" />
-                <ScalarProperty Name="IdIntermedia" ColumnName="IdIntermedia" />
-                <ScalarProperty Name="EstadoRegistroIntermedia" ColumnName="EstadoRegistroIntermedia" />
-                <ScalarProperty Name="IdMantCisterna" ColumnName="IdMantCisterna" />
-                <ScalarProperty Name="NDescripcion" ColumnName="NDescripcion" />
-                <ScalarProperty Name="EstadoRegistroMant" ColumnName="EstadoRegistroMant" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="QuimUtilizados" ColumnName="QuimUtilizados" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="fechaModificacion" ColumnName="fechaModificacion" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CONTROL_CUCHILLO">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CONTROL_CUCHILLO">
               <MappingFragment StoreEntitySet="CONTROL_CUCHILLO">
@@ -13883,6 +13866,27 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Control_Lavado_Cisterna" FunctionName="ASIS_PRODModel.Store.sp_Control_Lavado_Cisterna">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Control_Lavado_Cisterna">
+                <ScalarProperty Name="IdLavadoCisterna" ColumnName="IdLavadoCisterna" />
+                <ScalarProperty Name="IdIntermedia" ColumnName="IdIntermedia" />
+                <ScalarProperty Name="EstadoRegistroIntermedia" ColumnName="EstadoRegistroIntermedia" />
+                <ScalarProperty Name="IdMantCisterna" ColumnName="IdMantCisterna" />
+                <ScalarProperty Name="NDescripcion" ColumnName="NDescripcion" />
+                <ScalarProperty Name="EstadoRegistroMant" ColumnName="EstadoRegistroMant" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="QuimUtilizados" ColumnName="QuimUtilizados" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+                <ScalarProperty Name="fechaModificacion" ColumnName="fechaModificacion" />
+                <ScalarProperty Name="UsuarioModCab" ColumnName="UsuarioModCab" />
+                <ScalarProperty Name="EstadoReporteCab" ColumnName="EstadoReporteCab" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
