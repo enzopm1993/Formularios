@@ -60,32 +60,11 @@
 <hr />
 <br />
 
-@*<div class="row" id="divCabecera1">
-    <div class="col-md-3 col-6 col-sm-6">
-        <div class="form-group">
-            <center>
-                <label>Fecha</label>
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(0)" id="txtFecha" class="form-control" />
-            </center>
-        </div>
-    </div>
-    <div id="divObservacion" class="col-md-7 col-6 col-sm-6">
-        <div class="form-group">
-            <label>Observación</label>
-            <input type="text" disabled name="name" value="" id="txtObservacion" class="form-control" />
-        </div>
-    </div>
-    <div class="col-md-2 col-12  text-md-left text-center">
-        <label class="" id="lblAcciones">Acciones</label>
-        <div class="form-group">
-            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarCabecera(0)" style="border-color:#2c3e50" type="button">
-                <img style="width:100%" src="~/Content/icons/ver24.png" />
-            </button>
-        </div>
-    </div>
-
-</div>
-<hr />*@
+<button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnGenerar" onclick="PrintReport(0)" style="border-color:#2c3e50" type="button">
+    <img style="width:100%" src="../../Content/icons/print24.png" />
+</button>
+@Html.Hidden("RedirectTo", Url.Action("PrintReport", "LavadoDesinfeccionManos"))   @*Se usa para redirigir a la vista del PDF*@
+<br /><br />
 
 @*MODAL BOTON DETALLE DE HORAS*@
 <div id="divTableEntregaProductoDetalle" class="table-responsive">

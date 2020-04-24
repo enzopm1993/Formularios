@@ -161,6 +161,7 @@ function EliminarCabeceraNo() {
 }
 
 function ActualizarCabeceraActivarCotroles() {
+    CargarCabecera(0);
     if (ListaDatos[0].EstadoReporte == true) {
         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
         return;
@@ -173,7 +174,7 @@ function ActualizarCabeceraActivarCotroles() {
 }
 
 //DETALLE INGRESO DE LINEAS (SE LISTA EL CLASIFICADOR PARA PODER ARMAR LA CABECERA DE LA TABLA)
-function ModalGenerarDetalle() {
+function ModalGenerarDetalle() {    
     if (ListaDatos[0].EstadoReporte == true) {
         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
         return;

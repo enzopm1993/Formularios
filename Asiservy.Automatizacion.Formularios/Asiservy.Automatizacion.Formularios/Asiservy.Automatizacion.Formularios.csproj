@@ -3251,6 +3251,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\ControlCuchillosPreparacion\HeaderPdf.html" />
+    <Content Include="Views\LavadoDesinfeccionManos\HeaderPdf.html" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Memorandum\Gestion.cshtml" />
     <Content Include="Web.config">
@@ -3832,6 +3833,7 @@
     <Content Include="Views\EvaluacionProductoEnfundado\PartialDetalleControl.cshtml" />
     <Content Include="Views\ReporteMaestro\ReporteDetallePartial.cshtml" />
     <Content Include="Views\ControlCuchillosPreparacion\PdfControlCuchilloPreparacionPartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\PdfReporteDesinfeccionManosDetallePartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\BandejaAprobadosEvaluacionProductoEnfundadoPartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\PartialDetalleBandeja.cshtml" />
