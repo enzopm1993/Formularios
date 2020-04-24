@@ -12,17 +12,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_LAVADO_CISTERNA
+    public partial class CC_EVALUACION_PRODUCTO_ENFUNDADO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_LAVADO_CISTERNA()
+        public CC_EVALUACION_PRODUCTO_ENFUNDADO()
         {
-            this.CC_INTERMEDIA_CTRL_MANT_CISTERNA = new HashSet<CC_INTERMEDIA_CTRL_MANT_CISTERNA>();
+            this.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE = new HashSet<CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE>();
         }
     
-        public int IdLavadoCisterna { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public string QuimUtilizados { get; set; }
+        public int IdEvaluacionProductoEnfundado { get; set; }
+        public Nullable<System.DateTime> FechaProduccion { get; set; }
+        public Nullable<int> OrdenFabricacion { get; set; }
+        public string Cliente { get; set; }
+        public string Marca { get; set; }
+        public string Destino { get; set; }
+        public string Proveedor { get; set; }
+        public string Lote { get; set; }
+        public string Batch { get; set; }
+        public Nullable<bool> Lomo { get; set; }
+        public Nullable<bool> Trozo { get; set; }
+        public Nullable<bool> Miga { get; set; }
+        public string NivelLimpieza { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
@@ -31,9 +41,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public bool EstadoReporte { get; set; }
+        public Nullable<bool> EstadoControl { get; set; }
+        public string AprobadoPor { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
+        public byte[] FirmaControl { get; set; }
+        public byte[] FirmaAprobacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_INTERMEDIA_CTRL_MANT_CISTERNA> CC_INTERMEDIA_CTRL_MANT_CISTERNA { get; set; }
+        public virtual ICollection<CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE> CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE { get; set; }
     }
 }

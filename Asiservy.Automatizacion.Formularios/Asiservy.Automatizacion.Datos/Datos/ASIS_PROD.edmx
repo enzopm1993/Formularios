@@ -386,6 +386,70 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CC_EVALUACION_PRODUCTO_ENFUNDADO">
+          <Key>
+            <PropertyRef Name="IdEvaluacionProductoEnfundado" />
+          </Key>
+          <Property Name="IdEvaluacionProductoEnfundado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaProduccion" Type="date" />
+          <Property Name="OrdenFabricacion" Type="int" />
+          <Property Name="Cliente" Type="varchar" MaxLength="100" />
+          <Property Name="Marca" Type="varchar" MaxLength="100" />
+          <Property Name="Destino" Type="varchar" MaxLength="100" />
+          <Property Name="Proveedor" Type="varchar" MaxLength="100" />
+          <Property Name="Lote" Type="varchar" MaxLength="50" />
+          <Property Name="Batch" Type="varchar" MaxLength="200" />
+          <Property Name="Lomo" Type="bit" />
+          <Property Name="Trozo" Type="bit" />
+          <Property Name="Miga" Type="bit" />
+          <Property Name="NivelLimpieza" Type="varchar" MaxLength="5" />
+          <Property Name="Observacion" Type="varchar" MaxLength="250" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="EstadoControl" Type="bit" />
+          <Property Name="AprobadoPor" Type="varchar" MaxLength="50" />
+          <Property Name="FechaAprobacion" Type="date" />
+          <Property Name="FirmaControl" Type="image" />
+          <Property Name="FirmaAprobacion" Type="image" />
+        </EntityType>
+        <EntityType Name="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE">
+          <Key>
+            <PropertyRef Name="IdDetalleEvaluacionProductoEnfundado" />
+          </Key>
+          <Property Name="IdDetalleEvaluacionProductoEnfundado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Hora" Type="datetime" />
+          <Property Name="Empacador" Type="varchar" MaxLength="10" />
+          <Property Name="Lote" Type="varchar" MaxLength="5" />
+          <Property Name="buque" Type="varchar" MaxLength="50" />
+          <Property Name="Sabor" Type="int" Nullable="false" />
+          <Property Name="Textura" Type="int" Nullable="false" />
+          <Property Name="Color" Type="int" Nullable="false" />
+          <Property Name="Olor" Type="int" Nullable="false" />
+          <Property Name="Moretones" Type="int" />
+          <Property Name="HematomasProfundos" Type="int" />
+          <Property Name="Proteina" Type="int" Nullable="false" />
+          <Property Name="Trozo" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="Miga" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="Venas" Type="int" />
+          <Property Name="Espinas" Type="int" />
+          <Property Name="Sangre" Type="int" />
+          <Property Name="Escamas" Type="int" />
+          <Property Name="Piel" Type="int" />
+          <Property Name="Otro" Type="int" />
+          <Property Name="IdCabeceraEvaluacionProductoEnfundado" Type="int" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CC_INTERMEDIA_CTRL_MANT_CISTERNA">
           <Key>
             <PropertyRef Name="IdIntermedia" />
@@ -409,6 +473,7 @@
           <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="QuimUtilizados" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Observacion" Type="varchar" MaxLength="200" />
+          <Property Name="EstadoReporte" Type="bit" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -2225,6 +2290,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE">
+          <End Role="CC_EVALUACION_PRODUCTO_ENFUNDADO" Type="Self.CC_EVALUACION_PRODUCTO_ENFUNDADO" Multiplicity="1" />
+          <End Role="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Type="Self.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_EVALUACION_PRODUCTO_ENFUNDADO">
+              <PropertyRef Name="IdEvaluacionProductoEnfundado" />
+            </Principal>
+            <Dependent Role="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE">
+              <PropertyRef Name="IdCabeceraEvaluacionProductoEnfundado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA">
           <End Role="CC_LAVADO_CISTERNA" Type="Self.CC_LAVADO_CISTERNA" Multiplicity="1" />
           <End Role="CC_INTERMEDIA_CTRL_MANT_CISTERNA" Type="Self.CC_INTERMEDIA_CTRL_MANT_CISTERNA" Multiplicity="*" />
@@ -2760,6 +2837,7 @@
         <Function Name="sp_Control_Lavado_Cisterna" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechaDesde" Type="date" Mode="In" />
           <Parameter Name="fechaHasta" Type="date" Mode="In" />
+          <Parameter Name="idLavadoCisterna" Type="int" Mode="In" />
           <Parameter Name="op" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_Control_Lavado_Desinfeccion_Manos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -3305,6 +3383,8 @@
           <EntitySet Name="CC_CUCHILLOS_PREPARACION" EntityType="Self.CC_CUCHILLOS_PREPARACION" Schema="dbo" Table="CC.CUCHILLOS_PREPARACION" store:Type="Tables" />
           <EntitySet Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" EntityType="Self.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Schema="dbo" Table="CC.EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" store:Type="Tables" />
           <EntitySet Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" EntityType="Self.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Schema="dbo" Table="CC.EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" store:Type="Tables" />
+          <EntitySet Name="CC_EVALUACION_PRODUCTO_ENFUNDADO" EntityType="Self.CC_EVALUACION_PRODUCTO_ENFUNDADO" Schema="dbo" Table="CC.EVALUACION_PRODUCTO_ENFUNDADO" store:Type="Tables" />
+          <EntitySet Name="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" EntityType="Self.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Schema="dbo" Table="CC.EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" store:Type="Tables" />
           <EntitySet Name="CC_INTERMEDIA_CTRL_MANT_CISTERNA" EntityType="Self.CC_INTERMEDIA_CTRL_MANT_CISTERNA" Schema="dbo" Table="CC.INTERMEDIA_CTRL_MANT_CISTERNA" store:Type="Tables" />
           <EntitySet Name="CC_LAVADO_CISTERNA" EntityType="Self.CC_LAVADO_CISTERNA" Schema="dbo" Table="CC.LAVADO_CISTERNA" store:Type="Tables" />
           <EntitySet Name="CC_MANTENIMIENTO_CISTERNA" EntityType="Self.CC_MANTENIMIENTO_CISTERNA" Schema="dbo" Table="CC.MANTENIMIENTO_CISTERNA" store:Type="Tables" />
@@ -3424,6 +3504,10 @@
           <AssociationSet Name="FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" Association="Self.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA">
             <End Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" EntitySet="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
             <End Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" EntitySet="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Association="Self.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE">
+            <End Role="CC_EVALUACION_PRODUCTO_ENFUNDADO" EntitySet="CC_EVALUACION_PRODUCTO_ENFUNDADO" />
+            <End Role="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" EntitySet="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" />
           </AssociationSet>
           <AssociationSet Name="FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" Association="Self.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA">
             <End Role="CC_LAVADO_CISTERNA" EntitySet="CC_LAVADO_CISTERNA" />
@@ -4540,6 +4624,7 @@
           <FunctionImport Name="sp_Control_Lavado_Cisterna" ReturnType="Collection(ASIS_PRODModel.sp_Control_Lavado_Cisterna)">
             <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
+            <Parameter Name="idLavadoCisterna" Mode="In" Type="Int32" />
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="CONTROL_CUCHILLO" EntityType="ASIS_PRODModel.CONTROL_CUCHILLO" />
@@ -4639,6 +4724,12 @@
             <Parameter Name="IdCabecera" Mode="In" Type="Int32" />
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="CC_EVALUACION_PRODUCTO_ENFUNDADO" EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO" />
+          <EntitySet Name="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" />
+          <AssociationSet Name="FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Association="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE">
+            <End Role="CC_EVALUACION_PRODUCTO_ENFUNDADO" EntitySet="CC_EVALUACION_PRODUCTO_ENFUNDADO" />
+            <End Role="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" EntitySet="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -8032,6 +8123,7 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_INTERMEDIA_CTRL_MANT_CISTERNA" Relationship="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" FromRole="CC_LAVADO_CISTERNA" ToRole="CC_INTERMEDIA_CTRL_MANT_CISTERNA" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="CC_MANTENIMIENTO_CISTERNA">
           <Key>
@@ -9058,6 +9150,84 @@
           <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="ObservacionCAB" Nullable="true" MaxLength="200" />
         </ComplexType>
+        <EntityType Name="CC_EVALUACION_PRODUCTO_ENFUNDADO">
+          <Key>
+            <PropertyRef Name="IdEvaluacionProductoEnfundado" />
+          </Key>
+          <Property Name="IdEvaluacionProductoEnfundado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaProduccion" Type="DateTime" Precision="0" />
+          <Property Name="OrdenFabricacion" Type="Int32" />
+          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Marca" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Destino" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Proveedor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Lote" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Batch" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Lomo" Type="Boolean" />
+          <Property Name="Trozo" Type="Boolean" />
+          <Property Name="Miga" Type="Boolean" />
+          <Property Name="NivelLimpieza" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Observacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoControl" Type="Boolean" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaAprobacion" Type="DateTime" Precision="0" />
+          <Property Name="FirmaControl" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="FirmaAprobacion" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Relationship="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" FromRole="CC_EVALUACION_PRODUCTO_ENFUNDADO" ToRole="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" />
+        </EntityType>
+        <EntityType Name="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE">
+          <Key>
+            <PropertyRef Name="IdDetalleEvaluacionProductoEnfundado" />
+          </Key>
+          <Property Name="IdDetalleEvaluacionProductoEnfundado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Hora" Type="DateTime" Precision="3" />
+          <Property Name="Empacador" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Lote" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="buque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sabor" Type="Int32" Nullable="false" />
+          <Property Name="Textura" Type="Int32" Nullable="false" />
+          <Property Name="Color" Type="Int32" Nullable="false" />
+          <Property Name="Olor" Type="Int32" Nullable="false" />
+          <Property Name="Moretones" Type="Int32" />
+          <Property Name="HematomasProfundos" Type="Int32" />
+          <Property Name="Proteina" Type="Int32" Nullable="false" />
+          <Property Name="Trozo" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Miga" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Venas" Type="Int32" />
+          <Property Name="Espinas" Type="Int32" />
+          <Property Name="Sangre" Type="Int32" />
+          <Property Name="Escamas" Type="Int32" />
+          <Property Name="Piel" Type="Int32" />
+          <Property Name="Otro" Type="Int32" />
+          <Property Name="IdCabeceraEvaluacionProductoEnfundado" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_EVALUACION_PRODUCTO_ENFUNDADO" Relationship="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" FromRole="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" ToRole="CC_EVALUACION_PRODUCTO_ENFUNDADO" />
+        </EntityType>
+        <Association Name="FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE">
+          <End Type="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO" Role="CC_EVALUACION_PRODUCTO_ENFUNDADO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Role="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_EVALUACION_PRODUCTO_ENFUNDADO">
+              <PropertyRef Name="IdEvaluacionProductoEnfundado" />
+            </Principal>
+            <Dependent Role="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE">
+              <PropertyRef Name="IdCabeceraEvaluacionProductoEnfundado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12640,6 +12810,7 @@
           <EntitySetMapping Name="CC_LAVADO_CISTERNA">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_LAVADO_CISTERNA">
               <MappingFragment StoreEntitySet="CC_LAVADO_CISTERNA">
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
@@ -13646,6 +13817,72 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CC_EVALUACION_PRODUCTO_ENFUNDADO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO">
+              <MappingFragment StoreEntitySet="CC_EVALUACION_PRODUCTO_ENFUNDADO">
+                <ScalarProperty Name="FirmaAprobacion" ColumnName="FirmaAprobacion" />
+                <ScalarProperty Name="FirmaControl" ColumnName="FirmaControl" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="EstadoControl" ColumnName="EstadoControl" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="NivelLimpieza" ColumnName="NivelLimpieza" />
+                <ScalarProperty Name="Miga" ColumnName="Miga" />
+                <ScalarProperty Name="Trozo" ColumnName="Trozo" />
+                <ScalarProperty Name="Lomo" ColumnName="Lomo" />
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Proveedor" ColumnName="Proveedor" />
+                <ScalarProperty Name="Destino" ColumnName="Destino" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
+                <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
+                <ScalarProperty Name="IdEvaluacionProductoEnfundado" ColumnName="IdEvaluacionProductoEnfundado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE">
+              <MappingFragment StoreEntitySet="CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="IdCabeceraEvaluacionProductoEnfundado" ColumnName="IdCabeceraEvaluacionProductoEnfundado" />
+                <ScalarProperty Name="Otro" ColumnName="Otro" />
+                <ScalarProperty Name="Piel" ColumnName="Piel" />
+                <ScalarProperty Name="Escamas" ColumnName="Escamas" />
+                <ScalarProperty Name="Sangre" ColumnName="Sangre" />
+                <ScalarProperty Name="Espinas" ColumnName="Espinas" />
+                <ScalarProperty Name="Venas" ColumnName="Venas" />
+                <ScalarProperty Name="Miga" ColumnName="Miga" />
+                <ScalarProperty Name="Trozo" ColumnName="Trozo" />
+                <ScalarProperty Name="Proteina" ColumnName="Proteina" />
+                <ScalarProperty Name="HematomasProfundos" ColumnName="HematomasProfundos" />
+                <ScalarProperty Name="Moretones" ColumnName="Moretones" />
+                <ScalarProperty Name="Olor" ColumnName="Olor" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Textura" ColumnName="Textura" />
+                <ScalarProperty Name="Sabor" ColumnName="Sabor" />
+                <ScalarProperty Name="buque" ColumnName="buque" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Empacador" ColumnName="Empacador" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="IdDetalleEvaluacionProductoEnfundado" ColumnName="IdDetalleEvaluacionProductoEnfundado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
