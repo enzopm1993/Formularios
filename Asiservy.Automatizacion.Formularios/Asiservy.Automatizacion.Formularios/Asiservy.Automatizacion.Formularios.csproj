@@ -3248,6 +3248,7 @@
     <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\ControlCuchillosPreparacion\HeaderPdf.html" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Memorandum\Gestion.cshtml" />
     <Content Include="Web.config">
@@ -3826,6 +3827,7 @@
     <Content Include="Views\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\PartialDetalleControl.cshtml" />
     <Content Include="Views\ReporteMaestro\ReporteDetallePartial.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\PdfControlCuchilloPreparacionPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
