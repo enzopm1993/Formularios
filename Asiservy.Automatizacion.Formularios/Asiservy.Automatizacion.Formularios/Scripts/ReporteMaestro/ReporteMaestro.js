@@ -241,8 +241,85 @@ function ConsultarReporteDetalle(Id) {
 
 
 function GenerarReporteDetalle() {
+    NuevoDetalle();
     $("#ModalControlDetalle").modal("show");
+    $("#txtVersionDetalleModal").css('borderColor', '#ced4da');
+    $("#divFileUpload").css('color', '#ced4da');
+    $("#file-preview-zone").css('borderColor', '#ced4da');
 }
+
+function NuevoDetalle() {
+    $("#txtVersionDetalleModal").val('');
+    $("#file-upload").val('');
+    $("#file-preview-zone").html('');
+}
+
+function ValidarDetalle() {
+    var valida = true;
+    if ($("#txtVersionDetalleModal").val() == "") {
+        $("#txtVersionDetalleModal").css('borderColor', '#FA8072');
+        valida=false;
+    } else {
+        $("#txtVersionDetalleModal").css('borderColor', '#ced4da');
+    }
+    if ($("#file-upload").val() == "") {
+        $("#divFileUpload").css('color', '#FA8072');
+        $("#file-preview-zone").css('borderColor', '#FA8072');
+        
+        valida=false;
+    } else {
+        $("#divFileUpload").css('color', '#ced4da');
+        $("#file-preview-zone").css('borderColor', '#ced4da');
+
+    }
+    return valida;
+}
+
+function GuardarReporteDetalle() {
+
+    if (!ValidarDetalle()) {
+        return;
+    }
+   // console.log($("#file-upload").get(0).files[0]);
+
+
+    //NuevoDetalle();
+    var imagen = $('#file-upload')[0].files[0];
+    var data = new FormData();
+    data.append("dataImg", imagen);
+    data.append("IdReporteMaestro", $("#txtIdControlModal").val());
+    data.append("IdReporteDetalle", $("#txtIdDetalleModal").val());
+    data.append("Version", $("#txtVersionDetalleModal").val());
+    //var files = $('#file-upload')[0].files[0];
+
+    $.ajax({
+        url: "../ReporteMaestro/ReporteDetalle",
+        type: "POST",
+        cache: false,
+        data: data,
+        contentType: false,
+        processData: false,
+        async:false,
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            } else if (resultado == "0") {
+                MensajeAdvertencia("Faltan parametros");
+                return;
+            }
+            //      NuevaReporteMaestro();
+            $("#ModalEditarControl").modal("hide");
+            MensajeCorrecto("Registro Exitoso");
+            //ConsultarReporteMaestros();
+        },
+        error: function (result) {
+           /* console.log(JSON.stringify(result.responseText))*/;
+            MensajeError("Error, comuniquese con sistemas. " + result, false);
+        }
+    });
+}
+
+
 
 
 
@@ -255,7 +332,7 @@ function readFile(input) {
             filePreview.id = 'file-preview';
             //e.target.result contents the base64 data from the image uploaded
             filePreview.src = e.target.result;
-            console.log(e.target.result);
+            //console.log(e.target.result);
 
             var previewZone = document.getElementById('file-preview-zone');
             previewZone.appendChild(filePreview);
@@ -271,3 +348,14 @@ var fileUpload = document.getElementById('file-upload');
 fileUpload.onchange = function (e) {
     readFile(e.srcElement);
 }
+
+
+var rotation = 0;
+$('#file-preview-zone').on("click", function (e) {
+    rotation += 90;
+    $('#file-preview').rotate(rotation);
+    if (rotation == 360) {
+        rotation = 0;
+    }
+});
+

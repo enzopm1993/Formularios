@@ -2326,6 +2326,7 @@
     <Content Include="Scripts\i18n\defaults-zh_TW.min.js" />
     <Content Include="Content\webdatarocks\es.json" />
     <None Include="Scripts\linq-vsdoc.js" />
+    <Content Include="Scripts\JqueryRotate.js" />
     <Content Include="Scripts\linq.js" />
     <Content Include="Scripts\linq.min.js" />
     <Content Include="Scripts\MapeoProductoTunel\MapeoProductoTunel.js" />
@@ -3441,6 +3442,7 @@
     <Compile Include="Models\Empleado\EmpleadoEsferoViewModel.cs" />
     <Compile Include="Models\Empleado\EmpleadoViewModel.cs" />
     <Compile Include="AccesoDatos\clsAtributos.cs" />
+    <Compile Include="Models\Img.cs" />
     <Compile Include="Models\InsumosProduccion.cs" />
     <Compile Include="Models\MarcacionesEmpleadoLineaViewModel.cs" />
     <Compile Include="Models\ModelViewMemorandum.cs" />

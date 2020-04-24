@@ -5,6 +5,23 @@
     input, select, textarea {
         max-width: 100%;
     }
+
+    #girar {
+        position: relative;
+        cursor: pointer;
+        -webkit-transition: all 500ms ease-in-out;
+        -moz-transition: all 500ms ease-in-out;
+        -o-transition: all 500ms ease-in-out;
+    }
+
+        #girar.giro {
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            transform: rotate(90deg);
+            zoom: 1;
+        }
 </style>
 
 <h4>Control de Reportes Maestros</h4>
@@ -121,7 +138,7 @@
                     <div class="col-md-6 col-6 col-sm-6">
                         <div class="form-group">
                             <label>ID</label>
-                            <input type="number" disabled id="txtIdControlModal" class="form-control" name="name" value="" />
+                            <input type="number" disabled id="txtIdControlModal" class="form-control" name="name" value="0" />
                         </div>
                     </div>
                     <div class="col-md-6 col-6 col-sm-6">
@@ -164,22 +181,17 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4 col-6 col-sm-6">
+                    <div class="col-md-4 col-6 col-sm-4">
                         <div class="form-group">
                             <label>ID</label>
-                            <input type="number" disabled id="txtIdDetalleModal" class="form-control" name="name" value="" />
+                            <input type="number" disabled id="txtIdDetalleModal" class="form-control" name="name" value="0" />
                         </div>
                     </div>
-                    <div class="col-md-4 col-6 col-sm-6">
-                        <div class="form-group">
-                            <label>Codigo</label>
-                            <input type="text" id="txtCodigoModal" class="form-control" name="name" value="" />
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6 col-sm-12">
+                  
+                    <div class="col-md-8 col-6 col-sm-8">
                         <div class="form-group">
                             <label>Versión</label>
-                            <input type="text" id="txtVersionModal" class="form-control" name="name" value="" />
+                            <input type="text" id="txtVersionDetalleModal" autocomplete="off" class="form-control" name="name" value="" />
                         </div>
                     </div>
                     
@@ -190,7 +202,7 @@
                         </div>
                         <br />
                         <div class="text-center" style="justify-content:center">
-                            <div id="file-preview-zone"style="height:300px; border:ridge">
+                            <div id="file-preview-zone" style="height:310px; border:ridge">
                             </div>
 
                         </div>
@@ -200,7 +212,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="EditarReporteMaestro()">Guardar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarReporteDetalle()">Guardar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>

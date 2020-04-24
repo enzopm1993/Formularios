@@ -1,9 +1,11 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
+using Asiservy.Automatizacion.Formularios.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -40,6 +42,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 // lsUsuario = User.Identity.Name.Split('_');
                 ViewBag.dataTableJS = "1";
+                ViewBag.JqueryRotate = "1";                
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDClasificador = new clsDClasificador();
                 ViewBag.Pesos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodPesoEnlatado, "0");
@@ -123,7 +126,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
 
         [HttpPost]
-        public ActionResult ReporteDetalle(REPORTE_DETALLE model)
+        public ActionResult ReporteDetalle(REPORTE_DETALLE model, HttpPostedFileBase dataImg)
         {
             try
             {
@@ -136,7 +139,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //{
                 //    return Json("0", JsonRequestBehavior.AllowGet);
                 //}
-
+                string path = Server.MapPath("~/Content/REPORTE/");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                var date = DateTime.Now.ToBinary();
+                //dataImg.SaveAs(path+Path.GetFileName(model.IdReporteMaestro))
 
                 clsDReporte = new clsDReporte();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
@@ -147,7 +156,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 //{
                 //    return Json("1", JsonRequestBehavior.AllowGet);
                 //}
-                clsDReporte.GuardarModificarReporteMaestroDetalle(model);
+                //clsDReporte.GuardarModificarReporteMaestroDetalle(model);
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
 
             }
