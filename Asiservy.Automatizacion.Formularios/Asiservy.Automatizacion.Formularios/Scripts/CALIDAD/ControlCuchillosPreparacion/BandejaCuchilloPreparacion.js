@@ -72,8 +72,8 @@ function SeleccionarBandeja(model) {
             if (resultado == "102") {
                 MensajeAdvertencia("No existen datos para este model.");
             }
-            if (resultado == "0") {
-                MensajeAdvertencia("Faltan parametros en la consulta.");
+            if (resultado.length == 0) {
+                MensajeAdvertencia("No existen EMPLEADOS ingresados para este model.");                
             } else {
                 $("#tblDataTableAprobar tbody").empty();
                 config.opcionesDT.order = [];
@@ -106,7 +106,7 @@ function SeleccionarBandeja(model) {
             }
             setTimeout(function () {
                 $('#cargac').hide();
-                if (resultado != "0") {
+                if (resultado.length != 0) {
                     $("#ModalApruebaPendiente").modal("show");
                 }
             }, 200);

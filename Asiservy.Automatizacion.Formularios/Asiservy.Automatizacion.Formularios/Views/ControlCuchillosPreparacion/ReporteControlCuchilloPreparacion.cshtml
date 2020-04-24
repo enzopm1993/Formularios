@@ -58,28 +58,16 @@
     </div>
 </div>
 <hr />
-<br />
-<br />
 
-
+<button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnGenerar" onclick="PrintReport(1)" style="border-color:#2c3e50" type="button">
+    <img style="width:100%" src="../../Content/icons/print24.png" />
+</button>
+@Html.Hidden("RedirectTo", Url.Action("PrintReport", "ControlCuchillosPreparacion"))   @*Se usa para redirigir a la vista del PDF*@
+<br /><br />
 @* CARGAR TABLA CON LOS CUCHILLOS EXISTENTES *@
 <div class="table-responsive" id="DivReporteCuchillos">
-    <div class="container">
+    <div class="container" id="divPrueba">
 
     </div>
 </div>
 
-
-@* PIVOT *@
-@*<div class="row _bloque">
-    <div class="col-12">
-        <div class="card shadow">
-            <div class="card-header">
-                <h6 class="m-0 font-weight-bold text-primary">Reporte</h6>
-            </div>
-            <div class="card-body">
-                <div id="wdr-component"></div>
-            </div>
-        </div>
-    </div>
-</div>*@

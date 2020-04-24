@@ -132,12 +132,6 @@
     <Compile Include="Datos\CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\CC_EVALUACION_PRODUCTO_ENFUNDADO.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datos\CC_INTERMEDIA_CTRL_MANT_CISTERNA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

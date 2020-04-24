@@ -26,7 +26,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioIngresoLog { get; set; }
         public string fechaCreacion { get; set; }
         public string fechaModificacion { get; set; }
-        public string UsuarioModCab { get; set; }
-        public bool EstadoReporteCab { get; set; }
     }
 }

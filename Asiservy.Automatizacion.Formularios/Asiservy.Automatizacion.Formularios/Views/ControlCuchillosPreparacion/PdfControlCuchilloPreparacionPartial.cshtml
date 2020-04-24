@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Reporte_Control_Cuchillos_Preparacion>
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ReporteControlCuchillos</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>      
+    <div class="itemFilter">
+        <label style="font-size:15px" id="lblFechaDesde">Fecha Desde:&nbsp;&nbsp;@ViewBag.filtroFechaDesde.ToString("dd-MM-yyyy")</label>
+
+        <label style="font-size:15px" id="lblFechaHasta">&nbsp;&nbsp;Hasta:&nbsp;&nbsp;@ViewBag.filtroFechaHasta.ToString("dd-MM-yyyy")</label>
+    </div>                        
+                  
+    <table class="table table-bordered " id="tblDataTable">
+        <thead>
+            <tr>
+                <th>
+                    FECHA
+                </th>
+                <th>
+                    HORA
+                </th>
+                @{
+                    //Obtengo los Codigo del cuchillo para armar los TH
+                    var listaCodigoCuchillo = (from p in Model
+                                               select new { p.CodigoCuchillo }).Distinct().ToList();
+
+                    var listaHora = (from ssi in Model
+                                     group ssi by new { ssi.Hora, ssi.Fecha } into g
+                                     select new { Hora = g.Key.Hora, Fecha = g.Key.Fecha }).ToList();
+                }
+
+                @foreach (var itemCodigoCuchillo in listaCodigoCuchillo)
+                {
+                    <th>
+                        <center>@itemCodigoCuchillo.CodigoCuchillo</center>
+                    </th>
+                    <th>EMPLEADO-@itemCodigoCuchillo.CodigoCuchillo</th>
+                }
+                <th>APROBADO POR</th>
+                <th>ESTADO</th>
+            </tr>
+        </thead>
+        <tbody style="font-size:14px">
+            @foreach (var item in listaHora)
+            {
+                string usuarioAprobacion = "";
+                bool estadoReporte = false;
+                <tr style="page-break-inside: avoid;">
+                    @*STYLE APLICADO PARA QUE SALTE A LA SIGUIENTE PAGUINA SIN MONTARSE CON LA CABECERA FUENTE:*@
+                    @*https://stackoverflow.com/questions/24648383/wkhtmltopdf-repeating-thead-headers-overlapping-content*@
+                    <td>@item.Fecha.Replace("/", "-")</td>
+                    <td>@item.Hora</td>
+                    @foreach (var lh in listaCodigoCuchillo)
+                    {
+                        var estado = (from c in Model
+                                      where c.Fecha == item.Fecha && c.Hora == item.Hora && lh.CodigoCuchillo == c.CodigoCuchillo
+                                      select new { Estado = c.Estado, c.CedulaEmpleado, c.EstadoReporte, c.UsuarioModificacionLog });
+
+                        <td>
+                            @foreach (var est in estado)
+                            {
+                                if (est.Estado == true)
+                                {
+                                    <center><span class="badge badge-success"><input type="checkbox" checked disabled id="vehicle2" name="Estado" value="Estado"></span></center>
+                                }
+                                else if (est.Estado == false)
+                                {
+                                    <center><span class="badge badge-danger"><input type="checkbox" disabled id="vehicle2" name="Estado" value="Estado"></span></center>
+                                }
+                            }
+
+                        </td>
+                        <td>
+                            @foreach (var cedula in estado)
+                            {
+                                if (cedula.CedulaEmpleado.Contains('-'))
+                                {
+                                    var nombres = cedula.CedulaEmpleado.Split('-');
+                                    <span>@nombres[1].ToUpper()</span>
+                                }
+                                usuarioAprobacion = cedula.UsuarioModificacionLog;
+                                estadoReporte = cedula.EstadoReporte;
+                            }
+                        </td>
+                    }
+                    <td>@usuarioAprobacion</td>
+                    <td>
+                        <center>
+                            @if (estadoReporte == true)
+                            {
+                                <span class="badge badge-success">APROBADO</span>
+                            }
+                            else
+                            {<span class="badge badge-danger">PENDIENTE</span>}
+                        </center>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
+
+
