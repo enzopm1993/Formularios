@@ -270,5 +270,116 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 return buscarControl.FirmaControl;
             }
         }
+        public List<CabeceraEvaluacionProductoEnfundadoViewModel> ConsultarBandejaEvaluacionLomosyMiga(DateTime? FechaInicio, DateTime? FechaFin, bool EstadoControl)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                if (EstadoControl == clsAtributos.EstadoReportePendiente)
+                {
+                    //return db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => (x.EstadoRegistro == clsAtributos.EstadoRegistroActivo & x.EstadoControl == clsAtributos.EstadoReportePendiente)).ToList();
+                    var respuesta = (from x in db.CC_EVALUACION_PRODUCTO_ENFUNDADO
+                                     join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
+                                     join d in db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE on new { IdCabeceraEvaluacionProductoEnfundado = x.IdEvaluacionProductoEnfundado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionProductoEnfundado, d.EstadoRegistro }
+                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente||x.EstadoControl==null) && cl.Codigo != "0"
+                                     select new CabeceraEvaluacionProductoEnfundadoViewModel
+                                     {
+                                         Cliente = x.Cliente,
+                                         Trozo = x.Trozo,
+                                         EstadoControl = x.EstadoControl,
+                                         EstadoRegistro = x.EstadoRegistro,
+                                         FechaIngresoLog = x.FechaIngresoLog,
+                                         FechaModificacionLog = x.FechaModificacionLog,
+                                         FechaProduccion = x.FechaProduccion,
+                                         IdEvaluacionProductoEnfundado = x.IdEvaluacionProductoEnfundado,
+                                         Lomo = x.Lomo,
+                                         Miga = x.Miga,
+                                         NivelLimpieza = x.NivelLimpieza,
+                                         Observacion = x.Observacion,
+                                         OrdenFabricacion = x.OrdenFabricacion,
+                                         TerminalIngresoLog = x.TerminalIngresoLog,
+                                         TerminalModificacionLog = x.TerminalModificacionLog,
+
+                                         UsuarioIngresoLog = x.UsuarioIngresoLog,
+                                         UsuarioModificacionLog = x.UsuarioModificacionLog,
+                                         NivelLimpiezaDescripcion = cl.Descripcion,
+                                         AprobadoPor = x.AprobadoPor,
+                                         FechaAprobacion = x.FechaAprobacion,
+                                         Batch=x.Batch,
+                                         Destino=x.Destino,
+                                         Lote=x.Lote,
+                                         Marca=x.Marca,
+                                         Proveedor=x.Proveedor
+                                     }).Distinct().ToList();
+
+                    return respuesta;
+                }
+                else
+                {
+                    var respuesta = (from x in db.CC_EVALUACION_PRODUCTO_ENFUNDADO
+                                     join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
+                                     join d in db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE on new { IdCabeceraEvaluacionProductoEnfundado = x.IdEvaluacionProductoEnfundado, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionProductoEnfundado, d.EstadoRegistro }
+                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaProduccion >= FechaInicio && x.FechaProduccion <= FechaFin) && x.EstadoControl == clsAtributos.EstadoReporteActivo && cl.Codigo != "0"
+                                     select new CabeceraEvaluacionProductoEnfundadoViewModel
+                                     {
+                                         Cliente = x.Cliente,
+                                         Trozo = x.Trozo,
+                                         EstadoControl = x.EstadoControl,
+                                         EstadoRegistro = x.EstadoRegistro,
+                                         FechaIngresoLog = x.FechaIngresoLog,
+                                         FechaModificacionLog = x.FechaModificacionLog,
+                                         FechaProduccion = x.FechaProduccion,
+                                         IdEvaluacionProductoEnfundado = x.IdEvaluacionProductoEnfundado,
+                                         Lomo = x.Lomo,
+                                         Miga = x.Miga,
+                                         NivelLimpieza = x.NivelLimpieza,
+                                         Observacion = x.Observacion,
+                                         OrdenFabricacion = x.OrdenFabricacion,
+                                         TerminalIngresoLog = x.TerminalIngresoLog,
+                                         TerminalModificacionLog = x.TerminalModificacionLog,
+                                         UsuarioIngresoLog = x.UsuarioIngresoLog,
+                                         UsuarioModificacionLog = x.UsuarioModificacionLog,
+                                         NivelLimpiezaDescripcion = cl.Descripcion,
+                                         AprobadoPor = x.AprobadoPor,
+                                         FechaAprobacion = x.FechaAprobacion,
+                                         Batch = x.Batch,
+                                         Destino = x.Destino,
+                                         Lote = x.Lote,
+                                         Marca = x.Marca,
+                                         Proveedor = x.Proveedor
+                                     }).Distinct().ToList();
+                    return respuesta;
+                }
+            }
+
+        }
+        public string AprobarControl(int idCabecera, string usuario, string terminal, byte[] firma)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+
+                var buscarCabecera = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(idCabecera);
+                buscarCabecera.FechaModificacionLog = DateTime.Now;
+                buscarCabecera.UsuarioModificacionLog = usuario;
+                buscarCabecera.TerminalModificacionLog = terminal;
+                buscarCabecera.AprobadoPor = usuario;
+                buscarCabecera.FechaAprobacion = DateTime.Now;
+                buscarCabecera.EstadoControl = true;
+                buscarCabecera.FirmaAprobacion = firma;
+                db.SaveChanges();
+
+                return "El control ha sido aprobado";
+            }
+        }
+        public object[] ConsultarFirmaAprobacion(int IdCabecera)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                var buscarControl = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(IdCabecera);
+                object[] resultado = new object[2];
+                resultado[0] = buscarControl.FirmaAprobacion;
+                resultado[1] = buscarControl.EstadoControl;
+                return resultado;
+            }
+        }
     }
 }

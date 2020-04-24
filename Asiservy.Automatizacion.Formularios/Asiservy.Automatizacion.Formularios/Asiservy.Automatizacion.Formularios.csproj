@@ -2199,6 +2199,7 @@
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion_Pivot.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
+    <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
@@ -3427,6 +3428,7 @@
     <Compile Include="Models\Asistencia\EmpleadoRpt.cs" />
     <Compile Include="Models\BitacoraSolicitud.cs" />
     <Compile Include="Models\CALIDAD\CabeceraEvaluacionLomosMigasViewModel.cs" />
+    <Compile Include="Models\CALIDAD\CabeceraEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\CALIDAD\DetalleEvaluacionProductoEnfundadoViewModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalDetalleModel.cs" />
     <Compile Include="Models\CALIDAD\OperatividadMetalModel.cs" />
@@ -3830,6 +3832,9 @@
     <Content Include="Views\EvaluacionProductoEnfundado\PartialDetalleControl.cshtml" />
     <Content Include="Views\ReporteMaestro\ReporteDetallePartial.cshtml" />
     <Content Include="Views\ControlCuchillosPreparacion\PdfControlCuchilloPreparacionPartial.cshtml" />
+    <Content Include="Views\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.cshtml" />
+    <Content Include="Views\EvaluacionProductoEnfundado\BandejaAprobadosEvaluacionProductoEnfundadoPartial.cshtml" />
+    <Content Include="Views\EvaluacionProductoEnfundado\PartialDetalleBandeja.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
