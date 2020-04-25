@@ -83,7 +83,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
                 var poReporte = entities.REPORTE_DETALLE.FirstOrDefault(x => x.IdReporteDetalle == model.IdReporteDetalle);
                 if (poReporte != null)
                 {
-                   
+                    poReporte.Version = model.Version;
+                    if(!string.IsNullOrEmpty(model.Imagen))
+                        poReporte.Imagen = model.Imagen;
+                    poReporte.Rotacion = model.Rotacion;
+
                     poReporte.TerminalModificacionLog = model.TerminalIngresoLog;
                     poReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poReporte.FechaModificacionLog = model.FechaIngresoLog;
