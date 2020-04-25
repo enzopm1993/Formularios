@@ -2060,7 +2060,7 @@
           </Key>
           <Property Name="IdReporteDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdReporteMaestro" Type="int" Nullable="false" />
-          <Property Name="Version" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Version" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Imagen" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="Rotacion" Type="int" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
@@ -2078,7 +2078,7 @@
           <Property Name="IdReporteMaestro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Codigo" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="UltimaVersion" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="UltimaVersion" Type="varchar" MaxLength="10" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -4668,8 +4668,6 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="REPORTE_MAESTRO" EntityType="ASIS_PRODModel.REPORTE_MAESTRO" />
-          <FunctionImport Name="spConsultaReporteMaestro" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteMaestro)" />
           <FunctionImport Name="spConsultaOpcionesPorRol" ReturnType="Collection(ASIS_PRODModel.spConsultaOpcionesPorRol)">
           <Parameter Name="IDROL" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -4724,6 +4722,7 @@
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="REPORTE_DETALLE" EntityType="ASIS_PRODModel.REPORTE_DETALLE" />
+          <EntitySet Name="REPORTE_MAESTRO" EntityType="ASIS_PRODModel.REPORTE_MAESTRO" />
           <AssociationSet Name="FK_REPORTE_DETALLE_REPORTE_MAESTRO" Association="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO">
             <End Role="REPORTE_MAESTRO" EntitySet="REPORTE_MAESTRO" />
             <End Role="REPORTE_DETALLE" EntitySet="REPORTE_DETALLE" />
@@ -4731,6 +4730,7 @@
           <FunctionImport Name="spConsultaReporteDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteDetalle)">
             <Parameter Name="idControl" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spConsultaReporteMaestro" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteMaestro)" />
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -8931,36 +8931,6 @@
           <Property Type="String" Name="Linea5" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="Total" Nullable="true" />
         </ComplexType>
-        <EntityType Name="REPORTE_MAESTRO">
-          <Key>
-            <PropertyRef Name="IdReporteMaestro" />
-          </Key>
-          <Property Name="IdReporteMaestro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UltimaVersion" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="REPORTE_DETALLE" Relationship="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" FromRole="REPORTE_MAESTRO" ToRole="REPORTE_DETALLE" />
-        </EntityType>
-        <ComplexType Name="spConsultaReporteMaestro">
-          <Property Type="Int32" Name="IdReporteMaestro" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Codigo" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="UltimaVersion" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <ComplexType Name="spConsultaOpcionesPorRol">
           <Property Type="Int32" Name="IdOpcion" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
@@ -9195,7 +9165,7 @@
           </Key>
           <Property Name="IdReporteDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdReporteMaestro" Type="Int32" Nullable="false" />
-          <Property Name="Version" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Version" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Imagen" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="Rotacion" Type="Int32" Nullable="false" />
           <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
@@ -9206,6 +9176,23 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="REPORTE_MAESTRO" Relationship="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" FromRole="REPORTE_DETALLE" ToRole="REPORTE_MAESTRO" />
+        </EntityType>
+        <EntityType Name="REPORTE_MAESTRO">
+          <Key>
+            <PropertyRef Name="IdReporteMaestro" />
+          </Key>
+          <Property Name="IdReporteMaestro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UltimaVersion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="REPORTE_DETALLE" Relationship="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" FromRole="REPORTE_MAESTRO" ToRole="REPORTE_DETALLE" />
         </EntityType>
         <Association Name="FK_REPORTE_DETALLE_REPORTE_MAESTRO">
           <End Type="ASIS_PRODModel.REPORTE_MAESTRO" Role="REPORTE_MAESTRO" Multiplicity="1" />
@@ -9222,9 +9209,22 @@
         <ComplexType Name="spConsultaReporteDetalle">
           <Property Type="Int32" Name="IdReporteDetalle" Nullable="false" />
           <Property Type="Int32" Name="IdReporteMaestro" Nullable="false" />
-          <Property Type="String" Name="Version" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="Version" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="Imagen" Nullable="false" MaxLength="150" />
           <Property Type="Int32" Name="Rotacion" Nullable="false" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spConsultaReporteMaestro">
+          <Property Type="Int32" Name="IdReporteMaestro" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Codigo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UltimaVersion" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
           <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
           <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
@@ -13582,40 +13582,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="REPORTE_MAESTRO">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.REPORTE_MAESTRO">
-              <MappingFragment StoreEntitySet="REPORTE_MAESTRO">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="UltimaVersion" ColumnName="UltimaVersion" />
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="IdReporteMaestro" ColumnName="IdReporteMaestro" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaReporteMaestro" FunctionName="ASIS_PRODModel.Store.spConsultaReporteMaestro">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaReporteMaestro">
-                <ScalarProperty Name="IdReporteMaestro" ColumnName="IdReporteMaestro" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-                <ScalarProperty Name="UltimaVersion" ColumnName="UltimaVersion" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spConsultaOpcionesPorRol" FunctionName="ASIS_PRODModel.Store.spConsultaOpcionesPorRol">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaOpcionesPorRol">
@@ -13874,6 +13840,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="REPORTE_MAESTRO">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.REPORTE_MAESTRO">
+              <MappingFragment StoreEntitySet="REPORTE_MAESTRO">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="UltimaVersion" ColumnName="UltimaVersion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdReporteMaestro" ColumnName="IdReporteMaestro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spConsultaReporteDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaReporteDetalle">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaReporteDetalle">
@@ -13882,6 +13865,23 @@
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="Imagen" ColumnName="Imagen" />
                 <ScalarProperty Name="Rotacion" ColumnName="Rotacion" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaReporteMaestro" FunctionName="ASIS_PRODModel.Store.spConsultaReporteMaestro">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaReporteMaestro">
+                <ScalarProperty Name="IdReporteMaestro" ColumnName="IdReporteMaestro" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="UltimaVersion" ColumnName="UltimaVersion" />
                 <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
                 <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
                 <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
