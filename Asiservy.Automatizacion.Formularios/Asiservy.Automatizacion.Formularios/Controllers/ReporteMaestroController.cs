@@ -135,28 +135,37 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                //if (string.IsNullOrEmpty(model.CodigoProducto) || string.IsNullOrEmpty(model.LineaEnlatado) || string.IsNullOrEmpty(model.Peso) || string.IsNullOrEmpty(model.Turno))
-                //{
-                //    return Json("0", JsonRequestBehavior.AllowGet);
-                //}
-                string path = Server.MapPath("~/Content/REPORTE/");
-                if (!Directory.Exists(path))
+                if (string.IsNullOrEmpty(model.Version) ||  model.IdReporteMaestro==0)
                 {
-                    Directory.CreateDirectory(path);
+                    return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                var date = DateTime.Now.ToBinary();
-                //dataImg.SaveAs(path+Path.GetFileName(model.IdReporteMaestro))
+                string path=string.Empty;
+                string NombreImg = string.Empty;
+                if (dataImg != null)
+                {
+                    path = Server.MapPath("~/Content/REPORTE/");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    var date = DateTime.Now;
+                    long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
+                    var ext2 = dataImg.FileName.Split('.');
+                    var cont = ext2.Length;
+                    NombreImg = "REPORTE/ReporteVersion" + n.ToString() + "." + ext2[cont - 1];
+                    model.Imagen = NombreImg;
+                }
 
                 clsDReporte = new clsDReporte();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                //if (!clsDControlPesoEnlatado.ValidaControlPesoEnlatado(model))
-                //{
-                //    return Json("1", JsonRequestBehavior.AllowGet);
-                //}
-                //clsDReporte.GuardarModificarReporteMaestroDetalle(model);
+                clsDReporte.GuardarModificarReporteMaestroDetalle(model);
+                if (dataImg != null)
+                {
+                    dataImg.SaveAs(path + Path.GetFileName(NombreImg));
+                }
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
 
             }

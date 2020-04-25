@@ -1,0 +1,161 @@
+﻿
+@model IEnumerable<Asiservy.Automatizacion.Formularios.Models.CALIDAD.DetalleEvaluacionProductoEnfundadoViewModel>
+
+
+<input type="hidden" value="@Model.FirstOrDefault().Aprobado.ToString()" id="txtAprobado" />
+<input type="hidden" value="@Model.FirstOrDefault().IdCabecera" id="txtIdCabecera" />
+<table class="table table-striped table-bordered table-hover" id="tblDetalleBandeja">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                Empacador/a
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Buque)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lote)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Sabor)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Textura)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Olor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Moretones)
+            </th>
+            <th>
+                Hematomas profundos
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Proteinas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trozos)
+            </th>
+            <th>
+                Migas
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Venas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Espinas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sangre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Escamas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Piel)
+            </th>
+            <th>
+                Otros
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+        <tr style="cursor:pointer">
+            <td>
+                @Html.DisplayFor(modelItem => item.Hora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreEmpacador)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Buque)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lote)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.CodSabor)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Sabor)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.CodTextura)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Textura)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.CodColor)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.CodOlor)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Olor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Moretones)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HematomasProfundos)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.CodProteinas)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Proteinas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trozos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Miga)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Venas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Espinas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sangre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Escamas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Piel)
+            </td>
+            <td>
+
+                @Html.DisplayFor(modelItem => item.Otro)
+            </td>
+
+        </tr>
+        }
+    </tbody>
+
+</table>
+<div>
+
+</div>

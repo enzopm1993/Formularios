@@ -3,6 +3,9 @@
   
 });
 
+var ReporteModel = [];
+var rotation = 0;
+
 
 function ConsultarReporteMaestros() {
 
@@ -124,8 +127,8 @@ function SeleccionarReporteMaestro(model) {
     $("#btnAtras").prop("hidden", false);
     $("#divDetalle").prop("hidden", false);
 
-
-    ConsultarReporteDetalle(model.IdReporteMaestro);
+    ReporteModel = model;
+    ConsultarReporteDetalle(ReporteModel.IdReporteMaestro);
 
 }
 function Atras() {
@@ -205,7 +208,7 @@ function EditarReporteMaestro() {
 
 
 
-//////////////////////////////////////DETALLE///////////////////////////////////////////////
+////////////////////////////////////////////////////////////DETALLE///////////////////////////////////////////////
 
 function ConsultarReporteDetalle(Id) {
 
@@ -242,19 +245,23 @@ function ConsultarReporteDetalle(Id) {
 
 function GenerarReporteDetalle() {
     NuevoDetalle();
-    $("#ModalControlDetalle").modal("show");
-    $("#txtVersionDetalleModal").css('borderColor', '#ced4da');
-    $("#divFileUpload").css('color', '#ced4da');
-    $("#file-preview-zone").css('borderColor', '#ced4da');
+   
 }
 
 function NuevoDetalle() {
     $("#txtVersionDetalleModal").val('');
     $("#file-upload").val('');
     $("#file-preview-zone").html('');
+    $("#ModalControlDetalle").modal("show");
+    $("#txtVersionDetalleModal").css('borderColor', '#ced4da');
+    $("#divFileUpload").css('color', '#ced4da');
+    $("#file-preview-zone").css('borderColor', '#ced4da');
+    rotation = 0;
+
 }
 
 function ValidarDetalle() {
+    //console.log($("#file-preview").val());
     var valida = true;
     if ($("#txtVersionDetalleModal").val() == "") {
         $("#txtVersionDetalleModal").css('borderColor', '#FA8072');
@@ -262,7 +269,7 @@ function ValidarDetalle() {
     } else {
         $("#txtVersionDetalleModal").css('borderColor', '#ced4da');
     }
-    if ($("#file-upload").val() == "") {
+    if ($("#file-preview").val() == undefined) {
         $("#divFileUpload").css('color', '#FA8072');
         $("#file-preview-zone").css('borderColor', '#FA8072');
         
@@ -290,8 +297,9 @@ function GuardarReporteDetalle() {
     data.append("IdReporteMaestro", $("#txtIdControlModal").val());
     data.append("IdReporteDetalle", $("#txtIdDetalleModal").val());
     data.append("Version", $("#txtVersionDetalleModal").val());
-    //var files = $('#file-upload')[0].files[0];
-
+    data.append("Rotacion", rotation);
+    //var files = $('#file-upload')[0].files[0]; 
+    
     $.ajax({
         url: "../ReporteMaestro/ReporteDetalle",
         type: "POST",
@@ -309,7 +317,9 @@ function GuardarReporteDetalle() {
             }
             //      NuevaReporteMaestro();
             $("#ModalEditarControl").modal("hide");
-            MensajeCorrecto("Registro Exitoso");
+            ConsultarReporteDetalle(ReporteModel.IdReporteMaestro);
+            $("#ModalControlDetalle").modal("hide");
+             MensajeCorrecto("Registro Exitoso");
             //ConsultarReporteMaestros();
         },
         error: function (result) {
@@ -319,6 +329,24 @@ function GuardarReporteDetalle() {
     });
 }
 
+function EditarReporteDetalle(model) {
+    NuevoDetalle();
+    $("#txtIdDetalleModal").val(model.IdReporteDetalle);
+    $("#txtVersionDetalleModal").val(model.Version);
+    var filePreview = document.createElement('img');
+    filePreview.id = 'file-preview';
+    //e.target.result contents the base64 data from the image uploaded
+    filePreview.src = "/Content/" + model.Imagen;
+    //console.log(e.target.result);
+    var previewZone = document.getElementById('file-preview-zone');
+    previewZone.appendChild(filePreview);
+    document.getElementById("file-preview").style.width = "200px";
+    document.getElementById("file-preview").style.height = "300px";
+    $('#file-preview').rotate(model.Rotacion);
+ 
+    $("#ModalControlDetalle").modal("show");
+
+}
 
 
 
@@ -328,6 +356,7 @@ function readFile(input) {
         var reader = new FileReader();
 
         reader.onload = function (e) {
+            $("#file-preview-zone").html('');
             var filePreview = document.createElement('img');
             filePreview.id = 'file-preview';
             //e.target.result contents the base64 data from the image uploaded
@@ -338,6 +367,9 @@ function readFile(input) {
             previewZone.appendChild(filePreview);
             document.getElementById("file-preview").style.width = "200px";
             document.getElementById("file-preview").style.height = "300px";
+           // document.getElementById("file-preview").style.accept = ".jpg,.jpeg,.png";
+
+            //accept=".gif,.jpg,.jpeg,.png,.doc,.docx"
 }
 
         reader.readAsDataURL(input.files[0]);
@@ -350,7 +382,6 @@ fileUpload.onchange = function (e) {
 }
 
 
-var rotation = 0;
 $('#file-preview-zone').on("click", function (e) {
     rotation += 90;
     $('#file-preview').rotate(rotation);
