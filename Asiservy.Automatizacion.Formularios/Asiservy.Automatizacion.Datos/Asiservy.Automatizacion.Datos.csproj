@@ -111,6 +111,9 @@
     <Compile Include="Datos\CC_CONDICION_PERSONAL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_CONDICION_PERSONAL_CONTROL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_CONTROL_CUCHILLOS_PREPARACION.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
