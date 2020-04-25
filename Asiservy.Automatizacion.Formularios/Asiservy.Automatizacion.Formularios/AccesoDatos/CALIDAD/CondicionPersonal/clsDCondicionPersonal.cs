@@ -71,6 +71,18 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
+                var poControlReporte = entities.CC_CONDICION_PERSONAL_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha);
+                if (poControlReporte == null)
+                {
+                    CC_CONDICION_PERSONAL_CONTROL control = new CC_CONDICION_PERSONAL_CONTROL();
+                    control.Fecha = model.Fecha;
+                    control.FechaIngresoLog = model.FechaIngresoLog;
+                    control.TerminalIngresoLog = model.TerminalIngresoLog;
+                    control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                    control.EstadoReporte = false;
+                    control.UsuarioIngresoLog = model.UsuarioIngresoLog;
+                    entities.CC_CONDICION_PERSONAL_CONTROL.Add(control);
+                }
                 var poControl = entities.CC_CONDICION_PERSONAL.FirstOrDefault(x => x.IdCondicionPersonal == model.IdCondicionPersonal);
                 if (poControl != null)
                 {
@@ -106,5 +118,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
 
             }
         }
+        public List<CC_CONDICION_PERSONAL_CONTROL> ConsultaCondicionPersonalControl(DateTime Fecha, bool Estado)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_CONDICION_PERSONAL_CONTROL.Where(x => x.Fecha == Fecha && x.EstadoReporte==Estado).ToList();
+            }
+        }
+
+
     }
 }

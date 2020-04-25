@@ -48,16 +48,16 @@ function CargarBandeja() {
         url: "../CloroCisternaDescongelado/BandejaCloroCisternaDescongeladoPartial",
         type: "GET",       
         success: function (resultado) {
+            $('#divPartialControlCloro').empty();
             if (resultado == '0') {
                 $('#MensajeRegistros').show();
             } else {
                 $('#MensajeRegistros').hide();
+                $('#divPartialControlCloro').html(resultado);
             } 
             $("#btnPendiente").prop("hidden", true);
             $("#btnAprobado").prop("hidden", false);
             $("#spinnerCargando").prop("hidden", true);
-            $('#divPartialControlCloro').empty();
-            $('#divPartialControlCloro').html(resultado);
         },
         error: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
@@ -155,14 +155,15 @@ function FiltrarAprobadosFecha() {
             success: function (resultado) {
                 if (resultado == '0') {
                     $('#MensajeRegistros').show();
+                    $('#divPartialControlCloro').html('');            
+
                 } else {
                     $('#MensajeRegistros').hide();
+                    $('#divPartialControlCloro').html(resultado);            
                 }
                 $("#spinnerCargando").prop("hidden", true);
-                $('#divPartialControlCloro').html(resultado);               
                 $("#btnPendiente").prop("hidden", false);
                 $("#btnAprobado").prop("hidden", true);
-                
                 $("#divDateRangePicker").prop('hidden', false);
             },
             error: function (resultado) {
