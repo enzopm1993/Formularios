@@ -141,5 +141,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaD
                 db.SaveChanges();
             }
         }
+        public List<sp_CloroCisternaDescongelado> ConsultarCloroCisternaRangoFecha(DateTime fechaDesde, DateTime fechaHasta, int idCloroCisterna, int op)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var listado = db.sp_CloroCisternaDescongelado(fechaDesde, fechaHasta, idCloroCisterna, op).ToList();
+                return listado;
+            }
+        }
     }
 }
