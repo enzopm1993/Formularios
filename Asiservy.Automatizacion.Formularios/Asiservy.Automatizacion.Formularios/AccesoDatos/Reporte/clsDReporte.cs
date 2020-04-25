@@ -34,9 +34,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
                 var poReporte = entities.REPORTE_MAESTRO.FirstOrDefault(x => x.IdReporteMaestro == model.IdReporteMaestro);
                 if (poReporte != null)
                 {
+                    poReporte.EstadoRegistro = model.EstadoRegistro;
                     poReporte.Nombre = model.Nombre;
                     poReporte.Codigo = model.Codigo;
-                    poReporte.UltimaVersion = model.UltimaVersion;
+                    //poReporte.UltimaVersion = model.UltimaVersion;
                     poReporte.TerminalModificacionLog = model.TerminalIngresoLog;
                     poReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poReporte.FechaModificacionLog = model.FechaIngresoLog;
@@ -73,6 +74,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
             {
                 var lista = entities.spConsultaReporteDetalle(IdControl).ToList();
                 return lista;
+            }
+        }
+
+        public void ActualuzarUltimaVersion(int Id, string Version)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var poReporte = entities.REPORTE_MAESTRO.FirstOrDefault(x => x.IdReporteMaestro == Id);
+                if (poReporte != null)
+                {
+                    poReporte.UltimaVersion = Version;
+                    entities.SaveChanges();
+                }
             }
         }
 

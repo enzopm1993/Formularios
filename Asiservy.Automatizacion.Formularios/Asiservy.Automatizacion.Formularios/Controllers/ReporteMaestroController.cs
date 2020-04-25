@@ -79,10 +79,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                //if (string.IsNullOrEmpty(model.CodigoProducto) || string.IsNullOrEmpty(model.LineaEnlatado) || string.IsNullOrEmpty(model.Peso) || string.IsNullOrEmpty(model.Turno))
-                //{
-                //    return Json("0", JsonRequestBehavior.AllowGet);
-                //}
+                if (string.IsNullOrEmpty(model.Nombre) || string.IsNullOrEmpty(model.Codigo))
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
 
 
                 clsDReporte = new clsDReporte();
@@ -117,8 +117,49 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        public ActionResult EliminarReporteMaestro(REPORTE_MAESTRO model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (model.IdReporteMaestro == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                clsDReporte = new clsDReporte();
+                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
 
+                clsDReporte.EliminarReporteMaestro(model);
+                return Json("Registro Eliminado con Éxito", JsonRequestBehavior.AllowGet);
 
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
 
@@ -126,7 +167,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
 
         [HttpPost]
-        public ActionResult ReporteDetalle(REPORTE_DETALLE model, HttpPostedFileBase dataImg)
+        public ActionResult ReporteDetalle(REPORTE_DETALLE model, HttpPostedFileBase dataImg, bool UltimaVersion=false)
         {
             try
             {
@@ -161,6 +202,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
+                if (UltimaVersion)
+                {
+                    clsDReporte.ActualuzarUltimaVersion(model.IdReporteMaestro, model.Version);
+                }
                 clsDReporte.GuardarModificarReporteMaestroDetalle(model);
                 if (dataImg != null)
                 {
@@ -226,44 +271,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
         }
 
-        public ActionResult EliminarReporteMaestro(REPORTE_MAESTRO model)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                clsDReporte = new clsDReporte();
-                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                model.FechaIngresoLog = DateTime.Now;
-                model.TerminalIngresoLog = Request.UserHostAddress;
-                model.UsuarioIngresoLog = lsUsuario[0];
-
-                clsDReporte.EliminarReporteMaestro(model);
-                return Json("Registro Eliminado con Éxito", JsonRequestBehavior.AllowGet);
-
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
+       
 
 
         public ActionResult ReporteDetallePartial(int idControl)
