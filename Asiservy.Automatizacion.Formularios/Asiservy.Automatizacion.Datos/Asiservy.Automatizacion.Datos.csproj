@@ -741,6 +741,9 @@
     <Compile Include="Datos\spReporteEvaluacionLomosMigasBandeja.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\spReporteEvaluacionProductoEnfundado.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\spReporteMapeoProductoTunelDetalle.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

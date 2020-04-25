@@ -2013,5 +2013,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteMaestro>("spConsultaReporteMaestro");
         }
+    
+        public virtual ObjectResult<spReporteEvaluacionProductoEnfundado> spReporteEvaluacionProductoEnfundado(Nullable<System.DateTime> fechaProduccion)
+        {
+            var fechaProduccionParameter = fechaProduccion.HasValue ?
+                new ObjectParameter("FechaProduccion", fechaProduccion) :
+                new ObjectParameter("FechaProduccion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionProductoEnfundado>("spReporteEvaluacionProductoEnfundado", fechaProduccionParameter);
+        }
     }
 }
