@@ -1,0 +1,107 @@
+﻿@using System.Text;
+@{
+    ViewBag.Title = "BandejaEvaluacionProductoEnfundado";
+}
+<style>
+    .selectbox {
+        background: #fff;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+
+    canvas {
+        border: 1px solid black;
+    }
+
+    #ImgFirma {
+        border: 1px solid black;
+    }
+</style>
+<h4>Bandeja evaluación producto enfundado</h4>
+<div class="row" id="DivFiltros">
+    <div class="col-md-2 col-sm-6 form-group">
+        <label>Estado del Registro</label>
+        <select id="cmbEstadoControl" class="form-control" onchange="CargarBandeja()">
+            <option value="false" default>PENDIENTE</option>
+            <option value="true">APROBADO</option>
+        </select>
+    </div>
+
+    <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker" hidden>
+        <label>Filtrar por Fecha:</label>
+        <input type="hidden" id="fechaDesde" value="" />
+        <input type="hidden" id="fechaHasta" value="" />
+        <div id="reportrange" class="selectbox">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down"></i>
+        </div>
+    </div>
+
+    <div class="col-5">
+        <label>Acciones</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarBandeja()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+<br />
+<center> <h4 id="MensajeRegistros" style="display:none" class="text-warning">No se encontraron registros</h4> </center>
+
+<div id="DivEvaluacionLomosMigas" class="table-responsive">
+
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="ModalDetalle" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body table-responsive" id="DivDetalle">
+
+            </div>
+            <br />
+            <div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
+                <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
+
+                <div>
+                    <canvas width=400 height=200 id="firmacanvas"></canvas>
+                </div>
+                @*<div>
+                        <center> <button type="button" class="btn btn-primary" onclick="GuardarFirma()">Guardar Firma</button></center>
+                    </div>*@
+            </div>
+            <div id="div_ImagenFirma" class="align-self-md-center align-self-sm-center" hidden>
+
+
+                <img id="ImgFirma" width="400" height="200" src="" />
+                @*<div>
+                        <center> <button type="button" class="btn btn-primary" onclick="VolverAFirmar()">Rehacer Firma</button></center>
+                    </div>*@
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnAprobar" onclick="AprobarControl()">Aprobar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+

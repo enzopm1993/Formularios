@@ -120,4 +120,10 @@ $(function () {
     cb(start, end);
 });
 
+function PrintReport(op) {
+    localStorage.setItem("fechaDesde", $("#fechaDesde").val());
+    var url = $("#RedirectTo").val() + '?' + 'filtroFechaDesde=' + $("#fechaDesde").val() + '&filtroFechaHasta=' + $("#fechaHasta").val() + '&op=' + op;
+    var win = window.open(url, '_blank');
+}
+
 

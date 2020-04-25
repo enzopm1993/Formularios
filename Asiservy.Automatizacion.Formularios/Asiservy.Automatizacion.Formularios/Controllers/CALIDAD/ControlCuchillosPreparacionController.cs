@@ -578,54 +578,27 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         //-------------------------------------------IMPRIMIR PDF------------------------------------------------------
         public ActionResult PrintReport(DateTime filtroFechaDesde, DateTime filtroFechaHasta, int op)
         {
-            var headerPdf = Server.MapPath("~/Views/ControlCuchillosPreparacion/HeaderPdf.html");//ARCHIVO HTML USADO EN LA CABECERA DEL PDF
-            ViewBag.filtroFechaDesde = filtroFechaDesde;
-            ViewBag.filtroFechaHasta = filtroFechaHasta;
-            string customSwitches = string.Format("--header-html  \"{0}\" " +                        
-                        "--header-font-size \"15\" ", headerPdf);
-            return new ViewAsPdf("PdfControlCuchilloPreparacionPartial", model(filtroFechaDesde, filtroFechaHasta, op))
-            {//METODO AL QUE SE HACE REFERENCIA ------------------, OBJETO 
-                // Establece la Cabecera y el Pie de página
-                CustomSwitches = customSwitches+
-                "--page-offset 0 --footer-center [page] --footer-font-size 10",
-                PageSize = Rotativa.Options.Size.A3,               
-                PageMargins = new Rotativa.Options.Margins(25, 5, 10, 5),
-                PageOrientation = Rotativa.Options.Orientation.Landscape,
-            };
-        }      
-
-        public ActionResult PdfControlCuchilloPreparacionPartial(DateTime filtroFechaDesde, DateTime filtroFechaHasta, int op)//VISTA MOSTRAR PDF
-        {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
-                    return Json("101", JsonRequestBehavior.AllowGet);
+                    Response.Redirect(Url.Action("Login", "Login"));
                 }
-                clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
-
-                var poCloroCisterna = clsDControlCuchillosPreparacion.ReporteControlCuchilloPreparacion(filtroFechaDesde, filtroFechaHasta, op);
-                if (poCloroCisterna != null)
-                {
-                    clsDEmpleado empleado = new clsDEmpleado();
-                    var listaEmpleadoLinea = empleado.ConsultaEmpleadosFiltro("46", "0", "0");
-                    foreach (var itemCuchillo in poCloroCisterna)
-                    {
-                        foreach (var itemEmpleado in listaEmpleadoLinea)
-                        {
-                            if (itemCuchillo.CedulaEmpleado == itemEmpleado.CEDULA)
-                            {
-                                itemCuchillo.CedulaEmpleado += "-" + itemEmpleado.NOMBRES;
-                            }
-                        }
-                    }
-                    return PartialView(poCloroCisterna);
-                }
-                else
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
+                var headerPdf = Server.MapPath("~/Views/ControlCuchillosPreparacion/HeaderPdf.html");//ARCHIVO HTML USADO EN LA CABECERA DEL PDF
+                ViewBag.filtroFechaDesde = filtroFechaDesde;
+                ViewBag.filtroFechaHasta = filtroFechaHasta;
+                string customSwitches = string.Format("--header-html  \"{0}\" " +
+                            "--header-font-size \"15\" ", headerPdf);
+                return new ViewAsPdf("PdfControlCuchilloPreparacionPartial", model(filtroFechaDesde, filtroFechaHasta, op))
+                {//METODO AL QUE SE HACE REFERENCIA ------------------, OBJETO 
+                 // Establece la Cabecera y el Pie de página
+                    CustomSwitches = customSwitches +
+                    "--page-offset 0 --footer-center [page] --footer-font-size 10",
+                    PageSize = Rotativa.Options.Size.A3,
+                    PageMargins = new Rotativa.Options.Margins(25, 5, 10, 5),
+                    PageOrientation = Rotativa.Options.Orientation.Landscape,
+                };
             }
             catch (DbEntityValidationException e)
             {
@@ -644,6 +617,32 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult PdfControlCuchilloPreparacionPartial(DateTime filtroFechaDesde, DateTime filtroFechaHasta, int op)//VISTA MOSTRAR PDF
+        {
+            clsDControlCuchillosPreparacion = new clsDControlCuchillosPreparacion();
+            var poCloroCisterna = clsDControlCuchillosPreparacion.ReporteControlCuchilloPreparacion(filtroFechaDesde, filtroFechaHasta, op);
+            if (poCloroCisterna != null)
+            {
+                clsDEmpleado empleado = new clsDEmpleado();
+                var listaEmpleadoLinea = empleado.ConsultaEmpleadosFiltro("46", "0", "0");
+                foreach (var itemCuchillo in poCloroCisterna)
+                {
+                    foreach (var itemEmpleado in listaEmpleadoLinea)
+                    {
+                        if (itemCuchillo.CedulaEmpleado == itemEmpleado.CEDULA)
+                        {
+                            itemCuchillo.CedulaEmpleado += "-" + itemEmpleado.NOMBRES;
+                        }
+                    }
+                }
+                return PartialView(poCloroCisterna);
+            }
+            else
+            {
+                return Json("0", JsonRequestBehavior.AllowGet);
             }
         }
 

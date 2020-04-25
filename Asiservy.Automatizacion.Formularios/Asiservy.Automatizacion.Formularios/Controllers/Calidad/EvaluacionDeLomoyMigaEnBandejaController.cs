@@ -545,6 +545,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
         public JsonResult AprobarControl(int IdCabecera, string imagen)
         {
             try
