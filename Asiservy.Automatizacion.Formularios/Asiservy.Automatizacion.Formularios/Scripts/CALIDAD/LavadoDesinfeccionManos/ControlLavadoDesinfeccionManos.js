@@ -105,12 +105,15 @@ function GuardarCabecera() {
 }
 
 function EliminarConfirmar() {
-    if (ListaDatos[0].EstadoReporte == true) {
-        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-        return;
-    } else {
-        $("#modalEliminarControl").modal("show");
-    }
+    CargarCabecera(0);
+    setTimeout(function () {
+        if (ListaDatos[0].EstadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            $("#modalEliminarControl").modal("show");
+        }
+    },500);
 }
 
 function EliminarCabeceraSi() {
@@ -162,44 +165,49 @@ function EliminarCabeceraNo() {
 
 function ActualizarCabeceraActivarCotroles() {
     CargarCabecera(0);
-    if (ListaDatos[0].EstadoReporte == true) {
-        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-        return;
-    } else {
-        $("#txtObservacion").prop("disabled", false)
-        $("#btnModalEliminar").prop("hidden", true);
-        $("#btnModalGenerarRegistro").prop("hidden", false);
-        $("#btnModalEditar").prop("hidden", true);
-    }
+    setTimeout(function () {
+        if (ListaDatos[0].EstadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            $("#txtObservacion").prop("disabled", false)
+            $("#btnModalEliminar").prop("hidden", true);
+            $("#btnModalGenerarRegistro").prop("hidden", false);
+            $("#btnModalEditar").prop("hidden", true);
+        }
+    },500);
 }
 
 //DETALLE INGRESO DE LINEAS (SE LISTA EL CLASIFICADOR PARA PODER ARMAR LA CABECERA DE LA TABLA)
 function ModalGenerarDetalle() {    
-    if (ListaDatos[0].EstadoReporte == true) {
-        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-        return;
-    } else {
-        $("#ModalGenerarDetalle").modal("show");
-        $.ajax({
-            url: "../LavadoDesinfeccionManos/IngresoLavadoDesinfeccionManosDetallePartial",
-            type: "GET",
-            success: function (resultado) {
-                if (resultado == "101") {
-                    window.location.reload();
+    CargarCabecera(0);    
+    setTimeout(function () {
+        if (ListaDatos[0].EstadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            $("#ModalGenerarDetalle").modal("show");
+            $.ajax({
+                url: "../LavadoDesinfeccionManos/IngresoLavadoDesinfeccionManosDetallePartial",
+                type: "GET",
+                success: function (resultado) {
+                    if (resultado == "101") {
+                        window.location.reload();
+                    }
+                    if (resultado == "0") {
+                        return 0;
+                    } else {
+                        $("#divModalPartialDetalle").prop("hidden", false);
+                        $("#divModalPartialDetalle").html(resultado);
+                        return 1;
+                    }
+                },
+                error: function (resultado) {
+                    MensajeError(resultado.responseText, false);
                 }
-                if (resultado == "0") {
-                    return 0;
-                } else {
-                    $("#divModalPartialDetalle").prop("hidden", false);
-                    $("#divModalPartialDetalle").html(resultado);
-                    return 1;
-                }
-            },
-            error: function (resultado) {
-                MensajeError(resultado.responseText, false);
-            }
-        });
-    }
+            });
+        }
+    },500);
 }
 
 function limpiarDetalle(data) {
@@ -277,14 +285,34 @@ function CargarDetalle(opcion) {
 }
 
 function ActulizarDetalle(jFilaSeleccionada, jordenColumnasTabla) {
+    CargarCabecera(0);
+    setTimeout(function () {
     if (ListaDatos[0].EstadoReporte == true) {
         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
         return;
     } else {
-        ListaDatosDetalle = jFilaSeleccionada;//Con esto Guardo el json para usarlo en el metodo prepararAntesGuardar(jdata)
-        ModalGenerarDetalle();
-        $("#ModalGenerarDetalle").modal("hide");
         $('#cargac').show();
+        ListaDatosDetalle = jFilaSeleccionada;//Con esto Guardo el json para usarlo en el metodo prepararAntesGuardar(jdata)
+        $.ajax({
+            url: "../LavadoDesinfeccionManos/IngresoLavadoDesinfeccionManosDetallePartial",
+            type: "GET",
+            success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
+                if (resultado == "0") {
+                    return 0;
+                } else {
+                    $("#divModalPartialDetalle").prop("hidden", false);
+                    $("#divModalPartialDetalle").html(resultado);
+                    return 1;
+                }
+            },
+            error: function (resultado) {
+                MensajeError(resultado.responseText, false);
+            }
+        });
+        
         setTimeout(function () {
             for (var i in jordenColumnasTabla) {
                 for (var j in jFilaSeleccionada) {
@@ -298,8 +326,9 @@ function ActulizarDetalle(jFilaSeleccionada, jordenColumnasTabla) {
             }
             $("#ModalGenerarDetalle").modal("show");
             $('#cargac').hide();
-        }, 3000);
+        }, 2000);
     }
+    },500);
 }
 
 function ValidarHoraRepetida() {
@@ -390,13 +419,16 @@ function quitarEstiloSelect(numSelect) {
 }
 
 function EliminarConfirmarDetalle(jdata) {
-    if (ListaDatos[0].EstadoReporte == true) {
-        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-        return;
-    } else {
-        ListaDatosDetalle = jdata;
-        $("#modalEliminarDetalle").modal("show");
-    }
+    CargarCabecera(0);
+    setTimeout(function () {
+        if (ListaDatos[0].EstadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            ListaDatosDetalle = jdata;
+            $("#modalEliminarDetalle").modal("show");
+        }
+    },500);
 }
 
 function EliminarDetalleSi() {

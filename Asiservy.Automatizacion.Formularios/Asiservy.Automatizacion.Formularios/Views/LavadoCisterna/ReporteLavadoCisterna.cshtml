@@ -4,8 +4,6 @@
     ViewBag.Title = "ReporteLavadoCisterna";
 }
 
-
-
 <style>
     input, select, textarea {
         max-width: 100%;
@@ -52,14 +50,19 @@
                     <span></span> <i class="fa fa-caret-down"></i>
                 </div>
             </div>
-            <div class="itemFilter">                
+            <div class="itemFilter">
                 <a href="#" onclick="CargarCabecera(1)" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
             </div>
         </div>
     </div>
 </div>
-    <hr />
-
-    @*MODAL MOSTRAR TABLA CABECERA*@
-    <div id="divMostarTablaCabecera" class="table-responsive">
-    </div>
+<hr />
+<br />
+<button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnGenerar" onclick="PrintReport(1)" style="border-color:#2c3e50" type="button">
+    <img style="width:100%" src="../../Content/icons/print24.png" />
+</button>
+@Html.Hidden("RedirectTo", Url.Action("PrintReport", "LavadoCisterna"))   @*Se usa para redirigir a la vista del PDF*@
+<br /><br />
+@*MODAL MOSTRAR TABLA CABECERA*@
+<div id="divMostarTablaCabecera" class="table-responsive">
+</div>

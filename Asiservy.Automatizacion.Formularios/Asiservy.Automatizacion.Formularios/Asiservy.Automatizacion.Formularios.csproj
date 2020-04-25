@@ -2066,6 +2066,7 @@
     <Content Include="Content\images\cuchillo01.png" />
     <Content Include="Content\images\cuchillo02.png" />
     <Content Include="Content\images\cuchillo03.png" />
+    <Content Include="Content\images\fondo1.jpg" />
     <Content Include="Content\images\fondo5.jpg" />
     <Content Include="Content\images\fondo6.jpg" />
     <Content Include="Content\images\loader.gif" />

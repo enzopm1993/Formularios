@@ -52,18 +52,15 @@ namespace ProyectoWeb.Controllers
             List<RespuestaGeneral> respuesta = new List<RespuestaGeneral>();
             if (BD == clsAtributos.DesarrolloBD)
             {
-                respuesta.Add(new RespuestaGeneral { Codigo = 0, Descripcion = "http://192.168.0.31:8000/", Mensaje =clsAtributos.BDPreProduccion });
                 respuesta.Add(new RespuestaGeneral { Codigo = 1, Descripcion = "http://192.168.0.31:8001/", Mensaje = clsAtributos.BDProduccion });
             }
             if (BD == clsAtributos.PreProduccionBD)
             {
-                respuesta.Add(new RespuestaGeneral { Codigo = 2, Descripcion = "http://192.168.0.31:8002/", Mensaje = clsAtributos.BDDesarrollo });
                 respuesta.Add(new RespuestaGeneral { Codigo = 1, Descripcion = "http://192.168.0.31:8001/", Mensaje=clsAtributos.BDProduccion });
             }
             if (BD == clsAtributos.ProduccionBD)
             {
                 respuesta.Add(new RespuestaGeneral { Codigo = 0, Descripcion = "http://192.168.0.31:8000/", Mensaje = clsAtributos.BDPreProduccion });
-                respuesta.Add(new RespuestaGeneral { Codigo = 2, Descripcion = "http://192.168.0.31:8002/", Mensaje = clsAtributos.BDDesarrollo });
             }
             return Json(respuesta, JsonRequestBehavior.AllowGet);
         }

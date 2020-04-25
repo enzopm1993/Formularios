@@ -120,3 +120,8 @@ $(function () {
     }, cb);
     cb(start, end);
 });
+
+function PrintReport(op) {
+    var url = $("#RedirectTo").val() + '?' + 'filtroFechaDesde=' + $("#fechaDesde").val() + '&filtroFechaHasta=' + $("#fechaHasta").val() + '&id=' + 0 + '&op=' + op;
+    var win = window.open(url, '_blank');
+}
