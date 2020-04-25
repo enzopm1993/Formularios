@@ -87,7 +87,7 @@ function SeleccionarBandeja(model) {
                 MensajeAdvertencia("No existen datos para este model.");
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Faltan parametros.");
+                MensajeAdvertencia("¡El REGISTRO no tiene detalle, por favor ingrese los datos en el CONTROL!");
             } else {
                 $("#tblDataTableAprobar tbody").empty();
                 configModal.opcionesDT.order = [];
