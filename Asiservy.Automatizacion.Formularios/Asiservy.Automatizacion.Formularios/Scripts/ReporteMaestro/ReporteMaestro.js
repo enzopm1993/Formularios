@@ -30,7 +30,7 @@ function ConsultarReporteMaestros() {
             //  $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError("Error, comuniquese con sistemas. " + resultado, false);
             $("#spinnerCargando").prop("hidden", true);
         }
     });
@@ -57,20 +57,19 @@ function GenerarReporteMaestro() {
     } else {
         $("#txtCodigo").css('borderColor', '#ced4da');
     }
-    if ($("#txtVersion").val() == "") {
-        $("#txtVersion").css('borderColor', '#FA8072');
-        return;
-    } else {
-        $("#txtVersion").css('borderColor', '#ced4da');
-    }
+    //if ($("#txtVersion").val() == "") {
+    //    $("#txtVersion").css('borderColor', '#FA8072');
+    //    return;
+    //} else {
+    //    $("#txtVersion").css('borderColor', '#ced4da');
+    //}
     $.ajax({
         url: "../ReporteMaestro/ReporteMaestro",
         type: "POST",
         data: {
             IdReporteMaestro: $("#txtIdControl").val(),
             Nombre: $("#txtNombre").val(),
-            Codigo: $("#txtCodigo").val(),
-            UltimaVersion: $("#txtVersion").val()
+            Codigo: $("#txtCodigo").val()
 
         },
         success: function (resultado) {
@@ -124,6 +123,7 @@ function SeleccionarReporteMaestro(model) {
     $("#divCabeceraPartial").prop("hidden", true);
 
     $("#btnEditar").prop("hidden", false);
+    $("#btnEliminar").prop("hidden", false);
     $("#btnAtras").prop("hidden", false);
     $("#divDetalle").prop("hidden", false);
 
@@ -141,6 +141,8 @@ function Atras() {
     $("#divCabeceraPartial").prop("hidden", false);
 
     $("#btnEditar").prop("hidden", true);
+    $("#btnEliminar").prop("hidden", true);
+
     $("#btnAtras").prop("hidden", true);
     $("#divDetalle").prop("hidden", true);
     NuevoControl();
@@ -171,20 +173,20 @@ function EditarReporteMaestro() {
     } else {
         $("#txtCodigoModal").css('borderColor', '#ced4da');
     }
-    if ($("#txtVersionModal").val() == "") {
-        $("#txtVersionModal").css('borderColor', '#FA8072');
-        return;
-    } else {
-        $("#txtVersionModal").css('borderColor', '#ced4da');
-    }
+    //if ($("#txtVersionModal").val() == "") {
+    //    $("#txtVersionModal").css('borderColor', '#FA8072');
+    //    return;
+    //} else {
+    //    $("#txtVersionModal").css('borderColor', '#ced4da');
+    //}
     $.ajax({
         url: "../ReporteMaestro/ReporteMaestro",
         type: "POST",
         data: {
             IdReporteMaestro: $("#txtIdControlModal").val(),
             Nombre: $("#txtNombreModal").val(),
-            Codigo: $("#txtCodigoModal").val(),
-            UltimaVersion: $("#txtVersionModal").val()
+            Codigo: $("#txtCodigoModal").val()
+            //UltimaVersion: $("#txtVersionModal").val()
 
         },
         success: function (resultado) {
@@ -205,6 +207,44 @@ function EditarReporteMaestro() {
         }
     });
 }
+
+function InactivarControl() {
+    $.ajax({
+        url: "../ReporteMaestro/EliminarReporteMaestro",
+        type: "POST",
+        data: {
+            IdReporteMaestro: ReporteModel.IdReporteMaestro
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+            }
+            Atras();
+            //NuevoControl();
+            $("#modalEliminarControl").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError("Error, comuniquese con sistemas. " + resultado, false);
+        }
+    });
+}
+
+
+function EliminarControl() {
+        $("#modalEliminarControl").modal('show');
+}
+
+$("#modal-si").on("click", function () {
+    InactivarControl();
+    $("#modalEliminarControl").modal('hide');
+});
+
+$("#modal-no").on("click", function () {
+    $("#modalEliminarControl").modal('hide');
+});
 
 
 
@@ -236,7 +276,7 @@ function ConsultarReporteDetalle(Id) {
             //  $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError("Error, comuniquese con sistemas. " + resultado, false);
             $("#spinnerCargando").prop("hidden", true);
         }
     });
@@ -298,6 +338,7 @@ function GuardarReporteDetalle() {
     data.append("IdReporteDetalle", $("#txtIdDetalleModal").val());
     data.append("Version", $("#txtVersionDetalleModal").val());
     data.append("Rotacion", rotation);
+    data.append("UltimaVersion", $("#CheckVersion").prop("checked"));
     //var files = $('#file-upload')[0].files[0]; 
     
     $.ajax({
@@ -331,6 +372,12 @@ function GuardarReporteDetalle() {
 
 function EditarReporteDetalle(model) {
     NuevoDetalle();
+    if (model.Version == $("#txtVersion").val()) {
+        $("#CheckVersion").prop("checked", true);
+    } else {
+        $("#CheckVersion").prop("checked", false);
+    }
+
     $("#txtIdDetalleModal").val(model.IdReporteDetalle);
     $("#txtVersionDetalleModal").val(model.Version);
     var filePreview = document.createElement('img');
@@ -347,6 +394,47 @@ function EditarReporteDetalle(model) {
     $("#ModalControlDetalle").modal("show");
 
 }
+
+function InactivarControlDetalle(IdControlElimnar) {
+    $.ajax({
+        url: "../ReporteMaestro/EliminarReporteDetalle",
+        type: "POST",
+        data: {
+            IdReporteDetalle: IdControlElimnar
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+            }
+            ConsultarReporteDetalle(ReporteModel.IdReporteMaestro);
+            //NuevoControl();
+            $("#modalEliminarControlDetalle").modal("hide");
+            MensajeCorrecto(resultado);
+        },
+        error: function (resultado) {
+            MensajeError("Error, comuniquese con sistemas. " + resultado, false);
+        }
+    });
+}
+
+var IdControlElimnar = 0;
+function EliminarControlDetalle(model) {
+    IdControlElimnar = model.IdReporteDetalle;
+    $("#modalEliminarControlDetalle").modal('show');
+}
+
+$("#modal-detalle-si").on("click", function () {
+    InactivarControlDetalle(IdControlElimnar);
+    $("#modalEliminarControl").modal('hide');
+});
+
+$("#modal-detalle-no").on("click", function () {
+    $("#modalEliminarControlDetalle").modal('hide');
+});
+
 
 
 

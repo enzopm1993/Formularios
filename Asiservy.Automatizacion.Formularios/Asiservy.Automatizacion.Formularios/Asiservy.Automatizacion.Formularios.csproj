@@ -2200,6 +2200,7 @@
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.js" />
+    <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
@@ -3844,6 +3845,7 @@
     <Content Include="Views\TemperaturaTermoencogidoSellado\PdfReporteTermoencogidoSelladoPartial.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\PdfReporteCloroCisternaDescongeladoPartial.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\ReporteCloroCisternaDescongeladoPartial.cshtml" />
+    <Content Include="Views\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -50,11 +50,10 @@
 
                         <div class="form-group">
                             <label>Codigo</label>
-                            <input type="text" autocomplete="off" class="form-control" name="name" value="" id="txtCodigo" />
+                            <input type="text" size="50" autocomplete="off" class="form-control" name="name" value="" id="txtCodigo" />
                         </div>
                     </div>
-                    <div class="col-md-2 col-sm-6 col-12">
-
+                    <div hidden class="col-md-2 col-sm-6 col-12">
                         <div class="form-group">
                             <label>Versión</label>
                             <input type="text" autocomplete="off" class="form-control" name="name" value="" id="txtVersion" />
@@ -69,6 +68,9 @@
                     </button>
                     <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="EditarReporte()" style="border-color:#2c3e50" type="button">
                         <img style="width:100%" src="~/Content/icons/edit24.png" />
+                    </button>
+                    <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/cancel24.png" />
                     </button>
                     <button hidden data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
                         <img style="width:100%" src="~/Content/icons/atras24.png" />
@@ -135,30 +137,30 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6 col-6 col-sm-6">
+                    <div class="col-md-2 col-2 col-sm-6">
                         <div class="form-group">
                             <label>ID</label>
                             <input type="number" disabled id="txtIdControlModal" class="form-control" name="name" value="0" />
                         </div>
                     </div>
-                    <div class="col-md-6 col-6 col-sm-6">
+                    <div class="col-md-5 col-5 col-sm-6">
                         <div class="form-group">
                             <label>Nombre</label>
                             <input type="text" id="txtNombreModal" class="form-control" name="name" value="" />
                         </div>
                     </div>
-                    <div class="col-md-6 col-6 col-sm-6">
+                    <div class="col-md-5 col-5 col-sm-6">
                         <div class="form-group">
                             <label>Codigo</label>
-                            <input type="text" id="txtCodigoModal" class="form-control" name="name" value="" />
+                            <input type="text" id="txtCodigoModal" size="50" class="form-control" name="name" value="" />
                         </div>
                     </div>
-                    <div class="col-md-6 col-6 col-sm-6">
-                        <div class="form-group">
-                            <label>Versión</label>
-                            <input type="text" id="txtVersionModal" class="form-control" name="name" value="" />
-                        </div>
-                    </div>
+                    @*<div class="col-md-6 col-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Versión</label>
+                                <input type="text" id="txtVersionModal" class="form-control" name="name" value="" />
+                            </div>
+                        </div>*@
                 </div>
 
 
@@ -176,27 +178,31 @@
 <div class="modal" tabindex="-1" role="dialog" id="ModalControlDetalle">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"></h5>
-            </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4 col-6 col-sm-4">
+                    <div class="col-md-4 col-2 col-sm-2">
                         <div class="form-group">
                             <label>ID</label>
                             <input type="number" disabled id="txtIdDetalleModal" class="form-control" name="name" value="0" />
                         </div>
                     </div>
-                  
-                    <div class="col-md-8 col-6 col-sm-8">
+
+                    <div class="col-md-4 col-6 col-sm-6">
                         <div class="form-group">
                             <label>Versión</label>
-                            <input type="text" id="txtVersionDetalleModal" autocomplete="off" class="form-control" name="name" value="" />
+                            <input type="text" id="txtVersionDetalleModal" size="10" autocomplete="off" class="form-control" name="name" value="" />
                         </div>
                     </div>
-                    
+                    <div class="col-md-4 col-4 col-sm-4">
+                        <br />
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="CheckVersion">
+                            <label class="custom-control-label" for="CheckVersion">Ultima Versión</label>
+                        </div>
+                    </div>
+
                     <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
-                        <h5>Reporte</h5>
+                        <label>Reporte</label>
                         <div id="divFileUpload">
                             <input id="file-upload" type="file" accept="image/*" />
                         </div>
@@ -219,3 +225,40 @@
     </div>
 </div>
 
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar este reporte?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControlDetalle">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar esta versión del reporte?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" id="modal-detalle-no">No</button>
+            </div>
+        </div>
+    </div>
+</div>

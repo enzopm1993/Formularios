@@ -57,7 +57,15 @@
                     @Html.DisplayFor(modelItem => item.UltimaVersion)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EstadoRegistro)
+                    @if (item.EstadoRegistro == "A")
+                    {
+                        <span class="badge badge-success">ACTIVO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">INACTIVO</span>
+                    }
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaIngresoLog)
