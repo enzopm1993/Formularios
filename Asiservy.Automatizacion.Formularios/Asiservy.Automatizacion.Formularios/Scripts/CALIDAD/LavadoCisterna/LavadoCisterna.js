@@ -2,8 +2,7 @@
 var inputSelect = [];
 var listaIdIntermedia = [];
 $(document).ready(function () {
-    CargarCabecera(0);
-    
+    CargarCabecera(0);    
 });
 function CargarCabecera(op) {
     $('#cargac').show();
@@ -47,13 +46,17 @@ function GuardarCabecera() {
             Fecha: $("#txtFechaCabecera").val(),
             QuimUtilizados: $("#txtQUtilizados").val(),
             Observacion: $("#txtObservacion").val(),
-            idMantCisterna: itemEditar[5],
+            idMantCisterna: itemEditar[6],
             idIntermedia: listaIdIntermedia,
-            siAprobar:0
+            siAprobar: 0,
+            fechaDesde: $('#txtFecha').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
+            }
+            if (resultado=='2') {
+                MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
             }
             $('#ModalIngresoCabecera').modal('hide');
             setTimeout(function () {
@@ -69,15 +72,15 @@ function GuardarCabecera() {
     });
 }
 
-function EliminarConfirmar(jdata) {
-    if (jdata[5] == 'True') {
-        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-        return;
-    } else {
-        $("#modalEliminarControl").modal("show");
-        itemEditar = jdata;
-        $("#myModalLabel").text("¿Desea Eliminar el registro?");
-    }
+function EliminarConfirmar(jdata) {   
+        if (jdata[5] == 'True') {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            $("#modalEliminarControl").modal("show");
+            itemEditar = jdata;
+            $("#myModalLabel").text("¿Desea Eliminar el registro?");
+        }  
 }
 
 function EliminarCabeceraSi() {
@@ -87,6 +90,7 @@ function EliminarCabeceraSi() {
         type: "POST",
         data: {
             IdLavadoCisterna: itemEditar[0],
+            fechaDesde: $('#txtFecha').val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -104,6 +108,10 @@ function EliminarCabeceraSi() {
                 setTimeout(function () {
                     $('#cargac').hide();
                 }, 200);
+            } else if (resultado == '2') {
+                MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
+                $('#cargac').hide();
+                return;
             }
             itemEditar = 0;
         },
@@ -234,7 +242,7 @@ function AgregarCisternas() {
             cadenaIdIntermedia += entry.IdCisterna + ";";//Guardo una cadena de IdMantCistterna para guardar en la tabla intermedia
         }
     });
-    itemEditar[5] = cadenaIdIntermedia;
+    itemEditar[6] = cadenaIdIntermedia;
     $('#txtNCisterna').val(cadena);
     $('#ModalIngresoCisterna').modal('hide');
     $("#txtNCisterna").css('border', '');

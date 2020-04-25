@@ -9,6 +9,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlLavadoCisterna;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoCisterna;
+using Rotativa;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -136,7 +137,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public JsonResult GuardarModificarLavadoCisterna(CC_LAVADO_CISTERNA model, string idMantCisterna, List<string> idIntermedia, int siAprobar)
+        public JsonResult GuardarModificarLavadoCisterna(CC_LAVADO_CISTERNA model, string idMantCisterna, List<string> idIntermedia, int siAprobar,DateTime fechaDesde)
         {
             var splitIdMantCisterna = idMantCisterna.Split(';');          
             try
@@ -147,47 +148,57 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
-                model.FechaIngresoLog = DateTime.Now;
-                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                model.TerminalIngresoLog = Request.UserHostAddress;
-                model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDControlLavadoCisterna.GuardarModificarLavadoCisterna(model, siAprobar);
-                //GUARDAR EN LA TABLA INTERMEDIA
-                int idCisterna = model.IdLavadoCisterna;
-                foreach (var item in splitIdMantCisterna)
+                var consultarEstadoReporte = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, Convert.ToDateTime("01-01-2020"), model.IdLavadoCisterna,4);
+                bool estadoReporte = false;
+                if (consultarEstadoReporte.Count!=0) {
+                    estadoReporte = consultarEstadoReporte[0].EstadoReporteCab;
+                }
+                if (estadoReporte == false)
                 {
-                    if (!string.IsNullOrWhiteSpace(item))
+                    model.FechaIngresoLog = DateTime.Now;
+                    model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                    model.TerminalIngresoLog = Request.UserHostAddress;
+                    model.UsuarioIngresoLog = lsUsuario[0];
+                    var valor = clsDControlLavadoCisterna.GuardarModificarLavadoCisterna(model, siAprobar);
+                    //GUARDAR EN LA TABLA INTERMEDIA
+                    int idCisterna = model.IdLavadoCisterna;
+                    foreach (var item in splitIdMantCisterna)
                     {
-                        CC_INTERMEDIA_CTRL_MANT_CISTERNA modelIntermedia = new CC_INTERMEDIA_CTRL_MANT_CISTERNA();
-                        modelIntermedia.IdCtrlLavadoCisterna = Convert.ToInt32(idCisterna);
-                        modelIntermedia.IdMantCisterna = Convert.ToInt32(item);
-                        modelIntermedia.FechaIngresoLog = DateTime.Now;
-                        modelIntermedia.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                        modelIntermedia.TerminalIngresoLog = Request.UserHostAddress;
-                        modelIntermedia.UsuarioIngresoLog = lsUsuario[0];
-                        var guardar = clsDControlLavadoCisterna.GuardarModificarLavadoCisternaIntermedia(modelIntermedia);
+                        if (!string.IsNullOrWhiteSpace(item))
+                        {
+                            CC_INTERMEDIA_CTRL_MANT_CISTERNA modelIntermedia = new CC_INTERMEDIA_CTRL_MANT_CISTERNA();
+                            modelIntermedia.IdCtrlLavadoCisterna = Convert.ToInt32(idCisterna);
+                            modelIntermedia.IdMantCisterna = Convert.ToInt32(item);
+                            modelIntermedia.FechaIngresoLog = DateTime.Now;
+                            modelIntermedia.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                            modelIntermedia.TerminalIngresoLog = Request.UserHostAddress;
+                            modelIntermedia.UsuarioIngresoLog = lsUsuario[0];
+                            var guardar = clsDControlLavadoCisterna.GuardarModificarLavadoCisternaIntermedia(modelIntermedia);
+                        }
                     }
-                }
-                //ELIMINO TODOS LOS REGISTROS DE LA TABLA INTERMEDIA QUE CORESPONDAN AL ITEM A ACTUALIZAR. SEGUN LA LISTA idIntermedia PARAMETRO DE ENTRADA
-                //HAGO ESTO YA QUE ES COMPLICADO ATUALIZAR UNO POR UNO, Y PEOR CUANDO EL USUARIO INGRESA 5 CISTERNAS Y LUEGO ACTUALIZA A 1. 
-                if (idIntermedia!=null) {
-                    foreach (var item in idIntermedia)
+                    //ELIMINO TODOS LOS REGISTROS DE LA TABLA INTERMEDIA QUE CORESPONDAN AL ITEM A ACTUALIZAR. SEGUN LA LISTA idIntermedia PARAMETRO DE ENTRADA
+                    //HAGO ESTO YA QUE ES COMPLICADO ATUALIZAR UNO POR UNO, Y PEOR CUANDO EL USUARIO INGRESA 5 CISTERNAS Y LUEGO ACTUALIZA A 1. 
+                    if (idIntermedia != null)
                     {
-                        CC_INTERMEDIA_CTRL_MANT_CISTERNA modelIntermedia = new CC_INTERMEDIA_CTRL_MANT_CISTERNA();
-                        modelIntermedia.IdIntermedia =Convert.ToInt32(item);
-                        modelIntermedia.FechaIngresoLog = DateTime.Now;
-                        modelIntermedia.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                        modelIntermedia.TerminalIngresoLog = Request.UserHostAddress;
-                        modelIntermedia.UsuarioIngresoLog = lsUsuario[0];
-                        var guardar = clsDControlLavadoCisterna.EliminarLavadoCisternaIntermedia(modelIntermedia);
+                        foreach (var item in idIntermedia)
+                        {
+                            CC_INTERMEDIA_CTRL_MANT_CISTERNA modelIntermedia = new CC_INTERMEDIA_CTRL_MANT_CISTERNA();
+                            modelIntermedia.IdIntermedia = Convert.ToInt32(item);
+                            modelIntermedia.FechaIngresoLog = DateTime.Now;
+                            modelIntermedia.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                            modelIntermedia.TerminalIngresoLog = Request.UserHostAddress;
+                            modelIntermedia.UsuarioIngresoLog = lsUsuario[0];
+                            var guardar = clsDControlLavadoCisterna.EliminarLavadoCisternaIntermedia(modelIntermedia);
+                        }
                     }
+                    if (valor == 0)
+                    {
+                        return Json("0", JsonRequestBehavior.AllowGet);
+                    }
+                    else return Json("1", JsonRequestBehavior.AllowGet);
                 }
-               
-                if (valor == 0)
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-                else return Json("1", JsonRequestBehavior.AllowGet); ;
+                else return Json("2", JsonRequestBehavior.AllowGet);
+
             }
             catch (DbEntityValidationException e)
             {
@@ -210,7 +221,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public JsonResult EliminarLavadoCisterna(CC_LAVADO_CISTERNA model)
+        public JsonResult EliminarLavadoCisterna(CC_LAVADO_CISTERNA model, DateTime fechaDesde)
         {
             try
             {
@@ -220,16 +231,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
-                model.FechaIngresoLog = DateTime.Now;
-                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                model.TerminalIngresoLog = Request.UserHostAddress;
-                model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDControlLavadoCisterna.EliminarLavadoCisterna(model);
-                if (valor == 0)
+                var consultarEstadoReporte = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, Convert.ToDateTime("01-01-2020"), model.IdLavadoCisterna, 0);
+                if (consultarEstadoReporte[0].EstadoReporteCab == false)
                 {
-                    return Json("0", JsonRequestBehavior.AllowGet);
+                    model.FechaIngresoLog = DateTime.Now;
+                    model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    model.TerminalIngresoLog = Request.UserHostAddress;
+                    model.UsuarioIngresoLog = lsUsuario[0];
+                    var valor = clsDControlLavadoCisterna.EliminarLavadoCisterna(model);
+                    if (valor == 0)
+                    {
+                        return Json("0", JsonRequestBehavior.AllowGet);
+                    }
+                    else return Json("1", JsonRequestBehavior.AllowGet);
                 }
-                else return Json("1", JsonRequestBehavior.AllowGet); ;
+                else return Json("2", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -494,6 +510,67 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
                 return RedirectToAction("Home", "Home");
+            }
+        }
+
+        //---------------------------------------------------IMPRESION PDF---------------------------------------------------------------
+        public ActionResult PrintReport(DateTime filtroFechaDesde, DateTime filtroFechaHasta, int id, int op)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    Response.Redirect(Url.Action("Login", "Login"));
+                }
+                clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
+                var consulta = clsDControlLavadoCisterna.ConsultarLavadoCisterna(filtroFechaDesde, filtroFechaHasta, id, op);
+                var headerPdf = Server.MapPath("~/Views/LavadoCisterna/HeaderPdf.html");//ARCHIVO HTML USADO EN LA CABECERA DEL PDF
+                ViewBag.filtroFechaDesde = filtroFechaDesde;
+                ViewBag.filtroFechaHasta = filtroFechaHasta;
+                string customSwitches = string.Format("--header-html  \"{0}\" " +
+                            "--header-font-size \"15\" ", headerPdf);
+                return new ViewAsPdf("PdfReporteLavadoCisternaPartial", consulta)
+                {//METODO AL QUE SE HACE REFERENCIA ------------------, OBJETO 
+                 // Establece la Cabecera y el Pie de página
+                    CustomSwitches = customSwitches +
+                    "--page-offset 0 --footer-center [page] --footer-font-size 10",
+                    PageSize = Rotativa.Options.Size.A3,
+                    PageMargins = new Rotativa.Options.Margins(25, 5, 10, 5),
+                    PageOrientation = Rotativa.Options.Orientation.Landscape,
+                };
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult PdfReporteLavadoCisternaPartial(DateTime fechaDesde, DateTime fechaHasta, int idLavadoCisterna, int op)
+        {
+            clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
+            var tablaCabecera = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, fechaHasta, idLavadoCisterna, op);
+            if (tablaCabecera != null)
+            {
+                return PartialView(tablaCabecera);
+            }
+            else
+            {
+                return Json("0", JsonRequestBehavior.AllowGet);
             }
         }
 

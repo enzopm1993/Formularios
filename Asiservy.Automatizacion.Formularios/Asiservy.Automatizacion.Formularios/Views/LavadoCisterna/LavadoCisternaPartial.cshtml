@@ -21,7 +21,7 @@
         @foreach (var item in listaFiltrada)
         {
             DateTime fecha = new DateTime(1900, 01, 01); string quimUtilizados = "";string observacion = "";
-            string NDescripcion = ""; bool estadoReporte = false;
+            string NDescripcion = ""; bool estadoReporte = false; string idMantCisterna = "";
             List<string> listaIdIntermedia=new List<string>();
             <tr>
                 @foreach (var subItem in Model)
@@ -33,6 +33,7 @@
                         quimUtilizados = subItem.QuimUtilizados;
                         observacion = subItem.Observacion;
                         estadoReporte = subItem.EstadoReporteCab;
+                        idMantCisterna = subItem.IdMantCisterna.ToString();
                         listaIdIntermedia.Add(subItem.IdIntermedia.ToString());
                     }
                 }
@@ -69,6 +70,7 @@
                         lis.Add(quimUtilizados);
                         lis.Add(observacion);
                         lis.Add(estadoReporte.ToString());
+                        lis.Add(idMantCisterna);
                         string json = JsonConvert.SerializeObject(lis);
                         string jsonIdIntermedia = JsonConvert.SerializeObject(listaIdIntermedia);
                             }
