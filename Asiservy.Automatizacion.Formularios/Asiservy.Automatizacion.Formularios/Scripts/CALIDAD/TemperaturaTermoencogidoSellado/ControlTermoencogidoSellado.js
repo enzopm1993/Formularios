@@ -59,6 +59,7 @@ function CargarCabecera(opcion) {
                 }
                 setTimeout(function () {
                     $('#cargac').hide();
+                    return true;
                 }, 200);
             },
             error: function (resultado) {
@@ -103,12 +104,15 @@ function GuardarCabecera() {
 }
 
 function EliminarConfirmar() {
-    if (ListaDatos.EstadoReporte == true) {
-        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-        return;
-    } else {
-        $("#modalEliminarControl").modal("show");
-    }
+    CargarCabecera(0);
+    setTimeout(function () {//ESTO NOS AYUDA A QUE SE EJECUTE PRIMERO EL METODO ANTERIOR PARA REALIZAR VALIDACIONES
+        if (ListaDatos.EstadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            $("#modalEliminarControl").modal("show");
+        }
+    },500);
 }
 
 function EliminarCabeceraSi() {
@@ -160,25 +164,31 @@ function EliminarCabeceraNo() {
 }
 
 function ActualizarCabeceraActivarCotroles() {
-    if (ListaDatos.EstadoReporte == true) {
-        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-        return;
-    } else {
-        $('#ModalIngresarCabecera').modal('show');
-        $('#txtIngresoFecha').val(moment($('#txtFecha').val()).format('YYYY-MM-DD'));
-        $('#txtIngresoObservacion').val($('#txtObservacion').val());
-    }
+    var r = CargarCabecera(0);
+    setTimeout(function () {
+        if (ListaDatos.EstadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            $('#ModalIngresarCabecera').modal('show');
+            $('#txtIngresoFecha').val(moment($('#txtFecha').val()).format('YYYY-MM-DD'));
+            $('#txtIngresoObservacion').val($('#txtObservacion').val());
+        }
+    },500);
 }
 
 //DETALLE INGRESO DE LINEAS (SE LISTA EL CLASIFICADOR PARA PODER ARMAR LA CABECERA DE LA TABLA)
 function ModalGenerarDetalle() {
+    CargarCabecera(0);   
+    setTimeout(function () {        
     if (ListaDatos.EstadoReporte == true) {
         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
         return;
     } else {
         $("#ModalGenerarDetalle").modal("show");
         limpiarDetalle();
-    }
+        }
+    }, 500);
 }
 
 function limpiarDetalle() {
@@ -225,7 +235,9 @@ function GuardarDetalle() {
                 $("#ModalGenerarDetalle").modal("hide");
                 if (resultado == 0) {
                     MensajeCorrecto("Datos guardados correctamente");
-                } else if (resultado == 1) { MensajeCorrecto("Actualización de datos correcta"); }
+                } else if (resultado == 1)
+                { MensajeCorrecto("Actualización de datos correcta"); }
+                else if (resultado == 2) { MensajeAdvertencia("¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!", 5);}
                 else {
                     MensajeError("!Error al Guardar/Actualizar los datos¡");
                     return;
@@ -314,25 +326,28 @@ function EliminarDetalle() {
 }
 
 function ActulizarDetalle(jdata) {
-    if (ListaDatos.EstadoReporte == true) {
-        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-        return;
-    } else {
-        $("#ModalGenerarDetalle").modal('show');
-        $("#txtTemperatura").val(jdata.Temperatura);
-        $("#txtObservacionDetalle").val(jdata.Observacion);
-        $("#txtHora").val(moment(jdata.HoraVerificacion).format("HH:mm"));
-        $("#checkSellado").prop('checked', jdata.CorrectoSellado);
-        $("#txtObservacionDetalle").css('border', '');
-        $("#txtHora").css('border', '');
-        if (jdata.CorrectoSellado == true) {
-            $("#LabelEstado").text('SI');
+    CargarCabecera(0);
+    setTimeout(function () {
+        if (ListaDatos.EstadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
         } else {
-            $("#LabelEstado").text('NO');
+            $("#ModalGenerarDetalle").modal('show');
+            $("#txtTemperatura").val(jdata.Temperatura);
+            $("#txtObservacionDetalle").val(jdata.Observacion);
+            $("#txtHora").val(moment(jdata.HoraVerificacion).format("HH:mm"));
+            $("#checkSellado").prop('checked', jdata.CorrectoSellado);
+            $("#txtObservacionDetalle").css('border', '');
+            $("#txtHora").css('border', '');
+            if (jdata.CorrectoSellado == true) {
+                $("#LabelEstado").text('SI');
+            } else {
+                $("#LabelEstado").text('NO');
+            }
+            ListaDatosDetalle = [];
+            ListaDatosDetalle = jdata;
         }
-        ListaDatosDetalle = [];
-        ListaDatosDetalle = jdata;
-    }
+    },500);
 }
 
 function CambioEstado(valor) {
@@ -354,11 +369,14 @@ function EliminarDetalleNo() {
 }
 
 function EliminarConfirmarDetalle(jdata) {
-    if (ListaDatos.EstadoReporte == true) {
-        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-        return;
-    } else {
-        ListaDatosDetalle = jdata;
-        $("#ModalEliminarDetalle").modal("show");
-    }
+    CargarCabecera(0);
+    setTimeout(function () {
+        if (ListaDatos.EstadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            ListaDatosDetalle = jdata;
+            $("#ModalEliminarDetalle").modal("show");
+        }
+    },500);
 }
