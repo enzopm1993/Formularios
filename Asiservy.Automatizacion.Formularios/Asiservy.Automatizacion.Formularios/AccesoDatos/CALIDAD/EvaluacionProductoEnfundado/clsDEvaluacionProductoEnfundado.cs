@@ -381,5 +381,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 return resultado;
             }
         }
+        public List<spReporteEvaluacionProductoEnfundado> ConsultarReporte(DateTime Fecha)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                return db.spReporteEvaluacionProductoEnfundado(Fecha).ToList();
+            }
+        }
     }
 }
