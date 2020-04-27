@@ -145,6 +145,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE> CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE { get; set; }
         public virtual DbSet<REPORTE_DETALLE> REPORTE_DETALLE { get; set; }
         public virtual DbSet<REPORTE_MAESTRO> REPORTE_MAESTRO { get; set; }
+        public virtual DbSet<CC_CONDICION_PERSONAL_CONTROL> CC_CONDICION_PERSONAL_CONTROL { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2021,6 +2022,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("FechaProduccion", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionProductoEnfundado>("spReporteEvaluacionProductoEnfundado", fechaProduccionParameter);
+        }
+    
+        public virtual ObjectResult<sp_CloroCisternaDescongelado> sp_CloroCisternaDescongelado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCloroCisterna, Nullable<int> op)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var idCloroCisternaParameter = idCloroCisterna.HasValue ?
+                new ObjectParameter("idCloroCisterna", idCloroCisterna) :
+                new ObjectParameter("idCloroCisterna", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CloroCisternaDescongelado>("sp_CloroCisternaDescongelado", fechaDesdeParameter, fechaHastaParameter, idCloroCisternaParameter, opParameter);
         }
     }
 }

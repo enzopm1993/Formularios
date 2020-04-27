@@ -2197,7 +2197,6 @@
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
-    <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion_Pivot.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.js" />
@@ -3252,10 +3251,13 @@
     <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\CloroCisternaDescongelado\HeaderPdf.html" />
     <Content Include="Views\ControlCuchillosPreparacion\HeaderPdf.html" />
+    <Content Include="Views\LavadoCisterna\HeaderPdf.html" />
     <Content Include="Views\LavadoDesinfeccionManos\HeaderPdf.html" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Memorandum\Gestion.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\HeaderPdf.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3839,7 +3841,13 @@
     <Content Include="Views\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\BandejaAprobadosEvaluacionProductoEnfundadoPartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\PartialDetalleBandeja.cshtml" />
+    <Content Include="Views\LavadoCisterna\PdfReporteLavadoCisternaPartial.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\PdfReporteTermoencogidoSelladoPartial.cshtml" />
+    <Content Include="Views\CloroCisternaDescongelado\PdfReporteCloroCisternaDescongeladoPartial.cshtml" />
+    <Content Include="Views\CloroCisternaDescongelado\ReporteCloroCisternaDescongeladoPartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.cshtml" />
+    <Content Include="Views\CondicionPersonal\BandejaCondicionPersonal.cshtml" />
+    <Content Include="Views\CondicionPersonal\BandejaCondicionPersonalPartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\PartialReporteEvaluacionProductoEnfundado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
