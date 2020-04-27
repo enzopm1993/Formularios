@@ -3,38 +3,102 @@
     ViewBag.Title = "ReporteEvaluacionProductoEnfundado";
 }
 <style>
-
-    #tablaCab {
-        /*border-bottom: 1rem;*/
-    }
-
-    input, select, textarea {
-        max-width: 100%;
-    }
-
-    .table {
-        margin-bottom: 0.5rem;
-    }
-
-        .table tr td {
-            border: 1px solid black;
+    @@media print {
+        @@page {
+            size: landscape;
+        }
+       
+        #divcarddet {
+            border: none;
         }
 
-    .card {
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        transition: 0.3s;
-        width: 100%;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        padding-left: 10px;
-        padding-right: 10px;
+        #TablasDetalles {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        #DivBotonImpr {
+            display: none;
+        }
+
+        #card1 {
+            display: none;
+        }
+        #espacio {
+            display: none;
+        }
+        #accordionSidebar {
+            display: none;
+        }
+        #titulo {
+            display: none;
+        }
+
+        #tablaCab {
+            margin-bottom: 0rem;
+            border: 1px solid red;
+        }
+        #tablaCab td{
+       
+            font-size: 0.5rem;
+        }
+        #tblReporte td {
+            font-size: 0.5rem;
+        }
+        /*table tr td {
+            border: 1px solid black;
+        }*/
+        #firma1 {
+            border-bottom: solid;
+        }
+
+        #firma2 {
+            border-bottom: solid;
+        }
     }
+
+    @@media screen{
+        #firma1 {
+            border-bottom: solid;
+        }
+
+        #firma2 {
+            border-bottom: solid;
+        }
+        /*#tablaCab {
+            margin-bottom: 0rem;
+        }*/
+
+        input, select, textarea {
+            max-width: 100%;
+        }
+
+        .table {
+            margin-bottom: 0.5rem;
+        }
+
+        .table tr td {
+                border: 1px solid black;
+         }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+    }
+    
 </style>
-<h4>Reporte Evaluacion Producto Enfundado</h4>
+<h4 id="titulo">Reporte Evaluacion Producto Enfundado</h4>
 
 
 
-<div class="card">
+<div class="card" id="card1">
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -53,7 +117,7 @@
     </div>
 
 </div>
-<br />
+<br id="espacio"/>
 <center>   <h4 id="mensajeRegistros" class="text-warning" hidden> No se encontraron Registros</h4></center>
 
 <div id="DivReporte">

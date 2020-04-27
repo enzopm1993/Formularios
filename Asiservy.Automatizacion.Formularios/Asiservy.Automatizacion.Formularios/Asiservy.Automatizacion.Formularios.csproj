@@ -3840,6 +3840,7 @@
     <Content Include="Views\EvaluacionProductoEnfundado\BandejaAprobadosEvaluacionProductoEnfundadoPartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\PartialDetalleBandeja.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.cshtml" />
+    <Content Include="Views\EvaluacionProductoEnfundado\PartialReporteEvaluacionProductoEnfundado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
