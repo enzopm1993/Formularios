@@ -2015,15 +2015,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteMaestro>("spConsultaReporteMaestro");
         }
     
-        public virtual ObjectResult<spReporteEvaluacionProductoEnfundado> spReporteEvaluacionProductoEnfundado(Nullable<System.DateTime> fechaProduccion)
-        {
-            var fechaProduccionParameter = fechaProduccion.HasValue ?
-                new ObjectParameter("FechaProduccion", fechaProduccion) :
-                new ObjectParameter("FechaProduccion", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionProductoEnfundado>("spReporteEvaluacionProductoEnfundado", fechaProduccionParameter);
-        }
-    
         public virtual ObjectResult<sp_CloroCisternaDescongelado> sp_CloroCisternaDescongelado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCloroCisterna, Nullable<int> op)
         {
             var fechaDesdeParameter = fechaDesde.HasValue ?
@@ -2043,6 +2034,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CloroCisternaDescongelado>("sp_CloroCisternaDescongelado", fechaDesdeParameter, fechaHastaParameter, idCloroCisternaParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<spReporteEvaluacionProductoEnfundado> spReporteEvaluacionProductoEnfundado(Nullable<System.DateTime> fechaProduccion)
+        {
+            var fechaProduccionParameter = fechaProduccion.HasValue ?
+                new ObjectParameter("FechaProduccion", fechaProduccion) :
+                new ObjectParameter("FechaProduccion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionProductoEnfundado>("spReporteEvaluacionProductoEnfundado", fechaProduccionParameter);
         }
     }
 }
