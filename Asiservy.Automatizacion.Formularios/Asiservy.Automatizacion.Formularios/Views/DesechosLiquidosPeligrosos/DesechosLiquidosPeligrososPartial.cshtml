@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Desechos_Liquidos_Peligrosos>
+@using Newtonsoft.Json;
+
+
+<table class="table table-bordered" id="tblDataTable">
+    <thead style="font-size:12px">
+        <tr>
+            <th>
+                DIA
+            </th>
+            <th>
+                LABORATORIO
+            </th>
+            <th>
+                OTROS
+            </th>
+            <th>
+                OBSERVACION
+            </th>
+            <th>ACCION</th>
+        </tr>
+    </thead>
+    <tbody style="font-size:12px">
+        @foreach (var item in Model)
+        {
+            <tr >
+
+                <td>
+                    @item.FechaDIA.ToString("dd")
+                </td>
+                <td>
+                    @item.Laboratorio.ToString("####.##")  Lt
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Otros))
+                    {
+                        @item.Otros.ToUpper()
+                    }
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Observaciones))
+                    {
+                        @item.Observaciones.ToUpper()
+                    }
+                </td>
+                <td>
+                    @{
+                        string json = JsonConvert.SerializeObject(item);
+                    }
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
+                    <button id="btnEliminar" class="btn btn-link" onclick="EliminarConfirmar(@json)">Eliminar</button>
+                </td>
+            </tr>}
+        </tbody>
+</table>
+
+<script src="~/Scripts/General/dataTableJS.js"></script>
