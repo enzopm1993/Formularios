@@ -3848,6 +3848,7 @@
     <Content Include="Views\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.cshtml" />
     <Content Include="Views\CondicionPersonal\BandejaCondicionPersonal.cshtml" />
     <Content Include="Views\CondicionPersonal\BandejaCondicionPersonalPartial.cshtml" />
+    <Content Include="Views\EvaluacionProductoEnfundado\PartialReporteEvaluacionProductoEnfundado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

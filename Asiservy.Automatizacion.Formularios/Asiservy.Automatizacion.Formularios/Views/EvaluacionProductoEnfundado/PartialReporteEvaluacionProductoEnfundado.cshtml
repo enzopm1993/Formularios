@@ -1,93 +1,55 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteEvaluacionLomosMigasBandeja>
-<style>
-    #firma1{
-        border-bottom:solid;
-    }
-    #firma2 {
-        border-bottom: solid;
-    }
-</style>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spReporteEvaluacionProductoEnfundado>
+
 @{
     int reg = Model.Count() + 1;
     decimal Promedio = Convert.ToDecimal(Model.Sum(z => z.SumaScorch) / Model.Count());
 }
 <div class="card">
     <div class="row">
-        <div class="col-md-12 table-responsive">
+        
+        <div class="col-md-12 table-responsive" >
+            <div style="padding-bottom:10px;" id="DivBotonImpr">
+                <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnimprimir" onclick="imprimirw()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/print24.png" />
+                </button><br />
+
+            </div>
             <table class="table table-bordered" id="tablaCab">
                 <tbody>
                     <tr>
-                        <td colspan="5">
-                            <strong>FECHA DE PRODUCCIÓN:</strong> @Model.FirstOrDefault().FechaProduccion.Value.ToString("yyyy/MM/dd")
-                        </td>
-                        <td colspan="11">
-                            <strong>CLIENTE:</strong> @Model.FirstOrDefault().Cliente
+                        <td colspan="8">
+                            <strong>FECHA DE PRODUCCIÓN: </strong>  @Model.FirstOrDefault().FechaProduccion.Value.ToString("yyyy/MM/dd")
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4">
-                            PRODUCTO
-                        </td>
-                        <td colspan="6">
-                            DESTINO DE LOMOS O MIGAS
-                        </td>
-                        <td colspan="6">
-                            NIVEL DE LIMPIEZA
-                        </td>
+                        <td colspan="2"><strong>NIVEL DE LIMPIEZA</strong></td>
+                        <td colspan="2"><strong>TIPO DE PRODUCTO</strong></td>
+                        <td><strong>CLIENTE:</strong></td>
+                        <td>@Model.FirstOrDefault().Cliente</td>
+                        <td colspan="2">TRAZABILIDAD DEL EMAPQUE</td>
                     </tr>
                     <tr>
-                        <td>
-                            LOMOS
-                        </td>
-                        <td>
-                            @if (Model.FirstOrDefault().Lomo==true)
-                            {
-                                <i class="fas fa-check"></i>
-                            }
-                        </td>
-                        <td>
-                            MIGAS
-                        </td>
-                        <td>
-                            @if (Model.FirstOrDefault().Miga==true)
-                            {
-                                <i class="fas fa-check"></i>
-                            }
-                        </td>
-                        <td>
-                            EMPAQUE
-                        </td>
-                        <td>
-                            @if (Model.FirstOrDefault().Empaque == true)
-                            {
-                                <i class="fas fa-check"></i>
-                            }
-                        </td>
-                        <td>ENLATADO</td>
-                        <td>
-                            @if (Model.FirstOrDefault().Enlatado == true)
-                            {
-                                <i class="fas fa-check"></i>
-                            }
-                        </td>
-                        <td>
-                            POUCH
-                        </td>
-                        <td>
-                            @if (Model.FirstOrDefault().Pouch == true)
-                            {
-                                <i class="fas fa-check"></i>
-                            }
-                        </td>
-                        <td>
-                            1
-                        </td>
+                        <td>1</td>
                         <td>
                             @if (Model.FirstOrDefault().TipoLimpieza == "Sencilla")
                             {
                                 <i class="fas fa-check"></i>
                             }
                         </td>
+                        <td><strong>LOMOS</strong></td>
+                        <td>
+                            @if (Model.FirstOrDefault().Lomo == true)
+                            {
+                                <i class="fas fa-check"></i>
+                            }
+                        </td>
+                        <td><strong>MARCA</strong></td>
+                        <td>@Model.First().Marca</td>
+                        <td><strong>PROVEEDOR</strong></td>
+                        <td>@Model.First().Proveedor</td>
+
+                    </tr>
+                    <tr>
                         <td>
                             1 1/2
                         </td>
@@ -97,39 +59,72 @@
                                 <i class="fas fa-check"></i>
                             }
                         </td>
-                        <td>2</td>
+                        <td>
+                            <strong>TROZOS</strong>
+                        </td>
+                        <td>
+                            @if (Model.FirstOrDefault().Trozo == true)
+                            {
+                                <i class="fas fa-check"></i>
+                            }
+                        </td>
+                        <td>
+                            <strong>DESTINO</strong>
+                        </td>
+                        <td>
+                            @Model.FirstOrDefault().Destino
+                        </td>
+                        <td>
+                            <strong>Batch</strong>
+                        </td>
+                        <td>
+                            @Model.FirstOrDefault().Batch
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            2
+                        </td>
                         <td>
                             @if (Model.FirstOrDefault().TipoLimpieza == "Doble")
                             {
                                 <i class="fas fa-check"></i>
                             }
                         </td>
+                        <td><strong>MIGAS</strong></td>
+                        <td>
+                            @if (Model.FirstOrDefault().Miga == true)
+                            {
+                                <i class="fas fa-check"></i>
+                            }
+                        </td>
+                        <td>
+                            <strong>OP:</strong>
+                        </td>
+                        <td>
+                            @Model.FirstOrDefault().OrdenFabricacion
+                        </td>
+                        <td><strong>LOTE</strong></td>
+                        <td>@Model.FirstOrDefault().Lote</td>
                     </tr>
                 </tbody>
             </table>
             <table class="table table-bordered" id="tblReporte">
-               
+
                 <tbody>
                     <tr>
                         <td colspan="@reg" class="text-center"><strong>INFORMACIÓN GENERAL LOTES</strong></td>
                     </tr>
                     <tr>
 
-                        <td>Hora</td>
+                        <td>Hora de Inspección</td>
                         @foreach (var item in Model)
                         {
                             <td>@item.Hora</td>
                         }
                     </tr>
                     <tr>
-                        <td>Línea</td>
-                        @foreach (var item in Model)
-                        {
-                            <td>@item.Linea</td>
-                        }
-                    </tr>
-                    <tr>
-                        <td>Buque pesquero</td>
+                        <td>Buque Pesquero</td>
                         @foreach (var item in Model)
                         {
                             <td>@item.buque</td>
@@ -140,6 +135,13 @@
                         @foreach (var item in Model)
                         {
                             <td>@item.Lote</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Empacador/a</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.NOMBRES</td>
                         }
                     </tr>
                     <tr>
@@ -199,7 +201,14 @@
                         <td>Trozos</td>
                         @foreach (var item in Model)
                         {
-                            <td>@item.Trozo</td>
+                            <td>@item.TrozoPorcentaje</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Migas</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.MigaPorcentaje</td>
                         }
                     </tr>
                     <tr>
@@ -241,11 +250,18 @@
                         }
                     </tr>
                     <tr>
+                        <td>Otros</td>
+                        @foreach (var item in Model)
+                        {
+                            <td>@item.Otro</td>
+                        }
+                    </tr>
+                    <tr>
                         <td>TOTAL INDIVIDUAL</td>
                         @foreach (var item in Model)
                         {
                             int? suma = 0;
-                            suma = item.Venas + item.Espinas + item.Sangre + item.Escamas + item.Piel;
+                            suma = item.Venas + item.Espinas + item.Sangre + item.Escamas + item.Piel + item.Otro;
                             <td>@suma</td>
                         }
                     </tr>
@@ -277,7 +293,7 @@
                     </tr>
                 </tfoot>
             </table>
-            @{ 
+            @{
                 string FirmaControl = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAADICAIAAABJdyC1AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKJSURBVHhe7dQBDQAADMOg+ze962gCIrgBRAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAiK2BzRODTv+VPxzAAAAAElFTkSuQmCC";
                 string FirmaAprobacion = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAADICAIAAABJdyC1AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKJSURBVHhe7dQBDQAADMOg+ze962gCIrgBRAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAiK2BzRODTv+VPxzAAAAAElFTkSuQmCC";
                 if (Model.FirstOrDefault().FirmaControl != null)
@@ -293,7 +309,7 @@
 
             }
             <center>
-                <table>
+                <table id="TablaFirmas">
                     <tbody>
                         <tr>
                             <td class="text-center">
