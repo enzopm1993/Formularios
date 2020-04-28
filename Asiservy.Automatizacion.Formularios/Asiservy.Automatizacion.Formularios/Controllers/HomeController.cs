@@ -15,6 +15,8 @@ using System.Configuration;
 using System.Xml.Serialization;
 using System.IO;
 using System.Net;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Vacaciones;
+using Newtonsoft.Json;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers
 {
@@ -30,6 +32,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         clsDAsistencia clsDAsistencia = null;
         clsDGeneral clsDGeneral = null;
         clsApiGeneral clsApiGeneral = null;
+        ClsVacaciones clsVacaciones = null;
         string[] lsUsuario;
         protected void SetSuccessMessage(string message)
         {
@@ -51,18 +54,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.Apexcharts = "1";
                 clsDEmpleado = new clsDEmpleado();
                 clsDSolicitudPermiso = new clsDSolicitudPermiso();
-                 lsUsuario = User.Identity.Name.Split('_');
-                string psrolid = lsUsuario[1];
+                clsVacaciones = new ClsVacaciones();
+                clsDGeneral = new clsDGeneral();
                 clsDLogin PsLogin = new clsDLogin();
+
+                lsUsuario = User.Identity.Name.Split('_');
+                string psrolid = lsUsuario[1];
                 var resultado = PsLogin.ConsultarRolesDeUsuario(psrolid);
                 Session.Timeout = 480;
                 Session["Padre"] = resultado[0];
                 Session["Hijo"] = resultado[1];
                 Session["Modulos"] = resultado[2];
                 var Roles = PsLogin.ConsultaRolesUsuario(lsUsuario[1]);
+                ViewBag.Nombre = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault().NOMBRES;
+                ViewBag.Vacaciones = JsonConvert.SerializeObject(clsVacaciones.ConsultarVacaciones(lsUsuario[1], "E").FirstOrDefault());
+                ViewBag.Marcacion = clsDGeneral.ConsultarBiometricoxFecha(lsUsuario[1], DateTime.Now);
                 Notificaciones(Roles);
                 //  string strConnString = ConfigurationManager.ConnectionStrings["ASIS_PRODEntities"].ConnectionString;
-                clsDGeneral = new clsDGeneral();
                // ViewBag.BaseDatos = clsDGeneral.getDataBase();
                 var BD = clsDGeneral.getDataBase();
                 if (BD == clsAtributos.DesarrolloBD)

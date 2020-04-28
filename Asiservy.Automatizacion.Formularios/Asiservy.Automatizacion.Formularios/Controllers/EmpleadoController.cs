@@ -312,6 +312,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             {
                 Usuario = User.Identity.Name.Split('_');
                 clsDEmpleado = new clsDEmpleado();
+                if (string.IsNullOrEmpty(Usuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 var Empleado = clsDEmpleado.ConsultaEmpleado(Usuario[1]).FirstOrDefault();
                 List<EmpleadoViewModel> model = new List<EmpleadoViewModel>();
                 if (Empleado != null)

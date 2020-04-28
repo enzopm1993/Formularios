@@ -13,6 +13,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spReporteEvaluacionProductoEnfundado
     {
+        public string NOMBRES { get; set; }
+        public Nullable<int> OrdenFabricacion { get; set; }
         public byte[] FirmaControl { get; set; }
         public byte[] FirmaAprobacion { get; set; }
         public Nullable<System.DateTime> FechaProduccion { get; set; }
@@ -27,6 +29,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string Batch { get; set; }
         public string LoteCabecera { get; set; }
         public string TipoLimpieza { get; set; }
+        public Nullable<int> Otro { get; set; }
         public Nullable<System.DateTime> Hora { get; set; }
         public string buque { get; set; }
         public string Lote { get; set; }
@@ -37,7 +40,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<int> Moretones { get; set; }
         public Nullable<int> HematomasProfundos { get; set; }
         public string Proteinas { get; set; }
-        public Nullable<decimal> Trozo1 { get; set; }
+        public Nullable<decimal> TrozoPorcentaje { get; set; }
+        public Nullable<decimal> MigaPorcentaje { get; set; }
         public Nullable<int> Venas { get; set; }
         public Nullable<int> Espinas { get; set; }
         public Nullable<int> Sangre { get; set; }

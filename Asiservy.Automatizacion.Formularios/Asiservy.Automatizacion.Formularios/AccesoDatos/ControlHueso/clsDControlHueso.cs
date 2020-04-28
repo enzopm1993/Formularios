@@ -133,7 +133,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                     if (doControl.TipoControlHueso == clsAtributos.Hueso || doControl.TipoControlHueso == clsAtributos.Roto)
                     {
                         TimeSpan HoraIni = new TimeSpan(doControl.HoraInicio.Hour, doControl.HoraInicio.Minute, 0);
-                        detalle = clsDAsistencia.ConsultaMovimientoPersonalDiario( doControl.Fecha, HoraIni, doControl.Linea).Where(x=> x.CodCargo==clsAtributos.CargoLimpiadora).ToList();
+                        detalle = clsDAsistencia.ConsultaMovimientoPersonalDiario( doControl.HoraInicio, HoraIni, doControl.Linea,doControl.Turno).Where(x=> x.CodCargo==clsAtributos.CargoLimpiadora).ToList();
                         foreach (var x in detalle)
                         {
                             doControl.CONTROL_HUESO_DETALLE.Add(new CONTROL_HUESO_DETALLE

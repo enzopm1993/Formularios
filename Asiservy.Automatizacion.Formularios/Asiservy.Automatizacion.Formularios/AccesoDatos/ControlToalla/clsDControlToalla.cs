@@ -43,7 +43,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlToalla
                         //}
                         //else
                         //{
-                            Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Fecha.Value, Hora.Value.TimeOfDay.Add(new TimeSpan(0,15,0)), Linea).Where(x=>x.Turno==Turno).ToList();
+                            Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Hora.Value, Hora.Value.TimeOfDay.Add(new TimeSpan(0,15,0)), Linea,Turno).Where(x=>x.Turno==Turno).ToList();
                         //}
 
                         //var Empleados = clsDAsistencia.ConsultaMovimientoPersonalDiario(Convert.ToDateTime("2020-01-10"), TimeSpan.Parse("07:00"), "05").ToList();

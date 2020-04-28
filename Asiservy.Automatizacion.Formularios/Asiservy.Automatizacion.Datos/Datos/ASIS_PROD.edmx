@@ -244,6 +244,21 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CC_CONDICION_PERSONAL_CONTROL">
+          <Key>
+            <PropertyRef Name="IdCondicionPersonalControl" />
+          </Key>
+          <Property Name="IdCondicionPersonalControl" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="EstadoReporte" Type="bit" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CC_CONTROL_CUCHILLOS_PREPARACION">
           <Key>
             <PropertyRef Name="IdControlCuchillo" />
@@ -2795,6 +2810,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_CloroCisternaDescongelado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fechaDesde" Type="date" Mode="In" />
+          <Parameter Name="fechaHasta" Type="date" Mode="In" />
+          <Parameter Name="idCloroCisterna" Type="int" Mode="In" />
+          <Parameter Name="op" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_ConsultaAsistenciaDiaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codLinea" Type="varchar" Mode="In" />
           <Parameter Name="Turno" Type="int" Mode="In" />
@@ -3101,6 +3122,7 @@
           <Parameter Name="Fecha" Type="date" Mode="In" />
           <Parameter Name="Hora" Type="time" Mode="In" />
           <Parameter Name="CodLinea" Type="varchar" Mode="In" />
+          <Parameter Name="Turno" Type="char" Mode="In" />
         </Function>
         <Function Name="spConsultaOpcionesPorRol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDROL" Type="int" Mode="In" />
@@ -3380,6 +3402,7 @@
           <EntitySet Name="CABECERA_PRODUCTO_POUCH_CUARENTENA" EntityType="Self.CABECERA_PRODUCTO_POUCH_CUARENTENA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CAMBIO_PERSONAL" EntityType="Self.CAMBIO_PERSONAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CC_CONDICION_PERSONAL" EntityType="Self.CC_CONDICION_PERSONAL" Schema="dbo" Table="CC.CONDICION_PERSONAL" store:Type="Tables" />
+          <EntitySet Name="CC_CONDICION_PERSONAL_CONTROL" EntityType="Self.CC_CONDICION_PERSONAL_CONTROL" Schema="dbo" Table="CC.CONDICION_PERSONAL_CONTROL" store:Type="Tables" />
           <EntitySet Name="CC_CONTROL_CUCHILLOS_PREPARACION" EntityType="Self.CC_CONTROL_CUCHILLOS_PREPARACION" Schema="dbo" Table="CC.CONTROL_CUCHILLOS_PREPARACION" store:Type="Tables" />
           <EntitySet Name="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" EntityType="Self.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" Schema="dbo" Table="CC.CONTROL_CUCHILLOS_PREPARACION_DETALLE" store:Type="Tables" />
           <EntitySet Name="CC_CONTROL_LAVADO_DESINFECCION_MANOS" EntityType="Self.CC_CONTROL_LAVADO_DESINFECCION_MANOS" Schema="dbo" Table="CC.CONTROL_LAVADO_DESINFECCION_MANOS" store:Type="Tables" />
@@ -4098,11 +4121,6 @@
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Linea" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spConsultaMovimientoPersonalDiario" ReturnType="Collection(ASIS_PRODModel.spConsultaMovimientoPersonalDiario)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="Hora" Mode="In" Type="Time" />
-            <Parameter Name="CodLinea" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="AVANCE_KILOS_HORA" EntityType="ASIS_PRODModel.AVANCE_KILOS_HORA" />
           <EntitySet Name="CONTROL_AVANCE_API" EntityType="ASIS_PRODModel.CONTROL_AVANCE_API" />
           <FunctionImport Name="spConsultaEmpleadosPersonalPrestadoFiltro" ReturnType="Collection(ASIS_PRODModel.spConsultaEmpleadosPersonalPrestadoFiltro)">
@@ -4734,8 +4752,21 @@
           <Parameter Name="idControl" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spConsultaReporteMaestro" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteMaestro)" />
+          <EntitySet Name="CC_CONDICION_PERSONAL_CONTROL" EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL" />
+          <FunctionImport Name="sp_CloroCisternaDescongelado" ReturnType="Collection(ASIS_PRODModel.sp_CloroCisternaDescongelado)">
+            <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
+            <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
+            <Parameter Name="idCloroCisterna" Mode="In" Type="Int32" />
+            <Parameter Name="op" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="spReporteEvaluacionProductoEnfundado" ReturnType="Collection(ASIS_PRODModel.spReporteEvaluacionProductoEnfundado)">
-            <Parameter Name="FechaProduccion" Mode="In" Type="DateTime" />
+          <Parameter Name="FechaProduccion" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaMovimientoPersonalDiario" ReturnType="Collection(ASIS_PRODModel.spConsultaMovimientoPersonalDiario)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Hora" Mode="In" Type="Time" />
+            <Parameter Name="CodLinea" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -5740,33 +5771,6 @@
           <Property Type="Int32" Name="CuchilloRojo" Nullable="true" />
           <Property Type="Int32" Name="CuchilloNegro" Nullable="true" />
           <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-        </ComplexType>
-        <ComplexType Name="spConsultaMovimientoPersonalDiario">
-          <Property Type="Int32" Name="IdCambioPersonal" Nullable="false" />
-          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
-          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="DescLinea" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="DescCentroCosto" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="DescCargo" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="DescRecurso" Nullable="true" MaxLength="100" />
-          <Property Type="DateTime" Name="FechaInicio" Nullable="true" />
-          <Property Type="DateTime" Name="FechaFin" Nullable="true" />
-          <Property Type="Time" Name="HoraInicio" Nullable="true" />
-          <Property Type="Time" Name="HoraFin" Nullable="true" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
-          <Property Type="Boolean" Name="Asistencia" Nullable="true" />
-          <Property Type="Boolean" Name="FinalizaAsistencia" Nullable="true" />
-          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="true" Precision="23" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
         <EntityType Name="AVANCE_KILOS_HORA">
           <Key>
@@ -9239,7 +9243,43 @@
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <EntityType Name="CC_CONDICION_PERSONAL_CONTROL">
+          <Key>
+            <PropertyRef Name="IdCondicionPersonalControl" />
+          </Key>
+          <Property Name="IdCondicionPersonalControl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_CloroCisternaDescongelado">
+          <Property Type="Int64" Name="IdCloroCisternaCab" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="AprobadoPor" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="FechaAprobacion" Nullable="true" />
+          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="IdCisternaDet" Nullable="false" />
+          <Property Type="String" Name="EstadoRegistroDet" Nullable="false" MaxLength="1" />
+          <Property Type="Int64" Name="IdCloroCisternaDetalle" Nullable="false" />
+          <Property Type="DateTime" Name="HoraDet" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ObservacionDet" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="Ppm_CloroDet" Nullable="false" Precision="10" Scale="2" />
+        </ComplexType>
         <ComplexType Name="spReporteEvaluacionProductoEnfundado">
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="Int32" Name="OrdenFabricacion" Nullable="true" />
           <Property Type="Binary" Name="FirmaControl" Nullable="true" MaxLength="Max" />
           <Property Type="Binary" Name="FirmaAprobacion" Nullable="true" MaxLength="Max" />
           <Property Type="DateTime" Name="FechaProduccion" Nullable="true" />
@@ -9254,6 +9294,7 @@
           <Property Type="String" Name="Batch" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="LoteCabecera" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TipoLimpieza" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Otro" Nullable="true" />
           <Property Type="DateTime" Name="Hora" Nullable="true" Precision="23" />
           <Property Type="String" Name="buque" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Lote" Nullable="true" MaxLength="5" />
@@ -9264,13 +9305,41 @@
           <Property Type="Int32" Name="Moretones" Nullable="true" />
           <Property Type="Int32" Name="HematomasProfundos" Nullable="true" />
           <Property Type="String" Name="Proteinas" Nullable="false" MaxLength="200" />
-          <Property Type="Decimal" Name="Trozo1" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="TrozoPorcentaje" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="MigaPorcentaje" Nullable="true" Precision="10" Scale="2" />
           <Property Type="Int32" Name="Venas" Nullable="true" />
           <Property Type="Int32" Name="Espinas" Nullable="true" />
           <Property Type="Int32" Name="Sangre" Nullable="true" />
           <Property Type="Int32" Name="Escamas" Nullable="true" />
           <Property Type="Int32" Name="Piel" Nullable="true" />
           <Property Type="Int32" Name="SumaScorch" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spConsultaMovimientoPersonalDiario">
+          <Property Type="Int32" Name="IdCambioPersonal" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="CodLinea" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="DescLinea" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CentroCosto" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="DescCentroCosto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodCargo" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="DescCargo" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Recurso" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="DescRecurso" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="FechaInicio" Nullable="true" />
+          <Property Type="DateTime" Name="FechaFin" Nullable="true" />
+          <Property Type="Time" Name="HoraInicio" Nullable="true" />
+          <Property Type="Time" Name="HoraFin" Nullable="true" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="true" MaxLength="1" />
+          <Property Type="Boolean" Name="Asistencia" Nullable="true" />
+          <Property Type="Boolean" Name="FinalizaAsistencia" Nullable="true" />
+          <Property Type="String" Name="Turno" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -10517,37 +10586,6 @@
                 <ScalarProperty Name="CuchilloRojo" ColumnName="CuchilloRojo" />
                 <ScalarProperty Name="CuchilloNegro" ColumnName="CuchilloNegro" />
                 <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaMovimientoPersonalDiario" FunctionName="ASIS_PRODModel.Store.spConsultaMovimientoPersonalDiario">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaMovimientoPersonalDiario">
-                <ScalarProperty Name="IdCambioPersonal" ColumnName="IdCambioPersonal" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
-                <ScalarProperty Name="DescLinea" ColumnName="DescLinea" />
-                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
-                <ScalarProperty Name="DescCentroCosto" ColumnName="DescCentroCosto" />
-                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
-                <ScalarProperty Name="DescCargo" ColumnName="DescCargo" />
-                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
-                <ScalarProperty Name="DescRecurso" ColumnName="DescRecurso" />
-                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
-                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
-                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
-                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Asistencia" ColumnName="Asistencia" />
-                <ScalarProperty Name="FinalizaAsistencia" ColumnName="FinalizaAsistencia" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -13931,9 +13969,50 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CC_CONDICION_PERSONAL_CONTROL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL">
+              <MappingFragment StoreEntitySet="CC_CONDICION_PERSONAL_CONTROL">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdCondicionPersonalControl" ColumnName="IdCondicionPersonalControl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_CloroCisternaDescongelado" FunctionName="ASIS_PRODModel.Store.sp_CloroCisternaDescongelado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_CloroCisternaDescongelado">
+                <ScalarProperty Name="IdCloroCisternaCab" ColumnName="IdCloroCisternaCab" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="IdCisternaDet" ColumnName="IdCisternaDet" />
+                <ScalarProperty Name="EstadoRegistroDet" ColumnName="EstadoRegistroDet" />
+                <ScalarProperty Name="IdCloroCisternaDetalle" ColumnName="IdCloroCisternaDetalle" />
+                <ScalarProperty Name="HoraDet" ColumnName="HoraDet" />
+                <ScalarProperty Name="ObservacionDet" ColumnName="ObservacionDet" />
+                <ScalarProperty Name="Ppm_CloroDet" ColumnName="Ppm_CloroDet" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spReporteEvaluacionProductoEnfundado" FunctionName="ASIS_PRODModel.Store.spReporteEvaluacionProductoEnfundado">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteEvaluacionProductoEnfundado">
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="OrdenFabricacion" ColumnName="OrdenFabricacion" />
                 <ScalarProperty Name="FirmaControl" ColumnName="FirmaControl" />
                 <ScalarProperty Name="FirmaAprobacion" ColumnName="FirmaAprobacion" />
                 <ScalarProperty Name="FechaProduccion" ColumnName="FechaProduccion" />
@@ -13948,6 +14027,7 @@
                 <ScalarProperty Name="Batch" ColumnName="Batch" />
                 <ScalarProperty Name="LoteCabecera" ColumnName="LoteCabecera" />
                 <ScalarProperty Name="TipoLimpieza" ColumnName="TipoLimpieza" />
+                <ScalarProperty Name="Otro" ColumnName="Otro" />
                 <ScalarProperty Name="Hora" ColumnName="Hora" />
                 <ScalarProperty Name="buque" ColumnName="buque" />
                 <ScalarProperty Name="Lote" ColumnName="Lote" />
@@ -13958,13 +14038,45 @@
                 <ScalarProperty Name="Moretones" ColumnName="Moretones" />
                 <ScalarProperty Name="HematomasProfundos" ColumnName="HematomasProfundos" />
                 <ScalarProperty Name="Proteinas" ColumnName="Proteinas" />
-                <ScalarProperty Name="Trozo1" ColumnName="Trozo1" />
+                <ScalarProperty Name="TrozoPorcentaje" ColumnName="TrozoPorcentaje" />
+                <ScalarProperty Name="MigaPorcentaje" ColumnName="MigaPorcentaje" />
                 <ScalarProperty Name="Venas" ColumnName="Venas" />
                 <ScalarProperty Name="Espinas" ColumnName="Espinas" />
                 <ScalarProperty Name="Sangre" ColumnName="Sangre" />
                 <ScalarProperty Name="Escamas" ColumnName="Escamas" />
                 <ScalarProperty Name="Piel" ColumnName="Piel" />
                 <ScalarProperty Name="SumaScorch" ColumnName="SumaScorch" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaMovimientoPersonalDiario" FunctionName="ASIS_PRODModel.Store.spConsultaMovimientoPersonalDiario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaMovimientoPersonalDiario">
+                <ScalarProperty Name="IdCambioPersonal" ColumnName="IdCambioPersonal" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="CodLinea" ColumnName="CodLinea" />
+                <ScalarProperty Name="DescLinea" ColumnName="DescLinea" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="DescCentroCosto" ColumnName="DescCentroCosto" />
+                <ScalarProperty Name="CodCargo" ColumnName="CodCargo" />
+                <ScalarProperty Name="DescCargo" ColumnName="DescCargo" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="DescRecurso" ColumnName="DescRecurso" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Asistencia" ColumnName="Asistencia" />
+                <ScalarProperty Name="FinalizaAsistencia" ColumnName="FinalizaAsistencia" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

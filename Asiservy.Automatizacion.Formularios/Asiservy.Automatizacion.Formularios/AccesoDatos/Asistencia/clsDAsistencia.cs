@@ -1027,11 +1027,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return db.spInactivarAsistencia(Linea,Turno,Fecha,Generado,usuario,terminal).FirstOrDefault();
             }
         }
-        public List<spConsultaMovimientoPersonalDiario> ConsultaMovimientoPersonalDiario(DateTime Fecha, TimeSpan Hora, string Linea)
+        public List<spConsultaMovimientoPersonalDiario> ConsultaMovimientoPersonalDiario(DateTime Fecha, TimeSpan Hora, string Linea, string Turno)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.spConsultaMovimientoPersonalDiario(Fecha, Hora, Linea).ToList();
+                return db.spConsultaMovimientoPersonalDiario(Fecha, Hora, Linea,Turno).ToList();
             }
         }
         public CONTROL_ASISTENCIA ConsultarControlAsistencia(DateTime Fecha, string CodLinea, string turno,string Generado)
