@@ -16,7 +16,7 @@ function ConsultarReporte() {
             return respuesta.text();
         })
         .then(function (resultado) {
-            if (resultado == "101") {
+            if (resultado == '"101"') {
                 window.location.reload();
             }
             if (resultado != '"0"') {
@@ -39,4 +39,7 @@ function ConsultarReporte() {
             //$('#btnCargando').prop('hidden', true);
             //$('#btnConsultar').prop('hidden', false);
         })
+}
+function imprimirw() {
+    window.print();
 }
