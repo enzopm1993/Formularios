@@ -2198,6 +2198,7 @@
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
+    <Content Include="Scripts\CALIDAD\DesechosLiquidosPeligrosos\DesechosLiquidosPeligrosos.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.js" />
@@ -3280,6 +3281,7 @@
     <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CondicionPersonal\clsDCondicionPersonal.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\ControlDesechosLiquidosPeligrosos\clsDDesechosLiquidosPeligrosos.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ControlLavadoCisterna\clsDControlLavadoCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\EvaluacionDeLomosyMigasEnBandeja\clsDEvaluacionDeLomosYMigasEnBandeja.cs" />
     <Compile Include="AccesoDatos\CALIDAD\EvaluacionProductoEnfundado\clsDEvaluacionProductoEnfundado.cs" />
@@ -3368,6 +3370,7 @@
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
+    <Compile Include="Controllers\CALIDAD\DesechosLiquidosPeligrososController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionDeLomoyMigaEnBandejaController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionProductoEnfundadoController.cs" />
     <Compile Include="Controllers\CALIDAD\LavadoCisternaController.cs" />
@@ -3846,6 +3849,8 @@
     <Content Include="Views\CloroCisternaDescongelado\PdfReporteCloroCisternaDescongeladoPartial.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\ReporteCloroCisternaDescongeladoPartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.cshtml" />
+    <Content Include="Views\DesechosLiquidosPeligrosos\DesechosLiquidosPeligrosos.cshtml" />
+    <Content Include="Views\DesechosLiquidosPeligrosos\DesechosLiquidosPeligrososPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
