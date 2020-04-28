@@ -696,23 +696,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCuchillosEmpleadoPrestadoPorFechaLinea>("spConsultaCuchillosEmpleadoPrestadoPorFechaLinea", fechaParameter, lineaParameter);
         }
     
-        public virtual ObjectResult<spConsultaMovimientoPersonalDiario> spConsultaMovimientoPersonalDiario(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, string codLinea)
-        {
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var horaParameter = hora.HasValue ?
-                new ObjectParameter("Hora", hora) :
-                new ObjectParameter("Hora", typeof(System.TimeSpan));
-    
-            var codLineaParameter = codLinea != null ?
-                new ObjectParameter("CodLinea", codLinea) :
-                new ObjectParameter("CodLinea", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMovimientoPersonalDiario>("spConsultaMovimientoPersonalDiario", fechaParameter, horaParameter, codLineaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaEmpleadosPersonalPrestadoFiltro> spConsultaEmpleadosPersonalPrestadoFiltro(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, string linea)
         {
             var fechaParameter = fecha.HasValue ?
@@ -2043,6 +2026,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("FechaProduccion", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionProductoEnfundado>("spReporteEvaluacionProductoEnfundado", fechaProduccionParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaMovimientoPersonalDiario> spConsultaMovimientoPersonalDiario(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, string codLinea, string turno)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            var codLineaParameter = codLinea != null ?
+                new ObjectParameter("CodLinea", codLinea) :
+                new ObjectParameter("CodLinea", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMovimientoPersonalDiario>("spConsultaMovimientoPersonalDiario", fechaParameter, horaParameter, codLineaParameter, turnoParameter);
         }
     }
 }
