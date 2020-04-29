@@ -28,7 +28,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 {
                     resultado[0] = "002";
                     resultado[1] = "Error, el registro ya existe";
-                    resultado[2] = buscarCabecera;
+                    resultado[2] = poCabeceraControl;
                 }
                 return resultado;
             }

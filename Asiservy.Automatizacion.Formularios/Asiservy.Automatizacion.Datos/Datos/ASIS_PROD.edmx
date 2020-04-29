@@ -342,6 +342,40 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS">
+          <Key>
+            <PropertyRef Name="IdDesechosLiquidos" />
+          </Key>
+          <Property Name="IdDesechosLiquidos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaMES" Type="date" Nullable="false" />
+          <Property Name="EstadoReporte" Type="bit" Nullable="false" />
+          <Property Name="AprobadoPor" Type="varchar" MaxLength="100" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE">
+          <Key>
+            <PropertyRef Name="IdDesechosLiquidosDetalle" />
+          </Key>
+          <Property Name="IdDesechosLiquidosDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdDesechosLiquidos" Type="int" Nullable="false" />
+          <Property Name="FechaDIA" Type="date" Nullable="false" />
+          <Property Name="Laboratorio" Type="decimal" Precision="18" Scale="10" Nullable="false" />
+          <Property Name="Otros" Type="varchar" MaxLength="100" />
+          <Property Name="Observaciones" Type="varchar" MaxLength="200" />
+          <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TerminalIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModificacionLog" Type="datetime" />
+          <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA">
           <Key>
             <PropertyRef Name="IdEvaluacionDeLomosYMigasEnBandejas" />
@@ -2294,6 +2328,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS">
+          <End Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS" Type="Self.CC_DESECHOS_LIQUIDOS_PELIGROSOS" Multiplicity="1" />
+          <End Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" Type="Self.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS">
+              <PropertyRef Name="IdDesechosLiquidos" />
+            </Principal>
+            <Dependent Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE">
+              <PropertyRef Name="IdDesechosLiquidos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA">
           <End Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Type="Self.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Multiplicity="1" />
           <End Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Type="Self.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Multiplicity="*" />
@@ -2856,6 +2902,12 @@
           <Parameter Name="idControlCuchillo" Type="int" Mode="In" />
           <Parameter Name="opcion" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_Control_Desechos_Liquidos_Peligrosos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fechaDesde" Type="date" Mode="In" />
+          <Parameter Name="fechaHasta" Type="date" Mode="In" />
+          <Parameter Name="idDesechosLiquidos" Type="int" Mode="In" />
+          <Parameter Name="op" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_Control_Lavado_Cisterna" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechaDesde" Type="date" Mode="In" />
           <Parameter Name="fechaHasta" Type="date" Mode="In" />
@@ -3408,6 +3460,8 @@
           <EntitySet Name="CC_CONTROL_LAVADO_DESINFECCION_MANOS" EntityType="Self.CC_CONTROL_LAVADO_DESINFECCION_MANOS" Schema="dbo" Table="CC.CONTROL_LAVADO_DESINFECCION_MANOS" store:Type="Tables" />
           <EntitySet Name="CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" EntityType="Self.CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" Schema="dbo" Table="CC.CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" store:Type="Tables" />
           <EntitySet Name="CC_CUCHILLOS_PREPARACION" EntityType="Self.CC_CUCHILLOS_PREPARACION" Schema="dbo" Table="CC.CUCHILLOS_PREPARACION" store:Type="Tables" />
+          <EntitySet Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS" EntityType="Self.CC_DESECHOS_LIQUIDOS_PELIGROSOS" Schema="dbo" Table="CC.DESECHOS_LIQUIDOS_PELIGROSOS" store:Type="Tables" />
+          <EntitySet Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" EntityType="Self.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" Schema="dbo" Table="CC.DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" store:Type="Tables" />
           <EntitySet Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" EntityType="Self.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Schema="dbo" Table="CC.EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" store:Type="Tables" />
           <EntitySet Name="CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" EntityType="Self.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" Schema="dbo" Table="CC.EVALUACION_LOMO_MIGA_BANDEJA_DETALLE" store:Type="Tables" />
           <EntitySet Name="CC_EVALUACION_PRODUCTO_ENFUNDADO" EntityType="Self.CC_EVALUACION_PRODUCTO_ENFUNDADO" Schema="dbo" Table="CC.EVALUACION_PRODUCTO_ENFUNDADO" store:Type="Tables" />
@@ -3527,6 +3581,10 @@
           <AssociationSet Name="FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS" Association="Self.FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS">
             <End Role="CC_CONTROL_LAVADO_DESINFECCION_MANOS" EntitySet="CC_CONTROL_LAVADO_DESINFECCION_MANOS" />
             <End Role="CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" EntitySet="CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" Association="Self.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS">
+            <End Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS" EntitySet="CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
+            <End Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" EntitySet="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" />
           </AssociationSet>
           <AssociationSet Name="FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" Association="Self.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA">
             <End Role="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" EntitySet="CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" />
@@ -4767,6 +4825,18 @@
             <Parameter Name="Hora" Mode="In" Type="Time" />
             <Parameter Name="CodLinea" Mode="In" Type="String" />
             <Parameter Name="Turno" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS" EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
+          <EntitySet Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" />
+          <AssociationSet Name="FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" Association="ASIS_PRODModel.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS">
+            <End Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS" EntitySet="CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
+            <End Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" EntitySet="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" />
+          </AssociationSet>
+          <FunctionImport Name="sp_Control_Desechos_Liquidos_Peligrosos" ReturnType="Collection(ASIS_PRODModel.sp_Control_Desechos_Liquidos_Peligrosos)">
+            <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
+            <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
+            <Parameter Name="idDesechosLiquidos" Mode="In" Type="Int32" />
+            <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -9340,6 +9410,72 @@
           <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
           <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS">
+          <Key>
+            <PropertyRef Name="IdDesechosLiquidos" />
+          </Key>
+          <Property Name="IdDesechosLiquidos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaMES" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" Relationship="ASIS_PRODModel.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" FromRole="CC_DESECHOS_LIQUIDOS_PELIGROSOS" ToRole="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" />
+        </EntityType>
+        <EntityType Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE">
+          <Key>
+            <PropertyRef Name="IdDesechosLiquidosDetalle" />
+          </Key>
+          <Property Name="IdDesechosLiquidosDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdDesechosLiquidos" Type="Int32" Nullable="false" />
+          <Property Name="FechaDIA" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Laboratorio" Type="Decimal" Nullable="false" Precision="18" Scale="10" />
+          <Property Name="Otros" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS" Relationship="ASIS_PRODModel.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" FromRole="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" ToRole="CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
+        </EntityType>
+        <Association Name="FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS">
+          <End Type="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS" Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS">
+              <PropertyRef Name="IdDesechosLiquidos" />
+            </Principal>
+            <Dependent Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE">
+              <PropertyRef Name="IdDesechosLiquidos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_Control_Desechos_Liquidos_Peligrosos">
+          <Property Type="Int32" Name="IdDesechosLiquidos" Nullable="false" />
+          <Property Type="DateTime" Name="FechaMES" Nullable="false" />
+          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
+          <Property Type="String" Name="AprobadoPor" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdDesechosLiquidosDetalle" Nullable="false" />
+          <Property Type="DateTime" Name="FechaDIA" Nullable="false" />
+          <Property Type="Decimal" Name="Laboratorio" Nullable="false" Precision="18" Scale="10" />
+          <Property Type="String" Name="Otros" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="200" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -14077,6 +14213,64 @@
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS">
+              <MappingFragment StoreEntitySet="CC_DESECHOS_LIQUIDOS_PELIGROSOS">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="FechaMES" ColumnName="FechaMES" />
+                <ScalarProperty Name="IdDesechosLiquidos" ColumnName="IdDesechosLiquidos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE">
+              <MappingFragment StoreEntitySet="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Otros" ColumnName="Otros" />
+                <ScalarProperty Name="Laboratorio" ColumnName="Laboratorio" />
+                <ScalarProperty Name="FechaDIA" ColumnName="FechaDIA" />
+                <ScalarProperty Name="IdDesechosLiquidos" ColumnName="IdDesechosLiquidos" />
+                <ScalarProperty Name="IdDesechosLiquidosDetalle" ColumnName="IdDesechosLiquidosDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Control_Desechos_Liquidos_Peligrosos" FunctionName="ASIS_PRODModel.Store.sp_Control_Desechos_Liquidos_Peligrosos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Control_Desechos_Liquidos_Peligrosos">
+                <ScalarProperty Name="IdDesechosLiquidos" ColumnName="IdDesechosLiquidos" />
+                <ScalarProperty Name="FechaMES" ColumnName="FechaMES" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="IdDesechosLiquidosDetalle" ColumnName="IdDesechosLiquidosDetalle" />
+                <ScalarProperty Name="FechaDIA" ColumnName="FechaDIA" />
+                <ScalarProperty Name="Laboratorio" ColumnName="Laboratorio" />
+                <ScalarProperty Name="Otros" ColumnName="Otros" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

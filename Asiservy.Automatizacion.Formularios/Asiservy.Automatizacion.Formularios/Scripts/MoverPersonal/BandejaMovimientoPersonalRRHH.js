@@ -216,3 +216,11 @@ function EliminarRegistroMP() {
         }
     });
 }
+function SeleccionarTodos(){
+   
+    if ($('#select_all').prop('checked')) {
+        $("input[type='checkbox']").attr("checked", true);
+    } else {
+        $("input[type='checkbox']").attr("checked", false);
+    }
+}
