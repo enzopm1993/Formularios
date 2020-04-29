@@ -8,12 +8,32 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlDesecho
 {
     public class clsDDesechosLiquidosPeligrosos
     {
-        public List<sp_Control_Desechos_Liquidos_Peligrosos> ConsultarDesechosLiquidos(DateTime fechaDesde, DateTime fechaHasta, int idDesechosLiquidos, int op)
+        public List<sp_Control_Desechos_Liquidos_Peligrosos> ConsultarDesechosLiquidos(int anioBusqueda, int mesBusqueda, int idDesechosLiquidos, int op)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.sp_Control_Desechos_Liquidos_Peligrosos(fechaDesde, fechaHasta, idDesechosLiquidos, op).ToList();
+                var lista = db.sp_Control_Desechos_Liquidos_Peligrosos(anioBusqueda, mesBusqueda, idDesechosLiquidos, op).ToList();
                 return lista;
+            }
+        }
+
+        public List<CC_DESECHOS_LIQUIDOS_PELIGROSOS> ConsultarDesechosLiquidosCabecera(int anioBusqueda, bool estadoReporte)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = db.CC_DESECHOS_LIQUIDOS_PELIGROSOS.Where(x => x.FechaMES.Year == anioBusqueda && x.EstadoRegistro == "A" && x.EstadoReporte==estadoReporte).ToList();
+                List<CC_DESECHOS_LIQUIDOS_PELIGROSOS> listaCabecera = new List<CC_DESECHOS_LIQUIDOS_PELIGROSOS>();
+                CC_DESECHOS_LIQUIDOS_PELIGROSOS itemCabecera;
+                foreach (var item in lista) {// SI NO HAGO ESTO ME DA UN ERROR DE QUE LA CONEXION SE PERDIO A PESAR QUE SI ME TRAIA DATOS
+                    itemCabecera = new CC_DESECHOS_LIQUIDOS_PELIGROSOS();
+                    itemCabecera.FechaMES = item.FechaMES;
+                    itemCabecera.EstadoReporte = item.EstadoReporte;
+                    itemCabecera.FechaIngresoLog = item.FechaIngresoLog;
+                    itemCabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    itemCabecera.IdDesechosLiquidos = item.IdDesechosLiquidos;
+                    listaCabecera.Add(itemCabecera);
+                }
+                return listaCabecera;
             }
         }
 
@@ -32,7 +52,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlDesecho
                     else if (siAprobar == 1)
                     {
                         model.EstadoReporte = guardarmodificar.EstadoReporte;
-                        model.AprobadoPor = guardarmodificar.AprobadoPor;
+                        model.AprobadoPor = guardarmodificar.UsuarioIngresoLog;
                     }
                     model.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
                     model.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;

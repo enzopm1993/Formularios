@@ -38,19 +38,40 @@
     }
 </style>
 <div class="row">
-    <div class="col-12">
+    <div class="col-12 text-md-left text-center">
         <h4 style="float:left">Desecho de Liquidos Peligrosos <label id="lblAprobadoPendiente" class="badge badge-danger">MENSAJE</label></h4>
-        <div class="col.md-4 box_filters">
-            <div class="itemFilter">
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(1)" id="txtFecha" class="form-control" />
-            </div>
-            <div class="itemFilter">
-                <a href="#" id="btnModalGenerarRegistro" title="Consultar registro" class="btn btn-primary btn-sm"><i onclick="CargarCabecera(1)" id="iconSearch" class="fas fa-search"></i></a>
-            </div>
-        </div>
+    </div>    
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-3 col-12 col-sm-12 text-md-left text-center">
+        <label>MES</label>
+        <select id='selectMonth' class="form-control" onchange="CargarCabecera(1)">
+            <option value=''>--SELECCIONE MES--</option>
+            <option value='1'>ENERO</option>
+            <option value='2'>FEBRERO</option>
+            <option value='3'>MARZO</option>
+            <option value='4'>ABRIL</option>
+            <option value='5'>MAYO</option>
+            <option value='6'>JUNIO</option>
+            <option value='7'>JULIO</option>
+            <option value='8'>AGOSTO</option>
+            <option value='9'>SEPTIEMBRE</option>
+            <option value='10'>OCTUBRE</option>
+            <option value='11'>NOVIEMBRE</option>
+            <option value='12'>DICIEMBRE</option>
+        </select>
+    </div>
+    <div class="col-md-2 col-12 col-sm-12 text-md-left text-center">
+        <label>AÑO</label>
+        <select id="selectAnio" class="form-control" onchange="CargarCabecera(1)"></select>
+    </div>
+    <div class="col-md-4 col-12 col-sm-12 text-md-left text-center">
+        <label>BUSCAR:</label><br />
+        <a href="#" id="btnModalGenerarRegistro" title="Consultar registro" class="btn btn-primary btn-sm"><i onclick="CargarCabecera(1)" id="iconSearch" class="fas fa-search"></i></a>
     </div>
 </div>
-
+<hr />
 <div class="row" id="divCabecera1">
     <div class="col-12">
         <div class="col-md-3 col-12 float-left">

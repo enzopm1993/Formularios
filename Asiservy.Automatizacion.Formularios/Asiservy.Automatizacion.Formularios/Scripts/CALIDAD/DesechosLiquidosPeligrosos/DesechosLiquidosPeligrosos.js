@@ -1,28 +1,43 @@
 ﻿var itemEditar = [];
+var estadoReporte = [];
 $(document).ready(function () {
-    ConsultarEstadoReporte(0);
+    ComboAnio();     
     CargarCabecera(1);
+    ConsultarEstadoReporte(2);
 });
 
-function ConsultarEstadoReporte(op) {
-    $('#cargac').show();
+function ComboAnio() {
+    var date = new Date();
+    document.getElementById("selectMonth").selectedIndex = moment(date).format('MM');
+    var n = date.getFullYear();
+    var select = document.getElementById("selectAnio");
+    for (var i = n; i >= 2015; i--) {
+        select.options.add(new Option(i, i));
+    }
+}
+
+function ConsultarEstadoReporte(op) {   
     $.ajax({
         url: "../DesechosLiquidosPeligrosos/ConsultarEstadoReporte",
         data: {
-            fechaDesde: $("#txtFecha").val(),
-            fechaHasta: $("#txtFecha").val(),
+            anioBusqueda: $('#selectAnio').val(),
+            mesBusqueda: $('#selectMonth').val(),
             idDesechosLiquidos: 0,
             op: op
         },
         type: "GET",
         success: function (resultado) {
+            estadoReporte = [];
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == "0") {
+            if (resultado.length == 0) {
+                $("#lblAprobadoPendiente").prop("hidden", true);
+               
                 $("#divMostarTablaCabecera").html("No existen registros");
             } else {
-                if (resultado.EstadoReporte == true) {
+                $("#lblAprobadoPendiente").prop("hidden", false);
+                if (resultado[0].EstadoReporte == true) {
                     $("#lblAprobadoPendiente").text("APROBADO");
                     $("#lblAprobadoPendiente").removeClass('badge-danger');
                     $("#lblAprobadoPendiente").addClass('badge badge-success');
@@ -31,11 +46,8 @@ function ConsultarEstadoReporte(op) {
                     $("#lblAprobadoPendiente").removeClass('badge-success');
                     $("#lblAprobadoPendiente").addClass('badge badge-danger');
                 }
-            }
-            itemEditar = 0;
-            setTimeout(function () {
-                $('#cargac').hide();
-            }, 200);
+                estadoReporte = resultado[0].EstadoReporte;
+            }            
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -45,12 +57,14 @@ function ConsultarEstadoReporte(op) {
 }
 
 function CargarCabecera(op) {
+    ConsultarEstadoReporte(2);
     $('#cargac').show();
+    var date = new Date();
     $.ajax({
         url: "../DesechosLiquidosPeligrosos/DesechosLiquidosPeligrososPartial",
         data: {
-            fechaDesde: $("#txtFecha").val(),
-            fechaHasta: $("#txtFecha").val(),
+            anioBusqueda: $('#selectAnio').val(),
+            mesBusqueda: $('#selectMonth').val(),
             idDesechosLiquidos: 0,
             op: op
         },
@@ -90,7 +104,9 @@ function GuardarCabecera() {
             Observaciones: $("#txtObservacion").val(),
             Otros: $("#txtOtros").val(),
             siAprobar: 0,
-            fechaDesde: $("#txtFechaCabecera").val()
+            anioBusqueda: $("#selectAnio").val(),
+            mesBusqueda: moment($("#txtFechaCabecera").val()).format('MM'),
+            op: 1
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -120,26 +136,42 @@ function GuardarCabecera() {
 }
 
 function ActualizarCabecera(jdata) {
-    if (jdata.EstadoReporte == true) {
-        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-        return;
-    } else {
-        $("#txtFechaCabecera").prop('disabled', true);
-        $("#txtFechaCabecera").val(moment(jdata.FechaDIA).format("YYYY-MM-DD"));
-        //$("#txtFechaCabecera").val(date[0].defaultValue);
-        $("#txtLaboratorio").val(jdata.Laboratorio);
-        $("#txtOtros").val(jdata.Otros);
-        $("#txtObservacion").val(jdata.Observaciones);
-        $('#ModalIngresoCabecera').modal('show');
-        itemEditar = jdata;
-    }
+    ConsultarEstadoReporte(2);
+    setTimeout(function () {
+        if (estadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            estadoReporte = [];
+            $("#txtFechaCabecera").prop('disabled', true);
+            $("#txtFechaCabecera").val(moment(jdata.FechaDIA).format("YYYY-MM-DD"));
+            //$("#txtFechaCabecera").val(date[0].defaultValue);
+            $("#txtLaboratorio").val(jdata.Laboratorio);
+            $("#txtOtros").val(jdata.Otros);
+            $("#txtObservacion").val(jdata.Observaciones);
+            $('#ModalIngresoCabecera').modal('show');
+            itemEditar = jdata;
+        }
+    },200);   
 }
 
 function ModalIngresoCabecera() {
-    LimpiarCabecera();
-    $("#txtFechaCabecera").prop('disabled', false);
-    $('#ModalIngresoCabecera').modal('show');
-    $("#txtFechaCabecera").val(moment($("#txtFecha").val()).format("YYYY-MM-DD"));
+    ConsultarEstadoReporte(2);
+    setTimeout(function () {
+        if (estadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            estadoReporte = [];
+            LimpiarCabecera();
+            $("#txtFechaCabecera").prop('disabled', false);
+            var fecha = moment($("#txtFecha").val()).format("YYYY-MM-DD");
+            var fechaSplit = fecha.split('-');
+            var nuevaFecha = fechaSplit[0] + '-' + $('#selectMonth').val() + '-' + fechaSplit[2];
+            $('#ModalIngresoCabecera').modal('show');
+            $("#txtFechaCabecera").val(moment(nuevaFecha).format("YYYY-MM-DD"));
+        }
+    }, 200);    
 }
 
 function LimpiarCabecera() {
@@ -175,14 +207,18 @@ function OnChangeTextBox() {
 }
 
 function EliminarConfirmar(jdata) {
-    if (jdata.EstadoReporte == true) {
-        MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
-        return;
-    } else {
-        $("#modalEliminarControl").modal("show");
-        itemEditar = jdata;
-        $("#myModalLabel").text("¿Desea Eliminar el registro?");
-    }
+    ConsultarEstadoReporte(2);
+    setTimeout(function () {
+        if (estadoReporte == true) {
+            MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
+            return;
+        } else {
+            estadoReporte = [];
+            $("#modalEliminarControl").modal("show");
+            itemEditar = jdata;
+            $("#myModalLabel").text("¿Desea Eliminar el registro?");
+        }
+    }, 200);    
 }
 
 function EliminarCabeceraSi() {
@@ -192,6 +228,7 @@ function EliminarCabeceraSi() {
         type: "POST",
         data: {
             IdDesechosLiquidosDetalle: itemEditar.IdDesechosLiquidosDetalle,
+            IdDesechosLiquidos: itemEditar.IdDesechosLiquidos,
             fechaDesde: $('#txtFecha').val()
         },
         success: function (resultado) {
