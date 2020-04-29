@@ -953,7 +953,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.dataTableJS = "1";
                 ViewBag.Select2 = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-
+                ViewBag.DateRangePicker = "1";
                 clsDClasificador = new clsDClasificador();
                 //ViewBag.Lineas = new SelectList(clsDGeneral.ConsultaLineas("0"), "codigo", "descripcion");
                 var Clasificador = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion);
