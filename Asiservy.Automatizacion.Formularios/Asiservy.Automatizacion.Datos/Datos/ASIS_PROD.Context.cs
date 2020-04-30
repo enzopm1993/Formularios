@@ -146,8 +146,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<REPORTE_DETALLE> REPORTE_DETALLE { get; set; }
         public virtual DbSet<REPORTE_MAESTRO> REPORTE_MAESTRO { get; set; }
         public virtual DbSet<CC_CONDICION_PERSONAL_CONTROL> CC_CONDICION_PERSONAL_CONTROL { get; set; }
-        public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS> CC_DESECHOS_LIQUIDOS_PELIGROSOS { get; set; }
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE> CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE { get; set; }
+        public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS> CC_DESECHOS_LIQUIDOS_PELIGROSOS { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2051,15 +2051,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaMovimientoPersonalDiario>("spConsultaMovimientoPersonalDiario", fechaParameter, horaParameter, codLineaParameter, turnoParameter);
         }
     
-        public virtual ObjectResult<sp_Control_Desechos_Liquidos_Peligrosos> sp_Control_Desechos_Liquidos_Peligrosos(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idDesechosLiquidos, Nullable<int> op)
+        public virtual ObjectResult<sp_Control_Desechos_Liquidos_Peligrosos> sp_Control_Desechos_Liquidos_Peligrosos(Nullable<int> anioBusqueda, Nullable<int> mesBusqueda, Nullable<int> idDesechosLiquidos, Nullable<int> op)
         {
-            var fechaDesdeParameter = fechaDesde.HasValue ?
-                new ObjectParameter("fechaDesde", fechaDesde) :
-                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+            var anioBusquedaParameter = anioBusqueda.HasValue ?
+                new ObjectParameter("anioBusqueda", anioBusqueda) :
+                new ObjectParameter("anioBusqueda", typeof(int));
     
-            var fechaHastaParameter = fechaHasta.HasValue ?
-                new ObjectParameter("fechaHasta", fechaHasta) :
-                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+            var mesBusquedaParameter = mesBusqueda.HasValue ?
+                new ObjectParameter("mesBusqueda", mesBusqueda) :
+                new ObjectParameter("mesBusqueda", typeof(int));
     
             var idDesechosLiquidosParameter = idDesechosLiquidos.HasValue ?
                 new ObjectParameter("idDesechosLiquidos", idDesechosLiquidos) :
@@ -2069,7 +2069,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", op) :
                 new ObjectParameter("op", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Desechos_Liquidos_Peligrosos>("sp_Control_Desechos_Liquidos_Peligrosos", fechaDesdeParameter, fechaHastaParameter, idDesechosLiquidosParameter, opParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Desechos_Liquidos_Peligrosos>("sp_Control_Desechos_Liquidos_Peligrosos", anioBusquedaParameter, mesBusquedaParameter, idDesechosLiquidosParameter, opParameter);
         }
     }
 }
