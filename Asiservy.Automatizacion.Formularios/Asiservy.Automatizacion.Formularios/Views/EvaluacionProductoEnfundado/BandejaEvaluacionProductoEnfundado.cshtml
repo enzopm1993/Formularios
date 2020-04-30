@@ -5,6 +5,7 @@
 <style>
     .selectbox {
         background: #fff;
+        color: #1d3b4a;
         padding: 5px 8px;
         line-height: 18px;
         border-radius: 4px;
@@ -13,9 +14,7 @@
         border: 1px solid #ddd;
     }
 
-    .btnWait {
-        cursor: no-drop !important;
-    }
+   
 
     canvas {
         border: 1px solid black;
@@ -27,25 +26,25 @@
 </style>
 <h4>Bandeja evaluación producto enfundado</h4>
 <div class="row" id="DivFiltros">
-    <div class="col-md-2 col-sm-6 form-group">
-        <label>Estado del Registro</label>
+    <div class="col-md-2 col-sm-3 form-group">
+        <label>Estado</label>
         <select id="cmbEstadoControl" class="form-control" onchange="CargarBandeja()">
             <option value="false" default>PENDIENTE</option>
             <option value="true">APROBADO</option>
         </select>
     </div>
 
-    <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker" hidden>
+    <div class="col-md-5 col-sm-7 form-group" id="divDateRangePicker" hidden>
         <label>Filtrar por Fecha:</label>
         <input type="hidden" id="fechaDesde" value="" />
         <input type="hidden" id="fechaHasta" value="" />
         <div id="reportrange" class="selectbox">
             <i class="fa fa-calendar"></i>&nbsp;
-            <span></span> <i class="fa fa-caret-down"></i>
+            <span></span> <i class="fa fa-caret-down" style="float:right"></i>
         </div>
     </div>
 
-    <div class="col-5">
+    <div class="col-md-5 col-sm-2">
         <label>Acciones</label>
         <div class="form-group">
             <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarBandeja()" style="border-color:#2c3e50" type="button">
