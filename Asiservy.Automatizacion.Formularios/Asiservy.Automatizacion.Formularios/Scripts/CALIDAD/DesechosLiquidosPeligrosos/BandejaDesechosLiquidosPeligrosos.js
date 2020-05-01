@@ -109,7 +109,7 @@ function SeleccionarBandeja(model) {
                 $("#divTblAprobarPendiente").html('');
                 $("#ModalApruebaPendiente").modal("show");
                 $("#divTblAprobarPendiente").html(resultado);
-                //ocultarBotones();
+                ConsultarFirma();
             }
             setTimeout(function () {
                 $('#cargac').hide();
@@ -123,8 +123,9 @@ function SeleccionarBandeja(model) {
     });
 }
 
-function AprobarPendiente(estadoReporte) {
-    var siAprobar = 1;//en la condicion del la clase clsD se envia a actualizar solo la columna EstadoReporte 
+function AprobarPendiente(estadoReporte) {   
+        GuardarFirma();
+       var siAprobar = 1;//en la condicion del la clase clsD se envia a actualizar solo la columna EstadoReporte 
     $.ajax({
         url: "../DesechosLiquidosPeligrosos/BandejaGuardarModificarDesechosLiquidos",
         type: "POST",
@@ -138,9 +139,9 @@ function AprobarPendiente(estadoReporte) {
                 window.location.reload();
             }
             if (resultado == 1) {
+                $("#ModalApruebaPendiente").modal("hide");
                 MensajeCorrecto('¡Cambio de ESTADO realizado correctamente!');
-            } else { MensajeError('El registro no debe guardase- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion'); }
-
+            } else { MensajeError('El registro no debe guardase- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion'); return; }      
             $("#ModalApruebaPendiente").modal("hide");
             CargarBandeja();
             listaDatos = [];
@@ -150,4 +151,134 @@ function AprobarPendiente(estadoReporte) {
         }
     });
 }
+
+function GuardarFirma() {   
+    if (!signaturePad.isEmpty()) {   
+        var canvas = document.getElementById("firmacanvas");
+        var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
+        var formData = new FormData();
+        formData.append('image', image);
+        formData.append('idDesechosLiquidos', listaDatos.IdDesechosLiquidos);
+        $.ajax({
+            type: 'POST',
+            url: '/DesechosLiquidosPeligrosos/BandejaGuardarImagenFirma',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (resultado) {
+                ClearPAd();
+                if (resultado == "101") {
+                    window.location.reload();
+                }
+                if (resultado != 0) {
+                    $('#div_ImagenFirma').prop('hidden', false);
+                    document.getElementById('ImgFirma').src = resultado;
+                    $('#signature-pad').prop('hidden', true);
+                    MensajeCorrecto("Firma ingresada Correctamente");
+                } else {
+                    MensajeAdvertencia('¡Error al guardar la Firma: !' + listaDatos.IdDesechosLiquidos);
+                }
+            }
+        });
+    }
+}
+
+function VolverAFirmar() {
+    $('#div_ImagenFirma').prop('hidden', true);
+    $('#signature-pad').prop('hidden', false);
+}
+
+function ConsultarFirma() {
+    ClearPAd();
+    $.ajax({
+        url: "../DesechosLiquidosPeligrosos/BandejaConsultarImagenFirma",
+        type: "GET",
+        data: {
+            idDesechosLiquidos: listaDatos.IdDesechosLiquidos
+        },
+        success: function (resultado) {
+            $("#btnGuardarFirma").prop("hidden", true);
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado != '0') {
+                document.getElementById('ImgFirma').src = resultado;
+                $('#div_ImagenFirma').prop('hidden', false);
+                $("#btnActualizarFirma").prop("hidden", false);
+                $('#signature-pad').prop('hidden', true);
+            } else {
+                $('#signature-pad').prop('hidden', false);
+                $('#div_ImagenFirma').prop('hidden', true);
+            }
+            if (listaDatos.EstadoReporte == true) {
+                $("#btnActualizarFirma").prop("hidden", true);
+                $("#signature-pad").prop("hidden", true);               
+            }
+        },
+        error: function (resultado) {
+            MensajeError("Error: Comuníquese con sistemas", false);
+        }
+    });
+}
+
+function ClearPAd() {
+    signaturePad.clear();
+}
+
+//BEGIN SIGNATURE API
+var clearButton = wrapper.querySelector("[data-action=clear]");
+//var changeColorButton = wrapper.querySelector("[data-action=change-color]");
+//var undoButton = wrapper.querySelector("[data-action=undo]");
+//var savePNGButton = wrapper.querySelector("[data-action=save-png]");
+//var saveJPGButton = wrapper.querySelector("[data-action=save-jpg]");
+//var saveSVGButton = wrapper.querySelector("[data-action=save-svg]");
+
+var canvas = document.querySelector("canvas");
+
+var signaturePad = new SignaturePad(canvas);
+signaturePad.on();
+
+function download(dataURL, filename) {
+    if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
+        window.open(dataURL);
+    } else {
+        var blob = dataURLToBlob(dataURL);
+        var url = window.URL.createObjectURL(blob);
+
+        var a = document.createElement("a");
+        a.style = "display: none";
+        a.href = url;
+        a.download = filename;
+
+        document.body.appendChild(a);
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+    }
+}
+
+// One could simply use Canvas#toBlob method instead, but it's just to show
+// that it can be done using result of SignaturePad#toDataURL.
+function dataURLToBlob(dataURL) {
+    // Code taken from https://github.com/ebidel/filer.js
+    var parts = dataURL.split(';base64,');
+    var contentType = parts[0].split(":")[1];
+    var raw = window.atob(parts[1]);
+    var rawLength = raw.length;
+    var uInt8Array = new Uint8Array(rawLength);
+
+    for (var i = 0; i < rawLength; ++i) {
+        uInt8Array[i] = raw.charCodeAt(i);
+    }
+
+    return new Blob([uInt8Array], { type: contentType });
+}
+
+clearButton.addEventListener("click", function (event) {
+    signaturePad.clear();
+});
+
+
+
+//END SIGNATURE API
 

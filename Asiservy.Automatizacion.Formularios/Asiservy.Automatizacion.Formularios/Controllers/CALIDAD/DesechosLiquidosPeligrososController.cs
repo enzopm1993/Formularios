@@ -24,6 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {               
                 ViewBag.dataTableJS = "1";
+                ViewBag.FirmaPad = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 return View();
             }
@@ -99,9 +100,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDDesechosLiquidosPeligrosos = new clsDDesechosLiquidosPeligrosos();
                 var lista = clsDDesechosLiquidosPeligrosos.ConsultarDesechosLiquidos(anioBusqueda, mesBusqueda, idDesechosLiquidos, op);
+                
                 if (lista != null)
                 {
-                   return Json(lista, JsonRequestBehavior.AllowGet);
+                    return Json(lista, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -191,53 +193,98 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        
+        [HttpPost]
+        public JsonResult GuardarImagenFirma(string image, int idDesechosLiquidos)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                byte[] Firma = Convert.FromBase64String(image);
+                CC_DESECHOS_LIQUIDOS_PELIGROSOS model = new CC_DESECHOS_LIQUIDOS_PELIGROSOS();
+                clsDDesechosLiquidosPeligrosos = new clsDDesechosLiquidosPeligrosos();
+                model.FechaIngresoLog = DateTime.Now;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.FirmaControl = Firma;
+                model.IdDesechosLiquidos = idDesechosLiquidos;
+                var valor = clsDDesechosLiquidosPeligrosos.GuardarImagenFirma(model, true);
+                if (valor == 1)
+                {
+                    var imagenfirma = String.Format("data:image/png;base64,{0}", image);
+                    return Json(imagenfirma, JsonRequestBehavior.AllowGet);
+                }
+                else return Json("0", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
 
-        //[HttpPost]
-        //public JsonResult EliminarDesechosLiquidos(CC_DESECHOS_LIQUIDOS_PELIGROSOS model, DateTime fechaDesde)
-        //{
-        //    try
-        //    {
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        if (string.IsNullOrEmpty(lsUsuario[0]))
-        //        {
-        //            return Json("101", JsonRequestBehavior.AllowGet);
-        //        }
-        //        clsDDesechosLiquidosPeligrosos = new clsDDesechosLiquidosPeligrosos();
-        //        var consultarEstadoReporte = clsDDesechosLiquidosPeligrosos.ConsultarDesechosLiquidos(fechaDesde, Convert.ToDateTime("01-01-2020"), model.IdDesechosLiquidos, 0);
-        //        if (consultarEstadoReporte[0].EstadoReporte == false)
-        //        {
-        //            model.FechaIngresoLog = DateTime.Now;
-        //            model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-        //            model.TerminalIngresoLog = Request.UserHostAddress;
-        //            model.UsuarioIngresoLog = lsUsuario[0];
-        //            var valor = clsDDesechosLiquidosPeligrosos.EliminarDesechosLiquidos(model);
-        //            if (valor == 0)
-        //            {
-        //                return Json("0", JsonRequestBehavior.AllowGet);
-        //            }
-        //            else return Json("1", JsonRequestBehavior.AllowGet);
-        //        }
-        //        else return Json("2", JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        public JsonResult ConsultarImagenFirma(int idDesechosLiquidos)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDDesechosLiquidosPeligrosos = new clsDDesechosLiquidosPeligrosos();
+                var lista = clsDDesechosLiquidosPeligrosos.ConsultarImagenFirma(idDesechosLiquidos, true);
+                if (lista != null)
+                {
+                    if (lista[0].FirmaControl!=null)
+                    {
+                        var base64 = Convert.ToBase64String(lista[0].FirmaControl);
+                        var imagenfirma = String.Format("data:image/png;base64,{0}", base64);
+                        return Json(imagenfirma, JsonRequestBehavior.AllowGet);
+                    } else return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         [HttpPost]
         public JsonResult GuardarModificarDesechosLiquidosDetalle(CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE model)
@@ -339,7 +386,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
-                ViewBag.DateRangePicker = "1";
+                ViewBag.FirmaPad = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 return View();
@@ -491,7 +538,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
-                ViewBag.DateRangePicker = "1";
+                ViewBag.FirmaPad = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 return View();
@@ -555,6 +602,100 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
+
+        [HttpPost]
+        public JsonResult BandejaGuardarImagenFirma(string image, int idDesechosLiquidos)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                byte[] Firma = Convert.FromBase64String(image);
+                CC_DESECHOS_LIQUIDOS_PELIGROSOS model = new CC_DESECHOS_LIQUIDOS_PELIGROSOS();
+                clsDDesechosLiquidosPeligrosos = new clsDDesechosLiquidosPeligrosos();
+                model.FechaIngresoLog = DateTime.Now;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.FirmaAprobacion = Firma;
+                model.IdDesechosLiquidos = idDesechosLiquidos;
+                var valor = clsDDesechosLiquidosPeligrosos.GuardarImagenFirma(model, false);
+                if (valor == 1)
+                {
+                    var imagenfirma = String.Format("data:image/png;base64,{0}", image);
+                    return Json(imagenfirma, JsonRequestBehavior.AllowGet);
+                }
+                else return Json("0", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult BandejaConsultarImagenFirma(int idDesechosLiquidos)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDDesechosLiquidosPeligrosos = new clsDDesechosLiquidosPeligrosos();
+                var lista = clsDDesechosLiquidosPeligrosos.ConsultarImagenFirma(idDesechosLiquidos, false);
+                if (lista != null)
+                {
+                    if (lista[0].FirmaAprobacion != null)
+                    {
+                        var base64 = Convert.ToBase64String(lista[0].FirmaAprobacion);
+                        var imagenfirma = String.Format("data:image/png;base64,{0}", base64);
+                        return Json(imagenfirma, JsonRequestBehavior.AllowGet);
+                    }
+                    else return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         //-----------------------------------------------IMPRESION PDF---------------------------------------------------------------------
         public ActionResult PrintReport(int anioBusqueda, int mesBusqueda, int idDesechosLiquidos, int op)

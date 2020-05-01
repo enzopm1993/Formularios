@@ -37,6 +37,34 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlDesecho
             }
         }
 
+        public List<CC_DESECHOS_LIQUIDOS_PELIGROSOS> ConsultarImagenFirma(int idDesechosLiquidos, bool esFirmaControl)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = db.CC_DESECHOS_LIQUIDOS_PELIGROSOS.Where(x => x.IdDesechosLiquidos == idDesechosLiquidos && x.EstadoRegistro == "A").ToList();
+                List<CC_DESECHOS_LIQUIDOS_PELIGROSOS> listaCabecera = new List<CC_DESECHOS_LIQUIDOS_PELIGROSOS>();
+                CC_DESECHOS_LIQUIDOS_PELIGROSOS itemCabecera;
+                foreach (var item in lista)
+                {// SI NO HAGO ESTO ME DA UN ERROR DE QUE LA CONEXION SE PERDIO A PESAR QUE SI ME TRAIA DATOS
+                    itemCabecera = new CC_DESECHOS_LIQUIDOS_PELIGROSOS();
+                    itemCabecera.FechaMES = item.FechaMES;
+                    itemCabecera.EstadoReporte = item.EstadoReporte;
+                    itemCabecera.FechaIngresoLog = item.FechaIngresoLog;
+                    itemCabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    itemCabecera.IdDesechosLiquidos = item.IdDesechosLiquidos;
+                    if (esFirmaControl == true)
+                    {
+                        itemCabecera.FirmaControl = item.FirmaControl;
+                    }
+                    else{
+                        itemCabecera.FirmaAprobacion = item.FirmaAprobacion;
+                    }
+                        listaCabecera.Add(itemCabecera);
+                }
+                return listaCabecera;
+            }
+        }
+
         public int GuardarModificarDesechosLiquidos(CC_DESECHOS_LIQUIDOS_PELIGROSOS guardarmodificar, int siAprobar)
         {
             int valor = 0;
@@ -53,6 +81,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlDesecho
                     {
                         model.EstadoReporte = guardarmodificar.EstadoReporte;
                         model.AprobadoPor = guardarmodificar.UsuarioIngresoLog;
+                        model.FechaAprobacion = guardarmodificar.FechaAprobacion;
                     }
                     model.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
                     model.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
@@ -63,6 +92,31 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlDesecho
                 {
                     db.CC_DESECHOS_LIQUIDOS_PELIGROSOS.Add(guardarmodificar);
                 }
+                db.SaveChanges();
+                return valor;
+            }
+        }
+
+        public int GuardarImagenFirma(CC_DESECHOS_LIQUIDOS_PELIGROSOS guardarmodificar, bool esFrimaControl)
+        {
+            int valor = 0;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_DESECHOS_LIQUIDOS_PELIGROSOS.FirstOrDefault(x => x.IdDesechosLiquidos == guardarmodificar.IdDesechosLiquidos && x.EstadoRegistro == guardarmodificar.EstadoRegistro);
+                if (model != null)
+                {
+                    if (esFrimaControl == true)
+                    {
+                        model.FirmaControl = guardarmodificar.FirmaControl;
+                    }
+                    else {
+                        model.FirmaAprobacion = guardarmodificar.FirmaAprobacion;
+                    }                    
+                    model.FechaModificacionLog = guardarmodificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarmodificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarmodificar.UsuarioIngresoLog;
+                    valor = 1;
+                }               
                 db.SaveChanges();
                 return valor;
             }
