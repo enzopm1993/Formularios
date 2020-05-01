@@ -2198,7 +2198,9 @@
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\MantenimientoCondicion.js" />
+    <Content Include="Scripts\CALIDAD\DesechosLiquidosPeligrosos\BandejaDesechosLiquidosPeligrosos.js" />
     <Content Include="Scripts\CALIDAD\DesechosLiquidosPeligrosos\DesechosLiquidosPeligrosos.js" />
+    <Content Include="Scripts\CALIDAD\DesechosLiquidosPeligrosos\ReporteDesechosLiquidosPeligrosos.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.js" />
@@ -3254,6 +3256,7 @@
     </Content>
     <Content Include="Views\CloroCisternaDescongelado\HeaderPdf.html" />
     <Content Include="Views\ControlCuchillosPreparacion\HeaderPdf.html" />
+    <Content Include="Views\DesechosLiquidosPeligrosos\HeaderPdf.html" />
     <Content Include="Views\LavadoCisterna\HeaderPdf.html" />
     <Content Include="Views\LavadoDesinfeccionManos\HeaderPdf.html" />
     <Content Include="Views\Login\Login.cshtml" />
@@ -3854,6 +3857,11 @@
     <Content Include="Views\CondicionPersonal\BandejaCondicionPersonal.cshtml" />
     <Content Include="Views\CondicionPersonal\BandejaCondicionPersonalPartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\PartialReporteEvaluacionProductoEnfundado.cshtml" />
+    <Content Include="Views\DesechosLiquidosPeligrosos\BandejaDesechosLiquidosPeligrosos.cshtml" />
+    <Content Include="Views\DesechosLiquidosPeligrosos\BandejaDesechosLiquidosPeligrososPartial.cshtml" />
+    <Content Include="Views\DesechosLiquidosPeligrosos\ReporteDesechosLiquidosPeligrosos.cshtml" />
+    <Content Include="Views\DesechosLiquidosPeligrosos\ReporteDesechosLiquidosPeligrososPartial.cshtml" />
+    <Content Include="Views\DesechosLiquidosPeligrosos\PdfReporteDesechosLiquidosPeligrososPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
