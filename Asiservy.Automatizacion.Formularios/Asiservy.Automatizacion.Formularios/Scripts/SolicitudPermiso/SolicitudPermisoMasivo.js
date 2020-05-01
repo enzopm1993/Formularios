@@ -23,7 +23,7 @@ function CargarEmpleados(linea) {
     if (linea == "" || linea == null) {
         return;
     }
-
+    $("#DivTblEmpleados").html('')
     $.ajax({
         url: "../Empleado/EmpleadosMasivoPartial",
         type: "Get",
@@ -31,11 +31,11 @@ function CargarEmpleados(linea) {
             Linea: linea
         },
         success: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
             if (resultado == 0) {
                 MensajeAdvertencia("No Existen Empleados para esta Linea");
             } else {
                 
-                $("#spinnerCargando").prop("hidden", true);
                 $("#DivTblEmpleados").html(resultado);
             }
         },
