@@ -24,6 +24,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
+        public byte[] FirmaControl { get; set; }
+        public byte[] FirmaAprobacion { get; set; }
         public int IdDesechosLiquidosDetalle { get; set; }
         public System.DateTime FechaDIA { get; set; }
         public decimal Laboratorio { get; set; }
