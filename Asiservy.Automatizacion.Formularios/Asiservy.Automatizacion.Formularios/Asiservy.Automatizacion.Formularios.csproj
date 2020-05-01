@@ -3424,7 +3424,7 @@
     <Compile Include="Controllers\PRODUCCION\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\ReporteMaestroController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
-    <Compile Include="Controllers\PRODUCCION\SolicitudPermisoController.cs" />
+    <Compile Include="Controllers\SolicitudPermisoController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
