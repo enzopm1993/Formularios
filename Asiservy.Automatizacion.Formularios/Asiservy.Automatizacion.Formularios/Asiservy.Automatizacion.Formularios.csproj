@@ -2219,6 +2219,7 @@
     <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
+    <Content Include="Scripts\CALIDAD\HigieneComedorCocina\MantHigieneComedorCocina.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\MonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
@@ -3288,6 +3289,7 @@
     <Compile Include="AccesoDatos\CALIDAD\ControlLavadoCisterna\clsDControlLavadoCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\EvaluacionDeLomosyMigasEnBandeja\clsDEvaluacionDeLomosYMigasEnBandeja.cs" />
     <Compile Include="AccesoDatos\CALIDAD\EvaluacionProductoEnfundado\clsDEvaluacionProductoEnfundado.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\HigieneComedorCocina\clsDHigieneComedorCocina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\LavadoDesinfeccionManos\clsDLavadoDesinfeccionManos.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoCisterna\clsDMantenimientoCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoColor\clsDMantenimientoColor.cs" />
@@ -3376,6 +3378,7 @@
     <Compile Include="Controllers\CALIDAD\DesechosLiquidosPeligrososController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionDeLomoyMigaEnBandejaController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionProductoEnfundadoController.cs" />
+    <Compile Include="Controllers\CALIDAD\HigieneComedorCocinaController.cs" />
     <Compile Include="Controllers\CALIDAD\LavadoCisternaController.cs" />
     <Compile Include="Controllers\CALIDAD\LavadoDesinfeccionManosController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoCisternaController.cs" />
@@ -3862,6 +3865,8 @@
     <Content Include="Views\DesechosLiquidosPeligrosos\ReporteDesechosLiquidosPeligrosos.cshtml" />
     <Content Include="Views\DesechosLiquidosPeligrosos\ReporteDesechosLiquidosPeligrososPartial.cshtml" />
     <Content Include="Views\DesechosLiquidosPeligrosos\PdfReporteDesechosLiquidosPeligrososPartial.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocina.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocinaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

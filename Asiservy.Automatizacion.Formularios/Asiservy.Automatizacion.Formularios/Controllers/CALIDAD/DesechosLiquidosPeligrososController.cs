@@ -9,7 +9,6 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlDesechosLiq
 using Rotativa;
 using System.Data.Entity.Validation;
 using System.Net;
-using Rotativa;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
@@ -757,6 +756,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json("0", JsonRequestBehavior.AllowGet);
             }
         }
+
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
