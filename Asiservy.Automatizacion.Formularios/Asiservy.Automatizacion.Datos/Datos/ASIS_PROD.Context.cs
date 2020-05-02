@@ -148,6 +148,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CONDICION_PERSONAL_CONTROL> CC_CONDICION_PERSONAL_CONTROL { get; set; }
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE> CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE { get; set; }
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS> CC_DESECHOS_LIQUIDOS_PELIGROSOS { get; set; }
+        public virtual DbSet<PRY_PESAJE> PRY_PESAJE { get; set; }
+        public virtual DbSet<PRY_PESAJE_DETALLE> PRY_PESAJE_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {

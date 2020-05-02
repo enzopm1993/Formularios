@@ -2106,6 +2106,33 @@
           <Property Name="Marea" Type="int" />
           <Property Name="RecetaRoceado" Type="varchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="PRY_PESAJE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LINEA" Type="varchar" MaxLength="2" />
+          <Property Name="LOTE" Type="varchar" MaxLength="10" />
+          <Property Name="ORDEN_FABRICACION" Type="int" />
+          <Property Name="TURNO" Type="int" />
+          <Property Name="LIMPIEZA" Type="varchar" MaxLength="50" />
+          <Property Name="FECHA_INGRESO" Type="datetime" />
+          <Property Name="USUARIO_INGRESO" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="PRY_PESAJE_DETALLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_PESAJE" Type="int" />
+          <Property Name="TIPO_TARA" Type="varchar" MaxLength="50" />
+          <Property Name="PESO_BRUTO" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="PESO_TARA" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="PESO_NETO" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="ESTADO_REGISTRO" Type="bit" Nullable="false" />
+          <Property Name="FECHA_INGRESO" Type="datetime" />
+          <Property Name="USUARIO_INGRESO" Type="varchar" MaxLength="20" />
+        </EntityType>
         <EntityType Name="REPORTE_DETALLE">
           <Key>
             <PropertyRef Name="IdReporteDetalle" />
@@ -3556,6 +3583,8 @@
           <EntitySet Name="PRODUCTO_TERMINADO_TIEMPO_PARADAS" EntityType="Self.PRODUCTO_TERMINADO_TIEMPO_PARADAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROYECCION_PROGRAMACION" EntityType="Self.PROYECCION_PROGRAMACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROYECCION_PROGRAMACION_DETALLE" EntityType="Self.PROYECCION_PROGRAMACION_DETALLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRY_PESAJE" EntityType="Self.PRY_PESAJE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRY_PESAJE_DETALLE" EntityType="Self.PRY_PESAJE_DETALLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REPORTE_DETALLE" EntityType="Self.REPORTE_DETALLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REPORTE_MAESTRO" EntityType="Self.REPORTE_MAESTRO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RESIDUAL_CLORO" EntityType="Self.RESIDUAL_CLORO" Schema="dbo" store:Type="Tables" />
@@ -4841,6 +4870,8 @@
             <End Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS" EntitySet="CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
             <End Role="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" EntitySet="CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" />
           </AssociationSet>
+          <EntitySet Name="PRY_PESAJE" EntityType="ASIS_PRODModel.PRY_PESAJE" />
+          <EntitySet Name="PRY_PESAJE_DETALLE" EntityType="ASIS_PRODModel.PRY_PESAJE_DETALLE" />
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -9486,6 +9517,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PRY_PESAJE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LINEA" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="LOTE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ORDEN_FABRICACION" Type="Int32" />
+          <Property Name="TURNO" Type="Int32" />
+          <Property Name="LIMPIEZA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_INGRESO" Type="DateTime" Precision="3" />
+          <Property Name="USUARIO_INGRESO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PRY_PESAJE_DETALLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_PESAJE" Type="Int32" />
+          <Property Name="TIPO_TARA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PESO_BRUTO" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PESO_TARA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PESO_NETO" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FECHA_INGRESO" Type="DateTime" Precision="3" />
+          <Property Name="USUARIO_INGRESO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO_REGISTRO" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14286,6 +14344,35 @@
                 <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
                 <ScalarProperty Name="FechaMES" ColumnName="FechaMES" />
                 <ScalarProperty Name="IdDesechosLiquidos" ColumnName="IdDesechosLiquidos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRY_PESAJE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.PRY_PESAJE">
+              <MappingFragment StoreEntitySet="PRY_PESAJE">
+                <ScalarProperty Name="USUARIO_INGRESO" ColumnName="USUARIO_INGRESO" />
+                <ScalarProperty Name="FECHA_INGRESO" ColumnName="FECHA_INGRESO" />
+                <ScalarProperty Name="LIMPIEZA" ColumnName="LIMPIEZA" />
+                <ScalarProperty Name="TURNO" ColumnName="TURNO" />
+                <ScalarProperty Name="ORDEN_FABRICACION" ColumnName="ORDEN_FABRICACION" />
+                <ScalarProperty Name="LOTE" ColumnName="LOTE" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRY_PESAJE_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.PRY_PESAJE_DETALLE">
+              <MappingFragment StoreEntitySet="PRY_PESAJE_DETALLE">
+                <ScalarProperty Name="ESTADO_REGISTRO" ColumnName="ESTADO_REGISTRO" />
+                <ScalarProperty Name="USUARIO_INGRESO" ColumnName="USUARIO_INGRESO" />
+                <ScalarProperty Name="FECHA_INGRESO" ColumnName="FECHA_INGRESO" />
+                <ScalarProperty Name="PESO_NETO" ColumnName="PESO_NETO" />
+                <ScalarProperty Name="PESO_TARA" ColumnName="PESO_TARA" />
+                <ScalarProperty Name="PESO_BRUTO" ColumnName="PESO_BRUTO" />
+                <ScalarProperty Name="TIPO_TARA" ColumnName="TIPO_TARA" />
+                <ScalarProperty Name="ID_PESAJE" ColumnName="ID_PESAJE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

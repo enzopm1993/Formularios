@@ -371,7 +371,7 @@
         sPath = sPath.split("/");
         urlOpcion = urlOpcion.split("/");
         $.ajax({
-            url: "../Login/ValidarOpcionUsuario",
+            url: '@Url.Content("~/")'+"Login/ValidarOpcionUsuario",
             type: "GET",
             data:
             {
@@ -380,7 +380,7 @@
             },
             success: function (resultado) {
                 if (resultado == false) {
-                    var url = "../Home/HomeError?Msg=NO TIENE PERMISOS A ESTA PÁGINA";
+                    var url = '@Url.Content("~/")'+"Home/HomeError?Msg=NO TIENE PERMISOS A ESTA PÁGINA";
                     window.location.href = url;
                 }
             },

@@ -3197,6 +3197,7 @@
     <Content Include="Scripts\Nomina\EmpleadosClientes.js" />
     <Content Include="Scripts\Nomina\RptAsistenciaInicialActuales.js" />
     <Content Include="Scripts\Periodo\Periodo.js" />
+    <Content Include="Scripts\Pesaje\AgregarPeso.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -3423,6 +3424,7 @@
     <Compile Include="Controllers\PRODUCCION\CocheAutoclaveController.cs" />
     <Compile Include="Controllers\CALIDAD\CondicionPersonalController.cs" />
     <Compile Include="Controllers\PRODUCCION\EsterilizacionConservaController.cs" />
+    <Compile Include="Controllers\PRODUCCION\PesajeController.cs" />
     <Compile Include="Controllers\PRODUCCION\ProductoPouchCuarentenaController.cs" />
     <Compile Include="Controllers\PRODUCCION\ProyeccionProgramacionController.cs" />
     <Compile Include="Controllers\ReporteMaestroController.cs" />
@@ -3867,6 +3869,8 @@
     <Content Include="Views\DesechosLiquidosPeligrosos\PdfReporteDesechosLiquidosPeligrososPartial.cshtml" />
     <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocina.cshtml" />
     <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocinaPartial.cshtml" />
+    <Content Include="Views\Pesaje\Index.cshtml" />
+    <Content Include="Views\Pesaje\AgregarPeso.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

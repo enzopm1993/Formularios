@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "Creación de documento pesaje";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .nqnPesoBruto {
+        text-align: center;
+        font-size: 35px;
+        height: auto;
+    }
+
+    .txtPesoNeto {
+        font-size: 16px;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
+    }
+</style>
+<div class="row" id="nuevoDocumentoPeso">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Creación de documento pesaje</h6>
+            </div>
+            <div class="card-body">
+
+                <div class="form-group">
+                    <label>Fecha de producción</label>
+                    <input type="date" id="txtFechaProduccion" name="name" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="selectTurno">
+                        <option value="1">TURNO 1</option>
+                        <option value="2">TURNO 2</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="selectTipoLimpieza">
+                        <option value="0">TIPO DE LIMPIEZA</option>
+                        <option value="SIMPLE">LIMPIEZA SIMPLE</option>
+                        <option value="INTERMEDIA">LIMPIEZA INTERMEDIA</option>
+                        <option value="DOBLE">LIMPIEZA DOBLE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Orden de fabricación</label>
+
+                    <div class="input-group">
+                        <input class="form-control " type="search" id="txtOrdenFabricacion" readonly>
+                        <span class="input-group-append">
+                            <button class="btn btn-outline-secondary border-left-0 border" type="button" id="btnOrden" style="padding: 1px 6px !important">
+                                <i class="fa fa-search" style="font-size: 14px;"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Lote</label>
+                    <select id="SelectLote" class="form-control">
+                        <option value="0">Seleccione</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <a href="#" id="btnCrearDocumento" class="btn btn-success btn-block">Ingresar pesos <i id="iconSend" class="fas fa-send"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="formularioPeso">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header py-3 d-flex align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">Ingreso de peso</h6>
+                <span id="txtPesoNeto" class="txtPesoNeto badge badge-danger ml-auto">0 Kg.</span>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <input type="hidden" id="nqnPesoTara" value="0" />
+                    <select class="form-control" id="selectTipoTara">
+                        <option value="0|0'">TIPO BANDEJA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="txtPeso">Ingrese peso bruto</label>
+                    <input id="nqnPesoBruto" type="text" class="form-control nqnPesoBruto" placeholder="0.00" onkeypress="return validateFloatKeyPress(this,event);" />
+                </div>
+                <div class="form-group">
+                    <a href="#" id="btnEnvia" class="btn btn-success btn-block">Enviar <i id="iconSendPeso" class="fas fa-send"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow" style="margin-top:10px">
+            <a href="#collapseInfo" class="d-block card-header py-3 " data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseInfo">
+                <h6 class="m-0 font-weight-bold text-primary">Información</h6>
+            </a>
+            <div class="collapse show" id="collapseInfo">
+                <div class="card-body">
+
+                    <strong>Documento: # </strong><span id="codCabecera">1001</span> | <strong>Línea: </strong><span id="txtLinea">01</span> | <strong>Turno: </strong><span id="txtTurno">1</span><br />
+                    <strong>Lote: </strong><span id="txtLote">A2</span> | <strong>Limpieza: </strong><span id="txtTipoLimpieza">INTERMEDIA</span><br />
+                    <strong>Orden de fabricación: </strong><span id="txtOrden">1900005525</span><br />
+                    <strong>Registros: </strong><span id="txtTotalRegistros">0</span> | <strong>Total peso: </strong><span id="txtTotalPeso">0</span> Kg.
+                </div>
+            </div>
+        </div>
+        <div class="card shadow" style="margin-top:10px">
+            <a href="#collapseInfoPesos" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseInfoPesos">
+                <h6 class="m-0 font-weight-bold text-primary">Últimos ingresados</h6>
+            </a>
+            <div class="collapse show" id="collapseInfoPesos">
+                <div class="card-body">
+                    <ul id="ultimosIngresos" class="list-group">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <a href="#" id="btnNuevo" style="margin-top: 10px;" class="btn btn-danger btn-block">Nuevo documento <i class="fas fa-plus"></i></a>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalOrdenes">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Ordenes de fabricación</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" class="form-control" id="txtFechaOrden" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarOrdenFabricacion(this.value)" />
+                            <p class="text-danger" hidden id="validaFecha">No existen ordenes</p>
+                        </div>
+
+                    </div>
+                    <div class="col-6">
+                        <label>Orden:</label>
+                        <select id="SelectOrdenFabricacion" , class="form-control">
+                            <option value="0">Seleccione</option>
+                        </select>
+                        <p class="text-danger" hidden id="validaOrden">Seleccione una orden</p>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" id="modal-orden-si">Aceptar</button>
+                <button type="button" class="btn btn-outline-dark" id="modal-orden-no">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
