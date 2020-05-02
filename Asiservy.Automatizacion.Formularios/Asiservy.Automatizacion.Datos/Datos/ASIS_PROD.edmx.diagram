@@ -176,6 +176,15 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" Width="1.5" PointX="40.625" PointY="11" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS" Width="1.5" PointX="38.375" PointY="29.875" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_C_C_MANT_AREA_AUDITORIA" Width="1.5" PointX="23.375" PointY="41.625" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_C_C_MANT_INTERMEDIA" Width="1.5" PointX="25.625" PointY="46.625" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_C_C_MANT_OBJETOS" Width="1.5" PointX="23.375" PointY="55.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_CTRL" Width="1.5" PointX="23.375" PointY="50.125" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE" Width="1.5" PointX="25.625" PointY="41.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_AREA_AUDITORIA" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE_CC_HIGIENE_C_C_MANT_AREA_AUDITORIA" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_OBJETOS" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE_CC_HIGIENE_COMEDOR_COCINA_CTRL" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
