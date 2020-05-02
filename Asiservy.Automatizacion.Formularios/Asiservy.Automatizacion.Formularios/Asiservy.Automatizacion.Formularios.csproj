@@ -2193,6 +2193,7 @@
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.js" />
+    <Content Include="Scripts\CALIDAD\CondicionPersonal\BandejaCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\CondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\CondicionPersonal\ReporteCondicionPersonal.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\BandejaCuchilloPreparacion.js" />

@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     public class CloroCisternaDescongeladoController : Controller
     {
         clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
+        //clsDEmpleado clsDEmpleado = null;
         clsDCloroCisternaDescongelado clsDCloroCisternaDescongelado = null;
         string[] lsUsuario;
         //-----------------------------------------------------VISTA DE INGRESO DE DATOS----------------------------------------------------------------

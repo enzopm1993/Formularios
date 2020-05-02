@@ -17,7 +17,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
         string[] lsUsuario = null;
         clsDError clsDError = null;
         clsDClasificador clsDClasificador = null;
-        clsDEmpleado clsDEmpleado = null;
+        //clsDEmpleado clsDEmpleado = null;
         clsDCondicionPersonal clsDCondicionPersonal = null;
 
         public ActionResult Prueba()
@@ -403,12 +403,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
 
-        public ActionResult BandejaCondicionPersonalPartial(DateTime Fecha, bool Estado)
+        public ActionResult BandejaCondicionPersonalPartial(DateTime? FechaDesde, DateTime? FechaHasta, bool Estado=false)
         {
             try
             {
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                var poCloroCisterna = clsDCondicionPersonal.ConsultaCondicionPersonalControl(Fecha,Estado);
+                List<CC_CONDICION_PERSONAL_CONTROL> poCloroCisterna = null;
+                if (FechaDesde != null && FechaHasta !=null)
+                {
+                     poCloroCisterna = clsDCondicionPersonal.ConsultaCondicionPersonalControl(FechaDesde.Value, FechaHasta.Value, Estado);
+                }
+                else
+                {
+                     poCloroCisterna = clsDCondicionPersonal.ConsultaCondicionPersonalControlPendiente();
+                    
+                }
                 if (poCloroCisterna != null && poCloroCisterna.Any())
                 {
                     return PartialView(poCloroCisterna);

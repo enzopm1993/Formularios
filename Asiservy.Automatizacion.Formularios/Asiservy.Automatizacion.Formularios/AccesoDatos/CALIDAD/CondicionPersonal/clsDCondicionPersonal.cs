@@ -118,14 +118,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
 
             }
         }
-        public List<CC_CONDICION_PERSONAL_CONTROL> ConsultaCondicionPersonalControl(DateTime Fecha, bool Estado)
+        public List<CC_CONDICION_PERSONAL_CONTROL> ConsultaCondicionPersonalControl(DateTime FechaDesde,DateTime FechaHasta, bool Estado)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_CONDICION_PERSONAL_CONTROL.Where(x => x.Fecha == Fecha && x.EstadoReporte==Estado).ToList();
+                return entities.CC_CONDICION_PERSONAL_CONTROL.Where(x => x.Fecha >= FechaDesde
+                                                                         && x.Fecha <= FechaHasta
+                                                                && x.EstadoReporte==Estado).ToList();
             }
         }
 
+        public List<CC_CONDICION_PERSONAL_CONTROL> ConsultaCondicionPersonalControlPendiente()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_CONDICION_PERSONAL_CONTROL.Where(x => x.EstadoReporte == false).ToList();
+            }
+        }
 
     }
 }
