@@ -6,11 +6,12 @@ $(document).ready(function () {
 //CARGAR BANDEJA
 function CargarBandeja() {
     $("#spinnerCargando").prop("hidden", false);
+    $('#divPartialControlCloro').html('');
     $.ajax({
         url: "../CondicionPersonal/BandejaCondicionPersonalPartial",
         type: "GET",
         success: function (resultado) {
-            $('#divPartialControlCloro').empty();
+            $('#divPartialControlCloro').html('');
             if (resultado == '0') {
                 $('#MensajeRegistros').show();
             } else {
@@ -38,10 +39,10 @@ function SeleccionarBandeja(model) {
         url: "../CondicionPersonal/BandejaAprobarCondicionPersonal",
         type: "GET",
         data: {
-            Fecha: model.Fecha,
-            IdCloroCisterna: model.IdCloroCisterna
+            Fecha: model.Fecha          
         },
         success: function (resultado) {
+            console.log(resultado);
             if (resultado == "101") {
                 window.location.reload();
             }
@@ -52,16 +53,22 @@ function SeleccionarBandeja(model) {
                 MensajeAdvertencia("¡El REGISTRO no tiene detalle, por favor ingrese los datos en el CONTROL!");
             } else {
                 $("#tblDataTableAprobar tbody").empty();
-                configModal.opcionesDT.order = [];
-                configModal.opcionesDT.columns = [
+                config.opcionesDT.order = [];
+                config.opcionesDT.columns = [                  
+                    { data: 'Fecha' },
                     { data: 'Hora' },
-                    { data: 'Ppm_Cloro' },
-                    { data: 'Cisterna' },
-                    { data: 'UsuarioIngresoLog' },
-                    { data: 'Observaciones' }
+                    { data: 'Cedula' },
+                    { data: 'Nombre' },
+                    { data: 'Condicion' },
+                    { data: 'Observacion' }
                 ];
                 table.DataTable().destroy();
-                table.DataTable(configModal.opcionesDT);
+                table.DataTable(config.opcionesDT);
+                resultado.forEach(function (row) {
+                    row.Fecha = moment(row.Fecha).format('YYYY-MM-DD');
+                    row.Hora = moment(row.Hora).format('HH:mm');
+                });
+
                 table.DataTable().rows.add(resultado);
                 table.DataTable().draw();
                 $("#ModalApruebaCntrolCloro").modal("show");
@@ -75,22 +82,21 @@ function SeleccionarBandeja(model) {
 }
 
 function AprobarControlCloroDetalle(data) {
-    var estadoReporte = data;
+    //var estadoReporte = data;
     $.ajax({
         url: "../CondicionPersonal/AprobarBandejaControlCloro",
         type: "POST",
         data: {
-            IdCloroCisterna: listaDatos.IdCloroCisterna,
-            Fecha: listaDatos.Fecha,
-            Observaciones: listaDatos.Observaciones,
-            EstadoReporte: estadoReporte
+            IdCondicionPersonal: listaDatos.IdCondicionPersonal,
+            Fecha: listaDatos.Fecha        
+
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
             MensajeCorrecto(resultado);
-            FiltrarAprobadosFecha();
+            CargarBandeja();
             $("#ModalApruebaCntrolCloro").modal("hide");
         },
         error: function (resultado) {
@@ -105,14 +111,15 @@ function FiltrarAprobadosFecha() {
         CargarBandeja();
 
     } else {
+        $('#divPartialControlCloro').html('');
         $("#spinnerCargando").prop("hidden", false);
         $.ajax({
             url: "../CondicionPersonal/BandejaCondicionPersonalPartial",
             type: "GET",
             data: {
-                fechaInicio: $("#fechaDesde").val(),
-                fechaFin: $("#fechaHasta").val(),
-                estadoRegistro: $("#selectEstadoRegistro").val()
+                FechaDesde: $("#fechaDesde").val(),
+                FechaHasta: $("#fechaHasta").val(),
+                Estado: $("#selectEstadoRegistro").val()
             },
             success: function (resultado) {
                 if (resultado == '0') {
