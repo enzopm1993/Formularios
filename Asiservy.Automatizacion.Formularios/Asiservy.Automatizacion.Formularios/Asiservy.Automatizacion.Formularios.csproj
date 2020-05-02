@@ -3877,7 +3877,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\REPORTE\" />
+    <Folder Include="Content\Img\DetectorMetal\" />
+    <Folder Include="Content\Img\REPORTE\" />
     <Folder Include="Views\Comunicados\" />
   </ItemGroup>
   <ItemGroup>

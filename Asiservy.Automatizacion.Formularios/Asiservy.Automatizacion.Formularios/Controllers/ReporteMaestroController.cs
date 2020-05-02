@@ -184,9 +184,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 string NombreImg = string.Empty;
                 if (dataImg != null)
                 {
-                    path = Server.MapPath("~/Content/REPORTE/");
+                    path = Server.MapPath("~/Content/Img/REPORTE/");
                     if (!Directory.Exists(path))
-                    {
+                    { 
                         Directory.CreateDirectory(path);
                     }
                     var date = DateTime.Now;
