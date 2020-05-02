@@ -8,27 +8,92 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
 {
     public class clsDHigieneComedorCocina
     {
-        public List<CC_HIGIENE_C_C_MANT_OBJETOS> ConsultarObjetos(string estadoRegistro) {
+        public List<CC_HIGIENE_C_C_MANT_OBJETOS> ConsultarObjetos() {
             using ( ASIS_PRODEntities db =new ASIS_PRODEntities())
             {
-                var lista = db.CC_HIGIENE_C_C_MANT_OBJETOS.Where(x=> x.EstadoRegistro==estadoRegistro);
-                return lista.ToList();
+                var lista = db.CC_HIGIENE_C_C_MANT_OBJETOS.ToList();
+                List<CC_HIGIENE_C_C_MANT_OBJETOS> listaObjeto = new List<CC_HIGIENE_C_C_MANT_OBJETOS>();
+                CC_HIGIENE_C_C_MANT_OBJETOS objeto;
+                foreach (var item in lista)
+                {
+                    objeto = new CC_HIGIENE_C_C_MANT_OBJETOS();
+                    objeto.IdObjeto = item.IdObjeto;
+                    objeto.NombreObjeto = item.NombreObjeto;
+                    objeto.DescripcionObjeto = item.DescripcionObjeto;
+                    objeto.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    objeto.FechaIngresoLog = item.FechaIngresoLog;
+                    objeto.EstadoRegistro = item.EstadoRegistro;
+                    listaObjeto.Add(objeto);
+                }
+                return listaObjeto;
+            }
+        }
+
+        public List<CC_HIGIENE_C_C_MANT_OBJETOS> ConsultarObjetosActivos(string estadoRegistro)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = db.CC_HIGIENE_C_C_MANT_OBJETOS.Where(x=> x.EstadoRegistro==estadoRegistro).ToList();
+                List<CC_HIGIENE_C_C_MANT_OBJETOS> listaObjeto = new List<CC_HIGIENE_C_C_MANT_OBJETOS>();
+                CC_HIGIENE_C_C_MANT_OBJETOS objeto;
+                foreach (var item in lista)
+                {
+                    objeto = new CC_HIGIENE_C_C_MANT_OBJETOS();
+                    objeto.IdObjeto = item.IdObjeto;
+                    objeto.NombreObjeto = item.NombreObjeto;
+                    objeto.DescripcionObjeto = item.DescripcionObjeto;
+                    objeto.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    objeto.FechaIngresoLog = item.FechaIngresoLog;
+                    objeto.EstadoRegistro = item.EstadoRegistro;
+                    listaObjeto.Add(objeto);
+                }
+                return listaObjeto;
+            }
+        }
+
+        public List<CC_HIGIENE_C_C_MANT_INTERMEDIA> ConsultarIntermediaActivos(int idAuditoria)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = db.CC_HIGIENE_C_C_MANT_INTERMEDIA.Where(x => x.IdAuditoria == idAuditoria && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
+                List<CC_HIGIENE_C_C_MANT_INTERMEDIA> listaObjeto = new List<CC_HIGIENE_C_C_MANT_INTERMEDIA>();
+                CC_HIGIENE_C_C_MANT_INTERMEDIA objeto;
+                foreach (var item in lista)
+                {
+                    objeto = new CC_HIGIENE_C_C_MANT_INTERMEDIA();
+                    objeto.IdObjeto = item.IdObjeto;
+                    objeto.IdMantenimiento = item.IdMantenimiento;
+                    objeto.IdAuditoria = item.IdAuditoria;
+                    objeto.EstadoRegistro = item.EstadoRegistro;
+                    listaObjeto.Add(objeto);
+                }
+                return listaObjeto;
             }
         }
 
         public int GuardarModificarObjeto(CC_HIGIENE_C_C_MANT_OBJETOS guardarModificar)
         {
             int valor = 0;
-            using (ASIS_PRODEntities db=new ASIS_PRODEntities())
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_HIGIENE_C_C_MANT_OBJETOS.FirstOrDefault(x => x.IdObjeto == guardarModificar.IdObjeto && x.EstadoRegistro == guardarModificar.EstadoRegistro);
+                var model = db.CC_HIGIENE_C_C_MANT_OBJETOS.FirstOrDefault(x => x.IdObjeto == guardarModificar.IdObjeto);
                 if (model != null)
                 {
-                    model.EstadoRegistro = guardarModificar.EstadoRegistro;
-                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
-                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
-                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
-                    valor = 1;
+
+                    if (model.EstadoRegistro == "I")
+                    {
+                        valor = 2;
+                        return valor;
+                    }
+                    else
+                    {
+                        model.NombreObjeto = guardarModificar.NombreObjeto;
+                        model.DescripcionObjeto = guardarModificar.DescripcionObjeto;
+                        model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                        model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                        model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                        valor = 1;
+                    }
                 }
                 else
                 {
@@ -83,18 +148,28 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
             int valor = 0;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_HIGIENE_C_C_MANT_AREA_AUDITORIA.FirstOrDefault(x => x.IdAuditoria == guardarModificar.IdAuditoria && x.EstadoRegistro == guardarModificar.EstadoRegistro);
+                var model = db.CC_HIGIENE_C_C_MANT_AREA_AUDITORIA.FirstOrDefault(x => x.IdAuditoria == guardarModificar.IdAuditoria);
                 if (model != null)
                 {
-                    model.EstadoRegistro = guardarModificar.EstadoRegistro;
-                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
-                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
-                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
-                    valor = 1;
+
+                    if (model.EstadoRegistro == "I")
+                    {
+                        valor = 2;
+                        return valor;
+                    }
+                    else
+                    {
+                        model.NombreAuditoria = guardarModificar.NombreAuditoria;
+                        model.DescripcionAuditoria = guardarModificar.DescripcionAuditoria;
+                        model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                        model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                        model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                        valor = 1;
+                    }
                 }
                 else
                 {
-                    db.CC_HIGIENE_C_C_MANT_AREA_AUDITORIA.Add(guardarModificar);
+                    db.CC_HIGIENE_C_C_MANT_AREA_AUDITORIA.Add(guardarModificar); 
                 }
                 db.SaveChanges();
                 return valor;
@@ -107,6 +182,48 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var model = db.CC_HIGIENE_C_C_MANT_AREA_AUDITORIA.FirstOrDefault(x => x.IdAuditoria == guardarModificar.IdAuditoria);
+                if (model != null)
+                {
+                    model.EstadoRegistro = guardarModificar.EstadoRegistro;
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                    db.SaveChanges();
+                    valor = 1;
+                }
+                return valor;
+            }
+        }
+
+        public int GuardarModificarIntermedia(CC_HIGIENE_C_C_MANT_INTERMEDIA guardarModificar)
+        {
+            int valor = 0;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_HIGIENE_C_C_MANT_INTERMEDIA.FirstOrDefault(x => x.IdAuditoria == guardarModificar.IdAuditoria && x.IdObjeto==guardarModificar.IdObjeto && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
+                if (model != null)
+                {
+                    model.IdObjeto = guardarModificar.IdObjeto;
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                    valor = 1;
+                }
+                else
+                {
+                    db.CC_HIGIENE_C_C_MANT_INTERMEDIA.Add(guardarModificar);
+                }
+                db.SaveChanges();
+                return valor;
+            }
+        }
+
+        public int EliminarIntermedia(CC_HIGIENE_C_C_MANT_INTERMEDIA guardarModificar)
+        {
+            int valor = 0;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_HIGIENE_C_C_MANT_INTERMEDIA.FirstOrDefault(x => x.IdMantenimiento == guardarModificar.IdMantenimiento);
                 if (model != null)
                 {
                     model.EstadoRegistro = guardarModificar.EstadoRegistro;

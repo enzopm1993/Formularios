@@ -2205,6 +2205,7 @@
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.js" />
+    <Content Include="Scripts\CALIDAD\HigieneComedorCocina\MantObjetos.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
@@ -2220,7 +2221,7 @@
     <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
-    <Content Include="Scripts\CALIDAD\HigieneComedorCocina\MantHigieneComedorCocina.js" />
+    <Content Include="Scripts\CALIDAD\HigieneComedorCocina\MantAreaAuditoria.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\MonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
@@ -3866,8 +3867,10 @@
     <Content Include="Views\DesechosLiquidosPeligrosos\ReporteDesechosLiquidosPeligrosos.cshtml" />
     <Content Include="Views\DesechosLiquidosPeligrosos\ReporteDesechosLiquidosPeligrososPartial.cshtml" />
     <Content Include="Views\DesechosLiquidosPeligrosos\PdfReporteDesechosLiquidosPeligrososPartial.cshtml" />
-    <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocina.cshtml" />
-    <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocinaPartial.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\MantObjetos.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\MantAreaAuditoria.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\MantObjetosPartial.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\MantAreaAuditoriaPArtial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     public class DesechosLiquidosPeligrososController : Controller
     {
         clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
+        
         clsDDesechosLiquidosPeligrosos clsDDesechosLiquidosPeligrosos = null;
         string[] lsUsuario;
         public ActionResult DesechosLiquidosPeligrosos()

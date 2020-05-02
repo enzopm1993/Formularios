@@ -2,11 +2,12 @@
 $(document).ready(function () {
     CargarCabecera();
 });
+
 function CargarCabecera() {
     $('#cargac').show();
     $.ajax({
-        url: "../HigieneComedorCocina/MantHigieneComedorCocinaPartial",
-        type: "GET",       
+        url: "../HigieneComedorCocina/MantObjetosPartial",
+        type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
@@ -31,18 +32,30 @@ function CargarCabecera() {
 function GuardarCabecera() {
     $('#cargac').show();
     $.ajax({
-        url: "../HigieneComedorCocina/GuardarModificarAreaAuditoria",
+        url: "../HigieneComedorCocina/GuardarModificarObjeto",
         type: "POST",
         data: {
-            IdAuditoria: itemEditar.IdAuditoria,
-            NombreAuditoria: $('#txtNombre').val(),
-            DescripcionAuditoria: $("#txtDescripcion").val()
+            IdObjeto: itemEditar.IdObjeto,
+            NombreObjeto: $('#txtNombre').val(),
+            DescripcionObjeto: $("#txtDescripcion").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
             CargarCabecera();
+            if (resultado == 0) {
+                MensajeCorrecto('Registro guardado correctamente');
+            } else if (resultado == 1) {
+                MensajeCorrecto('Registro actualizado correctamente');
+            } else if (resultado == 2) {
+                MensajeAdvertencia('El registro no se pudo Actualizar ¡Por favor ACTIVE y vuelva a intentar!');
+            } else {
+                MensajeAdvertencia('Error al guardar el registro: No se permite espacios en blanco ni vacío');
+                $("#txtNombre").css('border', '1px dashed red');
+                $('#cargac').hide();
+                return;
+            }
             $("#txtDescripcion").val('');
             setTimeout(function () {
                 LimpiarCabecera();
@@ -60,14 +73,36 @@ function GuardarCabecera() {
 function ModalIngresoCabecera() {
     LimpiarCabecera();
     $('#ModalIngresoCabecera').modal('show');
+    //$.ajax({
+    //    url: "../HigieneComedorCocina/ConsultarObjetosPartial",
+    //    type: "GET",
+    //    success: function (resultado) {
+    //        if (resultado == "101") {
+    //            window.location.reload();
+    //        }
+    //        if (resultado == "0") {
+    //            $("#dovMostarObjetos").html("No existen registros");
+    //        } else {
+    //            $("#dovMostarObjetos").html(resultado);
+    //        }
+    //    },
+    //    error: function (resultado) {
+    //        MensajeError(resultado.responseText, false);
+    //    }
+    //});
     itemEditar = [];
 }
 
 function ActualizarCabecera(jdata) {
-    $("#txtNombre").val(jdata.NombreAuditoria);
-    $("#txtDescripcion").val(jdata.DescripcionAuditoria);   
-    $('#ModalIngresoCabecera').modal('show');
-    itemEditar = jdata;
+    if (jdata.EstadoRegistro == 'A') {
+        $("#txtNombre").val(jdata.NombreObjeto);
+        $("#txtDescripcion").val(jdata.DescripcionObjeto);
+        $('#ModalIngresoCabecera').modal('show');
+        itemEditar = jdata;
+    } else {
+        MensajeAdvertencia('¡Por favor ACTIVE el registro y vuelva a intentar!');
+    }
+
 }
 
 function LimpiarCabecera() {
@@ -81,14 +116,6 @@ function InactivarConfirmar(jdata) {
     $("#myModalLabel").text("¿Desea inactivar el registro?");
     itemEditar.EstadoRegistro = 'I';
 }
-//SIN USO
-
-
-
-
-
-
-
 
 function ActivarConfirmar(jdata) {
     $("#modalEliminarControl").modal("show");
@@ -100,10 +127,10 @@ function ActivarConfirmar(jdata) {
 function EliminarCabeceraSi() {
     $('#cargac').show();
     $.ajax({
-        url: "../HigieneComedorCocina/EliminarAreaAuditoria",
+        url: "../HigieneComedorCocina/EliminarObjeto",
         type: "POST",
         data: {
-            IdAuditoria: itemEditar.IdAuditoria,
+            IdObjeto: itemEditar.IdObjeto,
             EstadoRegistro: itemEditar.EstadoRegistro
         },
         success: function (resultado) {
@@ -111,7 +138,7 @@ function EliminarCabeceraSi() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Falta Parametro IdDesinfeccionManos");
+                MensajeAdvertencia("Falta Parametro IdObjeto");
                 $("#modalEliminarControl").modal("hide");
                 $('#cargac').hide();
                 return;
@@ -136,11 +163,6 @@ function EliminarCabeceraNo() {
     $("#modalEliminarControl").modal("hide");
 }
 
-
-
-
-
-
 function ValidarDatosVacios() {
     var vacio = OnChangeTextBox();
     if (vacio == 1) {
@@ -151,25 +173,9 @@ function ValidarDatosVacios() {
 
 function OnChangeTextBox() {
     var con = 0;
-    if ($('#txtNDescripcion').val() == '') {
-        $("#txtNDescripcion").css('border', '1px dashed red');
+    if ($('#txtNombre').val() == '') {
+        $("#txtNombre").css('border', '1px dashed red');
         con = 1;
-    } else $("#txtNDescripcion").css('border', '');
-    if ($('#txtUbicacion').val() == '') {
-        $("#txtUbicacion").css('border', '1px dashed red');
-        con = 1;
-    } else $("#txtUbicacion").css('border', '');
-    if ($('#txtAsignacion').val() == '') {
-        $("#txtAsignacion").css('border', '1px dashed red');
-        con = 1;
-    } else $("#txtAsignacion").css('border', '');
-    if ($('#txtTipo').val() == '') {
-        $("#txtTipo").css('border', '1px dashed red');
-        con = 1;
-    } else $("#txtTipo").css('border', '');
-    if ($('#txtCapacidad').val() == '') {
-        $("#txtCapacidad").css('border', '1px dashed red');
-        con = 1;
-    } else $("#txtCapacidad").css('border', '');
+    } else $("#txtNombre").css('border', '');
     return con;
 }

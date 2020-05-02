@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     public class MantenimientoCisternaController : Controller
     {
         clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
+        
         clsDMantenimientoCisterna clsDMantenimientoCisterna = null;
         string[] lsUsuario;
 
