@@ -66,6 +66,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
                 return lista;
             }
         }
+     
 
         public void GuardarModificarCondicionPersonal(CC_CONDICION_PERSONAL model)
         {
@@ -135,6 +136,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
                 return entities.CC_CONDICION_PERSONAL_CONTROL.Where(x => x.EstadoReporte == false).ToList();
             }
         }
-
+        public void Aprobar_ReporteCondicionPersonal(CC_CONDICION_PERSONAL_CONTROL controlCloro)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_CONDICION_PERSONAL_CONTROL.FirstOrDefault(x => x.IdCondicionPersonalControl == controlCloro.IdCondicionPersonalControl || (x.Fecha == controlCloro.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                if (model != null)
+                {
+                    model.EstadoReporte = controlCloro.EstadoReporte;
+                    model.AprobadoPor = controlCloro.AprobadoPor;
+                    model.FechaAprobacion = controlCloro.FechaAprobacion;
+                    model.FechaModificacionLog = controlCloro.FechaIngresoLog;
+                    model.TerminalModificacionLog = controlCloro.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = controlCloro.UsuarioIngresoLog;
+                    db.SaveChanges();
+                }
+                //else
+                //{
+                //    db.CC_CONDICION_PERSONAL_CONTROL.Add(model);
+                //}
+            }
+        }
     }
 }

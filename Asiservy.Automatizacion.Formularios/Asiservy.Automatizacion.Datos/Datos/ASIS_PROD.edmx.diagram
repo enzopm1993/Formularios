@@ -137,7 +137,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" Width="1.5" PointX="24.75" PointY="34.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_SABOR" Width="1.5" PointX="0.75" PointY="35.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEXTURA" Width="1.5" PointX="35.75" PointY="16.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_DETECTOR_METAL" Width="1.5" PointX="34" PointY="7.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL" Width="1.5" PointX="31.75" PointY="8.875" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_METAL_DETALLE" Width="1.5" PointX="34" PointY="11.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE" Width="1.5" PointX="6" PointY="35" />
@@ -147,7 +146,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_DETALLE_PRODUCTO_POUCH_CUARENTENA_CABECERA_PRODUCTO_POUCH_CUARENTENA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_MANTENIMIENTO_CISTERNA" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_METAL_DETALLE_CC_OPERATIVIDAD_METAL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_SUBDETALLE_PRODUCTO_POUCH_CUARENTENA_DETALLE_PRODUCTO_POUCH_CUARENTENA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.MAPEO_PRODUCTO_TUNEL" Width="1.5" PointX="29.375" PointY="46" />
@@ -172,7 +170,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_DETALLE" Width="1.5" PointX="39.625" PointY="1" />
         <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_MAESTRO" Width="1.5" PointX="37.375" PointY="1.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL" Width="1.5" PointX="0.75" PointY="30.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" Width="1.5" PointX="40.625" PointY="11" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS" Width="1.5" PointX="38.375" PointY="29.875" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
@@ -185,6 +182,9 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE_CC_HIGIENE_C_C_MANT_AREA_AUDITORIA" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_OBJETOS" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE_CC_HIGIENE_COMEDOR_COCINA_CTRL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL" Width="1.5" PointX="0.75" PointY="30.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_DETECTOR_METAL" Width="1.5" PointX="34" PointY="6.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

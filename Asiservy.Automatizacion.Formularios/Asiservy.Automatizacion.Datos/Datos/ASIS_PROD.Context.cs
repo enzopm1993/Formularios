@@ -124,7 +124,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_PROTEINA> CC_MANTENIMIENTO_PROTEINA { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_SABOR> CC_MANTENIMIENTO_SABOR { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_TEXTURA> CC_MANTENIMIENTO_TEXTURA { get; set; }
-        public virtual DbSet<CC_OPERATIVIDAD_DETECTOR_METAL> CC_OPERATIVIDAD_DETECTOR_METAL { get; set; }
         public virtual DbSet<CC_OPERATIVIDAD_METAL> CC_OPERATIVIDAD_METAL { get; set; }
         public virtual DbSet<CC_OPERATIVIDAD_METAL_DETALLE> CC_OPERATIVIDAD_METAL_DETALLE { get; set; }
         public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE { get; set; }
@@ -145,7 +144,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE> CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE { get; set; }
         public virtual DbSet<REPORTE_DETALLE> REPORTE_DETALLE { get; set; }
         public virtual DbSet<REPORTE_MAESTRO> REPORTE_MAESTRO { get; set; }
-        public virtual DbSet<CC_CONDICION_PERSONAL_CONTROL> CC_CONDICION_PERSONAL_CONTROL { get; set; }
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE> CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE { get; set; }
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS> CC_DESECHOS_LIQUIDOS_PELIGROSOS { get; set; }
         public virtual DbSet<CC_HIGIENE_C_C_MANT_AREA_AUDITORIA> CC_HIGIENE_C_C_MANT_AREA_AUDITORIA { get; set; }
@@ -153,6 +151,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_HIGIENE_C_C_MANT_OBJETOS> CC_HIGIENE_C_C_MANT_OBJETOS { get; set; }
         public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL> CC_HIGIENE_COMEDOR_COCINA_CTRL { get; set; }
         public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE> CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE { get; set; }
+        public virtual DbSet<CC_CONDICION_PERSONAL_CONTROL> CC_CONDICION_PERSONAL_CONTROL { get; set; }
+        public virtual DbSet<CC_OPERATIVIDAD_DETECTOR_METAL> CC_OPERATIVIDAD_DETECTOR_METAL { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
