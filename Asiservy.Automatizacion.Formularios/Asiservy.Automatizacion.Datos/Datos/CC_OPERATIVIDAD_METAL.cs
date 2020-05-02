@@ -17,8 +17,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CC_OPERATIVIDAD_METAL()
         {
-            this.CC_OPERATIVIDAD_DETECTOR_METAL = new HashSet<CC_OPERATIVIDAD_DETECTOR_METAL>();
             this.CC_OPERATIVIDAD_METAL_DETALLE = new HashSet<CC_OPERATIVIDAD_METAL_DETALLE>();
+            this.CC_OPERATIVIDAD_DETECTOR_METAL = new HashSet<CC_OPERATIVIDAD_DETECTOR_METAL>();
         }
     
         public int IdOperatividadMetal { get; set; }
@@ -40,8 +40,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_OPERATIVIDAD_DETECTOR_METAL> CC_OPERATIVIDAD_DETECTOR_METAL { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_OPERATIVIDAD_METAL_DETALLE> CC_OPERATIVIDAD_METAL_DETALLE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_OPERATIVIDAD_DETECTOR_METAL> CC_OPERATIVIDAD_DETECTOR_METAL { get; set; }
     }
 }
