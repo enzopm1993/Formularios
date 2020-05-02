@@ -83,9 +83,9 @@ function CargarCabecera(op) {
                 $("#divMostarTablaCabecera").html(resultado);
             }
             itemEditar = 0;
-            setTimeout(function () {
+            //setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);
+            //}, 100);
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -287,34 +287,41 @@ function GuardarFirma() {
         if (estadoReporte == true) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
-        } else {
-            var canvas = document.getElementById("firmacanvas");
-            var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
-            var formData = new FormData();
-            formData.append('image', image);
-            formData.append('idDesechosLiquidos', imagenFirma[0].IdDesechosLiquidos);
-            signaturePad.clear();
-            $.ajax({
-                type: 'POST',
-                url: '/DesechosLiquidosPeligrosos/GuardarImagenFirma',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (resultado) {
-                    signaturePad.clear();
-                    if (resultado == "101") {
-                        window.location.reload();
+        } else {            
+            if (!signaturePad.isEmpty()) {
+                document.getElementById('ImgFirma').src = '';
+                var canvas = document.getElementById("firmacanvas");
+                var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
+                var formData = new FormData();
+                formData.append('image', image);
+                formData.append('idDesechosLiquidos', imagenFirma[0].IdDesechosLiquidos);
+                signaturePad.clear();
+                
+                //document.getElementById("ImgFirma").style.display = 'none';
+                $.ajax({
+                    type: 'POST',
+                    url: '/DesechosLiquidosPeligrosos/GuardarImagenFirma',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (resultado) {
+                        signaturePad.clear();
+                        if (resultado == "101") {
+                            window.location.reload();
+                        }
+                        if (resultado != 0) {
+                            $('#div_ImagenFirma').prop('hidden', false);
+                            document.getElementById('ImgFirma').src = resultado;
+                            $('#signature-pad').prop('hidden', true);
+                            MensajeCorrecto("Firma ingresada Correctamente");
+                        } else {
+                            MensajeAdvertencia('¡Error al guardar la Firma: !' + imagenFirma[0].IdDesechosLiquidos);
+                        }
                     }
-                    if (resultado != 0) {
-                        $('#div_ImagenFirma').prop('hidden', false);
-                        document.getElementById('ImgFirma').src = resultado;
-                        $('#signature-pad').prop('hidden', true);
-                        MensajeCorrecto("Firma ingresada Correctamente");
-                    } else {
-                        MensajeAdvertencia('¡Error al guardar la Firma: !' + imagenFirma[0].IdDesechosLiquidos);
-                    }
-                }
-            });
+                });
+            } else {
+                MensajeAdvertencia('¡No se ha firmado el documento!   FIRMA INVALIDA');
+            }
         }
     }, 200);    
 }
