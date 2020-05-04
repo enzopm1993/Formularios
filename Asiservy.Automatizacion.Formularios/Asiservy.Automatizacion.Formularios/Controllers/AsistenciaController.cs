@@ -1106,12 +1106,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
         }
 
-        [Authorize]
+
         [HttpPost]
         public ActionResult ModificarAsistencia(ASISTENCIA model)
         {
             try
             {
+                liststring = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(liststring[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 if (model != null && model.IdAsistencia == 0) return Json("No se puedo actualizar el registro", JsonRequestBehavior.AllowGet);
                 liststring = User.Identity.Name.Split('_');
                 clsDAsistencia = new clsDAsistencia();
