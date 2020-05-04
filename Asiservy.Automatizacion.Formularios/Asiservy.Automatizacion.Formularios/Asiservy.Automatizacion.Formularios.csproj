@@ -2190,6 +2190,8 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\CalibracionPhMetro.js" />
+    <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ControlCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.js" />
@@ -2329,6 +2331,8 @@
     <Content Include="Scripts\i18n\defaults-zh_TW.min.js" />
     <Content Include="Content\webdatarocks\es.json" />
     <None Include="Scripts\linq-vsdoc.js" />
+    <Content Include="Scripts\jquery.maskedinput.js" />
+    <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\JqueryRotate.js" />
     <Content Include="Scripts\linq.js" />
     <Content Include="Scripts\linq.min.js" />
@@ -3278,6 +3282,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\CalibracionPhMetro\clsDCalibracionPhMetro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CondicionPersonal\clsDCondicionPersonal.cs" />
@@ -3368,6 +3373,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
+    <Compile Include="Controllers\CALIDAD\CalibracionPhMetroController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
     <Compile Include="Controllers\CALIDAD\DesechosLiquidosPeligrososController.cs" />
@@ -3854,6 +3860,7 @@
     <Content Include="Views\CondicionPersonal\BandejaCondicionPersonal.cshtml" />
     <Content Include="Views\CondicionPersonal\BandejaCondicionPersonalPartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\PartialReporteEvaluacionProductoEnfundado.cshtml" />
+    <Content Include="Views\CalibracionPhMetro\ControlCalibracionPhMetro.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

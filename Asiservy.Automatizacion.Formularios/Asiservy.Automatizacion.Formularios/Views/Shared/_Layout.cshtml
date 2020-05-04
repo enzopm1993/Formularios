@@ -176,7 +176,7 @@
                     <span id="TimeLeft"></span>
 
                     @RenderBody()
-                    <div class="loadall" id="cargac"></div>
+                    <div class="loadall" id="cargac" style="z-index:99999"></div>
 
 
                 </div>
@@ -458,7 +458,7 @@
 
     </script>
 
-    @if(ViewBag.JqueryRotate != null)
+    @if (ViewBag.JqueryRotate != null)
     {
         <script src="~/Scripts/JqueryRotate.js"></script>
     }
@@ -535,8 +535,13 @@
     {
         <script src="~/Scripts/signature_pad.umd.js"></script>
     }
+    @if (ViewBag.MaskedInput == "1")
+    {
+        <script src="~/Scripts/jquery.maskedinput.min.js"></script>
+    }
     @if (ViewBag.JavaScrip != null)
     {
+
         <script src="~/Scripts/linq.js"></script>
         string js = ViewBag.JavaScrip;
         string url = "/Scripts/" + js + ".js?v=1.5";

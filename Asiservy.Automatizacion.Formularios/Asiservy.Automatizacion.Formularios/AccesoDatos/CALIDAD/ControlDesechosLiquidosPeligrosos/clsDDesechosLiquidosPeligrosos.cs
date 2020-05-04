@@ -12,7 +12,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlDesecho
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.sp_Control_Desechos_Liquidos_Peligrosos(fechaDesde, fechaHasta, idDesechosLiquidos, op).ToList();
+                var lista = db.sp_Control_Desechos_Liquidos_Peligrosos(null, null, idDesechosLiquidos, op).ToList();
                 return lista;
             }
         }
