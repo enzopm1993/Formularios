@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "BandejaCalibracionPhMetro";
+}
+<style>
+    .selectbox {
+        background: #fff;
+        color: #1d3b4a;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+</style>
+
+<h4>Bandeja Calibración PhMetro</h4>
+<div class="row" id="DivFiltros">
+    <div class="col-md-2 col-sm-3 form-group">
+        <label>Estado</label>
+        <select id="cmbEstadoControl" class="form-control" onchange="CargarBandeja()">
+            <option value="false" default>PENDIENTE</option>
+            <option value="true">APROBADO</option>
+        </select>
+    </div>
+
+    <div class="col-md-5 col-sm-7 form-group" id="divDateRangePicker" hidden>
+        <label>Filtrar por Fecha:</label>
+        <input type="hidden" id="fechaDesde" value="" />
+        <input type="hidden" id="fechaHasta" value="" />
+        <div id="reportrange" class="selectbox">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down" style="float:right"></i>
+        </div>
+    </div>
+
+    <div class="col-md-5 col-sm-2">
+        <label>Acciones</label>
+        <div class="form-group">
+            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="Nuevo" onclick="CargarBandeja()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/ver24.png" />
+            </button>
+        </div>
+    </div>
+</div>
+<br />
+<center> <h4 id="MensajeRegistros" style="display:none" class="text-warning">No se encontraron registros</h4> </center>
+
+<div id="DivCalibracionPhMetro" class="table-responsive">
+</div>

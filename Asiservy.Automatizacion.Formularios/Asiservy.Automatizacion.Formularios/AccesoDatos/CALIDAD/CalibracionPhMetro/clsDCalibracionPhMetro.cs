@@ -79,5 +79,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionPhM
                 return resultado;
             }
         }
+        public List<CC_CALIBRACION_PHMETRO> ConsultarBandejaclsDCalibracionPhMetro(DateTime? FechaInicio, DateTime? FechaFin, bool EstadoControl)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                if (EstadoControl == clsAtributos.EstadoReportePendiente)
+                {
+                    var resultado = (from p in db.CC_CALIBRACION_PHMETRO
+                                     where ((p.EstadoControl == EstadoControl || p.EstadoControl == null) && (p.EstadoRegistro == clsAtributos.EstadoRegistroActivo))
+                                     select p).ToList();
+                    return resultado;
+                }
+                else
+                {
+                    var resultado = (from p in db.CC_CALIBRACION_PHMETRO
+                                     where (p.Fecha >= FechaInicio && p.Fecha <= FechaFin) && (p.EstadoControl == EstadoControl || p.EstadoControl == null) && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                     select p).ToList();
+                    return resultado;
+                }
+            }
+        }
     }
 }

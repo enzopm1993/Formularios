@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CALIBRACION_PHMETRO>
+
+
+<table class="table table-striped table-bordered" id="tblBandejaPartial">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoPhMetro)
+            </th>
+            <th>
+                Ph=4,0
+            </th>
+            <th>
+                Ph=7,0
+            </th>
+            <th>
+                Ph=10,0
+            </th>
+            <th>
+                Observación
+            </th>
+            <th>
+                Aprobado por
+            </th>
+            <th>
+                Estado
+            </th>
+
+            <th>
+                Acción
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hora)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoPhMetro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ph40)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ph70)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ph10)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.observacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioAprobacion)
+                </td>
+                <td>
+                    @if (item.EstadoControl == true)
+                    {
+                        <span class="badge badge-success">Aprobado</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">Pendiente</span>
+                    }
+                </td>
+
+                @if (item.EstadoControl == false || item.EstadoControl == null)
+                {
+                    <td>
+                       <a href="#" class="text-success" onclick="AprobarControl(@item.IDPhMetro)">Aprobar</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a href="#" class="text-danger" onclick="ReversarControl(@item.IDPhMetro)">Reversar</a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+
+</table>
