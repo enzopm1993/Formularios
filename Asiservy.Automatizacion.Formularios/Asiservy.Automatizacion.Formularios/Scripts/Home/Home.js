@@ -38,7 +38,7 @@ function SeleccionarComunicado(Contenido) {
 }
 
 var options = {
-    series: [118.50, 5.00, 113.50],
+    series: vacacion,
     chart: {
         type: 'donut',
         height: 150,
@@ -48,7 +48,7 @@ var options = {
         colors: ['#0064FF', '#CCCAC9', '#00FF3E']
     },
     colors: ['#0064FF', '#CCCAC9', '#00FF3E'],
-    labels: ['Dias Totales', 'Dias Tomados', 'Dias Disponobles'],
+    labels: ['Dias Totales', 'Dias Tomados', 'Dias Disponibles'],
     responsive: [{
         breakpoint: 480,
         options: {
