@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "ControlCalibracionPhMetro";
+}
+
+<h4>Calibración PhMetro <label class="bagde badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label> </h4>
+
+<style>
+
+    textarea {
+        resize: none;
+    }
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+</style>
+<div class="card">
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label>Fecha</label>
+                @{
+                    DateTime fecha = DateTime.Now;
+                }
+                <input type="date" class="form-control" id="txtFecha" value="@fecha.ToString("yyyy-MM-dd")" onchange="ConsultarControl()" />
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label>Hora</label>
+                <input type="time" class="form-control" id="txtHora" />
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label>Código del PhMetro</label>
+                <input type="text" class="form-control" id="txtCodigoPhMetro" />
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label>Ph = 4,0</label>
+                <input type="text" class="form-control" id="txtPh4" />
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label>Ph = 7,0</label>
+                <input type="text" class="form-control" id="txtPh7" />
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label>Ph = 10,0</label>
+                <input type="text" class="form-control" id="txtPh10" />
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="form-group">
+                <label>Observación</label>
+                <textarea id="txtObservacion" rows="3" cols="80"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-12 text-center">
+            <button class="btn btn-primary" type="button" disabled hidden id="btnCargando">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Espere...
+            </button>
+
+            <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarControl()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/save20.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiar" onclick="LimpiarControles()" style="border-color:#2c3e50" type="button">
+                <img style="width:100%" src="~/Content/icons/clear24.png" />
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarControl" onclick="ConfirmarEliminarControl()" style="border-color:#2c3e50" type="button" disabled>
+                <img style="width:100%" src="~/Content/icons/cancel24.png" />
+            </button>
+        </div>
+    </div>
+
+</div>
+@*modal eliminar *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarControl" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea eliminar el registro?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="EliminarControl()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>

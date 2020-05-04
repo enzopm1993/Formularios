@@ -1,8 +1,36 @@
 ﻿var Com = [];
-var vacacion = [];
 $(document).ready(function () {
     ConsultaComunicados();
-    //console.log(Vacaciones);
+   // console.log(vacacion);
+
+
+    var options = {
+        series: [vacacion.TotalDias, vacacion.DiasTomados,vacacion.Saldo],
+        chart: {
+            type: 'donut',
+            height: 150,
+        },
+
+        fill: {
+            colors: ['#0064FF', '#CCCAC9', '#00FF3E']
+        },
+        colors: ['#0064FF', '#CCCAC9', '#00FF3E'],
+        labels: ['Días Totales', 'Días Tomados', 'Días Disponibles'],
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
+    var chart = new ApexCharts(document.querySelector("#divOtros"), options);
+    chart.render();
+
 });
 
 function ConsultaComunicados() {
@@ -36,30 +64,3 @@ function SeleccionarComunicado(Contenido) {
     $("#modalBodyComunicados").html(Contenido);
     $("#ModalComunicado").modal("show");
 }
-
-var options = {
-    series: [118.50, 5.00, 113.50],
-    chart: {
-        type: 'donut',
-        height: 150,
-    },
-
-    fill: {
-        colors: ['#0064FF', '#CCCAC9', '#00FF3E']
-    },
-    colors: ['#0064FF', '#CCCAC9', '#00FF3E'],
-    labels: ['Dias Totales', 'Dias Tomados', 'Dias Disponobles'],
-    responsive: [{
-        breakpoint: 480,
-        options: {
-            chart: {
-                width: 200
-            },
-            legend: {
-                position: 'bottom'
-            }
-        }
-    }]
-};
-var chart = new ApexCharts(document.querySelector("#divOtros"), options);
-chart.render();

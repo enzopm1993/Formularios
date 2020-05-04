@@ -16,6 +16,9 @@ function GuardarAsistencia() {
             EstadoAsistencia:$('#SelectEstado').val()
         },
         success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
             MensajeCorrecto(resultado);
             ConsultarControlAsistencia("btnConsultar");
         },
@@ -62,6 +65,9 @@ function ConsultarControlAsistencia(id) {
                 ddFecha: Fecha
             },
             success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
                 var bitacora = $('#DivTableControlAsistencia');
 
                 if (resultado == "0") {
