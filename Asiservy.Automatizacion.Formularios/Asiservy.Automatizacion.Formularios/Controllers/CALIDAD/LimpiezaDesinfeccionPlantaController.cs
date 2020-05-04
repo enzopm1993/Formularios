@@ -1,5 +1,5 @@
 ﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedorCocina;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinfeccionPlanta;
 using Asiservy.Automatizacion.Datos.Datos;
 using System;
 using System.Collections.Generic;
@@ -12,10 +12,11 @@ using Rotativa;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
-    public class HigieneComedorCocinaController : Controller
+    public class LimpiezaDesinfeccionPlantaController : Controller
     {
-        clsDError clsDError = null;        
-        clsDHigieneComedorCocina clsDHigieneComedorCocina = null;
+
+        clsDError clsDError = null;
+        clsDLimpiezaDesinfeccionPlanta clsDLimpiezaDesinfeccionPlanta = null;
         string[] lsUsuario;
 
         public ActionResult MantAreaAuditoria()
@@ -46,7 +47,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult MantAreaAuditoriaPArtial()
+        public ActionResult MantAreaAuditoriaPartial()
         {
             try
             {
@@ -55,10 +56,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-                var lista = clsDHigieneComedorCocina.ConsultarAreaAuditoria();
+                clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
+                var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarAreaAuditoria();
                 if (lista.Count() != 0)
-                {                  
+                {
                     return PartialView(lista);
                 }
                 else
@@ -123,8 +124,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-                var lista = clsDHigieneComedorCocina.ConsultarObjetos();
+                clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
+                var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarObjetos();
                 if (lista.Count() != 0)
                 {
                     return PartialView(lista);
@@ -163,8 +164,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-                var lista = clsDHigieneComedorCocina.ConsultarObjetosActivos(estadoRegistro);
+                clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
+                var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarObjetosActivos(estadoRegistro);
                 if (lista.Count() != 0)
                 {
                     return Json(lista, JsonRequestBehavior.AllowGet);
@@ -192,9 +193,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 SetErrorMessage(Mensaje);
                 return RedirectToAction("Home", "Home");
             }
-        }        
+        }
 
-        public JsonResult GuardarModificarAreaAuditoria(CC_HIGIENE_C_C_MANT_AREA_AUDITORIA model, List<int> listaIdObjetoAuditar, List<CC_HIGIENE_C_C_MANT_INTERMEDIA> listaIdObjetoEliminar)
+        public JsonResult GuardarModificarAreaAuditoria(CC_LINPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA model, List<int> listaIdObjetoAuditar, List<CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA> listaIdObjetoEliminar)
         {
             try
             {
@@ -211,13 +212,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     }
                     else
                     {
-                        clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
+                        clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
                         model.FechaIngresoLog = DateTime.Now;
                         model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                         model.TerminalIngresoLog = Request.UserHostAddress;
                         model.UsuarioIngresoLog = lsUsuario[0];
-                        var valor = clsDHigieneComedorCocina.GuardarModificarAreaAuditoria(model);
-                        CC_HIGIENE_C_C_MANT_INTERMEDIA modelIntermedia = new CC_HIGIENE_C_C_MANT_INTERMEDIA();
+                        var valor = clsDLimpiezaDesinfeccionPlanta.GuardarModificarAreaAuditoria(model);
+                        CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA modelIntermedia = new CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA();
                         modelIntermedia.FechaIngresoLog = DateTime.Now;
                         modelIntermedia.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                         modelIntermedia.TerminalIngresoLog = Request.UserHostAddress;
@@ -226,18 +227,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                         foreach (var id in listaIdObjetoAuditar)//GUARDAR INTERMEDIA
                         {
                             modelIntermedia.IdObjeto = id;
-                            var guardarIntermedia = clsDHigieneComedorCocina.GuardarModificarIntermedia(modelIntermedia);
+                            var guardarIntermedia = clsDLimpiezaDesinfeccionPlanta.GuardarModificarIntermedia(modelIntermedia);
                         }
                         modelIntermedia.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;//ELIMINAR INTERMEDIA LOS OBJETOS QUE SE LE QUITARON EL CHECK
-                        if (listaIdObjetoEliminar!=null)
+                        if (listaIdObjetoEliminar != null)
                         {
                             foreach (var item in listaIdObjetoEliminar)
                             {
                                 modelIntermedia.IdMantenimiento = item.IdMantenimiento;
-                                var guardarIntermedia = clsDHigieneComedorCocina.EliminarIntermedia(modelIntermedia);
+                                var guardarIntermedia = clsDLimpiezaDesinfeccionPlanta.EliminarIntermedia(modelIntermedia);
                             }
                         }
-                       
+
                         if (valor == 0)
                         {
                             return Json("0", JsonRequestBehavior.AllowGet);
@@ -250,7 +251,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     }
                 }
                 else return Json("3", JsonRequestBehavior.AllowGet);
-                
+
             }
             catch (DbEntityValidationException e)
             {
@@ -272,7 +273,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult EliminarAreaAuditoria(CC_HIGIENE_C_C_MANT_AREA_AUDITORIA model)
+        public JsonResult EliminarAreaAuditoria(CC_LINPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA model)
         {
             try
             {
@@ -281,11 +282,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
+                clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDHigieneComedorCocina.EliminarAreaAuditoria(model);
+                var valor = clsDLimpiezaDesinfeccionPlanta.EliminarAreaAuditoria(model);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -312,7 +313,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult GuardarModificarObjeto(CC_HIGIENE_C_C_MANT_OBJETOS model)
+        public JsonResult GuardarModificarObjeto(CC_LINPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS model)
         {
             try
             {
@@ -323,12 +324,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 if (!string.IsNullOrWhiteSpace(model.NombreObjeto))
                 {
-                    clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
+                    clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
                     model.FechaIngresoLog = DateTime.Now;
                     model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                     model.TerminalIngresoLog = Request.UserHostAddress;
                     model.UsuarioIngresoLog = lsUsuario[0];
-                    var valor = clsDHigieneComedorCocina.GuardarModificarObjeto(model);
+                    var valor = clsDLimpiezaDesinfeccionPlanta.GuardarModificarObjeto(model);
                     if (valor == 0)
                     {
                         return Json("0", JsonRequestBehavior.AllowGet);
@@ -361,7 +362,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public JsonResult EliminarObjeto(CC_HIGIENE_C_C_MANT_OBJETOS model)
+        public JsonResult EliminarObjeto(CC_LINPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS model)
         {
             try
             {
@@ -370,11 +371,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
+                clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDHigieneComedorCocina.EliminarObjeto(model);
+                var valor = clsDLimpiezaDesinfeccionPlanta.EliminarObjeto(model);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -410,8 +411,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-                var lista = clsDHigieneComedorCocina.ConsultarIntermediaActivos(idAuditoria);
+                clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
+                var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarIntermediaActivos(idAuditoria);
                 if (lista.Count() != 0)
                 {
                     return Json(lista, JsonRequestBehavior.AllowGet);
@@ -440,6 +441,166 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
+        //----------------------------------------------------CONTROL----------------------------------------------------------------------------------
+        public ActionResult LimpiezaDesinfeccionPlanta()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                lsUsuario = User.Identity.Name.Split('_');
+                ViewBag.Usuario = lsUsuario[0];
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        //public ActionResult HigieneComedorCocinaPartial()
+        //{
+        //    try
+        //    {
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        if (string.IsNullOrEmpty(lsUsuario[0]))
+        //        {
+        //            return Json("101", JsonRequestBehavior.AllowGet);
+        //        }
+        //        clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
+        //        var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarObjetos();
+        //        if (lista.Count() != 0)
+        //        {
+        //            return PartialView(lista);
+        //        }
+        //        else
+        //        {
+        //            return Json("0", JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+        //        SetErrorMessage(Mensaje);
+        //        return RedirectToAction("Home", "Home");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+        //        SetErrorMessage(Mensaje);
+        //        return RedirectToAction("Home", "Home");
+        //    }
+        //}
+
+        public JsonResult GuardarModificarControlLimpieza(CC_LINPIEZA_DESINFECCION_PLANTA_CONTROL model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (model.FechaControl != null)
+                {
+                    clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
+                    model.FechaIngresoLog = DateTime.Now;
+                    model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                    model.TerminalIngresoLog = Request.UserHostAddress;
+                    model.UsuarioIngresoLog = lsUsuario[0];
+                    var valor = clsDLimpiezaDesinfeccionPlanta.GuardarModificarControlLimpieza(model);
+                    if (valor == 0)
+                    {
+                        return Json("0", JsonRequestBehavior.AllowGet);
+                    }
+                    else if (valor == 1)
+                    {
+                        return Json("1", JsonRequestBehavior.AllowGet);
+                    }
+                    else return Json("2", JsonRequestBehavior.AllowGet);
+                }
+                else return Json("3", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //public JsonResult EliminarControlHigine(CC_HIGIENE_COMEDOR_COCINA_CTRL model)
+        //{
+        //    try
+        //    {
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        if (string.IsNullOrEmpty(lsUsuario[0]))
+        //        {
+        //            return Json("101", JsonRequestBehavior.AllowGet);
+        //        }
+        //        clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
+        //        model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+        //        model.FechaIngresoLog = DateTime.Now;
+        //        model.TerminalIngresoLog = Request.UserHostAddress;
+        //        model.UsuarioIngresoLog = lsUsuario[0];
+        //        var valor = clsDHigieneComedorCocina.EliminarControlHigine(model);
+        //        if (valor == 0)
+        //        {
+        //            return Json("0", JsonRequestBehavior.AllowGet);
+        //        }
+        //        else return Json("1", JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         protected void SetSuccessMessage(string message)
         {
@@ -449,5 +610,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             TempData["MensajeError"] = message;
         }
+
     }
 }

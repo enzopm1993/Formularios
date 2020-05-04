@@ -6,7 +6,7 @@ $(document).ready(function () {
 function CargarCabecera() {
     $('#cargac').show();
     $.ajax({
-        url: "../HigieneComedorCocina/MantObjetosPartial",
+        url: "../LimpiezaDesinfeccionPlanta/MantObjetosPartial",
         type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
@@ -32,7 +32,7 @@ function CargarCabecera() {
 function GuardarCabecera() {
     $('#cargac').show();
     $.ajax({
-        url: "../HigieneComedorCocina/GuardarModificarObjeto",
+        url: "../LimpiezaDesinfeccionPlanta/GuardarModificarObjeto",
         type: "POST",
         data: {
             IdObjeto: itemEditar.IdObjeto,
@@ -127,7 +127,7 @@ function ActivarConfirmar(jdata) {
 function EliminarCabeceraSi() {
     $('#cargac').show();
     $.ajax({
-        url: "../HigieneComedorCocina/EliminarObjeto",
+        url: "../LimpiezaDesinfeccionPlanta/EliminarObjeto",
         type: "POST",
         data: {
             IdObjeto: itemEditar.IdObjeto,
