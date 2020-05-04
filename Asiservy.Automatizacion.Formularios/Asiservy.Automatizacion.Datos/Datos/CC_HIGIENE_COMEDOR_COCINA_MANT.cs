@@ -12,17 +12,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_HIGIENE_C_C_MANT_OBJETOS
+    public partial class CC_HIGIENE_COMEDOR_COCINA_MANT
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_HIGIENE_C_C_MANT_OBJETOS()
-        {
-            this.CC_HIGIENE_C_C_MANT_INTERMEDIA = new HashSet<CC_HIGIENE_C_C_MANT_INTERMEDIA>();
-        }
-    
-        public int IdObjeto { get; set; }
-        public string NombreObjeto { get; set; }
-        public string DescripcionObjeto { get; set; }
+        public int IdMantenimiento { get; set; }
+        public string Nombre { get; set; }
+        public string Categoria { get; set; }
+        public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -30,8 +25,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_HIGIENE_C_C_MANT_INTERMEDIA> CC_HIGIENE_C_C_MANT_INTERMEDIA { get; set; }
     }
 }

@@ -12,14 +12,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_HIGIENE_COMEDOR_COCINA_CTRL
+    public partial class CC_LINPIEZA_DESINFECCION_PLANTA_CONTROL
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_HIGIENE_COMEDOR_COCINA_CTRL()
-        {
-            this.CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE = new HashSet<CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE>();
-        }
-    
         public int IdControlHigine { get; set; }
         public System.DateTime FechaControl { get; set; }
         public bool EstadoReporte { get; set; }
@@ -36,8 +30,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE> CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE { get; set; }
     }
 }
