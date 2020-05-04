@@ -2208,8 +2208,6 @@
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.js" />
-    <Content Include="Scripts\CALIDAD\HigieneComedorCocina\HigieneComedorCocina.js" />
-    <Content Include="Scripts\CALIDAD\HigieneComedorCocina\MantObjetos.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
@@ -2228,7 +2226,6 @@
     <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
-    <Content Include="Scripts\CALIDAD\HigieneComedorCocina\MantAreaAuditoria.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\MonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
@@ -3878,11 +3875,6 @@
     <Content Include="Views\DesechosLiquidosPeligrosos\ReporteDesechosLiquidosPeligrosos.cshtml" />
     <Content Include="Views\DesechosLiquidosPeligrosos\ReporteDesechosLiquidosPeligrososPartial.cshtml" />
     <Content Include="Views\DesechosLiquidosPeligrosos\PdfReporteDesechosLiquidosPeligrososPartial.cshtml" />
-    <Content Include="Views\HigieneComedorCocina\MantObjetos.cshtml" />
-    <Content Include="Views\HigieneComedorCocina\MantAreaAuditoria.cshtml" />
-    <Content Include="Views\HigieneComedorCocina\MantObjetosPartial.cshtml" />
-    <Content Include="Views\HigieneComedorCocina\MantAreaAuditoriaPArtial.cshtml" />
-    <Content Include="Views\HigieneComedorCocina\HigieneComedorCocina.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\MantAreaAuditoria.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\MantAreaAuditoriaPartial.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\MantObjetos.cshtml" />
@@ -3902,7 +3894,9 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Img\DetectorMetal\" />
     <Folder Include="Content\Img\REPORTE\" />
+    <Folder Include="Scripts\CALIDAD\HigieneComedorCocina\" />
     <Folder Include="Views\Comunicados\" />
+    <Folder Include="Views\HigieneComedorCocina\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
