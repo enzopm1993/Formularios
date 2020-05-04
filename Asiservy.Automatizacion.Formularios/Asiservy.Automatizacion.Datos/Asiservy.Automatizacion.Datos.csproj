@@ -150,25 +150,25 @@
     <Compile Include="Datos\CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\CC_HIGIENE_COMEDOR_COCINA_CTRL.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_HIGIENE_C_C_MANT_AREA_AUDITORIA.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_HIGIENE_C_C_MANT_INTERMEDIA.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_HIGIENE_C_C_MANT_OBJETOS.cs">
+    <Compile Include="Datos\CC_HIGIENE_COMEDOR_COCINA_MANT.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_INTERMEDIA_CTRL_MANT_CISTERNA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_LAVADO_CISTERNA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_LINPIEZA_DESINFECCION_PLANTA_CONTROL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_LINPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_LINPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_CISTERNA.cs">

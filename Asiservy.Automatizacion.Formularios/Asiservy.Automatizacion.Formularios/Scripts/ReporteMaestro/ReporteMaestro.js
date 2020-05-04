@@ -382,15 +382,31 @@ function EditarReporteDetalle(model) {
     $("#txtVersionDetalleModal").val(model.Version);
     var filePreview = document.createElement('img');
     filePreview.id = 'file-preview';
+    filePreview.setAttribute("type", "hidden");
     //e.target.result contents the base64 data from the image uploaded
     filePreview.src = "/Content/Img/" + model.Imagen;
     //console.log(e.target.result);
     var previewZone = document.getElementById('file-preview-zone');
     previewZone.appendChild(filePreview);
-    document.getElementById("file-preview").style.width = "200px";
-    document.getElementById("file-preview").style.height = "300px";
+      
+    $("#file-preview").one("load", function () {
+        var ancho = $(this).width(),
+            alto = $(this).height();
+        if (ancho < alto) {//console.log(this.id, "Es más ancha");
+            document.getElementById("file-preview").style.height = "350px";
+            document.getElementById("file-preview").style.width = "250px";
+        } else {
+            document.getElementById("file-preview").style.height = "250px";
+            document.getElementById("file-preview").style.width = "350px";
+        }
+    }).each(function () {
+        if (this.complete) {
+            $(this).load();
+        }
+    });
+   
     $('#file-preview').rotate(model.Rotacion);
- 
+    $("#file-preview").addClass("img");
     $("#ModalControlDetalle").modal("show");
 
 }
@@ -437,29 +453,45 @@ $("#modal-detalle-no").on("click", function () {
 
 
 
-
-
 function readFile(input) {
+
+
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-
+       
         reader.onload = function (e) {
+           // console.log(this.width.toFixed(0));
+
+            // alert('Imagen correcta :)')
             $("#file-preview-zone").html('');
             var filePreview = document.createElement('img');
             filePreview.id = 'file-preview';
+            filePreview.setAttribute("type", "hidden");
+
             //e.target.result contents the base64 data from the image uploaded
             filePreview.src = e.target.result;
             //console.log(e.target.result);
-
-            var previewZone = document.getElementById('file-preview-zone');
+            var previewZone = document.getElementById('file-preview-zone');                
             previewZone.appendChild(filePreview);
-            document.getElementById("file-preview").style.width = "200px";
-            document.getElementById("file-preview").style.height = "300px";
-           // document.getElementById("file-preview").style.accept = ".jpg,.jpeg,.png";
+            $("#file-preview").addClass("img");    
 
-            //accept=".gif,.jpg,.jpeg,.png,.doc,.docx"
-}
-
+            //console.log(e.target.result);
+            var image = new Image();
+            image.src = e.target.result;
+            image.onload = function () {
+                if (this.width < this.height) {
+                    document.getElementById("file-preview").style.height = "350px";
+                    document.getElementById("file-preview").style.width = "250px";
+                }
+                else {
+                    document.getElementById("file-preview").style.height = "250px";
+                    document.getElementById("file-preview").style.width = "350px";
+                }
+               
+            };      
+          
+        
+         }
         reader.readAsDataURL(input.files[0]);
     }
 }
@@ -467,6 +499,7 @@ function readFile(input) {
 var fileUpload = document.getElementById('file-upload');
 fileUpload.onchange = function (e) {
     readFile(e.srcElement);
+
 }
 
 

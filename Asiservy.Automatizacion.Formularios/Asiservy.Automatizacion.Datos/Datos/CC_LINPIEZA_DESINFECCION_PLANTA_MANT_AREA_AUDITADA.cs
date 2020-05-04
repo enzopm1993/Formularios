@@ -12,11 +12,17 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_HIGIENE_C_C_MANT_INTERMEDIA
+    public partial class CC_LINPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA
     {
-        public int IdMantenimiento { get; set; }
-        public int IdObjeto { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CC_LINPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA()
+        {
+            this.CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA = new HashSet<CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA>();
+        }
+    
         public int IdAuditoria { get; set; }
+        public string NombreAuditoria { get; set; }
+        public string DescripcionAuditoria { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -25,7 +31,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_HIGIENE_C_C_MANT_AREA_AUDITORIA CC_HIGIENE_C_C_MANT_AREA_AUDITORIA { get; set; }
-        public virtual CC_HIGIENE_C_C_MANT_OBJETOS CC_HIGIENE_C_C_MANT_OBJETOS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA> CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
     }
 }

@@ -2191,6 +2191,7 @@
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro.js" />
+    <Content Include="Scripts\CALIDAD\CalibracionPhMetro\BandejaCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ControlCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
@@ -3389,7 +3390,6 @@
     <Compile Include="Controllers\CALIDAD\DesechosLiquidosPeligrososController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionDeLomoyMigaEnBandejaController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionProductoEnfundadoController.cs" />
-    <Compile Include="Controllers\CALIDAD\HigieneComedorCocinaController.cs" />
     <Compile Include="Controllers\CALIDAD\LavadoCisternaController.cs" />
     <Compile Include="Controllers\CALIDAD\LavadoDesinfeccionManosController.cs" />
     <Compile Include="Controllers\CALIDAD\LimpiezaDesinfeccionPlantaController.cs" />
@@ -3885,6 +3885,8 @@
     <Content Include="Views\CalibracionPhMetro\ControlCalibracionPhMetro.cshtml" />
     <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocina.cshtml" />
     <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocinaPartial.cshtml" />
+    <Content Include="Views\CalibracionPhMetro\BandejaCalibracionPhMetro.cshtml" />
+    <Content Include="Views\CalibracionPhMetro\BandejaAprobadosCalibracionPhMetroPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3896,7 +3898,9 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Img\DetectorMetal\" />
     <Folder Include="Content\Img\REPORTE\" />
+    <Folder Include="Scripts\CALIDAD\HigieneComedorCocina\" />
     <Folder Include="Views\Comunicados\" />
+    <Folder Include="Views\HigieneComedorCocina\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
