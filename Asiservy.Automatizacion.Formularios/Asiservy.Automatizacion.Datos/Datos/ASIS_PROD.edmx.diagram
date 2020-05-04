@@ -185,6 +185,7 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL" Width="1.5" PointX="0.75" PointY="30.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_DETECTOR_METAL" Width="1.5" PointX="34" PointY="6.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_PHMETRO" Width="1.5" PointX="0.75" PointY="39.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

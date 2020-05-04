@@ -153,6 +153,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE> CC_HIGIENE_COMEDOR_COCINA_CTRL_DETALLE { get; set; }
         public virtual DbSet<CC_CONDICION_PERSONAL_CONTROL> CC_CONDICION_PERSONAL_CONTROL { get; set; }
         public virtual DbSet<CC_OPERATIVIDAD_DETECTOR_METAL> CC_OPERATIVIDAD_DETECTOR_METAL { get; set; }
+        public virtual DbSet<CC_CALIBRACION_PHMETRO> CC_CALIBRACION_PHMETRO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
