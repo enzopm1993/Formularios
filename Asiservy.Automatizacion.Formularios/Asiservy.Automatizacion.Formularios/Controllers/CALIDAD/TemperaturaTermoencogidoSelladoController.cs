@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     public class TemperaturaTermoencogidoSelladoController : Controller
     {
         clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
+        
         clsDTemperaturaTermoencogidoSellado clsDTemperaturaTermoencogidoSellado = null;
         string[] lsUsuario;
         public ActionResult ControlTermoencogidoSellado()

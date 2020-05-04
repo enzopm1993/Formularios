@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     public class ControlCuchillosPreparacionController : Controller
     {
         clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
+        
         clsDControlCuchillosPreparacion clsDControlCuchillosPreparacion = null;
         string[] lsUsuario;
         //-----------------------------------------------------VISTA DE INGRESO DE DATOS DE CUCHILLO----------------------------------------------------------------

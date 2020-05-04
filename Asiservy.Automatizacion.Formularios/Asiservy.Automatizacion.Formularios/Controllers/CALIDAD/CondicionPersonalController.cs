@@ -17,7 +17,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
         string[] lsUsuario = null;
         clsDError clsDError = null;
         clsDClasificador clsDClasificador = null;
-        clsDEmpleado clsDEmpleado = null;
+        //clsDEmpleado clsDEmpleado = null;
         clsDCondicionPersonal clsDCondicionPersonal = null;
 
         public ActionResult Prueba()
@@ -403,12 +403,21 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
 
-        public ActionResult BandejaCondicionPersonalPartial(DateTime Fecha, bool Estado)
+        public ActionResult BandejaCondicionPersonalPartial(DateTime? FechaDesde, DateTime? FechaHasta, bool Estado=false)
         {
             try
             {
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                var poCloroCisterna = clsDCondicionPersonal.ConsultaCondicionPersonalControl(Fecha,Estado);
+                List<CC_CONDICION_PERSONAL_CONTROL> poCloroCisterna = null;
+                if (FechaDesde != null && FechaHasta !=null)
+                {
+                     poCloroCisterna = clsDCondicionPersonal.ConsultaCondicionPersonalControl(FechaDesde.Value, FechaHasta.Value, Estado);
+                }
+                else
+                {
+                     poCloroCisterna = clsDCondicionPersonal.ConsultaCondicionPersonalControlPendiente();
+                    
+                }
                 if (poCloroCisterna != null && poCloroCisterna.Any())
                 {
                     return PartialView(poCloroCisterna);
@@ -438,85 +447,48 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
 
-        //public ActionResult BandejaAprobadosCondicionPersonalPartial(DateTime fechaInicio, DateTime fechaFin)
-        //{
-        //    try
-        //    {
-        //        clsDCondicionPersonal = new clsDCondicionPersonal();
-        //        var poCloroCisterna = null;// clsDCondicionPersonal.Consultar_AprobadosCondicionPersonal(fechaInicio, fechaFin);
-        //        if (poCloroCisterna != null && poCloroCisterna.Any())
-        //        {
-        //            return PartialView(poCloroCisterna);
-        //        }
-        //        else if (poCloroCisterna != null && poCloroCisterna.Any())
-        //        {
-        //            return PartialView(poCloroCisterna);
-        //        }
-        //        else
-        //        {
-        //            return Json("0", JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        SetErrorMessage(Mensaje);
-        //        return RedirectToAction("Home", "Home");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        SetErrorMessage(Mensaje);
-        //        return Json(ex.Message, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        //public ActionResult BandejaAprobarCondicionPersonal(DateTime fecha, int IdCloroCisterna)
-        //{
-        //    try
-        //    {
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        if (string.IsNullOrEmpty(lsUsuario[0]))
-        //        {
-        //            return Json("101", JsonRequestBehavior.AllowGet);
-        //        }
-        //        clsDCondicionPersonal = new clsDCondicionPersonal();
-        //        //var poCloroCisterna = null;//clsDCondicionPersonal.Consultar_ReporteCondicionPersonalDetalle(fecha, IdCloroCisterna);
-        //        //if (poCloroCisterna != null && poCloroCisterna.Any())
-        //        //{
-        //        //    return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
-        //        //}
-        //        //else
-        //        //{
-        //        //    return Json("0", JsonRequestBehavior.AllowGet);
-        //        //}
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
 
-        public ActionResult AprobarBandejaControlCloro(CC_CLORO_CISTERNA_DESCONGELADO model)
+        public ActionResult BandejaAprobarCondicionPersonal(DateTime fecha)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDCondicionPersonal = new clsDCondicionPersonal();
+                var poCloroCisterna = clsDCondicionPersonal.ConsultaCondicionPersonal(fecha);
+                if (poCloroCisterna != null && poCloroCisterna.Any())
+                {
+                    return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult AprobarBandejaControlCloro(CC_CONDICION_PERSONAL_CONTROL model)
         {
             try
             {
@@ -528,13 +500,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 clsDCondicionPersonal = new clsDCondicionPersonal();
                 model.FechaAprobacion = DateTime.Now;
                 model.AprobadoPor = lsUsuario[0];
-                //model.EstadoReporte = clsAtributos.EstadoReporteActivo; 
+                model.EstadoReporte = clsAtributos.EstadoReporteActivo; 
 
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-              //  clsDCondicionPersonal.Aprobar_ReporteCondicionPersonal(model);
+                clsDCondicionPersonal.Aprobar_ReporteCondicionPersonal(model);
                 return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

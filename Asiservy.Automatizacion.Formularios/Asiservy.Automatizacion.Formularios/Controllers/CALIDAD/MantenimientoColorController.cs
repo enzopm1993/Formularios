@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     public class MantenimientoColorController : Controller
     {
         clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
+        
         clsDMantenimientoColor clsDMantenimientoColor = null;
         string[] lsUsuario;
         public ActionResult MantenimientoColor()

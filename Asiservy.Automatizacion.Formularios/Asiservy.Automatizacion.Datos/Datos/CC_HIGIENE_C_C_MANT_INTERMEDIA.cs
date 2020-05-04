@@ -12,18 +12,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_DESECHOS_LIQUIDOS_PELIGROSOS
+    public partial class CC_HIGIENE_C_C_MANT_INTERMEDIA
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_DESECHOS_LIQUIDOS_PELIGROSOS()
-        {
-            this.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE = new HashSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE>();
-        }
-    
-        public int IdDesechosLiquidos { get; set; }
-        public System.DateTime FechaMES { get; set; }
-        public bool EstadoReporte { get; set; }
-        public string AprobadoPor { get; set; }
+        public int IdMantenimiento { get; set; }
+        public int IdObjeto { get; set; }
+        public int IdAuditoria { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -31,11 +24,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<System.DateTime> FechaAprobacion { get; set; }
-        public byte[] FirmaControl { get; set; }
-        public byte[] FirmaAprobacion { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE> CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE { get; set; }
+        public virtual CC_HIGIENE_C_C_MANT_AREA_AUDITORIA CC_HIGIENE_C_C_MANT_AREA_AUDITORIA { get; set; }
+        public virtual CC_HIGIENE_C_C_MANT_OBJETOS CC_HIGIENE_C_C_MANT_OBJETOS { get; set; }
     }
 }

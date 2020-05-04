@@ -205,6 +205,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlHueso
                 foreach (int x in ordendesFabricacion)
                 {
                     var ListaLotes = detalleOrden.Where(o => int.Parse(o.OrdenFabricacion) == x).ToList();
+                    if(ListaLotes == null || ListaLotes.Count==0)
+                    {
+                        ListaLotes = clsDApiOrdenFabricacion.ConsultaLotesPorOrdenFabricacionLinea2(x,Linea);
+                    }
                     foreach (var detalle in ListaLotes)
                     {
                         //  var detalle = detalleOrden.FirstOrDefault(y => int.Parse(y.OrdenFabricacion) == x && y.Lote == detalle.Lote);

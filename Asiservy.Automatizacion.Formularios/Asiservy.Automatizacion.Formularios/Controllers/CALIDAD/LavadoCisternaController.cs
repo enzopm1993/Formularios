@@ -16,7 +16,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     public class LavadoCisternaController : Controller
     {
         clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
+        
         clsDControlLavadoCisterna clsDControlLavadoCisterna = null;
         string[] lsUsuario;
         public ActionResult LavadoCisterna()

@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     public class LavadoDesinfeccionManosController : Controller
     {
         clsDError clsDError = null;
-        clsDEmpleado clsDEmpleado = null;
+        
         clsDLavadoDesinfeccionManos clsDLavadoDesinfeccionManos = null;
         string[] lsUsuario;
         //-----------------------------------------------------INICIALIZAR VISTA----------------------------------------------------------------

@@ -538,8 +538,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 ViewBag.Linea = poEmpleado.LINEA;
                 if(poEmpleado.CODIGOLINEA == clsAtributos.CodLineaProduccion)
                 {
-                    ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
-                    
+                    List<CLASIFICADOR> lista = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
+                    lista.Add(new CLASIFICADOR {Codigo= "TP", Descripcion="TODOS" });
+                    ViewBag.Lineas = lista;
                 }
                 ViewBag.CodLinea = poEmpleado.CODIGOLINEA;
                 //ValidacionSolicitudPermiso();
