@@ -7,7 +7,7 @@ $(document).ready(function () {
 function CargarCabecera() {
     $('#cargac').show();
     $.ajax({
-        url: "../HigieneComedorCocina/MantAreaAuditoriaPArtial",
+        url: "../LimpiezaDesinfeccionPlanta/MantAreaAuditoriaPartial",
         type: "GET",       
         success: function (resultado) {
             if (resultado == "101") {
@@ -174,7 +174,7 @@ function ActualizarCabecera(jdata) {
         $('#ModalIngresoCabecera').modal('show');
         itemEditar = jdata;
         $.ajax({
-            url: "../HigieneComedorCocina/ConsultarIntermediaActivos",
+            url: "../LimpiezaDesinfeccionPlanta/ConsultarIntermediaActivos",
             type: "GET",
             data: {
                 idAuditoria: jdata.IdAuditoria
@@ -225,7 +225,7 @@ function ActivarConfirmar(jdata) {
 function EliminarCabeceraSi() {
     $('#cargac').show();
     $.ajax({
-        url: "../HigieneComedorCocina/EliminarAreaAuditoria",
+        url: "../LimpiezaDesinfeccionPlanta/EliminarAreaAuditoria",
         type: "POST",
         data: {
             IdAuditoria: itemEditar.IdAuditoria,
