@@ -1074,11 +1074,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
             }
 
         }
-        [Authorize]
+    
         public ActionResult EditarAsistenciaPartial(string dsLinea, DateTime ddFecha)
         {
             try
             {
+                liststring = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(liststring[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
                 clsDAsistencia = new clsDAsistencia();
                 var model = clsDAsistencia.ConsultaControlAsistencia(dsLinea, ddFecha);
                 if (!model.Any())

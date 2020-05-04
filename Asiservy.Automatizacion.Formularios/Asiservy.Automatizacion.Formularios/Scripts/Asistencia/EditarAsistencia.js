@@ -65,6 +65,9 @@ function ConsultarControlAsistencia(id) {
                 ddFecha: Fecha
             },
             success: function (resultado) {
+                if (resultado == "101") {
+                    window.location.reload();
+                }
                 var bitacora = $('#DivTableControlAsistencia');
 
                 if (resultado == "0") {
