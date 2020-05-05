@@ -409,12 +409,6 @@ function EditarReporteDetalle(model) {
 
     }
     img.src = "/Content/Img/" + model.Imagen;
-    //var img = document.getElementById('file-preview');
-    //var ancho = img.clientWidth;
-    //var alto = img.clientHeight;  
-
-   
-   
 
 }
 

@@ -7,6 +7,41 @@
     input, select, textarea {
         max-width: 100%;
     }
+
+
+    .img {
+        margin: 10px auto;
+        border-radius: 5px;
+        border: 1px solid #999;
+        padding: 13px;
+        /*width:420px;
+  height:320px;*/
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+        .img img {
+            width: 100%;
+        }
+
+    @@media all and (min-width: 500px) and (max-width: 1000px) {
+        .img {
+            margin: 20px auto;
+            border-radius: 5px;
+            border: 1px solid #999;
+            padding: 13px;
+            width: 300px;
+            height: 300px;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;         
+            background-size: cover;
+        }
+    }
+
+    .img img {
+        width: 100%;
+    }
 </style>
 <h4>Operatividad Detector de Metal</h4>
 
@@ -308,17 +343,22 @@
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>Novedad</label>
-                            <input class="form-control" id="txtNovedad" type="text" size="500" name="name" value="" autocomplete="off"/>
+                            <input class="form-control" id="txtNovedad" type="text" size="500" name="name" value="" autocomplete="off" />
                         </div>
                     </div>
-                    @*<div class="col-md-12 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>Foto</label>
-                            <input id="imgFoto" class="form-control" type="file" name="fimagen" accept="image/gif, image/jpeg, image/png" />
-                            <p style="font-size:10px">Selecciona una imagen en formato PNG de tamaño inferior a 1MB.</p>
+                    <div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
+                        <label>Metales</label>
+                        <div id="divFileUpload">
+                            <input id="file-upload" type="file" accept="image/*" />
                         </div>
-                    </div>*@
-                  
+                        <br />
+                        <div class="text-center" style="justify-content:center">
+                            <div id="file-preview-zone" style="height:auto">
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">

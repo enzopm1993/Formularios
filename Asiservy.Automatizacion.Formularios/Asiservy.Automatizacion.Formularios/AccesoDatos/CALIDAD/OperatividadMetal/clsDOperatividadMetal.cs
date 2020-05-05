@@ -167,7 +167,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
                 if (poControl != null)
                 {
                     poControl.Novedad = model.Novedad;
-                    poControl.Imagen = model.Imagen;
+                    if(!string.IsNullOrEmpty(model.Imagen))
+                        poControl.Imagen = model.Imagen;
+                    poControl.Rotacion = model.Rotacion;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poControl.FechaModificacionLog = model.FechaIngresoLog;
