@@ -18,6 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdOperatividadMetal { get; set; }
         public string Novedad { get; set; }
         public string Imagen { get; set; }
+        public int Rotacion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

@@ -3,6 +3,8 @@
 
 });
 
+var rotation = 0;
+
 
 function ConsultarControl() {
     $("#divMensaje").html('');
@@ -389,10 +391,16 @@ function CargarControlDetalle2() {
     });
 }
 
+function NuevoControlDetalle2() {
+    $("#txtIdControlDetalle2").val("");
+    $("#txtNovedad").val("");
+    $("#file-upload").val('');
+    $("#file-preview-zone").html('');
+    rotation = 0;
+}
+
 function ModalGenerarControlDetalle2() {
-    //$("#txtIdControlDetalle").val(0);
-    //$("#txtHoraInicioDetalle").val("");
-    //$("#txtHoraFinDetalle").val("");
+    NuevoControlDetalle2();
     $("#ModalGenerarControlDetalle2").modal("show");
 
 }
@@ -412,26 +420,27 @@ function ValidarGenerarControlDetalle2() {
 }
 function GenerarControlDetalle2() {
 
-    //console.log($("#imgFoto"));
-    //var img = $("#imgFoto")[0];
-   // alert($("#imgFoto")[0].files[0]);
-    // salida = URL.createObjectURL(event.target.files[0]);
-    //console.log(img);
-
-
     if (!ValidarGenerarControlDetalle2()) {
         return;
     }
     //   $("#spinnerCargandoDetalle").prop("hidden", false);
+    var imagen = $('#file-upload')[0].files[0];
+    var data = new FormData();
+    data.append("dataImg", imagen);
+    data.append("IdOperatividadDetectorMetal", $("#txtIdControlDetalle2").val());
+    data.append("IdOperatividadMetal", $("#txtIdControl").val());
+    data.append("Novedad", $("#txtNovedad").val());
+    data.append("Rotacion", rotation);
+
     $.ajax({
         url: "../OperatividadMetal/OperatividadMetalDetector",
         type: "POST",
-        data: {
-            IdOperatividadDetectorMetal: $("#txtIdControlDetalle2").val(),
-            IdOperatividadMetal: $("#txtIdControl").val(),
-            Novedad: $("#txtNovedad").val()
-      //      imagen: img
-        },
+        cache: false,
+        data: data,
+        contentType: false,
+        processData: false,
+        async: false,
+        data: data,
         success: function (resultado) {
             //  $("#spinnerCargandoDetalle").prop("hidden", true);
             if (resultado == "101") {
@@ -449,12 +458,46 @@ function GenerarControlDetalle2() {
 }
 
 
-function EditarConsumoInsumoDetalle2(id,novedad) {
-    // console.log(model);
+function EditarConsumoInsumoDetalle2(id, novedad, imagen, Rotacion) {
+    //console.log(Rotacion);
+    //console.log(imagen);
+    NuevoControlDetalle2();
     $("#txtIdControlDetalle2").val(id);
     $("#txtNovedad").val(novedad);
-    
-    $("#ModalGenerarControlDetalle2").modal("show");
+    if (imagen != null && imagen != '') {
+        var filePreview = document.createElement('img');
+        filePreview.id = 'file-preview';
+        filePreview.src = "/Content/Img/" + imagen;
+        var previewZone = document.getElementById('file-preview-zone');
+        previewZone.appendChild(filePreview);
+
+        $("#file-preview").addClass("img");
+        $('#file-preview').rotate(Rotacion);
+        document.getElementById("file-preview").style.height = "0px";
+        document.getElementById("file-preview").style.width = "0px";
+
+        var img = new Image();
+        img.onload = function () {
+            //  alert(this.width + 'x' + this.height);
+            var ancho = this.width;
+            var alto = this.height;
+            if (ancho < alto) {
+                document.getElementById("file-preview").style.height = "350px";
+                document.getElementById("file-preview").style.width = "250px";
+            } else {
+                document.getElementById("file-preview").style.height = "250px";
+                document.getElementById("file-preview").style.width = "350px";
+            }
+            $("#ModalGenerarControlDetalle2").modal("show");
+
+        }
+        img.src = "/Content/Img/" + imagen;
+
+
+    } else {
+        $("#ModalGenerarControlDetalle2").modal("show");
+    }
+   
     //ModalGenerarControlDetalle();
 }
 
@@ -501,28 +544,64 @@ $("#modal-detalle2-no").on("click", function () {
 });
 
 
-//$(window).load(function () {
 
-//    $(function () {
-//        $('#file-input').change(function (e) {
-//            addImage(e);
-//        });
 
-//        function addImage(e) {
-//            var file = e.target.files[0],
-//                imageType = /image.*/;
+function readFile(input) {
 
-//            if (!file.type.match(imageType))
-//                return;
 
-//            var reader = new FileReader();
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
 
-//            reader.onload = function (e) {
-//                var result = e.target.result;
-//                $('#imgSalida').attr("src", result);
-//            }
+        reader.onload = function (e) {
+            // console.log(this.width.toFixed(0));
 
-//            reader.readAsDataURL(file);
-//        }
-//    });
-//});
+            // alert('Imagen correcta :)')
+            $("#file-preview-zone").html('');
+            var filePreview = document.createElement('img');
+            filePreview.id = 'file-preview';
+            // filePreview.setAttribute("type", "hidden");
+
+            //e.target.result contents the base64 data from the image uploaded
+            filePreview.src = e.target.result;
+            //console.log(e.target.result);
+            var previewZone = document.getElementById('file-preview-zone');
+            previewZone.appendChild(filePreview);
+            $("#file-preview").addClass("img");
+            document.getElementById("file-preview").style.height = "0px";
+            document.getElementById("file-preview").style.width = "0px";
+            //console.log(e.target.result);
+            var image = new Image();
+            image.src = e.target.result;
+            image.onload = function () {
+                if (this.width < this.height) {
+                    document.getElementById("file-preview").style.height = "350px";
+                    document.getElementById("file-preview").style.width = "250px";
+                }
+                else {
+                    document.getElementById("file-preview").style.height = "250px";
+                    document.getElementById("file-preview").style.width = "350px";
+                }
+
+            };
+
+
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+var fileUpload = document.getElementById('file-upload');
+fileUpload.onchange = function (e) {
+    readFile(e.srcElement);
+
+}
+
+
+$('#file-preview-zone').on("click", function (e) {
+    rotation += 90;
+    $('#file-preview').rotate(rotation);
+    if (rotation == 360) {
+        rotation = 0;
+    }
+});
+

@@ -4,6 +4,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMetal;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -27,6 +28,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
+                ViewBag.JqueryRotate = "1";
                 //  ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
 
@@ -341,7 +343,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public ActionResult OperatividadMetalDetector(CC_OPERATIVIDAD_DETECTOR_METAL control, HttpPostedFileBase imagen)
+        public ActionResult OperatividadMetalDetector(CC_OPERATIVIDAD_DETECTOR_METAL control, HttpPostedFileBase dataImg)
         {
             try
             {
@@ -351,13 +353,34 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsdOperatividadMetal = new clsDOperatividadMetal();
-                // clsDEmpleado = new clsDEmpleado();
+                string path = string.Empty;
+                string NombreImg = string.Empty;
+                if (dataImg != null)
+                {
+                    path = Server.MapPath("~/Content/Img/DetectorMetal/");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    var date = DateTime.Now;
+                    long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
+                    var ext2 = dataImg.FileName.Split('.');
+                    var cont = ext2.Length;
+                    NombreImg = "DetectorMetal/DetectorMetal" + n.ToString() + "." + ext2[cont - 1];
+                    control.Imagen = NombreImg;
+                }
+
+                
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lssUsuario[1]).FirstOrDefault();
                 control.UsuarioIngresoLog = lsUsuario[0];
                 control.FechaIngresoLog = DateTime.Now;
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 clsdOperatividadMetal.GuardarModificarOperatividadMetalDetector(control);
+                if (dataImg != null)
+                {
+                    dataImg.SaveAs(path + Path.GetFileName(NombreImg));
+                }
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
