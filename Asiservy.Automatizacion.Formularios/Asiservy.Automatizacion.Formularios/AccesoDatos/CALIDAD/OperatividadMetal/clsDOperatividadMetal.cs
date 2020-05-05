@@ -199,5 +199,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
             }
         }
 
+        public List<CC_OPERATIVIDAD_METAL> ConsultaOperatividadMetalControl(DateTime FechaDesde, DateTime FechaHasta, bool Estado)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_OPERATIVIDAD_METAL.Where(x => x.Fecha >= FechaDesde
+                                                                         && x.Fecha <= FechaHasta
+                                                                && x.EstadoReporte == Estado).ToList();
+            }
+        }
+
+        public List<CC_OPERATIVIDAD_METAL> ConsultaOperatividadMetalControlPendiente()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_OPERATIVIDAD_METAL.Where(x => x.EstadoReporte == false).ToList();
+            }
+        }
+
     }
 }

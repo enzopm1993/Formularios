@@ -2231,6 +2231,7 @@
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\MantenimientoCuchilloPreparacion.js" />
+    <Content Include="Scripts\CALIDAD\OperatividadMetal\BandejaOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\OperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\ReporteOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
@@ -3887,6 +3888,8 @@
     <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocinaPartial.cshtml" />
     <Content Include="Views\CalibracionPhMetro\BandejaCalibracionPhMetro.cshtml" />
     <Content Include="Views\CalibracionPhMetro\BandejaAprobadosCalibracionPhMetroPartial.cshtml" />
+    <Content Include="Views\OperatividadMetal\BandejaOperatividadMetal.cshtml" />
+    <Content Include="Views\OperatividadMetal\BandejaOperatividadMetalPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3898,9 +3901,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Img\DetectorMetal\" />
     <Folder Include="Content\Img\REPORTE\" />
-    <Folder Include="Scripts\CALIDAD\HigieneComedorCocina\" />
     <Folder Include="Views\Comunicados\" />
-    <Folder Include="Views\HigieneComedorCocina\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
