@@ -381,12 +381,10 @@ function EditarReporteDetalle(model) {
 
     $("#txtIdDetalleModal").val(model.IdReporteDetalle);
     $("#txtVersionDetalleModal").val(model.Version);
+
     var filePreview = document.createElement('img');
     filePreview.id = 'file-preview';
-   // filePreview.setAttribute("type", "hidden");
-    //e.target.result contents the base64 data from the image uploaded
     filePreview.src = "/Content/Img/" + model.Imagen;
-    //console.log(e.target.result);
     var previewZone = document.getElementById('file-preview-zone');
     previewZone.appendChild(filePreview);
  
