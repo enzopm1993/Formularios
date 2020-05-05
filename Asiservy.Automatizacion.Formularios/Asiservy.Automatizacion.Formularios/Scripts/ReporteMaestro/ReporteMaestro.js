@@ -372,6 +372,7 @@ function GuardarReporteDetalle() {
 
 function EditarReporteDetalle(model) {
     NuevoDetalle();
+
     if (model.Version == $("#txtVersion").val()) {
         $("#CheckVersion").prop("checked", true);
     } else {
@@ -382,32 +383,40 @@ function EditarReporteDetalle(model) {
     $("#txtVersionDetalleModal").val(model.Version);
     var filePreview = document.createElement('img');
     filePreview.id = 'file-preview';
-    filePreview.setAttribute("type", "hidden");
+   // filePreview.setAttribute("type", "hidden");
     //e.target.result contents the base64 data from the image uploaded
     filePreview.src = "/Content/Img/" + model.Imagen;
     //console.log(e.target.result);
     var previewZone = document.getElementById('file-preview-zone');
     previewZone.appendChild(filePreview);
-      
-    $("#file-preview").one("load", function () {
-        var ancho = $(this).width(),
-            alto = $(this).height();
-        if (ancho < alto) {//console.log(this.id, "Es más ancha");
+ 
+     $("#file-preview").addClass("img");
+    $('#file-preview').rotate(model.Rotacion);
+    document.getElementById("file-preview").style.height = "0px";
+    document.getElementById("file-preview").style.width = "0px";
+
+    var img = new Image();
+    img.onload = function () {
+      //  alert(this.width + 'x' + this.height);
+        var ancho = this.width;
+        var alto = this.height;  
+        if (ancho < alto) {
             document.getElementById("file-preview").style.height = "350px";
             document.getElementById("file-preview").style.width = "250px";
         } else {
             document.getElementById("file-preview").style.height = "250px";
             document.getElementById("file-preview").style.width = "350px";
         }
-    }).each(function () {
-        if (this.complete) {
-            $(this).load();
-        }
-    });
+        $("#ModalControlDetalle").modal("show");
+
+    }
+    img.src = "/Content/Img/" + model.Imagen;
+    //var img = document.getElementById('file-preview');
+    //var ancho = img.clientWidth;
+    //var alto = img.clientHeight;  
+
    
-    $('#file-preview').rotate(model.Rotacion);
-    $("#file-preview").addClass("img");
-    $("#ModalControlDetalle").modal("show");
+   
 
 }
 
@@ -466,7 +475,7 @@ function readFile(input) {
             $("#file-preview-zone").html('');
             var filePreview = document.createElement('img');
             filePreview.id = 'file-preview';
-            filePreview.setAttribute("type", "hidden");
+           // filePreview.setAttribute("type", "hidden");
 
             //e.target.result contents the base64 data from the image uploaded
             filePreview.src = e.target.result;
@@ -474,7 +483,8 @@ function readFile(input) {
             var previewZone = document.getElementById('file-preview-zone');                
             previewZone.appendChild(filePreview);
             $("#file-preview").addClass("img");    
-
+            document.getElementById("file-preview").style.height = "0px";
+            document.getElementById("file-preview").style.width = "0px";
             //console.log(e.target.result);
             var image = new Image();
             image.src = e.target.result;
@@ -489,7 +499,7 @@ function readFile(input) {
                 }
                
             };      
-          
+        
         
          }
         reader.readAsDataURL(input.files[0]);
