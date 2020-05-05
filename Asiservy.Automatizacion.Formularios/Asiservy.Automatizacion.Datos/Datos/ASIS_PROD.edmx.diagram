@@ -172,8 +172,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS" Width="1.5" PointX="38.375" PointY="29.875" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL_CONTROL" Width="1.5" PointX="0.75" PointY="30.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_DETECTOR_METAL" Width="1.5" PointX="34" PointY="6.5" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CALIBRACION_PHMETRO" Width="1.5" PointX="0.75" PointY="39.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_MANT" Width="1.5" PointX="3.375" PointY="39.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LINPIEZA_DESINFECCION_PLANTA_CONTROL" Width="1.5" PointX="39.375" PointY="5.75" />
@@ -184,6 +182,8 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_C_C_MANT_INTERMEDIA_CC_HIGIENE_C_C_MANT_OBJETOS" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" Width="1.5" PointX="40.625" PointY="22.125" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_OPERATIVIDAD_DETECTOR_METAL" Width="1.5" PointX="34" PointY="6.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_OPERATIVIDAD_DETECTOR_METAL_CC_OPERATIVIDAD_METAL" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
