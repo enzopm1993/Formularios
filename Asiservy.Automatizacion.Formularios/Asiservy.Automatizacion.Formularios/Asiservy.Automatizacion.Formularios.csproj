@@ -2232,6 +2232,7 @@
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\MantenimientoCuchilloPreparacion.js" />
+    <Content Include="Scripts\CALIDAD\OperatividadMetal\BandejaOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\OperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\ReporteOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
@@ -3888,6 +3889,8 @@
     <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocinaPartial.cshtml" />
     <Content Include="Views\CalibracionPhMetro\BandejaCalibracionPhMetro.cshtml" />
     <Content Include="Views\CalibracionPhMetro\BandejaAprobadosCalibracionPhMetroPartial.cshtml" />
+    <Content Include="Views\OperatividadMetal\BandejaOperatividadMetal.cshtml" />
+    <Content Include="Views\OperatividadMetal\BandejaOperatividadMetalPartial.cshtml" />
     <Content Include="Views\CalibracionPhMetro\ReporteCalibracionPhMetro.cshtml" />
     <Content Include="Views\CalibracionPhMetro\ReporteControlPartial.cshtml" />
     <None Include="Web.Debug.config">
