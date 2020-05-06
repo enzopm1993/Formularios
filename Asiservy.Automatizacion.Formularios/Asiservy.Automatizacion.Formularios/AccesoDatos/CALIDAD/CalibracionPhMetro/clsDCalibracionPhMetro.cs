@@ -132,5 +132,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionPhM
                 return "El control ha sido Reversado";
             }
         }
+        public List<CC_CALIBRACION_PHMETRO> ConsultarReporte(DateTime FechaInicio, DateTime FechaFin)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                var resultado = (from p in db.CC_CALIBRACION_PHMETRO
+                                    where (p.Fecha >= FechaInicio && p.Fecha <= FechaFin) && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                    select p).ToList();
+                return resultado;
+            }
+        }
     }
 }
