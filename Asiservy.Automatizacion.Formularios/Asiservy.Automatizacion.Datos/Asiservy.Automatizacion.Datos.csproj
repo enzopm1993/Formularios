@@ -159,16 +159,13 @@
     <Compile Include="Datos\CC_LAVADO_CISTERNA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\CC_LINPIEZA_DESINFECCION_PLANTA_CONTROL.cs">
+    <Compile Include="Datos\CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\CC_LINPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA.cs">
+    <Compile Include="Datos\CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_LINPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS.cs">
+    <Compile Include="Datos\CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_CISTERNA.cs">
