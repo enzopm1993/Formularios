@@ -217,5 +217,49 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
             }
         }
 
+        public void Aprobar_ReporteOperatividadMetal(CC_OPERATIVIDAD_METAL Control)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_OPERATIVIDAD_METAL.FirstOrDefault(x => x.IdOperatividadMetal == Control.IdOperatividadMetal || (x.Fecha == Control.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                if (model != null)
+                {
+                    model.EstadoReporte = Control.EstadoReporte;
+                    model.AprobadoPor = Control.AprobadoPor;
+                    model.FechaAprobacion = Control.FechaAprobacion;
+                    model.FechaModificacionLog = Control.FechaIngresoLog;
+                    model.TerminalModificacionLog = Control.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = Control.UsuarioIngresoLog;
+                    db.SaveChanges();
+                }
+                //else
+                //{
+                //    db.CC_CONDICION_PERSONAL_CONTROL.Add(model);
+                //}
+            }
+        }
+
+        public void Reversar_ReporteOperatividadMetal(CC_OPERATIVIDAD_METAL Control)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_OPERATIVIDAD_METAL.FirstOrDefault(x => x.IdOperatividadMetal == Control.IdOperatividadMetal || (x.Fecha == Control.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                if (model != null)
+                {
+                    model.EstadoReporte = Control.EstadoReporte;
+                    model.AprobadoPor = Control.AprobadoPor;
+                    model.FechaAprobacion = Control.FechaAprobacion;
+                    model.FechaModificacionLog = Control.FechaIngresoLog;
+                    model.TerminalModificacionLog = Control.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = Control.UsuarioIngresoLog;
+                    db.SaveChanges();
+                }
+                //else
+                //{
+                //    db.CC_CONDICION_PERSONAL_CONTROL.Add(model);
+                //}
+            }
+        }
+
     }
 }

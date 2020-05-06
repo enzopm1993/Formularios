@@ -20,6 +20,7 @@ function CargarBandeja() {
             }
             $("#btnPendiente").prop("hidden", true);
             $("#btnAprobado").prop("hidden", false);
+            $("#btnReversar").prop("hidden", true);
             $("#spinnerCargando").prop("hidden", true);
             config.opcionesDT.pageLength = 10;
             $('#tblDataTable').DataTable(config.opcionesDT);
@@ -27,63 +28,16 @@ function CargarBandeja() {
         },
         error: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
-            MensajeError(resultado.responseText, false);
+            MensajeError('Error, Comuniquese con sistemas. '+resultado.responseText, false);
         }
     });
 }
 
 function SeleccionarBandeja(model) {
-    //var table = $("#tblDataTableAprobar");
-    //table.DataTable().clear();
     CargarControlDetalle(model.IdOperatividadMetal);
     CargarControlDetalle2(model.IdOperatividadMetal);    
-    //console.log(model);
     $("#ModalApruebaCntrol").modal("show");
-    //listaDatos = model;
-    //$.ajax({
-    //    url: "../OperatividadMetal/BandejaAprobarOperatividadMetal",
-    //    type: "GET",
-    //    data: {
-    //        Fecha: model.Fecha
-    //    },
-    //    success: function (resultado) {
-    //        console.log(resultado);
-    //        if (resultado == "101") {
-    //            window.location.reload();
-    //        }
-    //        if (resultado == "102") {
-    //            MensajeAdvertencia("No existen datos para este model.");
-    //        }
-    //        if (resultado == "0") {
-    //            MensajeAdvertencia("¡El REGISTRO no tiene detalle, por favor ingrese los datos en el CONTROL!");
-    //        } else {
-    //            $("#tblDataTableAprobar tbody").empty();
-    //            config.opcionesDT.order = [];
-    //            config.opcionesDT.columns = [
-    //                { data: 'Fecha' },
-    //                { data: 'Hora' },
-    //                { data: 'Cedula' },
-    //                { data: 'Nombre' },
-    //                { data: 'Condicion' },
-    //                { data: 'Observacion' }
-    //            ];
-    //            table.DataTable().destroy();
-    //            table.DataTable(config.opcionesDT);
-    //            resultado.forEach(function (row) {
-    //                row.Fecha = moment(row.Fecha).format('YYYY-MM-DD');
-    //                row.Hora = moment(row.Hora).format('HH:mm');
-    //            });
-
-    //            table.DataTable().rows.add(resultado);
-    //            table.DataTable().draw();
-    //            $("#ModalApruebaCntrolCloro").modal("show");
-    //        }
-    //    },
-    //    error: function (resultado) {
-    //        MensajeError(resultado.responseText, false);
-    //        $("#spinnerCargandoMaterial").prop("hidden", true);
-    //    }
-    //});
+    listaDatos = model;
 }
 
 function AprobarControl() {
@@ -94,7 +48,6 @@ function AprobarControl() {
         data: {
             IdOperatividadMetal: listaDatos.IdOperatividadMetal,
             Fecha: listaDatos.Fecha
-
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -102,10 +55,34 @@ function AprobarControl() {
             }
             MensajeCorrecto(resultado);
             CargarBandeja();
-            $("#ModalApruebaCntrolCloro").modal("hide");
+            $("#ModalApruebaCntrol").modal("hide");
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError('Error, Comuniquese con sistemas. '+resultado.responseText, false);
+        }
+    });
+}
+
+
+function ReversarControl() {
+    //var estadoReporte = data;
+    $.ajax({
+        url: "../OperatividadMetal/ReversarBandejaControl",
+        type: "POST",
+        data: {
+            IdOperatividadMetal: listaDatos.IdOperatividadMetal,
+            Fecha: listaDatos.Fecha
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            MensajeCorrecto(resultado);
+            FiltrarAprobadosFecha();
+            $("#ModalApruebaCntrol").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError('Error, Comuniquese con sistemas. '+resultado.responseText, false);
         }
     });
 }
@@ -137,12 +114,13 @@ function FiltrarAprobadosFecha() {
                 }
                 $("#spinnerCargando").prop("hidden", true);
                 $("#btnPendiente").prop("hidden", false);
+                $("#btnReversar").prop("hidden", false);
                 $("#btnAprobado").prop("hidden", true);
                 $("#divDateRangePicker").prop('hidden', false);
             },
             error: function (resultado) {
                 $("#spinnerCargando").prop("hidden", true);
-                MensajeError(resultado.responseText, false);
+                MensajeError('Error, Comuniquese con sistemas. '+resultado.responseText, false);
             }
         });
     }
@@ -176,7 +154,7 @@ function CargarControlDetalle(id) {
             }
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError('Error, Comuniquese con sistemas. '+resultado.responseText, false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });
@@ -208,7 +186,7 @@ function CargarControlDetalle2(id) {
             }
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError('Error, Comuniquese con sistemas. '+resultado.responseText, false);
             $("#spinnerCargandoDetalle2").prop("hidden", true);
         }
     });
