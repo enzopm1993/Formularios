@@ -453,6 +453,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.JqueryRotate = "1";                
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 return View();
@@ -562,7 +563,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         //    }
         //}
 
-        public ActionResult AprobarBandejaControlCloro(CC_CONDICION_PERSONAL_CONTROL model)
+        public ActionResult AprobarBandejaControl(CC_OPERATIVIDAD_METAL model)
         {
             try
             {

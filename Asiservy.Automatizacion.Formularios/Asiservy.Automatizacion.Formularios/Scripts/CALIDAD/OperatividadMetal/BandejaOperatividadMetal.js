@@ -35,8 +35,9 @@ function CargarBandeja() {
 function SeleccionarBandeja(model) {
     //var table = $("#tblDataTableAprobar");
     //table.DataTable().clear();
-
-    console.log(model);
+    CargarControlDetalle(model.IdOperatividadMetal);
+    CargarControlDetalle2(model.IdOperatividadMetal);    
+    //console.log(model);
     $("#ModalApruebaCntrol").modal("show");
     //listaDatos = model;
     //$.ajax({
@@ -85,10 +86,10 @@ function SeleccionarBandeja(model) {
     //});
 }
 
-function AprobarControlCloroDetalle(data) {
+function AprobarControl() {
     //var estadoReporte = data;
     $.ajax({
-        url: "../OperatividadMetal/AprobarBandejaControlCloro",
+        url: "../OperatividadMetal/AprobarBandejaControl",
         type: "POST",
         data: {
             IdOperatividadMetal: listaDatos.IdOperatividadMetal,
@@ -148,6 +149,94 @@ function FiltrarAprobadosFecha() {
 }
 
 
+////////////////////////////////////// DETALLE
+function CargarControlDetalle(id) {
+    $("#divTableDetalle").html('');
+    $("#spinnerCargandoDetalle").prop("hidden", false);
+    $.ajax({
+        url: "../OperatividadMetal/ReporteOperatividadMetalDetallePartial",
+        type: "GET",
+        data: {
+            IdControl: id
+            //  Tipo: $("#txtLineaNegocio").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#divTableDetalle").html("No existen registros");
+                $("#spinnerCargandoDetalle").prop("hidden", true);
+            } else {
+                $("#spinnerCargandoDetalle").prop("hidden", true);
+                $("#divTableDetalle").html(resultado);
+                //config.opcionesDT.pageLength = 10;
+                //      config.opcionesDT.order = [[0, "asc"]];
+                //    $('#tblDataTable').DataTable(config.opcionesDT);
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoDetalle").prop("hidden", true);
+        }
+    });
+}
+
+function CargarControlDetalle2(id) {
+    $("#divTableDetalle2").html('');
+    $("#spinnerCargandoDetalle2").prop("hidden", false);
+    $.ajax({
+        url: "../OperatividadMetal/ReporteOperatividadMetalDetectorPartial",
+        type: "GET",
+        data: {
+            IdControl: id
+            //  Tipo: $("#txtLineaNegocio").val()
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $("#divTableDetalle2").html("<div class='text-center'>No existen registros</div>");
+                $("#spinnerCargandoDetalle2").prop("hidden", true);
+            } else {
+                $("#spinnerCargandoDetalle2").prop("hidden", true);
+                $("#divTableDetalle2").html(resultado);
+                //config.opcionesDT.pageLength = 10;
+                //      config.opcionesDT.order = [[0, "asc"]];
+                //    $('#tblDataTable').DataTable(config.opcionesDT);
+            }
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            $("#spinnerCargandoDetalle2").prop("hidden", true);
+        }
+    });
+}
+
+function validarImg(rotacion, id, imagen) {
+
+    $('#' + id).rotate(rotacion);
+    //document.getElementById(id).style.height = "0px";
+    //document.getElementById(id).style.width = "0px";
+
+    var img = new Image();
+    img.onload = function () {
+        //  alert(this.width + 'x' + this.height);
+        var ancho = this.width;
+        var alto = this.height;
+        if (ancho < alto) {
+            document.getElementById(id).style.height = "250px";
+            document.getElementById(id).style.width = "150px";
+        } else {
+            document.getElementById(id).style.height = "150px";
+            document.getElementById(id).style.width = "250px";
+        }
+
+    }
+    img.src = "/Content/Img/" + imagen;
+
+}
 //FECHA DataRangePicker
 $(function () {
     var start = moment();

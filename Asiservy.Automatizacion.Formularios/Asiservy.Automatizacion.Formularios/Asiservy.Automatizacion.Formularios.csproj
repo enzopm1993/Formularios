@@ -3890,6 +3890,7 @@
     <Content Include="Views\CalibracionPhMetro\BandejaAprobadosCalibracionPhMetroPartial.cshtml" />
     <Content Include="Views\OperatividadMetal\BandejaOperatividadMetal.cshtml" />
     <Content Include="Views\OperatividadMetal\BandejaOperatividadMetalPartial.cshtml" />
+    <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalDetectorPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

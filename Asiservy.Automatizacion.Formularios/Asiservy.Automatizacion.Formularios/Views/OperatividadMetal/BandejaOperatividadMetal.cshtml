@@ -83,31 +83,34 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Reporte Operatividad Metal</h5>
+                <h4  class="modal-title text-black-50" id="exampleModalLabel">Reporte Operatividad Metal</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <div class="text-center"><h5 class="text-black">Verificación de operatividad con patrones</h5></div>
                 <div class="table-responsive">
-                    <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableAprobar">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Hora</th>
-                                <th>Cedula</th>
-                                <th>Nombre</th>
-                                <th>Condición</th>
-                                <th>Observacion</th>
-                            </tr>
-                        </thead>
-                        <tbody style="font-size:14px"></tbody>
-                    </table>
+                    <div id="spinnerCargandoDetalle" hidden class="text-center">
+                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="sr-only">Cargando...</span>
+                        </div>
+                    </div>
+                    <div id="divTableDetalle"></div>
+                </div>
+                <hr />
+                <div class="text-center"><h5>Detección de metales en bandejas</h5></div>
+                <div class="table-responsive">
+                    <div id="spinnerCargandoDetalle2" hidden class="text-center">
+                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="sr-only">Cargando...</span>
+                        </div>
+                    </div>
+                    <div id="divTableDetalle2"></div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnAprobado" hidden class="btn btn-primary" onclick="AprobarControlCloroDetalle(true)">Aprobar</button>
-                <button type="button" id="btnPendiente" hidden class="btn btn-primary" onclick="AprobarControlCloroDetalle(false)">Reversar</button>
+                <button type="button" id="btnAprobado" class="btn btn-primary" onclick="AprobarControl()">Aprobar</button>
             </div>
         </div>
     </div>
