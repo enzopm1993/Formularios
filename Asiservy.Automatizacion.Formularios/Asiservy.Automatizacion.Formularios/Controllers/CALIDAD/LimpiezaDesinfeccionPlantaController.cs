@@ -18,7 +18,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         clsDError clsDError = null;
         clsDLimpiezaDesinfeccionPlanta clsDLimpiezaDesinfeccionPlanta = null;
         string[] lsUsuario;
-
+        protected void SetSuccessMessage(string message)
+        {
+            TempData["MensajeConfirmacion"] = message;
+        }
+        protected void SetErrorMessage(string message)
+        {
+            TempData["MensajeError"] = message;
+        }
         public ActionResult MantAreaAuditoria()
         {
             try
@@ -602,14 +609,41 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         //    }
         //}
 
-        protected void SetSuccessMessage(string message)
+        #region Control
+        [Authorize]
+        public ActionResult ControlLimpiezaDesinfeccionPlanta()
         {
-            TempData["MensajeConfirmacion"] = message;
+            try
+            {
+                ViewBag.DateRangePicker = "1";
+                ViewBag.FirmaPad = "1";
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dataTableJS = "1";
+                ViewBag.select2 = "1";
+                lsUsuario = User.Identity.Name.Split('_');
+
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
         }
-        protected void SetErrorMessage(string message)
-        {
-            TempData["MensajeError"] = message;
-        }
+        #endregion
 
     }
 }

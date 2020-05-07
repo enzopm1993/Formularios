@@ -3,24 +3,71 @@
     ViewBag.Title = "ReporteCalibracionPhMetro";
 }
 <style>
-    @@media print {
+    @@media print and (color) {
+        * {
+            -webkit-print-color-adjust: exact;
+       
+        }
         #DivBotonImpr {
             display: none;
+
         }
+
         #espacio {
             display: none;
         }
+
         #accordionSidebar {
             display: none;
         }
+
         #titulo {
             display: none;
         }
-        #divfiltros{
-            display:none;
+
+        #divfiltros {
+            display: none;
+        }
+
+        #DivCard {
+            border: none;
+        }
+        #estadocontrol1 {
+            padding-right: 0.6em;
+            padding-left: 0.6em;
+            border-radius: 10rem;
+            color: #fff;
+            background-color: #e74a3b;
+         
+        }
+       
+
+        #estadocontrol {
+            padding-right: 0.6em;
+            padding-left: 0.6em;
+            border-radius: 10rem;
+            color: #fff;
+            background-color: green;
+           
         }
     }
     @@media screen{
+        #estadocontrol1 {
+            padding-right: 0.6em;
+            padding-left: 0.6em;
+            border-radius: 10rem;
+            color: #fff;
+            background-color: #e74a3b;
+         
+        }
+
+        #estadocontrol {
+            padding-right: 0.6em;
+            padding-left: 0.6em;
+            border-radius: 10rem;
+            color: #fff;
+            background-color: green;
+        }
         #cab1{
             display:none;
         }
