@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Higine_Comedor_Cocina>
+@using Newtonsoft.Json;
+
+@{ var json = JsonConvert.SerializeObject(Model); }
+<div>
+    <button id="btnActualizarDetalle" class="btn btn-link" onclick="ActualizarDetalle(@json)">Actualizar</button>
+</div>
+<table class="table table-bordered" id="tblDataTableVer">
+    <thead style="font-size:12px">
+        <tr>
+            <th hidden>
+                IdControlDetalle
+            </th>
+            <th>NOMBRE</th>
+            <th>
+                CATEGORIA
+            </th>
+            <th>
+                ESTADO
+            </th>
+            <th>
+                OBSERVACION
+            </th>
+            <th>
+                ACCION CORRECTIVA
+            </th>
+        </tr>
+    </thead>
+    <tbody style="font-size:11px">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td hidden>
+                <input type="text" name="name" value="@item.IdControlDetalle" id="txtIdControlDetalle-@item.IdMantenimiento" class="form-control" />
+            </td>
+            <td>
+                @item.Nombre.ToUpper()
+            </td>
+            <td>
+                @item.Categoria.ToUpper()
+            </td>
+
+            <td>
+                @item.LimpiezaEstado
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.Observacion))
+                {
+                    @item.Observacion.ToUpper();
+                }               
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.AccionCorrectiva))
+                {
+                    @item.AccionCorrectiva.ToUpper();
+                }
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+@*<script src="~/Scripts/General/dataTableJS.js"></script>*@
