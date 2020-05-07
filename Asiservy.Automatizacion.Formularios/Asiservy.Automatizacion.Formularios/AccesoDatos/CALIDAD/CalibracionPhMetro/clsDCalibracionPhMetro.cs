@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionPhMetro
 {
@@ -93,10 +92,54 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionPhM
                 else
                 {
                     var resultado = (from p in db.CC_CALIBRACION_PHMETRO
-                                     where (p.Fecha >= FechaInicio && p.Fecha <= FechaFin) && (p.EstadoControl == EstadoControl || p.EstadoControl == null) && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                     where (p.Fecha >= FechaInicio && p.Fecha <= FechaFin) && (p.EstadoControl == EstadoControl) && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                      select p).ToList();
                     return resultado;
                 }
+            }
+        }
+        public string AprobarControl(int IdControl, string usuario, string terminal)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+
+                var buscarControl = db.CC_CALIBRACION_PHMETRO.Find(IdControl);
+                buscarControl.FechaModificacionLog = DateTime.Now;
+                buscarControl.UsuarioModificacionLog = usuario;
+                buscarControl.TerminalModificacionLog = terminal;
+                buscarControl.UsuarioAprobacion = usuario;
+                buscarControl.FechaAprobacion = DateTime.Now;
+                buscarControl.EstadoControl = true;
+                db.SaveChanges();
+
+                return "El control ha sido aprobado";
+            }
+        }
+        public string ReversarControl(int IdControl, string usuario, string terminal)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+
+                var buscarControl = db.CC_CALIBRACION_PHMETRO.Find(IdControl);
+                buscarControl.FechaModificacionLog = DateTime.Now;
+                buscarControl.UsuarioModificacionLog = usuario;
+                buscarControl.TerminalModificacionLog = terminal;
+                buscarControl.UsuarioAprobacion = usuario;
+                buscarControl.FechaAprobacion = DateTime.Now;
+                buscarControl.EstadoControl = false;
+                db.SaveChanges();
+
+                return "El control ha sido Reversado";
+            }
+        }
+        public List<CC_CALIBRACION_PHMETRO> ConsultarReporte(DateTime FechaInicio, DateTime FechaFin)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                var resultado = (from p in db.CC_CALIBRACION_PHMETRO
+                                    where (p.Fecha >= FechaInicio && p.Fecha <= FechaFin) && p.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                    select p).ToList();
+                return resultado;
             }
         }
     }

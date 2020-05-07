@@ -2193,6 +2193,7 @@
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\BandejaCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ControlCalibracionPhMetro.js" />
+    <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ReporteCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.js" />
@@ -2232,6 +2233,7 @@
     <Content Include="Scripts\CALIDAD\MonitoreoDescongelado\ReporteMonitoreoDescongelado.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\ControlCuchilloPreparacion.js" />
     <Content Include="Scripts\CALIDAD\ControlCuchillosPreparacion\MantenimientoCuchilloPreparacion.js" />
+    <Content Include="Scripts\CALIDAD\OperatividadMetal\BandejaOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\OperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\ReporteOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
@@ -3892,6 +3894,11 @@
     <Content Include="Views\HigieneComedorCocina\HigieneComedorCocina.cshtml" />
     <Content Include="Views\HigieneComedorCocina\HigieneComedorCocinaDetallePartial.cshtml" />
     <Content Include="Views\HigieneComedorCocina\ConsultaHigieneMantActivosPartial.cshtml" />
+    <Content Include="Views\OperatividadMetal\BandejaOperatividadMetal.cshtml" />
+    <Content Include="Views\OperatividadMetal\BandejaOperatividadMetalPartial.cshtml" />
+    <Content Include="Views\CalibracionPhMetro\ReporteCalibracionPhMetro.cshtml" />
+    <Content Include="Views\CalibracionPhMetro\ReporteControlPartial.cshtml" />
+    <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalDetectorPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

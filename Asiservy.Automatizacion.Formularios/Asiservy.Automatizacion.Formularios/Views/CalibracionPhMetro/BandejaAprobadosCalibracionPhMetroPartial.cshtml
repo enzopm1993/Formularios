@@ -12,7 +12,7 @@
                 @Html.DisplayNameFor(model => model.Hora)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CodigoPhMetro)
+                Código PhMetro
             </th>
             <th>
                 Ph=4,0
@@ -44,7 +44,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Fecha)
+                    @item.Fecha.Value.ToString("yyyy/MM/dd")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Hora)
@@ -81,13 +81,13 @@
                 @if (item.EstadoControl == false || item.EstadoControl == null)
                 {
                     <td>
-                       <a href="#" class="text-success" onclick="AprobarControl(@item.IDPhMetro)">Aprobar</a>
+                       <a href="#" class="text-success" onclick="ConfirmarAprobar(@item.IDPhMetro)">Aprobar</a>
                     </td>
                 }
                 else
                 {
                     <td>
-                        <a href="#" class="text-danger" onclick="ReversarControl(@item.IDPhMetro)">Reversar</a>
+                        <a href="#" class="text-danger" onclick="ConfirmarReversar(@item.IDPhMetro)">Reversar</a>
                     </td>
                 }
             </tr>

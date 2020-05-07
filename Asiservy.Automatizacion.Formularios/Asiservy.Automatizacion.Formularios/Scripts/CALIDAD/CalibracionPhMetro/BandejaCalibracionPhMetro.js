@@ -1,8 +1,91 @@
 ﻿var Error = 0;
+var IdControlAp;
 $(document).ready(function () {
     CargarBandeja();
 
 });
+function ConfirmarAprobar(IdControl) {
+    $('#ModalAprobar').modal('show');
+    IdControlAp=IdControl
+}
+function ConfirmarReversar(IdControl) {
+    $('#ModalReversar').modal('show');
+    IdControlAp = IdControl
+}
+function AprobarControl() {
+    Error = 0;
+    
+    const data = new FormData();
+    data.append('IdControl', IdControlAp);
+  
+    fetch("../CalibracionPhMetro/AprobarControl", {
+        method: 'POST',
+        body: data
+    }).then(function (respuesta) {
+        if (!respuesta.ok) {
+            //MensajeError(respuesta.statusText);
+            MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+            Error = 1;
+        }
+        return respuesta.json();
+    }).then(function (resultado) {
+        //console.log(respuesta);
+        if (resultado == "101") {
+            window.location.reload();
+        }
+        if (Error == 0) {
+            $('#ModalAprobar').modal('hide');
+            MensajeCorrecto(resultado);
+            
+            CargarBandeja();
+        }
+
+
+    })
+        .catch(function (resultado) {
+            //console.log('error');
+            //console.log(resultado);
+            MensajeError(resultado.responseText, false);
+
+        })
+}
+function ReversarControl() {
+    Error = 0;
+
+    const data = new FormData();
+    data.append('IdControl', IdControlAp);
+
+    fetch("../CalibracionPhMetro/ReversarControl", {
+        method: 'POST',
+        body: data
+    }).then(function (respuesta) {
+        if (!respuesta.ok) {
+            //MensajeError(respuesta.statusText);
+            MensajeError('Error en el Sistema, comuníquese con el departamento de sistemas');
+            Error = 1;
+        }
+        return respuesta.json();
+    }).then(function (resultado) {
+        //console.log(respuesta);
+        if (resultado == "101") {
+            window.location.reload();
+        }
+        if (Error == 0) {
+            $('#ModalReversar').modal('hide');
+            MensajeCorrecto(resultado);
+
+            CargarBandeja();
+        }
+
+
+    })
+        .catch(function (resultado) {
+            //console.log('error');
+            //console.log(resultado);
+            MensajeError(resultado.responseText, false);
+
+        })
+}
 function CargarBandeja() {
     $('#cargac').show();
     if ($("#cmbEstadoControl").val() == 'false') {

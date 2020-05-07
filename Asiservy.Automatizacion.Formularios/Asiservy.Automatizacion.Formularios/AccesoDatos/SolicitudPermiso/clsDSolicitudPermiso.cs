@@ -1024,6 +1024,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
                         sol.CodigoArea = poEmpleados.CODIGOAREA;
                         sol.CodigoRecurso = poEmpleados.CODIGORECURSO;
                         sol.CodigoCargo = poEmpleados.CODIGOCARGO;
+                        sol.CodigoLinea = poEmpleados.CODIGOLINEA;
                         sol.Identificacion = x;
                         if (sol.Nivel == clsAtributos.NivelEmpleado)
                         {

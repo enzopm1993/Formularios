@@ -16,7 +16,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     {
         string[] lsUsuario = null;
         clsDError clsDError = null;
-        clsDOperatividadMetal clsdOperatividadMetal = null;
+        clsDOperatividadMetal clsDOperatividadMetal = null;
         //clsDApiProduccion clsDApiProduccion = null;
 
 
@@ -65,11 +65,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsdOperatividadMetal = new clsDOperatividadMetal();
+                clsDOperatividadMetal = new clsDOperatividadMetal();
                 //ViewBag.Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha);
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsdOperatividadMetal.ConsultaOperatividadMetal(Fecha);
+                var model = clsDOperatividadMetal.ConsultaOperatividadMetal(Fecha);
                 if (model == null)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -106,14 +106,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsdOperatividadMetal = new clsDOperatividadMetal();
+                clsDOperatividadMetal = new clsDOperatividadMetal();
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lssUsuario[1]).FirstOrDefault();
                 control.UsuarioIngresoLog = lsUsuario[0];
                 control.FechaIngresoLog = DateTime.Now;
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                clsdOperatividadMetal.GuardarModificarOperatividadMetal(control);
+                clsDOperatividadMetal.GuardarModificarOperatividadMetal(control);
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -146,14 +146,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsdOperatividadMetal = new clsDOperatividadMetal();
+                clsDOperatividadMetal = new clsDOperatividadMetal();
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lssUsuario[1]).FirstOrDefault();
                 control.UsuarioIngresoLog = lsUsuario[0];
                 control.FechaIngresoLog = DateTime.Now;
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                clsdOperatividadMetal.EliminarOperatividadMetal(control);
+                clsDOperatividadMetal.EliminarOperatividadMetal(control);
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -188,11 +188,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsdOperatividadMetal = new clsDOperatividadMetal();
+                clsDOperatividadMetal = new clsDOperatividadMetal();
                 //ViewBag.Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha);
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsdOperatividadMetal.ConsultaOperatividadMetalDetalle(IdControl);
+                var model = clsDOperatividadMetal.ConsultaOperatividadMetalDetalle(IdControl);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -229,14 +229,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsdOperatividadMetal = new clsDOperatividadMetal();
+                clsDOperatividadMetal = new clsDOperatividadMetal();
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lssUsuario[1]).FirstOrDefault();
                 control.UsuarioIngresoLog = lsUsuario[0];
                 control.FechaIngresoLog = DateTime.Now;
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                clsdOperatividadMetal.GuardarModificarOperatividadMetalDetalle(control);
+                clsDOperatividadMetal.GuardarModificarOperatividadMetalDetalle(control);
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -269,14 +269,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsdOperatividadMetal = new clsDOperatividadMetal();
+                clsDOperatividadMetal = new clsDOperatividadMetal();
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lssUsuario[1]).FirstOrDefault();
                 control.UsuarioIngresoLog = lsUsuario[0];
                 control.FechaIngresoLog = DateTime.Now;
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                clsdOperatividadMetal.EliminarOperatividadMetalDetalle(control);
+                clsDOperatividadMetal.EliminarOperatividadMetalDetalle(control);
                 return Json("Registro Eliminado con Exito", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -311,11 +311,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsdOperatividadMetal = new clsDOperatividadMetal();
+                clsDOperatividadMetal = new clsDOperatividadMetal();
                 //ViewBag.Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha);
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsdOperatividadMetal.ConsultaOperatividadMetalDetector(IdControl);
+                var model = clsDOperatividadMetal.ConsultaOperatividadMetalDetector(IdControl);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -352,7 +352,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsdOperatividadMetal = new clsDOperatividadMetal();
+                clsDOperatividadMetal = new clsDOperatividadMetal();
                 string path = string.Empty;
                 string NombreImg = string.Empty;
                 if (dataImg != null)
@@ -376,7 +376,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 control.FechaIngresoLog = DateTime.Now;
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                clsdOperatividadMetal.GuardarModificarOperatividadMetalDetector(control);
+                clsDOperatividadMetal.GuardarModificarOperatividadMetalDetector(control);
                 if (dataImg != null)
                 {
                     dataImg.SaveAs(path + Path.GetFileName(NombreImg));
@@ -413,14 +413,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsdOperatividadMetal = new clsDOperatividadMetal();
+                clsDOperatividadMetal = new clsDOperatividadMetal();
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lssUsuario[1]).FirstOrDefault();
                 control.UsuarioIngresoLog = lsUsuario[0];
                 control.FechaIngresoLog = DateTime.Now;
                 control.TerminalIngresoLog = Request.UserHostAddress;
                 control.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                clsdOperatividadMetal.EliminarOperatividadMetalDetector(control);
+                clsDOperatividadMetal.EliminarOperatividadMetalDetector(control);
                 return Json("Registro Eliminado con Exito", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -446,6 +446,205 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         #endregion
 
 
+        #region BANDEJA DE APORBACION
+        //-----------------------------------------------------VISTA DE BANDEJA DE APROBACION----------------------------------------------------------------
+        public ActionResult BandejaOperatividadMetal()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JqueryRotate = "1";                
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult BandejaOperatividadMetalPartial(DateTime? FechaDesde, DateTime? FechaHasta, bool Estado = false)
+        {
+            try
+            {
+                clsDOperatividadMetal = new clsDOperatividadMetal();
+                List<CC_OPERATIVIDAD_METAL> poControl = null;
+                if (FechaDesde != null && FechaHasta != null)
+                {
+                    poControl = clsDOperatividadMetal.ConsultaOperatividadMetalControl(FechaDesde.Value, FechaHasta.Value, Estado);
+                }
+                else
+                {
+                    poControl = clsDOperatividadMetal.ConsultaOperatividadMetalControlPendiente();
+
+                }
+                if (poControl != null && poControl.Any())
+                {
+                    return PartialView(poControl);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        //public ActionResult BandejaAprobarOperatividadMetal(DateTime fecha)
+        //{
+        //    try
+        //    {
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        if (string.IsNullOrEmpty(lsUsuario[0]))
+        //        {
+        //            return Json("101", JsonRequestBehavior.AllowGet);
+        //        }
+        //        clsDOperatividadMetal = new clsDOperatividadMetal();
+        //        var poControl = clsDOperatividadMetal.ConsultaOperatividadMetal(fecha);
+        //        if (poControl != null && poControl.Any())
+        //        {
+        //            return Json(poControl, JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            return Json("0", JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+        public ActionResult AprobarBandejaControl(CC_OPERATIVIDAD_METAL model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDOperatividadMetal = new clsDOperatividadMetal();
+                model.FechaAprobacion = DateTime.Now;
+                model.AprobadoPor = lsUsuario[0];
+                model.EstadoReporte = clsAtributos.EstadoReporteActivo;
+
+                model.FechaIngresoLog = DateTime.Now;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                clsDOperatividadMetal.Aprobar_ReporteOperatividadMetal(model);
+                return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ReversarBandejaControl(CC_OPERATIVIDAD_METAL model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDOperatividadMetal = new clsDOperatividadMetal();
+                model.FechaAprobacion = DateTime.Now;
+                model.AprobadoPor = lsUsuario[0];
+                model.EstadoReporte = clsAtributos.EstadoReportePendiente;
+
+                model.FechaIngresoLog = DateTime.Now;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                clsDOperatividadMetal.Aprobar_ReporteOperatividadMetal(model);
+                return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
 
 
         #region REPORTE 
@@ -455,11 +654,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JqueryRotate = "1";                
                 ViewBag.dataTableJS = "1";
                 //  ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
-
-
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -492,11 +691,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsdOperatividadMetal = new clsDOperatividadMetal();
+                clsDOperatividadMetal = new clsDOperatividadMetal();
                 //ViewBag.Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha);
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsdOperatividadMetal.ConsultaOperatividadMetal(Fecha);
+                var model = clsDOperatividadMetal.ConsultaOperatividadMetal(Fecha);
                 if (model == null)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -532,11 +731,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsdOperatividadMetal = new clsDOperatividadMetal();
+                clsDOperatividadMetal = new clsDOperatividadMetal();
                 //ViewBag.Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha);
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsdOperatividadMetal.ConsultaOperatividadMetalDetalle(IdControl);
+                var model = clsDOperatividadMetal.ConsultaOperatividadMetalDetalle(IdControl);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -572,11 +771,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsdOperatividadMetal = new clsDOperatividadMetal();
+                clsDOperatividadMetal = new clsDOperatividadMetal();
                 //ViewBag.Control = clsDMonitoreoDescongelado.ConsultaMonitoreoDescongelado(Fecha);
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsdOperatividadMetal.ConsultaOperatividadMetalDetector(IdControl);
+                var model = clsDOperatividadMetal.ConsultaOperatividadMetalDetector(IdControl);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

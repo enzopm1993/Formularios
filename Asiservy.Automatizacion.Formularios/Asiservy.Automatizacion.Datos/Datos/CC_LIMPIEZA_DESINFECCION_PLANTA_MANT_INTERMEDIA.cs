@@ -12,7 +12,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA
+    public partial class CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA
     {
         public int IdMantenimiento { get; set; }
         public int IdObjeto { get; set; }
@@ -25,7 +25,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_LINPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA CC_LINPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA { get; set; }
-        public virtual CC_LINPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS CC_LINPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
+        public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA { get; set; }
+        public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
     }
 }
