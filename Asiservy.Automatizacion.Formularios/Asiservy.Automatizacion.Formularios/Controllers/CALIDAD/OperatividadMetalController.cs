@@ -73,6 +73,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (model == null)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
+                }else if (!string.IsNullOrEmpty(model.UsuarioAprobacion))
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+
                 }
                 return Json(model,JsonRequestBehavior.AllowGet);
             }
@@ -614,8 +618,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDOperatividadMetal = new clsDOperatividadMetal();
-                model.FechaAprobacion = DateTime.Now;
-                model.AprobadoPor = lsUsuario[0];
+                model.FechaAprobacion = null;
+                model.AprobadoPor =null;
                 model.EstadoReporte = clsAtributos.EstadoReportePendiente;
 
                 model.FechaIngresoLog = DateTime.Now;

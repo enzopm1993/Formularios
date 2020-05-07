@@ -42,14 +42,7 @@ function SeleccionarBandeja(Control) {
     //console.log(Control);
     model = Control;
     
-    $("#btnImprimir").prop("hidden", false);
-    $("#btnAtras").prop("hidden", false);
-    $("#btnConsultar").prop("hidden", true);
-    $("#divMensaje").html('');
-    $("#divCabeceras").prop("hidden", true);
-    $("#divDetalle").prop("hidden", true);
-    $("#divDetalle2").prop("hidden", true);
-    $("#lblLomos").html('');
+  
     if ($("#txtFecha").val() == "") {
         $("#txtFecha").css('borderColor', '#FA8072');
         return;
@@ -57,7 +50,7 @@ function SeleccionarBandeja(Control) {
         $("#txtFecha").css('borderColor', '#ced4da');
     }
     $.ajax({
-        url: "../OperatividadMetal/OperatividadMetalPartial",
+        url: "../OperatividadMetal/ReporteOperatividadMetalPartial",
         type: "GET",
         data: {
             Fecha: model.Fecha
@@ -71,6 +64,14 @@ function SeleccionarBandeja(Control) {
                 $("#divMensaje").html('NO SE HA GENERADO EL CONTROL');
                 model = [];
             } else {
+                $("#btnImprimir").prop("hidden", false);
+                $("#btnAtras").prop("hidden", false);
+                $("#btnConsultar").prop("hidden", true);
+                $("#divMensaje").html('');
+                $("#divCabeceras").prop("hidden", true);
+                $("#divDetalle").prop("hidden", true);
+                $("#divDetalle2").prop("hidden", true);
+                $("#lblLomos").html('');
                 $("#divDetalle").prop("hidden", false);
                 $("#divDetalle2").prop("hidden", false);
                 model = resultado;

@@ -30,6 +30,20 @@ function ConsultarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == "1") {
+                $("#txtPcc").val('');
+                $("#txtIdControl").val('0');
+                $("#chkLomo").prop("checked", false);
+                $("#chkLata").prop("checked", false);
+                $("#txtFerroso").val('');
+                $("#txtNoFerroso").val('');
+                $("#txtAceroInoxidable").val('');
+                $("#txtCodDetectorMetal").val('');
+                $("#txtObservacion").val('');
+                $("#btnGenerar").prop("hidden", true);
+
+                $("#divMensaje").html("<h3 class='text-info'>CONTROL SE ENCUENTRA APROBADO</h3>");
+            } else
             if (resultado == "0") {               
                 $("#txtPcc").val('');
                 $("#txtIdControl").val('0');
@@ -40,7 +54,7 @@ function ConsultarControl() {
                 $("#txtAceroInoxidable").val('');
                 $("#txtCodDetectorMetal").val('');
                 $("#txtObservacion").val('');
-                $("#divMensaje").html('NO SE HA GENERADO EL CONTROL');
+                $("#divMensaje").html("<h3 class='text-warning'>NO SE HA GENERADO EL CONTROL</h3>");
             } else {
                 //$("#txtPcc").prop("disabled", true);
                 //$("#txtCodDetectorMetal").prop("disabled", true);
