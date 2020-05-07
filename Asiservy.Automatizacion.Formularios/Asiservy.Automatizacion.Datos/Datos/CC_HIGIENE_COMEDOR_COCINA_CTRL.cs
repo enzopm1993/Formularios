@@ -12,18 +12,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_HIGIENE_COMEDOR_COCINA_MANT
+    public partial class CC_HIGIENE_COMEDOR_COCINA_CTRL
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_HIGIENE_COMEDOR_COCINA_MANT()
+        public CC_HIGIENE_COMEDOR_COCINA_CTRL()
         {
             this.CC_HIGIENE_COMEDOR_COCINA_CTRL_DET = new HashSet<CC_HIGIENE_COMEDOR_COCINA_CTRL_DET>();
         }
     
-        public int IdMantenimiento { get; set; }
-        public string Nombre { get; set; }
-        public string Categoria { get; set; }
+        public int IdControlHigiene { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public System.DateTime Hora { get; set; }
+        public bool EstadoReporte { get; set; }
         public string Observacion { get; set; }
+        public byte[] FirmaControl { get; set; }
+        public byte[] FirmaAprobado { get; set; }
+        public string AprobadoPor { get; set; }
+        public Nullable<System.DateTime> FechaAprobado { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
