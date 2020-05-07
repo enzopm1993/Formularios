@@ -654,11 +654,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JqueryRotate = "1";                
                 ViewBag.dataTableJS = "1";
                 //  ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
-
-
                 return View();
             }
             catch (DbEntityValidationException e)
