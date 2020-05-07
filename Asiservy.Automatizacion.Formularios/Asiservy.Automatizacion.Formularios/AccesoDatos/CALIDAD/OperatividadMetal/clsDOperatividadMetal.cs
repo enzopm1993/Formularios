@@ -36,6 +36,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
                     model.Observacion = lista.Observacion;
                     model.DetectorMetal = lista.DetectorMetal;
                     model.IdOperatividadMetal = lista.IdOperatividadMetal;
+                    model.UsuarioAprobacion = lista.AprobadoPor;
                 }
                 else
                 {

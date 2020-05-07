@@ -41,6 +41,8 @@ function FiltrarAprobadosFecha() {
 function SeleccionarBandeja(Control) {
     //console.log(Control);
     model = Control;
+    
+    $("#btnImprimir").prop("hidden", false);
     $("#btnAtras").prop("hidden", false);
     $("#btnConsultar").prop("hidden", true);
     $("#divMensaje").html('');
@@ -73,7 +75,7 @@ function SeleccionarBandeja(Control) {
                 $("#divDetalle2").prop("hidden", false);
                 model = resultado;
 
-                //console.log(model);
+               // console.log(model);
 
                 $("#divMensaje").html('');
                 if (model.Lomos) {
@@ -86,6 +88,9 @@ function SeleccionarBandeja(Control) {
                 $("#lblNoFerroso").html(model.NoFerroso);
                 $("#lblAceroInoxidable").html(model.AceroInoxidable);
                 $("#pObservacion").html(model.Observacion);
+                $("#txtUsuarioCreacion").val(model.UsuarioIngresoLog);
+                $("#txtUruarioModificacion").val(model.UsuarioModificacionLog);
+                $("#tstUsuarioAprobacion").val(model.UsuarioAprobacion);
                 CargarControlDetalle();
                 CargarControlDetalle2();
             }
@@ -99,6 +104,7 @@ function SeleccionarBandeja(Control) {
 
 function Atras() {
     $("#btnAtras").prop("hidden", true);
+    $("#btnImprimir").prop("hidden", false);
     $("#divCabeceras").prop("hidden", false);
     $("#divDetalle").prop("hidden", true);
     $("#divDetalle2").prop("hidden", true);
@@ -281,17 +287,5 @@ $(function () {
 });
 
 function printDiv() {
-
-    var divToPrint = document.getElementById('divDetalle');
-
-    var newWin = window.open('', 'Print-Window');
-
-    newWin.document.open();
-
-    newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
-
-    newWin.document.close();
-
-    setTimeout(function () { newWin.close(); }, 10);
-
-}
+    window.print();
+   }
