@@ -72,16 +72,22 @@ async function ConsultarControl() {
             window.location.reload();
         }
         if (RespuestaConsultar.EstadoControl == true) {
+            $("#estadocontrol").removeClass("badge-danger").addClass("badge-success");
             $('#estadocontrol').text('APROBADO');
-        } else if (RespuestaConsultar != '"0"'){
+            $("#DivContenido :input").prop("disabled", true);
+            $('#txtFecha').prop('disabled', false);
+            //$('#btnLimpiar').prop('disabled', false);
+        } else if (RespuestaConsultar != 0) {
+            $("#DivContenido :input").prop("disabled", false);
             $('#estadocontrol').text('PENDIENTE');
+            $("#estadocontrol").removeClass("badge-success").addClass("badge-danger");
         }
         if (RespuestaConsultar == 0) {
             IdControl = 0;
             $('#btnEliminarControl').prop('disabled', true);
             LimpiarControles();
         } else {
-            $('#btnEliminarControl').prop('disabled',false);
+            
             IdControl = RespuestaConsultar.IDPhMetro;
             $('#txtHora').val(moment(RespuestaConsultar.Hora).format('hh:mm'));
             $('#txtCodigoPhMetro').val(RespuestaConsultar.CodigoPhMetro);
@@ -90,6 +96,10 @@ async function ConsultarControl() {
             $('#txtPh10').val(RespuestaConsultar.ph10);
             $('#txtObservacion').val(RespuestaConsultar.observacion);
         }
+        if (RespuestaConsultar.EstadoControl != true) {
+
+            $('#btnEliminarControl').prop('disabled', false);
+        } 
         
         
     } catch (error) {
