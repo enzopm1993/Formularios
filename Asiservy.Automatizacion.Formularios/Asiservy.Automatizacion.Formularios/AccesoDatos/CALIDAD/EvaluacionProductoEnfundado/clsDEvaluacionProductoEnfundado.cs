@@ -46,25 +46,34 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
             {
                 object[] resultado = new object[3];
                 var BuscarCabecera = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(poCabControl.IdEvaluacionProductoEnfundado);
-                BuscarCabecera.Lomo = poCabControl.Lomo;
-                BuscarCabecera.Miga = poCabControl.Miga;
-                BuscarCabecera.Trozo = poCabControl.Trozo;
-                BuscarCabecera.Cliente = poCabControl.Cliente;
-                BuscarCabecera.Marca = poCabControl.Marca;
-                BuscarCabecera.Destino = poCabControl.Destino;
-                BuscarCabecera.Proveedor = poCabControl.Proveedor;
-                BuscarCabecera.Batch = poCabControl.Batch;
-                poCabControl.Lote = poCabControl.Lote;
-                BuscarCabecera.NivelLimpieza = poCabControl.NivelLimpieza;
-                BuscarCabecera.Observacion = poCabControl.Observacion;
-                BuscarCabecera.OrdenFabricacion = poCabControl.OrdenFabricacion;
-                BuscarCabecera.FechaModificacionLog = poCabControl.FechaIngresoLog;
-                BuscarCabecera.UsuarioModificacionLog = poCabControl.UsuarioIngresoLog;
-                BuscarCabecera.TerminalIngresoLog = poCabControl.TerminalIngresoLog;
-                db.SaveChanges();
-                resultado[0] = "001";
-                resultado[1] = "Registro actualizado con éxito";
-                resultado[2] = poCabControl;
+                if (BuscarCabecera.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No es posible actualizar el control, por que ya se encuentra aprobado";
+                    resultado[2] = poCabControl;
+                }
+                else
+                {
+                    BuscarCabecera.Lomo = poCabControl.Lomo;
+                    BuscarCabecera.Miga = poCabControl.Miga;
+                    BuscarCabecera.Trozo = poCabControl.Trozo;
+                    BuscarCabecera.Cliente = poCabControl.Cliente;
+                    BuscarCabecera.Marca = poCabControl.Marca;
+                    BuscarCabecera.Destino = poCabControl.Destino;
+                    BuscarCabecera.Proveedor = poCabControl.Proveedor;
+                    BuscarCabecera.Batch = poCabControl.Batch;
+                    poCabControl.Lote = poCabControl.Lote;
+                    BuscarCabecera.NivelLimpieza = poCabControl.NivelLimpieza;
+                    BuscarCabecera.Observacion = poCabControl.Observacion;
+                    BuscarCabecera.OrdenFabricacion = poCabControl.OrdenFabricacion;
+                    BuscarCabecera.FechaModificacionLog = poCabControl.FechaIngresoLog;
+                    BuscarCabecera.UsuarioModificacionLog = poCabControl.UsuarioIngresoLog;
+                    BuscarCabecera.TerminalIngresoLog = poCabControl.TerminalIngresoLog;
+                    db.SaveChanges();
+                    resultado[0] = "001";
+                    resultado[1] = "Registro actualizado con éxito";
+                    resultado[2] = poCabControl;
+                }
                 return resultado;
             }
         }
@@ -74,14 +83,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
             {
                 object[] resultado = new object[3];
                 var BuscarCabeceraControl = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(poCabControl.IdEvaluacionProductoEnfundado);
-                BuscarCabeceraControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                BuscarCabeceraControl.FechaModificacionLog = poCabControl.FechaIngresoLog;
-                BuscarCabeceraControl.UsuarioModificacionLog = poCabControl.UsuarioIngresoLog;
-                BuscarCabeceraControl.TerminalModificacionLog = poCabControl.TerminalIngresoLog;
-                db.SaveChanges();
-                resultado[0] = "002";
-                resultado[1] = "Registro Inactivado con éxito";
-                resultado[2] = poCabControl;
+                if (BuscarCabeceraControl.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No se pudo inactivar el registro, por que ya se encuentra aprobado";
+                    resultado[2] = poCabControl;
+                }
+                else
+                {
+                    BuscarCabeceraControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    BuscarCabeceraControl.FechaModificacionLog = poCabControl.FechaIngresoLog;
+                    BuscarCabeceraControl.UsuarioModificacionLog = poCabControl.UsuarioIngresoLog;
+                    BuscarCabeceraControl.TerminalModificacionLog = poCabControl.TerminalIngresoLog;
+                    db.SaveChanges();
+                    resultado[0] = "002";
+                    resultado[1] = "Registro Inactivado con éxito";
+                    resultado[2] = poCabControl;
+                }
                 return resultado;
             }
         }
@@ -113,33 +131,43 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
             using (var db = new ASIS_PRODEntities())
             {
                 object[] resultado = new object[3];
-                var buscardetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Find(poDetalleControl.IdDetalleEvaluacionProductoEnfundado);
-                buscardetalle.FechaModificacionLog = poDetalleControl.FechaIngresoLog;
-                buscardetalle.UsuarioModificacionLog = poDetalleControl.UsuarioIngresoLog;
-                buscardetalle.TerminalModificacionLog = poDetalleControl.TerminalIngresoLog;
-                buscardetalle.Empacador = poDetalleControl.Empacador;
-                buscardetalle.buque = poDetalleControl.buque;
-                buscardetalle.Lote = poDetalleControl.Lote;
-                buscardetalle.Sabor = poDetalleControl.Sabor;
-                buscardetalle.Textura = poDetalleControl.Textura;
-                buscardetalle.Color = poDetalleControl.Color;
-                buscardetalle.Olor = poDetalleControl.Olor;
-                buscardetalle.Moretones = poDetalleControl.Moretones;
-                buscardetalle.HematomasProfundos = poDetalleControl.HematomasProfundos;
-                buscardetalle.Proteina = poDetalleControl.Proteina;
-                buscardetalle.Trozo = poDetalleControl.Trozo;
-                buscardetalle.Venas = poDetalleControl.Venas;
-                buscardetalle.Espinas = poDetalleControl.Espinas;
-                buscardetalle.Sangre = poDetalleControl.Sangre;
-                buscardetalle.Escamas = poDetalleControl.Escamas;
-                buscardetalle.Piel = poDetalleControl.Piel;
-                buscardetalle.Otro = poDetalleControl.Otro;
-                buscardetalle.Miga = poDetalleControl.Miga;
-                db.SaveChanges();
-                db.SaveChanges();
-                resultado[0] = "001";
-                resultado[1] = "Registro actualizado con éxito";
-                resultado[2] = poDetalleControl;
+                var buscarCabecera = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(poDetalleControl.IdCabeceraEvaluacionProductoEnfundado);
+                if(buscarCabecera.EstadoControl==true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No se puede actualizar el registro, por que el control ya se encuentra aprobado";
+                    resultado[2] = poDetalleControl;
+                }
+                else
+                {
+                    var buscardetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Find(poDetalleControl.IdDetalleEvaluacionProductoEnfundado);
+                    buscardetalle.FechaModificacionLog = poDetalleControl.FechaIngresoLog;
+                    buscardetalle.UsuarioModificacionLog = poDetalleControl.UsuarioIngresoLog;
+                    buscardetalle.TerminalModificacionLog = poDetalleControl.TerminalIngresoLog;
+                    buscardetalle.Empacador = poDetalleControl.Empacador;
+                    buscardetalle.buque = poDetalleControl.buque;
+                    buscardetalle.Lote = poDetalleControl.Lote;
+                    buscardetalle.Sabor = poDetalleControl.Sabor;
+                    buscardetalle.Textura = poDetalleControl.Textura;
+                    buscardetalle.Color = poDetalleControl.Color;
+                    buscardetalle.Olor = poDetalleControl.Olor;
+                    buscardetalle.Moretones = poDetalleControl.Moretones;
+                    buscardetalle.HematomasProfundos = poDetalleControl.HematomasProfundos;
+                    buscardetalle.Proteina = poDetalleControl.Proteina;
+                    buscardetalle.Trozo = poDetalleControl.Trozo;
+                    buscardetalle.Venas = poDetalleControl.Venas;
+                    buscardetalle.Espinas = poDetalleControl.Espinas;
+                    buscardetalle.Sangre = poDetalleControl.Sangre;
+                    buscardetalle.Escamas = poDetalleControl.Escamas;
+                    buscardetalle.Piel = poDetalleControl.Piel;
+                    buscardetalle.Otro = poDetalleControl.Otro;
+                    buscardetalle.Miga = poDetalleControl.Miga;
+                    db.SaveChanges();
+                    db.SaveChanges();
+                    resultado[0] = "001";
+                    resultado[1] = "Registro actualizado con éxito";
+                    resultado[2] = poDetalleControl;
+                }
                 return resultado;
             }
         }
@@ -148,15 +176,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
             using (var db = new ASIS_PRODEntities())
             {
                 object[] resultado = new object[3];
-                var buscarDetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Find(poDetalleControl.IdDetalleEvaluacionProductoEnfundado);
-                buscarDetalle.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                buscarDetalle.FechaModificacionLog = poDetalleControl.FechaIngresoLog;
-                buscarDetalle.UsuarioModificacionLog = poDetalleControl.UsuarioIngresoLog;
-                buscarDetalle.TerminalModificacionLog = poDetalleControl.TerminalIngresoLog;
-                db.SaveChanges();
-                resultado[0] = "002";
-                resultado[1] = "Registro Inactivado con éxito";
-                resultado[2] = poDetalleControl;
+                var buscarCabecera = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(poDetalleControl.IdCabeceraEvaluacionProductoEnfundado);
+                if(buscarCabecera.EstadoControl==true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No se puede Inactivar el registro, por que el control se encuentra aprobado";
+                    resultado[2] = poDetalleControl;
+                }
+                else
+                {
+                    var buscarDetalle = db.CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE.Find(poDetalleControl.IdDetalleEvaluacionProductoEnfundado);
+                    buscarDetalle.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    buscarDetalle.FechaModificacionLog = poDetalleControl.FechaIngresoLog;
+                    buscarDetalle.UsuarioModificacionLog = poDetalleControl.UsuarioIngresoLog;
+                    buscarDetalle.TerminalModificacionLog = poDetalleControl.TerminalIngresoLog;
+                    db.SaveChanges();
+                    resultado[0] = "002";
+                    resultado[1] = "Registro Inactivado con éxito";
+                    resultado[2] = poDetalleControl;
+                }
                 return resultado;
             }
         }

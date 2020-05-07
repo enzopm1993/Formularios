@@ -44,20 +44,30 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionPhM
             {
                 object[] resultado = new object[3];
                 var BuscarControl = db.CC_CALIBRACION_PHMETRO.Find(poControl.IDPhMetro);
-                BuscarControl.CodigoPhMetro = poControl.CodigoPhMetro;
-                BuscarControl.Hora = poControl.Hora;
-                BuscarControl.observacion = poControl.observacion;
-                BuscarControl.ph10 = poControl.ph10;
-                BuscarControl.Ph40 = poControl.Ph40;
-                BuscarControl.ph70 = poControl.ph70;
+                if (BuscarControl.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No se pudo modificar el control por que ya se encuentra aprobado";
+                    resultado[2] = poControl;
+                }
+                else
+                {
+                    BuscarControl.CodigoPhMetro = poControl.CodigoPhMetro;
+                    BuscarControl.Hora = poControl.Hora;
+                    BuscarControl.observacion = poControl.observacion;
+                    BuscarControl.ph10 = poControl.ph10;
+                    BuscarControl.Ph40 = poControl.Ph40;
+                    BuscarControl.ph70 = poControl.ph70;
 
-                BuscarControl.FechaModificacionLog = poControl.FechaIngresoLog;
-                BuscarControl.UsuarioModificacionLog = poControl.UsuarioIngresoLog;
-                BuscarControl.TerminalIngresoLog = poControl.TerminalIngresoLog;
-                db.SaveChanges();
-                resultado[0] = "001";
-                resultado[1] = "Registro actualizado con éxito";
-                resultado[2] = poControl;
+                    BuscarControl.FechaModificacionLog = poControl.FechaIngresoLog;
+                    BuscarControl.UsuarioModificacionLog = poControl.UsuarioIngresoLog;
+                    BuscarControl.TerminalIngresoLog = poControl.TerminalIngresoLog;
+                    db.SaveChanges();
+                    resultado[0] = "001";
+                    resultado[1] = "Registro actualizado con éxito";
+                    resultado[2] = poControl;
+                }
+                
                 return resultado;
             }
         }
@@ -67,14 +77,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionPhM
             {
                 object[] resultado = new object[3];
                 var BuscarControl = db.CC_CALIBRACION_PHMETRO.Find(poControl.IDPhMetro);
-                BuscarControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                BuscarControl.FechaModificacionLog = poControl.FechaIngresoLog;
-                BuscarControl.UsuarioModificacionLog = poControl.UsuarioIngresoLog;
-                BuscarControl.TerminalModificacionLog = poControl.TerminalIngresoLog;
-                db.SaveChanges();
-                resultado[0] = "002";
-                resultado[1] = "Registro Inactivado con éxito";
-                resultado[2] = poControl;
+                if (BuscarControl.EstadoControl == true)
+                {
+                    resultado[0] = "003";
+                    resultado[1] = "No se puede elimnar el control, por que ya se encuentra aprobado";
+                    resultado[2] = poControl;
+                }
+                else
+                {
+                    BuscarControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    BuscarControl.FechaModificacionLog = poControl.FechaIngresoLog;
+                    BuscarControl.UsuarioModificacionLog = poControl.UsuarioIngresoLog;
+                    BuscarControl.TerminalModificacionLog = poControl.TerminalIngresoLog;
+                    db.SaveChanges();
+                    resultado[0] = "002";
+                    resultado[1] = "Registro Inactivado con éxito";
+                    resultado[2] = poControl;
+                }
                 return resultado;
             }
         }

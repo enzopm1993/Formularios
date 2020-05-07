@@ -2217,6 +2217,7 @@
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.js" />
+    <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\ControlLimpiezaDesinfeccionPlanta.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\LimpiezaDesinfeccionPlanta.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\MantAreaAuditoria.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\MantObjetos.js" />
@@ -3893,6 +3894,7 @@
     <Content Include="Views\OperatividadMetal\BandejaOperatividadMetalPartial.cshtml" />
     <Content Include="Views\CalibracionPhMetro\ReporteCalibracionPhMetro.cshtml" />
     <Content Include="Views\CalibracionPhMetro\ReporteControlPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ControlLimpiezaDesinfeccionPlanta.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
