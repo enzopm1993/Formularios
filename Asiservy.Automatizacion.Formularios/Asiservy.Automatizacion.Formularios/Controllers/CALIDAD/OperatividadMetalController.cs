@@ -453,6 +453,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ViewBag.dataTableJS = "1";
+                ViewBag.JqueryRotate = "1";                
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 return View();
@@ -562,7 +563,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         //    }
         //}
 
-        public ActionResult AprobarBandejaControlCloro(CC_CONDICION_PERSONAL_CONTROL model)
+        public ActionResult AprobarBandejaControl(CC_OPERATIVIDAD_METAL model)
         {
             try
             {
@@ -580,8 +581,49 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-              //  clsDOperatividadMetal.Aprobar_ReporteOperatividadMetal(model);
+                clsDOperatividadMetal.Aprobar_ReporteOperatividadMetal(model);
                 return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ReversarBandejaControl(CC_OPERATIVIDAD_METAL model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDOperatividadMetal = new clsDOperatividadMetal();
+                model.FechaAprobacion = DateTime.Now;
+                model.AprobadoPor = lsUsuario[0];
+                model.EstadoReporte = clsAtributos.EstadoReportePendiente;
+
+                model.FechaIngresoLog = DateTime.Now;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                clsDOperatividadMetal.Aprobar_ReporteOperatividadMetal(model);
+                return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -612,11 +654,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JqueryRotate = "1";                
                 ViewBag.dataTableJS = "1";
                 //  ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
-
-
                 return View();
             }
             catch (DbEntityValidationException e)

@@ -12,26 +12,17 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_OPERATIVIDAD_METAL
+    public partial class CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_OPERATIVIDAD_METAL()
+        public CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS()
         {
-            this.CC_OPERATIVIDAD_DETECTOR_METAL = new HashSet<CC_OPERATIVIDAD_DETECTOR_METAL>();
-            this.CC_OPERATIVIDAD_METAL_DETALLE = new HashSet<CC_OPERATIVIDAD_METAL_DETALLE>();
+            this.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA = new HashSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA>();
         }
     
-        public int IdOperatividadMetal { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public string Pcc { get; set; }
-        public bool Lomos { get; set; }
-        public bool Latas { get; set; }
-        public decimal Ferroso { get; set; }
-        public decimal NoFerroso { get; set; }
-        public decimal AceroInoxidable { get; set; }
-        public string DetectorMetal { get; set; }
-        public string Observacion { get; set; }
-        public bool EstadoReporte { get; set; }
+        public int IdObjeto { get; set; }
+        public string NombreObjeto { get; set; }
+        public string DescripcionObjeto { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -39,12 +30,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<System.DateTime> FechaAprobacion { get; set; }
-        public string AprobadoPor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_OPERATIVIDAD_DETECTOR_METAL> CC_OPERATIVIDAD_DETECTOR_METAL { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_OPERATIVIDAD_METAL_DETALLE> CC_OPERATIVIDAD_METAL_DETALLE { get; set; }
+        public virtual ICollection<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
     }
 }

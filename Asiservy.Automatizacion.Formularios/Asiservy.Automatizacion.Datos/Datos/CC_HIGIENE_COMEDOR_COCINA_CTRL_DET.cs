@@ -12,17 +12,14 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_LINPIEZA_DESINFECCION_PLANTA_CONTROL
+    public partial class CC_HIGIENE_COMEDOR_COCINA_CTRL_DET
     {
-        public int IdControlHigine { get; set; }
-        public System.DateTime FechaControl { get; set; }
-        public bool EstadoReporte { get; set; }
-        public byte[] FirmaControl { get; set; }
-        public string AprobadoPor { get; set; }
-        public byte[] FirmaAprobado { get; set; }
-        public Nullable<System.DateTime> FechaAprobado { get; set; }
-        public byte[] ImagenAdjunta { get; set; }
-        public string ObservacionControl { get; set; }
+        public int IdControlDetalle { get; set; }
+        public int IdMantenimiento { get; set; }
+        public int IdControlHigiene { get; set; }
+        public string LimpiezaEstado { get; set; }
+        public string Observacion { get; set; }
+        public string AccionCorrectiva { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -30,5 +27,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        public virtual CC_HIGIENE_COMEDOR_COCINA_CTRL CC_HIGIENE_COMEDOR_COCINA_CTRL { get; set; }
+        public virtual CC_HIGIENE_COMEDOR_COCINA_MANT CC_HIGIENE_COMEDOR_COCINA_MANT { get; set; }
     }
 }

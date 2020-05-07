@@ -146,14 +146,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS> CC_DESECHOS_LIQUIDOS_PELIGROSOS { get; set; }
         public virtual DbSet<CC_CONDICION_PERSONAL_CONTROL> CC_CONDICION_PERSONAL_CONTROL { get; set; }
         public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_MANT> CC_HIGIENE_COMEDOR_COCINA_MANT { get; set; }
-        public virtual DbSet<CC_LINPIEZA_DESINFECCION_PLANTA_CONTROL> CC_LINPIEZA_DESINFECCION_PLANTA_CONTROL { get; set; }
-        public virtual DbSet<CC_LINPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA> CC_LINPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA { get; set; }
-        public virtual DbSet<CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA> CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
-        public virtual DbSet<CC_LINPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS> CC_LINPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE> CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE { get; set; }
         public virtual DbSet<CC_OPERATIVIDAD_DETECTOR_METAL> CC_OPERATIVIDAD_DETECTOR_METAL { get; set; }
         public virtual DbSet<CC_CALIBRACION_PHMETRO> CC_CALIBRACION_PHMETRO { get; set; }
         public virtual DbSet<CC_OPERATIVIDAD_METAL> CC_OPERATIVIDAD_METAL { get; set; }
+        public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA { get; set; }
+        public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
+        public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
+        public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL> CC_HIGIENE_COMEDOR_COCINA_CTRL { get; set; }
+        public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL_DET> CC_HIGIENE_COMEDOR_COCINA_CTRL_DET { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2076,6 +2077,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Desechos_Liquidos_Peligrosos>("sp_Control_Desechos_Liquidos_Peligrosos", anioBusquedaParameter, mesBusquedaParameter, idDesechosLiquidosParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Higine_Comedor_Cocina> sp_Control_Higine_Comedor_Cocina(Nullable<int> idControlHigiene, Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> op)
+        {
+            var idControlHigieneParameter = idControlHigiene.HasValue ?
+                new ObjectParameter("idControlHigiene", idControlHigiene) :
+                new ObjectParameter("idControlHigiene", typeof(int));
+    
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Higine_Comedor_Cocina>("sp_Control_Higine_Comedor_Cocina", idControlHigieneParameter, fechaDesdeParameter, fechaHastaParameter, opParameter);
         }
     }
 }

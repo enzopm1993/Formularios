@@ -12,17 +12,23 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_LINPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA
+    public partial class CC_HIGIENE_COMEDOR_COCINA_CTRL
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_LINPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA()
+        public CC_HIGIENE_COMEDOR_COCINA_CTRL()
         {
-            this.CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA = new HashSet<CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA>();
+            this.CC_HIGIENE_COMEDOR_COCINA_CTRL_DET = new HashSet<CC_HIGIENE_COMEDOR_COCINA_CTRL_DET>();
         }
     
-        public int IdAuditoria { get; set; }
-        public string NombreAuditoria { get; set; }
-        public string DescripcionAuditoria { get; set; }
+        public int IdControlHigiene { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public System.DateTime Hora { get; set; }
+        public bool EstadoReporte { get; set; }
+        public string Observacion { get; set; }
+        public byte[] FirmaControl { get; set; }
+        public byte[] FirmaAprobado { get; set; }
+        public string AprobadoPor { get; set; }
+        public Nullable<System.DateTime> FechaAprobado { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -32,6 +38,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA> CC_LINPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
+        public virtual ICollection<CC_HIGIENE_COMEDOR_COCINA_CTRL_DET> CC_HIGIENE_COMEDOR_COCINA_CTRL_DET { get; set; }
     }
 }

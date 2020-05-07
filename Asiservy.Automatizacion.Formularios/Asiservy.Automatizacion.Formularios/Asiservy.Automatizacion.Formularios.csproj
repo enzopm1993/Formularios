@@ -2209,6 +2209,7 @@
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.js" />
+    <Content Include="Scripts\CALIDAD\HigieneComedorCocina\HigieneComedorCocina.js" />
     <Content Include="Scripts\CALIDAD\HigieneComedorCocina\MantHigieneComedorCocina.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.js" />
@@ -3393,6 +3394,7 @@
     <Compile Include="Controllers\CALIDAD\DesechosLiquidosPeligrososController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionDeLomoyMigaEnBandejaController.cs" />
     <Compile Include="Controllers\CALIDAD\EvaluacionProductoEnfundadoController.cs" />
+    <Compile Include="Controllers\CALIDAD\HigieneComedorCocinaController.cs" />
     <Compile Include="Controllers\CALIDAD\LavadoCisternaController.cs" />
     <Compile Include="Controllers\CALIDAD\LavadoDesinfeccionManosController.cs" />
     <Compile Include="Controllers\CALIDAD\LimpiezaDesinfeccionPlantaController.cs" />
@@ -3890,10 +3892,14 @@
     <Content Include="Views\HigieneComedorCocina\MantHigieneComedorCocinaPartial.cshtml" />
     <Content Include="Views\CalibracionPhMetro\BandejaCalibracionPhMetro.cshtml" />
     <Content Include="Views\CalibracionPhMetro\BandejaAprobadosCalibracionPhMetroPartial.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\HigieneComedorCocina.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\HigieneComedorCocinaDetallePartial.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\ConsultaHigieneMantActivosPartial.cshtml" />
     <Content Include="Views\OperatividadMetal\BandejaOperatividadMetal.cshtml" />
     <Content Include="Views\OperatividadMetal\BandejaOperatividadMetalPartial.cshtml" />
     <Content Include="Views\CalibracionPhMetro\ReporteCalibracionPhMetro.cshtml" />
     <Content Include="Views\CalibracionPhMetro\ReporteControlPartial.cshtml" />
+    <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalDetectorPartial.cshtml" />
     <Content Include="Views\LimpiezaDesinfeccionPlanta\ControlLimpiezaDesinfeccionPlanta.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

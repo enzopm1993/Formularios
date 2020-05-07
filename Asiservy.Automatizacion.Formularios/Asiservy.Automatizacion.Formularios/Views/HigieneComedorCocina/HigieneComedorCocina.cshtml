@@ -1,7 +1,7 @@
-﻿@model Asiservy.Automatizacion.Datos.Datos.CC_LIMPIEZA_DESINFECCION_PLANTA_CONTROL
+﻿@model Asiservy.Automatizacion.Datos.Datos.CC_HIGIENE_COMEDOR_COCINA_CTRL
 
 @{
-    ViewBag.Title = "LimpiezaDesinfeccionPlanta";
+    ViewBag.Title = "HigieneComedorCocina";
 }
 
 
@@ -37,6 +37,54 @@
     ._bloque {
         margin-bottom: 10px;
     }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    fieldset {
+        border: 1px solid #ddd !important;
+        margin: 0;
+        xmin-width: 0;
+        padding: 10px;
+        position: relative;
+        border-radius: 4px;
+        background-color: #f5f5f5;
+        padding-left: 10px !important;
+    }
+
+    legend {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 0px;
+        /*width: 35%;*/
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px 5px 5px 10px;
+        background-color: #ffffff;
+    }
+
+    #lgnprod {
+        width: 25%;
+    }
+
+    #lgndestino {
+        width: 60%;
+    }
+
+    canvas {
+        border: 1px solid black;
+    }
+
+    #ImgFirma {
+        border: 1px solid black;
+    }
 </style>
 <div class="row">
     <div class="col-12">
@@ -52,7 +100,7 @@
     </div>
 </div>
 
-<div class="row" id="divCabecera1">
+<div class="row" id="divBotonCrear">
     <div class="col-12">
         <div class="col-md-3 col-12 float-left">
             <label class="" id="lblAcciones">Nuevo Registro</label>
@@ -66,22 +114,16 @@
     </div>
 </div>
 
-<div class="card col-md-12" id="divMostrarCabecera">
+<div class="card col-md-12" id="divMostrarCabecera" hidden>
     <div class="row">
-        <div class="col-md-3 col-12 col-sm-12">
+        <div class="col-md-3 col-12 col-sm-12" style="float:left">
             <div class="form-group">
                 <label>FECHA / HORA</label>
                 <input type="datetime-local" name="name" disabled value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="OnChangeTextBox(0)" id="txtFechaCabeceraVer" class="form-control" />
             </div>
         </div>
 
-        <div class="col-md-3 col-12 col-sm-12">
-            <div class="form-group">
-                <label>INSPECTOR CALIDAD</label>
-                <input type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtInspectorCalidadVer" class="form-control" />
-            </div>
-        </div>
-        <div class="col-md-4 col-12 col-sm-12">
+        <div class="col-md-4 col-12 col-sm-12" style="float:left">
             <div class="form-group">
                 <label>OBSERVACION</label>
                 <input type="text" name="name" disabled value="" onchange="OnChangeTextBox()" id="txtObservacionVer" class="form-control" />
@@ -93,27 +135,37 @@
                 <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnModalEliminar" onclick="EliminarConfirmar()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/cancel24.png" />
                 </button>
-                <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ActualizarCabeceraActivarCotroles(true)" style="border-color:#2c3e50" type="button">
+                <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnModalEditar" onclick="ActualizarCabecera(true)" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/edit24.png" />
                 </button>
             </div>
         </div>
     </div>
 </div>
-@*<div class="card col-md-5"  id="divBotonesCRUD">
-        <div class="row" >
-
-
-
-        </div>
-    </div>*@
 <hr />
 
-@*MODAL MOSTRAR TABLA CABECERA*@
-<div id="divMostarTablaCabecera" class="table-responsive">
+@* BOTON INGRESAR DETALLE *@
+<div class="row" id="divBotonCrearDetalle">
+    <div class="col-12">
+        <div class="col-md-3 col-12 float-left">
+            <label class="" id="lblAcciones">Nuevo Registro Detalle</label>
+            <div class="form-group">
+                <button data-toggle="tooltip" data-placement="top" title="Crear nuevo registro" class="btn" id="btnModalGenerarRegistroDetalle" onclick="ModalIngresoDetalle()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/add24.png" />
+                </button>
+            </div>
+        </div>
+
+    </div>
 </div>
 
-@*MODAL ELIMINAR REGISTRO*@
+
+
+@*MODAL MOSTRAR TABLA DETALLE*@
+<div id="divMostarTablaDetallesVer" class="table-responsive">
+</div>
+
+@*MODAL ELIMINAR REGISTRO CABECERA*@
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -131,31 +183,25 @@
     </div>
 </div>
 
-@* MODAL PARA EL INGRESO NUEVO REGISTRO *@
+@* MODAL PARA EL INGRESO NUEVO REGISTRO CABECERA*@
 <div class="modal" tabindex="-1" id="ModalIngresoCabecera" role="dialog" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Crear Nuevo Registro</h5>
-                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarCabecera()" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-5 col-6 col-sm-6">
+                    <div class="col-md-5 col-12 col-sm-12">
                         <div class="form-group">
                             <label>FECHA-HORA</label>
                             <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="OnChangeTextBox(0)" id="txtIngresoFechaCabecera" class="form-control" />
                         </div>
                     </div>
 
-                    <div class="col-md-7 col-12 col-sm-12">
-                        <div class="form-group">
-                            <label>INSPECTOR CALIDAD</label>
-                            <input type="text" disabled name="name" value="@ViewBag.Usuario" id="txtInspectorCalidad" class="form-control" />
-                        </div>
-                    </div>
                     <div class="col-md-12 col-12 col-sm-12">
                         <div class="form-group">
                             <label>OBSERVACION</label>
@@ -165,35 +211,52 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="ValidarDatosVacios()" id="btnGenerarControlRegistro">Guardar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarCabecera()">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="ValidarDatosVacios(0)" id="btnGenerarControlRegistro">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarModalIngresoCabecera()">Cancelar</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-@* MODAL PARA EL INGRESO NUMERO DE CISTERNA *@
-<div class="modal" tabindex="-1" id="ModalIngresoCisterna" style="background-color:#858796" role="dialog" data-backdrop="static">
-    <div class="modal-dialog  modal-sm" role="document">
+@* MODAL PARA EL INGRESO/EDITAR NUEVO DETALLE *@
+<div class="modal" tabindex="-1" id="ModalIngresoDetalle" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">CISTERNAS</h5><br />
-                <button type="button" class="close" data-dismiss="modal" onclick="CerrarModalBarco()" aria-label="Close">
+                <h5 class="modal-title">Crear Nuevo Registro</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarDetalle()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button><br />
+                </button>
             </div>
             <div class="modal-body">
-                <div class="row" id="divFila">
-
+                <div class="row">
+                    <div id="divMostarTablaDetalles" class="table-responsive">
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="AgregarCisternas()" id="btnGenerarControlRegistro">Agregar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarDetalle()">Cancelar</button>
-                </div>
-
             </div>
         </div>
     </div>
 </div>
+@* FIRMA DIGITAL *@
+<br />
+<div class="card" id="firmaDigital">
+    <div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
+        <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
 
+        <div>
+            <canvas width=400 height=200 id="firmacanvas"></canvas>
+        </div>
+        <div>
+            <center> <button type="button" class="btn btn-primary" id="btnGuardarFirma" onclick="GuardarFirma()">Guardar Firma</button></center>
+        </div>
+    </div>
+    <div id="div_ImagenFirma" class="align-self-md-center align-self-sm-center" hidden>
+
+
+        <img id="ImgFirma" width="400" height="200" src="" />
+        <div>
+            <center> <button type="button" class="btn btn-primary" id="btnActualizarFirma" onclick="VolverAFirmar()">Rehacer Firma</button></center>
+        </div>
+    </div>
+</div>

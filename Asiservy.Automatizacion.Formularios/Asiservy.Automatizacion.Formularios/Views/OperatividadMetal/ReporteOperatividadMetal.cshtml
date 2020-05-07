@@ -3,9 +3,24 @@
     ViewBag.Title = "ReporteOperatividadMetal";
 }
 
+
 <style>
     input, select, textarea {
-        max-width: 100%;
+        max-width: 100%
+    }
+
+    .selectbox {
+        background: #fff;
+        padding: 5px 8px;
+        line-height: 18px;
+        border-radius: 4px;
+        border-width: 0 1px 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .btnWait {
+        cursor: no-drop !important;
     }
 </style>
 
@@ -15,10 +30,13 @@
 <hr />
 <div class="card shadow" id="divCabecera" style="padding:10px">
     <div class="row" id="divCabecera1">
-        <div class="col-md-3 col-6 col-sm-6">
-            <div class="form-group">
-                <label>Fecha</label>
-                <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="ConsultarControl()" id="txtFecha" class="form-control" />
+        <div class="col-md-5 col-sm-6 form-group" id="divDateRangePicker">
+            <label>Filtrar por Fecha:</label>
+            <input type="hidden" id="fechaDesde" value="" />
+            <input type="hidden" id="fechaHasta" value="" />
+            <div id="reportrange" class="selectbox">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
             </div>
         </div>
 
@@ -27,42 +45,44 @@
             <label class="">Acción</label>
             <div class="form-group">
                 @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
-                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnGenerar" onclick="ConsultarControl()" style="border-color:#2c3e50" type="button">
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="FiltrarAprobadosFecha()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>
+                <button hidden data-toggle="tooltip" data-placement="top" title="Regresar" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/atras24.png" />
                 </button>
             </div>
         </div>
-        
+
 
     </div>
 </div>
 
 
 <br />
-<div class="text-center" id="divMensaje"></div>
-
-<div id="divCabeceras">
-    <div class="row">
-        <div class="col-md-12 col-12">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div id="divTableCabeceras">
-
-                    </div>
-                </div>
+<div class="card shadow" id="divCabeceras">
+    <div class="card-body">
+        <div id="spinnerCargando" hidden class="text-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Cargando...</span>
             </div>
         </div>
+        <div id="divPartialControl" class="table-responsive">
+
+        </div>
+        <div class="text-center"> <h5 style="display:none" id="MensajeRegistros" class="text-warning">No Existen Registros</h5></div>
     </div>
 </div>
 
+<button onclick="printDiv()">imprimir</button>
 <div id="divDetalle" hidden class="">
     <div class="row">
         <div class="col-md-12 col-12 col-sm-12">
             <div class="card shadow">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-12 col-sm-12 col-12">
-                            <h5>Verificación de operatividad con patrones</h5>
+                        <div class="text-center col-md-12 col-sm-12 col-12">
+                            <h5>DEPARTAMENTO DE CONTROL DE CALIDAD REGISTRO VERIFICACIÓN DE OPERATIVIDAD DE DETECTOR DE METALES</h5>
                         </div>
                     </div>
 
@@ -76,44 +96,76 @@
                         </div>
 
                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="table">
+                                    <table class="table">
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
 
                             <div class="col-md-6 col-sm-6 col-6">
-                                <div class="card shadow text-justify">
+                                <div class="card text-justify">
                                     <div class="card-body">
                                         <b> Empaque Lomos: </b><label id="lblLomos"> </label> <br />
-                                        <b>Conservas Latas y Pouch: </b><label id="lblLatas"> </label> <br />
-                                        <b>Ferroso:</b><label id="lblFerroro"> </label> <br />
-                                        <b>No Ferroso:</b><label id="lblNoFerroso"> </label> <br />
-                                        <b>Acero Inoxidable:</b> <label id="lblAceroInoxidable"> </label><br />
-                                        
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-sm-12 col-12">
-                                <div class="card shadow text-justify">
-                                    <div class="card-body">
-                                        <p>Limite Control: 100% de bandejas de lomos pasadas por el detector de metales.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-12 col-md-12">
-                                <div class="card shadow text-justify">
-                                    <div class="card-body">
+                                        <b>Conservas Latas y Pouch: </b><label id="lblLatas"> </label> <br />                                     
                                         <b>Observaciones:</b> <p id="pObservacion"></p> <br />
                                     </div>
                                 </div>
                             </div>
 
-                        </div>
-                        <div id="divTableDetalle" class="table-responsive">
+                            <div class="col-md-6 col-sm-6 col-6">
+                                <div class="card text-justify">
+                                    <div class="card-body">
+                                        <b>Ferroso:</b><label id="lblFerroro"> </label> <br />
+                                        <b>No Ferroso:</b><label id="lblNoFerroso"> </label> <br />
+                                        <b>Acero Inoxidable:</b> <label id="lblAceroInoxidable"> </label><br />
+                                    </div>
+                                </div>
+                            </div>               
 
                         </div>
+                        <div class="card">
+                            <div class="card-body">
 
+                                <div class="text-center"><h5>Verificación de operatividad con patrones</h5></div>
+
+                                <div id="divTableDetalle" class="table-responsive">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <div class="text-center"><h5>Detección de metales en bandejas</h5></div>
+                                <div class="table-responsive">
+                                    <div id="spinnerCargandoDetalle2" hidden class="text-center">
+                                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                                            <span class="sr-only">Cargando...</span>
+                                        </div>
+                                    </div>
+                                    <div id="divTableDetalle2"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12 col-12">
+                            <div class="card text-justify">
+                                <div class="card-body">
+                                    <p>Limite Control: 100% de bandejas de lomos pasadas por el detector de metales.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        
+
     </div>
 </div>
 

@@ -12,18 +12,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_HIGIENE_COMEDOR_COCINA_MANT
+    public partial class CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_HIGIENE_COMEDOR_COCINA_MANT()
-        {
-            this.CC_HIGIENE_COMEDOR_COCINA_CTRL_DET = new HashSet<CC_HIGIENE_COMEDOR_COCINA_CTRL_DET>();
-        }
-    
         public int IdMantenimiento { get; set; }
-        public string Nombre { get; set; }
-        public string Categoria { get; set; }
-        public string Observacion { get; set; }
+        public int IdObjeto { get; set; }
+        public int IdAuditoria { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -32,7 +25,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_HIGIENE_COMEDOR_COCINA_CTRL_DET> CC_HIGIENE_COMEDOR_COCINA_CTRL_DET { get; set; }
+        public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA { get; set; }
+        public virtual CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
     }
 }
