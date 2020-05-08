@@ -34,6 +34,7 @@ function CargarBandeja() {
 }
 
 function SeleccionarBandeja(model) {
+   // console.log(model);
     CargarControlDetalle(model.IdOperatividadMetal);
     CargarControlDetalle2(model.IdOperatividadMetal);    
     $("#ModalApruebaCntrol").modal("show");

@@ -18,6 +18,16 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
             }
         }
 
+
+        public spConsultaCodigoReporte ConsultaCodigoReporte(string Nombre)
+        {
+            using (Datos.Datos.ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.spConsultaCodigoReporte(Nombre).FirstOrDefault();
+                return lista;
+            }
+        }
+
         //public List<spConsultaReporteMaestroEsterilizacion> ConsultaReporteMaestro(DateTime Fecha, string Turno, int CabControl)
         //{
         //    using (ASIS_PRODEntities entities = new ASIS_PRODEntities())

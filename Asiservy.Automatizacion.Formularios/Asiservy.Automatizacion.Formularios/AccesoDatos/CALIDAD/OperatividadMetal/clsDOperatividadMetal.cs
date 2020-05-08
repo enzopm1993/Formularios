@@ -36,6 +36,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
                     model.Observacion = lista.Observacion;
                     model.DetectorMetal = lista.DetectorMetal;
                     model.IdOperatividadMetal = lista.IdOperatividadMetal;
+                    model.UsuarioAprobacion = lista.AprobadoPor;
+                    model.FechaAprobacion = lista.FechaAprobacion;
                 }
                 else
                 {
@@ -109,7 +111,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poControl = entities.CC_OPERATIVIDAD_METAL_DETALLE.FirstOrDefault(x => x.IdOperatividadMetalDetalle == model.IdOperatividadMetalDetalle);
+                var poControl = entities.CC_OPERATIVIDAD_METAL_DETALLE.FirstOrDefault(x =>x.IdOperatividadMetal==model.IdOperatividadMetal && x.IdOperatividadMetalDetalle == model.IdOperatividadMetalDetalle);
                 if (poControl != null)
                 {
                     poControl.AceroInoxidable = model.AceroInoxidable;

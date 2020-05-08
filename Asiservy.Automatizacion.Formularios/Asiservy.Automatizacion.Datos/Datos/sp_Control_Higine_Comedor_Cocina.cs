@@ -13,21 +13,21 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class sp_Control_Higine_Comedor_Cocina
     {
-        public int IdControlDetalle { get; set; }
-        public int IdMantenimiento { get; set; }
         public int IdControlHigiene { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public System.DateTime Hora { get; set; }
+        public bool EstadoReporte { get; set; }
+        public string ObservacionCabecera { get; set; }
+        public byte[] FirmaAprobado { get; set; }
+        public string AprobadoPor { get; set; }
+        public Nullable<System.DateTime> FechaAprobado { get; set; }
+        public int IdControlDetalle { get; set; }
         public string LimpiezaEstado { get; set; }
         public string Observacion { get; set; }
         public string AccionCorrectiva { get; set; }
-        public string EstadoRegistro { get; set; }
-        public System.DateTime FechaIngresoLog { get; set; }
-        public string UsuarioIngresoLog { get; set; }
-        public string TerminalIngresoLog { get; set; }
-        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
-        public string UsuarioModificacionLog { get; set; }
-        public string TerminalModificacionLog { get; set; }
+        public int IdMantenimiento { get; set; }
         public string Nombre { get; set; }
         public string Categoria { get; set; }
-        public string ObservacionDetalle { get; set; }
+        public string ObservacionMantenimiento { get; set; }
     }
 }

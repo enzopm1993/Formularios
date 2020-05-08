@@ -1,9 +1,15 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Higine_Comedor_Cocina>
 @using Newtonsoft.Json;
 
-@{ var json = JsonConvert.SerializeObject(Model); }
+@{ var json = JsonConvert.SerializeObject(Model);
+    string ocultar = "";
+    if (ViewBag.Ocultar==1)//PARAMETRO PARA OCULTAR EL BOTON ACTUALIZAR YA QUE USU ESTE PARTIAL EN LA BANDEJA DE APROBACION-MOSTRAR DETALLES, EL PARAM LO ENVIO DESDE EL JS
+    {
+        ocultar = "hidden";
+    }
+    }
 <div>
-    <button id="btnActualizarDetalle" class="btn btn-link" onclick="ActualizarDetalle(@json)">Actualizar</button>
+    <button @ocultar id="btnActualizarDetalle" class="btn btn-link" onclick="ActualizarDetalle(@json)">Actualizar</button>
 </div>
 <table class="table table-bordered" id="tblDataTableVer">
     <thead style="font-size:12px">

@@ -23,6 +23,8 @@ namespace Asiservy.Automatizacion.Formularios.Models.CALIDAD
         public string TerminalIngresoLog { get; set; }
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
+        public string UsuarioAprobacion { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
         public string TerminalModificacionLog { get; set; }
 
     }

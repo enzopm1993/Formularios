@@ -3217,6 +3217,9 @@
         <Function Name="spConsultaCodigoOnlyControl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="cedula" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsultaCodigoReporte" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Reporte" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spConsultaCodigosEnfermedad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="varchar" Mode="In" />
         </Function>
@@ -5075,6 +5078,9 @@
             <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
             <Parameter Name="op" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaCodigoReporte" ReturnType="Collection(ASIS_PRODModel.spConsultaCodigoReporte)">
+            <Parameter Name="Reporte" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -9907,22 +9913,26 @@
           </ReferentialConstraint>
         </Association>
         <ComplexType Name="sp_Control_Higine_Comedor_Cocina">
-          <Property Type="Int32" Name="IdControlDetalle" Nullable="false" />
-          <Property Type="Int32" Name="IdMantenimiento" Nullable="false" />
           <Property Type="Int32" Name="IdControlHigiene" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="Hora" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="EstadoReporte" Nullable="false" />
+          <Property Type="String" Name="ObservacionCabecera" Nullable="true" MaxLength="200" />
+          <Property Type="Binary" Name="FirmaAprobado" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="AprobadoPor" Nullable="true" MaxLength="60" />
+          <Property Type="DateTime" Name="FechaAprobado" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="IdControlDetalle" Nullable="false" />
           <Property Type="String" Name="LimpiezaEstado" Nullable="false" MaxLength="3" />
           <Property Type="String" Name="Observacion" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="AccionCorrectiva" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="EstadoRegistro" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="FechaIngresoLog" Nullable="false" Precision="23" />
-          <Property Type="String" Name="UsuarioIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TerminalIngresoLog" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaModificacionLog" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UsuarioModificacionLog" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TerminalModificacionLog" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdMantenimiento" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Categoria" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="ObservacionDetalle" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ObservacionMantenimiento" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spConsultaCodigoReporte">
+          <Property Type="String" Name="Codigo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UltimaVersion" Nullable="true" MaxLength="10" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -14866,22 +14876,30 @@
           <FunctionImportMapping FunctionImportName="sp_Control_Higine_Comedor_Cocina" FunctionName="ASIS_PRODModel.Store.sp_Control_Higine_Comedor_Cocina">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Control_Higine_Comedor_Cocina">
-                <ScalarProperty Name="IdControlDetalle" ColumnName="IdControlDetalle" />
-                <ScalarProperty Name="IdMantenimiento" ColumnName="IdMantenimiento" />
                 <ScalarProperty Name="IdControlHigiene" ColumnName="IdControlHigiene" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="ObservacionCabecera" ColumnName="ObservacionCabecera" />
+                <ScalarProperty Name="FirmaAprobado" ColumnName="FirmaAprobado" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="FechaAprobado" ColumnName="FechaAprobado" />
+                <ScalarProperty Name="IdControlDetalle" ColumnName="IdControlDetalle" />
                 <ScalarProperty Name="LimpiezaEstado" ColumnName="LimpiezaEstado" />
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
                 <ScalarProperty Name="AccionCorrectiva" ColumnName="AccionCorrectiva" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="IdMantenimiento" ColumnName="IdMantenimiento" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Categoria" ColumnName="Categoria" />
-                <ScalarProperty Name="ObservacionDetalle" ColumnName="ObservacionDetalle" />
+                <ScalarProperty Name="ObservacionMantenimiento" ColumnName="ObservacionMantenimiento" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaCodigoReporte" FunctionName="ASIS_PRODModel.Store.spConsultaCodigoReporte">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCodigoReporte">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="UltimaVersion" ColumnName="UltimaVersion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

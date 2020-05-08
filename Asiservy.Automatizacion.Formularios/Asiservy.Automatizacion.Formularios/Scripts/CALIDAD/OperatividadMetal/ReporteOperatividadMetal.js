@@ -40,14 +40,8 @@ function FiltrarAprobadosFecha() {
 
 function SeleccionarBandeja(Control) {
     //console.log(Control);
-    model = Control;
-    $("#btnAtras").prop("hidden", false);
-    $("#btnConsultar").prop("hidden", true);
-    $("#divMensaje").html('');
-    $("#divCabeceras").prop("hidden", true);
-    $("#divDetalle").prop("hidden", true);
-    $("#divDetalle2").prop("hidden", true);
-    $("#lblLomos").html('');
+    model = Control;   
+  
     if ($("#txtFecha").val() == "") {
         $("#txtFecha").css('borderColor', '#FA8072');
         return;
@@ -55,7 +49,7 @@ function SeleccionarBandeja(Control) {
         $("#txtFecha").css('borderColor', '#ced4da');
     }
     $.ajax({
-        url: "../OperatividadMetal/OperatividadMetalPartial",
+        url: "../OperatividadMetal/ReporteOperatividadMetalPartial",
         type: "GET",
         data: {
             Fecha: model.Fecha
@@ -69,11 +63,19 @@ function SeleccionarBandeja(Control) {
                 $("#divMensaje").html('NO SE HA GENERADO EL CONTROL');
                 model = [];
             } else {
+                $("#btnImprimir").prop("hidden", false);
+                $("#btnAtras").prop("hidden", false);
+                $("#btnConsultar").prop("hidden", true);
+                $("#divMensaje").html('');
+                $("#divCabeceras").prop("hidden", true);
+                $("#divDetalle").prop("hidden", true);
+                $("#divDetalle2").prop("hidden", true);
+                $("#lblLomos").html('');
                 $("#divDetalle").prop("hidden", false);
                 $("#divDetalle2").prop("hidden", false);
                 model = resultado;
 
-                //console.log(model);
+               // console.log(model);
 
                 $("#divMensaje").html('');
                 if (model.Lomos) {
@@ -83,9 +85,17 @@ function SeleccionarBandeja(Control) {
                     $("#lblLatas").html("<i class='fas fa-check-circle' style='color:#1cc88a'></i>");
                 }
                 $("#lblFerroro").html(model.Ferroso);
+                $("#lblFecha").html(moment(model.Fecha).format("YYYY-MM-DD")); 
                 $("#lblNoFerroso").html(model.NoFerroso);
                 $("#lblAceroInoxidable").html(model.AceroInoxidable);
                 $("#pObservacion").html(model.Observacion);
+                $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
+                $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));
+                $("#txtUsuarioAprobacion").html(model.UsuarioAprobacion);
+                $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("YYYY-MM-DD"));
+                $("#txtCodDetectorMetal").val(model.DetectorMetal);
+                
+
                 CargarControlDetalle();
                 CargarControlDetalle2();
             }
@@ -99,6 +109,7 @@ function SeleccionarBandeja(Control) {
 
 function Atras() {
     $("#btnAtras").prop("hidden", true);
+    $("#btnImprimir").prop("hidden", false);
     $("#divCabeceras").prop("hidden", false);
     $("#divDetalle").prop("hidden", true);
     $("#divDetalle2").prop("hidden", true);
@@ -280,18 +291,8 @@ $(function () {
     FiltrarAprobadosFecha();
 });
 
+
+
 function printDiv() {
-
-    var divToPrint = document.getElementById('divDetalle');
-
-    var newWin = window.open('', 'Print-Window');
-
-    newWin.document.open();
-
-    newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
-
-    newWin.document.close();
-
-    setTimeout(function () { newWin.close(); }, 10);
-
+    window.print();
 }
