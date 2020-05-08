@@ -122,6 +122,9 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
                     cabecera.Hora = item.Hora;
                     cabecera.EstadoReporte = item.EstadoReporte;
                     cabecera.Observacion = item.Observacion;
+                    cabecera.FirmaControl = item.FirmaControl;
+                    cabecera.AprobadoPor = item.AprobadoPor;
+                    cabecera.FechaAprobado = item.FechaAprobado;
                     listacabecera.Add(cabecera);
                 }
                 return listacabecera;
@@ -139,8 +142,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
                     if (siAprobar == 1)
                     {
                         model.EstadoReporte = guardarModificar.EstadoReporte;
-                        model.FechaAprobado = guardarModificar.FechaAprobado;
-                        model.AprobadoPor = guardarModificar.AprobadoPor;
+                        model.FechaAprobado = guardarModificar.FechaIngresoLog;
+                        model.AprobadoPor = guardarModificar.UsuarioIngresoLog;
                         valor = 2;//APRROBADO
                     }
                     else
@@ -153,8 +156,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
                     }
                     model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
                     model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
-                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
-                   
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;                   
                 }
                 else
                 {
@@ -182,16 +184,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
                 }
                 return valor;
             }
-        }
-
-        //public List<CC_HIGIENE_COMEDOR_COCINA_CTRL_DET> ConsultarHigieneControlDetalle(int idControlHigiene)
-        //{
-        //    using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-        //    {
-        //        var lista = db.CC_HIGIENE_COMEDOR_COCINA_CTRL_DET.Where(x => x.IdControlHigiene == idControlHigiene && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
-        //        return lista.ToList();
-        //    }
-        //}
+        }        
 
         public int GuardarModificarControlDetalle(CC_HIGIENE_COMEDOR_COCINA_CTRL_DET guardarModificar)
         {
@@ -216,53 +209,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
                 db.SaveChanges();
                 return valor;
             }
-        }
+        }       
 
-        public int EliminarControlDetalle(CC_HIGIENE_COMEDOR_COCINA_CTRL_DET guardarModificar)
-        {
-            int valor = 0;
-            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-            {
-                var model = db.CC_HIGIENE_COMEDOR_COCINA_CTRL_DET.FirstOrDefault(x => x.IdControlDetalle == guardarModificar.IdControlDetalle);
-                if (model != null)
-                {
-                    model.EstadoRegistro = guardarModificar.EstadoRegistro;
-                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
-                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
-                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
-                    valor = 1;
-                    db.SaveChanges();
-                }
-                return valor;
-            }
-        }
-
-        public List<CC_HIGIENE_COMEDOR_COCINA_CTRL> ConsultarImagenFirma(int idControlHigiene, bool esFirmaControl)
+        public CC_HIGIENE_COMEDOR_COCINA_CTRL ConsultarImagenFirma(int idControlHigiene, bool esFirmaControl)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var lista = db.CC_HIGIENE_COMEDOR_COCINA_CTRL.Where(x => x.IdControlHigiene == idControlHigiene && x.EstadoRegistro == "A").ToList();
-                List<CC_HIGIENE_COMEDOR_COCINA_CTRL> listaCabecera = new List<CC_HIGIENE_COMEDOR_COCINA_CTRL>();
-                CC_HIGIENE_COMEDOR_COCINA_CTRL itemCabecera;
-                foreach (var item in lista)
-                {// SI NO HAGO ESTO ME DA UN ERROR DE QUE LA CONEXION SE PERDIO A PESAR QUE SI ME TRAIA DATOS
-                    itemCabecera = new CC_HIGIENE_COMEDOR_COCINA_CTRL();                    
-                    itemCabecera.EstadoReporte = item.EstadoReporte;
-                    itemCabecera.FechaIngresoLog = item.FechaIngresoLog;
-                    itemCabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
-                    itemCabecera.IdControlHigiene = item.IdControlHigiene;
-                    if (esFirmaControl == true)
-                    {
-                        itemCabecera.FirmaControl = item.FirmaControl;
-                    }
-                    else
-                    {
-                        itemCabecera.FirmaAprobado = item.FirmaAprobado;
-                    }
-                    listaCabecera.Add(itemCabecera);
-                }
-                return listaCabecera;
-            }
+                var lista = db.CC_HIGIENE_COMEDOR_COCINA_CTRL.FirstOrDefault(x => x.IdControlHigiene == idControlHigiene && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);                
+                return lista;
+            }            
         }
 
         public int GuardarImagenFirma(CC_HIGIENE_COMEDOR_COCINA_CTRL guardarmodificar, bool esFirmaControl)
@@ -288,6 +243,34 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
                 }
                 db.SaveChanges();
                 return valor;
+            }
+        }
+
+        public List<CC_HIGIENE_COMEDOR_COCINA_CTRL> BandejaConsultarHigieneControl(bool estadoReReporte, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                //var lista = db.CC_HIGIENE_COMEDOR_COCINA_CTRL.Where(x => x.EstadoReporte == estadoReReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
+                //                                                    x.Fecha.Date >= fechaDesde.Date && x.Fecha.Date <= fechaHasta.Date).ToList();
+                //var lista = db.CC_HIGIENE_COMEDOR_COCINA_CTRL.Where(x=> x.Fecha.Date >= fechaDesde.Date);
+                var lista = (from c in db.CC_HIGIENE_COMEDOR_COCINA_CTRL
+                             where (c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.EstadoReporte == estadoReReporte && c.EstadoRegistro==clsAtributos.EstadoRegistroActivo)
+                             select new { c.IdControlHigiene, c.Fecha, c.Hora, c.EstadoReporte, c.Observacion, c.FechaIngresoLog, c.UsuarioIngresoLog }).ToList();
+                List<CC_HIGIENE_COMEDOR_COCINA_CTRL> listacabecera = new List<CC_HIGIENE_COMEDOR_COCINA_CTRL>();              
+                CC_HIGIENE_COMEDOR_COCINA_CTRL cabecera;
+                foreach (var item in lista)
+                {
+                    cabecera = new CC_HIGIENE_COMEDOR_COCINA_CTRL();
+                    cabecera.IdControlHigiene = item.IdControlHigiene;
+                    cabecera.Fecha = item.Fecha;
+                    cabecera.Hora = item.Hora;
+                    cabecera.EstadoReporte = item.EstadoReporte;
+                    cabecera.Observacion = item.Observacion;
+                    cabecera.FechaIngresoLog = item.FechaIngresoLog;
+                    cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    listacabecera.Add(cabecera);
+                }
+                return listacabecera;
             }
         }
     }

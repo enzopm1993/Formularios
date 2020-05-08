@@ -42,5 +42,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Memorandum
             return objBusca;
         }
 
+        public List<PlantillasMemorandum> OtenerMemos()
+        {
+            List<PlantillasMemorandum> objBusca = new List<PlantillasMemorandum>();
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                objBusca = db.PlantillasMemorandum.AsEnumerable().ToList();
+            }
+            return objBusca;
+        }
+
     }
 }
