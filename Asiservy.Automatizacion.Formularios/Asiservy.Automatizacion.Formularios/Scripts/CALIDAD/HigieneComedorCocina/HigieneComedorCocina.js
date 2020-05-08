@@ -27,7 +27,8 @@ function CargarCabecera() {
                 $('#divMostarTablaDetallesVer').prop('hidden', true);
                 $('#divMostarTablaDetallesVer').html(resultado);
                 LimpiarCabecera();
-            } else {
+            } else {                
+                CambiarMensajeEstado(resultado[0].EstadoReporte);
                 $('#divBotonCrearDetalle').prop('hidden', false); 
                 CargarDetalle(resultado[0].IdControlHigiene, 0);
                 $('#divMostrarCabecera').prop('hidden', false);
@@ -364,15 +365,14 @@ function ActualizarDetalle(jdata) {//LLAMADA DESDE EL PARTIAL HigieneComedorCoci
                     document.getElementById('selectLimpiezaEstado-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.LimpiezaEstado;
                     document.getElementById('txtObservacionDetalle-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.Observacion;
                     document.getElementById('txtACorrectivaDetalle-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.AccionCorrectiva;
-                    document.getElementById('txtIdControlDetalle-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.IdControlDetalle;
-                    console.log(document.getElementById('txtIdControlDetalle-' + rowMantenimiento.IdMantenimiento).value);
+                    document.getElementById('txtIdControlDetalle-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.IdControlDetalle;                    
                 });
             }, 200);
         }
     }, 200);
 }
 
-function ConsultarEstadoRegistro() {    
+function ConsultarEstadoRegistro() {
     $.ajax({
         url: "../HigieneComedorCocina/ConsultarHigieneControl",
         data: {
@@ -384,6 +384,8 @@ function ConsultarEstadoRegistro() {
                 window.location.reload();
             }
             estadoReporte = resultado[0].EstadoReporte;
+            CambiarMensajeEstado(resultado[0].EstadoReporte);
+            ConsultarFirma();
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -391,10 +393,23 @@ function ConsultarEstadoRegistro() {
     });
 }
 
+function CambiarMensajeEstado(estadoReporteParametro) {
+    if (estadoReporteParametro == true) {
+        $("#lblAprobadoPendiente").text("APROBADO");
+        $("#lblAprobadoPendiente").removeClass('badge-danger');
+        $("#lblAprobadoPendiente").addClass('badge badge-success');
+    } else {
+        $("#lblAprobadoPendiente").text("PENDIENTE");
+        $("#lblAprobadoPendiente").removeClass('badge-success');
+        $("#lblAprobadoPendiente").addClass('badge badge-danger');
+    }
+}
+
 function GuardarFirma() {
     ConsultarEstadoRegistro();
     setTimeout(function () {
         if (estadoReporte == true) {
+            signaturePad.clear();
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
         } else {
@@ -462,7 +477,7 @@ function ConsultarFirma() {
                 $('#signature-pad').prop('hidden', false);
                 $('#div_ImagenFirma').prop('hidden', true);
             }
-            if (imagenFirma[0].EstadoReporte == true) {
+            if (estadoReporte == true) {
                 $("#btnActualizarFirma").prop("hidden", true);
                 $("#signature-pad").prop("hidden", true);
                 if (imagenFirma[0].FirmaControl == null) {

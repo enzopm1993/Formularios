@@ -2209,8 +2209,10 @@
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\BandejaEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.js" />
+    <Content Include="Scripts\CALIDAD\HigieneComedorCocina\BandejaHigieneComedorCocina.js" />
     <Content Include="Scripts\CALIDAD\HigieneComedorCocina\HigieneComedorCocina.js" />
     <Content Include="Scripts\CALIDAD\HigieneComedorCocina\MantHigieneComedorCocina.js" />
+    <Content Include="Scripts\CALIDAD\HigieneComedorCocina\ReporteHigieneComedorCocina.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\BandejaLavadoCisterna.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.js" />
     <Content Include="Scripts\CALIDAD\LavadoCisterna\LavadoCisterna.js" />
@@ -3270,6 +3272,7 @@
     <Content Include="Views\CloroCisternaDescongelado\HeaderPdf.html" />
     <Content Include="Views\ControlCuchillosPreparacion\HeaderPdf.html" />
     <Content Include="Views\DesechosLiquidosPeligrosos\HeaderPdf.html" />
+    <Content Include="Views\HigieneComedorCocina\HeaderPdf.html" />
     <Content Include="Views\LavadoCisterna\HeaderPdf.html" />
     <Content Include="Views\LavadoDesinfeccionManos\HeaderPdf.html" />
     <Content Include="Views\Login\Login.cshtml" />
@@ -3899,6 +3902,11 @@
     <Content Include="Views\CalibracionPhMetro\ReporteCalibracionPhMetro.cshtml" />
     <Content Include="Views\CalibracionPhMetro\ReporteControlPartial.cshtml" />
     <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalDetectorPartial.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\BandejaHigieneComedorCocina.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\BandejaHigieneComedorCodinaPartial.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\ReporteHigieneComedorCocina.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\ReporteHigieneComedorCocinaPartail.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\PdfReporteHigieneComedorCocinaPartail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
