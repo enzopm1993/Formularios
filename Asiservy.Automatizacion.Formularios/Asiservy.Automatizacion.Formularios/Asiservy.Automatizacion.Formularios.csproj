@@ -2220,6 +2220,7 @@
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\BandejaLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ControlLavadoDesinfeccionManos.js" />
     <Content Include="Scripts\CALIDAD\LavadoDesinfeccionManos\ReporteLavadoDesinfeccionManos.js" />
+    <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\ControlLimpiezaDesinfeccionPlanta.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\LimpiezaDesinfeccionPlanta.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\MantAreaAuditoria.js" />
     <Content Include="Scripts\CALIDAD\LimpiezaDesinfeccionPlanta\MantObjetos.js" />
@@ -2354,6 +2355,8 @@
     <Content Include="Scripts\Marcaciones\PorEmpleado.js" />
     <Content Include="Scripts\Marcaciones\PorLinea.js" />
     <Content Include="Scripts\Marcaciones\Produccion.js" />
+    <Content Include="Scripts\Memorandum\Gestion.js" />
+    <Content Include="Scripts\Memorandum\Plantillas.js" />
     <Content Include="Scripts\MoverPersonal\BandejaMovimientoPersonalRRHH.js" />
     <Content Include="Scripts\MoverPersonal\MoverPersonalDataLife.js" />
     <Content Include="Scripts\ControlCuchillo\ControlCuchillo.js" />
@@ -3902,6 +3905,8 @@
     <Content Include="Views\CalibracionPhMetro\ReporteCalibracionPhMetro.cshtml" />
     <Content Include="Views\CalibracionPhMetro\ReporteControlPartial.cshtml" />
     <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalDetectorPartial.cshtml" />
+    <Content Include="Views\LimpiezaDesinfeccionPlanta\ControlLimpiezaDesinfeccionPlanta.cshtml" />
+    <Content Include="Views\Memorandum\Plantillas.cshtml" />
     <Content Include="Views\HigieneComedorCocina\BandejaHigieneComedorCocina.cshtml" />
     <Content Include="Views\HigieneComedorCocina\BandejaHigieneComedorCodinaPartial.cshtml" />
     <Content Include="Views\HigieneComedorCocina\ReporteHigieneComedorCocina.cshtml" />

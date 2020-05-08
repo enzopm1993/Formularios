@@ -9,16 +9,49 @@
         margin-bottom: 5px;
     }
 </style>
+
 <h3>Gestión de formatos de memorandum</h3>
 
 <div class="col-md-12 col-12">
     <div class="row">
-        <input type="hidden" id="idModalidad" value="@Model.Memorandum.id" />
+        <input type="hidden" id="idMemo" value="@Model.Memorandum.id" />
         <div class="col-md-12  col-12">
             <div class="form-group">
                 <a data-toggle="modal" data-target="#modalTags" data-backdrop="static" data-keyboard="false" class="btn btn-primary" title="Editar" alt="Editar" href="#" id="btnEditar"><i class="fas fa-tag"></i> Tags</a>
-                <a class="btn btn-success" title="Editar" alt="Editar" href="#" id="btnEditar" onclick="editarForm()"><i class="fas fa-save"></i> Guardar</a>
-                <a class="btn btn-danger" title="Cancelar" alt="Cancelar" href="#" id="btnCancelar" onclick="cancelar()"><i class="fas fa-ban"></i> Cancelar</a>
+                <a class="btn btn-success" title="Guardar" alt="Guardar" href="#" id="btnGuardar"><i class="fas fa-save"></i> Guardar</a>
+                @if (Model.Memorandum.id > 0)
+                {
+                    <a class="btn btn-danger" title="Cancelar" alt="Cancelar" href="/Memorandum/Plantillas" id="btnCancelar"><i class="fas fa-ban"></i> Cancelar</a>
+                }
+
+            </div>
+            @if (Model.Memorandum.id > 0)
+            {
+                <h5>Editar memorandum</h5>
+            }
+            else
+            {
+                <h5>Creación de memorandum</h5>
+            }
+        </div>
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                @if (Model.Memorandum.Estado == null)
+                {
+                    <label>Estado del memorandum <input type="checkbox" id="estado" value="" /> </label>
+                }
+                else
+                {
+                    if (Model.Memorandum.Estado == true)
+                    {
+                        <label>Estado del memorandum <input type="checkbox" id="estado" value="" checked /> </label>
+                    }
+                    else
+                    {
+                        <label>Estado del memorandum <input type="checkbox" id="estado" value="" /> </label>
+                    }
+                }
+
             </div>
         </div>
         <div class="col-md-12 col-12">

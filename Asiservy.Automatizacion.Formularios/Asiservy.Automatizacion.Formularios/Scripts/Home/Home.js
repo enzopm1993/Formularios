@@ -1,21 +1,21 @@
 ﻿var Com = [];
 $(document).ready(function () {
     ConsultaComunicados();
-   // console.log(vacacion);
+    console.log(vacacion);
 
-
+    $("#TotalDiasVacciones").html(vacacion.TotalDias);
     var options = {
-        series: [vacacion.TotalDias, vacacion.DiasTomados,vacacion.Saldo],
+        series: [vacacion.DiasTomados,vacacion.Saldo],
         chart: {
             type: 'donut',
             height: 150,
         },
 
         fill: {
-            colors: ['#0064FF', '#CCCAC9', '#00FF3E']
+            colors: ['#FF0000', '#00FF3E']
         },
-        colors: ['#0064FF', '#CCCAC9', '#00FF3E'],
-        labels: ['Días Totales', 'Días Tomados', 'Días Disponibles'],
+        colors: ['#FF0000', '#00FF3E'],
+        labels: [ 'Días Tomados', 'Días Disponibles'],
         responsive: [{
             breakpoint: 480,
             options: {

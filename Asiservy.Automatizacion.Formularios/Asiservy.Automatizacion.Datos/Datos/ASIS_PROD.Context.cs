@@ -153,6 +153,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
+        public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL> CC_HIGIENE_COMEDOR_COCINA_CTRL { get; set; }
+        public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL_DET> CC_HIGIENE_COMEDOR_COCINA_CTRL_DET { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2075,6 +2077,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Desechos_Liquidos_Peligrosos>("sp_Control_Desechos_Liquidos_Peligrosos", anioBusquedaParameter, mesBusquedaParameter, idDesechosLiquidosParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Higine_Comedor_Cocina> sp_Control_Higine_Comedor_Cocina(Nullable<int> idControlHigiene, Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> op)
+        {
+            var idControlHigieneParameter = idControlHigiene.HasValue ?
+                new ObjectParameter("idControlHigiene", idControlHigiene) :
+                new ObjectParameter("idControlHigiene", typeof(int));
+    
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Higine_Comedor_Cocina>("sp_Control_Higine_Comedor_Cocina", idControlHigieneParameter, fechaDesdeParameter, fechaHastaParameter, opParameter);
         }
     }
 }
