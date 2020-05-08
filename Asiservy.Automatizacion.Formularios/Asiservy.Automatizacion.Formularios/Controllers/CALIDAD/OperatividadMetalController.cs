@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMetal;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -17,6 +18,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         string[] lsUsuario = null;
         clsDError clsDError = null;
         clsDOperatividadMetal clsDOperatividadMetal = null;
+        clsDReporte clsDReporte = null;
         //clsDApiProduccion clsDApiProduccion = null;
 
 
@@ -662,6 +664,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JqueryRotate = "1";                
                 ViewBag.dataTableJS = "1";
                 //  ViewBag.select2 = "1";
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                ViewBag.CodigoReporte = rep.Codigo;
+                ViewBag.VersionReporte = rep.UltimaVersion;
                 lsUsuario = User.Identity.Name.Split('_');
                 return View();
             }
