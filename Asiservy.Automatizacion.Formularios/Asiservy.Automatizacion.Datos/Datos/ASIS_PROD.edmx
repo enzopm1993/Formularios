@@ -3217,6 +3217,9 @@
         <Function Name="spConsultaCodigoOnlyControl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="cedula" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spConsultaCodigoReporte" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Reporte" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spConsultaCodigosEnfermedad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="varchar" Mode="In" />
         </Function>
@@ -5075,6 +5078,9 @@
             <Parameter Name="fechaDesde" Mode="In" Type="DateTime" />
             <Parameter Name="fechaHasta" Mode="In" Type="DateTime" />
             <Parameter Name="op" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaCodigoReporte" ReturnType="Collection(ASIS_PRODModel.spConsultaCodigoReporte)">
+            <Parameter Name="Reporte" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -9923,6 +9929,10 @@
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Categoria" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="ObservacionMantenimiento" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spConsultaCodigoReporte">
+          <Property Type="String" Name="Codigo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UltimaVersion" Nullable="true" MaxLength="10" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -14882,6 +14892,14 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Categoria" ColumnName="Categoria" />
                 <ScalarProperty Name="ObservacionMantenimiento" ColumnName="ObservacionMantenimiento" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaCodigoReporte" FunctionName="ASIS_PRODModel.Store.spConsultaCodigoReporte">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaCodigoReporte">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="UltimaVersion" ColumnName="UltimaVersion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
