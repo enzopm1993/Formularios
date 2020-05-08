@@ -1,4 +1,5 @@
 ﻿var itemEditar = [];
+var itemEditarMantenimiento = [0];
 var listaAnterior = [];
 $(document).ready(function () {
     CargarCabecera();
@@ -51,7 +52,7 @@ function GuardarCabecera() {
             var con = 0;
             listaAnterior.forEach(function (rowPrevious) {
                 if (rowNew == rowPrevious.IdObjeto) {
-                    delete listaAnterior[con];//ELIMINO LOS ID CHECK LOS RESTANTES LOS ELIMINO
+                    delete listaAnterior[con];//ELIMINO LOS ID(table) CHECK LOS RESTANTES LOS ELIMINO EN BD
                 }
                 con++;
             });
@@ -59,7 +60,7 @@ function GuardarCabecera() {
     }    
     
     $.ajax({
-        url: "../HigieneComedorCocina/GuardarModificarAreaAuditoria",
+        url: "../LimpiezaDesinfeccionPlanta/GuardarModificarAreaAuditoria",
         type: "POST",
         data: {
             IdAuditoria: itemEditar.IdAuditoria,
@@ -86,12 +87,17 @@ function GuardarCabecera() {
                 $("#txtNombre").css('border', '1px dashed red');
                 $('#cargac').hide();
                 return;
-            } else {
+            } else if (resultado == 4) {
                 $('#ModalIngresoCabecera').modal('show');
                 MensajeAdvertencia('Debe seleccionar un OBJETO para crear una Area de Auditoria');
                 $('#cargac').hide();
                 return;
+            } else {
+                MensajeAdvertencia('Se detecto que un OBJETO fue INACTIVADO, !Por favor vuelva a intentar¡');
+                $('#cargac').hide();
+                return;
             }
+            itemEditarMantenimiento = [0];
             $("#txtDescripcion").val('');
             LimpiarCabecera();
             $('#cargac').hide();
@@ -105,17 +111,23 @@ function GuardarCabecera() {
 
 function ModalIngresoCabecera(idObjeto) {
     document.getElementById("btnActualizarObjeto").disabled = true;
-    var objIdObjeto = idObjeto;    
-    if (idObjeto == true) {
+    var objIdObjeto = idObjeto;       
+    if (idObjeto == true) {//NUEVO REGISTRO
         objIdObjeto = [0];
         LimpiarCabecera();
-    } else if (idObjeto==0) {
+    } else if (idObjeto == 0) {//NO EXISTE NINGUN OBJETO CON EL CHECK ActualizarCabecera(resultado);
         objIdObjeto = [0];
+    }
+    if (idObjeto == 'actualizar') { //CICK EN EL BOTON ACTUALIZAR DEL MODAL INGRESO NUEVO
+        if (itemEditarMantenimiento == 0) {
+            objIdObjeto = [0];
+        } else { objIdObjeto = itemEditarMantenimiento;}
+        
     }
     var estadoRegistro = 'A';
     $('#ModalIngresoCabecera').modal('show');    
     $.ajax({
-        url: "../HigieneComedorCocina/ConsultarObjetosActivos",
+        url: "../LimpiezaDesinfeccionPlanta/ConsultarObjetosActivos",
         type: "GET",
         data: {
             estadoRegistro:estadoRegistro
@@ -184,6 +196,7 @@ function ActualizarCabecera(jdata) {
                     window.location.reload();
                 }
                 ModalIngresoCabecera(resultado);
+                itemEditarMantenimiento = resultado;
                 listaAnterior = resultado;
             },
             error: function (resultado) {

@@ -220,6 +220,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     else
                     {
                         clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
+                        //VALIDAR SI ALGUN ID DE LA LISTA HA SIDO INACTIVADO, ESTO SUCEDE AL ABRIR DOS PESTAÑAS AUDITORIA-OBJETO
+                        foreach (var item in listaIdObjetoAuditar)
+                        {
+                            int activo = clsDLimpiezaDesinfeccionPlanta.ConsultarObjetosActivosID(item);
+                            if (activo == 0)
+                            {
+                                return Json("5", JsonRequestBehavior.AllowGet);//CUANDO EXISTE UN ID EN ESTADO INACTIVO
+                            }
+                        }
                         model.FechaIngresoLog = DateTime.Now;
                         model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                         model.TerminalIngresoLog = Request.UserHostAddress;
@@ -231,6 +240,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                         modelIntermedia.TerminalIngresoLog = Request.UserHostAddress;
                         modelIntermedia.UsuarioIngresoLog = lsUsuario[0];
                         modelIntermedia.IdAuditoria = model.IdAuditoria;
+                       
+
                         foreach (var id in listaIdObjetoAuditar)//GUARDAR INTERMEDIA
                         {
                             modelIntermedia.IdObjeto = id;
