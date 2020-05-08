@@ -291,6 +291,8 @@ $(function () {
     FiltrarAprobadosFecha();
 });
 
+
+
 function printDiv() {
     window.print();
-   }
+}
