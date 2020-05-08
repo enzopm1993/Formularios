@@ -249,8 +249,8 @@ function CargarControlDetalle() {
 }
 
 function ModalGenerarControlDetalle() {
-    //$("#txtIdControlDetalle").val(0);
-    //$("#txtHoraInicioDetalle").val("");
+    $("#txtIdControlDetalle").val(0);
+    //$("#txtHora").val("");
     //$("#txtHoraFinDetalle").val("");
     $("#ModalGenerarControlDetalle").modal("show");
 

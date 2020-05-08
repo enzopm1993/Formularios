@@ -40,8 +40,7 @@ function FiltrarAprobadosFecha() {
 
 function SeleccionarBandeja(Control) {
     //console.log(Control);
-    model = Control;
-    
+    model = Control;   
   
     if ($("#txtFecha").val() == "") {
         $("#txtFecha").css('borderColor', '#FA8072');
@@ -86,12 +85,17 @@ function SeleccionarBandeja(Control) {
                     $("#lblLatas").html("<i class='fas fa-check-circle' style='color:#1cc88a'></i>");
                 }
                 $("#lblFerroro").html(model.Ferroso);
+                $("#lblFecha").html(moment(model.Fecha).format("YYYY-MM-DD")); 
                 $("#lblNoFerroso").html(model.NoFerroso);
                 $("#lblAceroInoxidable").html(model.AceroInoxidable);
                 $("#pObservacion").html(model.Observacion);
-                $("#txtUsuarioCreacion").val(model.UsuarioIngresoLog);
-                $("#txtUruarioModificacion").val(model.UsuarioModificacionLog);
-                $("#tstUsuarioAprobacion").val(model.UsuarioAprobacion);
+                $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
+                $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));
+                $("#txtUsuarioAprobacion").html(model.UsuarioAprobacion);
+                $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("YYYY-MM-DD"));
+                $("#txtCodDetectorMetal").val(model.DetectorMetal);
+                
+
                 CargarControlDetalle();
                 CargarControlDetalle2();
             }

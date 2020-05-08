@@ -11,10 +11,16 @@
             size: A4;
         }
 
-        .prueba {
-            display: block;
-            page-break-inside: auto;
+        .shadow {
+            box-shadow: 0 0.15rem 1.75rem 0 #fff !important;
         }
+
+        .card {
+            border:0px;
+        }
+        hr{
+            display:none; 
+        }       
 
         #divCabecera {
             display: none;
@@ -48,11 +54,10 @@
             display: block;
             margin-bottom: 0rem;
         }
-
-
+        
         input, select, textarea {
             max-width: 100%
-        }
+        }     
     }
 
     @@media screen {
@@ -84,6 +89,23 @@
             overflow: auto;
         }
     }
+
+    .table1 {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #858796;
+        border-top: 2px solid #e3e6f0;
+        /*border-right: 2px solid #e3e6f0;
+        border-left: 2px solid #e3e6f0;
+        border-bottom:0px;*/
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+  
+
 </style>
 
 <h4 id="titulo">Reporte de verificación de operatividad detector de metales</h4>
@@ -155,12 +177,12 @@
                                 <td width="80%" class="text-center">
                                     <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
                                 </td>
-                                <td rowspan="2" width="10%" class="text-center">
+                                <td rowspan="2" width="10%" class="text-center text-right">
                                     <div style="font-size:10px">
-                                        Usuario Creación:<label></label> <br />
-                                        Fecha Creación:<label></label> <br />
-                                        Usuario Aprobación:<label></label> <br />
-                                        Fecha Aprobación:<label></label>
+                                        <b>Usuario Creación:</b><label id="txtUsuarioCreacion"></label> <br />
+                                        <b>Fecha Creación:</b><label id="txtFechaCreacion"></label> <br />
+                                        <b>Usuario Aprobación:</b><label id="txtUsuarioAprobacion"></label> <br />
+                                        <b>Fecha Aprobación:</b><label id="txtFechaAprobacion"></label>
                                     </div>
 
                                 </td>
@@ -181,11 +203,7 @@
                 </div>
                 <div class="card-body">
                     <div id="chart">
-                        <div class="d-flex justify-content-center">
-                            <div id="spinnerCargandoDetalle" hidden class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                        </div>
+                        
 
                         <div class="row">
                             <div class="col-md-12">
@@ -204,50 +222,76 @@
                                             <td> <b>Acero Inoxidable:</b> <label id="lblAceroInoxidable">  </label></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2" style="width: 50%"> <b>Observaciones:</b> <textarea class="form-control" style="overflow:hidden; resize:none" rows="3" disabled id="pObservacion"></textarea></td>
+                                            <td colspan="2" style="width: 50%"> <b>Observaciones:</b> <textarea class="form-control" style="overflow:hidden; border:hidden; resize:none" rows="3" disabled id="pObservacion"></textarea></td>
                                         </tr>
                                     </table>
                                 </div>
                             </div>
 
                         </div>
-                        <div class="card">
-                            <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table1">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:100%; border-right:2px solid #e3e6f0; border-left:2px solid #e3e6f0; border-bottom:0px" class="text-center"><h5>Verificación de operatividad con patrones</h5></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="width:100%;border:0px; padding:0px !important" id="" >
+                                                <div id="spinnerCargandoDetalle" hidden class="text-center">
+                                                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                                                        <span class="sr-only">Cargando...</span>
+                                                    </div>
+                                                </div>
+                                                <div id="divTableDetalle" class="table-responsive">
 
-                                <div class="text-center"><h5>Verificación de operatividad con patrones</h5></div>
+                                                </div>
 
-                                <div id="divTableDetalle" class="table-responsive">
-
-                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
-                        <div class="card" id="divCardImagenes">
-                            <div class="card-body">
-                                <div class="text-center"><h5>Detección de metales en bandejas</h5></div>
-                                <div id="spinnerCargandoDetalle2" hidden class="text-center">
-                                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                                        <span class="sr-only">Cargando...</span>
-                                    </div>
-                                </div>
-                                <div class="table-responsive">
-                                    <div id="divTableDetalle2"></div>
-                                </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table1">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:100%; border-right:2px solid #e3e6f0;border-bottom:2px solid #e3e6f0; border-left:2px solid #e3e6f0" class="text-center"><h5>Detección de metales en bandejas</h5></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="width:100%;  border-right:2px solid #e3e6f0; border-left:2px solid #e3e6f0; border-bottom:2px solid #e3e6f0">
+                                                <div id="spinnerCargandoDetalle2" hidden class="text-center">
+                                                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                                                        <span class="sr-only">Cargando...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <div id="divTableDetalle2"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <br />
-
 
                     </div>
                 </div>
                 <div class="card-footer">
-                    <table class="table">
+                    <table class="table table-bordered">
                         <tr>
                             <td>
                                 <p><b>Limite Control:</b> 100% de bandejas de lomos pasadas por el detector de metales.</p>
                             </td>
                             <td>
-                                <label>Codigo Detector Metal</label>
+                                <label><b>CODIGO DETECTOR METALES</b></label>
                                 <input type="text" class="form-control" disabled name="name" id="txtCodDetectorMetal" value="" />
                             </td>
                         </tr>

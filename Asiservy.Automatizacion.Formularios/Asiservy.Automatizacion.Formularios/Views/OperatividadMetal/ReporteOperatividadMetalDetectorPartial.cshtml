@@ -47,13 +47,13 @@
     var count = 0;
  }
 
-<table>
+<table class="table table-borderless">
 
     <tr>
         @foreach (var item in Model)
         {
             <td style="width:33.3%;height:50px">
-                <div class="card shadow" style="margin-bottom:10px; border:solid 1px #0071fdad">
+                <div class="card shadow" style="margin-bottom:10px">
                     @if (item.Imagen != null)
                     {
                         <div class="card-header text-center" style="background:#DCDCDC">
@@ -67,7 +67,7 @@
                     </script>
                     }
                     <div class="card-body" style="background:#F0F8FF">
-                        <p class="card-text" style="color:black">@item.Novedad</p>
+                        <p class="card-text" style="color:black"><b>Novedades del hallazgo: </b> @item.Novedad</p>
                     </div>
                 </div>
             </td>
