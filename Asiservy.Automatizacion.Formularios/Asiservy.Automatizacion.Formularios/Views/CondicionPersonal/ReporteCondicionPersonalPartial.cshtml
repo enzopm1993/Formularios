@@ -1,22 +1,31 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.spConsultaCondicionesPersonal>
+@using Asiservy.Automatizacion.Datos.Datos;
 
-<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+
+@{
+    var modelCondiciones = (List<MANTENIMIENTO_CONDICION>)ViewBag.Condiciones;
+    var Control = (CC_CONDICION_PERSONAL_CONTROL)ViewBag.Control;
+    //   var condicionesJSON = JsonConvert.SerializeObject(ViewBag.Condiciones);
+}
+
+
+<table class="table table-bordered" cellspacing="4" cellpadding="4" style="cursor: pointer; width:100%" id="">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Hora)
+            <th width="10%">
+                Hora
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cedula)
+            <th width="10%">
+                Cedula
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
+            <th width="20%">
+                Nombre
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Condicion)
+            <th width="30%">
+               Condición
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Observacion)
+            <th width="30%">
+                Observación
             </th>
         </tr>
     </thead>
@@ -24,23 +33,68 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Hora)
+                <td width="10%">
+                    <label>@item.Hora</label>
+
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cedula)
+                <td width="10%">
+                    <label>@item.Cedula</label>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
+                <td width="20%">
+                    <label>@item.Nombre</label>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Condicion)
+                <td width="30%" style="white-space:normal">
+                    <label>@item.Condicion</label>
+                    @*<textarea rows="4" style="width:100%;  height:auto; resize:none" disabled> @Html.DisplayFor(modelItem => item.Condicion)</textarea>*@
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacion)
+                <td width="30%" style="white-space:normal; font-size:11px">
+                    @item.Observacion
+                    @*<textarea  style="width:100%;max-height:100%; height:auto; resize:none" disabled> @Html.DisplayFor(modelItem => item.Observacion)</textarea>*@
                 </td>
             </tr>
         }
     </tbody>
 
 </table>
+<hr />
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="">
+    <thead>
+        <tr>
+            <td>Condición</td>
+            <td>Incumplimientos</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in modelCondiciones)
+        {
+            int cantidad = Model.Count(y => y.CodCondicion == x.IdMantenimientoCondicion.ToString());
+            <tr>
+                <td>@x.Descripcion</td>
+                <td class="text-center"> <label id="txt_@x.IdMantenimientoCondicion">@cantidad</label> </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+@if (Control.EstadoReporte)
+{
+
+    <table class="table table-borderless text-center">
+        <tr>
+            <td>
+                <label style="border-bottom:solid 1px" id="txtUsuarioCreacion">@Control.UsuarioIngresoLog</label> <br />
+                <label>Realizado Por</label><br />
+                <label id="txtFechaCreacion">@Control.FechaIngresoLog</label>
+            </td>
+            <td>
+                <label style="border-bottom:solid 1px" id="txtUsuarioAprobacion">@Control.AprobadoPor</label><br />
+                <label>Aprobado Por</label><br />
+                <label id="txtFechaAprobacion">@Control.FechaAprobacion</label>
+            </td>
+        </tr>
+    </table>
+
+
+}

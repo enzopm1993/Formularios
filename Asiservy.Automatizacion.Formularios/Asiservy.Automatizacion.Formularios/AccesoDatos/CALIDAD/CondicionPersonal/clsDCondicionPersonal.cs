@@ -125,7 +125,28 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
             {
                 return entities.CC_CONDICION_PERSONAL_CONTROL.Where(x => x.Fecha >= FechaDesde
                                                                          && x.Fecha <= FechaHasta
+                                                                         && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                                                 && x.EstadoReporte==Estado).ToList();
+            }
+        }
+
+        public List<CC_CONDICION_PERSONAL_CONTROL> ConsultaCondicionPersonalControl(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_CONDICION_PERSONAL_CONTROL.Where(x => x.Fecha >= FechaDesde
+                                                                         && x.Fecha <= FechaHasta
+                                                                         && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                               ).ToList();
+            }
+        }
+
+        public List<CC_CONDICION_PERSONAL_CONTROL> ConsultaCondicionPersonalControl(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_CONDICION_PERSONAL_CONTROL.Where(x => x.Fecha == Fecha
+                                                                && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
 
@@ -133,7 +154,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_CONDICION_PERSONAL_CONTROL.Where(x => x.EstadoReporte == false).ToList();
+                return entities.CC_CONDICION_PERSONAL_CONTROL.Where(x => !x.EstadoReporte).ToList();
             }
         }
         public void Aprobar_ReporteCondicionPersonal(CC_CONDICION_PERSONAL_CONTROL controlCloro)
