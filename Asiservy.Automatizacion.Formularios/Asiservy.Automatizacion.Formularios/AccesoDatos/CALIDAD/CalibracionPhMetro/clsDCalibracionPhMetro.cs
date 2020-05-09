@@ -143,9 +143,10 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionPhM
                 buscarControl.FechaModificacionLog = DateTime.Now;
                 buscarControl.UsuarioModificacionLog = usuario;
                 buscarControl.TerminalModificacionLog = terminal;
-                buscarControl.UsuarioAprobacion = usuario;
+                buscarControl.UsuarioAprobacion = null;
                 buscarControl.FechaAprobacion = DateTime.Now;
                 buscarControl.EstadoControl = false;
+             
                 db.SaveChanges();
 
                 return "El control ha sido Reversado";

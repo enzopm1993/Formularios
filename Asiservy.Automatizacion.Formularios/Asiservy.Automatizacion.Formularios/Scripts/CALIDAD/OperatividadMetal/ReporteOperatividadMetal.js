@@ -5,19 +5,21 @@
 var model = [];
 
 function FiltrarAprobadosFecha() {   
-        $('#divPartialControl').html('');
-        $("#spinnerCargando").prop("hidden", false);
+    $('#divPartialControl').html('');
+    $("#spinnerCargando").prop("hidden", false);
+    $("#MensajeRegistros").html('');
+
         $.ajax({
-            url: "../OperatividadMetal/BandejaOperatividadMetalPartial",
+            url: "../OperatividadMetal/ReporteOperatividadMetalPartial",
             type: "GET",
             data: {
                 FechaDesde: $("#fechaDesde").val(),
-                FechaHasta: $("#fechaHasta").val(),
-                Estado: true
+                FechaHasta: $("#fechaHasta").val()
             },
             success: function (resultado) {
                 if (resultado == '0') {
                     $('#MensajeRegistros').show();
+                    $("#MensajeRegistros").html(Mensajes.SinRegistros);
                     $('#divPartialControl').html('');
 
                 } else {
@@ -32,7 +34,7 @@ function FiltrarAprobadosFecha() {
             },
             error: function (resultado) {
                 $("#spinnerCargando").prop("hidden", true);
-                MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
+                MensajeError(Mensajes.Error + resultado.responseText, false);
             }
         });
    
@@ -41,70 +43,48 @@ function FiltrarAprobadosFecha() {
 function SeleccionarBandeja(Control) {
     //console.log(Control);
     model = Control;   
-  
-    if ($("#txtFecha").val() == "") {
-        $("#txtFecha").css('borderColor', '#FA8072');
+
+    if (!model.EstadoReporte) {
+        MensajeAdvertencia("Reporte se encuentra pendiente.");
         return;
-    } else {
-        $("#txtFecha").css('borderColor', '#ced4da');
     }
-    $.ajax({
-        url: "../OperatividadMetal/ReporteOperatividadMetalPartial",
-        type: "GET",
-        data: {
-            Fecha: model.Fecha
-        },
-        success: function (resultado) {
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado == "0") {
+    $("#btnImprimir").prop("hidden", false);
+    $("#btnAtras").prop("hidden", false);
+    $("#btnConsultar").prop("hidden", true);
+    $("#divMensaje").html('');
+    $("#divCabeceras").prop("hidden", true);
+    $("#divDetalle").prop("hidden", true);
+    $("#divDetalle2").prop("hidden", true);
+    $("#lblLomos").html('');
+    $("#divDetalle").prop("hidden", false);
+    $("#divDetalle2").prop("hidden", false);
 
-                $("#divMensaje").html('NO SE HA GENERADO EL CONTROL');
-                model = [];
-            } else {
-                $("#btnImprimir").prop("hidden", false);
-                $("#btnAtras").prop("hidden", false);
-                $("#btnConsultar").prop("hidden", true);
-                $("#divMensaje").html('');
-                $("#divCabeceras").prop("hidden", true);
-                $("#divDetalle").prop("hidden", true);
-                $("#divDetalle2").prop("hidden", true);
-                $("#lblLomos").html('');
-                $("#divDetalle").prop("hidden", false);
-                $("#divDetalle2").prop("hidden", false);
-                model = resultado;
+    // console.log(model);
 
-               // console.log(model);
+    $("#divMensaje").html('');
+    if (model.Lomos) {
+        $("#lblLomos").html("<i class='fas fa-check-circle' style='color:#1cc88a'></i>");
+    }
+    if (model.Latas) {
+        $("#lblLatas").html("<i class='fas fa-check-circle' style='color:#1cc88a'></i>");
+    }
+    $("#lblFerroro").html(model.Ferroso);
+    $("#lblPCC").html(model.Pcc);
+    $("#lblFecha").html(moment(model.Fecha).format("YYYY-MM-DD"));
+    $("#lblNoFerroso").html(model.NoFerroso);
+    $("#lblAceroInoxidable").html(model.AceroInoxidable);
+    $("#pObservacion").html(model.Observacion);
 
-                $("#divMensaje").html('');
-                if (model.Lomos) {
-                    $("#lblLomos").html("<i class='fas fa-check-circle' style='color:#1cc88a'></i>");
-                }
-                if (model.Latas) {
-                    $("#lblLatas").html("<i class='fas fa-check-circle' style='color:#1cc88a'></i>");
-                }
-                $("#lblFerroro").html(model.Ferroso);
-                $("#lblFecha").html(moment(model.Fecha).format("YYYY-MM-DD")); 
-                $("#lblNoFerroso").html(model.NoFerroso);
-                $("#lblAceroInoxidable").html(model.AceroInoxidable);
-                $("#pObservacion").html(model.Observacion);
-                $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
-                $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));
-                $("#txtUsuarioAprobacion").html(model.UsuarioAprobacion);
-                $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("YYYY-MM-DD"));
-                $("#txtCodDetectorMetal").val(model.DetectorMetal);
-                
 
-                CargarControlDetalle();
-                CargarControlDetalle2();
-            }
+    $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
+    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));
+    $("#txtUsuarioAprobacion").html(model.UsuarioAprobacion);
+    $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("YYYY-MM-DD"));
+    $("#txtCodDetectorMetal").val(model.DetectorMetal);
 
-        },
-        error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas," + resultado, false);
-        }
-    });
+
+    CargarControlDetalle();
+    CargarControlDetalle2();
 }
 
 function Atras() {
@@ -133,7 +113,7 @@ function CargarControlDetalle() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                $("#divTableDetalle").html("No existen registros");
+                $("#divTableDetalle").html(Mensajes.SinRegistros);
                 $("#spinnerCargandoDetalle").prop("hidden", true);
             } else {
                 $("#spinnerCargandoDetalle").prop("hidden", true);
@@ -144,7 +124,7 @@ function CargarControlDetalle() {
             }
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error + resultado.responseText, false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });
@@ -166,7 +146,7 @@ function CargarControlDetalle2() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                $("#divTableDetalle2").html("<div class='text-center'>No existen registros</div>");
+                $("#divTableDetalle2").html("<div class='text-center'>" + Mensajes.SinRegistros + "</div>");
                 $("#spinnerCargandoDetalle2").prop("hidden", true);
             } else {
                 $("#spinnerCargandoDetalle2").prop("hidden", true);
@@ -177,7 +157,7 @@ function CargarControlDetalle2() {
             }
         },
         error: function (resultado) {
-            MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
+            MensajeError(Mensajes.Error + resultado.responseText, false);
             $("#spinnerCargandoDetalle2").prop("hidden", true);
         }
     });
@@ -291,6 +271,8 @@ $(function () {
     FiltrarAprobadosFecha();
 });
 
+
+
 function printDiv() {
     window.print();
-   }
+}

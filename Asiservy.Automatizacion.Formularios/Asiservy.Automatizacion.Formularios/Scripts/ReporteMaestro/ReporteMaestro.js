@@ -388,7 +388,7 @@ function EditarReporteDetalle(model) {
     var previewZone = document.getElementById('file-preview-zone');
     previewZone.appendChild(filePreview);
  
-     $("#file-preview").addClass("img");
+    $("#file-preview").addClass("img");
     $('#file-preview').rotate(model.Rotacion);
     document.getElementById("file-preview").style.height = "0px";
     document.getElementById("file-preview").style.width = "0px";

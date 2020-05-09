@@ -43,7 +43,7 @@
         width: 100%;
     }
 </style>
-<h4>Operatividad Detector de Metal</h4>
+<h4>Operatividad Detector de Metal <label id="lblAprobadoPendiente" class="badge"> </label> </h4>
 
 <hr />
 <div class="card shadow" id="divCabecera" style="padding:10px">
@@ -60,7 +60,7 @@
             <label class="">Acción</label>
             <div class="form-group">
                 @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
-                <button hidden data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnGenerar" onclick="AbrirModal()" style="border-color:#2c3e50" type="button">
+                <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="AbrirModal()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/add24.png" />
                 </button>
 

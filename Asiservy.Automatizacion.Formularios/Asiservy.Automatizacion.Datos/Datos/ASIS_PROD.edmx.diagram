@@ -157,8 +157,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CUCHILLO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS" Width="1.5" PointX="8.75" PointY="35" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="35.75" PointY="36.375" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_COCHE_LINEA" Width="1.5" PointX="16.375" PointY="11.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Width="1.5" PointX="3.75" PointY="35.25" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
@@ -187,6 +185,9 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_HIGIENE_COMEDOR_COCINA_CTRL_DET" Width="1.5" PointX="5.625" PointY="39.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_COMEDOR_COCINA_CTRL_DET_CC_HIGIENE_COMEDOR_COCINA_CTRL" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_HIGIENE_COMEDOR_COCINA_CTRL_DET_CC_HIGIENE_COMEDOR_COCINA_MANT" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" Width="1.5" PointX="39.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="35.75" PointY="36.625" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

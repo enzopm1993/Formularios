@@ -14,11 +14,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
     public class CondicionPersonalController : Controller
     {
         // GET: CondicionPersonal
-        string[] lsUsuario = null;
-        clsDError clsDError = null;
-        clsDClasificador clsDClasificador = null;
-        //clsDEmpleado clsDEmpleado = null;
-        clsDCondicionPersonal clsDCondicionPersonal = null;
+        private clsDCondicionPersonal clsDCondicionPersonal { get; set; } = null;
+        private clsDClasificador ClsDClasificador { get; set; } = null;
+        private clsDError clsDError { get; set; } = null;
+        private string[] lsUsuario { get; set; } = null;
 
         public ActionResult Prueba()
         {
@@ -33,7 +32,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                //  ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 return View();
             }
@@ -68,8 +66,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 var model = clsDCondicionPersonal.ConsultaManteminetoCondicion();
                 if (!model.Any())
                 {
@@ -110,7 +106,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 }
 
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                //model.EstadoRegistro = model.EstadoRegistro;
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
@@ -150,8 +145,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                clsDClasificador = new clsDClasificador();
-                ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
+                ClsDClasificador = new clsDClasificador();
+                ViewBag.Lineas = ClsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
                 ViewBag.Condiciones = clsDCondicionPersonal.ConsultaManteminetoCondicion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 lsUsuario = User.Identity.Name.Split('_');
                 return View();
@@ -307,7 +302,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 ViewBag.dataTableJS = "1";
                // ViewBag.select2 = "1";
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                clsDClasificador = new clsDClasificador();
+                ClsDClasificador = new clsDClasificador();
                // ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
                 ViewBag.Condiciones = clsDCondicionPersonal.ConsultaManteminetoCondicion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 lsUsuario = User.Identity.Name.Split('_');
