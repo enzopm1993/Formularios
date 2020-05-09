@@ -48,8 +48,26 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
             }
         }
 
+        public bool ValidaOpertatividadMetal(CC_OPERATIVIDAD_METAL model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var poControl = entities.CC_OPERATIVIDAD_METAL.FirstOrDefault(x => x.IdOperatividadMetal == model.IdOperatividadMetal
+                                || (x.Fecha == model.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
 
-        public void GuardarModificarOperatividadMetal(CC_OPERATIVIDAD_METAL model)
+                if (poControl != null && poControl.EstadoReporte==clsAtributos.EstadoReporteActivo)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
+
+            public void GuardarModificarOperatividadMetal(CC_OPERATIVIDAD_METAL model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
@@ -207,15 +225,27 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.OperatividadMe
             {
                 return entities.CC_OPERATIVIDAD_METAL.Where(x => x.Fecha >= FechaDesde
                                                                          && x.Fecha <= FechaHasta
-                                                                && x.EstadoReporte == Estado).ToList();
+                                                                && x.EstadoReporte == Estado
+                                                                && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
+
+        public List<CC_OPERATIVIDAD_METAL> ConsultaOperatividadMetalControl(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.CC_OPERATIVIDAD_METAL.Where(x => x.Fecha >= FechaDesde
+                                                                         && x.Fecha <= FechaHasta
+                                                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
+            }
+        }
+
 
         public List<CC_OPERATIVIDAD_METAL> ConsultaOperatividadMetalControlPendiente()
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                return entities.CC_OPERATIVIDAD_METAL.Where(x => x.EstadoReporte == false).ToList();
+                return entities.CC_OPERATIVIDAD_METAL.Where(x => x.EstadoReporte == false && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
             }
         }
 
