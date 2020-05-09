@@ -103,7 +103,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
             using (var db = new ASIS_PRODEntities())
             {
                 object[] resultado = new object[3];
-                var buscarDetalle = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Where(x => x.Hora == poDetalleControl.Hora).FirstOrDefault();
+                var buscarDetalle = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Where(x => x.Hora == poDetalleControl.Hora&&poDetalleControl.IdCabeceraEvaluacionLomosYMigasEnBandeja==x.IdCabeceraEvaluacionLomosYMigasEnBandeja).FirstOrDefault();
                 if (buscarDetalle == null)
                 {
                     db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Add(poDetalleControl);
@@ -127,7 +127,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
             {
                 object[] resultado = new object[3];
                 
-                var buscarabecera = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(poDetalleControl.IdDetalleEvaluacionLomoyMigasEnBandeja);
+                var buscarabecera = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(poDetalleControl.IdCabeceraEvaluacionLomosYMigasEnBandeja);
                 if (buscarabecera.EstadoControl == true)
                 {
                     resultado[0] = "003";
@@ -204,7 +204,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 buscarCabecera.AprobadoPor = usuario;
                 buscarCabecera.FechaAprobacion = DateTime.Now;
                 buscarCabecera.EstadoControl = true;
-                buscarCabecera.FirmaAprobacion = firma;
+                //buscarCabecera.FirmaAprobacion = firma;
                 db.SaveChanges();
            
                 return "El control ha sido aprobado";
@@ -346,14 +346,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 }
                 else
                 {
-                    if (Tipo == "Control")
-                    {
-                        buscarControl.FirmaControl = firma;
-                    }
-                    else
-                    {
-                        buscarControl.FirmaAprobacion = firma;
-                    }
+                    //if (Tipo == "Control")
+                    //{
+                    //    buscarControl.FirmaControl = firma;
+                    //}
+                    //else
+                    //{
+                    //    buscarControl.FirmaAprobacion = firma;
+                    //}
                     buscarControl.FechaModificacionLog = DateTime.Now;
                     buscarControl.UsuarioModificacionLog = Usuario;
                     buscarControl.TerminalModificacionLog = Terminal;
@@ -362,24 +362,24 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 }
             }
         }
-        public byte[] ConsultarFirmaControl(int IdCabecera)
-        {
-            using (var db = new ASIS_PRODEntities())
-            {
-                var buscarControl = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(IdCabecera);
-                return buscarControl.FirmaControl;
-            }
-        }
-        public object[] ConsultarFirmaAprobacion(int IdCabecera)
-        {
-            using (var db = new ASIS_PRODEntities())
-            {
-                var buscarControl = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(IdCabecera);
-                object[] resultado = new object[2];
-                resultado[0] = buscarControl.FirmaAprobacion;
-                resultado[1] = buscarControl.EstadoControl;
-                return resultado;
-            }
-        }
+        //public byte[] ConsultarFirmaControl(int IdCabecera)
+        //{
+        //    using (var db = new ASIS_PRODEntities())
+        //    {
+        //        var buscarControl = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(IdCabecera);
+        //        return buscarControl.FirmaControl;
+        //    }
+        //}
+        //public object[] ConsultarFirmaAprobacion(int IdCabecera)
+        //{
+        //    using (var db = new ASIS_PRODEntities())
+        //    {
+        //        var buscarControl = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(IdCabecera);
+        //        object[] resultado = new object[2];
+        //        resultado[0] = buscarControl.FirmaAprobacion;
+        //        resultado[1] = buscarControl.EstadoControl;
+        //        return resultado;
+        //    }
+        //}
     }
 }

@@ -76,10 +76,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                ViewBag.MaskedInput = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                ViewBag.select2 = "1";
-                ViewBag.FirmaPad = "1";
+                //ViewBag.select2 = "1";
+                //ViewBag.FirmaPad = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDMantenimientoOlor = new clsDMantenimientoOlor();
                 clsDMantenimientoTextura = new clsDMantenimientoTextura();
@@ -621,96 +622,96 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
 
         }
-        public JsonResult ConsultarFirma(int IdCabecera)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
+        //public JsonResult ConsultarFirma(int IdCabecera)
+        //{
+        //    try
+        //    {
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        if (string.IsNullOrEmpty(lsUsuario[0]))
+        //        {
+        //            return Json("101", JsonRequestBehavior.AllowGet);
+        //        }
 
 
-                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
-                var resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarFirmaControl(IdCabecera);
+        //        clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+        //        var resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarFirmaControl(IdCabecera);
                 
-                if (resultado != null)
-                {
-                    var base64 = Convert.ToBase64String(resultado);
-                    var imagenfirma = String.Format("data:image/png;base64,{0}", base64);
-                    return Json(imagenfirma, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public JsonResult ConsultarFirmaAprobacion(int IdCabecera)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
+        //        if (resultado != null)
+        //        {
+        //            var base64 = Convert.ToBase64String(resultado);
+        //            var imagenfirma = String.Format("data:image/png;base64,{0}", base64);
+        //            return Json(imagenfirma, JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            return Json("0", JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+        //public JsonResult ConsultarFirmaAprobacion(int IdCabecera)
+        //{
+        //    try
+        //    {
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        if (string.IsNullOrEmpty(lsUsuario[0]))
+        //        {
+        //            return Json("101", JsonRequestBehavior.AllowGet);
+        //        }
 
 
-                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
-                var resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarFirmaAprobacion(IdCabecera);
+        //        clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+        //        var resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarFirmaAprobacion(IdCabecera);
 
-                if (resultado[0] != null)
-                {
-                    var base64 = Convert.ToBase64String(resultado[0] as byte[]);
-                    var imagenfirma = String.Format("data:image/png;base64,{0}", base64);
-                    return Json(imagenfirma, JsonRequestBehavior.AllowGet);
-                }
-                else if (Convert.ToBoolean(resultado[1])&&(resultado[0] ==null)){
-                    return Json("000", JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        if (resultado[0] != null)
+        //        {
+        //            var base64 = Convert.ToBase64String(resultado[0] as byte[]);
+        //            var imagenfirma = String.Format("data:image/png;base64,{0}", base64);
+        //            return Json(imagenfirma, JsonRequestBehavior.AllowGet);
+        //        }
+        //        else if (Convert.ToBoolean(resultado[1])&&(resultado[0] ==null)){
+        //            return Json("000", JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            return Json("0", JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
     }
 }

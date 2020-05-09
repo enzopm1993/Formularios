@@ -2,6 +2,13 @@
 var Error = 0;
 var IdCabecera = 0;
 var IdDetalle = 0;
+$(document).ready(function () {
+    $('#txtVenas').mask("9?9");
+    $('#txtEspinas').mask("9?9");
+    $('#txtSangre').mask("9?9");
+    $('#txtEscamas').mask("9?9");
+    $('#txtPiel').mask("9?9");
+});
 function LLenarComboOrdenes(orden) {
     Error = 0;
     //$('#txtProducto').val('');
@@ -143,9 +150,10 @@ function ConsultarCabControl() {
         //console.log(resultado);
         $('#txtFechaProduccion').prop('disabled', true);
 
-        LLenarComboOrdenes(resultado.OrdenFabricacion);
+        //LLenarComboOrdenes(resultado.OrdenFabricacion);
         //$("#cmbTurno").val("2");
         if (resultado != "0") {
+            LLenarComboOrdenes(resultado.OrdenFabricacion);
             $('#mensajeRegistros').prop('hidden', true);
             IdCabecera = resultado.IdEvaluacionDeLomosYMigasEnBandejas;
             $('#cmbOrdeneFabricacion').val(resultado.OrdenFabricacion);
@@ -166,9 +174,11 @@ function ConsultarCabControl() {
                 $('#Pouch').prop('checked', true);
             }
             if (resultado.EstadoControl == true) {
-                $('#EtiquetaEstadoControl').html('<text class="text-success">(Aprobado)</text>');
+                $("#estadocontrol").removeClass("badge-danger").addClass("badge-success");
+                $('#estadocontrol').text(Mensajes.Aprobado);
             } else {
-                $('#EtiquetaEstadoControl').html('<text class="text-warning">(Pendiente)</text>');
+                $("#estadocontrol").removeClass("badge-success").addClass("badge-danger");
+                $('#estadocontrol').text(Mensajes.Pendiente);
             }
             $('#cmbNivelLimpieza').val(resultado.NivelLimpieza);
             $('#Observacion').val(resultado.Observacion);
@@ -177,8 +187,14 @@ function ConsultarCabControl() {
             LlenarComboLotes(resultado.OrdenFabricacion);
             //ConsultarDetalleControl();
             ConsultarDetalleControl();
+            SlideCabecera();
         } else {
+            LLenarComboOrdenes();
+            $('#brespacio').remove();
+            $('#DivCabecera').after('<br id="brespacio">');
             $('#mensajeRegistros').prop('hidden', false);
+            $('#mensajeRegistros').text(Mensajes.SinRegistros);
+            
         }
     }
         $('#btnCargando').prop('hidden', true);
@@ -263,12 +279,15 @@ function GuardarCabceraControl() {
             window.location.reload();
         }
         if (Error == 0) {
-            IdCabecera = resultado[2].IdCabProdPouchCuarentena;
+            IdCabecera = resultado[2].IdEvaluacionDeLomosYMigasEnBandejas;
             if (resultado[0] == "002") {
                 MensajeAdvertencia(resultado[1]);
             } else {
                 MensajeCorrecto(resultado[1]);
+                $('#brespacio').remove();
+                $('#mensajeRegistros').text('');
                 $('#CardDetalle').prop('hidden', false);
+                SlideCabecera();
             }
 
         }
@@ -292,6 +311,7 @@ function LimpiarControles() {
     IdCabecera = 0;
     Error = 0;
     IdDetalle = 0;
+    $('#cmbNivelLimpieza').prop('selectedIndex',0);
     $('#EtiquetaEstadoControl').html('');
     $('#txtFechaProduccion').val('');
     $('#cmbOrdeneFabricacion').empty();
@@ -564,7 +584,7 @@ function ConsultarDetalleControl() {
                 config.opcionesDT.pageLength = 10;
                 $('#TableDetalle').DataTable(config.opcionesDT);
                 LimpiarDetalleControles();
-                ConsultarFirma();
+                //ConsultarFirma();
                
             } else {
                 $('#DivDetalles').empty();
@@ -700,117 +720,116 @@ function EliminarDetalle() {
 
         })
 }
-function GuardarFirma() {
-    var canvas = document.getElementById("firmacanvas");
-    var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
-    var formData = new FormData();
-    formData.append('imagen', image);
-    formData.append('IdCabecera', IdCabecera);
-    formData.append('Tipo', 'Control');
-    $.ajax({
-        type: 'POST',
-        url: '/EvaluacionDeLomoyMigaEnBandeja/GuardarImagenFirma',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (result) {
-            if (result == "101") {
-                window.location.reload();
-            }
-            //console.log(result);
-            //$('#div_ImagenFirma').empty();
-            $('#div_ImagenFirma').prop('hidden', false);
-            //var img = $('<img />', { id: 'Myid', src: result, alt: 'MyAlt', width: '400px', height: '200px' }).appendTo($('#div_ImagenFirma'));
-            document.getElementById('ImgFirma').src = result;
-            $('#signature-pad').prop('hidden', true);
-            MensajeCorrecto("Firma ingresada Correctamente");
-        }
-    });
+function SlideCabecera() {
+    $("#DivCabecera").slideToggle("fast");
 }
-function ConsultarFirma() {
-    $.ajax({
-        url: "../EvaluacionDeLomoyMigaEnBandeja/ConsultarFirma",
-        type: "GET",
-        data: {
-            IdCabecera: IdCabecera
-        },
-        success: function (resultado) {
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado != '0') {
-                document.getElementById('ImgFirma').src = resultado;
-                $('#div_ImagenFirma').prop('hidden', false);
-                $('#signature-pad').prop('hidden', true);
-            } else {
-                $('#signature-pad').prop('hidden', false);
-            }
-        },
-        error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
+//function GuardarFirma() {
+//    var canvas = document.getElementById("firmacanvas");
+//    var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
+//    var formData = new FormData();
+//    formData.append('imagen', image);
+//    formData.append('IdCabecera', IdCabecera);
+//    formData.append('Tipo', 'Control');
+//    $.ajax({
+//        type: 'POST',
+//        url: '/EvaluacionDeLomoyMigaEnBandeja/GuardarImagenFirma',
+//        data: formData,
+//        processData: false,
+//        contentType: false,
+//        success: function (result) {
+//            if (result == "101") {
+//                window.location.reload();
+//            }
+//            //console.log(result);
+//            //$('#div_ImagenFirma').empty();
+//            $('#div_ImagenFirma').prop('hidden', false);
+//            //var img = $('<img />', { id: 'Myid', src: result, alt: 'MyAlt', width: '400px', height: '200px' }).appendTo($('#div_ImagenFirma'));
+//            document.getElementById('ImgFirma').src = result;
+//            $('#signature-pad').prop('hidden', true);
+//            MensajeCorrecto("Firma ingresada Correctamente");
+//        }
+//    });
+//}
+//function ConsultarFirma() {
+//    $.ajax({
+//        url: "../EvaluacionDeLomoyMigaEnBandeja/ConsultarFirma",
+//        type: "GET",
+//        data: {
+//            IdCabecera: IdCabecera
+//        },
+//        success: function (resultado) {
+//            if (resultado == "101") {
+//                window.location.reload();
+//            }
+//            if (resultado != '0') {
+//                document.getElementById('ImgFirma').src = resultado;
+//                $('#div_ImagenFirma').prop('hidden', false);
+//                $('#signature-pad').prop('hidden', true);
+//            } else {
+//                $('#signature-pad').prop('hidden', false);
+//            }
+//        },
+//        error: function (resultado) {
+//            MensajeError("Error: Comuníquese con sistemas", false);
             
-        }
-    });
-}
-function VolverAFirmar() {
-    $('#div_ImagenFirma').prop('hidden', true);
-    $('#signature-pad').prop('hidden', false);
-}
+//        }
+//    });
+//}
+//function VolverAFirmar() {
+//    $('#div_ImagenFirma').prop('hidden', true);
+//    $('#signature-pad').prop('hidden', false);
+//}
+
 
 //prueba api firma
 
 
-var clearButton = wrapper.querySelector("[data-action=clear]");
-//var changeColorButton = wrapper.querySelector("[data-action=change-color]");
-//var undoButton = wrapper.querySelector("[data-action=undo]");
-//var savePNGButton = wrapper.querySelector("[data-action=save-png]");
-//var saveJPGButton = wrapper.querySelector("[data-action=save-jpg]");
-//var saveSVGButton = wrapper.querySelector("[data-action=save-svg]");
+//var clearButton = wrapper.querySelector("[data-action=clear]");
 
-var canvas = document.querySelector("canvas");
 
-var signaturePad = new SignaturePad(canvas);
-signaturePad.on();
+//var canvas = document.querySelector("canvas");
 
-function download(dataURL, filename) {
-    if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
-        window.open(dataURL);
-    } else {
-        var blob = dataURLToBlob(dataURL);
-        var url = window.URL.createObjectURL(blob);
+//var signaturePad = new SignaturePad(canvas);
+//signaturePad.on();
 
-        var a = document.createElement("a");
-        a.style = "display: none";
-        a.href = url;
-        a.download = filename;
+//function download(dataURL, filename) {
+//    if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
+//        window.open(dataURL);
+//    } else {
+//        var blob = dataURLToBlob(dataURL);
+//        var url = window.URL.createObjectURL(blob);
 
-        document.body.appendChild(a);
-        a.click();
+//        var a = document.createElement("a");
+//        a.style = "display: none";
+//        a.href = url;
+//        a.download = filename;
 
-        window.URL.revokeObjectURL(url);
-    }
-}
+//        document.body.appendChild(a);
+//        a.click();
 
-// One could simply use Canvas#toBlob method instead, but it's just to show
-// that it can be done using result of SignaturePad#toDataURL.
-function dataURLToBlob(dataURL) {
-    // Code taken from https://github.com/ebidel/filer.js
-    var parts = dataURL.split(';base64,');
-    var contentType = parts[0].split(":")[1];
-    var raw = window.atob(parts[1]);
-    var rawLength = raw.length;
-    var uInt8Array = new Uint8Array(rawLength);
+//        window.URL.revokeObjectURL(url);
+//    }
+//}
 
-    for (var i = 0; i < rawLength; ++i) {
-        uInt8Array[i] = raw.charCodeAt(i);
-    }
 
-    return new Blob([uInt8Array], { type: contentType });
-}
+//function dataURLToBlob(dataURL) {
+//    // Code taken from https://github.com/ebidel/filer.js
+//    var parts = dataURL.split(';base64,');
+//    var contentType = parts[0].split(":")[1];
+//    var raw = window.atob(parts[1]);
+//    var rawLength = raw.length;
+//    var uInt8Array = new Uint8Array(rawLength);
 
-clearButton.addEventListener("click", function (event) {
-    signaturePad.clear();
-});
+//    for (var i = 0; i < rawLength; ++i) {
+//        uInt8Array[i] = raw.charCodeAt(i);
+//    }
+
+//    return new Blob([uInt8Array], { type: contentType });
+//}
+
+//clearButton.addEventListener("click", function (event) {
+//    signaturePad.clear();
+//});
 
 
 // fin prueba api firma
