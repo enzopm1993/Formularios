@@ -6,6 +6,11 @@ $(document).ready(function () {
 });
 function CargarCabecera(op) {
     $('#cargac').show();
+    if ($('#txtFecha').val() == '') {
+        MensajeAdvertencia('Fecha invalida');
+        $('#cargac').hide();
+        return;
+    }
     $.ajax({
         url: "../LavadoCisterna/LavadoCisternaPartial",
         data: {

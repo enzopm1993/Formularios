@@ -7,9 +7,11 @@ $(document).ready(function () {
 });
 
 function CargarCabecera(opcion) {
-    $('#cargac').show();
+    $('#cargac').show();    
     var op = opcion;
     if ($("#txtFecha").val() == '') {
+        MensajeAdvertencia('Fecha invalida');
+        $('#cargac').hide();
         return;
     } else {
         $.ajax({

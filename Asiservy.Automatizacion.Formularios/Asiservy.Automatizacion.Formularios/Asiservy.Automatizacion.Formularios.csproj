@@ -3912,6 +3912,7 @@
     <Content Include="Views\HigieneComedorCocina\ReporteHigieneComedorCocina.cshtml" />
     <Content Include="Views\HigieneComedorCocina\ReporteHigieneComedorCocinaPartail.cshtml" />
     <Content Include="Views\HigieneComedorCocina\PdfReporteHigieneComedorCocinaPartail.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\ReporteHigieneComedorCocinaPartailCabecera.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
