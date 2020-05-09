@@ -3523,7 +3523,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
@@ -3912,6 +3914,7 @@
     <Content Include="Views\HigieneComedorCocina\ReporteHigieneComedorCocina.cshtml" />
     <Content Include="Views\HigieneComedorCocina\ReporteHigieneComedorCocinaPartail.cshtml" />
     <Content Include="Views\HigieneComedorCocina\PdfReporteHigieneComedorCocinaPartail.cshtml" />
+    <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3947,6 +3950,12 @@
   <ItemGroup>
     <EmbeddedResource Include="AspxReportesRdlc\Rpt_CC_Cuchillos.rdlc" />
     <EmbeddedResource Include="AspxReportesRdlc\Report1.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.6.1.17183\analyzers\Google.Protobuf.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.6.1.17183\analyzers\SonarAnalyzer.CFG.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.6.1.17183\analyzers\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.6.1.17183\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
