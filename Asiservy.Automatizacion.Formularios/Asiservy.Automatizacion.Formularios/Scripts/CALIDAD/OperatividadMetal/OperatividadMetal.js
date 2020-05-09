@@ -10,10 +10,10 @@ function ConsultarControl() {
     $("#divMensaje").html('');
     $("#divDetalle").prop("hidden", true);
     $("#divDetalle2").prop("hidden", true);
-    $("#btnGenerar").prop("hidden", false);
+    $("#btnGenerar").prop("disabled", false);
     $("#btnEditar").prop("hidden", true);
     $("#btnEliminar").prop("hidden", true);
-
+    $("#lblAprobadoPendiente").html('');
     if ($("#txtFecha").val() == "") {
         $("#txtFecha").css('borderColor', '#FA8072');
         return;
@@ -40,9 +40,10 @@ function ConsultarControl() {
                 $("#txtAceroInoxidable").val('');
                 $("#txtCodDetectorMetal").val('');
                 $("#txtObservacion").val('');
-                $("#btnGenerar").prop("hidden", true);
-
-                $("#divMensaje").html("<h3 class='text-info'>CONTROL SE ENCUENTRA APROBADO</h3>");
+                $("#btnGenerar").prop("disabled", true);
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                //$("#divMensaje").html("<h3 class='text-info'>CONTROL SE ENCUENTRA APROBADO</h3>");
             } else
             if (resultado == "0") {               
                 $("#txtPcc").val('');
@@ -54,7 +55,7 @@ function ConsultarControl() {
                 $("#txtAceroInoxidable").val('');
                 $("#txtCodDetectorMetal").val('');
                 $("#txtObservacion").val('');
-                $("#divMensaje").html("<h3 class='text-warning'>NO SE HA GENERADO EL CONTROL</h3>");
+                $("#divMensaje").html("<h3 class='text-warning'>"+Mensajes.SinRegistros+"</h3>");
             } else {
                 //$("#txtPcc").prop("disabled", true);
                 //$("#txtCodDetectorMetal").prop("disabled", true);
@@ -64,7 +65,7 @@ function ConsultarControl() {
                 $("#divDetalle2").prop("hidden", false);
                 $("#btnEditar").prop("hidden", false);
                 $("#btnEliminar").prop("hidden", false);
-                $("#btnGenerar").prop("hidden", true);
+                $("#btnGenerar").prop("disabled", true);
                 //console.log(resultado);
                 $("#txtPcc").val(resultado.Pcc);
                 $("#txtIdControl").val(resultado.IdOperatividadMetal);
@@ -75,6 +76,8 @@ function ConsultarControl() {
                 $("#txtAceroInoxidable").val(resultado.AceroInoxidable);
                 $("#txtCodDetectorMetal").val(resultado.DetectorMetal);
                 $("#txtObservacion").val(resultado.Observacion);
+                $("#lblAprobadoPendiente").removeClass("badge-info").addClass("badge-danger");
+                $("#lblAprobadoPendiente").html(Mensajes.Pendiente);
                 CargarControlDetalle();
                 CargarControlDetalle2();
               //  console.log(resultado);
@@ -82,8 +85,8 @@ function ConsultarControl() {
             }
                
         },
-            error: function (resultado) {
-                MensajeError("Error: Comuníquese con sistemas," + resultado, false);
+        error: function (resultado) {
+            MensajeError(Mensajes.Error + resultado, false);
         }
     });
 }
@@ -162,15 +165,19 @@ function GenerarControl() {
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
-            }else {
+            } else if (resultado == "1") {
                 $("#ModalCabecera").modal("hide");
-                MensajeCorrecto("Registro Exitoso");
+                MensajeCorrecto("Control ya se encuentra Aprobado.");
+                return;
+            } else {
+                $("#ModalCabecera").modal("hide");
+                MensajeCorrecto("Registro Exitoso.");
                 ConsultarControl();
             }
 
         },
         error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas," + resultado, false);
+            MensajeError(Mensajes.Error + resultado, false);
         }
     });
 }
@@ -194,7 +201,7 @@ function InactivarControl() {
             MensajeCorrecto("Control Eliminado con Exito");
         },
         error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas,"+resultado.responseText, false);
+            MensajeError(Mensajes.Error+resultado.responseText, false);
         }
     });
 }
@@ -231,7 +238,7 @@ function CargarControlDetalle() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                $("#divTableDetalle").html("No existen registros");
+                $("#divTableDetalle").html(Mensajes.SinRegistros);
                 $("#spinnerCargandoDetalle").prop("hidden", true);
             } else {
                 $("#spinnerCargandoDetalle").prop("hidden", true);
@@ -242,7 +249,7 @@ function CargarControlDetalle() {
             }
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error+resultado.responseText, false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });
@@ -306,7 +313,7 @@ function GenerarControlDetalle() {
             $("#ModalGenerarControlDetalle").modal("hide");
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error+ resultado.responseText, false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });
@@ -345,7 +352,7 @@ function InactivarControlDetalle() {
             $("#modalEliminarControl").modal("hide");
         },
         error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas," +resultado.responseText, false);
+            MensajeError(Mensajes.Error +resultado.responseText, false);
             $('#btnConsultar').prop("disabled", false);
             $("#spinnerCargando").prop("hidden", true);
         }
@@ -388,7 +395,7 @@ function CargarControlDetalle2() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                $("#divTableDetalle2").html("No existen registros");
+                $("#divTableDetalle2").html(Mensajes.SinRegistros);
                 $("#spinnerCargandoDetalle2").prop("hidden", true);
             } else {
                 $("#spinnerCargandoDetalle2").prop("hidden", true);
@@ -399,7 +406,7 @@ function CargarControlDetalle2() {
             }
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error +resultado.responseText, false);
             $("#spinnerCargandoDetalle2").prop("hidden", true);
         }
     });
@@ -465,7 +472,7 @@ function GenerarControlDetalle2() {
             $("#ModalGenerarControlDetalle2").modal("hide");
         },
         error: function (resultado) {
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error +resultado.responseText, false);
             $("#spinnerCargandoDetalle2").prop("hidden", true);
         }
     });
@@ -486,7 +493,7 @@ function EditarConsumoInsumoDetalle2(id, novedad, imagen, Rotacion) {
         previewZone.appendChild(filePreview);
 
         $("#file-preview").addClass("img");
-        $('#file-preview').rotate(Rotacion);
+        $('#file-preview').rotate(parseInt(Rotacion));
         document.getElementById("file-preview").style.height = "0px";
         document.getElementById("file-preview").style.width = "0px";
 
@@ -506,7 +513,6 @@ function EditarConsumoInsumoDetalle2(id, novedad, imagen, Rotacion) {
 
         }
         img.src = "/Content/Img/" + imagen;
-
 
     } else {
         $("#ModalGenerarControlDetalle2").modal("show");
@@ -533,7 +539,7 @@ function InactivarControlDetalle2() {
             $("#modalEliminarControl").modal("hide");
         },
         error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas," + resultado.responseText, false);
+            MensajeError(Mensajes.Error + resultado.responseText, false);
          //   $('#btnConsultar').prop("disabled", false);
             $("#modalEliminarControl").modal("hide");
            // $("#spinnerCargando").prop("hidden", true);
