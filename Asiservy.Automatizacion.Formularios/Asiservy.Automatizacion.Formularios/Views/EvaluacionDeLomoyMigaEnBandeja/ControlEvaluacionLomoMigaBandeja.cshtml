@@ -1,7 +1,11 @@
 ﻿@model Asiservy.Automatizacion.Datos.Datos.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
 
 <style>
-
+    #divmin {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        background-color: #00447A;
+    }
     textarea {
         resize: none;
     }
@@ -59,16 +63,18 @@
         border: 1px solid black;
     }*/
 </style>
-<h4>Evaluación de lomos y migas en bandejas</h4><h4 id="EtiquetaEstadoControl" class="text-warning"></h4>
+<h4>Evaluación de lomos y migas en bandejas <label class="badge badge-danger badge-pill" id="estadocontrol" style="font-size:1rem"></label></h4>
 <hr />
 
-
-<div class="card">
+<div class="card" id="divmin" style="cursor:pointer" onclick="SlideCabecera()">
+    <center><i class="fas fa-arrow-alt-circle-down"></i></center>
+</div>
+<div class="card" id="DivCabecera">
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
                 Fecha de producción:
-                <input type="date" class="form-control" id="txtFechaProduccion" onchange="LLenarComboOrdenes()" />
+                <input type="date" class="form-control" id="txtFechaProduccion" onchange="ConsultarCabControl()" />
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
@@ -154,9 +160,9 @@
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Espere...
             </button>
-            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+            @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/ver24.png" />
-            </button>
+            </button>*@
             <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabceraControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/save20.png" />
             </button>
@@ -288,31 +294,31 @@
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label>Venas</label>
-                                <input type="number" id="txtVenas" class="form-control" />
+                                <input type="text" id="txtVenas" class="form-control" />
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label>Espinas</label>
-                                <input type="number" id="txtEspinas" class="form-control" />
+                                <input type="text" id="txtEspinas" class="form-control" />
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label>Sangre</label>
-                                <input type="number" id="txtSangre" class="form-control" />
+                                <input type="text" id="txtSangre" class="form-control" />
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6">
                             <div class="form-group">
                                 <label>Escamas</label>
-                                <input type="number" id="txtEscamas" class="form-control" />
+                                <input type="text" id="txtEscamas" class="form-control" />
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6">
                             <div class="form-group">
                                 <label>Piel</label>
-                                <input type="number" id="txtPiel" class="form-control" />
+                                <input type="text" id="txtPiel" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -353,7 +359,7 @@
             <center> <input type="button" class="btn btn-primary"  value="LimpiarFirma" onclick="BorrarFirma()"/> </center>
         </div>*@
     <br />
-    <div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
+    @*<div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
         <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
 
         <div>
@@ -370,7 +376,7 @@
         <div>
             <center> <button type="button" class="btn btn-primary" onclick="VolverAFirmar()">Rehacer Firma</button></center>
         </div>
-    </div>
+    </div>*@
 
 </div>
 
