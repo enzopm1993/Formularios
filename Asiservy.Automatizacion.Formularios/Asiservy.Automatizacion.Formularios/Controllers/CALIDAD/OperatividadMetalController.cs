@@ -524,7 +524,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDOperatividadMetal = new clsDOperatividadMetal();
-                model.FechaAprobacion = DateTime.Now;
+                //model.FechaAprobacion = DateTime.Now;
                 model.AprobadoPor = lsUsuario[0];
                 model.EstadoReporte = clsAtributos.EstadoReporteActivo;
 
