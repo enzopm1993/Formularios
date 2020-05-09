@@ -145,6 +145,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
                 
                 var model = clsDControlConsumoInsumo.ConsultaControlConsumoInsumo(Fecha,LineaNegocio,Turno);
+
+                
+
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
