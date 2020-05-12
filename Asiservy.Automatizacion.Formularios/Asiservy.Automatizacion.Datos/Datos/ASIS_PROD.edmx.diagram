@@ -188,6 +188,7 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_OPCION_ROL_OPCION" />
         <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_MAESTRO" Width="1.5" PointX="10.625" PointY="39.5" />
         <AssociationConnector Association="ASIS_PRODModel.FK_REPORTE_MAESTRO_OPCION" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PEDILUVIO" Width="1.5" PointX="0.75" PointY="11.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

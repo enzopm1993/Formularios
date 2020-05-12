@@ -156,6 +156,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA> CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA { get; set; }
         public virtual DbSet<OPCION> OPCION { get; set; }
         public virtual DbSet<REPORTE_MAESTRO> REPORTE_MAESTRO { get; set; }
+        public virtual DbSet<CC_MANTENIMIENTO_PEDILUVIO> CC_MANTENIMIENTO_PEDILUVIO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2096,18 +2097,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCodigoReporte>("spConsultaCodigoReporte", reporteParameter);
         }
     
-        public virtual ObjectResult<spReporteEvaluacionLomosMigasBandeja> spReporteEvaluacionLomosMigasBandeja(Nullable<System.DateTime> fechaProduccion)
-        {
-            var fechaProduccionParameter = fechaProduccion.HasValue ?
-                new ObjectParameter("FechaProduccion", fechaProduccion) :
-                new ObjectParameter("FechaProduccion", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionLomosMigasBandeja>("spReporteEvaluacionLomosMigasBandeja", fechaProduccionParameter);
-        }
-    
         public virtual ObjectResult<spConsultaReporteMaestro> spConsultaReporteMaestro()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteMaestro>("spConsultaReporteMaestro");
+        }
+    
+        public virtual ObjectResult<spReporteEvaluacionLomosMigasBandeja> spReporteEvaluacionLomosMigasBandeja(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionLomosMigasBandeja>("spReporteEvaluacionLomosMigasBandeja", idParameter);
         }
     }
 }
