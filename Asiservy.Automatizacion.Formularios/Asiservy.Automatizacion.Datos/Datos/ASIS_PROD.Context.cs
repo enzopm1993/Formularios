@@ -38,7 +38,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<BITACORA_SOLICITUD> BITACORA_SOLICITUD { get; set; }
         public virtual DbSet<ERROR> ERROR { get; set; }
         public virtual DbSet<CLASIFICADOR> CLASIFICADOR { get; set; }
-        public virtual DbSet<OPCION> OPCION { get; set; }
         public virtual DbSet<BITACORA_CAMBIO_PERSONAL> BITACORA_CAMBIO_PERSONAL { get; set; }
         public virtual DbSet<CUCHILLO> CUCHILLO { get; set; }
         public virtual DbSet<EMPLEADO_CUCHILLO> EMPLEADO_CUCHILLO { get; set; }
@@ -140,7 +139,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO { get; set; }
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO> CC_EVALUACION_PRODUCTO_ENFUNDADO { get; set; }
         public virtual DbSet<REPORTE_DETALLE> REPORTE_DETALLE { get; set; }
-        public virtual DbSet<REPORTE_MAESTRO> REPORTE_MAESTRO { get; set; }
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE> CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE { get; set; }
         public virtual DbSet<CC_DESECHOS_LIQUIDOS_PELIGROSOS> CC_DESECHOS_LIQUIDOS_PELIGROSOS { get; set; }
         public virtual DbSet<CC_CONDICION_PERSONAL_CONTROL> CC_CONDICION_PERSONAL_CONTROL { get; set; }
@@ -156,6 +154,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL_DET> CC_HIGIENE_COMEDOR_COCINA_CTRL_DET { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA> CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA { get; set; }
         public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA> CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA { get; set; }
+        public virtual DbSet<OPCION> OPCION { get; set; }
+        public virtual DbSet<REPORTE_MAESTRO> REPORTE_MAESTRO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1926,15 +1926,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_Control_Cuchillos_Preparacion>("sp_Reporte_Control_Cuchillos_Preparacion", filtroFechaDesdeParameter, filtroFechaHastaParameter, opParameter);
         }
     
-        public virtual ObjectResult<spReporteEvaluacionLomosMigasBandeja> spReporteEvaluacionLomosMigasBandeja(Nullable<System.DateTime> fechaProduccion)
-        {
-            var fechaProduccionParameter = fechaProduccion.HasValue ?
-                new ObjectParameter("FechaProduccion", fechaProduccion) :
-                new ObjectParameter("FechaProduccion", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionLomosMigasBandeja>("spReporteEvaluacionLomosMigasBandeja", fechaProduccionParameter);
-        }
-    
         public virtual ObjectResult<sp_Control_Termoencogido_Sellado> sp_Control_Termoencogido_Sellado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> op)
         {
             var fechaDesdeParameter = fechaDesde.HasValue ?
@@ -2108,6 +2099,15 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Reporte", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaCodigoReporte>("spConsultaCodigoReporte", reporteParameter);
+        }
+    
+        public virtual ObjectResult<spReporteEvaluacionLomosMigasBandeja> spReporteEvaluacionLomosMigasBandeja(Nullable<System.DateTime> fechaProduccion)
+        {
+            var fechaProduccionParameter = fechaProduccion.HasValue ?
+                new ObjectParameter("FechaProduccion", fechaProduccion) :
+                new ObjectParameter("FechaProduccion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionLomosMigasBandeja>("spReporteEvaluacionLomosMigasBandeja", fechaProduccionParameter);
         }
     }
 }

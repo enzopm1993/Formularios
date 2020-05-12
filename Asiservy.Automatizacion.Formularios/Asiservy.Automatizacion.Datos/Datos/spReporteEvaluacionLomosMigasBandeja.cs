@@ -13,8 +13,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spReporteEvaluacionLomosMigasBandeja
     {
-        public byte[] FirmaControl { get; set; }
-        public byte[] FirmaAprobacion { get; set; }
         public Nullable<System.DateTime> FechaProduccion { get; set; }
         public string Cliente { get; set; }
         public string Observacion { get; set; }

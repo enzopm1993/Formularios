@@ -20,8 +20,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_SOLICITUD" Width="1.5" PointX="10.375" PointY="3.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.ERROR" Width="1.5" PointX="10.375" PointY="7.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CLASIFICADOR" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.OPCION" Width="1.5" PointX="0.75" PointY="12" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_OPCION_ROL_OPCION" />
         <EntityTypeShape EntityType="ASIS_PRODModel.BITACORA_CAMBIO_PERSONAL" Width="1.5" PointX="10.375" PointY="11.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CUCHILLO" Width="1.5" PointX="12.375" PointY="6.125" />
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO" Width="1.5" PointX="14.25" PointY="6.125" />
@@ -162,8 +160,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_PRODUCTO_ENFUNDADO" Width="1.5" PointX="38.375" PointY="22.375" />
         <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_DETALLE" Width="1.5" PointX="39.625" PointY="1" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_MAESTRO" Width="1.5" PointX="37.375" PointY="1.125" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_REPORTE_DETALLE_REPORTE_MAESTRO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" Width="1.5" PointX="40.625" PointY="11" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS" Width="1.5" PointX="38.375" PointY="29.875" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE_CC_DESECHOS_LIQUIDOS_PELIGROSOS" />
@@ -188,6 +184,10 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA" Width="1.5" PointX="39.375" PointY="5.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA" Width="1.5" PointX="35.75" PointY="36.625" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.OPCION" Width="1.5" PointX="8.375" PointY="40" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_OPCION_ROL_OPCION" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_MAESTRO" Width="1.5" PointX="10.625" PointY="39.5" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_REPORTE_MAESTRO_OPCION" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
