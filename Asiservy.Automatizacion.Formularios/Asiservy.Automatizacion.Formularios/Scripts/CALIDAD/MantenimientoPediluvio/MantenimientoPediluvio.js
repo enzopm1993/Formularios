@@ -1,14 +1,19 @@
 ﻿var itemEditar = [];
 $(document).ready(function () {
-    CargarCabecera();
+    
 });
 function CargarCabecera() {
+    if ($("#selectArea").val() == "") {
+        return;
+    }
     MostrarModalCargando();
     $("#divMantenimientoPediluvio").html('');
     $("#hMensaje").html('');
     $.ajax({
         url: "../MantenimientoPediluvio/MantenimientoPediluvioPartial",
         type: "GET",
+        data: { Area: $("#selectArea").val() }
+        ,
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
@@ -20,11 +25,12 @@ function CargarCabecera() {
                 $("#divMantenimientoPediluvio").html(resultado);
             }
             itemEditar = 0;
+            Nuevo();
             CerrarModalCargando();
         },
         error: function (resultado) {
             CerrarModalCargando();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error+resultado.responseText, false);
         }
     });
 }
@@ -34,8 +40,8 @@ function GuardarCabecera() {
         MensajeAdvertencia("Ingrese una descripción al Pediluvio que desea ingresar");
         return;
     }
-    if ($("#checkPreparacion").prop("checked") == false && $("#checkProceso").prop("checked") == false) {
-        MensajeAdvertencia("Debe seleccionar una area al menos");
+    if ($("#selectArea").val() == '') {
+        MensajeAdvertencia("Debe seleccionar una area.");
         return;
     }
     MostrarModalCargando();
@@ -43,10 +49,10 @@ function GuardarCabecera() {
         url: "../MantenimientoPediluvio/GuardarModificarMantenimientoPediluvio",
         type: "POST",
         data: {
-            IdMantenimientoPediluvio: itemEditar.IdPediluvio,
+            IdMantenimientoPediluvio: itemEditar.IdMantenimientoPediluvio,
             Descripcion: $("#txtDescripcion").val(),
-            Proceso: $("#checkProceso").prop("checked"),
-            Preparacion: $("#checkPreparacion").prop("checked")
+            Area: $("#selectArea").val()
+           
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -54,13 +60,12 @@ function GuardarCabecera() {
             }
             CargarCabecera();
             $("#txtDescripcion").val('');
-            setTimeout(function () {
-                CerrarModalCargando();
-            }, 500);
+            Nuevo();
+            CerrarModalCargando();
         },
         error: function (resultado) {
             CerrarModalCargando();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error +resultado.responseText, false);
         }
     });
 }
@@ -85,7 +90,7 @@ function EliminarCabeceraSi() {
         url: "../MantenimientoPediluvio/EliminarMantenimientoPediluvio",
         type: "POST",
         data: {
-            IdPediluvio: itemEditar.IdPediluvio,
+            IdMantenimientoPediluvio: itemEditar.IdMantenimientoPediluvio,
             EstadoRegistro: itemEditar.EstadoRegistro
         },
         success: function (resultado) {
@@ -93,7 +98,7 @@ function EliminarCabeceraSi() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                MensajeAdvertencia("Falta Parametro IdDesinfeccionManos");
+                MensajeAdvertencia("Falta Parametro IdMantenimientoPediluvio");
                 $("#modalEliminarControl").modal("hide");
                 CerrarModalCargando();
                 return;
@@ -101,15 +106,15 @@ function EliminarCabeceraSi() {
                 $("#modalEliminarControl").modal("hide");
                 CargarCabecera();
                 MensajeCorrecto("Registro Actualizado con Éxito");
-                setTimeout(function () {
-                    CerrarModalCargando();
-                }, 500);
+                Nuevo();
+                CerrarModalCargando();
+
             }
             itemEditar = 0;
         },
         error: function (resultado) {
             CerrarModalCargando();
-            MensajeError(resultado.responseText, false);
+            MensajeError(Mensajes.Error +resultado.responseText, false);
         }
     });
 }
@@ -121,5 +126,13 @@ function EliminarCabeceraNo() {
 function ActualizarCabecera(jdata) {
     $("#txtDescripcion").prop("disabled", false);
     $("#txtDescripcion").val(jdata.Descripcion);
+    $("#selectArea").val(jdata.Area);
+    $("#txtIdMantenimientoPediluvio").val(jdata.IdMantenimientoPediluvio);    
     itemEditar = jdata;
+}
+
+function Nuevo() {
+    $("#txtDescripcion").val('');
+    $("#txtIdMantenimientoPediluvio").val('0'); 
+    $("#selectArea").prop("selecteIndex", 0);
 }

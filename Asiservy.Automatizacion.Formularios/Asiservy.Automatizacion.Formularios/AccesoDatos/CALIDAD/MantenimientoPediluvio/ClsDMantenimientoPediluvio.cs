@@ -24,8 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoP
                 if (model != null)
                 {
                     model.Descripcion = GuardarModificar.Descripcion;
-                    model.Proceso = GuardarModificar.Proceso;
-                    model.Preparacion = GuardarModificar.Preparacion;
+                    model.Area = GuardarModificar.Area;
                     model.EstadoRegistro = GuardarModificar.EstadoRegistro;
                     model.FechaModificacionLog = GuardarModificar.FechaIngresoLog;
                     model.TerminalModificacionLog = GuardarModificar.TerminalIngresoLog;
