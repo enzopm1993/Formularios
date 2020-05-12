@@ -17,12 +17,13 @@
         cursor: no-drop !important;
     }
 
-    canvas {
+    /*canvas {
         border: 1px solid black;
     }
+
     #ImgFirma {
         border: 1px solid black;
-    }
+    }*/
 </style>
 <h4>Bandeja de evaluación de lomos y migas en bandejas</h4>
 
@@ -41,7 +42,7 @@
         <input type="hidden" id="fechaHasta" value="" />
         <div id="reportrange" class="selectbox">
             <i class="fa fa-calendar"></i>&nbsp;
-            <span></span> <i class="fa fa-caret-down"></i>
+            <span></span> <i class="fa fa-caret-down" style="float:right"></i>
         </div>
     </div>
 
@@ -65,42 +66,78 @@
 <div class="modal fade" id="ModalDetalle" data-backdrop="static">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-
+            
             <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title"></h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" id="btnclose">&times;</button>
             </div>
 
             <!-- Modal body -->
-            <div class="modal-body table-responsive" id="DivDetalle">
 
-            </div>
-            <br />
-            <div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
-                <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
-
-                <div>
-                    <canvas width=400 height=200 id="firmacanvas"></canvas>
+            <div class="modal-body table-responsive">
+                <div id="divconfirm" hidden>
                 </div>
-                @*<div>
-                    <center> <button type="button" class="btn btn-primary" onclick="GuardarFirma()">Guardar Firma</button></center>
-                </div>*@
+               
+                <div id="DivDetalle">
+
+                </div>
+
             </div>
-            <div id="div_ImagenFirma" class="align-self-md-center align-self-sm-center" hidden>
+            @*<br />
+        <div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
+            <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
+
+            <div>
+                <canvas width=400 height=200 id="firmacanvas"></canvas>
+            </div>
+
+        </div>
+        <div id="div_ImagenFirma" class="align-self-md-center align-self-sm-center" hidden>
 
 
-                <img id="ImgFirma" width="400" height="200" src="" />
-                @*<div>
-                    <center> <button type="button" class="btn btn-primary" onclick="VolverAFirmar()">Rehacer Firma</button></center>
-                </div>*@
-            </div>
-            <!-- Modal footer -->
+            <img id="ImgFirma" width="400" height="200" src="" />
+
+        </div>*@
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btnAprobar" onclick="AprobarControl()">Aprobar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnAprobar" onclick="ConfirmarAprobar()">Aprobar</button>
+                <button type="button" class="btn btn-primary" id="btnReversar" onclick="ConfirmarReversar()" hidden>Reversar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncerrar">Cerrar</button>
             </div>
 
+        </div>
+    </div>
+</div>
+
+@*modal aprobar cabecera*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalAprobar" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea aprobar el control?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="AprobarControl()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*modal Reversar cabecera*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalReversar" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">¿Esta seguro que desea reversar el control?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnsicab" onclick="ReversarControl()">Si</button>
+                <button type="button" class="btn btn-primary" id="btnnocab" data-dismiss="modal">No</button>
+            </div>
         </div>
     </div>
 </div>

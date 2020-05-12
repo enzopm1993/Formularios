@@ -192,7 +192,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 return resultado;
             }
         }
-        public string AprobarControl(int idCabecera,string usuario,string terminal,byte[] firma)
+        public string AprobarControl(int idCabecera,string usuario,string terminal,DateTime Fecha/*,byte[] firma*/)
         {
             using (var db = new ASIS_PRODEntities())
             {
@@ -202,7 +202,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 buscarCabecera.UsuarioModificacionLog = usuario;
                 buscarCabecera.TerminalModificacionLog = terminal;
                 buscarCabecera.AprobadoPor = usuario;
-                buscarCabecera.FechaAprobacion = DateTime.Now;
+                buscarCabecera.FechaAprobacion = Fecha;
                 buscarCabecera.EstadoControl = true;
                 //buscarCabecera.FirmaAprobacion = firma;
                 db.SaveChanges();
@@ -224,6 +224,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                  where d.IdCabeceraEvaluacionLomosYMigasEnBandeja == idCabeceraControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                  select new DetalleEvaluacionLomosMIgasBandejaViewModel
                                  {
+                                     FechaControl=cab.FechaProduccion,
                                      Buque = d.buque,
                                      CodColor = c.IdColor,
                                      CodOlor = o.IdOlor,
@@ -270,7 +271,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                     var respuesta = (from x in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
                                      join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
                                      join d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE on new { IdCabeceraEvaluacionLomosYMigasEnBandeja=x.IdEvaluacionDeLomosYMigasEnBandejas, EstadoRegistro=clsAtributos.EstadoRegistroActivo } equals new {d.IdCabeceraEvaluacionLomosYMigasEnBandeja,  d.EstadoRegistro }
-                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && x.EstadoControl == clsAtributos.EstadoReportePendiente && cl.Codigo != "0"
+                                     where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente || x.EstadoControl==null) && cl.Codigo != "0"
                                      select new CabeceraEvaluacionLomosMigasViewModel
                                      {
                                          Cliente = x.Cliente,
@@ -335,33 +336,88 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
             }
 
         }
-        public string GuardarImagenFirma(byte[] firma, int IdCabecera, string Tipo,string Usuario, string Terminal)
+        public string ReversarControl(int IdControl, string usuario, string terminal)
         {
             using (var db = new ASIS_PRODEntities())
             {
-                var buscarControl = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(IdCabecera);
-                if(buscarControl.EstadoControl==true)
-                {
-                    return "El control ya se encuentra aprobado, no puede se rmodificado";
-                }
-                else
-                {
-                    //if (Tipo == "Control")
-                    //{
-                    //    buscarControl.FirmaControl = firma;
-                    //}
-                    //else
-                    //{
-                    //    buscarControl.FirmaAprobacion = firma;
-                    //}
-                    buscarControl.FechaModificacionLog = DateTime.Now;
-                    buscarControl.UsuarioModificacionLog = Usuario;
-                    buscarControl.TerminalModificacionLog = Terminal;
-                    db.SaveChanges();
-                    return "Firma guardada correctamente";
-                }
+
+                var buscarControl = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(IdControl);
+                buscarControl.FechaModificacionLog = DateTime.Now;
+                buscarControl.UsuarioModificacionLog = usuario;
+                buscarControl.TerminalModificacionLog = terminal;
+                buscarControl.AprobadoPor = null;
+                buscarControl.FechaAprobacion = null;
+                buscarControl.EstadoControl = false;
+
+                db.SaveChanges();
+
+                return "El control ha sido Reversado";
             }
         }
+        public List<CabeceraEvaluacionLomosMigasViewModel> ConsultarCabReportes(DateTime FechaDesde,DateTime FechaHasta)
+        {
+            using (var db = new ASIS_PRODEntities())
+            {
+                var respuesta = (from x in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
+                                 join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
+                                 join d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE on new { IdCabeceraEvaluacionLomosYMigasEnBandeja = x.IdEvaluacionDeLomosYMigasEnBandejas, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionLomosYMigasEnBandeja, d.EstadoRegistro }
+                                 where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente || x.EstadoControl == null) && cl.Codigo != "0"
+                                 select new CabeceraEvaluacionLomosMigasViewModel
+                                 {
+                                     Cliente = x.Cliente,
+                                     Empaque = x.Empaque,
+                                     Enlatado = x.Enlatado,
+                                     EstadoControl = x.EstadoControl,
+                                     EstadoRegistro = x.EstadoRegistro,
+                                     FechaIngresoLog = x.FechaIngresoLog,
+                                     FechaModificacionLog = x.FechaModificacionLog,
+                                     FechaProduccion = x.FechaProduccion,
+                                     IdEvaluacionDeLomosYMigasEnBandejas = x.IdEvaluacionDeLomosYMigasEnBandejas,
+                                     Lomo = x.Lomo,
+                                     Miga = x.Miga,
+                                     NivelLimpieza = x.NivelLimpieza,
+                                     Observacion = x.Observacion,
+                                     OrdenFabricacion = x.OrdenFabricacion,
+                                     Pouch = x.Pouch,
+                                     TerminalIngresoLog = x.TerminalIngresoLog,
+                                     TerminalModificacionLog = x.TerminalModificacionLog,
+                                     UsuarioIngresoLog = x.UsuarioIngresoLog,
+                                     UsuarioModificacionLog = x.UsuarioModificacionLog,
+                                     NivelLimpiezaDescripcion = cl.Descripcion,
+                                     AprobadoPor = x.AprobadoPor,
+                                     FechaAprobacion = x.FechaAprobacion
+                                 }).Distinct().ToList();
+
+                return respuesta;
+            }
+        }
+        //public string GuardarImagenFirma(byte[] firma, int IdCabecera, string Tipo,string Usuario, string Terminal)
+        //{
+        //    using (var db = new ASIS_PRODEntities())
+        //    {
+        //        var buscarControl = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(IdCabecera);
+        //        if(buscarControl.EstadoControl==true)
+        //        {
+        //            return "El control ya se encuentra aprobado, no puede se rmodificado";
+        //        }
+        //        else
+        //        {
+        //            //if (Tipo == "Control")
+        //            //{
+        //            //    buscarControl.FirmaControl = firma;
+        //            //}
+        //            //else
+        //            //{
+        //            //    buscarControl.FirmaAprobacion = firma;
+        //            //}
+        //            buscarControl.FechaModificacionLog = DateTime.Now;
+        //            buscarControl.UsuarioModificacionLog = Usuario;
+        //            buscarControl.TerminalModificacionLog = Terminal;
+        //            db.SaveChanges();
+        //            return "Firma guardada correctamente";
+        //        }
+        //    }
+        //}
         //public byte[] ConsultarFirmaControl(int IdCabecera)
         //{
         //    using (var db = new ASIS_PRODEntities())

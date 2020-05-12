@@ -55,7 +55,7 @@
             <tr  style="cursor:pointer" onclick="AbrirModalDetalle(@item.IdEvaluacionDeLomosYMigasEnBandejas)">
              
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaProduccion)
+                    @item.FechaProduccion.Value.ToString("yyyy-MM-dd")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.OrdenFabricacion)
