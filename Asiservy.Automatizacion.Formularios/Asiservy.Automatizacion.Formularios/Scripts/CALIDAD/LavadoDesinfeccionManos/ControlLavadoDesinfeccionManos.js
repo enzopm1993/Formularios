@@ -11,6 +11,7 @@ function CargarCabecera(opcion) {
     $("#divTableEntregaProductoDetalle").html('');
     var op = opcion;
     if ($("#txtFecha").val() == '') {
+        MensajeAdvertencia('Fecha invalida');
         $('#cargac').hide();
         return;
     } else {

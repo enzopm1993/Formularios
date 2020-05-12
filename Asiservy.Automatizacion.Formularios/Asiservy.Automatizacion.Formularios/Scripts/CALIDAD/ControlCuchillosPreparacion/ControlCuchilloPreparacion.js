@@ -22,6 +22,11 @@ $(document).ready(function () {
 
 function ListarControlCuchillos(opcion) {
     $('#cargac').show();
+    if ($('#txtFechaFiltro').val() == '') {
+        MensajeAdvertencia('Fecha invalida');
+        $('#cargac').hide();
+        return;
+    }
     $("#divCargarCuchillosDetalle").prop("hidden", true);
     var op = opcion;
     var pFecha = moment($("#txtFechaFiltro").val()).format("YYYY-MM-DD");

@@ -3914,7 +3914,9 @@
     <Content Include="Views\HigieneComedorCocina\ReporteHigieneComedorCocina.cshtml" />
     <Content Include="Views\HigieneComedorCocina\ReporteHigieneComedorCocinaPartail.cshtml" />
     <Content Include="Views\HigieneComedorCocina\PdfReporteHigieneComedorCocinaPartail.cshtml" />
+    <Content Include="Views\HigieneComedorCocina\ReporteHigieneComedorCocinaPartailCabecera.cshtml" />
     <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalPartial.cshtml" />
+    <Content Include="Views\CondicionPersonal\ReporteControlCondicionPersonalPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

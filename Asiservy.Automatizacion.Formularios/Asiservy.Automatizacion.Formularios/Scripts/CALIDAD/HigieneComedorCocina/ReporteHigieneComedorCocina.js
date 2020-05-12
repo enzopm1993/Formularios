@@ -2,7 +2,9 @@
     CargarCabecera(1);
 
 });
+
 function CargarCabecera(op) {
+    $('#cargac').show();
     if ($("#fechaDesde").val() == '') {
         var date = new Date();
         $("#fechaDesde").val(moment(date).format('YYYY-MM-DD'))
@@ -10,25 +12,22 @@ function CargarCabecera(op) {
     }
     $("#firmaDigital").prop("hidden", true);
     if ($("#fechaDesde").val() == $("#fechaHasta").val()) {
-        ConsultarID();
+        
     }
-    $('#cargac').show();
     $.ajax({
-        url: "../HigieneComedorCocina/ReporteHigieneComedorCocinaPartail",
+        url: "../HigieneComedorCocina/ReporteHigieneComedorCocinaPartailCabecera",
         data: {
             fechaDesde: $("#fechaDesde").val(),
-            fechaHasta: $("#fechaHasta").val(),
-            idControlHigiene: 0,
-            op: op
+            fechaHasta: $("#fechaHasta").val()        
         },
         type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == "0") {
+            if (resultado == "0") {                
                 $("#divMostarTablaCabecera").html("No existen registros");
-            } else {
+            } else {                
                 $("#divMostarTablaCabecera").html(resultado);
             }            
             setTimeout(function () {
@@ -41,6 +40,54 @@ function CargarCabecera(op) {
     });
 }
 
+function SeleccionarCabecera(jdata) {
+    $('#cargac').show();
+    var op = 0;
+    //console.log(@ViewBag.prueba);
+    $.ajax({
+        url: "../HigieneComedorCocina/ReporteHigieneComedorCocinaPartail",
+        data: {
+            fechaDesde: $("#fechaDesde").val(),
+            fechaHasta: $("#fechaHasta").val(),
+            idControlHigiene: jdata.IdControlHigiene,
+            op: op
+        },
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $('#divBotones').prop('hidden', true);
+                $("#divMostarTablaCabecera").prop('hidden', false);
+                $("#divCardMostrarDetalle").prop('hidden', true);
+                MensajeAdvertencia('No existen registro de DETALLE');
+            } else {
+                $("#divMostarTablaCabecera").prop('hidden', true);
+                $("#divCardMostrarDetalle").prop('hidden', false);
+                $('#divBotones').prop('hidden', false);
+                $("#divMostarTablaDetalle").html(resultado);
+            }
+            setTimeout(function () {
+                $('#cargac').hide();
+            }, 200);
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
+function Atras() {
+    $('#cargac').show();
+    $('#divBotones').prop('hidden', true);
+    $("#divMostarTablaCabecera").prop('hidden', false);
+    $("#divCardMostrarDetalle").prop('hidden', true);
+    $("#divMostarTablaDetalle").html('');
+    setTimeout(function () {
+        $('#cargac').hide();
+    }, 200);
+}
 //FECHA DataRangePicker
 $(function () {
     var start = moment();
@@ -123,54 +170,54 @@ $(function () {
     cb(start, end);
 });
 
-function PrintReport(op) {
-    var url = $("#RedirectTo").val() + '?' + 'fechaDesde=' + $("#fechaDesde").val() + '&fechaHasta=' + $("#fechaHasta").val() + '&idControlHigiene=' + 0 + '&op=' + op;
-    var win = window.open(url, '_blank');
-}
+//function PrintReport(op) {
+//    var url = $("#RedirectTo").val() + '?' + 'fechaDesde=' + $("#fechaDesde").val() + '&fechaHasta=' + $("#fechaHasta").val() + '&idControlHigiene=' + 0 + '&op=' + op;
+//    var win = window.open(url, '_blank');
+//}
 
-function ConsultarID() {
-    $.ajax({
-        url: "../HigieneComedorCocina/ConsultarHigieneControl",
-        type: "GET",
-        data: {
-            fecha: $("#fechaDesde").val()
-        },
-        success: function (resultado) {
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado.length != 0) {
-                ConsultarFirma(resultado[0].IdControlHigiene, resultado[0].AprobadoPor);
-            }          
-        },
-        error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
-        }
-    });
-}
+//function ConsultarID() {
+//    $.ajax({
+//        url: "../HigieneComedorCocina/ConsultarHigieneControl",
+//        type: "GET",
+//        data: {
+//            fecha: $("#fechaDesde").val()
+//        },
+//        success: function (resultado) {
+//            if (resultado == "101") {
+//                window.location.reload();
+//            }
+//            if (resultado.length != 0) {
+//                ConsultarFirma(resultado[0].IdControlHigiene, resultado[0].AprobadoPor);
+//            }          
+//        },
+//        error: function (resultado) {
+//            MensajeError("Error: Comuníquese con sistemas", false);
+//        }
+//    });
+//}
 
-function ConsultarFirma(idControlHigiene, aprobadoPor) {
-    $.ajax({
-        url: "../HigieneComedorCocina/BandejaConsultarImagenFirma",
-        type: "GET",
-        data: {
-            idControlHigiene: idControlHigiene
-        },
-        success: function (resultado) {
-            $("#btnGuardarFirma").prop("hidden", true);
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado != '0') {
-                $("#firmaDigital").prop("hidden", false);
-                document.getElementById('ImgFirma').src = resultado;
-                $('#div_ImagenFirma').prop('hidden', false);  
-                $("#lblMostrarFirma").text(aprobadoPor);
-                //lblMostrarFirma
-            }          
-        },
-        error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
-        }
-    });
-}
+//function ConsultarFirma(idControlHigiene, aprobadoPor) {
+//    $.ajax({
+//        url: "../HigieneComedorCocina/BandejaConsultarImagenFirma",
+//        type: "GET",
+//        data: {
+//            idControlHigiene: idControlHigiene
+//        },
+//        success: function (resultado) {
+//            $("#btnGuardarFirma").prop("hidden", true);
+//            if (resultado == "101") {
+//                window.location.reload();
+//            }
+//            if (resultado != '0') {
+//                $("#firmaDigital").prop("hidden", false);
+//                document.getElementById('ImgFirma').src = resultado;
+//                $('#div_ImagenFirma').prop('hidden', false);  
+//                $("#lblMostrarFirma").text(aprobadoPor);
+//                //lblMostrarFirma
+//            }          
+//        },
+//        error: function (resultado) {
+//            MensajeError("Error: Comuníquese con sistemas", false);
+//        }
+//    });
+//}

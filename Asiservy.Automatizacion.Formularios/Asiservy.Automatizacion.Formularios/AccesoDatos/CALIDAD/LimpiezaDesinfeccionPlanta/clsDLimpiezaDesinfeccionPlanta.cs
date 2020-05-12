@@ -51,6 +51,15 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
             }
         }
 
+        public int ConsultarObjetosActivosID(int idObjeto)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = db.CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS.Where(x => x.IdObjeto == idObjeto && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).Count();                
+                return lista;
+            }
+        }
+
         public List<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA> ConsultarIntermediaActivos(int idAuditoria)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())

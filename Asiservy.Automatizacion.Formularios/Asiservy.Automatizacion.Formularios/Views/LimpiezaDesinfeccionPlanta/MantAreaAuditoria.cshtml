@@ -75,9 +75,9 @@
                     </div>
                 </div>
                 <hr />
-                <button id="btnActualizarObjeto" class="btn btn-link" onclick="ModalIngresoCabecera(true)">Actualizar</button>
+                <button id="btnActualizarObjeto" class="btn btn-link" onclick="ModalIngresoCabecera('actualizar')">Actualizar</button>
                 <button id="btnNueva" style="float:right" class="btn btn-link" onclick="NuevoRegistro()">Nuevo Objeto</button>
-                @Html.Hidden("RedirectTo", Url.Action("MantObjetos", "HigieneComedorCocina"))
+                @Html.Hidden("RedirectTo", Url.Action("MantObjetos", "LimpiezaDesinfeccionPlanta"))
                 <div id="divMostarObjetos" class="table-responsive">
 
                 </div>

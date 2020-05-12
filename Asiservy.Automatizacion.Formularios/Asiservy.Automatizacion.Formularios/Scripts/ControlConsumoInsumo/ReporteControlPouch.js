@@ -64,10 +64,58 @@ function CargarControlConsumo() {
 
 
 
+function CargarDatosOrdenFabricacion(orden) {
+
+    $.ajax({
+        url: "../ControlConsumoInsumo/ConsultarDatosOrdenFabricacion",
+        type: "GET",
+        data: {
+            Orden: orden
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                MensajeAdvertencia("Faltan Parametros");
+                return;
+            }
+            if (resultado == "1") {
+                MensajeAdvertencia("No se pudo obtener información");
+                return;
+            }
+
+            console.log(resultado);
+            //console.log(resultado);
+            $("#txtDestino").html(resultado.DESTINO);
+            $("#txtOrdenVenta").html(parseInt(resultado.PEDIDO_VENTA));
+            if (resultado.CLIENTE_CORTO != '') {
+                $("#txtCliente").html(resultado.CLIENTE_CORTO);
+            } else {
+                $("#txtCliente").html(resultado.CLIENTE);
+            }
+
+            if (resultado.NOMBRE_ADICIONAL != '') {
+                $("#txtProducto").html(resultado.NOMBRE_ADICIONAL);
+            } else {
+                $("#txtProducto").html(resultado.NOMBRE_PRODUCTO);
+            }
+            $("#txtEnvase").html(resultado.ENVASE);
+            $("#txtTapa").html(resultado.TAPA);
+            $("#txtMarca").html(ListadoControl.MARCA);
+
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+            NuevoControlConsumoInsumos();
+        }
+    });
+
+}
 function SeleccionarControlDetalleConsumo(model) {
     // idControl = model.IdControlConsumoInsumos;
     ListadoControl = model;
-
+    CargarDatosOrdenFabricacion(ListadoControl.OrdenFabricacion);
     $("#txtOrdenFabricacion").html(ListadoControl.OrdenFabricacion);
     $("#txtPesoNeto").html(ListadoControl.PesoNeto);
     $("#txtPesoEscurrido").html(ListadoControl.PesoEscrundido);
@@ -76,13 +124,14 @@ function SeleccionarControlDetalleConsumo(model) {
     $("#txtAceite").html(ListadoControl.Aceite);
     $("#txtAgua").html(ListadoControl.Agua);
     $("#txtCaldoVegetal").html(ListadoControl.CaldoVegetal);
-    $("#txtOrdenVenta").html(ListadoControl.OrdenVenta);
-    $("#txtCliente").html(ListadoControl.Cliente);
-    $("#txtMarca").html(ListadoControl.Marca);
-    $("#txtDestino").html(ListadoControl.Destino);
-    $("#txtProducto").html(ListadoControl.Producto);
-    $("#txtEnvase").html(ListadoControl.Envase);
-    $("#txtTapa").html(ListadoControl.Tapa);
+
+    //$("#txtOrdenVenta").html(ListadoControl.OrdenVenta);
+    //$("#txtCliente").html(ListadoControl.Cliente);
+    //$("#txtMarca").html(ListadoControl.Marca);
+    //$("#txtDestino").html(ListadoControl.Destino);
+    //$("#txtProducto").html(ListadoControl.Producto);
+    //$("#txtEnvase").html(ListadoControl.Envase);
+    //$("#txtTapa").html(ListadoControl.Tapa);
 
     if ($("#selectTurno").val() == 1) {
         $("#txtTurno").html("A");

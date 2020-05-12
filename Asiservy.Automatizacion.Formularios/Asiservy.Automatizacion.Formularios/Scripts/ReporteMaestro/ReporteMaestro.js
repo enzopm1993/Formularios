@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     ConsultarReporteMaestros();
-  
+    $("#selectOpcion").select2();
+    $("#selectOpcionModal").select2();
 });
 
 var ReporteModel = [];
@@ -57,19 +58,26 @@ function GenerarReporteMaestro() {
     } else {
         $("#txtCodigo").css('borderColor', '#ced4da');
     }
-    //if ($("#txtVersion").val() == "") {
-    //    $("#txtVersion").css('borderColor', '#FA8072');
-    //    return;
-    //} else {
-    //    $("#txtVersion").css('borderColor', '#ced4da');
-    //}
+     if ($("#selectOpcion").val() == "") {
+        //$("#SelectTextura").css('borderColor', '#FA8072');
+        $("#selectOpcion").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
+        });
+        valida = false;
+    } else {
+        $("#selectOpcion").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+        });
+    }
+
     $.ajax({
         url: "../ReporteMaestro/ReporteMaestro",
         type: "POST",
         data: {
             IdReporteMaestro: $("#txtIdControl").val(),
             Nombre: $("#txtNombre").val(),
-            Codigo: $("#txtCodigo").val()
+            Codigo: $("#txtCodigo").val(),
+            IdOpcion: $("#selectOpcion").val()
 
         },
         success: function (resultado) {
@@ -95,7 +103,8 @@ function NuevoControl() {
     $("#txtNombre").val('');
     $("#txtCodigo").val('');
     $("#txtVersion").val('');
-
+    $("#selectOpcion").prop("selectedIndex",0).change()
+    $("#selectOpcionModal").prop("selectedIndex", 0).change()
     $("#txtIdControlModal").val('0');
     $("#txtNombreModal").val('');
     $("#txtCodigoModal").val('');
@@ -107,12 +116,13 @@ function SeleccionarReporteMaestro(model) {
    // alert(model);
     $("#hMensaje").prop("hidden", false);
     $("#hMensaje").html(model.Nombre);
-
+    $("#selectOpcion").val(model.IdOpcion).change()
     $("#txtIdControl").val(model.IdReporteMaestro);
     $("#txtNombre").val(model.Nombre);
     $("#txtCodigo").val(model.Codigo);
     $("#txtVersion").val(model.UltimaVersion);
 
+    $("#selectOpcionModal").val(model.IdOpcion).change()
     $("#txtIdControlModal").val(model.IdReporteMaestro);
     $("#txtNombreModal").val(model.Nombre);
     $("#txtCodigoModal").val(model.Codigo);
@@ -173,6 +183,17 @@ function EditarReporteMaestro() {
     } else {
         $("#txtCodigoModal").css('borderColor', '#ced4da');
     }
+    if ($("#selectOpcionModal").val() == "") {
+        //$("#SelectTextura").css('borderColor', '#FA8072');
+        $("#selectOpcionModal").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #FA8072');
+        });
+        valida = false;
+    } else {
+        $("#selectOpcionModal").each(function () {
+            $(this).siblings(".select2-container").css('border', '1px solid #ced4da');
+        });
+    }
     //if ($("#txtVersionModal").val() == "") {
     //    $("#txtVersionModal").css('borderColor', '#FA8072');
     //    return;
@@ -185,7 +206,8 @@ function EditarReporteMaestro() {
         data: {
             IdReporteMaestro: $("#txtIdControlModal").val(),
             Nombre: $("#txtNombreModal").val(),
-            Codigo: $("#txtCodigoModal").val()
+            Codigo: $("#txtCodigoModal").val(),
+            IdOpcion: $("#selectOpcionModal").val()
             //UltimaVersion: $("#txtVersionModal").val()
 
         },

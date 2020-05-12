@@ -554,10 +554,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 {
                     ViewBag.Lineas = clsDClasificador.ConsultaClasificador(new Models.Seguridad.Clasificador { Grupo = clsAtributos.CodGrupoLineaProduccion, EstadoRegistro = clsAtributos.EstadoRegistroActivo, Codigo = Empleado.CODIGOLINEA });
                 }
-                else if (roles.FirstOrDefault(x => x.Value == clsAtributos.SeguridadIndustrial) != null)
+                else if (roles.FirstOrDefault(x => x.Value == clsAtributos.SeguridadIndustrial || x.Value == clsAtributos.RolRRHH) != null)
                 {
                     var lineas = clsDGeneral.ConsultaLineas("0");
-                    lineas.Add(new spConsultaLinea { Codigo = "T", Descripcion = "Todos" });
+                    lineas.Add(new spConsultaLinea { Codigo = "TS", Descripcion = "Todos" });
                     ViewBag.Lineas = lineas;
                 }
                 else

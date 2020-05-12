@@ -8,6 +8,11 @@ $(document).ready(function () {
 
 function CargarCabecera() {
     $('#cargac').show();
+    if ($('#txtFecha').val()=='') {
+        MensajeAdvertencia('Fecha invalida');
+        $('#cargac').hide();
+        return;
+    }
     $.ajax({
         url: "../HigieneComedorCocina/ConsultarHigieneControl",
         data: {

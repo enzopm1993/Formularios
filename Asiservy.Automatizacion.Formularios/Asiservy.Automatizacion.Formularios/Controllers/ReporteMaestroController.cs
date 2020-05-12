@@ -1,7 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
-using Asiservy.Automatizacion.Formularios.Models;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -15,13 +15,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 {
     public class ReporteMaestroController : Controller
     {
-        string[] lsUsuario;
-        clsDError clsDError = null;
-        // clsDGeneral clsDGeneral = null;
-        // clsDEmpleado clsDEmpleado = null;
-        clsDClasificador clsDClasificador = null;
-        clsDReporte clsDReporte = null;
-
+        private clsDClasificador clsDClasificador { get; set; } = null;
+        private clsDReporte clsDReporte { get; set; } = null;
+        private clsDError clsDError { get; set; } = null;
+        private clsDOpcion clsDOpcion { get; set; } = null;
+        private string[] lsUsuario { get; set; } = null;
         #region Métodos
         protected void SetSuccessMessage(string message)
         {
@@ -40,14 +38,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
         {
             try
             {
-                // lsUsuario = User.Identity.Name.Split('_');
                 ViewBag.dataTableJS = "1";
                 ViewBag.JqueryRotate = "1";                
+                ViewBag.Select2 = "1";
                 ViewBag.JavaScrip = RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 clsDClasificador = new clsDClasificador();
+                clsDOpcion = new clsDOpcion();
                 ViewBag.Pesos = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodPesoEnlatado, "0");
                 ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.GrupoCodLineaEnlatado, "0");
-                //clsDApiOrdenFabricacion = new clsDApiOrdenFabricacion();
+                ViewBag.Opciones = clsDOpcion.ConsultarOpciones(new OPCION { Reporte = true, EstadoRegistro = clsAtributos.EstadoRegistroActivo }).ToList();
+
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -90,10 +90,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                //if (!clsDControlPesoEnlatado.ValidaControlPesoEnlatado(model))
-                //{
-                //    return Json("1", JsonRequestBehavior.AllowGet);
-                //}
                 clsDReporte.GuardarModificarReporteMaestro(model);
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
 

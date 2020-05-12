@@ -37,6 +37,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                     {
                         query = query.Where(x => x.IdModulo == filtros.IdModulo);
                     }
+
+                    if (filtros.Reporte != null)
+                    {
+                        query = query.Where(x => x.Reporte == filtros.Reporte);
+                    }
                 }
              
                 return query.ToList();
@@ -50,6 +55,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                 var poOpcion = entities.OPCION.FirstOrDefault(x => x.IdOpcion == doOpcion.IdOpcion);
                 if (poOpcion != null)
                 {
+                    poOpcion.Reporte = doOpcion.Reporte; 
                     poOpcion.Nombre = doOpcion.Nombre;
                     poOpcion.IdModulo = doOpcion.IdModulo;
                     poOpcion.Formulario = doOpcion.Formulario;

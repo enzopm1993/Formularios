@@ -246,17 +246,41 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
             }
         }
 
+        public List<CC_HIGIENE_COMEDOR_COCINA_CTRL> ReporteConsultarHigieneControl(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = (from c in db.CC_HIGIENE_COMEDOR_COCINA_CTRL
+                             where (c.Fecha >= fechaDesde && c.Fecha <= fechaHasta)
+                             select new { c.IdControlHigiene, c.Fecha, c.Hora, c.EstadoReporte, c.Observacion, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobado, c.AprobadoPor }).ToList();
+                List<CC_HIGIENE_COMEDOR_COCINA_CTRL> listacabecera = new List<CC_HIGIENE_COMEDOR_COCINA_CTRL>();              
+                CC_HIGIENE_COMEDOR_COCINA_CTRL cabecera;
+                foreach (var item in lista)
+                {
+                    cabecera = new CC_HIGIENE_COMEDOR_COCINA_CTRL();
+                    cabecera.IdControlHigiene = item.IdControlHigiene;
+                    cabecera.Fecha = item.Fecha;
+                    cabecera.Hora = item.Hora;
+                    cabecera.EstadoReporte = item.EstadoReporte;
+                    cabecera.Observacion = item.Observacion;
+                    cabecera.FechaIngresoLog = item.FechaIngresoLog;
+                    cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    cabecera.FechaAprobado = item.FechaAprobado;
+                    cabecera.AprobadoPor = item.AprobadoPor;
+                    listacabecera.Add(cabecera);
+                }
+                return listacabecera;
+            }
+        }
+
         public List<CC_HIGIENE_COMEDOR_COCINA_CTRL> BandejaConsultarHigieneControl(bool estadoReReporte, DateTime fechaDesde, DateTime fechaHasta)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                //var lista = db.CC_HIGIENE_COMEDOR_COCINA_CTRL.Where(x => x.EstadoReporte == estadoReReporte && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo &&
-                //                                                    x.Fecha.Date >= fechaDesde.Date && x.Fecha.Date <= fechaHasta.Date).ToList();
-                //var lista = db.CC_HIGIENE_COMEDOR_COCINA_CTRL.Where(x=> x.Fecha.Date >= fechaDesde.Date);
                 var lista = (from c in db.CC_HIGIENE_COMEDOR_COCINA_CTRL
-                             where (c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.EstadoReporte == estadoReReporte && c.EstadoRegistro==clsAtributos.EstadoRegistroActivo)
+                             where (c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.EstadoReporte == estadoReReporte && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
                              select new { c.IdControlHigiene, c.Fecha, c.Hora, c.EstadoReporte, c.Observacion, c.FechaIngresoLog, c.UsuarioIngresoLog }).ToList();
-                List<CC_HIGIENE_COMEDOR_COCINA_CTRL> listacabecera = new List<CC_HIGIENE_COMEDOR_COCINA_CTRL>();              
+                List<CC_HIGIENE_COMEDOR_COCINA_CTRL> listacabecera = new List<CC_HIGIENE_COMEDOR_COCINA_CTRL>();
                 CC_HIGIENE_COMEDOR_COCINA_CTRL cabecera;
                 foreach (var item in lista)
                 {

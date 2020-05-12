@@ -923,64 +923,43 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        //-----------------------------------------------IMPRESION PDF---------------------------------------------------------------------
-        public ActionResult PrintReport(DateTime fechaDesde, DateTime fechaHasta, int idControlHigiene, int op)
+        public ActionResult ReporteHigieneComedorCocinaPartailCabecera(DateTime fechaDesde, DateTime fechaHasta)
         {
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
-                    Response.Redirect(Url.Action("Login", "Login"));
+                    return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-                var tablaCabecera = clsDHigieneComedorCocina.ConsultaHigieneSP(idControlHigiene, fechaDesde, fechaHasta, op);
-                var headerPdf = Server.MapPath("~/Views/HigieneComedorCocina/HeaderPdf.html");//ARCHIVO HTML USADO EN LA CABECERA DEL PDF
-                ViewBag.filtroFechaDesde = fechaDesde;
-                ViewBag.filtroFechaHasta = fechaHasta;
-                string customSwitches = string.Format("--header-html  \"{0}\" " +
-                            "--header-font-size \"15\" ", headerPdf);
-                return new ViewAsPdf("PdfReporteHigieneComedorCocinaPartail", tablaCabecera)
-                {//METODO AL QUE SE HACE REFERENCIA ------------------, OBJETO 
-                 // Establece la Cabecera y el Pie de página
-                    CustomSwitches = customSwitches +
-                    "--page-offset 0 --footer-center [page] --footer-font-size 10",
-                    PageSize = Rotativa.Options.Size.A3,
-                    PageMargins = new Rotativa.Options.Margins(25, 5, 10, 5),
-                    PageOrientation = Rotativa.Options.Orientation.Landscape,
-                };
+                var lista = clsDHigieneComedorCocina.ReporteConsultarHigieneControl(fechaDesde, fechaHasta);
+                if (lista.Count() != 0)
+                {
+                    return PartialView(lista);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
             }
             catch (DbEntityValidationException e)
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 lsUsuario = User.Identity.Name.Split('_');
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
             }
             catch (Exception ex)
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 clsDError = new clsDError();
                 lsUsuario = User.Identity.Name.Split('_');
                 string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public ActionResult PdfReporteHigieneComedorCocinaPartail(DateTime fechaDesde, DateTime fechaHasta, int idControlHigiene, int op)
-        {
-            clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-            var tablaCabecera = clsDHigieneComedorCocina.ConsultaHigieneSP(idControlHigiene, fechaDesde, fechaHasta, op);
-            if (tablaCabecera.Count() != 0)
-            {
-                return PartialView(tablaCabecera);
-            }
-            else
-            {
-                return Json("0", JsonRequestBehavior.AllowGet);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
             }
         }
 
