@@ -51,7 +51,7 @@ function ConsultarReporte(model) {
     $("#txtMensaje").html('');
     $("#btnAtras").prop("hidden", false);
     $("#btnConsultar").prop("hidden", true);
-    $("#tblTitulo2").prop("hidden", true);
+    $("#tblTitulo2").prop("hidden", false);
     $("#divCabeceras").prop("hidden", true); 
    
     $("#spinnerCargando").prop("hidden", false);

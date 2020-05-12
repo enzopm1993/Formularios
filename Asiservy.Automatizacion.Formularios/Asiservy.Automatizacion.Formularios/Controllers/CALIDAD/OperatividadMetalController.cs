@@ -610,8 +610,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.dataTableJS = "1";
                 ClsDReporte = new clsDReporte();
                 var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
-                ViewBag.CodigoReporte = rep.Codigo;
-                ViewBag.VersionReporte = rep.UltimaVersion;
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                }
                 lsUsuario = User.Identity.Name.Split('_');
                 return View();
             }

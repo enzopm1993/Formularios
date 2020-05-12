@@ -307,8 +307,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 ViewBag.DateRangePicker = "1";
                 clsDReporte = new clsDReporte();
                 var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
-                ViewBag.CodigoReporte = rep.Codigo;
-                ViewBag.VersionReporte = rep.UltimaVersion;
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                }
                 clsDCondicionPersonal = new clsDCondicionPersonal();
                 ClsDClasificador = new clsDClasificador();
                 ViewBag.Condiciones = clsDCondicionPersonal.ConsultaManteminetoCondicion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();

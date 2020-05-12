@@ -37,6 +37,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                     {
                         query = query.Where(x => x.IdModulo == filtros.IdModulo);
                     }
+
+                    if (filtros.Reporte != null)
+                    {
+                        query = query.Where(x => x.Reporte == filtros.Reporte);
+                    }
                 }
              
                 return query.ToList();
