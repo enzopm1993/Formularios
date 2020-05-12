@@ -13,8 +13,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class CalibracionPhMetroController : Controller
     {
-        string[] lsUsuario = null;
-        clsDError clsDError = null;
+        string[] lsUsuario { get; set; } = null;
+        clsDError clsDError { get; set; } = null;
         clsDCalibracionPhMetro clsDCalibracionPhMetro = null;
         protected void SetSuccessMessage(string message)
         {

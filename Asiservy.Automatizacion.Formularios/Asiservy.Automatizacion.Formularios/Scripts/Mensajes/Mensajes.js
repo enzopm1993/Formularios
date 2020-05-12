@@ -1,5 +1,6 @@
 ﻿var sPath = window.location.pathname;
 var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+var IdDivAprobar;
 function MensajeClose() {
     //location.reload();
    //$(this).modal('hide');
@@ -170,4 +171,19 @@ function MensajeAdvertencia(mensaje, r) {
     //});
 }
 
-
+function MensajeConfirmacion(DivContenedor,IdModal,FuncionSi,mensaje) {
+    $('#' + DivContenedor).html('');
+    $('#' + DivContenedor).prop('hidden', false);
+    $('<div class="alert alert-warning absolute1" role="alert" id="confirmaciondivalert">' +
+        '<p id = "pMensaje">' + mensaje + '</p> <input type="button" id="BtnSi" class="btn btn-secondary" value="Si" onclick="' + FuncionSi +'"> &nbsp;  <input type="button" id="BtnNo" class="btn btn-secondary disabled" value="No" onclick="CerrarConfirmacionAprobar()">' +
+        '<button class="btn btn-primary" type="button" disabled hidden id="btnCargando">' +
+        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>' +
+        'Espere...' +
+        '</button>'+
+        '</div>').hide().appendTo('#' + DivContenedor).fadeIn(1000);
+    $('#' + IdModal).animate({ scrollTop: 0 }, 500);
+    IdDivAprobar = '#' + DivContenedor;
+}
+function CerrarConfirmacionAprobar() {
+    $(IdDivAprobar).prop('hidden', true);
+}

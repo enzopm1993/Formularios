@@ -1,7 +1,16 @@
 ﻿
 @model IEnumerable<Asiservy.Automatizacion.Formularios.Models.Calidad.DetalleEvaluacionLomosMIgasBandejaViewModel>
 
-
+<div class="row">
+    <div class="col-md-3 col-sm-6" id="divfechaap">
+        <div class="form-group">
+            <label>Fecha:</label>
+            <input type="date" min="@Model.FirstOrDefault().FechaControl.Value.ToString("yyyy-MM-dd")" class="form-control" id="txtFechaAprob"/>
+            <label class="text-danger" id="msjerrorfechaaprobacion" hidden>Debe ingresar una fecha de aprobación</label>
+        </div>
+        
+    </div>
+</div>
 <input type="hidden" value="@Model.FirstOrDefault().Aprobado.ToString()" id="txtAprobado" />
 <input type="hidden" value="@Model.FirstOrDefault().IdCabecera" id="txtIdCabecera" />
 <table class="table table-striped table-bordered table-hover" id="tblDetalleBandeja">
@@ -73,7 +82,7 @@
 
             <tr style="cursor:pointer">
                 <td>
-                    @Html.DisplayFor(modelItem => item.Hora)
+                    @item.Hora.Value.ToString("yyyy-MM-dd HH:mm")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Linea)
