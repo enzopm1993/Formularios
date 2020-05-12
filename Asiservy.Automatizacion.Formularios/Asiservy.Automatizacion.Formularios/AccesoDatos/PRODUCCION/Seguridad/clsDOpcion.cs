@@ -50,6 +50,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Seguridad
                 var poOpcion = entities.OPCION.FirstOrDefault(x => x.IdOpcion == doOpcion.IdOpcion);
                 if (poOpcion != null)
                 {
+                    poOpcion.Reporte = doOpcion.Reporte; 
                     poOpcion.Nombre = doOpcion.Nombre;
                     poOpcion.IdModulo = doOpcion.IdModulo;
                     poOpcion.Formulario = doOpcion.Formulario;
