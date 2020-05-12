@@ -2229,6 +2229,7 @@
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ControlEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\EvaluacionDeLomoyMigaEnBandeja\ReporteEvaluacionLomoMigaBandeja.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoOlor\MantenimientoOlor.js" />
+    <Content Include="Scripts\CALIDAD\MantenimientoPediluvio\MantenimientoPediluvio.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoProteina\MantenimientoProteina.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoSabor\MantenimientoSabor.js" />
     <Content Include="Scripts\CALIDAD\MantenimientoTextura\MantenimientoTextura.js" />
@@ -3313,6 +3314,7 @@
     <Compile Include="AccesoDatos\CALIDAD\LavadoDesinfeccionManos\clsDLavadoDesinfeccionManos.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoCisterna\clsDMantenimientoCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoColor\clsDMantenimientoColor.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\MantenimientoPediluvio\ClsDMantenimientoPediluvio.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoOlor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoProteina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoSabor.cs" />
@@ -3406,6 +3408,7 @@
     <Compile Include="Controllers\CALIDAD\MantenimientoCisternaController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoColorController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoOlorController.cs" />
+    <Compile Include="Controllers\CALIDAD\MantenimientoPediluvioController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoProteinaController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoSaborController.cs" />
     <Compile Include="Controllers\CALIDAD\MantenimientoTexturaController.cs" />
@@ -3917,6 +3920,8 @@
     <Content Include="Views\HigieneComedorCocina\ReporteHigieneComedorCocinaPartailCabecera.cshtml" />
     <Content Include="Views\OperatividadMetal\ReporteOperatividadMetalPartial.cshtml" />
     <Content Include="Views\CondicionPersonal\ReporteControlCondicionPersonalPartial.cshtml" />
+    <Content Include="Views\MantenimientoPediluvio\MantenimientoPediluvio.cshtml" />
+    <Content Include="Views\MantenimientoPediluvio\MantenimientoPediluvioPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoColor
@@ -22,7 +20,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoC
             int valor = 0;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_MANTENIMIENTO_COLOR.FirstOrDefault(x => x.IdColor == GuardarModigicar.IdColor );
+                var model = db.CC_MANTENIMIENTO_COLOR.FirstOrDefault(x => x.IdColor == GuardarModigicar.IdColor);
                 if (model != null)
                 {
                     model.Descripcion = GuardarModigicar.Descripcion;

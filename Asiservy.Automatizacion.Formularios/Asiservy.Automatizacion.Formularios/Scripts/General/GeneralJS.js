@@ -13,14 +13,15 @@
 }
 
 function MostrarModalCargando() {
-
-    $('#exampleModalCenter').modal();
+    $('#cargac').show();
+    //$('#Cargac').modal();
 }
 
 
 function CerrarModalCargando() {
   
-    $('#exampleModalCenter').modal("hide");
+    $('#cargac').hide();
+
 }
 
 
