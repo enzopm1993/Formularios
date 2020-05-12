@@ -126,7 +126,7 @@
 
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+                    @item.FechaIngresoLog.ToString("yyyy-MM-dd HH:mm")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
@@ -135,7 +135,9 @@
                     @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+                    @if (item.FechaModificacionLog != null) {
+                        item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm");
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
