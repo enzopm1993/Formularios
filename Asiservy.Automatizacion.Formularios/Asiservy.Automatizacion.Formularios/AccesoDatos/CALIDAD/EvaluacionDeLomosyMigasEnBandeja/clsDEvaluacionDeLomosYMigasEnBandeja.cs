@@ -254,11 +254,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 return resultado;
             }
         }
-        public List<spReporteEvaluacionLomosMigasBandeja> ConsultarReporte(DateTime Fecha)
+        public List<spReporteEvaluacionLomosMigasBandeja> ConsultarReporte(int IdEvaluacionDeLomosYMigasEnBandejas)
         {
             using (var db = new ASIS_PRODEntities())
             {
-               return db.spReporteEvaluacionLomosMigasBandeja(Fecha).ToList();
+               return db.spReporteEvaluacionLomosMigasBandeja(IdEvaluacionDeLomosYMigasEnBandejas).ToList();
             }
         }
         public List<CabeceraEvaluacionLomosMigasViewModel> ConsultarBandejaEvaluacionLomosyMiga(DateTime? FechaInicio, DateTime? FechaFin,bool EstadoControl)
@@ -361,7 +361,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 var respuesta = (from x in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA
                                  join cl in db.CLASIFICADOR on new { Codigo = x.NivelLimpieza, Grupo = "008", EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { cl.Codigo, cl.Grupo, cl.EstadoRegistro }
                                  join d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE on new { IdCabeceraEvaluacionLomosYMigasEnBandeja = x.IdEvaluacionDeLomosYMigasEnBandejas, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { d.IdCabeceraEvaluacionLomosYMigasEnBandeja, d.EstadoRegistro }
-                                 where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.EstadoControl == clsAtributos.EstadoReportePendiente || x.EstadoControl == null) && cl.Codigo != "0"
+                                 where x.EstadoRegistro == clsAtributos.EstadoRegistroActivo && (x.FechaProduccion>=FechaDesde&&x.FechaProduccion<=FechaHasta) && cl.Codigo != "0"
                                  select new CabeceraEvaluacionLomosMigasViewModel
                                  {
                                      Cliente = x.Cliente,

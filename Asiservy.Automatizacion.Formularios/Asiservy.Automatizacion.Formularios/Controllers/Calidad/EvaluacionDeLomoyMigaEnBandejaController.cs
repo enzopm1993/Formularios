@@ -466,7 +466,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult PartialReporteEvaluacionLomosMigasBandeja(DateTime Fecha)
+        public ActionResult PartialReporteEvaluacionLomosMigasBandeja(int IdEvaluacionDeLomosYMigasEnBandejas)
         {
             try
             {
@@ -479,7 +479,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                 List<spReporteEvaluacionLomosMigasBandeja> resultado;
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
-                resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarReporte(Fecha).OrderBy(x=>x.Hora).ToList();
+                resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarReporte(IdEvaluacionDeLomosYMigasEnBandejas).OrderBy(x=>x.Hora).ToList();
                 if (resultado.Count == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
