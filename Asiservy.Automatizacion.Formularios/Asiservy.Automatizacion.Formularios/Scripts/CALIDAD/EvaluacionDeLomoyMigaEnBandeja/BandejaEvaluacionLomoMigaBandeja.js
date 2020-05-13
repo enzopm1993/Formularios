@@ -1,5 +1,6 @@
 ﻿var Error = 0;
 var IdControlAp;
+
 $(document).ready(function () {
     CargarBandeja();
     
@@ -99,7 +100,31 @@ function AbrirModalDetalle(IdCabecera) {
             if (resultado != '"0"') {
                 $('#DivDetalle').empty();
                 $('#DivDetalle').html(resultado);
-                $("#txtFechaAprob").keypress(function (event) { event.preventDefault(); });
+                $('#txtfechaaprob').prop('readonly',true);
+                
+                
+                $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+                    icons: {
+                        time: 'far fa-clock',
+                        date: 'far fa-calendar-alt',
+                        up: 'fas fa-caret-up',
+                        down: 'fas fa-caret-down',
+                        previous: 'fas fa-backward',
+                        next: 'fas fa-forward',
+                        today: 'fas fa-calendar-day',
+                        clear: 'fas fa-trash-alt',
+                        close: 'fas fa-window-close'
+                    }
+                });
+                $('#datetimepicker1').datetimepicker(
+                    {
+                        date: moment().format("YYYY-MM-DD HH:mm"),
+                        format: "YYYY-MM-DD HH:mm",
+                        minDate: moment($('#fechacontrol').val(), "YYYY-MM-DD HH:mm"),
+                        ignoreReadonly: true
+                    });
+             
+  
                 config.opcionesDT.pageLength = 10;
                 $('#tblDetalleBandeja').DataTable(config.opcionesDT);
                 if ($('#txtAprobado').val() == 'True') {
@@ -151,10 +176,11 @@ function AprobarControl() {
     //var canvas = document.getElementById("firmacanvas");
     //var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
     
-
+    var fechaingresada = $('#datetimepicker1').datetimepicker('viewDate');
+    //console.log(fechaingresada);
         const data = new FormData();
         data.append('IdCabecera', IdControlAp);
-        data.append('Fecha', $('#txtFechaAprob').val());
+        data.append('Fecha', moment(fechaingresada._d).format('YYYY-MM-DD HH:mm'));
         //data.append('imagen', image);
         fetch("../EvaluacionDeLomoyMigaEnBandeja/AprobarControl", {
             method: 'POST',
@@ -179,6 +205,8 @@ function AprobarControl() {
             $('#BtnSi').prop('hidden', false);
             $('#BtnNo').prop('hidden', false);
             $('#btnCargando').prop('hidden', true);
+
+            $('#btnAprobar').prop('disabled', false);
             $('#btnclose').prop('disabled', false);
             $('#btncerrar').prop('disabled', false);
 
@@ -194,6 +222,8 @@ function AprobarControl() {
                 $('#BtnSi').prop('hidden', false);
                 $('#BtnNo').prop('hidden', false);
                 $('#btnCargando').prop('hidden', true);
+
+          
             })
    
     

@@ -75,8 +75,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LavadoDesinfec
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var listado = db.sp_Reporte_Lavado_Desinfeccion_Manos(fechaDesde, fechaHasta, opcion).ToList();
-                return listado;
+                //var listado = db.sp_Reporte_Lavado_Desinfeccion_Manos(fechaDesde, fechaHasta, opcion).ToList();
+                return null;
             }
         }
 
