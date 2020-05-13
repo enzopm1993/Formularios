@@ -7,7 +7,21 @@
         @@page {
             size: landscape;
         }
-        
+        #revisado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: dimgrey;
+        }
+
+        #realizado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: dimgrey;
+        }
         #divcarddet {
             border: none;
         }
@@ -66,9 +80,26 @@
         }
     }
     @@media screen{
-        #tblDataTableReporte tbody tr{
-            cursor:pointer;
+        #logo{
+            display:none;
+        }
+        #revisado{
             text-align:center;
+            border-bottom:0px;
+            border-right:0px;
+            border-left:0px;
+            border-top-color:black;
+        }
+        #realizado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: black;
+        }
+        #tblDataTableReporte tbody tr {
+            cursor: pointer;
+            text-align: center;
         }
         #tblDataTableReporte thead tr {
          
@@ -90,10 +121,10 @@
         #tablaCab {
             /*border-bottom: 1rem;*/
         }
-        #tbltitulo {
+        /*#tbltitulo {
             display: none;
             margin-bottom: 0rem;
-        }
+        }*/
         input, select, textarea {
             max-width: 100%;
         }

@@ -1,19 +1,25 @@
 ﻿$(document).ready(function () {
     CargarCabecera(1);
-
 });
 
 function CargarCabecera(op) {
+    $('#lblMostrarFecha').text('');
+    $('#lblMostrarHora').text('');
+    $('#lblMostrarObservacion').text('');
     $('#cargac').show();
-    if ($("#fechaDesde").val() == '') {
+    
+    if ($("#fechaDesde").val() == '' || $("#fechaHasta").val() == '') {
         var date = new Date();
-        $("#fechaDesde").val(moment(date).format('YYYY-MM-DD'))
-        $("#fechaHasta").val(moment(date).format('YYYY-MM-DD'))
+        var shortDate = moment(date).format('YYYY-MM-DD');
+        shortDate += ' 23:59';
+        $("#fechaDesde").val(moment(date).format('YYYY-MM-DD'));
+        $("#fechaHasta").val(moment(shortDate).format('YYYY-MM-DDTHH:mm'));
+    } else {
+        var d = '';
+         d = $("#fechaHasta").val();
+        $("#fechaHasta").val(moment(d).format('YYYY-MM-DDTHH:mm'));        
     }
-    $("#firmaDigital").prop("hidden", true);
-    if ($("#fechaDesde").val() == $("#fechaHasta").val()) {
-        
-    }
+   
     $.ajax({
         url: "../HigieneComedorCocina/ReporteHigieneComedorCocinaPartailCabecera",
         data: {
@@ -43,9 +49,25 @@ function CargarCabecera(op) {
 function SeleccionarCabecera(jdata) {
     $('#cargac').show();
     var op = 0;
-    //console.log(@ViewBag.prueba);
+
+    $('#lblMostrarFecha').text(moment(jdata.Fecha).format('DD-MM-YYYY'));
+    $('#lblMostrarHora').text(moment(jdata.Fecha).format('HH:mm')); 
+    $('#lblMostrarObservacion').text('\u00a0' + jdata.Observacion.toUpperCase());
+    $('#txtUsuarioCreacion').text('\u00a0' + jdata.UsuarioIngresoLog.toUpperCase());
+    $('#txtFechaCreacion').text('\u00a0' + moment(jdata.FechaIngresoLog).format('DD-MM-YYYY'));
+    if (jdata.AprobadoPor == null) {
+        jdata.AprobadoPor = '';
+    }
+   
+    if (jdata.FechaAprobado != null) {
+        jdata.FechaAprobado = moment(jdata.FechaAprobado).format('DD-MM-YYYY');
+    } else if (jdata.FechaAprobado == null) {
+        jdata.FechaAprobado = '';
+    }
+    $('#txtUsuarioAprobacion').text('\u00a0' + jdata.AprobadoPor);
+    $('#txtFechaAprobacion').text('\u00a0' + jdata.FechaAprobado);
     $.ajax({
-        url: "../HigieneComedorCocina/ReporteHigieneComedorCocinaPartail",
+        url: "../HigieneComedorCocina/ReporteHigieneComedorCocinaPartail",//MUESTRO EL DETALLE DE LA FILA SELECCIONADA
         data: {
             fechaDesde: $("#fechaDesde").val(),
             fechaHasta: $("#fechaHasta").val(),
@@ -66,7 +88,7 @@ function SeleccionarCabecera(jdata) {
                 $("#divMostarTablaCabecera").prop('hidden', true);
                 $("#divCardMostrarDetalle").prop('hidden', false);
                 $('#divBotones').prop('hidden', false);
-                $("#divMostarTablaDetalle").html(resultado);
+                $("#divMostarTablaDetalle").html(resultado);            
             }
             setTimeout(function () {
                 $('#cargac').hide();
@@ -84,10 +106,15 @@ function Atras() {
     $("#divMostarTablaCabecera").prop('hidden', false);
     $("#divCardMostrarDetalle").prop('hidden', true);
     $("#divMostarTablaDetalle").html('');
-    setTimeout(function () {
+    
         $('#cargac').hide();
-    }, 200);
+    
 }
+
+function printDiv() {
+    window.print();
+}
+
 //FECHA DataRangePicker
 $(function () {
     var start = moment();

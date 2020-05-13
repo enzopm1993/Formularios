@@ -40,12 +40,16 @@ function CargarBandeja() {
 }
 
 function SeleccionarBandeja(model) {
+    var date = new Date();
+    $('#txtFechaAprobado').val(moment(date).format('YYYY-MM-DDTHH:mm'));
     $('#cargac').show();
     listaDatos = model;
     if (model.EstadoReporte == true) {
+        $('#txtFechaAprobado').prop('hidden', true);
         $('#btnAprobado').prop('hidden', true);
         $('#btnPendiente').prop('hidden', false);
     } else {
+        $('#txtFechaAprobado').prop('hidden', false);        
         $('#btnPendiente').prop('hidden', true);
         $('#btnAprobado').prop('hidden', false);
     }
@@ -72,7 +76,7 @@ function SeleccionarBandeja(model) {
                 $("#tblAprobarPendientePartial").html('');
                 $("#ModalApruebaPendiente").modal("show");
                 $("#divAprobarPendientePartial").html(resultado);
-                ConsultarFirma();               
+                //ConsultarFirma();               
             }
             $('#cargac').hide();
         },
@@ -84,7 +88,17 @@ function SeleccionarBandeja(model) {
 }
 
 function AprobarPendiente(estadoReporte) {
-    GuardarFirma();
+    var date = new Date();
+    if ($("#selectEstadoRegistro").val() == 'false') {
+        if (moment($('#txtFechaAprobado').val()).format('') < moment(listaDatos.FechaIngresoLog).format('YYYY-MM-DD')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser menor a la fecha de creacion del reporte: <span class="badge badge-danger">' + moment(listaDatos.FechaIngresoLog).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+        if ($('#txtFechaAprobado').val() > moment(date).format('YYYY-MM-DD')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser mayor a la fecha actual: <span class="badge badge-danger">' + moment(date).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+    } else { $('#txtFechaAprobado').val(''); }
     var siAprobar = 1;
     $.ajax({
         url: "../HigieneComedorCocina/GuardarModificarHigieneControl",
@@ -92,6 +106,7 @@ function AprobarPendiente(estadoReporte) {
         data: {
             IdControlHigiene: listaDatos.IdControlHigiene,
             EstadoReporte: estadoReporte,
+            FechaAprobado: $('#txtFechaAprobado').val(),
             siAprobar: siAprobar
         },
         success: function (resultado) {
@@ -103,8 +118,7 @@ function AprobarPendiente(estadoReporte) {
             } else {
                 MensajeError('El registro no debe guardarse- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion');
                 return;
-            }
-
+            }            
             $("#ModalApruebaPendiente").modal("hide");
             CargarBandeja();
             listaDatos = [];
@@ -115,132 +129,141 @@ function AprobarPendiente(estadoReporte) {
     });
 }
 
-function GuardarFirma() {
-    if (!signaturePad.isEmpty()) {
-        var canvas = document.getElementById("firmacanvas");
-        var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
-        var formData = new FormData();
-        formData.append('image', image);
-        formData.append('idControlHigiene', listaDatos.IdControlHigiene);
-        $.ajax({
-            type: 'POST',
-            url: '/HigieneComedorCocina/BandejaGuardarImagenFirma',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (resultado) {
-                ClearPAd();
-                if (resultado == "101") {
-                    window.location.reload();
-                }
-                if (resultado != 0) {
-                    $('#div_ImagenFirma').prop('hidden', false);
-                    document.getElementById('ImgFirma').src = resultado;
-                    $('#signature-pad').prop('hidden', true);
-                    MensajeCorrecto("Firma ingresada Correctamente");
-                } else {
-                    MensajeAdvertencia('¡Error al guardar la Firma: !' + listaDatos.IdControlHigiene);
-                }
-            }
-        });
+function validar() {
+    if ($('#txtFechaAprobado').val() == '') {
+        $("#txtFechaAprobado").css('border', '1px dashed red');
+        MensajeAdvertencia('Fecha invalida');
+        return;
+    } else {
+        $("#txtFechaAprobado").css('border', '');
     }
 }
+//function GuardarFirma() {
+//    if (!signaturePad.isEmpty()) {
+//        var canvas = document.getElementById("firmacanvas");
+//        var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
+//        var formData = new FormData();
+//        formData.append('image', image);
+//        formData.append('idControlHigiene', listaDatos.IdControlHigiene);
+//        $.ajax({
+//            type: 'POST',
+//            url: '/HigieneComedorCocina/BandejaGuardarImagenFirma',
+//            data: formData,
+//            processData: false,
+//            contentType: false,
+//            success: function (resultado) {
+//                ClearPAd();
+//                if (resultado == "101") {
+//                    window.location.reload();
+//                }
+//                if (resultado != 0) {
+//                    $('#div_ImagenFirma').prop('hidden', false);
+//                    document.getElementById('ImgFirma').src = resultado;
+//                    $('#signature-pad').prop('hidden', true);
+//                    MensajeCorrecto("Firma ingresada Correctamente");
+//                } else {
+//                    MensajeAdvertencia('¡Error al guardar la Firma: !' + listaDatos.IdControlHigiene);
+//                }
+//            }
+//        });
+//    }
+//}
 
-function VolverAFirmar() {
-    $('#div_ImagenFirma').prop('hidden', true);
-    $('#signature-pad').prop('hidden', false);
-}
+//function VolverAFirmar() {
+//    $('#div_ImagenFirma').prop('hidden', true);
+//    $('#signature-pad').prop('hidden', false);
+//}
 
-function ConsultarFirma() {
-    ClearPAd();
-    $.ajax({
-        url: "../HigieneComedorCocina/BandejaConsultarImagenFirma",
-        type: "GET",
-        data: {
-            idControlHigiene: listaDatos.IdControlHigiene
-        },
-        success: function (resultado) {
-            $("#btnGuardarFirma").prop("hidden", true);
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado != '0') {
-                document.getElementById('ImgFirma').src = resultado;
-                $('#div_ImagenFirma').prop('hidden', false);
-                $("#btnActualizarFirma").prop("hidden", false);
-                $('#signature-pad').prop('hidden', true);
-            } else {
-                $('#signature-pad').prop('hidden', false);
-                $('#div_ImagenFirma').prop('hidden', true);
-                //$('#firmaDigital').prop('hidden', true);
-            }
-            if (listaDatos.EstadoReporte == true) {
-                $("#btnActualizarFirma").prop("hidden", true);
-                $("#signature-pad").prop("hidden", true);
-            }
-        },
-        error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
-        }
-    });
-}
+//function ConsultarFirma() {
+//    ClearPAd();
+//    $.ajax({
+//        url: "../HigieneComedorCocina/BandejaConsultarImagenFirma",
+//        type: "GET",
+//        data: {
+//            idControlHigiene: listaDatos.IdControlHigiene
+//        },
+//        success: function (resultado) {
+//            $("#btnGuardarFirma").prop("hidden", true);
+//            if (resultado == "101") {
+//                window.location.reload();
+//            }
+//            if (resultado != '0') {
+//                document.getElementById('ImgFirma').src = resultado;
+//                $('#div_ImagenFirma').prop('hidden', false);
+//                $("#btnActualizarFirma").prop("hidden", false);
+//                $('#signature-pad').prop('hidden', true);
+//            } else {
+//                $('#signature-pad').prop('hidden', false);
+//                $('#div_ImagenFirma').prop('hidden', true);
+//                //$('#firmaDigital').prop('hidden', true);
+//            }
+//            if (listaDatos.EstadoReporte == true) {
+//                $("#btnActualizarFirma").prop("hidden", true);
+//                $("#signature-pad").prop("hidden", true);
+//            }
+//        },
+//        error: function (resultado) {
+//            MensajeError("Error: Comuníquese con sistemas", false);
+//        }
+//    });
+//}
 
-function ClearPAd() {
-    signaturePad.clear();
-}
+//function ClearPAd() {
+//    signaturePad.clear();
+//}
 
 //BEGIN SIGNATURE API
-var clearButton = wrapper.querySelector("[data-action=clear]");
+//var clearButton = wrapper.querySelector("[data-action=clear]");
 //var changeColorButton = wrapper.querySelector("[data-action=change-color]");
 //var undoButton = wrapper.querySelector("[data-action=undo]");
 //var savePNGButton = wrapper.querySelector("[data-action=save-png]");
 //var saveJPGButton = wrapper.querySelector("[data-action=save-jpg]");
 //var saveSVGButton = wrapper.querySelector("[data-action=save-svg]");
 
-var canvas = document.querySelector("canvas");
+//var canvas = document.querySelector("canvas");
 
-var signaturePad = new SignaturePad(canvas);
-signaturePad.on();
+//var signaturePad = new SignaturePad(canvas);
+//signaturePad.on();
 
-function download(dataURL, filename) {
-    if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
-        window.open(dataURL);
-    } else {
-        var blob = dataURLToBlob(dataURL);
-        var url = window.URL.createObjectURL(blob);
+//function download(dataURL, filename) {
+//    if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
+//        window.open(dataURL);
+//    } else {
+//        var blob = dataURLToBlob(dataURL);
+//        var url = window.URL.createObjectURL(blob);
 
-        var a = document.createElement("a");
-        a.style = "display: none";
-        a.href = url;
-        a.download = filename;
+//        var a = document.createElement("a");
+//        a.style = "display: none";
+//        a.href = url;
+//        a.download = filename;
 
-        document.body.appendChild(a);
-        a.click();
+//        document.body.appendChild(a);
+//        a.click();
 
-        window.URL.revokeObjectURL(url);
-    }
-}
+//        window.URL.revokeObjectURL(url);
+//    }
+//}
 
 // One could simply use Canvas#toBlob method instead, but it's just to show
 // that it can be done using result of SignaturePad#toDataURL.
-function dataURLToBlob(dataURL) {
-    // Code taken from https://github.com/ebidel/filer.js
-    var parts = dataURL.split(';base64,');
-    var contentType = parts[0].split(":")[1];
-    var raw = window.atob(parts[1]);
-    var rawLength = raw.length;
-    var uInt8Array = new Uint8Array(rawLength);
+//function dataURLToBlob(dataURL) {
+//    // Code taken from https://github.com/ebidel/filer.js
+//    var parts = dataURL.split(';base64,');
+//    var contentType = parts[0].split(":")[1];
+//    var raw = window.atob(parts[1]);
+//    var rawLength = raw.length;
+//    var uInt8Array = new Uint8Array(rawLength);
 
-    for (var i = 0; i < rawLength; ++i) {
-        uInt8Array[i] = raw.charCodeAt(i);
-    }
+//    for (var i = 0; i < rawLength; ++i) {
+//        uInt8Array[i] = raw.charCodeAt(i);
+//    }
 
-    return new Blob([uInt8Array], { type: contentType });
-}
+//    return new Blob([uInt8Array], { type: contentType });
+//}
 
-clearButton.addEventListener("click", function (event) {
-    signaturePad.clear();
-});
+//clearButton.addEventListener("click", function (event) {
+//    signaturePad.clear();
+//});
 //END SIGNATURE API
 
 

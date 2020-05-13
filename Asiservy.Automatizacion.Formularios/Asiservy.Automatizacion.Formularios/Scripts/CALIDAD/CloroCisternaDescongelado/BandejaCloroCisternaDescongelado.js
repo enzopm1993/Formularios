@@ -43,7 +43,7 @@ var configModal = {
 }
 //CARGAR BANDEJA
 function CargarBandeja() {
-    $("#spinnerCargando").prop("hidden", false);
+    //$("#spinnerCargando").prop("hidden", false);
     $.ajax({
         url: "../CloroCisternaDescongelado/BandejaCloroCisternaDescongeladoPartial",
         type: "GET",       
@@ -57,16 +57,17 @@ function CargarBandeja() {
             } 
             $("#btnPendiente").prop("hidden", true);
             $("#btnAprobado").prop("hidden", false);
-            $("#spinnerCargando").prop("hidden", true);
+            //$("#spinnerCargando").prop("hidden", true);
         },
         error: function (resultado) {
-            $("#spinnerCargando").prop("hidden", true);
             MensajeError(resultado.responseText, false);
         }
     });
 }
 
 function SeleccionarBandeja(model) {
+    var date = new Date();
+    $('#txtFechaAprobado').val(moment(date).format('YYYY-MM-DDTHH:mm'));
     var table = $("#tblDataTableAprobar");        
     table.DataTable().clear();    
     
@@ -107,20 +108,30 @@ function SeleccionarBandeja(model) {
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
-            $("#spinnerCargandoMaterial").prop("hidden", true);
+            //$("#spinnerCargandoMaterial").prop("hidden", true);
         }
     });
 }
 
 function AprobarControlCloroDetalle(data) {
+    if ($("#selectEstadoRegistro").val() == 'false') {
+        var date = new Date();
+        if ($('#txtFechaAprobado').val() < moment(listaDatos.FechaIngresoLog).format('YYYY-MM-DDTHH:mm')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser menor a la fecha de creacion del reporte: <span class="badge badge-danger">' + moment(listaDatos.FechaIngresoLog).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+        if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') > moment(date).format('YYYY-MM-DD')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser mayor a la fecha actual: <span class="badge badge-danger">' + moment(date).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+    } else { $('#txtFechaAprobado').val('');}
     var estadoReporte = data;
     $.ajax({
         url: "../CloroCisternaDescongelado/AprobarBandejaControlCloro",
         type: "POST",
         data: {
             IdCloroCisterna: listaDatos.IdCloroCisterna,
-            Fecha: listaDatos.Fecha,
-            Observaciones: listaDatos.Observaciones,
+            FechaAprobacion: $('#txtFechaAprobado').val(),
             EstadoReporte:estadoReporte
         },
         success: function (resultado) {
@@ -137,13 +148,19 @@ function AprobarControlCloroDetalle(data) {
     });
 }
 
-function FiltrarAprobadosFecha() { 
-    if ($("#selectEstadoRegistro").val() == 'false') {        
+function FiltrarAprobadosFecha() {
+    if ($("#selectEstadoRegistro").val() == 'false') {
         $("#divDateRangePicker").prop('hidden', true);
+        $('#txtFechaAprobado').prop('hidden', false);
+        $("#btnPendiente").prop("hidden", true);
+        $("#btnAprobado").prop("hidden", false);
         CargarBandeja();
-        
-    } else {    
-        $("#spinnerCargando").prop("hidden", false);
+    } else {
+        $("#divDateRangePicker").prop('hidden', false);
+        $('#txtFechaAprobado').prop('hidden', true);
+        $('#txtFechaAprobado').val('');
+        $("#btnPendiente").prop("hidden", false);
+        $("#btnAprobado").prop("hidden", true);
         $.ajax({
             url: "../CloroCisternaDescongelado/BandejaAprobadosCloroCisternaDescongeladoPartial",
             type: "GET",
@@ -153,27 +170,37 @@ function FiltrarAprobadosFecha() {
                 estadoRegistro: $("#selectEstadoRegistro").val()
             },
             success: function (resultado) {
+                $('#divPartialControlCloro').empty();
                 if (resultado == '0') {
                     $('#MensajeRegistros').show();
-                    $('#divPartialControlCloro').html('');            
+                    $('#divPartialControlCloro').html('');
 
                 } else {
                     $('#MensajeRegistros').hide();
-                    $('#divPartialControlCloro').html(resultado);            
+                    $('#divPartialControlCloro').html(resultado);
                 }
-                $("#spinnerCargando").prop("hidden", true);
+                //$("#spinnerCargando").prop("hidden", true);
                 $("#btnPendiente").prop("hidden", false);
                 $("#btnAprobado").prop("hidden", true);
-                $("#divDateRangePicker").prop('hidden', false);
+                //$("#divDateRangePicker").prop('hidden', false);
             },
             error: function (resultado) {
-                $("#spinnerCargando").prop("hidden", true);
+                //$("#spinnerCargando").prop("hidden", true);
                 MensajeError(resultado.responseText, false);
             }
         });
     }
 }
 
+function validar() {
+    if ($('#txtFechaAprobado').val() == '') {
+        $("#txtFechaAprobado").css('border', '1px dashed red');
+        MensajeAdvertencia('Fecha invalida');
+        return;
+    } else {
+        $("#txtFechaAprobado").css('border', '');
+    }
+}
 
 //FECHA DataRangePicker
 $(function () {

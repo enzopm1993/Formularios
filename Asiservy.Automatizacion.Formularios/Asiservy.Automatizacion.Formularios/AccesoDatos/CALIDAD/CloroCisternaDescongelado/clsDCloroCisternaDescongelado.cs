@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaDescongelado
@@ -123,22 +122,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaD
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.CC_CLORO_CISTERNA_DESCONGELADO.FirstOrDefault(x => x.IdCloroCisterna == controlCloro.IdCloroCisterna || (x.Fecha == controlCloro.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                var model = db.CC_CLORO_CISTERNA_DESCONGELADO.FirstOrDefault(x => x.IdCloroCisterna == controlCloro.IdCloroCisterna  && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (model != null)
                 {
-                    model.Observaciones = controlCloro.Observaciones;
                     model.EstadoReporte = controlCloro.EstadoReporte;
                     model.AprobadoPor = controlCloro.AprobadoPor;
                     model.FechaAprobacion = controlCloro.FechaAprobacion;
-                    model.FechaModificacionLog = controlCloro.FechaIngresoLog;
-                    model.TerminalModificacionLog = controlCloro.TerminalIngresoLog;
-                    model.UsuarioModificacionLog = controlCloro.UsuarioIngresoLog;
-                }
-                else
-                {
-                    db.CC_CLORO_CISTERNA_DESCONGELADO.Add(model);
-                }
-                db.SaveChanges();
+                    db.SaveChanges();
+                }               
             }
         }
         public List<sp_CloroCisternaDescongelado> ConsultarCloroCisternaRangoFecha(DateTime fechaDesde, DateTime fechaHasta, int idCloroCisterna, int op)
@@ -147,6 +138,33 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaD
             {
                 var listado = db.sp_CloroCisternaDescongelado(fechaDesde, fechaHasta, idCloroCisterna, op).ToList();
                 return listado;
+            }
+        }
+
+        public List<CC_CLORO_CISTERNA_DESCONGELADO> ReporteConsultarcabecera(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = (from c in db.CC_CLORO_CISTERNA_DESCONGELADO
+                             where (c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
+                             orderby c.Fecha descending
+                             select new { c.IdCloroCisterna, c.Fecha, c.EstadoReporte, c.Observaciones, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobacion, c.AprobadoPor }).ToList();
+                List<CC_CLORO_CISTERNA_DESCONGELADO> listacabecera = new List<CC_CLORO_CISTERNA_DESCONGELADO>();
+                CC_CLORO_CISTERNA_DESCONGELADO cabecera;
+                foreach (var item in lista)
+                {
+                    cabecera = new CC_CLORO_CISTERNA_DESCONGELADO();
+                    cabecera.IdCloroCisterna = item.IdCloroCisterna;
+                    cabecera.Fecha = item.Fecha;
+                    cabecera.EstadoReporte = item.EstadoReporte;
+                    cabecera.Observaciones = item.Observaciones;
+                    cabecera.FechaIngresoLog = item.FechaIngresoLog;
+                    cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    cabecera.FechaAprobacion = item.FechaAprobacion;
+                    cabecera.AprobadoPor = item.AprobadoPor;
+                    listacabecera.Add(cabecera);
+                }
+                return listacabecera;
             }
         }
     }

@@ -6,17 +6,17 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Rotativa;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class HigieneComedorCocinaController : Controller
     {
-        clsDError clsDError = null;
-        clsDHigieneComedorCocina clsDHigieneComedorCocina = null;
-        string[] lsUsuario;
+        clsDError clsDError { get; set; } = null;
+        clsDHigieneComedorCocina clsDHigieneComedorCocina { get; set; } = null;
+        string[] lsUsuario { get; set; }=null;
+        public clsDReporte ClsDReporte { get; set; } = null;
 
         public ActionResult MantHigieneComedorCocina()
         {
@@ -376,7 +376,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
                 var lista = clsDHigieneComedorCocina.ConsultaHigieneMantActivos(estadoRegistro);
-                if (lista.Count() != 0)
+                if (lista != null)
                 {
                     return PartialView(lista);
                 }
@@ -729,9 +729,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-                var lista = clsDHigieneComedorCocina.BandejaConsultarHigieneControl(estadoReporte, fechaDesde, fechaHasta);
-                if (lista.Count() != 0)
-                {
+                var lista = clsDHigieneComedorCocina.BandejaConsultarHigieneControl(estadoReporte, fechaDesde, fechaHasta);                
+                if (lista.Any())
+                {                    
                     return PartialView(lista);
                 }
                 else
@@ -860,6 +860,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.FirmaPad = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
+                ClsDReporte = new clsDReporte();                
+                var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                }
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 return View();
             }
@@ -894,7 +901,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
                 var tablaCabecera = clsDHigieneComedorCocina.ConsultaHigieneSP(idControlHigiene, fechaDesde, fechaHasta, op);
-                if (tablaCabecera.Count() != 0)
+                if (tablaCabecera.Count!=0)
                 {
                     return PartialView(tablaCabecera);
                 }
@@ -934,7 +941,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
                 var lista = clsDHigieneComedorCocina.ReporteConsultarHigieneControl(fechaDesde, fechaHasta);
-                if (lista.Count() != 0)
+                if (lista.Count != 0)
                 {
                     return PartialView(lista);
                 }

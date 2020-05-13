@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CLORO_CISTERNA_DESCONGELADO>
+@using Newtonsoft.Json;
+
+<table class="table table-bordered table-hover" id="tblDataTable">
+    <thead style="font-size:14px">
+        <tr>
+
+            <th>
+                FECHA
+            </th>
+            <th>
+                OBSERVACION
+            </th>
+            <th>
+                APROBADO POR
+            </th>
+            <th>
+                FECHA APROBACION
+            </th>
+            <th>
+                ESTADO
+            </th>
+
+        </tr>
+    </thead>
+    <tbody style="font-size:13px">
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+            <tr onclick="SeleccionarCabecera(@json)">
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Observaciones))
+                    {
+                        @item.Observaciones.ToUpper()
+                    }
+                </td>
+                <td>
+                    @item.AprobadoPor
+                </td>
+                <td>
+                    @{ DateTime date = Convert.ToDateTime(item.FechaAprobacion);}
+                    @if (date.ToString() != "1/1/0001 12:00:00 AM")
+                    {
+                        @date.ToString("dd-MM-yyyy")
+                    }
+                </td>
+                <td>
+                    @if (item.EstadoReporte)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">PENDIENTE</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedorCocina
@@ -142,8 +141,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
                     if (siAprobar == 1)
                     {
                         model.EstadoReporte = guardarModificar.EstadoReporte;
-                        model.FechaAprobado = guardarModificar.FechaIngresoLog;
                         model.AprobadoPor = guardarModificar.UsuarioIngresoLog;
+                        model.FechaAprobado = guardarModificar.FechaAprobado;
                         valor = 2;//APRROBADO
                     }
                     else
@@ -251,7 +250,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.HigieneComedor
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var lista = (from c in db.CC_HIGIENE_COMEDOR_COCINA_CTRL
-                             where (c.Fecha >= fechaDesde && c.Fecha <= fechaHasta)
+                             where (c.Fecha >= fechaDesde &&  c.Fecha <= fechaHasta && c.EstadoRegistro==clsAtributos.EstadoRegistroActivo)
+                             orderby c.Fecha descending
                              select new { c.IdControlHigiene, c.Fecha, c.Hora, c.EstadoReporte, c.Observacion, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobado, c.AprobadoPor }).ToList();
                 List<CC_HIGIENE_COMEDOR_COCINA_CTRL> listacabecera = new List<CC_HIGIENE_COMEDOR_COCINA_CTRL>();              
                 CC_HIGIENE_COMEDOR_COCINA_CTRL cabecera;
