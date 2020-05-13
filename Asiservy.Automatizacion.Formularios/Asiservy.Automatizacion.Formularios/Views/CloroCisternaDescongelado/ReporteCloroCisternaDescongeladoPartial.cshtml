@@ -2,10 +2,7 @@
 
 <table class="table table-bordered">
     <thead style="font-size:14px">
-        <tr>
-            <th>
-                FECHA
-            </th>
+        <tr>           
             <th>
                 HORA
             </th>
@@ -18,21 +15,19 @@
             <th>
                 OBSERVACION
             </th>
-            <th>
+            @*<th>
                 APROBADO POR
             </th>
             <th>
                 ESTADO
-            </th>
+            </th>*@
         </tr>
     </thead>
     <tbody style="font-size:12px">
         @foreach (var item in Model)
         {
             <tr style="page-break-inside: avoid;">
-                <td>
-                    @item.Fecha.ToString("dd-MM-yyyy")
-                </td>
+                
                 <td>
                     @item.HoraDet.ToString("HH:mm")
                 </td>
@@ -59,7 +54,7 @@
                         @item.ObservacionDet
                     }
                 </td>
-                <td>
+                @*<td>
                     @item.AprobadoPor
                 </td>
                 <td>
@@ -71,7 +66,7 @@
                     {
                         <span class="badge badge-danger">PENDIENTE</span>
                     }
-                </td>
+                </td>*@
             </tr>
         }
     </tbody>

@@ -1,37 +1,129 @@
 ﻿var listaDatos = [];
-$(document).ready(function () { 
-    CargarReporteControlCloro(0);    
+$(document).ready(function () {
+    //CargarReporteControlCloro(0);
+    CargarCabecera();
 });
-function CargarReporteControlCloroCabecera(op) {
-    listaDatos = null;  
-   
-        $.ajax({
-            url: "../CloroCisternaDescongelado/ValidarCloroCisternaDescongelado",
-            type: "GET",
-            data: {
-                fechaDesde: $('#txtFecha').val(),
-                fechaHasta: $('#txtFecha').val(),
-                idCloroCisterna: 0,
-                op: op
-            },
-            success: function (resultado) {
-                listaDatos = resultado;
-            },
-            error: function (resultado) {
-                MensajeError(resultado.responseText, false);
+
+function CargarCabecera() {
+    $('#lblMostrarFecha').text('');
+    $('#lblMostrarHora').text('');
+    $('#lblMostrarObservacion').text('');
+    $('#cargac').show();
+
+    if ($("#fechaDesde").val() == '' || $("#fechaHasta").val() == '') {
+        var date = new Date();
+        var shortDate = moment(date).format('YYYY-MM-DD');
+        shortDate += ' 23:59';
+        $("#fechaDesde").val(moment(date).format('YYYY-MM-DD'));
+        $("#fechaHasta").val(moment(shortDate).format('YYYY-MM-DDTHH:mm'));
+    } else {
+        var d = '';
+        d = $("#fechaHasta").val();
+        $("#fechaHasta").val(moment(d).format('YYYY-MM-DDTHH:mm'));
+    }
+
+    $.ajax({
+        url: "../CloroCisternaDescongelado/ReporteCloroCisternaDescongeladoCabeceraPartial",
+        data: {
+            fechaDesde: $("#fechaDesde").val(),
+            fechaHasta: $("#fechaHasta").val()
+        },
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
             }
-        });
-    
+            if (resultado == "0") {
+                $("#divMostarTablaCabecera").html("No existen registros");
+            } else {
+                $("#divMostarTablaCabecera").html(resultado);
+            }
+                $('#cargac').hide();
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
+function SeleccionarCabecera(jdata) {
+    $('#cargac').show();
+    var op = 4;
+
+    $('#lblMostrarFecha').text(moment(jdata.Fecha).format('DD-MM-YYYY'));
+    //$('#lblMostrarHora').text(moment(jdata.Fecha).format('HH:mm'));
+    if (jdata.Observaciones!=null) {
+        $('#lblMostrarObservacion').text('\u00a0' + jdata.Observaciones.toUpperCase());
+    }    
+    $('#txtUsuarioCreacion').text('\u00a0' + jdata.UsuarioIngresoLog.toUpperCase());
+    $('#txtFechaCreacion').text('\u00a0' + moment(jdata.FechaIngresoLog).format('DD-MM-YYYY'));
+    if (jdata.AprobadoPor == null) {
+        jdata.AprobadoPor = '';
+    }
+
+    if (jdata.FechaAprobacion != null) {
+        jdata.FechaAprobacion = moment(jdata.FechaAprobacion).format('DD-MM-YYYY');
+    } else if (jdata.FechaAprobacion == null) {
+        jdata.FechaAprobacion = '';
+    }
+    $('#txtUsuarioAprobacion').text('\u00a0' + jdata.AprobadoPor);
+    $('#txtFechaAprobacion').text('\u00a0' + jdata.FechaAprobacion);
+    $.ajax({
+        url: "../CloroCisternaDescongelado/ReporteCloroCisternaDescongeladoPartial",//MUESTRO EL DETALLE DE LA FILA SELECCIONADA
+        data: {
+            fechaDesde: $('#fechaDesde').val(),
+            fechaHasta: $('#fechaHasta').val(),
+            idCloroCisterna: jdata.IdCloroCisterna,
+            op: op
+        },
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $('#divBotones').prop('hidden', true);
+                $("#divMostarTablaCabecera").prop('hidden', false);
+                $("#divCardMostrarDetalle").prop('hidden', true);
+                MensajeAdvertencia('No existen registro de DETALLE');
+            } else {
+                $("#divMostarTablaCabecera").prop('hidden', true);
+                $("#divCardMostrarDetalle").prop('hidden', false);
+                $('#divBotones').prop('hidden', false);
+                $("#divMostarTablaDetalle").html(resultado);
+            }
+            setTimeout(function () {
+                $('#cargac').hide();
+            }, 200);
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
+function printDiv() {
+    window.print();
 }
 
 //function CargarReporteControlCloro(op) {
+//    $('#lblMostrarFecha').text('');
+//    $('#lblMostrarHora').text('');
+//    $('#lblMostrarObservacion').text('');
 //    $('#cargac').show();
-//    var table = $("#tblDataTable");
-//    table.DataTable().destroy();
-//    table.DataTable().clear();
-
+//    if ($("#fechaDesde").val() == '' || $("#fechaHasta").val() == '') {
+//        var date = new Date();
+//        var shortDate = moment(date).format('YYYY-MM-DD');
+//        shortDate += ' 23:59';
+//        $("#fechaDesde").val(moment(date).format('YYYY-MM-DD'));
+//        $("#fechaHasta").val(moment(shortDate).format('YYYY-MM-DDTHH:mm'));
+//    } else {
+//        var d = '';
+//        d = $("#fechaHasta").val();
+//        $("#fechaHasta").val(moment(d).format('YYYY-MM-DDTHH:mm'));
+//    }
 //    $.ajax({
-//        url: "../CloroCisternaDescongelado/ReporteCloroCisternaDescongeladoCabecera",
+//        url: "../CloroCisternaDescongelado/ReporteCloroCisternaDescongeladoPartial",
 //        type: "GET",
 //        data: {
 //            fechaDesde: $('#fechaDesde').val(),
@@ -40,59 +132,19 @@ function CargarReporteControlCloroCabecera(op) {
 //            op: op
 //        },
 //        success: function (resultado) {
-//            //config.opcionesDT.buttons = [];
-//            config.opcionesDT.buttons=[];
+//            config.opcionesDT.buttons = [];
 //            if (resultado == "101") {
 //                window.location.reload();
 //            }
 //            if (resultado == "0") {
-//                //$('#MensajeRegistros').prop("hidden", false);
+//                $("#DivReporteControlCloro").html("No existen registros");
 //            } else {
-//                $("#tblDataTableReporte tbody").empty();
-//                $("#DivReporteControlCloro").show();
-//                //config.opcionesDT.order = [1,'asc'];
-
-//                config.opcionesDT.columns = [
-//                    { data: 'Fecha' },
-//                    { data: 'HoraDet' },
-//                    { data: 'Ppm_CloroDet' },
-//                    { data: 'IdCisternaDet' },
-//                    { data: 'ObservacionDet' },
-//                    { data: 'AprobadoPor' },
-//                    { data: 'EstadoReporte' }
-//                ];
-
-//                config.opcionesDT.aoColumnDefs = [{
-//                    "aTargets": [2], // Columna a realizar la operacion
-//                    "mRender": function (data, type, full) {
-//                        var clscolor = "badge-danger";
-//                        if (data >= 0.3 && data <= 1.5) {
-//                            clscolor = "badge-success";
-//                        }
-//                        return '<span class="badge ' + clscolor + '">' + data + '</span>';
-//                    }
-//                }];
-//                resultado.forEach(function (row) {
-//                    row.Fecha = moment(row.Fecha).format('DD-MM-YYYY');
-//                    row.HoraDet = moment(row.HoraDet).format("HH:mm");
-//                    var estiloClass = 'badge badge-danger';
-//                    var estado = 'PENDIENTE';
-//                    if (row.ObservacionDet!=null) {
-//                        row.ObservacionDet = row.ObservacionDet.toUpperCase();
-//                    }
-//                    if (row.EstadoReporte == true) {
-//                        estiloClass = 'badge badge-success';
-//                        estado = 'APROBADO';
-//                    }
-//                    row.EstadoReporte = '<span class="' + estiloClass + '">' + estado + '</span>';
-//                });
-//                table.DataTable().destroy();
-//                table.DataTable(config.opcionesDT);
-//                table.DataTable().clear();
-//                table.DataTable().rows.add(resultado);
-//                table.DataTable().draw();
+//                $('#divCardMostrarDetalle').prop('hidden',false);
+//                $('#DivReporteControlCloro').html(resultado);
 //            }
-//            $('#cargac').hide();
+//            setTimeout(function () {
+//                $('#cargac').hide();
+//            },200);            
 //        },
 //        error: function (resultado) {
 //            $('#cargac').hide();
@@ -101,43 +153,15 @@ function CargarReporteControlCloroCabecera(op) {
 //    });
 //}
 
-function CargarReporteControlCloro(op) {
+function Atras() {
     $('#cargac').show();
-   
-    $.ajax({
-        url: "../CloroCisternaDescongelado/ReporteCloroCisternaDescongeladoPartial",
-        type: "GET",
-        data: {
-            fechaDesde: $('#fechaDesde').val(),
-            fechaHasta: $('#fechaHasta').val(),
-            idCloroCisterna: 0,
-            op: op
-        },
-        success: function (resultado) {
-            config.opcionesDT.buttons = [];
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado == "0") {
-                $("#DivReporteControlCloro").html("No existen registros");
-            } else {
-                $('#DivReporteControlCloro').html(resultado);
-            }
-            setTimeout(function () {
-                $('#cargac').hide();
-            },200);            
-        },
-        error: function (resultado) {
-            $('#cargac').hide();
-            MensajeError(resultado, false);
-        }
-    });
-}
-
-
-function PrintReport(op) {
-    var url = $("#RedirectTo").val() + '?' + 'fechaDesde=' + $("#fechaDesde").val() + '&fechaHasta=' + $("#fechaHasta").val() + '&id=' + 0 + '&op=' + op;
-    window.open(url, '_blank');
+    $('#divBotones').prop('hidden', true);
+    $("#divMostarTablaCabecera").prop('hidden', false);
+    $("#divCardMostrarDetalle").prop('hidden', true);
+    $("#divMostarTablaDetalle").html('');
+    
+        $('#cargac').hide();
+    
 }
 
 $(function () {

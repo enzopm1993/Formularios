@@ -64,7 +64,6 @@
    
 </div>
 
-<center> <h5 id="MensajeRegistros" class="text-warning">No Existen Controles de Cloro que Aprobar(Filtre por fecha)</h5></center>
 <!-- Modal -->
 <div class="modal fade" id="ModalApruebaCntrolCloro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -76,15 +75,19 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="col-md-4 col-12 col-sm-12">
+                    <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
+                </div>
+                <br />
                 <div class="table-responsive">
                     <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTableAprobar">
                         <thead>
                             <tr>
-                                <th>Hora</th>
-                                <th>Ppm_Cloro</th>
-                                <th>Cisterna</th>
-                                <th>Usuario Ingreso</th>
-                                <th>Observaciones</th>                                
+                                <th>HORA</th>
+                                <th>PPM_CLORO</th>
+                                <th>CISTERNA</th>
+                                <th>USUARIO CREACION</th>
+                                <th>OBSERVACION</th>
                             </tr>
                         </thead>
                         <tbody style="font-size:14px"></tbody>
