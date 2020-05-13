@@ -16,8 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdMantenimientoPediluvio { get; set; }
         public string Descripcion { get; set; }
-        public bool Preparacion { get; set; }
-        public bool Proceso { get; set; }
+        public int Area { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

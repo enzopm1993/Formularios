@@ -15,6 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     {
         private string[] lsUsuario { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
+        private clsDClasificador clsDClasificador { get; set; } = null;
         private ClsDMantenimientoPediluvio ClsDMantenimientoPediluvio { get; set; } = null;
 
         public ActionResult MantenimientoPediluvio()
@@ -23,6 +24,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+                clsDClasificador = new clsDClasificador();
+                ViewBag.AreasPeliduvio = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoAreasPediluvios);
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -45,7 +49,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult MantenimientoPediluvioPartial()
+        public ActionResult MantenimientoPediluvioPartial(int Area)
         {
             try
             {
@@ -55,7 +59,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 ClsDMantenimientoPediluvio = new ClsDMantenimientoPediluvio();
-                var poCloroCisterna = ClsDMantenimientoPediluvio.ConsultarMantenimientoPediluvio().ToList();
+                var poCloroCisterna = ClsDMantenimientoPediluvio.ConsultarMantenimientoPediluvio().Where(x=> x.Area== Area);
                 if (poCloroCisterna != null && poCloroCisterna.Any())
                 {
                     return PartialView(poCloroCisterna);

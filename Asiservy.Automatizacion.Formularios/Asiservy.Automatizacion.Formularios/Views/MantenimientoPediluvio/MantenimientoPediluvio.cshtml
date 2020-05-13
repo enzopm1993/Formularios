@@ -14,26 +14,34 @@
 
 <hr />
 <div class="row" id="divCabecera1">
+    <div id="divDescripcion" class="col-md-1 col-6 col-sm-6">
+        <div class="form-group">
+            <label>Id</label>
+            <input type="number" name="name" value="0" autocomplete="off" id="txtIdMantenimientoPediluvio" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-2 col-6 col-sm-6">
+        <label>Area</label>
+        @if (ViewBag.AreasPeliduvio != null)
+        {
+            @Html.DropDownList("selectArea", new SelectList(ViewBag.AreasPeliduvio, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control",@onchange="CargarCabecera()" })
+        }
+        else
+        {
+            <select>
+                <option value="">Sin registros en el clasificador</option>
+            </select>
+        }
+    </div>
     <div id="divDescripcion" class="col-md-5 col-6 col-sm-6">
         <div class="form-group">
             <label>Descripción del Pediluvio</label>
             <input type="text" name="name" value="" autocomplete="off" id="txtDescripcion" class="form-control" />
         </div>
     </div>
-    <div class="col-md-2">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="checkPreparacion">
-            <label class="custom-control-label" for="checkPreparacion">Preparación</label>
-        </div>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="checkProceso">
-            <label class="custom-control-label" for="checkProceso">Proceso</label>
-        </div>
-    </div>
 
-    <div class="col-md-2">
-    
-    </div>
+
+
     <div class="col-md-2 col-12  text-md-left text-center">
         <label class="" id="lblAcciones">Acciones</label>
         <div class="form-group">
