@@ -76,8 +76,10 @@ function AprobarControlCloroDetalle() {
         url: "../ResidualCloro/AprobarBandejaControlCloro",
         type: "POST",
         data: {
-            IdResidualCloro: listaDatos.IdResidualCloro,
-            Fecha: listaDatos.Fecha        
+            IdResidualCloroControl: listaDatos.IdResidualCloroControl,
+            Fecha: listaDatos.Fecha,
+            Area: listaDatos.Area,  
+            FechaAprobacion: $("#txtFechaAprobacion").val()
 
         },
         success: function (resultado) {
@@ -87,6 +89,7 @@ function AprobarControlCloroDetalle() {
             MensajeCorrecto(resultado);
             FiltrarAprobadosFecha();
             $("#ModalApruebaCntrolCloro").modal("hide");
+            listaDatos = [];
         },
         error: function (resultado) {
             MensajeError(Mensajes.Error, false);
@@ -101,9 +104,9 @@ function ReversarBandejaControlCloro() {
         url: "../ResidualCloro/ReversarBandejaControlCloro",
         type: "POST",
         data: {
-            IdResidualCloro: listaDatos.IdResidualCloro,
+            IdResidualCloroControl: listaDatos.IdResidualCloroControl,
             Fecha: listaDatos.Fecha,
-            FechaAprobacion: $("#txtFechaAprobacion").val()
+            Area: listaDatos.Area
 
         },
         success: function (resultado) {
@@ -111,7 +114,7 @@ function ReversarBandejaControlCloro() {
                 window.location.reload();
             }
             MensajeCorrecto(resultado);
-            CargarBandeja();
+            FiltrarAprobadosFecha();
             $("#ModalApruebaCntrolCloro").modal("hide");
         },
         error: function (resultado) {

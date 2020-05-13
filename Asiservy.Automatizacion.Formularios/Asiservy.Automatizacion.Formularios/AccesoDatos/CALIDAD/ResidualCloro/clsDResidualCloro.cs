@@ -186,7 +186,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ResidualCloro
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var model = db.RESIDUAL_CLORO_CONTROL.FirstOrDefault(x => x.IdResidualCloroControl == controlCloro.IdResidualCloroControl || (x.Fecha == controlCloro.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                var model = db.RESIDUAL_CLORO_CONTROL.FirstOrDefault(x => x.IdResidualCloroControl == controlCloro.IdResidualCloroControl || (x.Fecha == controlCloro.Fecha && x.Area == controlCloro.Area&& x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
                 if (model != null)
                 {
                     model.EstadoReporte = controlCloro.EstadoReporte;
