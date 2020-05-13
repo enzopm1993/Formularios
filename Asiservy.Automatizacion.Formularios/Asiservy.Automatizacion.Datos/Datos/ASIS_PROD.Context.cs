@@ -100,7 +100,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<COCHE_AUTOCLAVE_DETALLE> COCHE_AUTOCLAVE_DETALLE { get; set; }
         public virtual DbSet<RESIDUAL_CLORO> RESIDUAL_CLORO { get; set; }
         public virtual DbSet<RESIDUAL_CLORO_DETALLE> RESIDUAL_CLORO_DETALLE { get; set; }
-        public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO> CC_CLORO_CISTERNA_DESCONGELADO { get; set; }
         public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO_DETALLE> CC_CLORO_CISTERNA_DESCONGELADO_DETALLE { get; set; }
         public virtual DbSet<CABECERA_CONTROL_ESTERILIZACION_CONSERVAS> CABECERA_CONTROL_ESTERILIZACION_CONSERVAS { get; set; }
         public virtual DbSet<MONITOREO_DESCONGELADO> MONITOREO_DESCONGELADO { get; set; }
@@ -157,6 +156,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<OPCION> OPCION { get; set; }
         public virtual DbSet<REPORTE_MAESTRO> REPORTE_MAESTRO { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_PEDILUVIO> CC_MANTENIMIENTO_PEDILUVIO { get; set; }
+        public virtual DbSet<CC_CLORO_CISTERNA_DESCONGELADO> CC_CLORO_CISTERNA_DESCONGELADO { get; set; }
+        public virtual DbSet<RESIDUAL_CLORO_CONTROL> RESIDUAL_CLORO_CONTROL { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1390,19 +1391,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongelado>("sp_Reporte_CloroCisternaDescongelado", fechaCabParameter);
         }
     
-        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoDetalle> sp_Reporte_CloroCisternaDescongeladoDetalle(Nullable<System.DateTime> fechaCab, Nullable<long> idCloroCisterna)
-        {
-            var fechaCabParameter = fechaCab.HasValue ?
-                new ObjectParameter("FechaCab", fechaCab) :
-                new ObjectParameter("FechaCab", typeof(System.DateTime));
-    
-            var idCloroCisternaParameter = idCloroCisterna.HasValue ?
-                new ObjectParameter("IdCloroCisterna", idCloroCisterna) :
-                new ObjectParameter("IdCloroCisterna", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoDetalle>("sp_Reporte_CloroCisternaDescongeladoDetalle", fechaCabParameter, idCloroCisternaParameter);
-        }
-    
         public virtual ObjectResult<spConsultaResidualCloro> spConsultaResidualCloro(Nullable<System.DateTime> fecha, string area)
         {
             var fechaParameter = fecha.HasValue ?
@@ -1576,24 +1564,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("Terminal", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spInactivarAsistencia", lineaParameter, turnoParameter, fechaParameter, generadoParameter, usuarioParameter, terminalParameter);
-        }
-    
-        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandeja> sp_Reporte_CloroCisternaDescongeladoBandeja()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandeja>("sp_Reporte_CloroCisternaDescongeladoBandeja");
-        }
-    
-        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandejaAprobados> sp_Reporte_CloroCisternaDescongeladoBandejaAprobados(Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
-        {
-            var fechaInicioParameter = fechaInicio.HasValue ?
-                new ObjectParameter("fechaInicio", fechaInicio) :
-                new ObjectParameter("fechaInicio", typeof(System.DateTime));
-    
-            var fechaFinParameter = fechaFin.HasValue ?
-                new ObjectParameter("fechaFin", fechaFin) :
-                new ObjectParameter("fechaFin", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandejaAprobados>("sp_Reporte_CloroCisternaDescongeladoBandejaAprobados", fechaInicioParameter, fechaFinParameter);
         }
     
         public virtual ObjectResult<sp_Consultar_Cuchillos_Preparacion> sp_Consultar_Cuchillos_Preparacion(string codigoCuchillo, Nullable<int> opcion)
@@ -1995,27 +1965,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteDetalle>("spConsultaReporteDetalle", idControlParameter);
         }
     
-        public virtual ObjectResult<sp_CloroCisternaDescongelado> sp_CloroCisternaDescongelado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCloroCisterna, Nullable<int> op)
-        {
-            var fechaDesdeParameter = fechaDesde.HasValue ?
-                new ObjectParameter("fechaDesde", fechaDesde) :
-                new ObjectParameter("fechaDesde", typeof(System.DateTime));
-    
-            var fechaHastaParameter = fechaHasta.HasValue ?
-                new ObjectParameter("fechaHasta", fechaHasta) :
-                new ObjectParameter("fechaHasta", typeof(System.DateTime));
-    
-            var idCloroCisternaParameter = idCloroCisterna.HasValue ?
-                new ObjectParameter("idCloroCisterna", idCloroCisterna) :
-                new ObjectParameter("idCloroCisterna", typeof(int));
-    
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CloroCisternaDescongelado>("sp_CloroCisternaDescongelado", fechaDesdeParameter, fechaHastaParameter, idCloroCisternaParameter, opParameter);
-        }
-    
         public virtual ObjectResult<spReporteEvaluacionProductoEnfundado> spReporteEvaluacionProductoEnfundado(Nullable<System.DateTime> fechaProduccion)
         {
             var fechaProduccionParameter = fechaProduccion.HasValue ?
@@ -2102,13 +2051,56 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteMaestro>("spConsultaReporteMaestro");
         }
     
-        public virtual ObjectResult<spReporteEvaluacionLomosMigasBandeja> spReporteEvaluacionLomosMigasBandeja(Nullable<int> id)
+        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandeja> sp_Reporte_CloroCisternaDescongeladoBandeja()
         {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandeja>("sp_Reporte_CloroCisternaDescongeladoBandeja");
+        }
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionLomosMigasBandeja>("spReporteEvaluacionLomosMigasBandeja", idParameter);
+        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoBandejaAprobados> sp_Reporte_CloroCisternaDescongeladoBandejaAprobados(Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("fechaInicio", fechaInicio) :
+                new ObjectParameter("fechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("fechaFin", fechaFin) :
+                new ObjectParameter("fechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoBandejaAprobados>("sp_Reporte_CloroCisternaDescongeladoBandejaAprobados", fechaInicioParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<sp_Reporte_CloroCisternaDescongeladoDetalle> sp_Reporte_CloroCisternaDescongeladoDetalle(Nullable<System.DateTime> fechaCab, Nullable<long> idCloroCisterna)
+        {
+            var fechaCabParameter = fechaCab.HasValue ?
+                new ObjectParameter("FechaCab", fechaCab) :
+                new ObjectParameter("FechaCab", typeof(System.DateTime));
+    
+            var idCloroCisternaParameter = idCloroCisterna.HasValue ?
+                new ObjectParameter("IdCloroCisterna", idCloroCisterna) :
+                new ObjectParameter("IdCloroCisterna", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_CloroCisternaDescongeladoDetalle>("sp_Reporte_CloroCisternaDescongeladoDetalle", fechaCabParameter, idCloroCisternaParameter);
+        }
+    
+        public virtual ObjectResult<sp_CloroCisternaDescongelado> sp_CloroCisternaDescongelado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCloroCisterna, Nullable<int> op)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var idCloroCisternaParameter = idCloroCisterna.HasValue ?
+                new ObjectParameter("idCloroCisterna", idCloroCisterna) :
+                new ObjectParameter("idCloroCisterna", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CloroCisternaDescongelado>("sp_CloroCisternaDescongelado", fechaDesdeParameter, fechaHastaParameter, idCloroCisternaParameter, opParameter);
         }
     }
 }

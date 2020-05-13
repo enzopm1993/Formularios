@@ -438,6 +438,9 @@
     <Compile Include="Datos\RESIDUAL_CLORO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\RESIDUAL_CLORO_CONTROL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\RESIDUAL_CLORO_DETALLE.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -775,9 +778,6 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spReporteEsterilizacionDetalle.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\spReporteEvaluacionLomosMigasBandeja.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spReporteEvaluacionProductoEnfundado.cs">

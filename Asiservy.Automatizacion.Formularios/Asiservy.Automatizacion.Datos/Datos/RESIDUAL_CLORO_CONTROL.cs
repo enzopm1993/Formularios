@@ -12,11 +12,13 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_MANTENIMIENTO_PEDILUVIO
+    public partial class RESIDUAL_CLORO_CONTROL
     {
-        public int IdMantenimientoPediluvio { get; set; }
-        public string Descripcion { get; set; }
-        public string Area { get; set; }
+        public int IdResidualCloroControl { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public bool EstadoReporte { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
+        public string AprobadoPor { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
