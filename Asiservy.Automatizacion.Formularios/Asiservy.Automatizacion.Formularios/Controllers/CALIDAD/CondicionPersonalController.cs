@@ -21,13 +21,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
         private clsDReporte clsDReporte { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
 
-        
-        public ActionResult Prueba()
-        {
-            return View();
-
-        }
-
+        #region MANTENIMIENTO
         [Authorize]
         public ActionResult MantenimientoCondicion()
         {
@@ -137,7 +131,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
 
-
+        #endregion
 
 
         [Authorize]

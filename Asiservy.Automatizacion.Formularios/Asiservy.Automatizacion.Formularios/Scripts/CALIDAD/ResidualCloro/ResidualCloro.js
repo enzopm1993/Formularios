@@ -41,6 +41,8 @@ function ConsultarPeliduvios() {
 
 function CargarResidualCloro() {
     $("#chartCabecera2").html('');
+    $("#btnGenerar").prop("disabled", false);
+
     if ($("#txtFecha").val() == '' || $("#selectArea").val() == '') {
         $("#divCabecera2").prop("hidden", true);
         return;
@@ -52,6 +54,7 @@ function CargarResidualCloro() {
     }
     $("#divCabecera2").prop("hidden", false);
     $("#spinnerCargando").prop("hidden", false);
+    $("#lblAprobadoPendiente").html("");
     ConsultarPeliduvios();
     $.ajax({
         url: "../ResidualCloro/ResidualCloroPartial",
@@ -68,7 +71,14 @@ function CargarResidualCloro() {
             if (resultado == "0") {
                 $("#chartCabecera2").html("No existen registros");
                 $("#spinnerCargando").prop("hidden", true);
-            } else {
+            } else if (resultado.Fecha!=null)
+            {
+                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+                $("#btnGenerar").prop("disabled", true);
+            }
+            else {
+                $("#lblAprobadoPendiente").html(Mensajes.Pendiente);
+
                 $("#spinnerCargando").prop("hidden", true);
                 $("#chartCabecera2").html(resultado);
                 config.opcionesDT.pageLength = 10;
@@ -117,7 +127,7 @@ function Validar() {
 
 }
 
-function GuardarCocheAutoclave() {
+function GuardarControl() {
     if (!Validar()) {
         return;
     }
@@ -277,6 +287,7 @@ function EditarResidualCloro() {
 function CargarResidualCloroDetalle() {
     $("#divTableDetalle").html('');
     $("#spinnerCargandoDetalle").prop("hidden", false);
+
     $.ajax({
         url: "../ResidualCloro/ResidualCloroDetallePartial",
         type: "GET",
@@ -290,8 +301,10 @@ function CargarResidualCloroDetalle() {
             $("#spinnerCargandoDetalle").prop("hidden", true);
             if (resultado == "0") {
                 $("#divTableDetalle").html("No existen registros");
-            } else {
-                $("#divTableDetalle").html(resultado);               
+            } 
+            else {
+                $("#divTableDetalle").html(resultado);    
+
             }
             //  $('#btnConsultar').prop("disabled", true);
         },

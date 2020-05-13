@@ -66,9 +66,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDResidualCloro = new clsDResidualCloro();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                var reporte = clsDResidualCloro.ConsultaResidualCloroControl(Fecha);
                 var model = clsDResidualCloro.ConsultaResidualCloro(Fecha, Area);
+                if (reporte != null && reporte.EstadoReporte==clsAtributos.EstadoReporteActivo)
+                {
+                    return Json(reporte, JsonRequestBehavior.AllowGet);
+                }
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -110,6 +113,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
+                clsDResidualCloro.GuardarModificarResidualCloroControl(model);
                 clsDResidualCloro.GuardarModificarResidualCloro(model);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
