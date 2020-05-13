@@ -265,10 +265,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         public static string TipoLineaLata = "L";
         public static string TipoLineaPouch = "P";
 
-        //CODIGO GRUPO PEDILUVIOS 
-        public static string CodGrupoAreasPediluvios= "033";
-        public static string CodGrupoPediluvioProceso = "034";
-
+        
         //CODIGO GRUPO AREAS CALIDAD
         public static string CodGrupoAreasResidualCloro = "035";
 

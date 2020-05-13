@@ -1,5 +1,6 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoPediluvio;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ResidualCloro;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
@@ -18,9 +19,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private string[] lsUsuario { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
         private clsDResidualCloro clsDResidualCloro { get; set; } = null;
-        private clsDClasificador clsDClasificador { get; set; } = null;
+        private ClsDMantenimientoPediluvio ClsDMantenimientoPediluvio { get; set; } = null;
         private clsDReporte clsDReporte { get; set; } = null;
-        
+        private clsDClasificador clsDClasificador { get; set; } = null;
+
         public ActionResult ResidualCloro()
         {
             try
@@ -312,8 +314,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDClasificador = new clsDClasificador();
-                var model = clsDClasificador.ConsultarClasificador(Area);
+                ClsDMantenimientoPediluvio = new ClsDMantenimientoPediluvio();
+                var model = ClsDMantenimientoPediluvio.ConsultarMantenimientoPediluvio().Where(x=> x.Area == Area);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

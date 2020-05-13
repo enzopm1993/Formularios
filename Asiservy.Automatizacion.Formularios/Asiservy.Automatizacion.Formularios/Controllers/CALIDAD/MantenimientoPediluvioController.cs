@@ -26,7 +26,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
 
                 clsDClasificador = new clsDClasificador();
-                ViewBag.AreasPeliduvio = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoAreasPediluvios);
+                ViewBag.AreasPeliduvio = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoAreasResidualCloro);
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -49,7 +49,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult MantenimientoPediluvioPartial(int Area)
+        public ActionResult MantenimientoPediluvioPartial(string Area)
         {
             try
             {

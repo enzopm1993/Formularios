@@ -17,14 +17,15 @@ function ConsultarPeliduvios() {
         },
         success: function (resultado) {
             if (resultado == "101") {
-                window.location.reload();            }
-         
+                window.location.reload();
+            }
+            console.log(resultado);
             if (resultado == "0") {
                 MensajeAdvertencia("No se encontraron peliduvios asigandos a esta Area.")                
             } else {     
                 if (!$.isEmptyObject(resultado)) {
                     $.each(resultado, function (create, row) {
-                        $("#selectPeliduvio").append("<option value='" + row.Codigo + "'>" + row.Descripcion + "</option>")
+                        $("#selectPeliduvio").append("<option value='" + row.IdMantenimientoPediluvio + "'>" + row.Descripcion + "</option>")
                     });
                 }             
                 
