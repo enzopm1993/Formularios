@@ -13,12 +13,14 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos;
 using Asiservy.Automatizacion.Formularios.Models.Calidad;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoColor;
 using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class EvaluacionDeLomoyMigaEnBandejaController : Controller
     {
         // GET: EvaluacionDeLomoyMigaEnBandeja
+        private clsDReporte clsDReporte { get;set;}=null;
         private string[] lsUsuario { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
         private clsDMantenimientoOlor clsDMantenimientoOlor { get; set; } = null;
@@ -470,6 +472,18 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                }
+                else
+                {
+                    ViewBag.CodigoReporte = "AS-RG-CC-21";
+                    ViewBag.VersionReporte = "V 10.0";
+                }
 
                 lsUsuario = User.Identity.Name.Split('_');
                 if (string.IsNullOrEmpty(lsUsuario[0]))

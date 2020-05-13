@@ -50,6 +50,7 @@ function Atras() {
     $('#DivCabReportes').prop('hidden', false);
 }
 function CargarCabReportes() {
+    Atras();
     $('#cargac').show();
     var table = $("#tblDataTableReporte");
 //    table.DataTable().destroy();
