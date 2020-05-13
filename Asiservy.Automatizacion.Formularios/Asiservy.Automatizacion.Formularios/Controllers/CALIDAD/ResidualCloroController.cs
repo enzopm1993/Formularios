@@ -23,6 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDReporte clsDReporte { get; set; } = null;
         private clsDClasificador clsDClasificador { get; set; } = null;
 
+        #region CONTROL
         public ActionResult ResidualCloro()
         {
             try
@@ -304,49 +305,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
-
-
-
-
-        public JsonResult ConsultarPeliduvios(string Area)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                ClsDMantenimientoPediluvio = new ClsDMantenimientoPediluvio();
-                var model = ClsDMantenimientoPediluvio.ConsultarMantenimientoPediluvio().Where(x=> x.Area == Area
-                                                                                                && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
-                if (!model.Any())
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-                return Json(model,JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
+        #endregion
 
         #region REPORTE
         [Authorize]
@@ -632,6 +591,46 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         #endregion
+
+
+        public JsonResult ConsultarPeliduvios(string Area)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDMantenimientoPediluvio = new ClsDMantenimientoPediluvio();
+                var model = ClsDMantenimientoPediluvio.ConsultarMantenimientoPediluvio().Where(x => x.Area == Area
+                                                                                                && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         protected void SetSuccessMessage(string message)
         {
