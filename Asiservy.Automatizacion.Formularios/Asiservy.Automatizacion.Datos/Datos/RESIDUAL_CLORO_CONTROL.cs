@@ -16,6 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdResidualCloroControl { get; set; }
         public System.DateTime Fecha { get; set; }
+        public string Area { get; set; }
         public bool EstadoReporte { get; set; }
         public Nullable<System.DateTime> FechaAprobacion { get; set; }
         public string AprobadoPor { get; set; }

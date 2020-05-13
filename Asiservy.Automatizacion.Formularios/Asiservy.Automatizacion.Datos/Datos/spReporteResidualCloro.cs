@@ -18,7 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public System.DateTime Hora { get; set; }
         public string Observacion { get; set; }
         public int IdResidualCloroDetalle { get; set; }
-        public string CodPeliduvio { get; set; }
+        public int CodPeliduvio { get; set; }
         public int Cantidad { get; set; }
         public string Pediluvio { get; set; }
     }

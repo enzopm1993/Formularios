@@ -300,6 +300,8 @@
           <Property Name="FechaModificacionLog" Type="datetime" />
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
+          <Property Name="AprobadoPor" Type="varchar" MaxLength="100" />
+          <Property Name="FechaAprobado" Type="datetime" />
         </EntityType>
         <EntityType Name="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE">
           <Key>
@@ -2325,6 +2327,7 @@
           </Key>
           <Property Name="IdResidualCloroControl" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Area" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="EstadoReporte" Type="bit" Nullable="false" />
           <Property Name="FechaAprobacion" Type="datetime" />
           <Property Name="AprobadoPor" Type="varchar" MaxLength="50" />
@@ -2342,7 +2345,7 @@
           </Key>
           <Property Name="IdResidualCloroDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdResidualCloro" Type="int" Nullable="false" />
-          <Property Name="CodPeliduvio" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="CodPeliduvio" Type="int" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
@@ -4729,18 +4732,6 @@
           <Parameter Name="Of" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="RESIDUAL_CLORO" EntityType="ASIS_PRODModel.RESIDUAL_CLORO" />
-          <EntitySet Name="RESIDUAL_CLORO_DETALLE" EntityType="ASIS_PRODModel.RESIDUAL_CLORO_DETALLE" />
-          <AssociationSet Name="FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO" Association="ASIS_PRODModel.FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO">
-            <End Role="RESIDUAL_CLORO" EntitySet="RESIDUAL_CLORO" />
-            <End Role="RESIDUAL_CLORO_DETALLE" EntitySet="RESIDUAL_CLORO_DETALLE" />
-          </AssociationSet>
-          <FunctionImport Name="spConsultaResidualCloroDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaResidualCloroDetalle)">
-          <Parameter Name="IdControl" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="spReporteResidualCloro" ReturnType="Collection(ASIS_PRODModel.spReporteResidualCloro)">
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="Area" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spKpiAvancePorLimpiadora" ReturnType="Collection(ASIS_PRODModel.spKpiAvancePorLimpiadora)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="cedula" Mode="In" Type="String" />
@@ -5100,7 +5091,6 @@
           <FunctionImport Name="spConsultaReporteMaestro" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteMaestro)" />
           <EntitySet Name="CC_MANTENIMIENTO_PEDILUVIO" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PEDILUVIO" />
           <EntitySet Name="CC_CLORO_CISTERNA_DESCONGELADO" EntityType="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO" />
-          <EntitySet Name="RESIDUAL_CLORO_CONTROL" EntityType="ASIS_PRODModel.RESIDUAL_CLORO_CONTROL" />
           <AssociationSet Name="FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO" Association="ASIS_PRODModel.FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO">
             <End Role="CC_CLORO_CISTERNA_DESCONGELADO" EntitySet="CC_CLORO_CISTERNA_DESCONGELADO" />
             <End Role="CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" EntitySet="CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" />
@@ -5121,7 +5111,20 @@
             <Parameter Name="op" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spReporteEvaluacionLomosMigasBandeja" ReturnType="Collection(ASIS_PRODModel.spReporteEvaluacionLomosMigasBandeja)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
+          <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="RESIDUAL_CLORO_CONTROL" EntityType="ASIS_PRODModel.RESIDUAL_CLORO_CONTROL" />
+          <EntitySet Name="RESIDUAL_CLORO_DETALLE" EntityType="ASIS_PRODModel.RESIDUAL_CLORO_DETALLE" />
+          <AssociationSet Name="FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO" Association="ASIS_PRODModel.FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO">
+            <End Role="RESIDUAL_CLORO" EntitySet="RESIDUAL_CLORO" />
+            <End Role="RESIDUAL_CLORO_DETALLE" EntitySet="RESIDUAL_CLORO_DETALLE" />
+          </AssociationSet>
+          <FunctionImport Name="spReporteResidualCloro" ReturnType="Collection(ASIS_PRODModel.spReporteResidualCloro)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Area" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaResidualCloroDetalle" ReturnType="Collection(ASIS_PRODModel.spConsultaResidualCloroDetalle)">
+            <Parameter Name="IdControl" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
@@ -7741,52 +7744,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="RESIDUAL_CLORO_DETALLE" Relationship="ASIS_PRODModel.FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO" FromRole="RESIDUAL_CLORO" ToRole="RESIDUAL_CLORO_DETALLE" />
         </EntityType>
-        <EntityType Name="RESIDUAL_CLORO_DETALLE">
-          <Key>
-            <PropertyRef Name="IdResidualCloroDetalle" />
-          </Key>
-          <Property Name="IdResidualCloroDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdResidualCloro" Type="Int32" Nullable="false" />
-          <Property Name="CodPeliduvio" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="RESIDUAL_CLORO" Relationship="ASIS_PRODModel.FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO" FromRole="RESIDUAL_CLORO_DETALLE" ToRole="RESIDUAL_CLORO" />
-        </EntityType>
-        <Association Name="FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO">
-          <End Type="ASIS_PRODModel.RESIDUAL_CLORO" Role="RESIDUAL_CLORO" Multiplicity="1" />
-          <End Type="ASIS_PRODModel.RESIDUAL_CLORO_DETALLE" Role="RESIDUAL_CLORO_DETALLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RESIDUAL_CLORO">
-              <PropertyRef Name="IdResidualCloro" />
-            </Principal>
-            <Dependent Role="RESIDUAL_CLORO_DETALLE">
-              <PropertyRef Name="IdResidualCloro" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <ComplexType Name="spConsultaResidualCloroDetalle">
-          <Property Type="Int32" Name="IdResidualCloroDetalle" Nullable="false" />
-          <Property Type="Int32" Name="IdResidualCloro" Nullable="false" />
-          <Property Type="String" Name="CodPeliduvio" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="Pediluvio" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="Cantidad" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="spReporteResidualCloro">
-          <Property Type="Int32" Name="IdResidualCloro" Nullable="false" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="DateTime" Name="Hora" Nullable="false" Precision="23" />
-          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
-          <Property Type="Int32" Name="IdResidualCloroDetalle" Nullable="false" />
-          <Property Type="String" Name="CodPeliduvio" Nullable="false" MaxLength="5" />
-          <Property Type="Int32" Name="Cantidad" Nullable="false" />
-          <Property Type="String" Name="Pediluvio" Nullable="true" MaxLength="100" />
-        </ComplexType>
         <ComplexType Name="spKpiAvancePorLimpiadora">
           <Property Type="Time" Name="Hora" Nullable="true" />
           <Property Type="Decimal" Name="Avance" Nullable="true" Precision="6" Scale="2" />
@@ -8991,6 +8948,8 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" Relationship="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" FromRole="CC_CONTROL_CUCHILLOS_PREPARACION" ToRole="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaAprobado" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE">
           <Key>
@@ -9920,23 +9879,6 @@
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" Relationship="ASIS_PRODModel.FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO" FromRole="CC_CLORO_CISTERNA_DESCONGELADO" ToRole="CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" />
         </EntityType>
-        <EntityType Name="RESIDUAL_CLORO_CONTROL">
-          <Key>
-            <PropertyRef Name="IdResidualCloroControl" />
-          </Key>
-          <Property Name="IdResidualCloroControl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
-          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
-          <Property Name="AprobadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <Association Name="FK_CC_CLORO_CISTERNA_DESCONGELADO_DETALLE_CC_CLORO_CISTERNA_DESCONGELADO">
           <End Type="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO" Role="CC_CLORO_CISTERNA_DESCONGELADO" Multiplicity="1" />
           <End Type="ASIS_PRODModel.CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" Role="CC_CLORO_CISTERNA_DESCONGELADO_DETALLE" Multiplicity="*" />
@@ -10034,6 +9976,70 @@
           <Property Type="Int32" Name="Escamas" Nullable="true" />
           <Property Type="Int32" Name="Piel" Nullable="true" />
           <Property Type="Int32" Name="SumaScorch" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="RESIDUAL_CLORO_CONTROL">
+          <Key>
+            <PropertyRef Name="IdResidualCloroControl" />
+          </Key>
+          <Property Name="IdResidualCloroControl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Area" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoReporte" Type="Boolean" Nullable="false" />
+          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
+          <Property Name="AprobadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="RESIDUAL_CLORO_DETALLE">
+          <Key>
+            <PropertyRef Name="IdResidualCloroDetalle" />
+          </Key>
+          <Property Name="IdResidualCloroDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdResidualCloro" Type="Int32" Nullable="false" />
+          <Property Name="CodPeliduvio" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RESIDUAL_CLORO" Relationship="ASIS_PRODModel.FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO" FromRole="RESIDUAL_CLORO_DETALLE" ToRole="RESIDUAL_CLORO" />
+        </EntityType>
+        <Association Name="FK_RESIDUAL_CLORO_DETALLE_RESIDUAL_CLORO">
+          <End Type="ASIS_PRODModel.RESIDUAL_CLORO" Role="RESIDUAL_CLORO" Multiplicity="1" />
+          <End Type="ASIS_PRODModel.RESIDUAL_CLORO_DETALLE" Role="RESIDUAL_CLORO_DETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RESIDUAL_CLORO">
+              <PropertyRef Name="IdResidualCloro" />
+            </Principal>
+            <Dependent Role="RESIDUAL_CLORO_DETALLE">
+              <PropertyRef Name="IdResidualCloro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spReporteResidualCloro">
+          <Property Type="Int32" Name="IdResidualCloro" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="DateTime" Name="Hora" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Observacion" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="IdResidualCloroDetalle" Nullable="false" />
+          <Property Type="Int32" Name="CodPeliduvio" Nullable="false" />
+          <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <Property Type="String" Name="Pediluvio" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="spConsultaResidualCloroDetalle">
+          <Property Type="Int32" Name="IdResidualCloroDetalle" Nullable="false" />
+          <Property Type="Int32" Name="IdResidualCloro" Nullable="false" />
+          <Property Type="Int32" Name="CodPeliduvio" Nullable="false" />
+          <Property Type="String" Name="Pediluvio" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Cantidad" Nullable="false" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -12878,48 +12884,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RESIDUAL_CLORO_DETALLE">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.RESIDUAL_CLORO_DETALLE">
-              <MappingFragment StoreEntitySet="RESIDUAL_CLORO_DETALLE">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="CodPeliduvio" ColumnName="CodPeliduvio" />
-                <ScalarProperty Name="IdResidualCloro" ColumnName="IdResidualCloro" />
-                <ScalarProperty Name="IdResidualCloroDetalle" ColumnName="IdResidualCloroDetalle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaResidualCloroDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaResidualCloroDetalle">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaResidualCloroDetalle">
-                <ScalarProperty Name="IdResidualCloroDetalle" ColumnName="IdResidualCloroDetalle" />
-                <ScalarProperty Name="IdResidualCloro" ColumnName="IdResidualCloro" />
-                <ScalarProperty Name="CodPeliduvio" ColumnName="CodPeliduvio" />
-                <ScalarProperty Name="Pediluvio" ColumnName="Pediluvio" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spReporteResidualCloro" FunctionName="ASIS_PRODModel.Store.spReporteResidualCloro">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteResidualCloro">
-                <ScalarProperty Name="IdResidualCloro" ColumnName="IdResidualCloro" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
-                <ScalarProperty Name="IdResidualCloroDetalle" ColumnName="IdResidualCloroDetalle" />
-                <ScalarProperty Name="CodPeliduvio" ColumnName="CodPeliduvio" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="Pediluvio" ColumnName="Pediluvio" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spKpiAvancePorLimpiadora" FunctionName="ASIS_PRODModel.Store.spKpiAvancePorLimpiadora">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.spKpiAvancePorLimpiadora">
@@ -14115,6 +14079,8 @@
           <EntitySetMapping Name="CC_CONTROL_CUCHILLOS_PREPARACION">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION">
               <MappingFragment StoreEntitySet="CC_CONTROL_CUCHILLOS_PREPARACION">
+                <ScalarProperty Name="FechaAprobado" ColumnName="FechaAprobado" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
                 <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
                 <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
                 <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
@@ -14943,24 +14909,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RESIDUAL_CLORO_CONTROL">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.RESIDUAL_CLORO_CONTROL">
-              <MappingFragment StoreEntitySet="RESIDUAL_CLORO_CONTROL">
-                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
-                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
-                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
-                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
-                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
-                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
-                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
-                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
-                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
-                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdResidualCloroControl" ColumnName="IdResidualCloroControl" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_Reporte_CloroCisternaDescongeladoBandeja" FunctionName="ASIS_PRODModel.Store.sp_Reporte_CloroCisternaDescongeladoBandeja">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ASIS_PRODModel.sp_Reporte_CloroCisternaDescongeladoBandeja">
@@ -15064,6 +15012,67 @@
                 <ScalarProperty Name="Escamas" ColumnName="Escamas" />
                 <ScalarProperty Name="Piel" ColumnName="Piel" />
                 <ScalarProperty Name="SumaScorch" ColumnName="SumaScorch" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="RESIDUAL_CLORO_CONTROL">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.RESIDUAL_CLORO_CONTROL">
+              <MappingFragment StoreEntitySet="RESIDUAL_CLORO_CONTROL">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="AprobadoPor" ColumnName="AprobadoPor" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="EstadoReporte" ColumnName="EstadoReporte" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdResidualCloroControl" ColumnName="IdResidualCloroControl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RESIDUAL_CLORO_DETALLE">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.RESIDUAL_CLORO_DETALLE">
+              <MappingFragment StoreEntitySet="RESIDUAL_CLORO_DETALLE">
+                <ScalarProperty Name="TerminalModificacionLog" ColumnName="TerminalModificacionLog" />
+                <ScalarProperty Name="UsuarioModificacionLog" ColumnName="UsuarioModificacionLog" />
+                <ScalarProperty Name="FechaModificacionLog" ColumnName="FechaModificacionLog" />
+                <ScalarProperty Name="TerminalIngresoLog" ColumnName="TerminalIngresoLog" />
+                <ScalarProperty Name="UsuarioIngresoLog" ColumnName="UsuarioIngresoLog" />
+                <ScalarProperty Name="FechaIngresoLog" ColumnName="FechaIngresoLog" />
+                <ScalarProperty Name="EstadoRegistro" ColumnName="EstadoRegistro" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="CodPeliduvio" ColumnName="CodPeliduvio" />
+                <ScalarProperty Name="IdResidualCloro" ColumnName="IdResidualCloro" />
+                <ScalarProperty Name="IdResidualCloroDetalle" ColumnName="IdResidualCloroDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spReporteResidualCloro" FunctionName="ASIS_PRODModel.Store.spReporteResidualCloro">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spReporteResidualCloro">
+                <ScalarProperty Name="IdResidualCloro" ColumnName="IdResidualCloro" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="IdResidualCloroDetalle" ColumnName="IdResidualCloroDetalle" />
+                <ScalarProperty Name="CodPeliduvio" ColumnName="CodPeliduvio" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Pediluvio" ColumnName="Pediluvio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaResidualCloroDetalle" FunctionName="ASIS_PRODModel.Store.spConsultaResidualCloroDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.spConsultaResidualCloroDetalle">
+                <ScalarProperty Name="IdResidualCloroDetalle" ColumnName="IdResidualCloroDetalle" />
+                <ScalarProperty Name="IdResidualCloro" ColumnName="IdResidualCloro" />
+                <ScalarProperty Name="CodPeliduvio" ColumnName="CodPeliduvio" />
+                <ScalarProperty Name="Pediluvio" ColumnName="Pediluvio" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
