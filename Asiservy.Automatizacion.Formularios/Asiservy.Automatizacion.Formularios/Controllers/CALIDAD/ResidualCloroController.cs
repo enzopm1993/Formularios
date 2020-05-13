@@ -1,6 +1,8 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoPediluvio;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ResidualCloro;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -14,10 +16,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     public class ResidualCloroController : Controller
     {
         // GET: ResidualCloro
-        string[] lsUsuario = null;
-        clsDError clsDError = null;
-        clsDResidualCloro clsDResidualCloro = null;
-        clsDClasificador clsDClasificador = null;
+        private string[] lsUsuario { get; set; } = null;
+        private clsDError clsDError { get; set; } = null;
+        private clsDResidualCloro clsDResidualCloro { get; set; } = null;
+        private ClsDMantenimientoPediluvio ClsDMantenimientoPediluvio { get; set; } = null;
+        private clsDReporte clsDReporte { get; set; } = null;
+        private clsDClasificador clsDClasificador { get; set; } = null;
 
         public ActionResult ResidualCloro()
         {
@@ -25,7 +29,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-              //  ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
                 ViewBag.Areas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoAreasResidualCloro);
@@ -63,9 +66,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDResidualCloro = new clsDResidualCloro();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                var reporte = clsDResidualCloro.ConsultaResidualCloroControl(Fecha);
                 var model = clsDResidualCloro.ConsultaResidualCloro(Fecha, Area);
+                if (reporte != null && reporte.EstadoReporte==clsAtributos.EstadoReporteActivo)
+                {
+                    return Json(reporte, JsonRequestBehavior.AllowGet);
+                }
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -107,6 +113,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
+                clsDResidualCloro.GuardarModificarResidualCloroControl(model);
                 clsDResidualCloro.GuardarModificarResidualCloro(model);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
@@ -186,8 +193,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDResidualCloro = new clsDResidualCloro();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 var model = clsDResidualCloro.ConsultaResidualCloroDetalle(IdControl);
                 if (!model.Any())
                 {
@@ -313,10 +318,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDClasificador = new clsDClasificador();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsDClasificador.ConsultarClasificador(Area);
+                ClsDMantenimientoPediluvio = new ClsDMantenimientoPediluvio();
+                var model = ClsDMantenimientoPediluvio.ConsultarMantenimientoPediluvio().Where(x=> x.Area == Area);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -345,13 +348,20 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
 
         #region REPORTE
+        [Authorize]
         public ActionResult ReporteResidualCloro()
         {
             try
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-              //  ViewBag.select2 = "1";
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                }
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDClasificador = new clsDClasificador();
                 ViewBag.Areas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoAreasResidualCloro);

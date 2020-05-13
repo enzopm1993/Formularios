@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
 {
@@ -28,15 +27,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
             }
         }
 
-        //public List<spConsultaReporteMaestroEsterilizacion> ConsultaReporteMaestro(DateTime Fecha, string Turno, int CabControl)
-        //{
-        //    using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
-        //    {
-        //        var lista = entities.spConsultaReporteMaestroEsterilizacion(Fecha, Turno, CabControl).ToList();
-        //        return lista;
-        //    }
-        //}
-
         public void GuardarModificarReporteMaestro(REPORTE_MAESTRO model)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
@@ -47,7 +37,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
                     poReporte.EstadoRegistro = model.EstadoRegistro;
                     poReporte.Nombre = model.Nombre;
                     poReporte.Codigo = model.Codigo;
-                    //poReporte.UltimaVersion = model.UltimaVersion;
+                    poReporte.IdOpcion = model.IdOpcion;
                     poReporte.TerminalModificacionLog = model.TerminalIngresoLog;
                     poReporte.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poReporte.FechaModificacionLog = model.FechaIngresoLog;
@@ -140,21 +130,5 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
             }
         }
 
-       
-
-
-        //public List<spReporteReporteMaestroDetalle> ConsultaReporteReporteMaestroDetalle(int Orden)
-        //{
-        //    using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
-        //    {
-        //        var lista = entities.spReporteReporteMaestroDetalle(Orden).ToList();
-        //        return lista;
-        //    }
-        //}
-
-
-
     }
-
-
 }

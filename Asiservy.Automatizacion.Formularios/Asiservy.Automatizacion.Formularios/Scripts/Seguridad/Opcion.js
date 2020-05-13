@@ -3,19 +3,24 @@
     Nuevo();
 });
 
-function CambioClase(valor) {
+function CambioClase() {
+    if ($("#selectClase").val() == '') {
+        return;
+    }
     CargarOpciones();
-    if (valor == "1") {
+    if ($("#selectClase").val() == "1") {
         $('#Padre').prop('selectedIndex', 0);
         $('#Url').val('');
         $('#divPadre1').hide();
         $('#divPadre2').hide();
+        $('#divReporte').hide();
         $('#divUrl').hide();
 
     } else {
         $('#Url').val('');
         $('#Padre').prop('selectedIndex', 0);
         $('#divUrl').show();
+        $('#divReporte').show();
         $('#divPadre1').show();
         $('#divPadre2').show();
 
@@ -23,7 +28,8 @@ function CambioClase(valor) {
 
 }
 function CambioModulo(id) {
-    if (id > 0) {        
+    if (id > 0) {       
+        CambioClase();
         CargarPadres(id);
     }
 }
@@ -49,6 +55,7 @@ function Nuevo() {
         // $('#selectClase').prop('selectedIndex', 0);
         $('#txtUrl').val('');
         $('#CheckEstadoRegistroOp').prop('checked', true);
+        $('#CheckReporte').prop('checked', false);
         $('#LabelEstado').text('Activo');
     } else {
         $('#txtIdOpcion').val('0');
@@ -57,6 +64,7 @@ function Nuevo() {
         $('#txtFormulario').val('');
         $('#selectPadre').prop('selectedIndex', 0).change();
         // $('#selectClase').prop('selectedIndex', 0);
+        $('#CheckReporte').prop('checked', false);
         $('#txtUrl').val('');
         $('#CheckEstadoRegistroOp').prop('checked', true);
         $('#LabelEstado').text('Activo');
@@ -68,33 +76,36 @@ function Nuevo() {
 
 }
 
-function CargarOpcion(id, nombre, formulario, clase, padre,url,orden, estado,modulo) {
-    //console.log(id, nombre, formulario, clase, padre, estado);
-    $('#txtIdOpcion').val(id);
+function CargarOpcion(model) {
+    //console.log(model);
+    $('#txtIdOpcion').val(model.IdOpcion);
    // $('#txtIdModulo').val(modulo);
-    $('#txtNombre').val(nombre);
-    $('#txtOrden').val(orden);
-    $('#txtFormulario').val(formulario);
+    $('#txtNombre').val(model.Nombre);
+    $('#txtOrden').val(model.Orden);
+    $('#txtFormulario').val(model.Formulario);
+    $('#CheckReporte').prop('checked',model.Reporte);
     
-    if (clase == 'P') {
+    if (model.Clase == 'P') {
         $('#selectClase').prop('selectedIndex', 2);
         $('#selectPadre').prop('selectedIndex', 0).change();
         $('#divPadre1').hide();
         $('#divPadre2').hide();
+        $('#divReporte').hide();
         $('#divUrl').hide();
     }
     else {
         $('#selectClase').prop('selectedIndex', 1);
         $('#divPadre1').show();
         $('#divPadre2').show();
+        $('#divReporte').show();
         $('#divUrl').show();
-        $('#txtUrl').val(url);
+        $('#txtUrl').val(model.Url);
     }
 
-    if(padre!='')
-        $('#selectPadre').val(padre).change();
+    if(model.Padre!='')
+        $('#selectPadre').val(model.Padre).change();
 
-    if (estado == 'A') {
+    if (model.EstadoRegistro == 'A') {
         $('#CheckEstadoRegistroOp').prop('checked', true);
        // console.log($('#LabelEstado').val());
         $('#LabelEstado').text('Activo');
@@ -132,7 +143,8 @@ function GuargarOpcion() {
             Padre: $("#selectPadre").val(),
             Url: $("#txtUrl").val(),
             Orden: $("#txtOrden").val(),
-            EstadoRegistro: Estado
+            EstadoRegistro: Estado,
+            Reporte: $("#CheckReporte").prop("checked")
         },
         success: function (resultado) {
             if (resultado == "0") {

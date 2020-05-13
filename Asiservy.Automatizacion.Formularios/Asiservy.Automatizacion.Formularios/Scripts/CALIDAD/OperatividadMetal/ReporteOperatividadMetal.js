@@ -78,8 +78,8 @@ function SeleccionarBandeja(Control) {
 
     $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
     $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));
-    $("#txtUsuarioAprobacion").html(model.UsuarioAprobacion);
-    $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("YYYY-MM-DD"));
+    $("#txtUsuarioAprobacion").html(model.AprobadoPor);
+    $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("YYYY-MM-DD HH:mm"));
     $("#txtCodDetectorMetal").val(model.DetectorMetal);
 
 

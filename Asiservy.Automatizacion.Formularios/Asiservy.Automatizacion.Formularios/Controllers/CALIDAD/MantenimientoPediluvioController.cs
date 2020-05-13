@@ -1,29 +1,32 @@
-﻿using System;
+﻿using Asiservy.Automatizacion.Datos.Datos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoPediluvio;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Asiservy.Automatizacion.Formularios.AccesoDatos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoColor;
-using Asiservy.Automatizacion.Datos.Datos;
-using System.Data.Entity.Validation;
-using System.Net;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
-    public class MantenimientoColorController : Controller
+    public class MantenimientoPediluvioController : Controller
     {
-       private string[] lsUsuario { get; set; } = null;
-       private clsDError clsDError { get; set; } = null;
-       private clsDMantenimientoColor clsDMantenimientoColor { get; set; } = null;
+        private string[] lsUsuario { get; set; } = null;
+        private clsDError clsDError { get; set; } = null;
+        private clsDClasificador clsDClasificador { get; set; } = null;
+        private ClsDMantenimientoPediluvio ClsDMantenimientoPediluvio { get; set; } = null;
 
-         
-        public ActionResult MantenimientoColor()
+        public ActionResult MantenimientoPediluvio()
         {
             try
             {
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+
+                clsDClasificador = new clsDClasificador();
+                ViewBag.AreasPeliduvio = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoAreasResidualCloro);
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -46,7 +49,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult MantenimientoColorPartial()
+        public ActionResult MantenimientoPediluvioPartial(string Area)
         {
             try
             {
@@ -55,9 +58,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoColor = new clsDMantenimientoColor();
-                var poCloroCisterna = clsDMantenimientoColor.ConsultarMantenimientoColor().ToList();
-                if (poCloroCisterna != null)
+                ClsDMantenimientoPediluvio = new ClsDMantenimientoPediluvio();
+                var poCloroCisterna = ClsDMantenimientoPediluvio.ConsultarMantenimientoPediluvio().Where(x=> x.Area== Area);
+                if (poCloroCisterna != null && poCloroCisterna.Any())
                 {
                     return PartialView(poCloroCisterna);
                 }
@@ -86,8 +89,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        //-------------------------------------------------MANTENIMIENTO DE COLOR-------------------------------------------
-        public ActionResult ConsultarMantenimientoColor()
+        //-------------------------------------------------MANTENIMIENTO DE Pediluvio-------------------------------------------
+        public ActionResult ConsultarMantenimientoPediluvio()
         {
             try
             {
@@ -96,8 +99,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoColor = new clsDMantenimientoColor();
-                var poCloroCisterna = clsDMantenimientoColor.ConsultarMantenimientoColor().FirstOrDefault();
+                ClsDMantenimientoPediluvio = new ClsDMantenimientoPediluvio();
+                var poCloroCisterna = ClsDMantenimientoPediluvio.ConsultarMantenimientoPediluvio().FirstOrDefault();
                 if (poCloroCisterna != null)
                 {
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
@@ -127,7 +130,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult GuardarModificarMantenimientoColor(CC_MANTENIMIENTO_COLOR model)
+        public ActionResult GuardarModificarMantenimientoPediluvio(CC_MANTENIMIENTO_PEDILUVIO model)
         {
             try
             {
@@ -136,12 +139,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoColor = new clsDMantenimientoColor();
+                ClsDMantenimientoPediluvio = new ClsDMantenimientoPediluvio();
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDMantenimientoColor.GuardarModificarMantenimientoColor(model);
+                var valor = ClsDMantenimientoPediluvio.GuardarModificarMantenimientoPediluvio(model);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -168,7 +171,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult EliminarMantenimientoColor(CC_MANTENIMIENTO_COLOR model)
+        public ActionResult EliminarMantenimientoPediluvio(CC_MANTENIMIENTO_PEDILUVIO model)
         {
             try
             {
@@ -177,11 +180,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoColor = new clsDMantenimientoColor();
-                model.FechaIngresoLog = DateTime.Now;                
+                ClsDMantenimientoPediluvio = new ClsDMantenimientoPediluvio();
+                model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDMantenimientoColor.EliminarMantenimientoColor(model);
+                var valor = ClsDMantenimientoPediluvio.EliminarMantenimientoPediluvio(model);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

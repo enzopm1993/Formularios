@@ -6,6 +6,7 @@ $(document).ready(function () {
 //CARGAR BANDEJA
 function CargarBandeja() {
     $("#spinnerCargando").prop("hidden", false);
+    $("#txtFechaAprobacion").prop("hidden", true);
     $('#divPartialControl').html('');
     $.ajax({
         url: "../OperatividadMetal/BandejaOperatividadMetalPartial",
@@ -36,19 +37,35 @@ function CargarBandeja() {
 function SeleccionarBandeja(model) {
    // console.log(model);
     CargarControlDetalle(model.IdOperatividadMetal);
-    CargarControlDetalle2(model.IdOperatividadMetal);    
+    CargarControlDetalle2(model.IdOperatividadMetal);
+    $("#txtFechaAprobacion").prop("hidden", false);
+    $("txtFechaAprobacion").attr({
+        "min": model.Fecha       // values (or variables) here
+    });
     $("#ModalApruebaCntrol").modal("show");
     listaDatos = model;
 }
 
 function AprobarControl() {
     //var estadoReporte = data;
+    //console.log(listaDatos);
+    //console.log(moment($("#txtFechaAprobacion").val()) < moment(listaDatos.FechaIngresoLog));
+    if (moment($("#txtFechaAprobacion").val()) < moment(listaDatos.Fecha)) {
+        MensajeAdvertencia("Fecha de Aprobación no puede ser menor a la Fecha de Creación.");
+        return;
+    }
+    if (moment($("#txtFechaAprobacion").val()) > moment()) {
+        MensajeAdvertencia("Fecha de Aprobación no puede ser mayor a la fecha actual.");
+        return;
+    }
+
     $.ajax({
         url: "../OperatividadMetal/AprobarBandejaControl",
         type: "POST",
         data: {
             IdOperatividadMetal: listaDatos.IdOperatividadMetal,
-            Fecha: listaDatos.Fecha
+            Fecha: listaDatos.Fecha,
+            FechaAprobacion: $("#txtFechaAprobacion").val()
         },
         success: function (resultado) {
             if (resultado == "101") {

@@ -18,6 +18,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public OPCION()
         {
             this.OPCION_ROL = new HashSet<OPCION_ROL>();
+            this.REPORTE_MAESTRO = new HashSet<REPORTE_MAESTRO>();
         }
     
         public int IdOpcion { get; set; }
@@ -35,8 +36,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
         public string EstadoRegistro { get; set; }
         public Nullable<int> IdModulo { get; set; }
+        public Nullable<bool> Reporte { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OPCION_ROL> OPCION_ROL { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<REPORTE_MAESTRO> REPORTE_MAESTRO { get; set; }
     }
 }

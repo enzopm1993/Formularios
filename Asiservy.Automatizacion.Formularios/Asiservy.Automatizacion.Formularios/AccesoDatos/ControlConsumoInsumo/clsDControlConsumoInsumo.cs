@@ -1,19 +1,16 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.General;
 using Asiservy.Automatizacion.Formularios.Models;
 using Asiservy.Automatizacion.Formularios.Models.ControlConsumoInsumos;
 using Asiservy.Automatizacion.Formularios.Models.MantenimientoPallet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
 {
     public class clsDControlConsumoInsumo
     {
-        // clsDApiOrdenFabricacion clsDApiOrdenFabricacion = null;
 
         #region CONTROL CONSUMO INSUMOS
         public RespuestaGeneral GuardarModificarControl(CONTROL_CONSUMO_INSUMO control)
@@ -23,8 +20,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 var result = entities.CONTROL_CONSUMO_INSUMO.FirstOrDefault(x => x.IdControlConsumoInsumos == control.IdControlConsumoInsumos);
                 if (result != null)
                 {
-                    //result.HoraInicio = control.HoraInicio;
-                    //result.HoraFin = control.HoraFin;
+                    result.CodigoMaterial = control.CodigoMaterial;
+                    result.Producto = control.Producto;
+                    result.Cliente = control.Cliente;
+                    result.Envase = control.Envase;
+                    result.Tapa = control.Tapa;
+                    result.Destino = control.Destino;
+                    result.Marca = control.Marca;
+
                     result.Observacion = control.Observacion;              
                     result.Turno = control.Turno;
                     result.PesoEscrundido = control.PesoEscrundido;
@@ -48,7 +51,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                     result.UnidadesProducidasTapa = control.UnidadesProducidasTapa;
                     result.UnidadesRecibidasTapa = control.UnidadesRecibidasTapa;
                     result.UnidadesSobrantesTapa = control.UnidadesSobrantesTapa;
-                   // result.gr = control.CodigoProducto;
                     result.UsuarioModificacionLog = control.UsuarioIngresoLog;
                     result.FechaModificacionLog = DateTime.Now;
                     result.TerminalModificacionLog = control.TerminalIngresoLog;
@@ -135,15 +137,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
                 var lista = entities.spGeneraDatosProcesoConsumoInsumo(IdControl).FirstOrDefault();
                 return lista;
             }
-        }
-        //public List<spConsultaControlConsumoInsumoDetalle> ConsultaConsumoDetalle(int IdControl)
-        //{
-        //    using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
-        //    {
-        //        var lista = entities.spConsultaControlConsumoInsumoDetalle(IdControl).ToList();
-        //        return lista;
-        //    }
-        //}
+        }      
         #endregion
 
         #region CONTROL CONSUMO INSUMOS DETALLE
@@ -370,7 +364,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.ControlConsumoInsumo
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-              //  var lista = entities.CONSUMO_DETALLE_ADITIVO.Where(x => x.IdControlConsumoInsumos == IdControl && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 var lista = entities.spConsultaConsumoDetalleAditivo(IdControl).ToList();
                 return lista;
             }

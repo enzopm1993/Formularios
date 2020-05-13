@@ -12,12 +12,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class REPORTE_MAESTRO
+    public partial class CC_MANTENIMIENTO_PEDILUVIO
     {
-        public int IdReporteMaestro { get; set; }
-        public string Nombre { get; set; }
-        public string Codigo { get; set; }
-        public string UltimaVersion { get; set; }
+        public int IdMantenimientoPediluvio { get; set; }
+        public string Descripcion { get; set; }
+        public string Area { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -25,8 +24,5 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public Nullable<int> IdOpcion { get; set; }
-    
-        public virtual OPCION OPCION { get; set; }
     }
 }

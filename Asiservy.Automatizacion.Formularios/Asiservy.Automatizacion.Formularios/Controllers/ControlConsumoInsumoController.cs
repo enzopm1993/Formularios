@@ -145,6 +145,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
                 
                 var model = clsDControlConsumoInsumo.ConsultaControlConsumoInsumo(Fecha,LineaNegocio,Turno);
+
+                
+
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -198,7 +201,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
-                //model.CodigoProducto = result.CODIGO_PRODUCTO;
                 model.CodigoMaterial = result.CODIGO_MATERIAL;
                 model.Producto = string.IsNullOrEmpty(result.NOMBRE_ADICIONAL)? result.NOMBRE_PRODUCTO : result.NOMBRE_ADICIONAL;
                 model.Cliente = string.IsNullOrEmpty(result.CLIENTE_CORTO)?result.CLIENTE:result.CLIENTE_CORTO;
@@ -206,8 +208,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.Tapa = result.TAPA??"";
                 model.Destino = result.DESTINO;
                 model.Marca = result.MARCA;
-                //model.CodigoProducto = result.CODIGO_PRODUCTO;
-
                 var Mensaje = clsDControlConsumoInsumo.GuardarModificarControl(model);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }

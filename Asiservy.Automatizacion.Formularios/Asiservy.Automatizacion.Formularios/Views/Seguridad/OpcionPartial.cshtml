@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.OPCION>
+@using Newtonsoft.Json
+@using Asiservy.Automatizacion.Datos.Datos
 
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
@@ -62,7 +64,24 @@
 
             foreach (var item in Model)
             {
-                <tr onclick="CargarOpcion('@item.IdOpcion', '@item.Nombre', '@item.Formulario', '@item.Clase', '@item.Padre','@item.Url','@item.Orden', '@item.EstadoRegistro','@item.IdModulo')">
+                OPCION obj = new OPCION
+                {
+                    Clase = item.Clase,
+                    EstadoRegistro = item.EstadoRegistro,
+                    FechaCreacionLog = item.FechaCreacionLog,
+                    Formulario=item.Formulario,
+                    IdModulo = item.IdModulo,
+                    IdOpcion = item.IdOpcion,
+                    Nombre = item.Nombre,
+                    Orden = item.Orden,
+                    Padre = item.Padre,
+                    Reporte = item.Reporte,
+                    Url = item.Url
+
+                };
+            var json = JsonConvert.SerializeObject(obj);
+
+                <tr onclick="CargarOpcion(@json)">
                     <td>
                         @Html.DisplayFor(modelItem => item.IdOpcion)
                     </td>
@@ -76,10 +95,10 @@
                         @Html.DisplayFor(modelItem => item.Clase)
                     </td>
                     <td>
-                        @{ if (item.Padre != null && item.Padre>0)
+                        @{ if (item.Padre != null && item.Padre > 0)
                             {
-                              <label>@Model.FirstOrDefault(x => x.IdOpcion == item.Padre).Nombre</label>
-                             
+                                <label>@Model.FirstOrDefault(x => x.IdOpcion == item.Padre).Nombre</label>
+
                             }
                             else
                             {

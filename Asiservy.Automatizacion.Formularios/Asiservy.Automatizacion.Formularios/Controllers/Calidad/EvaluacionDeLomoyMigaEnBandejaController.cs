@@ -13,23 +13,23 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos;
 using Asiservy.Automatizacion.Formularios.Models.Calidad;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoColor;
 using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
-using System.IO;
-using System.Text;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class EvaluacionDeLomoyMigaEnBandejaController : Controller
     {
         // GET: EvaluacionDeLomoyMigaEnBandeja
-        string[] lsUsuario = null;
-        clsDError clsDError = null;
-        clsDMantenimientoOlor clsDMantenimientoOlor = null;
-        clsDMantenimientoTextura clsDMantenimientoTextura = null;
-        clsDMantenimientoSabor clsDMantenimientoSabor = null;
-        clsDMantenimientoProteina clsDMantenimientoProteina = null;
-        clsDMantenimientoColor clsDMantenimientoColor = null;
-        clsDClasificador clsDClasificador = null;
-        clsDEvaluacionDeLomosYMigasEnBandeja clsDEvaluacionDeLomosYMigasEnBandeja = null;
+        private clsDReporte clsDReporte { get;set;}=null;
+        private string[] lsUsuario { get; set; } = null;
+        private clsDError clsDError { get; set; } = null;
+        private clsDMantenimientoOlor clsDMantenimientoOlor { get; set; } = null;
+        private clsDMantenimientoTextura clsDMantenimientoTextura { get; set; } = null;
+        private clsDMantenimientoSabor clsDMantenimientoSabor { get; set; } = null;
+        private clsDMantenimientoProteina clsDMantenimientoProteina { get; set; } = null;
+        private clsDMantenimientoColor clsDMantenimientoColor { get; set; } = null;
+        private clsDClasificador clsDClasificador { get; set; } = null;
+        private clsDEvaluacionDeLomosYMigasEnBandeja clsDEvaluacionDeLomosYMigasEnBandeja { get; set; } = null;
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
@@ -44,7 +44,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ViewBag.DateRangePicker = "1";
-                ViewBag.FirmaPad = "1";
+                //ViewBag.FirmaPad = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
@@ -79,7 +79,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.MaskedInput = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                //ViewBag.select2 = "1";
                 //ViewBag.FirmaPad = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 clsDMantenimientoOlor = new clsDMantenimientoOlor();
@@ -128,7 +127,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         {
             try
             {
-
+                ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
@@ -469,10 +468,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult PartialReporteEvaluacionLomosMigasBandeja(DateTime Fecha)
+        public ActionResult PartialReporteEvaluacionLomosMigasBandeja(int IdEvaluacionDeLomosYMigasEnBandejas)
         {
             try
             {
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                }
+                else
+                {
+                    ViewBag.CodigoReporte = "AS-RG-CC-21";
+                    ViewBag.VersionReporte = "V 10.0";
+                }
 
                 lsUsuario = User.Identity.Name.Split('_');
                 if (string.IsNullOrEmpty(lsUsuario[0]))
@@ -482,7 +493,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                 List<spReporteEvaluacionLomosMigasBandeja> resultado;
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
-                resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarReporte(Fecha).OrderBy(x=>x.Hora).ToList();
+                resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarReporte(IdEvaluacionDeLomosYMigasEnBandejas).OrderBy(x=>x.Hora).ToList();
                 if (resultado.Count == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -518,10 +529,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                List<CabeceraEvaluacionLomosMigasViewModel> resultado = new List<CabeceraEvaluacionLomosMigasViewModel>();
+                List<CabeceraEvaluacionLomosMigasViewModel> resultado;
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
                 resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarBandejaEvaluacionLomosyMiga(FechaInicio,FechaFin,EstadoControl);
-                if (resultado.Count == 0)
+                if (resultado.Count==0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
@@ -547,7 +558,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult AprobarControl(int IdCabecera, string imagen)
+        public JsonResult AprobarControl(int IdCabecera,DateTime Fecha/*, string imagen*/)
         {
             try
             {
@@ -557,9 +568,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                byte[] Firma = Convert.FromBase64String(imagen);
+                //byte[] Firma = Convert.FromBase64String(imagen);
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
-                string Respuesta = clsDEvaluacionDeLomosYMigasEnBandeja.AprobarControl(IdCabecera,Request.UserHostAddress, lsUsuario[0],Firma);
+                string Respuesta = clsDEvaluacionDeLomosYMigasEnBandeja.AprobarControl(IdCabecera,Request.UserHostAddress, lsUsuario[0],Fecha/*,Firma*/);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -582,9 +593,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult GuardarImagenFirma(string imagen,int IdCabecera,string Tipo)
+        public JsonResult ReversarControl(int IdCabecera)
         {
-          
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
@@ -593,14 +603,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
-                byte[] Firma = Convert.FromBase64String(imagen);
-                var resultado = clsDEvaluacionDeLomosYMigasEnBandeja.GuardarImagenFirma(Firma,IdCabecera,Tipo,lsUsuario[0],Request.UserHostAddress);
-                //var base64 = Convert.ToBase64String(Firma);
-                //var imgSrc = String.Format("data:image/png;base64,{0}", base64);
-                var imagenfirma= String.Format("data:image/png;base64,{0}", imagen);
-                return Json(imagenfirma, JsonRequestBehavior.AllowGet);
+                string Respuesta = clsDEvaluacionDeLomosYMigasEnBandeja.ReversarControl(IdCabecera, lsUsuario[0], Request.UserHostAddress);
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -620,8 +625,82 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
-
         }
+        public JsonResult ConsultarCabecerasReporte(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+                //byte[] Firma = Convert.FromBase64String(imagen);
+                clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+                List<CabeceraEvaluacionLomosMigasViewModel> Respuesta = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarCabReportes(FechaDesde,FechaHasta);
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        //[HttpPost]
+        //public JsonResult GuardarImagenFirma(string imagen,int IdCabecera,string Tipo)
+        //{
+
+        //    try
+        //    {
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        if (string.IsNullOrEmpty(lsUsuario[0]))
+        //        {
+        //            return Json("101", JsonRequestBehavior.AllowGet);
+        //        }
+
+
+        //        clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
+        //        byte[] Firma = Convert.FromBase64String(imagen);
+        //        var resultado = clsDEvaluacionDeLomosYMigasEnBandeja.GuardarImagenFirma(Firma,IdCabecera,Tipo,lsUsuario[0],Request.UserHostAddress);
+        //        //var base64 = Convert.ToBase64String(Firma);
+        //        //var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+        //        var imagenfirma= String.Format("data:image/png;base64,{0}", imagen);
+        //        return Json(imagenfirma, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+
+        //}
         //public JsonResult ConsultarFirma(int IdCabecera)
         //{
         //    try
@@ -635,7 +714,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
         //        clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
         //        var resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarFirmaControl(IdCabecera);
-                
+
         //        if (resultado != null)
         //        {
         //            var base64 = Convert.ToBase64String(resultado);

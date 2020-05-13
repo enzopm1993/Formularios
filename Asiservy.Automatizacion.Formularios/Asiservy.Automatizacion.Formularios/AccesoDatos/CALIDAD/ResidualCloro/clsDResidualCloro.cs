@@ -16,6 +16,36 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ResidualCloro
                 return lista;
             }
         }
+        public RESIDUAL_CLORO_CONTROL ConsultaResidualCloroControl(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var lista = entities.RESIDUAL_CLORO_CONTROL.Where(x=> x.Fecha==Fecha).FirstOrDefault();
+                return lista;
+            }
+        }
+
+
+        public void GuardarModificarResidualCloroControl(RESIDUAL_CLORO model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                RESIDUAL_CLORO_CONTROL control = new RESIDUAL_CLORO_CONTROL();
+                var poControl = entities.RESIDUAL_CLORO_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha);
+                if (poControl == null)
+                {
+                    control.Fecha = model.Fecha;
+                    control.EstadoReporte = clsAtributos.EstadoReportePendiente;
+                    control.FechaIngresoLog = model.FechaIngresoLog;
+                    control.TerminalIngresoLog = model.TerminalIngresoLog;
+                    control.UsuarioIngresoLog = model.UsuarioIngresoLog;
+                    control.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                    entities.RESIDUAL_CLORO_CONTROL.Add(control);
+                    entities.SaveChanges();
+                }
+            }
+        }
+
 
         public void GuardarModificarResidualCloro(RESIDUAL_CLORO model)
         {

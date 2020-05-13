@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 
 namespace Asiservy.Automatizacion.Formularios.Models.Calidad
 {
     public class DetalleEvaluacionLomosMIgasBandejaViewModel
     {
+        public DateTime? FechaControl { get; set; }
         public int IdCabecera { get; set; }
         public int IdDetalle {get;set;}
         public DateTime? Hora { get; set; }

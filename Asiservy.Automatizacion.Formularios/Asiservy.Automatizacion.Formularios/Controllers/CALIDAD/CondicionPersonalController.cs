@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPersonal;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -17,14 +18,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
         private clsDCondicionPersonal clsDCondicionPersonal { get; set; } = null;
         private clsDClasificador ClsDClasificador { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
+        private clsDReporte clsDReporte { get; set; } = null;
         private string[] lsUsuario { get; set; } = null;
 
-        public ActionResult Prueba()
-        {
-            return View();
-
-        }
-
+        #region MANTENIMIENTO
         [Authorize]
         public ActionResult MantenimientoCondicion()
         {
@@ -32,6 +29,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
+
                 lsUsuario = User.Identity.Name.Split('_');
                 return View();
             }
@@ -133,7 +131,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             }
         }
 
-
+        #endregion
 
 
         [Authorize]
@@ -300,10 +298,16 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-               // ViewBag.select2 = "1";
+                ViewBag.DateRangePicker = "1";
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                }
                 clsDCondicionPersonal = new clsDCondicionPersonal();
                 ClsDClasificador = new clsDClasificador();
-               // ViewBag.Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineasAprobarSolicitudProduccion, "0");
                 ViewBag.Condiciones = clsDCondicionPersonal.ConsultaManteminetoCondicion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 lsUsuario = User.Identity.Name.Split('_');
                 return View();
@@ -327,6 +331,45 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 return RedirectToAction("Home", "Home");
             }
         }
+
+        public ActionResult ReporteControlCondicionPersonalPartial(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDCondicionPersonal = new clsDCondicionPersonal();
+                var model = clsDCondicionPersonal.ConsultaCondicionPersonalControl(FechaDesde,FechaHasta);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return PartialView(model);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         public ActionResult ReporteCondicionPersonalPartial(DateTime Fecha)
         {
             try
@@ -337,14 +380,14 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDCondicionPersonal = new clsDCondicionPersonal();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
+                ViewBag.Condiciones = clsDCondicionPersonal.ConsultaManteminetoCondicion().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();
                 var model = clsDCondicionPersonal.ConsultaCondicionPersonal(Fecha);
+                ViewBag.Control = clsDCondicionPersonal.ConsultaCondicionPersonalControl(Fecha).FirstOrDefault();
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                return Json(model,JsonRequestBehavior.AllowGet);
+                return PartialView(model);
             }
             catch (DbEntityValidationException e)
             {
