@@ -5,7 +5,7 @@
     <div class="col-md-3 col-sm-6" id="divfechaap">
         <div class="form-group">
             <label>Fecha:</label>
-            <input type="date" min="@Model.FirstOrDefault().FechaControl.Value.ToString("yyyy-MM-dd")" class="form-control" id="txtFechaAprob"/>
+            <input type="datetime-local" min="@Model.FirstOrDefault().FechaControl.Value.ToString("yyyy-MM-dd HH:mm:ss:ms")" class="form-control" id="txtFechaAprob"/>
             <label class="text-danger" id="msjerrorfechaaprobacion" hidden>Debe ingresar una fecha de aprobación</label>
         </div>
         
