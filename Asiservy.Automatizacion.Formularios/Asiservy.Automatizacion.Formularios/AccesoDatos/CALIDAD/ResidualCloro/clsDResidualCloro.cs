@@ -16,11 +16,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ResidualCloro
                 return lista;
             }
         }
-        public RESIDUAL_CLORO_CONTROL ConsultaResidualCloroControl(DateTime Fecha)
+        public RESIDUAL_CLORO_CONTROL ConsultaResidualCloroControl(DateTime Fecha, string Area)
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var lista = entities.RESIDUAL_CLORO_CONTROL.Where(x=> x.Fecha==Fecha).FirstOrDefault();
+                var lista = entities.RESIDUAL_CLORO_CONTROL.Where(x=> x.Fecha== Fecha && x.Area == Area).FirstOrDefault();
                 return lista;
             }
         }
@@ -31,10 +31,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ResidualCloro
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
                 RESIDUAL_CLORO_CONTROL control = new RESIDUAL_CLORO_CONTROL();
-                var poControl = entities.RESIDUAL_CLORO_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha);
+                var poControl = entities.RESIDUAL_CLORO_CONTROL.FirstOrDefault(x => x.Fecha == model.Fecha 
+                                                                            && x.Area == model.CodArea
+                                                                            && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 if (poControl == null)
                 {
                     control.Fecha = model.Fecha;
+                    control.Area = model.CodArea;
                     control.EstadoReporte = clsAtributos.EstadoReportePendiente;
                     control.FechaIngresoLog = model.FechaIngresoLog;
                     control.TerminalIngresoLog = model.TerminalIngresoLog;
@@ -141,6 +144,60 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ResidualCloro
             }
         }
 
+        public List<RESIDUAL_CLORO_CONTROL> ConsultaResidualCloroControl(DateTime FechaDesde,DateTime FechaHasta, bool Estado)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.RESIDUAL_CLORO_CONTROL.Where(x => x.Fecha >= FechaDesde
+                                                                         && x.Fecha <= FechaHasta
+                                                                         && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                                && x.EstadoReporte==Estado).ToList();
+            }
+        }
 
+        public List<RESIDUAL_CLORO_CONTROL> ConsultaResidualCloroControl(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.RESIDUAL_CLORO_CONTROL.Where(x => x.Fecha >= FechaDesde
+                                                                         && x.Fecha <= FechaHasta
+                                                                         && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo
+                                                               ).ToList();
+            }
+        }
+
+        public List<RESIDUAL_CLORO_CONTROL> ConsultaResidualCloroControl(DateTime Fecha)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.RESIDUAL_CLORO_CONTROL.Where(x => x.Fecha == Fecha
+                                                                && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).ToList();
+            }
+        }
+
+        public List<RESIDUAL_CLORO_CONTROL> ConsultaResidualCloroControlPendiente()
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                return entities.RESIDUAL_CLORO_CONTROL.Where(x => !x.EstadoReporte).ToList();
+            }
+        }
+        public void Aprobar_ReporteResidualCloro(RESIDUAL_CLORO_CONTROL controlCloro)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.RESIDUAL_CLORO_CONTROL.FirstOrDefault(x => x.IdResidualCloroControl == controlCloro.IdResidualCloroControl || (x.Fecha == controlCloro.Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo));
+                if (model != null)
+                {
+                    model.EstadoReporte = controlCloro.EstadoReporte;
+                    model.AprobadoPor = controlCloro.AprobadoPor;
+                    model.FechaAprobacion = controlCloro.FechaAprobacion;
+                    model.FechaModificacionLog = controlCloro.FechaIngresoLog;
+                    model.TerminalModificacionLog = controlCloro.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = controlCloro.UsuarioIngresoLog;
+                    db.SaveChanges();
+                }                
+            }
+        }
     }
 }
