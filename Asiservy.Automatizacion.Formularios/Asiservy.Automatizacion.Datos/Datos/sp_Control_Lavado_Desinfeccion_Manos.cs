@@ -14,7 +14,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     public partial class sp_Control_Lavado_Desinfeccion_Manos
     {
         public int IdDesinfeccionManos { get; set; }
-        public string Fecha { get; set; }
+        public System.DateTime Fecha { get; set; }
         public string Hora { get; set; }
         public string Observacion { get; set; }
         public string UsuarioIngresoLog { get; set; }
