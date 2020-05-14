@@ -1,71 +1,67 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Termoencogido_Sellado_Detalle>
 @using Newtonsoft.Json;
 <table class="table  table-striped table-bordered" style="border-right:1px solid #e3e6f0" id="tblDataTable">
-    <thead style="font-size:13px">
+    <thead style="font-size:12px;padding:0px">
         <tr>
-            <th>FECHA</th>
-            <th style="border-right:1px solid #e3e6f0">
+            <th rowspan="2" style="border-right:1px solid #e3e6f0;width:120px">
                 <center> HORA<br />VERIFICACION</center>
             </th>
-            <th style="border-right:1px solid #e3e6f0">
-                <center> TEMPERATURA °C</center>
+            <th rowspan="2" style="border-right:1px solid #e3e6f0;width:120px">
+                <center> TEMPERATURA</center>
             </th>
-            <th style="border-right:1px solid #e3e6f0">
+            <th colspan="2" style="border-right:1px solid #e3e6f0">
                 <center> CORRECTO<br />SELLADO</center>
             </th>
             <th style="border-right:1px solid #e3e6f0">
-                <center>OBSERVACION</center>
+                <center>FRECUENCIA DE REGISTRO: CADA 3 HORAS</center>
             </th>
-            <th>APROBADO POR</th>
-            <th>ESTADO</th>
+        </tr>
+        <tr>
+            <td style="width:50px">SI</td>
+            <td style="width:50px">NO</td>
+            <th style="border-right:1px solid #e3e6f0">
+                <center>OBSERVACIONES</center>
+            </th>
         </tr>
     </thead>
-    @{int con = 0; }
     <tbody style="font-size:12px">
 
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Fecha.ToString("dd-MM-yyyy")</td>
                 <td>
                     <center>
                         @item.HoraVerificacion.ToString("HH:mm")
                     </center>
                 </td>
                 <td>
-                    <center>
-                        @Html.DisplayFor(modelItem => item.Temperatura)
-                    </center>
+                    @if (item.Temperatura == 0)
+                    {
+                        <center>0 °C</center>
+                    }
+                    else
+                    {
+                        <center>@item.Temperatura.ToString("###.##") °C</center>
+                    }
                 </td>
-                <td>
-                    <center>
-                        @if (item.CorrectoSellado == true)
-                        {
-                            <span class="badge badge-success">SI</span>
-                        }
-                        else
-                        {
-                            <span class="badge badge-danger">NO</span>
-                        }
-                    </center>
-                </td>
+                @if (item.CorrectoSellado == true)
+                {
+                    <td> <span class="badge badge-success">SI</span></td>
+                    <td></td>
+                }
+                else if (item.CorrectoSellado == false)
+                {
+                    <td></td>
+                    <td> <span class="badge badge-danger">NO</span></td>
+                }
+
                 <td>
                     @if (!string.IsNullOrEmpty(item.Observacion))
                     {
-                    <span>@item.Observacion.ToUpper()</span>
-                    }                    
-                </td>
-                <td>@item.UsuarioModificacionLog</td>
-                <td>
-                    @if (item.EstadoReporte == true)
-                    {
-                    <span class="badge badge-success">APROBADO</span>
-                    } else {
-                    <span class="badge badge-danger">PENDIENTE</span>
+                        <span>@item.Observacion.ToUpper()</span>
                     }
                 </td>
             </tr>
-            con++;
         }
     </tbody>
 </table>

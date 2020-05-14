@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdResidualCloroDetalle { get; set; }
         public int IdResidualCloro { get; set; }
-        public string CodPeliduvio { get; set; }
+        public int CodPeliduvio { get; set; }
         public string Pediluvio { get; set; }
         public int Cantidad { get; set; }
     }

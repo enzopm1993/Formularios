@@ -10,8 +10,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos
         //ID DEL GRUPO DEL CLASIFICADOR PARA EL LAVADO Y DESINFECCION DE MANOS
         public static string IdCodigoLineaLavadoDesinfeccionManos = "037";
         //ESTADO DE REPORTE false=PENDIENTE; true=APROBADO
-        public static bool EstadoReporteActivo = true;
-        public static bool EstadoReportePendiente = false;
+        public static bool EstadoReporteActivo { get; set; } = true;
+        public static bool EstadoReportePendiente { get; set; } = false;
         //BASES DE DATOS
         public static string DesarrolloBD = "ASIS_DESARROLLO"; 
         public static string PreProduccionBD = "ASIS_PRE_PROD"; 

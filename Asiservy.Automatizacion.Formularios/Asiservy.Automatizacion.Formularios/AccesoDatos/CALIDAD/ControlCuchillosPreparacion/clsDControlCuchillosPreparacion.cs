@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchillosPreparacion
@@ -49,7 +48,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
             }
         }
 
-        public int GuardarModificarControlCuchilloPreparacion(CC_CONTROL_CUCHILLOS_PREPARACION GuardarModigicar)
+        public int GuardarModificarControlCuchilloPreparacion(CC_CONTROL_CUCHILLOS_PREPARACION GuardarModigicar, bool siAprobar)
         {
             int valor = 0;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -57,14 +56,22 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
                 var model = db.CC_CONTROL_CUCHILLOS_PREPARACION.FirstOrDefault(x => x.IdControlCuchillo == GuardarModigicar.IdControlCuchillo && x.EstadoRegistro == GuardarModigicar.EstadoRegistro);
                 if (model != null)
                 {
-                    model.Observacion = GuardarModigicar.Observacion;
-                    model.Hora = GuardarModigicar.Hora;
-                    //model.EstadoRegistro = GuardarModigicar.EstadoRegistro;
-                    model.EstadoReporte = GuardarModigicar.EstadoReporte;
+                    if (siAprobar)
+                    {
+                        model.AprobadoPor = GuardarModigicar.UsuarioIngresoLog;
+                        model.FechaAprobado = GuardarModigicar.FechaAprobado;
+                        model.EstadoReporte = GuardarModigicar.EstadoReporte;
+                        valor = 2;
+                    }
+                    else
+                    {
+                        model.Observacion = GuardarModigicar.Observacion;
+                        model.Hora = GuardarModigicar.Hora;                       
+                        valor = 1;
+                    }
                     model.FechaModificacionLog = GuardarModigicar.FechaIngresoLog;
                     model.TerminalModificacionLog = GuardarModigicar.TerminalIngresoLog;
                     model.UsuarioModificacionLog = GuardarModigicar.UsuarioIngresoLog;
-                    valor = 1;
                 }
                 else
                 {
@@ -149,12 +156,40 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
         }
 
         //--------------------------------------CONTROL CUCHILLO DETALLE--------------------------------------------------------------
-        public List<sp_Reporte_Control_Cuchillos_Preparacion> ReporteControlCuchilloPreparacion(DateTime filtroFechaDesde, DateTime filtroFechaHasta, int opcion)
+        public List<sp_Reporte_Control_Cuchillos_Preparacion> ReporteControlCuchilloPreparacion(DateTime filtroFechaDesde, DateTime filtroFechaHasta,int idControlCuchillo, int op)
         {
             using (ASIS_PRODEntities db= new ASIS_PRODEntities())
             {
-                //var listado = db.sp_Reporte_Control_Cuchillos_Preparacion(filtroFechaDesde, filtroFechaHasta, opcion).ToList();
-                return null;
+                var listado = db.sp_Reporte_Control_Cuchillos_Preparacion(filtroFechaDesde, filtroFechaHasta, idControlCuchillo, op).ToList();
+                return listado;
+            }
+        }
+
+        public List<CC_CONTROL_CUCHILLOS_PREPARACION> ReporteConsultarcabecera(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = (from c in db.CC_CONTROL_CUCHILLOS_PREPARACION
+                             where (c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
+                             orderby c.Fecha descending
+                             select new { c.IdControlCuchillo, c.Fecha, c.Hora, c.EstadoReporte, c.Observacion, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobado, c.AprobadoPor }).ToList();
+                List<CC_CONTROL_CUCHILLOS_PREPARACION> listacabecera = new List<CC_CONTROL_CUCHILLOS_PREPARACION>();
+                CC_CONTROL_CUCHILLOS_PREPARACION cabecera;
+                foreach (var item in lista)
+                {
+                    cabecera = new CC_CONTROL_CUCHILLOS_PREPARACION();
+                    cabecera.IdControlCuchillo = item.IdControlCuchillo;
+                    cabecera.Fecha = item.Fecha;
+                    cabecera.Hora = item.Hora;
+                    cabecera.EstadoReporte = item.EstadoReporte;
+                    cabecera.Observacion = item.Observacion;
+                    cabecera.FechaIngresoLog = item.FechaIngresoLog;
+                    cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    cabecera.FechaAprobado = item.FechaAprobado;
+                    cabecera.AprobadoPor = item.AprobadoPor;
+                    listacabecera.Add(cabecera);
+                }
+                return listacabecera;
             }
         }
     }

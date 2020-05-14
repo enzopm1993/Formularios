@@ -49,10 +49,15 @@ function SeleccionarBandeja(model) {
     table.DataTable().clear();
     table.DataTable().draw(); 
     listaDatos = model;
+    var date = new Date();
+    $('#txtFechaAprobado').val(moment(date).format('YYYY-MM-DDTHH:mm'));
+    $('#cargac').show();
     if (model.EstadoReporte == true) {
+        $('#txtFechaAprobado').prop('hidden', true);
         $('#btnAprobado').prop('hidden', true);
         $('#btnPendiente').prop('hidden', false);
     } else {
+        $('#txtFechaAprobado').prop('hidden', false);
         $('#btnPendiente').prop('hidden', true);
         $('#btnAprobado').prop('hidden', false);
     }
@@ -77,6 +82,7 @@ function SeleccionarBandeja(model) {
             } else {
                 $("#tblDataTableAprobar tbody").empty();
                 config.opcionesDT.order = [];
+                config.opcionesDT.buttons = [];
                 config.opcionesDT.columns = [
                     { data: 'CodigoCuchillo' },
                     { data: 'Estado' },
@@ -119,14 +125,24 @@ function SeleccionarBandeja(model) {
 }
 
 function AprobarPendiente(estadoReporte) {
+    if ($("#selectEstadoReporte").val() == 'false') {
+        var date = new Date();
+        if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') < moment(listaDatos.Fecha).format('YYYY-MM-DD')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser menor a la fecha de creacion del reporte: <span class="badge badge-danger">' + moment(listaDatos.Fecha).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+        if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') > moment(date).format('YYYY-MM-DD')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser mayor a la fecha actual: <span class="badge badge-danger">' + moment(date).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+    } else { $('#txtFechaAprobado').val(''); }
         $.ajax({
             url: "../ControlCuchillosPreparacion/GuardarModificarControlCuchilloPreparacion",
             type: "POST",
             data: {
                 IdControlCuchillo: listaDatos.IdControlCuchillo,
-                Fecha: listaDatos.Fecha,
-                Hora: listaDatos.Hora,
-                Observacion: listaDatos.Observacion,
+                FechaAprobado: $('#txtFechaAprobado').val(),
+                siAprobar: true,
                 EstadoReporte: estadoReporte
             },
             success: function (resultado) {
@@ -135,7 +151,8 @@ function AprobarPendiente(estadoReporte) {
                 }
                 if (resultado == 1) {
                     MensajeCorrecto('¡Registro aprobado correctamente!');
-                } else { MensajeError('El registro no debe guardase- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion');}
+                } else if (resultado == 2) { MensajeCorrecto('Estado actualizado correctamente'); }
+                else { MensajeError('El registro no debe guardase - solo actualizarce - Controller: GuardarModificarControlCuchilloPreparacion'); }
                 
                 $("#ModalApruebaPendiente").modal("hide");
                 CargarBandeja();                
@@ -145,6 +162,21 @@ function AprobarPendiente(estadoReporte) {
             }
         });
 }
+
+function validar() {
+    if ($('#txtFechaAprobado').val() == '') {
+        $("#txtFechaAprobado").css('border', '1px dashed red');
+        MensajeAdvertencia('Fecha invalida');
+        return;
+    } else {
+        $("#txtFechaAprobado").css('border', '');
+    }
+}
+
+function LimpiarFecha() {
+    $("#txtFechaAprobado").css('border', '');
+}
+
 //DATE RANGE PICKER
 $(function () {
     var start = moment();

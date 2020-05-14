@@ -2244,6 +2244,7 @@
     <Content Include="Scripts\CALIDAD\OperatividadMetal\BandejaOperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\OperatividadMetal.js" />
     <Content Include="Scripts\CALIDAD\OperatividadMetal\ReporteOperatividadMetal.js" />
+    <Content Include="Scripts\CALIDAD\ResidualCloro\BandejaResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ReporteResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\ResidualCloro\ResidualCloro.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSellado.js" />
@@ -3353,13 +3354,10 @@
     <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\ControlCuchillosPreparacion\HeaderPdf.html" />
     <Content Include="Views\DesechosLiquidosPeligrosos\HeaderPdf.html" />
     <Content Include="Views\LavadoCisterna\HeaderPdf.html" />
-    <Content Include="Views\LavadoDesinfeccionManos\HeaderPdf.html" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Memorandum\Gestion.cshtml" />
-    <Content Include="Views\TemperaturaTermoencogidoSellado\HeaderPdf.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3950,13 +3948,10 @@
     <Content Include="Views\EvaluacionProductoEnfundado\ControlEvaluacionProductoEnfundado.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\PartialDetalleControl.cshtml" />
     <Content Include="Views\ReporteMaestro\ReporteDetallePartial.cshtml" />
-    <Content Include="Views\ControlCuchillosPreparacion\PdfControlCuchilloPreparacionPartial.cshtml" />
-    <Content Include="Views\LavadoDesinfeccionManos\PdfReporteDesinfeccionManosDetallePartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\BandejaEvaluacionProductoEnfundado.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\BandejaAprobadosEvaluacionProductoEnfundadoPartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\PartialDetalleBandeja.cshtml" />
     <Content Include="Views\LavadoCisterna\PdfReporteLavadoCisternaPartial.cshtml" />
-    <Content Include="Views\TemperaturaTermoencogidoSellado\PdfReporteTermoencogidoSelladoPartial.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\ReporteCloroCisternaDescongeladoPartial.cshtml" />
     <Content Include="Views\EvaluacionProductoEnfundado\ReporteEvaluacionProductoEnfundado.cshtml" />
     <Content Include="Views\DesechosLiquidosPeligrosos\DesechosLiquidosPeligrosos.cshtml" />
@@ -3999,6 +3994,12 @@
     <Content Include="Views\CondicionPersonal\ReporteControlCondicionPersonalPartial.cshtml" />
     <Content Include="Views\MantenimientoPediluvio\MantenimientoPediluvio.cshtml" />
     <Content Include="Views\MantenimientoPediluvio\MantenimientoPediluvioPartial.cshtml" />
+    <Content Include="Views\ResidualCloro\BandejaResidualCloro.cshtml" />
+    <Content Include="Views\ResidualCloro\BandejaResidualCloroPartial.cshtml" />
+    <Content Include="Views\ResidualCloro\ReporteResidualCloroControlPartial.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacionCabeceraPartial.cshtml" />
+    <Content Include="Views\LavadoDesinfeccionManos\ReporteDesinfeccionManosDetalleCabeceraPartial.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSelladoCabeceraPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
