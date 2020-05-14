@@ -27,7 +27,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_CONTROL_CUCHILLOS_PREPARACION CC_CONTROL_CUCHILLOS_PREPARACION { get; set; }
         public virtual CC_CUCHILLOS_PREPARACION CC_CUCHILLOS_PREPARACION { get; set; }
+        public virtual CC_CONTROL_CUCHILLOS_PREPARACION CC_CONTROL_CUCHILLOS_PREPARACION { get; set; }
     }
 }

@@ -19,7 +19,7 @@ function ConsultarPeliduvios() {
             if (resultado == "101") {
                 window.location.reload();
             }
-            console.log(resultado);
+           // console.log(resultado);
             if (resultado == "0") {
                 MensajeAdvertencia("No se encontraron peliduvios asigandos a esta Area.")                
             } else {     
@@ -33,7 +33,7 @@ function ConsultarPeliduvios() {
            
         },
         error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
+            MensajeError(Mensajes.Error, false);
            
         }
     });
@@ -42,9 +42,9 @@ function ConsultarPeliduvios() {
 function CargarResidualCloro() {
     $("#chartCabecera2").html('');
     $("#btnGenerar").prop("disabled", false);
-
+    $("#lblAprobadoPendiente").html("");
+    $("#divCabecera2").prop("hidden", false);
     if ($("#txtFecha").val() == '' || $("#selectArea").val() == '') {
-        $("#divCabecera2").prop("hidden", true);
         return;
     }
     if (moment($("#txtFecha").val()).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")) {
@@ -52,9 +52,7 @@ function CargarResidualCloro() {
         MensajeAdvertencia("Fecha no permitida");
         return;
     }
-    $("#divCabecera2").prop("hidden", false);
     $("#spinnerCargando").prop("hidden", false);
-    $("#lblAprobadoPendiente").html("");
     ConsultarPeliduvios();
     $.ajax({
         url: "../ResidualCloro/ResidualCloroPartial",
@@ -68,18 +66,18 @@ function CargarResidualCloro() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            $("#spinnerCargando").prop("hidden", true);
             if (resultado == "0") {
-                $("#chartCabecera2").html("No existen registros");
-                $("#spinnerCargando").prop("hidden", true);
+                $("#chartCabecera2").html(Mensajes.SinRegistros);
             } else if (resultado.Fecha!=null)
             {
+                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
                 $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
                 $("#btnGenerar").prop("disabled", true);
             }
             else {
+                $("#lblAprobadoPendiente").removeClass("badge-info").addClass("badge-danger");
                 $("#lblAprobadoPendiente").html(Mensajes.Pendiente);
-
-                $("#spinnerCargando").prop("hidden", true);
                 $("#chartCabecera2").html(resultado);
                 config.opcionesDT.pageLength = 10;
                 $('#tblDataTable').DataTable(config.opcionesDT);
@@ -87,7 +85,7 @@ function CargarResidualCloro() {
             //  $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
+            MensajeError(Mensajes.Error, false);
             $('#btnConsultar').prop("disabled", false);
             $("#spinnerCargando").prop("hidden", true);
         }
@@ -133,10 +131,17 @@ function GuardarControl() {
     }
     var fecha1 = moment($("#txtFecha").val()).add(1, 'days').format('YYYY-MM-DD');
     var fecha2 = moment($("#txtHora").val()).format('YYYY-MM-DD');
+    var fecha3 = moment($("#txtFecha").val()).format('YYYY-MM-DD');
     if (fecha2 > fecha1) {
         MensajeAdvertencia("No puede ingresar una fecha mayor a: " + fecha1);
         return;
     }
+
+    if (fecha2 < fecha3) {
+        MensajeAdvertencia("No puede ingresar una fecha menor a: " + fecha3);
+        return;
+    }
+
     $.ajax({
         url: "../ResidualCloro/ResidualCloro",
         type: "POST",
@@ -155,7 +160,7 @@ function GuardarControl() {
             NuevoControl();
         },
         error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -215,7 +220,7 @@ function InactivarControl() {
             $("#modalEliminarControl").modal("hide");
         },
         error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
+            MensajeError(Mensajes.Error, false);
             $('#btnConsultar').prop("disabled", false);
             $("#spinnerCargando").prop("hidden", true);
         }
@@ -259,14 +264,27 @@ function EditarResidualCloro() {
     if (!ValidarEditar()) {
         return;
     }
+    var fecha1 = moment($("#txtFecha").val()).add(1, 'days').format('YYYY-MM-DD');
+    var fecha2 = moment($("#txtHora2").val()).format('YYYY-MM-DD');
+    var fecha3 = moment($("#txtFecha").val()).format('YYYY-MM-DD');
+    if (fecha2 > fecha1) {
+        MensajeAdvertencia("No puede ingresar una fecha mayor a: " + fecha1);
+        return;
+    }
 
+    if (fecha2 < fecha3) {
+        MensajeAdvertencia("No puede ingresar una fecha menor a: " + fecha3);
+        return;
+    }
     $.ajax({
         url: "../ResidualCloro/ResidualCloro",
         type: "POST",
         data: {
             IdResidualCloro: $("#txtIdResidualCloro").val(),
             Hora: $("#txtHora2").val(),     
-            Observacion: $("#txtObservacion2").val()
+            Observacion: $("#txtObservacion2").val(),
+            Fecha: DatosCabecera.Fecha,
+            CodArea: $("#selectArea").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -277,7 +295,7 @@ function EditarResidualCloro() {
             $("#txtDescripcionCabecera").html(DatosCabecera.Hora);         
         },
         error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -300,7 +318,7 @@ function CargarResidualCloroDetalle() {
             }
             $("#spinnerCargandoDetalle").prop("hidden", true);
             if (resultado == "0") {
-                $("#divTableDetalle").html("No existen registros");
+                $("#divTableDetalle").html(Mensajes.SinRegistros);
             } 
             else {
                 $("#divTableDetalle").html(resultado);    
@@ -309,14 +327,14 @@ function CargarResidualCloroDetalle() {
             //  $('#btnConsultar').prop("disabled", true);
         },
         error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
+            MensajeError(Mensajes.Error, false);
             $("#spinnerCargandoDetalle").prop("hidden", true);
         }
     });
 }
 
 function NuevoDetalle() {
-    $("#txtCantidad").val('0');   
+    $("#txtCantidad").val('');   
     $("#selectPeliduvio").prop('selectedIndex', 0);   
     $("#selectPeliduvio").css('borderColor', '#ced4da');
 }
@@ -387,7 +405,7 @@ function GuardarResidualCloroDetalle() {
 
         },
         error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }
@@ -412,7 +430,7 @@ function InactivarResidualCloroDetalle() {
             $("#modalEliminarControlDetalle").modal("hide");
         },
         error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
+            MensajeError(Mensajes.Error, false);
         }
     });
 }

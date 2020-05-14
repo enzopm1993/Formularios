@@ -168,7 +168,7 @@
                     <!-- End of Topbar -->
                 }
 
-                
+
                 <div class="container-fluid relative1" style="padding-top:5px; padding-left:10px; padding-right:10px">
 
                     <div class="absolute1" style="" hidden id="response">
@@ -313,8 +313,18 @@
     <script src="~/Content/admin/vendor/jquery/jquery.min.js"></script>
 
     <script src="~/Content/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script>
+        moment.updateLocale('es', {
+            months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+            monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),
+            weekdays: 'Domingo_Lunes_Martes_Miercoles_Jueves_Viernes_Sabado'.split('_'),
+            weekdaysShort: 'Dom._Lun._Mar._Mier._Jue._Vier._Sab.'.split('_'),
+            weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
+        }
+        );
+    </script>
+    @*<script src="~/Scripts/moment.min.js"></script>*@
     <!-- Core plugin JavaScript-->
     <script src="~/Content/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
@@ -549,6 +559,13 @@
     {
         <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     }
+    @if (ViewBag.DateTimePicker == "1")
+    {
+
+        <script src="~/Scripts/tempusdominus-bootstrap-4.min.js"></script>
+        <link href="~/Content/tempusdominus-bootstrap-4.min.css" rel = "stylesheet"/>
+    }
+
     @if (ViewBag.JavaScrip != null)
     {
 

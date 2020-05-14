@@ -133,7 +133,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
 
         #endregion
 
-
+        #region CONTROL 
         [Authorize]
         public ActionResult CondicionPersonal()
         {
@@ -290,6 +290,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
+
+        #region REPORTE
 
         [Authorize]
         public ActionResult ReporteCondicionPersonal()
@@ -408,7 +411,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        #endregion
 
         #region BANDEJA DE APORBACION
         //-----------------------------------------------------VISTA DE BANDEJA DE APROBACION----------------------------------------------------------------
