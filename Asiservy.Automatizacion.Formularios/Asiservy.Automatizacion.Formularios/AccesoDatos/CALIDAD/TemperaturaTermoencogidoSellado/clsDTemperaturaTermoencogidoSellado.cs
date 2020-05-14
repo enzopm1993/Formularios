@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
 
 namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.TemperaturaTermoencogidoSellado
@@ -16,7 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.TemperaturaTer
             }
         }
 
-        public int GuardarModificarTermoencogidoSellado(CC_TEMPERATURA_TERMOENCOGIDO_SELLADO GuardarModigicar)
+        public int GuardarModificarTermoencogidoSellado(CC_TEMPERATURA_TERMOENCOGIDO_SELLADO GuardarModigicar, bool siAprobar)
         {
             int valor = 0;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
@@ -24,19 +23,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.TemperaturaTer
                 var model = db.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO.FirstOrDefault(x => x.Id == GuardarModigicar.Id && x.EstadoRegistro == GuardarModigicar.EstadoRegistro);
                 if (model != null)
                 {
-                    if (GuardarModigicar.Fecha.ToString() == "1/1/0001 12:00:00 AM" && GuardarModigicar.Observacion == null)
+                    if (siAprobar)
                     {
+                        model.AprobadoPor = GuardarModigicar.UsuarioIngresoLog;
+                        model.FechaAprobado = GuardarModigicar.FechaAprobado;
                         model.EstadoReporte = GuardarModigicar.EstadoReporte;
-                        valor = 1;
+                        valor = 2;
                     }
                     else
                     {
-                        model.Observacion = GuardarModigicar.Observacion;
-                        model.FechaModificacionLog = GuardarModigicar.FechaIngresoLog;
-                        model.TerminalModificacionLog = GuardarModigicar.TerminalIngresoLog;
-                        model.UsuarioModificacionLog = GuardarModigicar.UsuarioIngresoLog;
+                        model.Observacion = GuardarModigicar.Observacion;                       
                         valor = 1;
                     }
+                    model.FechaModificacionLog = GuardarModigicar.FechaIngresoLog;
+                    model.TerminalModificacionLog = GuardarModigicar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = GuardarModigicar.UsuarioIngresoLog;
                 }
                 else
                 {
@@ -118,6 +119,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.TemperaturaTer
                     db.SaveChanges();
                 }
                 return valor;
+            }
+        }
+
+        public bool ConsultarEstadoReporte(int id)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var listado = db.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO.FirstOrDefault(x => x.Id == id && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (listado.EstadoReporte)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
             }
         }
     }

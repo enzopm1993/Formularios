@@ -5,6 +5,7 @@ $(document).ready(function () {
 });
 
 function CargarCabecera() {
+    Atras();
     $('#lblMostrarFecha').text('');
     $('#lblMostrarHora').text('');
     $('#lblMostrarObservacion').text('');

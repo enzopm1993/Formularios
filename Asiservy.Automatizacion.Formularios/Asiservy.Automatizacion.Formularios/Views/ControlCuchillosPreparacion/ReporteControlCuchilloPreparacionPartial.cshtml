@@ -2,11 +2,7 @@
 
 <table class="table table-bordered table-hover" style="cursor: pointer" id="tblDataTable">
     <thead style="font-size:12px">
-        <tr>
-            <th hidden>#</th>
-            <th>
-                FECHA
-            </th>
+        <tr>            
             <th>
                 HORA
             </th>
@@ -18,7 +14,6 @@
                 var listaHora = (from ssi in Model
                                  group ssi by new { ssi.Hora, ssi.Fecha } into g
                                  select new { Hora = g.Key.Hora, Fecha = g.Key.Fecha }).ToList();
-                int con = 0;
             }
 
             @foreach (var itemCodigoCuchillo in listaCodigoCuchillo)
@@ -27,21 +22,16 @@
                     <center>@itemCodigoCuchillo.CodigoCuchillo</center>
                 </th>
                 <th>EMPLEADO-@itemCodigoCuchillo.CodigoCuchillo</th>
-            }
-            <th>APROBADO POR</th>
-            <th>ESTADO</th>
+            }            
         </tr>
     </thead>
     <tbody style="font-size:12px">
         @foreach (var item in listaHora)
         {
-            con++;
             string usuarioAprobacion = "";
             bool estadoReporte = false;
             <tr>
-                <td hidden>@con</td>
-                <td>@item.Fecha.Replace("/", "-")</td>
-                <td>@item.Hora</td>
+                <td>@item.Hora.ToString("HH:mm")</td>
                 @foreach (var lh in listaCodigoCuchillo)
                 {
                     var estado = (from c in Model
@@ -75,17 +65,7 @@
                         }
                     </td>
                 }
-                <td>@usuarioAprobacion</td>
-                <td>
-                    <center>
-                        @if (estadoReporte == true)
-                        {
-                            <span class="badge badge-success">APROBADO</span>
-                        }
-                        else
-                        {<span class="badge badge-danger">PENDIENTE</span>}
-                    </center>
-                </td>
+                
             </tr>
         }
     </tbody>

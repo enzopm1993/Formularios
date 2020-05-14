@@ -94,9 +94,7 @@ function GuardarCabecera() {
             $("#btnModalEliminar").prop("hidden", false);
             $("#divDetalleProceso").prop("hidden", false);
             $("#divDetalleControlCloro").prop("hidden", false);
-            setTimeout(function () {
                 $('#cargac').hide();
-            },200);       
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -235,11 +233,13 @@ function GuardarDetalle(jdata) {
             if (resultado == 0) {
                 MensajeCorrecto("Datos guardados correctamente");
             } else if (resultado == 1) { MensajeCorrecto("Actualización de datos correcta"); }
-            else {
-                MensajeError("!Error al Guardar/Actuaizar los datos¡");
+            else if (resultado == 2) {
+                $("#divModalPartialDetalle").prop("hidden", true);
+                MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
+                $('#cargac').hide();
+                CargarCabecera(0);    
                 return;
             }
-            //CargarCabecera(0);
             CargarDetalle(0);
             limpiarDetalle(data);
             $('#cargac').hide();

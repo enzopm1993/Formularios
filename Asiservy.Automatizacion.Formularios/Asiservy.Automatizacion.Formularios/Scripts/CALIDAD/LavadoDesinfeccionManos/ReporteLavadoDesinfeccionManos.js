@@ -1,42 +1,116 @@
 ﻿var ListaDatos = [];
 
-$(document).ready(function () {
-    //CargarCabecera(0);    
-    CargarDetalle(0);
+$(document).ready(function () {   
+    CargarCabecera();
 });
 
-//Retorna PartialView
-function CargarDetalle(opcion) {      
-    var op = opcion;
+function CargarCabecera() {
+    Atras();
+    $('#lblMostrarFecha').text('');
+    $('#lblMostrarHora').text('');
+    $('#lblMostrarObservacion').text('');
     $('#cargac').show();
+
+    if ($("#fechaDesde").val() == '' || $("#fechaHasta").val() == '') {
+        var date = new Date();
+        var shortDate = moment(date).format('YYYY-MM-DD');
+        shortDate += ' 23:59';
+        $("#fechaDesde").val(moment(date).format('YYYY-MM-DD'));
+        $("#fechaHasta").val(moment(shortDate).format('YYYY-MM-DDTHH:mm'));
+    } else {
+        var d = '';
+        d = $("#fechaHasta").val();
+        $("#fechaHasta").val(moment(d).format('YYYY-MM-DDTHH:mm'));
+    }
+
     $.ajax({
-        url: "../LavadoDesinfeccionManos/ReporteDesinfeccionManosDetallePartial",
-        type: "GET",
+        url: "../LavadoDesinfeccionManos/ReporteDesinfeccionManosDetalleCabeceraPartial",
         data: {
-            fechaDesde: $('#fechaDesde').val(),
-            fechaHasta: $('#fechaHasta').val(),
-            opcion: op
+            fechaDesde: $("#fechaDesde").val(),
+            fechaHasta: $("#fechaHasta").val()
         },
+        type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == "0") {                
-                $("#divTableEntregaProductoDetalle").html("No existen registros");
+            if (resultado == "0") {
+                $("#divMostarTablaCabecera").html("No existen registros");
             } else {
-                $("#divTableEntregaProductoDetalle").prop("hidden", false);
-                $("#divTableEntregaProductoDetalle").html(resultado);
-                $("#divDetalleControlCloro").prop("hidden", false);                
+                $("#divMostarTablaCabecera").html(resultado);
             }
-            setTimeout(function () {
-                    $('#cargac').hide();
-                }, 200); 
+            $('#cargac').hide();
         },
         error: function (resultado) {
-            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });
+}
+
+function SeleccionarCabecera(jdata) {
+    $('#cargac').show();
+    var op = 1;
+
+    $('#lblMostrarFecha').text(moment(jdata.Fecha).format('DD-MM-YYYY'));
+
+    $('#txtUsuarioCreacion').text('\u00a0' + jdata.UsuarioIngresoLog.toUpperCase());
+    $('#txtFechaCreacion').text('\u00a0' + moment(jdata.FechaIngresoLog).format('DD-MM-YYYY'));
+    if (jdata.AprobadoPor == null) {
+        jdata.AprobadoPor = '';
+    }
+
+    if (jdata.FechaAprobado != null) {
+        jdata.FechaAprobado = moment(jdata.FechaAprobado).format('DD-MM-YYYY');
+    } else if (jdata.FechaAprobado == null) {
+        jdata.FechaAprobado = '';
+    }
+    $('#txtUsuarioAprobacion').text('\u00a0' + jdata.AprobadoPor);
+    $('#txtFechaAprobacion').text('\u00a0' + jdata.FechaAprobado);
+    $.ajax({
+        url: "../LavadoDesinfeccionManos/ReporteDesinfeccionManosDetallePartial",//MUESTRO EL DETALLE DE LA FILA SELECCIONADA
+        data: {
+            fechaDesde: $("#fechaDesde").val(),
+            fechaHasta: $('#fechaHasta').val(),
+            idDesinfeccionManos: jdata.IdDesinfeccionManos,
+            op: op
+        },
+        type: "GET",
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "0") {
+                $('#divBotones').prop('hidden', true);
+                $("#divMostarTablaCabecera").prop('hidden', false);
+                $("#divCardMostrarDetalle").prop('hidden', true);
+                MensajeAdvertencia('No existen registro de DETALLE');
+            } else {
+                $("#divMostarTablaCabecera").prop('hidden', true);
+                $("#divCardMostrarDetalle").prop('hidden', false);
+                $('#divBotones').prop('hidden', false);
+                $("#divMostarTablaDetalle").html(resultado);
+            }
+            $('#cargac').hide();
+        },
+        error: function (resultado) {
+            MensajeError(resultado.responseText, false);
+        }
+    });
+}
+
+function printDiv() {
+    window.print();
+}
+
+function Atras() {
+    $('#cargac').show();
+    $('#divBotones').prop('hidden', true);
+    $("#divMostarTablaCabecera").prop('hidden', false);
+    $("#divCardMostrarDetalle").prop('hidden', true);
+    $("#divMostarTablaDetalle").html('');
+
+    $('#cargac').hide();
+
 }
 
 $(function () {
@@ -119,11 +193,4 @@ $(function () {
     }, cb);
     cb(start, end);
 });
-
-function PrintReport(op) {
-    localStorage.setItem("fechaDesde", $("#fechaDesde").val());
-    var url = $("#RedirectTo").val() + '?' + 'filtroFechaDesde=' + $("#fechaDesde").val() + '&filtroFechaHasta=' + $("#fechaHasta").val() + '&op=' + op;
-    var win = window.open(url, '_blank');
-}
-
 

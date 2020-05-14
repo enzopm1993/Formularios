@@ -52,6 +52,8 @@ function CargarBandeja() {
                 var conRow = 0;
                 resultado.forEach(function (row) {
                     var estado = 'PENDIENTE';
+                    row.FechaComparar = row.Fecha;
+                    row.Fecha = moment(row.Fecha).format('DD-MM-YYYY');
                     var css = 'badge-danger';
                     if (row.EstadoReporte == true) {
                         estado = 'APROBADO';
@@ -63,9 +65,7 @@ function CargarBandeja() {
                 table.DataTable().rows.add(resultado);
                 table.DataTable().draw();
             }
-            setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -77,13 +77,18 @@ function CargarBandeja() {
 function SeleccionarBandeja(model) {
     $('#cargac').show();
     listaDatos = model;
+    var date = new Date();
+    $('#txtFechaAprobado').val(moment(date).format('YYYY-MM-DDTHH:mm'));
+    $('#cargac').show();
     if (model.EstadoReporte == true) {
+        $('#txtFechaAprobado').prop('hidden', true);
         $('#btnAprobado').prop('hidden', true);
         $('#btnPendiente').prop('hidden', false);
     } else {
+        $('#txtFechaAprobado').prop('hidden', false);
         $('#btnPendiente').prop('hidden', true);
         $('#btnAprobado').prop('hidden', false);
-    }    
+    }
         var op = 0;
         $.ajax({
             url: "../LavadoDesinfeccionManos/BandejaLavadoDesinfeccionManosAprobarPartial",
@@ -117,23 +122,34 @@ function SeleccionarBandeja(model) {
 }
 
 function AprobarPendiente(estadoReporte) {
+    if ($("#selectEstadoReporte").val() == 'false') {
+        var date = new Date();
+        if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') < moment(listaDatos.FechaComparar).format('YYYY-MM-DD')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser menor a la fecha de creacion del reporte: <span class="badge badge-danger">' + moment(listaDatos.FechaComparar).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+        if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') > moment(date).format('YYYY-MM-DD')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser mayor a la fecha actual: <span class="badge badge-danger">' + moment(date).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+    } else { $('#txtFechaAprobado').val(''); }
     $.ajax({
         url: "../LavadoDesinfeccionManos/GuardarModificarControlLavadoDesinfeccionManos",
         type: "POST",
         data: {
             IdDesinfeccionManos: listaDatos.IdDesinfeccionManos,
-            Fecha: listaDatos.Fecha,
-            Observacion: listaDatos.Observacion,
+            FechaAprobado: $('#txtFechaAprobado').val(),
+            siAprobar: true,
             EstadoReporte: estadoReporte
         },
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == 1) {
+            if (resultado == 1 || resultado==2) {
                 MensajeCorrecto('¡Cambio de ESTADO realizado correctamente!');
-            } else { MensajeError('El registro no debe guardase- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion'); }
-
+            } else if (resultado == 0) { MensajeError('El registro no debe guardase- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion'); }
+           
             $("#ModalApruebaPendiente").modal("hide");
             CargarBandeja();
             listaDatos = [];             
@@ -142,6 +158,20 @@ function AprobarPendiente(estadoReporte) {
             MensajeError(resultado.responseText, false);
         }
     });
+}
+
+function validar() {
+    if ($('#txtFechaAprobado').val() == '') {
+        $("#txtFechaAprobado").css('border', '1px dashed red');
+        MensajeAdvertencia('Fecha invalida');
+        return;
+    } else {
+        $("#txtFechaAprobado").css('border', '');
+    }
+}
+
+function LimpiarFecha() {
+    $("#txtFechaAprobado").css('border', '');
 }
 
 //DATE RANGE PICKER

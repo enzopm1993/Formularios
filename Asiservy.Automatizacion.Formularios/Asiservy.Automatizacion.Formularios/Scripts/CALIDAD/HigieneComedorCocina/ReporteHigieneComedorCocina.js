@@ -3,6 +3,7 @@
 });
 
 function CargarCabecera(op) {
+    Atras();
     $('#lblMostrarFecha').text('');
     $('#lblMostrarHora').text('');
     $('#lblMostrarObservacion').text('');

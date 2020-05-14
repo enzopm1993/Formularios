@@ -144,7 +144,7 @@ function LimpiarCabecera() {
     $("#txtFechaIngresoCabecera").val(moment(date).format('YYYY-MM-DDTHH:mm'));
 }
 
-function SeleccionarCabecera(model) {
+function SeleccionarCabecera(model) {    
     if (model.EstadoReporte ==true) {
         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!',5);
         return;
@@ -217,6 +217,12 @@ function EliminarCabeceraSi() {
                 $("#modalEliminarControl").modal("hide");
                 return;
             }
+            if (resultado == 2) {
+                MensajeAdvertencia('El registro se encuentra APROBADO, por favor REVERSE el registro e intente nuevamente');
+                $("#modalEliminarControl").modal('hide');
+                AtrasControlPrincipal();
+                return;
+            }
             limpiar();            
             OcultaControles();
             $('#divCabecera').prop('hidden', true);
@@ -287,10 +293,14 @@ function GuardarControlDetalle(op) {
                     $("#ModalIngresoDetalle").modal('hide');
                     $("#ModalEliminarActualizarDetalle").modal('hide');
                     MensajeCorrecto("Registro Exitoso");
-                } else {
+                } else if (resultado == 1) {
                     $("#ModalIngresoDetalle").modal('hide');
                     $("#ModalEliminarActualizarDetalle").modal('hide');
                     MensajeCorrecto("Actualización Exitoso");
+                } else if (resultado == 2){
+                    MensajeAdvertencia('El registro se encuentra APROBADO, por favor REVERSE el registro e intente nuevamente');
+                    $("#ModalIngresoDetalle").modal('hide');
+                    AtrasControlPrincipal();
                 }
                 ConsultarControlCuchilloDetalle(0, datosCabecera.IdControlCuchillo, 0, 1);
                 datosDetalle = [];
@@ -470,7 +480,8 @@ function EliminarDetalleSi() {
         url: "../ControlCuchillosPreparacion/EliminarControlCuchilloDetalle",
         type: "POST",
         data: {
-            IdControlCuchilloDetalle: datosDetalle.IdControlCuchilloDetalle
+            IdControlCuchilloDetalle: datosDetalle.IdControlCuchilloDetalle,
+            IdControlCuchillo: datosDetalle.IdControlCuchillo
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -478,6 +489,11 @@ function EliminarDetalleSi() {
             }
             if (resultado == "0") {
                 MensajeAdvertencia("Parametro idControlCuchilloDetalle es incorrecto: REGISTRO NO ELIMINADO");
+                return;
+            }else if (resultado == 2) {
+                MensajeAdvertencia('El registro se encuentra APROBADO, por favor REVERSE el registro e intente nuevamente');
+                $("#ModalEliminarActualizarDetalle").modal('hide');
+                AtrasControlPrincipal();
                 return;
             }
             MensajeCorrecto("¡Registro eliminado correctamente!");

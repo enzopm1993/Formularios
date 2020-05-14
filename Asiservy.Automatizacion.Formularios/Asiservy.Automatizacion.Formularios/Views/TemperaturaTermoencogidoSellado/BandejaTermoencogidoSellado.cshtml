@@ -41,43 +41,34 @@
 
 <div class="row">
     <div class="col-md-6 col-12 col-sm-12">
-        <h4 class="text-md-left text-center" style="float:left">Bandeja Termoencogido y Sellado de Calidad</h4>
+        <h5 class="text-md-left text-center" style="float:left">Bandeja Termoencogido y Sellado de Calidad</h5>
+    </div>    
+</div>
+<br />
+<div class="row">
+    <div class="col-md-3 col-12 col-sm-12">
+        <select id="selectEstadoReporte"  class="form-control" onchange="CargarBandeja()">
+            <option value="false" default>PENDIENTE APROBACION</option>
+            <option value="true">APROBADO</option>
+        </select>
     </div>
-    <div class="col-md-6 col-12 col-sm-12">
-        <div class="box_filters" style="padding-right:7.6%;width:62%">
-            <div class="itemFilter">
 
-                @*<div id="reportrange" class="selectbox">*@
-                <select id="selectEstadoReporte" style=" float:right" class="form-control" onchange="CargarBandeja()">
-                    <option value="false" default>PENDIENTE APROBACION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-                    <option value="true">APROBADO</option>
-                </select>
-                @*</div>*@
+    <div class="box_filters col-md-5 col-12 col-sm-12">
+        <div class="itemFilter">
+            <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <div id="reportrange" class="selectbox text-md-left text-center">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
             </div>
-
+        </div>
+        <div class="itemFilter">
+            <a href="#" onclick="CargarBandeja()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
         </div>
     </div>
 </div>
+<br />
 
-<div class="row float-right">
-    <div class="">
-        <div class="box_filters col-md-12 col-12 col-sm-12">
-            <div class="itemFilter">
-                <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                <div id="reportrange" class="selectbox text-md-left text-center">
-                    <i class="fa fa-calendar"></i>&nbsp;
-                    <span></span> <i class="fa fa-caret-down"></i>
-                </div>
-            </div>
-            <div class="itemFilter">
-                <a href="#" onclick="CargarBandeja()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<br /><br /><br /><br />
 @* DIV MOSTRAR JSON *@
 <div class="table-responsive" id="divTablaAplrobados">
     <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
@@ -99,17 +90,21 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Aprobar</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarFecha()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <div class="col-md-4 col-12 col-sm-12">
+                    <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
+                </div>
+                <br />
                 <div class="table-responsive" id="divAprobarPendientePartial">
 
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarFecha()">Cerrar</button>
                 <button type="button" id="btnAprobado" hidden class="btn btn-primary" onclick="AprobarPendiente(true)">Aprobar</button>
                 <button type="button" id="btnPendiente" hidden class="btn btn-primary" onclick="AprobarPendiente(false)">Reversar</button>
             </div>
