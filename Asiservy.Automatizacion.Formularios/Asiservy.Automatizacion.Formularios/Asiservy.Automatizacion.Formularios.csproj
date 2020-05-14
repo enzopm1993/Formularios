@@ -3999,6 +3999,7 @@
     <Content Include="Views\ResidualCloro\ReporteResidualCloroControlPartial.cshtml" />
     <Content Include="Views\ControlCuchillosPreparacion\ReporteControlCuchilloPreparacionCabeceraPartial.cshtml" />
     <Content Include="Views\LavadoDesinfeccionManos\ReporteDesinfeccionManosDetalleCabeceraPartial.cshtml" />
+    <Content Include="Views\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSelladoCabeceraPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
