@@ -32,6 +32,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
         public bool EstadoReporte { get; set; }
+        public string AprobadoPor { get; set; }
+        public Nullable<System.DateTime> FechaAprobado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CC_INTERMEDIA_CTRL_MANT_CISTERNA> CC_INTERMEDIA_CTRL_MANT_CISTERNA { get; set; }
