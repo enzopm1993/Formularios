@@ -61,13 +61,25 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                     BuscarCabecera.Destino = poCabControl.Destino;
                     BuscarCabecera.Proveedor = poCabControl.Proveedor;
                     BuscarCabecera.Batch = poCabControl.Batch;
-                    poCabControl.Lote = poCabControl.Lote;
+                    BuscarCabecera.Lote = poCabControl.Lote;
                     BuscarCabecera.NivelLimpieza = poCabControl.NivelLimpieza;
                     BuscarCabecera.Observacion = poCabControl.Observacion;
                     BuscarCabecera.OrdenFabricacion = poCabControl.OrdenFabricacion;
                     BuscarCabecera.FechaModificacionLog = poCabControl.FechaIngresoLog;
                     BuscarCabecera.UsuarioModificacionLog = poCabControl.UsuarioIngresoLog;
                     BuscarCabecera.TerminalIngresoLog = poCabControl.TerminalIngresoLog;
+                    if (!string.IsNullOrEmpty(poCabControl.ImagenCodigo))
+                        BuscarCabecera.ImagenCodigo = poCabControl.ImagenCodigo;
+                    if (!string.IsNullOrEmpty(poCabControl.ImagenProducto1))
+                        BuscarCabecera.ImagenProducto1 = poCabControl.ImagenProducto1;
+                    if (!string.IsNullOrEmpty(poCabControl.ImagenProducto2))
+                        BuscarCabecera.ImagenProducto2 = poCabControl.ImagenProducto2;
+                    if (!string.IsNullOrEmpty(poCabControl.ImagenProducto3))
+                        BuscarCabecera.ImagenProducto3 = poCabControl.ImagenProducto3;
+                    BuscarCabecera.RotacionImagenCod = poCabControl.RotacionImagenCod;
+                    BuscarCabecera.RotacionImagenProd1 = poCabControl.RotacionImagenProd1;
+                    BuscarCabecera.RotacionImagenProd2 = poCabControl.RotacionImagenProd2;
+                    BuscarCabecera.RotacionImagenProd3 = poCabControl.RotacionImagenProd3;
                     db.SaveChanges();
                     resultado[0] = "001";
                     resultado[1] = "Registro actualizado con éxito";
@@ -279,34 +291,34 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 return ResultadoFInal;
             }
         }
-        public string GuardarImagenFirma(byte[] firma, int IdCabecera, string Tipo, string Usuario, string Terminal)
-        {
-            using (var db = new ASIS_PRODEntities())
-            {
-                var buscarControl = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(IdCabecera);
-                if (Tipo == "Control")
-                {
-                    buscarControl.FirmaControl = firma;
-                }
-                else
-                {
-                    buscarControl.FirmaAprobacion = firma;
-                }
-                buscarControl.FechaModificacionLog = DateTime.Now;
-                buscarControl.UsuarioModificacionLog = Usuario;
-                buscarControl.TerminalModificacionLog = Terminal;
-                db.SaveChanges();
-                return "Firma guardada correctamente";
-            }
-        }
-        public byte[] ConsultarFirmaControl(int IdCabecera)
-        {
-            using (var db = new ASIS_PRODEntities())
-            {
-                var buscarControl = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(IdCabecera);
-                return buscarControl.FirmaControl;
-            }
-        }
+        //public string GuardarImagenFirma(byte[] firma, int IdCabecera, string Tipo, string Usuario, string Terminal)
+        //{
+        //    using (var db = new ASIS_PRODEntities())
+        //    {
+        //        var buscarControl = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(IdCabecera);
+        //        if (Tipo == "Control")
+        //        {
+        //            buscarControl.FirmaControl = firma;
+        //        }
+        //        else
+        //        {
+        //            buscarControl.FirmaAprobacion = firma;
+        //        }
+        //        buscarControl.FechaModificacionLog = DateTime.Now;
+        //        buscarControl.UsuarioModificacionLog = Usuario;
+        //        buscarControl.TerminalModificacionLog = Terminal;
+        //        db.SaveChanges();
+        //        return "Firma guardada correctamente";
+        //    }
+        //}
+        //public byte[] ConsultarFirmaControl(int IdCabecera)
+        //{
+        //    using (var db = new ASIS_PRODEntities())
+        //    {
+        //        var buscarControl = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(IdCabecera);
+        //        return buscarControl.FirmaControl;
+        //    }
+        //}
         public List<CabeceraEvaluacionProductoEnfundadoViewModel> ConsultarBandejaEvaluacionLomosyMiga(DateTime? FechaInicio, DateTime? FechaFin, bool EstadoControl)
         {
             using (var db = new ASIS_PRODEntities())
@@ -401,23 +413,23 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
                 buscarCabecera.AprobadoPor = usuario;
                 buscarCabecera.FechaAprobacion = DateTime.Now;
                 buscarCabecera.EstadoControl = true;
-                buscarCabecera.FirmaAprobacion = firma;
+                //buscarCabecera.FirmaAprobacion = firma;
                 db.SaveChanges();
 
                 return "El control ha sido aprobado";
             }
         }
-        public object[] ConsultarFirmaAprobacion(int IdCabecera)
-        {
-            using (var db = new ASIS_PRODEntities())
-            {
-                var buscarControl = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(IdCabecera);
-                object[] resultado = new object[2];
-                resultado[0] = buscarControl.FirmaAprobacion;
-                resultado[1] = buscarControl.EstadoControl;
-                return resultado;
-            }
-        }
+        //public object[] ConsultarFirmaAprobacion(int IdCabecera)
+        //{
+        //    using (var db = new ASIS_PRODEntities())
+        //    {
+        //        var buscarControl = db.CC_EVALUACION_PRODUCTO_ENFUNDADO.Find(IdCabecera);
+        //        object[] resultado = new object[2];
+        //        resultado[0] = buscarControl.FirmaAprobacion;
+        //        resultado[1] = buscarControl.EstadoControl;
+        //        return resultado;
+        //    }
+        //}
         public List<spReporteEvaluacionProductoEnfundado> ConsultarReporte(DateTime Fecha)
         {
             using (var db = new ASIS_PRODEntities())

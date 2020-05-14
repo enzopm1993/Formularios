@@ -188,7 +188,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
                     var ext2 = dataImg.FileName.Split('.');
                     var cont = ext2.Length;
-                    NombreImg = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() + "." + ext2[cont - 1];
+                    NombreImg = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() +"1"+ "." + ext2[cont - 1];
                     poCabeceraControl.ImagenCodigo = NombreImg;
                 }
                 if (dataImg1 != null)
@@ -202,7 +202,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
                     var ext2 = dataImg1.FileName.Split('.');
                     var cont = ext2.Length;
-                    NombreImg1 = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() + "." + ext2[cont - 1];
+                    NombreImg1 = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() + "2" + "." + ext2[cont - 1];
                     poCabeceraControl.ImagenProducto1 = NombreImg1;
                 }
                 if (dataImg2 != null)
@@ -216,7 +216,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
                     var ext2 = dataImg2.FileName.Split('.');
                     var cont = ext2.Length;
-                    NombreImg2 = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() + "." + ext2[cont - 1];
+                    NombreImg2 = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() + "3" + "." + ext2[cont - 1];
                     poCabeceraControl.ImagenProducto2 = NombreImg2;
                 }
                 if (dataImg3 != null)
@@ -230,7 +230,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     long n = long.Parse(date.ToString("yyyyMMddHHmmss"));
                     var ext2 = dataImg3.FileName.Split('.');
                     var cont = ext2.Length;
-                    NombreImg3 = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() + "." + ext2[cont - 1];
+                    NombreImg3 = "EvaluacionProductoEnfundado/EvaluacionProductoEnfundado" + n.ToString() + "4"+ "." + ext2[cont - 1];
                     poCabeceraControl.ImagenProducto3 = NombreImg3;
                 }
                 poCabeceraControl.FechaIngresoLog = DateTime.Now;
@@ -253,15 +253,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 if (dataImg1 != null)
                 {
-                    dataImg1.SaveAs(path + Path.GetFileName(NombreImg));
+                    dataImg1.SaveAs(path + Path.GetFileName(NombreImg1));
                 }
                 if (dataImg2 != null)
                 {
-                    dataImg2.SaveAs(path + Path.GetFileName(NombreImg));
+                    dataImg2.SaveAs(path + Path.GetFileName(NombreImg2));
                 }
                 if (dataImg3 != null)
                 {
-                    dataImg3.SaveAs(path + Path.GetFileName(NombreImg));
+                    dataImg3.SaveAs(path + Path.GetFileName(NombreImg3));
                 }
                 //clsDControlConsumoInsumo = new clsDControlConsumoInsumo();
                 //string resultado = clsDControlConsumoInsumo.GuardarPallet(pallet);
@@ -317,7 +317,15 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                         resultado.NivelLimpieza,
                         resultado.OrdenFabricacion,
                         resultado.Observacion,
-                        resultado.EstadoControl
+                        resultado.EstadoControl,
+                        resultado.ImagenCodigo,
+                        resultado.ImagenProducto1,
+                        resultado.ImagenProducto2,
+                        resultado.ImagenProducto3,
+                        resultado.RotacionImagenCod,
+                        resultado.RotacionImagenProd1,
+                        resultado.RotacionImagenProd2,
+                        resultado.RotacionImagenProd3
                     }, JsonRequestBehavior.AllowGet);
                 }
                 else
