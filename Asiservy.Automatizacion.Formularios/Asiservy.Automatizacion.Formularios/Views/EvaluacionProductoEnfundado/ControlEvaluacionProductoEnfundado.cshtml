@@ -3,7 +3,26 @@
     ViewBag.Title = "ControlEvaluacionProductoEnfundado";
 }
 <style>
+    .img {
+        margin: 10px auto;
+        border-radius: 5px;
+        border: 1px solid #999;
+        padding: 13px;
+        /*width:420px;
+  height:320px;*/
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
+        .img img {
+            width: 100%;
+        }
+    #divmin {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        background-color: #00447A;
+    }
     textarea {
         resize: none;
     }
@@ -64,13 +83,15 @@
     }*/
 </style>
 <h4>Control Evaluación Producto Enfundado</h4>
-
-<div class="card">
+<div class="card" id="divmin" style="cursor:pointer" onclick="SlideCabecera()">
+    <center><i class="fas fa-arrow-alt-circle-down"></i></center>
+</div>
+<div class="card"  id="DivCabecera">
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
                 Fecha de producción:
-                <input type="date" class="form-control" id="txtFechaProduccion" onchange="LLenarComboOrdenes()" />
+                <input type="date" class="form-control" id="txtFechaProduccion" onchange="ConsultarCabControl()" />
                 <label id="msjErrorFechaProduccion" class="text-danger" hidden>Debe ingresar una fecha</label>
             </div>
         </div>
@@ -174,6 +195,9 @@
                 <textarea id="Observacion" class="form-control" rows="5"></textarea>
             </div>
         </div>
+        <div class="col-md-3 col-sm-3">
+            <input type="button" class="btn btn-primary" value="Adjuntar imágenes" onclick="AbrirModalImagenes()"/>
+        </div>
     </div>
     <br />
     <div class="row">
@@ -182,9 +206,9 @@
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Espere...
             </button>
-            <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
+            @*<button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarCabControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/ver24.png" />
-            </button>
+            </button>*@
             <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarCabceraControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/save20.png" />
             </button>
@@ -394,7 +418,7 @@
             <center> <input type="button" class="btn btn-primary"  value="LimpiarFirma" onclick="BorrarFirma()"/> </center>
         </div>*@
     <br />
-    <div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
+    @*<div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
         <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
 
         <div>
@@ -411,7 +435,7 @@
         <div>
             <center> <button type="button" class="btn btn-primary" onclick="VolverAFirmar()">Rehacer Firma</button></center>
         </div>
-    </div>
+    </div>*@
 
 </div>
 
@@ -442,6 +466,130 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" id="btnsidet" onclick="EliminarDetalle()">Si</button>
                 <button type="button" class="btn btn-primary" id="btnnodet" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal Agregar Imagenes*@
+<div class="modal" tabindex="-1" id="ModalAgregarImagenes" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Imágenes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#fotoprod" id="fotoprodtab">Código de producto</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#foto1" id="foto1tab">Producto foto 1</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#foto2" id="foto2tab">Producto foto 2</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#foto3" id="foto3tab">Producto foto 3</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane container-fluid active" id="fotoprod">
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="file-uploadcod" accept="image/*">
+                                            <label class="custom-file-label" for="customFile">Seleccione archivo</label>
+                                        </div>
+                                        <br />
+                                        <div class="text-center" style="justify-content:center">
+                                            <div id="file-preview-zone1" style="height:auto">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane container-fluid fade" id="foto1">
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="file-upload1" accept="image/*">
+                                            <label class="custom-file-label" for="customFile">Seleccione archivo</label>
+                                        </div>
+                                        <br />
+                                        <div class="text-center" style="justify-content:center">
+                                            <div id="file-preview-zone2" style="height:auto">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane container-fluid fade" id="foto2">
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="file-upload2" accept="image/*">
+                                            <label class="custom-file-label" for="customFile">Seleccione archivo</label>
+                                        </div>
+                                        <br />
+                                        <div class="text-center" style="justify-content:center">
+                                            <div id="file-preview-zone3" style="height:auto">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane container-fluid fade" id="foto3">
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="file-upload3" accept="image/*">
+                                            <label class="custom-file-label" for="customFile">Seleccione archivo</label>
+                                        </div>
+                                        <br />
+                                        <div class="text-center" style="justify-content:center">
+                                            <div id="file-preview-zone4" style="height:auto">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div id="divInputLoad" class="col-md-12 col-12 col-sm-12">
+                        <label>Metales</label>
+                        <div id="divFileUpload">
+                            <input id="file-upload" type="file" accept="image/*" />
+                        </div>
+                        <br />
+                        <div class="text-center" style="justify-content:center">
+                            <div id="file-preview-zone" style="height:auto">
+                            </div>
+
+                        </div>
+                    </div>*@
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="">Aceptar</button>
+                @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>*@
             </div>
         </div>
     </div>

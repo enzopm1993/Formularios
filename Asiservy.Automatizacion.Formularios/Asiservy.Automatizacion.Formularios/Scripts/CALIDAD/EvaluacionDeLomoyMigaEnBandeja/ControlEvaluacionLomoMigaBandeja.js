@@ -116,7 +116,7 @@ function DatosOrdenFabricacion() {
     LlenarComboLotes($("#cmbOrdeneFabricacion").val());
 }
 function ConsultarCabControl() {
-    
+   
     if ($('#txtFechaProduccion').val() == '') {
         $('#msjErrorFechaProduccion').prop('hidden', false);
         return false;
@@ -311,6 +311,7 @@ function LimpiarControles() {
     IdCabecera = 0;
     Error = 0;
     IdDetalle = 0;
+    $('#estadocontrol').text('');
     $('#cmbNivelLimpieza').prop('selectedIndex',0);
     $('#EtiquetaEstadoControl').html('');
     $('#txtFechaProduccion').val('');
@@ -583,6 +584,7 @@ function ConsultarDetalleControl() {
                 $('#DivDetalles').html(resultado);
                 config.opcionesDT.pageLength = 10;
                 $('#TableDetalle').DataTable(config.opcionesDT);
+                $('#brespacio').remove();
                 LimpiarDetalleControles();
                 //ConsultarFirma();
                
