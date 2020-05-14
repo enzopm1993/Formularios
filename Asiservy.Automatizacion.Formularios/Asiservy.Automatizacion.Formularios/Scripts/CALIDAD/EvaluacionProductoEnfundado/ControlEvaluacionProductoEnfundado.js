@@ -1,4 +1,4 @@
-﻿
+﻿var rotation = 0;
 var ListaLotes;
 var Error = 0;
 var IdCabecera = 0;
@@ -182,10 +182,15 @@ function ConsultarCabControl() {
                     $('#CardDetalle').prop('hidden', false);
                     $('#btnEliminarCabeceraControl').prop('disabled', false);
                     LlenarComboLotes(resultado.OrdenFabricacion);
+                    
                     ConsultarDetalleControl();
                     //ConsultarDetalleControl();
                 } else {
+                    LLenarComboOrdenes();
+                    $('#brespacio').remove();
+                    $('#DivCabecera').after('<br id="brespacio">');
                     $('#mensajeRegistros').prop('hidden', false);
+                    $('#mensajeRegistros').text(Mensajes.SinRegistros);
                 }
             }
             $('#btnCargando').prop('hidden', true);
@@ -255,7 +260,15 @@ function GuardarCabceraControl() {
     $('#btnLimpiar').prop('hidden', true);
     $('#btnEliminarCabeceraControl').prop('hidden', true);
     $('#btnGuardar').prop('hidden', true);
+    var imagen1 = $('#file-uploadcod')[0].files[0];
+    var imagen2 = $('#file-upload1')[0].files[0];
+    var imagen3 = $('#file-upload2')[0].files[0];
+    var imagen4 = $('#file-upload3')[0].files[0];
     const data = new FormData();
+    data.append('ImagenCodigo', imagen1);
+    data.append('ImagenProducto1', imagen2);
+    data.append('ImagenProducto2', imagen3);
+    data.append('ImagenProducto3', imagen4);
     data.append('IdEvaluacionProductoEnfundado', IdCabecera);
     data.append('FechaProduccion', $("#txtFechaProduccion").val());
     data.append('Cliente', $("#txtCliente").val());
@@ -302,7 +315,10 @@ function GuardarCabceraControl() {
                 MensajeAdvertencia(resultado[1]);
             } else {
                 MensajeCorrecto(resultado[1]);
+                $('#brespacio').remove();
+                $('#mensajeRegistros').text('');
                 $('#CardDetalle').prop('hidden', false);
+                SlideCabecera();
             }
 
         }
@@ -594,12 +610,14 @@ function ConsultarDetalleControl() {
                 window.location.reload();
             }
             if (resultado != '"0"') {
+                SlideCabecera();
                 $('#DivDetalles').empty();
                 $('#DivDetalles').html(resultado);
                 config.opcionesDT.pageLength = 10;
                 $('#TableDetalle').DataTable(config.opcionesDT);
                 LimpiarDetalleControles();
-                ConsultarFirma();
+                $('#brespacio').remove();
+                //ConsultarFirma();
 
             } else {
                 $('#DivDetalles').empty();
@@ -749,116 +767,214 @@ function ModificarDetalle(data) {
     $('#txtMiga').val(data.Miga);
     $('#cmbEmpacador').val(data.empacador).change();
 }
-function GuardarFirma() {
-    var canvas = document.getElementById("firmacanvas");
-    var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
-    var formData = new FormData();
-    formData.append('imagen', image);
-    formData.append('IdCabecera', IdCabecera);
-    formData.append('Tipo', 'Control');
-    $.ajax({
-        type: 'POST',
-        url: '/EvaluacionProductoEnfundado/GuardarImagenFirma',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (result) {
-            if (result == "101") {
-                window.location.reload();
-            }
-            //console.log(result);
-            //$('#div_ImagenFirma').empty();
-            $('#div_ImagenFirma').prop('hidden', false);
-            //var img = $('<img />', { id: 'Myid', src: result, alt: 'MyAlt', width: '400px', height: '200px' }).appendTo($('#div_ImagenFirma'));
-            document.getElementById('ImgFirma').src = result;
-            $('#signature-pad').prop('hidden', true);
-            MensajeCorrecto("Firma ingresada Correctamente");
-        }
-    });
+function SlideCabecera() {
+    $("#DivCabecera").slideToggle("fast");
 }
-function ConsultarFirma() {
-    $.ajax({
-        url: "../EvaluacionProductoEnfundado/ConsultarFirma",
-        type: "GET",
-        data: {
-            IdCabecera: IdCabecera
-        },
-        success: function (resultado) {
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado != '0') {
-                document.getElementById('ImgFirma').src = resultado;
-                $('#div_ImagenFirma').prop('hidden', false);
-                $('#signature-pad').prop('hidden', true);
-            } else {
-                $('#signature-pad').prop('hidden', false);
-            }
-        },
-        error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
+function AbrirModalImagenes() {
+    $('#ModalAgregarImagenes').modal('show');
+}
+function readFile(input,n_prev) {
+
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            // console.log(this.width.toFixed(0));
+
+            // alert('Imagen correcta :)')
+            $("#file-preview-zone" + n_prev).html('');
+            var filePreview = document.createElement('img');
+            filePreview.id = 'file-preview' + n_prev;
+            // filePreview.setAttribute("type", "hidden");
+
+            //e.target.result contents the base64 data from the image uploaded
+            filePreview.src = e.target.result;
+            //console.log(e.target.result);
+            var previewZone = document.getElementById('file-preview-zone' + n_prev);
+            previewZone.appendChild(filePreview);
+            $("#file-preview" + n_prev).addClass("img");
+            document.getElementById("file-preview" + n_prev).style.height = "0px";
+            document.getElementById("file-preview" + n_prev).style.width = "0px";
+            //console.log(e.target.result);
+            var image = new Image();
+            image.src = e.target.result;
+            image.onload = function () {
+                if (this.width < this.height) {
+                    document.getElementById("file-preview" + n_prev).style.height = "350px";
+                    document.getElementById("file-preview" + n_prev).style.width = "250px";
+                }
+                else {
+                    document.getElementById("file-preview" + n_prev).style.height = "250px";
+                    document.getElementById("file-preview" + n_prev).style.width = "350px";
+                }
+
+            };
+
 
         }
-    });
+        reader.readAsDataURL(input.files[0]);
+    }
 }
-function VolverAFirmar() {
-    $('#div_ImagenFirma').prop('hidden', true);
-    $('#signature-pad').prop('hidden', false);
+
+var fileUploadcod = document.getElementById('file-uploadcod');
+var fileUpload1 = document.getElementById('file-upload1');
+var fileUpload2 = document.getElementById('file-upload2');
+var fileUpload3 = document.getElementById('file-upload3');
+fileUploadcod.onchange = function (e) {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    readFile(e.srcElement,1);
 }
+fileUpload1.onchange = function (e) {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    readFile(e.srcElement, 2);
+}
+fileUpload2.onchange = function (e) {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    readFile(e.srcElement, 3);
+}
+fileUpload3.onchange = function (e) {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    readFile(e.srcElement, 4);
+}
+
+$('#file-preview-zone1').on("click", function (e) {
+    rotation += 90;
+    $('#file-preview1').rotate(rotation);
+    if (rotation == 360) {
+        rotation = 0;
+    }
+});
+$('#file-preview-zone2').on("click", function (e) {
+    rotation += 90;
+    $('#file-preview2').rotate(rotation);
+    if (rotation == 360) {
+        rotation = 0;
+    }
+});
+$('#file-preview-zone3').on("click", function (e) {
+    rotation += 90;
+    $('#file-preview3').rotate(rotation);
+    if (rotation == 360) {
+        rotation = 0;
+    }
+});
+$('#file-preview-zone4').on("click", function (e) {
+    rotation += 90;
+    $('#file-preview4').rotate(rotation);
+    if (rotation == 360) {
+        rotation = 0;
+    }
+});
+//function GuardarFirma() {
+//    var canvas = document.getElementById("firmacanvas");
+//    var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
+//    var formData = new FormData();
+//    formData.append('imagen', image);
+//    formData.append('IdCabecera', IdCabecera);
+//    formData.append('Tipo', 'Control');
+//    $.ajax({
+//        type: 'POST',
+//        url: '/EvaluacionProductoEnfundado/GuardarImagenFirma',
+//        data: formData,
+//        processData: false,
+//        contentType: false,
+//        success: function (result) {
+//            if (result == "101") {
+//                window.location.reload();
+//            }
+//            //console.log(result);
+//            //$('#div_ImagenFirma').empty();
+//            $('#div_ImagenFirma').prop('hidden', false);
+//            //var img = $('<img />', { id: 'Myid', src: result, alt: 'MyAlt', width: '400px', height: '200px' }).appendTo($('#div_ImagenFirma'));
+//            document.getElementById('ImgFirma').src = result;
+//            $('#signature-pad').prop('hidden', true);
+//            MensajeCorrecto("Firma ingresada Correctamente");
+//        }
+//    });
+//}
+//function ConsultarFirma() {
+//    $.ajax({
+//        url: "../EvaluacionProductoEnfundado/ConsultarFirma",
+//        type: "GET",
+//        data: {
+//            IdCabecera: IdCabecera
+//        },
+//        success: function (resultado) {
+//            if (resultado == "101") {
+//                window.location.reload();
+//            }
+//            if (resultado != '0') {
+//                document.getElementById('ImgFirma').src = resultado;
+//                $('#div_ImagenFirma').prop('hidden', false);
+//                $('#signature-pad').prop('hidden', true);
+//            } else {
+//                $('#signature-pad').prop('hidden', false);
+//            }
+//        },
+//        error: function (resultado) {
+//            MensajeError("Error: Comuníquese con sistemas", false);
+
+//        }
+//    });
+//}
+//function VolverAFirmar() {
+//    $('#div_ImagenFirma').prop('hidden', true);
+//    $('#signature-pad').prop('hidden', false);
+//}
 //prueba api firma
 
 
-var clearButton = wrapper.querySelector("[data-action=clear]");
-//var changeColorButton = wrapper.querySelector("[data-action=change-color]");
-//var undoButton = wrapper.querySelector("[data-action=undo]");
-//var savePNGButton = wrapper.querySelector("[data-action=save-png]");
-//var saveJPGButton = wrapper.querySelector("[data-action=save-jpg]");
-//var saveSVGButton = wrapper.querySelector("[data-action=save-svg]");
+//var clearButton = wrapper.querySelector("[data-action=clear]");
 
-var canvas = document.querySelector("canvas");
 
-var signaturePad = new SignaturePad(canvas);
-signaturePad.on();
+//var canvas = document.querySelector("canvas");
 
-function download(dataURL, filename) {
-    if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
-        window.open(dataURL);
-    } else {
-        var blob = dataURLToBlob(dataURL);
-        var url = window.URL.createObjectURL(blob);
+//var signaturePad = new SignaturePad(canvas);
+//signaturePad.on();
 
-        var a = document.createElement("a");
-        a.style = "display: none";
-        a.href = url;
-        a.download = filename;
+//function download(dataURL, filename) {
+//    if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
+//        window.open(dataURL);
+//    } else {
+//        var blob = dataURLToBlob(dataURL);
+//        var url = window.URL.createObjectURL(blob);
 
-        document.body.appendChild(a);
-        a.click();
+//        var a = document.createElement("a");
+//        a.style = "display: none";
+//        a.href = url;
+//        a.download = filename;
 
-        window.URL.revokeObjectURL(url);
-    }
-}
+//        document.body.appendChild(a);
+//        a.click();
 
-// One could simply use Canvas#toBlob method instead, but it's just to show
-// that it can be done using result of SignaturePad#toDataURL.
-function dataURLToBlob(dataURL) {
-    // Code taken from https://github.com/ebidel/filer.js
-    var parts = dataURL.split(';base64,');
-    var contentType = parts[0].split(":")[1];
-    var raw = window.atob(parts[1]);
-    var rawLength = raw.length;
-    var uInt8Array = new Uint8Array(rawLength);
+//        window.URL.revokeObjectURL(url);
+//    }
+//}
 
-    for (var i = 0; i < rawLength; ++i) {
-        uInt8Array[i] = raw.charCodeAt(i);
-    }
 
-    return new Blob([uInt8Array], { type: contentType });
-}
+//function dataURLToBlob(dataURL) {
 
-clearButton.addEventListener("click", function (event) {
-    signaturePad.clear();
-});
+//    var parts = dataURL.split(';base64,');
+//    var contentType = parts[0].split(":")[1];
+//    var raw = window.atob(parts[1]);
+//    var rawLength = raw.length;
+//    var uInt8Array = new Uint8Array(rawLength);
+
+//    for (var i = 0; i < rawLength; ++i) {
+//        uInt8Array[i] = raw.charCodeAt(i);
+//    }
+
+//    return new Blob([uInt8Array], { type: contentType });
+//}
+
+//clearButton.addEventListener("click", function (event) {
+//    signaturePad.clear();
+//});
 
 
 // fin prueba api firma

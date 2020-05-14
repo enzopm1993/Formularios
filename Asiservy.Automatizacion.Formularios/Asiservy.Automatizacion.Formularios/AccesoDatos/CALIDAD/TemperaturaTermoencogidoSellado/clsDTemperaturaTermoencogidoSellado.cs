@@ -138,5 +138,32 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.TemperaturaTer
 
             }
         }
+
+        public List<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO> ReporteConsultarcabecera(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = (from c in db.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO
+                             where (c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
+                             orderby c.Fecha descending
+                             select new { c.Id, c.Fecha, c.EstadoReporte, c.Observacion, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobado, c.AprobadoPor }).ToList();
+                List<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO> listacabecera = new List<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO>();
+                CC_TEMPERATURA_TERMOENCOGIDO_SELLADO cabecera;
+                foreach (var item in lista)
+                {
+                    cabecera = new CC_TEMPERATURA_TERMOENCOGIDO_SELLADO();
+                    cabecera.Id = item.Id;
+                    cabecera.Fecha = item.Fecha;
+                    cabecera.EstadoReporte = item.EstadoReporte;
+                    cabecera.Observacion = item.Observacion;
+                    cabecera.FechaIngresoLog = item.FechaIngresoLog;
+                    cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    cabecera.FechaAprobado = item.FechaAprobado;
+                    cabecera.AprobadoPor = item.AprobadoPor;
+                    listacabecera.Add(cabecera);
+                }
+                return listacabecera;
+            }
+        }
     }
 }
