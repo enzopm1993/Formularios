@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity.Validation;
 using System.Net;
@@ -9,16 +8,15 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlLavadoCisterna;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoCisterna;
-using Rotativa;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class LavadoCisternaController : Controller
     {
-        clsDError clsDError = null;
+        clsDError clsDError { get; set; } = null;
         
-        clsDControlLavadoCisterna clsDControlLavadoCisterna = null;
-        string[] lsUsuario;
+        clsDControlLavadoCisterna clsDControlLavadoCisterna { get; set; } = null;
+        string[] lsUsuario { get; set; }=null;
         public ActionResult LavadoCisterna()
         {
             try
@@ -338,6 +336,47 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
+        public ActionResult ReporteLavadoCisternaCabeceraPartial(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
+                var tablaCabecera = clsDControlLavadoCisterna.ConsultarReporteCabecera(fechaDesde, fechaHasta);
+
+                if (tablaCabecera != null)
+                {
+                    return PartialView(tablaCabecera);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
         //---------------------------------------------------BANDEJA---------------------------------------------------------------
         public ActionResult BandejaLavadoCisterna()
         {
@@ -450,7 +489,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                else return Json("1", JsonRequestBehavior.AllowGet); ;
+                else if (valor == 1) { return Json("1", JsonRequestBehavior.AllowGet); }
+                else return Json("2", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -510,67 +550,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 SetErrorMessage(Mensaje);
                 return RedirectToAction("Home", "Home");
-            }
-        }
-
-        //---------------------------------------------------IMPRESION PDF---------------------------------------------------------------
-        public ActionResult PrintReport(DateTime filtroFechaDesde, DateTime filtroFechaHasta, int id, int op)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    Response.Redirect(Url.Action("Login", "Login"));
-                }
-                clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
-                var consulta = clsDControlLavadoCisterna.ConsultarLavadoCisterna(filtroFechaDesde, filtroFechaHasta, id, op);
-                var headerPdf = Server.MapPath("~/Views/LavadoCisterna/HeaderPdf.html");//ARCHIVO HTML USADO EN LA CABECERA DEL PDF
-                ViewBag.filtroFechaDesde = filtroFechaDesde;
-                ViewBag.filtroFechaHasta = filtroFechaHasta;
-                string customSwitches = string.Format("--header-html  \"{0}\" " +
-                            "--header-font-size \"15\" ", headerPdf);
-                return new ViewAsPdf("PdfReporteLavadoCisternaPartial", consulta)
-                {//METODO AL QUE SE HACE REFERENCIA ------------------, OBJETO 
-                 // Establece la Cabecera y el Pie de página
-                    CustomSwitches = customSwitches +
-                    "--page-offset 0 --footer-center [page] --footer-font-size 10",
-                    PageSize = Rotativa.Options.Size.A3,
-                    PageMargins = new Rotativa.Options.Margins(25, 5, 10, 5),
-                    PageOrientation = Rotativa.Options.Orientation.Landscape,
-                };
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public ActionResult PdfReporteLavadoCisternaPartial(DateTime fechaDesde, DateTime fechaHasta, int idLavadoCisterna, int op)
-        {
-            clsDControlLavadoCisterna = new clsDControlLavadoCisterna();
-            var tablaCabecera = clsDControlLavadoCisterna.ConsultarLavadoCisterna(fechaDesde, fechaHasta, idLavadoCisterna, op);
-            if (tablaCabecera != null)
-            {
-                return PartialView(tablaCabecera);
-            }
-            else
-            {
-                return Json("0", JsonRequestBehavior.AllowGet);
             }
         }
 

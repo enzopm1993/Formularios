@@ -127,8 +127,6 @@ function SeleccionarBandeja(model) {
 function AprobarPendiente(estadoReporte) {
     if ($("#selectEstadoReporte").val() == 'false') {
         var date = new Date();
-        console.log(moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD'));
-        console.log(moment(listaDatos.FechaComparar).format('YYYY-MM-DD'));
         if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') < moment(listaDatos.FechaComparar).format('YYYY-MM-DD')) {
             MensajeAdvertencia('La fecha de APROBACION no puede ser menor a la fecha de creacion del reporte: <span class="badge badge-danger">' + moment(listaDatos.FechaComparar).format('DD-MM-YYYY')+ '</span>');
             return;
