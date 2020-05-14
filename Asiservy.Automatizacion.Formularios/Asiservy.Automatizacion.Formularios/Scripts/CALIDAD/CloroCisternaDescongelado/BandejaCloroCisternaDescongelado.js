@@ -116,8 +116,8 @@ function SeleccionarBandeja(model) {
 function AprobarControlCloroDetalle(data) {
     if ($("#selectEstadoRegistro").val() == 'false') {
         var date = new Date();
-        if ($('#txtFechaAprobado').val() < moment(listaDatos.FechaIngresoLog).format('YYYY-MM-DDTHH:mm')) {
-            MensajeAdvertencia('La fecha de APROBACION no puede ser menor a la fecha de creacion del reporte: <span class="badge badge-danger">' + moment(listaDatos.FechaIngresoLog).format('DD-MM-YYYY') + '</span>');
+        if ($('#txtFechaAprobado').val() < moment(listaDatos.Fecha).format('YYYY-MM-DDTHH:mm')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser menor a la fecha de creacion del reporte: <span class="badge badge-danger">' + moment(listaDatos.Fecha).format('DD-MM-YYYY') + '</span>');
             return;
         }
         if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') > moment(date).format('YYYY-MM-DD')) {
@@ -149,6 +149,7 @@ function AprobarControlCloroDetalle(data) {
 }
 
 function FiltrarAprobadosFecha() {
+    LimpiarFecha();
     if ($("#selectEstadoRegistro").val() == 'false') {
         $("#divDateRangePicker").prop('hidden', true);
         $('#txtFechaAprobado').prop('hidden', false);
@@ -200,6 +201,10 @@ function validar() {
     } else {
         $("#txtFechaAprobado").css('border', '');
     }
+}
+
+function LimpiarFecha() {
+    $("#txtFechaAprobado").css('border', '');
 }
 
 //FECHA DataRangePicker

@@ -4,31 +4,30 @@
 <table class="table table-bordered" id="tblDataTable">
     <thead style="height:15px; font-size:12px">
         <tr>
-            <th style="border-right:0.4px solid #e3e6f0"></th>
-            <th style="border-right:0.4px solid #e3e6f0"></th>
+            @*<th style="border-right:0.4px solid #e3e6f0"></th>
+            <th style="border-right:0.4px solid #e3e6f0"></th>*@
             <th></th>
             <th style="border:0.4px solid #e3e6f0" colspan="5"><center>LIMIEZA DE ATUN</center></th>
             <th><center>EMPAQUE</center></th>
             <th colspan="2" style="border:0.4px solid #e3e6f0"><center>CONSERVAS</center></th>
-            <th style="border-right:0.4px solid #e3e6f0"></th>
-            <th></th>
+            @*<th style="border-right:0.4px solid #e3e6f0"></th>
+            <th></th>*@
         </tr>
         <tr>
-            <th style="border-right:0.4px solid #e3e6f0">FECHA</th>
+            
             <th style="border-right:0.4px solid #e3e6f0">
                 HORA
             </th>
-            <th>
+            @*<th>
                 OBSERVACION
-            </th>
+            </th>*@
             @foreach (var item in ViewBag.cabeceraTable)
             {
                 <th style="border:0.4px solid #e3e6f0">
                     @item.Descripcion.ToUpper()
                 </th>
             }
-            <th style="border-right:0.4px solid #e3e6f0">APROBADO POR</th>
-            <th>ESTADO</th>
+            
         </tr>
     </thead>
     @{
@@ -47,18 +46,17 @@
                                where x.Hora == subListaHora.Hora
                                select new { x.IdDesinfeccionManosDetalle, x.IdDesinfeccionManos, x.EstadoCumplimiento, x.CodigoLinea, x.UsuarioModificacionLog, x.EstadoReporteCB}).ToList();
         <tr>
-            <td>@subListaHora.Fecha.Replace("/", "-")</td>
             <td>
-                @subListaHora.Hora
+                @subListaHora.Hora.ToString("HH:mm")
             </td>
-            @if (!string.IsNullOrEmpty(subListaHora.Observacion))
+            @*@if (!string.IsNullOrEmpty(subListaHora.Observacion))
             {
                 <td>@subListaHora.Observacion.ToUpper()</td>
             }
             else
             {
                 <td></td>
-            }
+            }*@
             @foreach (var lc in listaColumnasCabecera)
             {
                 int dibujarTDDiNo = 0;
@@ -83,18 +81,7 @@
                 {
                     <td id="@lc.Codigo"><span class="badge badge-primary">SIN DATOS</span></td>
                 }
-            }
-            <td>@usuarioAprobacion</td>
-            <td>
-                @if (estadoReporte == true)
-                {
-                    <span class="badge badge-success">APROBADO</span>
-                }
-                else
-                {
-                    <span class="badge badge-danger">PENDIENTE</span>
-                }
-            </td>
+            }           
         </tr>
         }
     </tbody>

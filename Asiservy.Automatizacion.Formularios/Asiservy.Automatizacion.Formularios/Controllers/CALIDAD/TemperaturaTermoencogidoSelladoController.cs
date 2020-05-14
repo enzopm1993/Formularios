@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity.Validation;
 using System.Net;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.TemperaturaTermoencogidoSellado;
-using Rotativa;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class TemperaturaTermoencogidoSelladoController : Controller
     {
-        clsDError clsDError = null;
+        clsDError clsDError { get; set; } = null;
         
-        clsDTemperaturaTermoencogidoSellado clsDTemperaturaTermoencogidoSellado = null;
-        string[] lsUsuario;
+        clsDTemperaturaTermoencogidoSellado clsDTemperaturaTermoencogidoSellado { get; set; } = null;
+        string[] lsUsuario { get; set; }=null;
         public ActionResult ControlTermoencogidoSellado()
         {
             try
@@ -131,7 +129,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         [HttpPost]
-        public JsonResult GuardarModificarTermoencogidoSellado(CC_TEMPERATURA_TERMOENCOGIDO_SELLADO model)
+        public JsonResult GuardarModificarTermoencogidoSellado(CC_TEMPERATURA_TERMOENCOGIDO_SELLADO model, bool siAprobar = false)
         {
             try
             {
@@ -145,12 +143,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDTemperaturaTermoencogidoSellado.GuardarModificarTermoencogidoSellado(model);
+                var valor = clsDTemperaturaTermoencogidoSellado.GuardarModificarTermoencogidoSellado(model, siAprobar);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-                else return Json("1", JsonRequestBehavior.AllowGet); ;
+                else if (valor==1) { return Json("1", JsonRequestBehavior.AllowGet); }
+                else return Json("2", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -231,8 +230,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 //PRUEBO SI EL ESTADOREPORTE ES APROBADO, SI ES APROBADO NO GUARDO EL DETALLE CASO CONTRARIO SI
-                var probarEstadoReporte = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSelladoDetalle(Convert.ToDateTime("01-01-2020"), Convert.ToDateTime("01-01-2020"), model.IdCabecera,0);
-                if (probarEstadoReporte[0].EstadoReporte==false)
+                var consultarEstadoReporte = clsDTemperaturaTermoencogidoSellado.ConsultarEstadoReporte(model.IdCabecera);
+                if (!consultarEstadoReporte)
                 {
                     var valor = clsDTemperaturaTermoencogidoSellado.GuardarModificarTermoencogidoSelladoDetalle(model);
                     if (valor == 0)
@@ -513,69 +512,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
-        }
-
-        //------------------------------------------------IMPRESION PDF-----------------------------------------------------
-        public ActionResult PrintReport(DateTime filtroFechaDesde, DateTime filtroFechaHasta,int id, int op)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    Response.Redirect(Url.Action("Login", "Login"));
-                }
-                clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
-                var consulta = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSelladoDetalle(filtroFechaDesde, filtroFechaHasta, id, op);
-                var headerPdf = Server.MapPath("~/Views/TemperaturaTermoencogidoSellado/HeaderPdf.html");//ARCHIVO HTML USADO EN LA CABECERA DEL PDF
-                ViewBag.filtroFechaDesde = filtroFechaDesde;
-                ViewBag.filtroFechaHasta = filtroFechaHasta;
-                string customSwitches = string.Format("--header-html  \"{0}\" " +
-                            "--header-font-size \"15\" ", headerPdf);
-                return new ViewAsPdf("PdfReporteTermoencogidoSelladoPartial", consulta)
-                {//METODO AL QUE SE HACE REFERENCIA ------------------, OBJETO 
-                 // Establece la Cabecera y el Pie de página
-                    CustomSwitches = customSwitches +
-                    "--page-offset 0 --footer-center [page] --footer-font-size 10",
-                    PageSize = Rotativa.Options.Size.A3,
-                    PageMargins = new Rotativa.Options.Margins(25, 5, 10, 5),
-                    PageOrientation = Rotativa.Options.Orientation.Landscape,
-                };
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public ActionResult PdfReporteTermoencogidoSelladoPartial(DateTime fechaDesde, DateTime fechaHasta, int id, int opcion)
-        {
-            clsDTemperaturaTermoencogidoSellado = new clsDTemperaturaTermoencogidoSellado();
-            var poCloroCisterna = clsDTemperaturaTermoencogidoSellado.ConsultarTermoencogidoSelladoDetalle(fechaDesde, fechaHasta, id, opcion);
-            if (poCloroCisterna != null)
-            {
-                return PartialView(poCloroCisterna);
-
-            }
-            else
-            {
-                return Json("0", JsonRequestBehavior.AllowGet);
-            }
-        }
+        }       
 
         protected void SetSuccessMessage(string message)
         {
