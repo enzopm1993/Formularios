@@ -28,5 +28,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string fechaModificacion { get; set; }
         public string UsuarioModCab { get; set; }
         public bool EstadoReporteCab { get; set; }
+        public Nullable<System.DateTime> FechaAprobado { get; set; }
+        public string AprobadoPor { get; set; }
     }
 }
