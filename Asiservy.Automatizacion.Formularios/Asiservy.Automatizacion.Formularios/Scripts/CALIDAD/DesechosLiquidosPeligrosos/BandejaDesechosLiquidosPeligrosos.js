@@ -42,7 +42,7 @@ function CargarBandeja() {
                 $("#btnAprobado").prop("hidden", false);
                 $("#divTablaAplrobados").show();
                 $("#tblDataTableDetalle tbody").empty();
-                config.opcionesDT.order = [];
+                config.opcionesDT.order = [0, 'desc'];
                 config.opcionesDT.columns = [
                     { data: 'FechaMES' },
                     { data: 'FechaIngresoLog' },
@@ -56,6 +56,7 @@ function CargarBandeja() {
                 resultado.forEach(function (row) {
                     var estado = 'PENDIENTE';
                     var css = 'badge-danger';
+                    row.FechaComparar = row.FechaMES;
                     row.FechaMES = moment(row.FechaMES).format('MM');
                     row.FechaIngresoLog = moment(row.FechaIngresoLog).format('DD-MM-YYYY');
                     if (row.EstadoReporte == true) {
@@ -68,9 +69,7 @@ function CargarBandeja() {
                 table.DataTable().rows.add(resultado);
                 table.DataTable().draw();
             }
-            setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -82,10 +81,15 @@ function CargarBandeja() {
 function SeleccionarBandeja(model) {
     $('#cargac').show();
     listaDatos = model;
+    var date = new Date();
+    $('#txtFechaAprobado').val(moment(date).format('YYYY-MM-DDTHH:mm'));
+    $('#cargac').show();
     if (model.EstadoReporte == true) {
+        $('#txtFechaAprobado').prop('hidden', true);
         $('#btnAprobado').prop('hidden', true);
         $('#btnPendiente').prop('hidden', false);
     } else {
+        $('#txtFechaAprobado').prop('hidden', false);
         $('#btnPendiente').prop('hidden', true);
         $('#btnAprobado').prop('hidden', false);
     }
@@ -109,11 +113,8 @@ function SeleccionarBandeja(model) {
                 $("#divTblAprobarPendiente").html('');
                 $("#ModalApruebaPendiente").modal("show");
                 $("#divTblAprobarPendiente").html(resultado);
-                ConsultarFirma();
             }
-            setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);
 
         },
         error: function (resultado) {
@@ -123,14 +124,25 @@ function SeleccionarBandeja(model) {
     });
 }
 
-function AprobarPendiente(estadoReporte) {   
-        GuardarFirma();
+function AprobarPendiente(estadoReporte) {
+    if ($("#selectEstadoReporte").val() == 'false') {
+        var date = new Date();
+        if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') < moment(listaDatos.FechaComparar).format('YYYY-MM-DD')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser menor a la fecha de creacion del reporte: <span class="badge badge-danger">' + moment(listaDatos.FechaComparar).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+        if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') > moment(date).format('YYYY-MM-DD')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser mayor a la fecha actual: <span class="badge badge-danger">' + moment(date).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+    } else { $('#txtFechaAprobado').val(''); }
        var siAprobar = 1;//en la condicion del la clase clsD se envia a actualizar solo la columna EstadoReporte 
     $.ajax({
         url: "../DesechosLiquidosPeligrosos/BandejaGuardarModificarDesechosLiquidos",
         type: "POST",
         data: {
-            idDesechosLiquidos: listaDatos.IdDesechosLiquidos,            
+            idDesechosLiquidos: listaDatos.IdDesechosLiquidos,
+            FechaAprobacion: $('#txtFechaAprobado').val(),
             EstadoReporte: estadoReporte,
             siAprobar: siAprobar
         },
@@ -138,7 +150,7 @@ function AprobarPendiente(estadoReporte) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == 1) {
+            if (resultado == 1 || resulta==2) {
                 $("#ModalApruebaPendiente").modal("hide");
                 MensajeCorrecto('¡Cambio de ESTADO realizado correctamente!');
             } else { MensajeError('El registro no debe guardase- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion'); return; }      
@@ -152,133 +164,16 @@ function AprobarPendiente(estadoReporte) {
     });
 }
 
-function GuardarFirma() {   
-    if (!signaturePad.isEmpty()) {   
-        var canvas = document.getElementById("firmacanvas");
-        var image = canvas.toDataURL('image/png').replace('data:image/png;base64,', '');
-        var formData = new FormData();
-        formData.append('image', image);
-        formData.append('idDesechosLiquidos', listaDatos.IdDesechosLiquidos);
-        $.ajax({
-            type: 'POST',
-            url: '/DesechosLiquidosPeligrosos/BandejaGuardarImagenFirma',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (resultado) {
-                ClearPAd();
-                if (resultado == "101") {
-                    window.location.reload();
-                }
-                if (resultado != 0) {
-                    $('#div_ImagenFirma').prop('hidden', false);
-                    document.getElementById('ImgFirma').src = resultado;
-                    $('#signature-pad').prop('hidden', true);
-                    MensajeCorrecto("Firma ingresada Correctamente");
-                } else {
-                    MensajeAdvertencia('¡Error al guardar la Firma: !' + listaDatos.IdDesechosLiquidos);
-                }
-            }
-        });
-    }
-}
-
-function VolverAFirmar() {
-    $('#div_ImagenFirma').prop('hidden', true);
-    $('#signature-pad').prop('hidden', false);
-}
-
-function ConsultarFirma() {
-    ClearPAd();
-    $.ajax({
-        url: "../DesechosLiquidosPeligrosos/BandejaConsultarImagenFirma",
-        type: "GET",
-        data: {
-            idDesechosLiquidos: listaDatos.IdDesechosLiquidos
-        },
-        success: function (resultado) {
-            $("#btnGuardarFirma").prop("hidden", true);
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado != '0') {
-                document.getElementById('ImgFirma').src = resultado;
-                $('#div_ImagenFirma').prop('hidden', false);
-                $("#btnActualizarFirma").prop("hidden", false);
-                $('#signature-pad').prop('hidden', true);
-            } else {
-                $('#signature-pad').prop('hidden', false);
-                $('#div_ImagenFirma').prop('hidden', true);
-            }
-            if (listaDatos.EstadoReporte == true) {
-                $("#btnActualizarFirma").prop("hidden", true);
-                $("#signature-pad").prop("hidden", true);               
-            }
-        },
-        error: function (resultado) {
-            MensajeError("Error: Comuníquese con sistemas", false);
-        }
-    });
-}
-
-function ClearPAd() {
-    signaturePad.clear();
-}
-
-//BEGIN SIGNATURE API
-var clearButton = wrapper.querySelector("[data-action=clear]");
-//var changeColorButton = wrapper.querySelector("[data-action=change-color]");
-//var undoButton = wrapper.querySelector("[data-action=undo]");
-//var savePNGButton = wrapper.querySelector("[data-action=save-png]");
-//var saveJPGButton = wrapper.querySelector("[data-action=save-jpg]");
-//var saveSVGButton = wrapper.querySelector("[data-action=save-svg]");
-
-var canvas = document.querySelector("canvas");
-
-var signaturePad = new SignaturePad(canvas);
-signaturePad.on();
-
-function download(dataURL, filename) {
-    if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
-        window.open(dataURL);
+function validar() {
+    if ($('#txtFechaAprobado').val() == '') {
+        $("#txtFechaAprobado").css('border', '1px dashed red');
+        MensajeAdvertencia('Fecha invalida');
+        return;
     } else {
-        var blob = dataURLToBlob(dataURL);
-        var url = window.URL.createObjectURL(blob);
-
-        var a = document.createElement("a");
-        a.style = "display: none";
-        a.href = url;
-        a.download = filename;
-
-        document.body.appendChild(a);
-        a.click();
-
-        window.URL.revokeObjectURL(url);
+        $("#txtFechaAprobado").css('border', '');
     }
 }
 
-// One could simply use Canvas#toBlob method instead, but it's just to show
-// that it can be done using result of SignaturePad#toDataURL.
-function dataURLToBlob(dataURL) {
-    // Code taken from https://github.com/ebidel/filer.js
-    var parts = dataURL.split(';base64,');
-    var contentType = parts[0].split(":")[1];
-    var raw = window.atob(parts[1]);
-    var rawLength = raw.length;
-    var uInt8Array = new Uint8Array(rawLength);
-
-    for (var i = 0; i < rawLength; ++i) {
-        uInt8Array[i] = raw.charCodeAt(i);
-    }
-
-    return new Blob([uInt8Array], { type: contentType });
+function LimpiarFecha() {
+    $("#txtFechaAprobado").css('border', '');
 }
-
-clearButton.addEventListener("click", function (event) {
-    signaturePad.clear();
-});
-
-
-
-//END SIGNATURE API
-

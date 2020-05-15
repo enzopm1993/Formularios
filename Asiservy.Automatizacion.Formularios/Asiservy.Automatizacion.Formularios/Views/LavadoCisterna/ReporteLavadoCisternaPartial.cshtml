@@ -2,13 +2,122 @@
 
 
 <table class="table table-bordered" tabindex="1" id="tblDataTable">
-    <thead>
+    <thead style="font-size:13px">
         <tr>
             <th>FECHA</th>
             <th>Nº CISTERNA</th>
             <th>QUIMICOS UTILIZADOS</th>
             <th>OBSERVACIONES</th>
+            <th>CREADO POR</th>
+            <th>F. CREACION</th>
+            <th>MODIFICADO POR</th>
+            <th>F. MODIFICACION</th>
+            <th>PROBADO POR</th>            
+            <th>F. APROBACION</th>
+            <th>ESTADO</th>
+        </tr>
+    </thead>
+    @{
+        var listaFiltrada = (from c in Model
+                             group c by new
+                             { c.IdLavadoCisterna,
+                                 c.Fecha,
+                                 c.QuimUtilizados,
+                                 c.Observacion,
+                                 c.UsuarioIngresoLog,
+                                 c.fechaCreacion,
+                                 c.AprobadoPor,
+                                 c.FechaAprobado,
+                                 c.EstadoReporteCab,
+                                 c.fechaModificacion,
+                                 c.UsuarioModCab
+                             } into f
+                             select new { f.Key.IdLavadoCisterna,
+                                 f.Key.Fecha,
+                                 f.Key.QuimUtilizados,
+                                 f.Key.Observacion,
+                                 f.Key.UsuarioIngresoLog,
+                                 f.Key.fechaCreacion,
+                                 f.Key.AprobadoPor,
+                                 f.Key.FechaAprobado,
+                                 f.Key.EstadoReporteCab,
+                                 f.Key.UsuarioModCab,
+                                 f.Key.fechaModificacion
+                             }).ToList();
+    }
+    <tbody style="font-size:12px">
+        @foreach (var item in listaFiltrada)
+        {
+            var listaNDescripcion = (from c in Model
+                                     where item.IdLavadoCisterna == c.IdLavadoCisterna
+                                     select new { c.NDescripcion }).ToList();
+            string nDescripcion = "";
+            foreach (var nd in listaNDescripcion)
+            {
+                nDescripcion += nd.NDescripcion + ",";
+            }
+
+            <tr>
+
+                <td>@item.Fecha.ToString("dd-MM-yyyy")</td>
+
+                <td>@nDescripcion</td>
+                <td>@item.QuimUtilizados.ToUpper()</td>
+
+                @if (!string.IsNullOrEmpty(item.Observacion))
+                {
+                    <td>@item.Observacion.ToUpper()</td>
+                }
+                else
+                {
+                    <td></td>}
+                <td>@item.UsuarioIngresoLog</td>
+                <td>@item.fechaCreacion.Replace("/", "-")</td>
+                <td>@item.UsuarioModCab</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.fechaModificacion))
+                    {
+                        @item.fechaModificacion.Replace("/", "-")
+                    }
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.AprobadoPor))
+                    {
+                        @item.AprobadoPor.ToUpper()
+                    }
+                </td>
+                <td>
+                    @{ DateTime date = Convert.ToDateTime(item.FechaAprobado);}
+                    @if (date.ToString() != "1/1/0001 12:00:00 AM")
+                    {
+                        @date.ToString("dd-MM-yyyy")
+                    }
+                </td>
+                <td>
+                    @if (item.EstadoReporteCab)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
+                    }
+                    else
+                    { <span class="badge badge-danger">PENDIENTE</span>}
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@*<script src="~/Scripts/General/dataTableJS.js"></script>*@
+
+@*<table class="table table-bordered" tabindex="1" id="tblDataTable">
+    <thead style="font-size:12px">
+        <tr>
+            <th>FECHA</th>
+            <th>Nº CISTERNA</th>
+            <th>QUIMICOS UTILIZADOS</th>
+            <th>OBSERVACIONES</th>
+            <th>CREADO POR</th>
+            <th>F. CREACION</th>
             <th>PROBADO POR</th>
+            <th>F. APROBACION</th>
             <th>ESTADO</th>
         </tr>
     </thead>
@@ -17,11 +126,13 @@
                              group x by new { x.IdLavadoCisterna } into f
                              select new { f.Key.IdLavadoCisterna }).ToList();
     }
-    <tbody style="font-size:14px">
+    <tbody style="font-size:11px">
         @foreach (var item in listaFiltrada)
         {
             string idMantCisterna = ""; DateTime fecha = new DateTime(1900, 01, 01); string quimUtilizados = ""; string observacion = "";
-            string NDescripcion = ""; string usuarioM = ""; bool estadoReporte = false;
+            string NDescripcion = ""; string usuarioM = ""; bool estadoReporte = false; string fcreacion = "";
+            DateTime fmodificacion = new DateTime(1900, 01, 01); DateTime faprobacion = new DateTime(1900, 01, 01); string usuAprobado = "";
+
             <tr>
                 @foreach (var subItem in Model)
                 {
@@ -34,31 +145,37 @@
                         observacion = subItem.Observacion;
                         usuarioM = subItem.UsuarioModCab;
                         estadoReporte = subItem.EstadoReporteCab;
+                        fcreacion = subItem.fechaCreacion;
                     }
                 }
                 <td>@fecha.ToString("dd-MM-yyyy")</td>
                 <td>@NDescripcion.ToUpper()</td>
                 <td>@quimUtilizados.ToUpper()</td>
-                
+
                 @if (!string.IsNullOrEmpty(observacion))
                 {
                     <td>@observacion.ToUpper()</td>
                 }
-                else { <td></td>}
-
+                else
+                {
+                    <td></td>}
+                <td>@fcreacion</td>
                 @if (!string.IsNullOrEmpty(usuarioM))
                 {
-                       <td>@usuarioM.ToUpper()</td>
+                    <td>@usuarioM.ToUpper()</td>
                 }
-                else { <td></td>}
+                else
+                {
+                    <td></td>}
                 <td>
-                    @if (estadoReporte) {
+                    @if (estadoReporte)
+                    {
                         <span class="badge badge-success">APROBADO</span>
                     }
-                    else { <span class="badge badge-danger">PENDIENTE</span>}
+                    else
+                    { <span class="badge badge-danger">PENDIENTE</span>}
                 </td>
             </tr>
         }
     </tbody>
-</table>
-@*<script src="~/Scripts/General/dataTableJS.js"></script>*@
+</table>*@
