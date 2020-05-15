@@ -44,6 +44,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.JqueryRotate = "1";
+                ViewBag.MaskedInput = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
                 //ViewBag.FirmaPad = "1";
