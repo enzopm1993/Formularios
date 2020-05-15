@@ -87,7 +87,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
                 var poControl = entities.CC_CONDICION_PERSONAL.FirstOrDefault(x => x.IdCondicionPersonal == model.IdCondicionPersonal);
                 if (poControl != null)
                 {
-                   // poControl.hora = model.Observacion;
                     poControl.Observacion = model.Observacion;
                     poControl.Hora = model.Hora;
                     poControl.CodCondicion = model.CodCondicion;
@@ -172,10 +171,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CondicionPerso
                     model.UsuarioModificacionLog = controlCloro.UsuarioIngresoLog;
                     db.SaveChanges();
                 }
-                //else
-                //{
-                //    db.CC_CONDICION_PERSONAL_CONTROL.Add(model);
-                //}
+               
             }
         }
     }
