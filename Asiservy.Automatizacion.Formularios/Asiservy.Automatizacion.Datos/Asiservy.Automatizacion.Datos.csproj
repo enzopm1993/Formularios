@@ -105,6 +105,12 @@
     <Compile Include="Datos\CC_CALIBRACION_PHMETRO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_CLORO_AGUA_AUTOCLAVE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_CLORO_AGUA_AUTOCLAVE_CONTROL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_CLORO_CISTERNA_DESCONGELADO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

@@ -190,6 +190,9 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE_CC_EVALUACION_PRODUCTO_ENFUNDADO_DETALLE" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_LAVADO_CISTERNA" Width="1.5" PointX="30.75" PointY="16.75" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_INTERMEDIA_CTRL_MANT_CISTERNA_CC_LAVADO_CISTERNA" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE_CONTROL" Width="1.5" PointX="40.375" PointY="35.5" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CLORO_AGUA_AUTOCLAVE" Width="1.5" PointX="42.625" PointY="35" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CLORO_AGUA_AUTOCLAVE_CC_CLORO_AGUA_AUTOCLAVE_CONTROL" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
