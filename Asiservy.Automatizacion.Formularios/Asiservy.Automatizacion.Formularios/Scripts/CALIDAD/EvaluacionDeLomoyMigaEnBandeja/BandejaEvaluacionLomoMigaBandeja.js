@@ -74,10 +74,9 @@ function CargarBandeja() {
         });
     }
 }
-
 function AbrirModalDetalle(IdCabecera) {
     CerrarConfirmacionAprobar();
-    IdControlAp = IdCabecera;
+    
     $('#cargac').show();
     Error = 0;
     let params = {
@@ -100,6 +99,7 @@ function AbrirModalDetalle(IdCabecera) {
             if (resultado != '"0"') {
                 $('#DivDetalle').empty();
                 $('#DivDetalle').html(resultado);
+                IdControlAp = IdCabecera;
                 $('#txtfechaaprob').prop('readonly',true);
                 
                 

@@ -100,7 +100,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-       
+                ViewBag.DateRangePicker = "1";
                 lsUsuario = User.Identity.Name.Split('_');
 
                 return View();
@@ -524,7 +524,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpPost]
+        //[HttpPost]
         //public JsonResult GuardarImagenFirma(string imagen, int IdCabecera, string Tipo)
         //{
 
@@ -615,7 +615,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ViewBag.DateRangePicker = "1";
-                ViewBag.FirmaPad = "1";
+                ViewBag.DateTimePicker = "1";
+                //ViewBag.FirmaPad = "1";
+                ViewBag.JqueryRotate = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
@@ -652,7 +654,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                List<CabeceraEvaluacionProductoEnfundadoViewModel> resultado = new List<CabeceraEvaluacionProductoEnfundadoViewModel>();
+                List<CabeceraEvaluacionProductoEnfundadoViewModel> resultado;
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
                 resultado = clsDEvaluacionProductoEnfundado.ConsultarBandejaEvaluacionLomosyMiga(FechaInicio, FechaFin, EstadoControl);
                 if (resultado.Count == 0)
@@ -720,7 +722,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
         [HttpPost]
-        public JsonResult AprobarControl(int IdCabecera, string imagen)
+        public JsonResult AprobarControl(int IdCabecera, DateTime Fecha)
         {
             try
             {
@@ -730,9 +732,78 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                byte[] Firma = Convert.FromBase64String(imagen);
+                //byte[] Firma = Convert.FromBase64String(imagen);
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
-                string Respuesta = clsDEvaluacionProductoEnfundado.AprobarControl(IdCabecera, Request.UserHostAddress, lsUsuario[0], Firma);
+                string Respuesta = clsDEvaluacionProductoEnfundado.AprobarControl(IdCabecera, Request.UserHostAddress, lsUsuario[0], Fecha);
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult ConsultarFotosControlxId(int IdControl)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+        
+                clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
+                var Respuesta = clsDEvaluacionProductoEnfundado.ConsultarFotosControl(IdControl);
+                return Json(new {Respuesta.IdEvaluacionProductoEnfundado, Respuesta.ImagenCodigo,Respuesta.ImagenProducto1,Respuesta.ImagenProducto2
+                ,Respuesta.ImagenProducto3,Respuesta.RotacionImagenCod,Respuesta.RotacionImagenProd1,Respuesta.RotacionImagenProd2, Respuesta.RotacionImagenProd3}, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public JsonResult ReversarControl(int IdCabecera)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+                clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
+                string Respuesta = clsDEvaluacionProductoEnfundado.ReversarControl(IdCabecera, lsUsuario[0], Request.UserHostAddress);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -802,6 +873,39 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
         //    }
         //}
-   
+        public JsonResult ConsultarCabecerasReporte(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+
+                //byte[] Firma = Convert.FromBase64String(imagen);
+                clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
+                List<CabeceraEvaluacionProductoEnfundadoViewModel> Respuesta = clsDEvaluacionProductoEnfundado.ConsultarCabReportes(FechaDesde, FechaHasta);
+                return Json(Respuesta, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

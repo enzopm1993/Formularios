@@ -237,7 +237,7 @@ fetch("../EvaluacionProductoEnfundado/ConsultarCabeceraControl", {
                 CargarImagenes(resultado.ImagenProducto2, resultado.RotacionImagenProd2, 3);
                 CargarImagenes(resultado.ImagenProducto3, resultado.RotacionImagenProd3, 4);
                 //cargar imagenes fin
-                SlideCabecera();
+                //SlideCabecera();
                 LlenarComboLotes(resultado.OrdenFabricacion);
 
                 ConsultarDetalleControl();
@@ -371,7 +371,7 @@ fetch("../EvaluacionProductoEnfundado/GuardarCabeceraControl", {
         window.location.reload();
     }
     if (Error == 0) {
-        IdCabecera = resultado[2].IdCabProdPouchCuarentena;
+        IdCabecera = resultado[2].IdEvaluacionProductoEnfundado;
         if (resultado[0] == "002") {
             MensajeAdvertencia(resultado[1]);
         } else {
@@ -399,34 +399,35 @@ fetch("../EvaluacionProductoEnfundado/GuardarCabeceraControl", {
     })
 }
 function LimpiarControles() {
-IdCabecera = 0;
-Error = 0;
+    IdCabecera = 0;
+    Error = 0;
     IdDetalle = 0;
+    $('#divtabfotos label').text('Seleccione archivo');
     $('#file-preview-zone1').html('');
     $('#file-preview-zone2').html('');
     $('#file-preview-zone3').html('');
     $('#file-preview-zone4').html('');
-$('#EtiquetaEstadoControl').html('');
-$('#txtFechaProduccion').val('');
-$('#cmbOrdeneFabricacion').empty();
-$('#cmbOrdeneFabricacion').append('<option>Seleccione...</option>');
-$('#txtCliente').val('');
-$('#txtFechaProduccion').prop('disabled', false);
-$('#mensajeRegistros').prop('hidden', true);
-$('#Lomo').prop('checked', false);
-$('#Miga').prop('checked', false);
-$('#Trozo').prop('checked', false);
-$('#txtDestino').val('');
-$('#txtProveedor').val('');
-$('#txtBatch').val('');
-$('#txtLoteProveedor').val('');
-$('#txtMarca').val('');
-$('#cmbNivelLimpieza').prop('selectedIndex', 0);
-$('#Observacion').val('');
-$('#CardDetalle').prop('hidden', true);
-LimpiarDetalleControles();
-$('#DivDetalles').empty();
-$('#btnEliminarCabeceraControl').prop('disabled', true);
+    $('#EtiquetaEstadoControl').html('');
+    $('#txtFechaProduccion').val('');
+    $('#cmbOrdeneFabricacion').empty();
+    $('#cmbOrdeneFabricacion').append('<option>Seleccione...</option>');
+    $('#txtCliente').val('');
+    $('#txtFechaProduccion').prop('disabled', false);
+    $('#mensajeRegistros').prop('hidden', true);
+    $('#Lomo').prop('checked', false);
+    $('#Miga').prop('checked', false);
+    $('#Trozo').prop('checked', false);
+    $('#txtDestino').val('');
+    $('#txtProveedor').val('');
+    $('#txtBatch').val('');
+    $('#txtLoteProveedor').val('');
+    $('#txtMarca').val('');
+    $('#cmbNivelLimpieza').prop('selectedIndex', 0);
+    $('#Observacion').val('');
+    $('#CardDetalle').prop('hidden', true);
+    LimpiarDetalleControles();
+    $('#DivDetalles').empty();
+    $('#btnEliminarCabeceraControl').prop('disabled', true);
 }
 function ConfirmarEliminarCab() {
 $('#ModalEliminarCabecera').modal('show');
@@ -586,34 +587,34 @@ if ($('#cmbOlor').prop('selectedIndex') == 0) {
 
 
 
-$('#btnEliminarDetalleControl').prop('hidden', true);
-$('#btnGuardarDetalle').prop('hidden', true);
-$('#btnLimpiarDetalle').prop('hidden', true);
-$('#btnCargandoDetalle').prop('hidden', false)
-const data = new FormData();
-data.append('IdDetalleEvaluacionProductoEnfundado', IdDetalle);
-data.append('Hora', $("#txtHora").val());
-data.append('Linea', $("#cmbLinea").val());
-data.append('Lote', $("#cmbLote").val());
-data.append('buque', $("#txtBuque").val());
-data.append('Sabor', $("#cmbSabor").val());
-data.append('Textura', $("#cmbTextura").val());
-data.append('Color', $("#cmbColor").val());
-data.append('Olor', $("#cmbOlor").val());
-data.append('Moretones', $("#txtMoretones").val());
-data.append('HematomasProfundos', $("#txtHematomas").val());
-data.append('Proteina', $("#cmbProteina").val());
-data.append('Trozo', $("#txtTrozos").val());
-data.append('Venas', $("#txtVenas").val());
-data.append('Espinas', $("#txtEspinas").val());
-data.append('Sangre', $("#txtSangre").val());
-data.append('Escamas', $("#txtEscamas").val());
-data.append('Piel', $("#txtPiel").val());
-data.append('Trozo', $("#txtTrozos").val());
-data.append('Miga', $("#txtMiga").val());
-data.append('Empacador', $("#cmbEmpacador").val());
-data.append('Otro', $("#txtOtros").val());
-data.append('IdCabeceraEvaluacionProductoEnfundado', IdCabecera);
+    $('#btnEliminarDetalleControl').prop('hidden', true);
+    $('#btnGuardarDetalle').prop('hidden', true);
+    $('#btnLimpiarDetalle').prop('hidden', true);
+    $('#btnCargandoDetalle').prop('hidden', false)
+    const data = new FormData();
+    data.append('IdDetalleEvaluacionProductoEnfundado', IdDetalle);
+    data.append('Hora', $("#txtHora").val());
+    data.append('Linea', $("#cmbLinea").val());
+    data.append('Lote', $("#cmbLote").val());
+    data.append('buque', $("#txtBuque").val());
+    data.append('Sabor', $("#cmbSabor").val());
+    data.append('Textura', $("#cmbTextura").val());
+    data.append('Color', $("#cmbColor").val());
+    data.append('Olor', $("#cmbOlor").val());
+    data.append('Moretones', $("#txtMoretones").val());
+    data.append('HematomasProfundos', $("#txtHematomas").val());
+    data.append('Proteina', $("#cmbProteina").val());
+    data.append('Trozo', $("#txtTrozos").val());
+    data.append('Venas', $("#txtVenas").val());
+    data.append('Espinas', $("#txtEspinas").val());
+    data.append('Sangre', $("#txtSangre").val());
+    data.append('Escamas', $("#txtEscamas").val());
+    data.append('Piel', $("#txtPiel").val());
+    data.append('Trozo', $("#txtTrozos").val());
+    data.append('Miga', $("#txtMiga").val());
+    data.append('Empacador', $("#cmbEmpacador").val());
+    data.append('Otro', $("#txtOtros").val());
+    data.append('IdCabeceraEvaluacionProductoEnfundado', IdCabecera);
 
 
 fetch("../EvaluacionProductoEnfundado/GuardarDetalleControl", {
@@ -639,7 +640,7 @@ fetch("../EvaluacionProductoEnfundado/GuardarDetalleControl", {
             MensajeCorrecto(resultado[1]);
             //$('#CardDetalle').prop('hidden', false);
             //ConsultarDetalleControl();
-            ConsultarDetalleControl();
+            ConsultarDetalleControl(1);
         }
         LimpiarDetalleControles();
     }
@@ -651,11 +652,11 @@ fetch("../EvaluacionProductoEnfundado/GuardarDetalleControl", {
     .catch(function (resultado) {
         //console.log('error');
         //console.log(resultado);
-        MensajeError(resultado.responseText, false);
+        MensajeError(resultado, false);
 
     })
 }
-function ConsultarDetalleControl() {
+function ConsultarDetalleControl(bandera) {
 Error = 0;
 let params = {
     IdCabeceraControl: IdCabecera
@@ -671,11 +672,13 @@ fetch(url)
         return respuesta.text();
     })
     .then(function (resultado) {
-        if (resultado == "101") {
+        if (resultado == '"101"') {
             window.location.reload();
         }
-        if (resultado != '"0"') {
+        if (bandera != 1) {
             SlideCabecera();
+        }
+        if (resultado != '"0"') {
             $('#DivDetalles').empty();
             $('#DivDetalles').html(resultado);
             config.opcionesDT.pageLength = 10;
