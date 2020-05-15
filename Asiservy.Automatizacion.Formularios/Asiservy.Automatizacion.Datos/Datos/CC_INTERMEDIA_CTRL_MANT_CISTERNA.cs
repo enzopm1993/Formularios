@@ -25,7 +25,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_LAVADO_CISTERNA CC_LAVADO_CISTERNA { get; set; }
         public virtual CC_MANTENIMIENTO_CISTERNA CC_MANTENIMIENTO_CISTERNA { get; set; }
+        public virtual CC_LAVADO_CISTERNA CC_LAVADO_CISTERNA { get; set; }
     }
 }
