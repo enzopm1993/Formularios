@@ -39,11 +39,7 @@
 
     @@media print {
         @@page {
-            size: A4;
-        }
-
-        .shadow {
-            box-shadow: 0 0.15rem 1.75rem 0 #fff !important;
+            size: landscape;
         }
 
         .card {
@@ -70,23 +66,7 @@
             display: none;
         }
 
-        #DivBotonImpr {
-            display: none;
-        }
-
-        #espacio {
-            display: none;
-        }
-
         #accordionSidebar {
-            display: none;
-        }
-
-        #titulo {
-            display: none;
-        }
-
-        #tblTitulo2 {
             display: none;
         }
 
@@ -113,18 +93,6 @@
         .btnWait {
             cursor: no-drop !important;
         }
-
-        #divTableDetalle2 {
-            height: 300px;
-            overflow: auto;
-        }
-    }
-
-    .tbltitulo {
-        width: 100%;
-        margin-bottom: 1rem;
-        color: #858796;
-        border-top: 2px solid #e3e6f0;
     }
 
     table {
@@ -152,7 +120,7 @@
 </div>
 <hr />
 <br id="brCabecera" />
-<div  class="card" id="divBotones" style="padding:10px;">
+<div class="card" id="divBotones" style="padding:10px;">
     <div class="text-center">
         <label class="">Imprimir</label><br />
         <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnImprimir" onclick="printDiv()" style="border-color:#2c3e50;" type="button">
@@ -163,7 +131,7 @@
 <br id="brCabecera" />
 
 <!-- Modal -->
-<div  class="card table-responsive" id="divCardMostrarDetalle" style="padding:10px;">
+<div class="card table-responsive" id="divCardMostrarDetalle" style="padding:10px;">
     @* ENCABEZADO *@
 
     <table id="tbltitulo" class="table table-bordered">
@@ -200,7 +168,8 @@
             </tr>
         </tbody>
     </table>
-    <div class="card table-responsive" id="divMostarTablaCabecera" style="padding:10px;">
 
-    </div>
+</div> 
+<div class="card table-responsive" id="divMostarTablaCabecera" style="padding:10px;">
+
 </div>

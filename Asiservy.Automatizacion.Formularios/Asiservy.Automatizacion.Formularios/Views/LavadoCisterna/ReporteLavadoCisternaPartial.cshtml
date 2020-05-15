@@ -2,7 +2,7 @@
 
 
 <table class="table table-bordered" tabindex="1" id="tblDataTable">
-    <thead style="font-size:12px">
+    <thead style="font-size:13px">
         <tr>
             <th>FECHA</th>
             <th>Nº CISTERNA</th>
@@ -10,67 +10,97 @@
             <th>OBSERVACIONES</th>
             <th>CREADO POR</th>
             <th>F. CREACION</th>
-            <th>PROBADO POR</th>
+            <th>MODIFICADO POR</th>
+            <th>F. MODIFICACION</th>
+            <th>PROBADO POR</th>            
             <th>F. APROBACION</th>
             <th>ESTADO</th>
         </tr>
     </thead>
     @{
-        var listaFiltrada = (from x in Model
-                             group x by new { x.IdLavadoCisterna } into f
-                             select new { f.Key.IdLavadoCisterna }).ToList();
+        var listaFiltrada = (from c in Model
+                             group c by new
+                             { c.IdLavadoCisterna,
+                                 c.Fecha,
+                                 c.QuimUtilizados,
+                                 c.Observacion,
+                                 c.UsuarioIngresoLog,
+                                 c.fechaCreacion,
+                                 c.AprobadoPor,
+                                 c.FechaAprobado,
+                                 c.EstadoReporteCab,
+                                 c.fechaModificacion,
+                                 c.UsuarioModCab
+                             } into f
+                             select new { f.Key.IdLavadoCisterna,
+                                 f.Key.Fecha,
+                                 f.Key.QuimUtilizados,
+                                 f.Key.Observacion,
+                                 f.Key.UsuarioIngresoLog,
+                                 f.Key.fechaCreacion,
+                                 f.Key.AprobadoPor,
+                                 f.Key.FechaAprobado,
+                                 f.Key.EstadoReporteCab,
+                                 f.Key.UsuarioModCab,
+                                 f.Key.fechaModificacion
+                             }).ToList();
     }
-    <tbody style="font-size:11px">
+    <tbody style="font-size:12px">
         @foreach (var item in listaFiltrada)
         {
-            var listaModel = (from c in Model
-                              where item.IdLavadoCisterna == c.IdLavadoCisterna
-                              select new
-                              {
-                                  c.Fecha,
-                                  c.NDescripcion,
-                                  c.QuimUtilizados,
-                                  c.Observacion,
-                                  c.UsuarioIngresoLog,
-                                  c.fechaCreacion,
-                                  c.AprobadoPor,
-                                  c.FechaAprobado,
-                                  c.EstadoReporteCab
-                              }).ToList();
+            var listaNDescripcion = (from c in Model
+                                     where item.IdLavadoCisterna == c.IdLavadoCisterna
+                                     select new { c.NDescripcion }).ToList();
+            string nDescripcion = "";
+            foreach (var nd in listaNDescripcion)
+            {
+                nDescripcion += nd.NDescripcion + ",";
+            }
 
             <tr>
-                @foreach (var subItem in listaModel)
-                {
-                    <td>@subItem.Fecha.ToString("dd-MM-yyyy")</td>
-                    <td>@subItem.NDescripcion.ToUpper()</td>
-                    <td>@subItem.QuimUtilizados.ToUpper()</td>
 
-                    if (!string.IsNullOrEmpty(subItem.Observacion))
+                <td>@item.Fecha.ToString("dd-MM-yyyy")</td>
+
+                <td>@nDescripcion</td>
+                <td>@item.QuimUtilizados.ToUpper()</td>
+
+                @if (!string.IsNullOrEmpty(item.Observacion))
+                {
+                    <td>@item.Observacion.ToUpper()</td>
+                }
+                else
+                {
+                    <td></td>}
+                <td>@item.UsuarioIngresoLog</td>
+                <td>@item.fechaCreacion.Replace("/", "-")</td>
+                <td>@item.UsuarioModCab</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.fechaModificacion))
                     {
-                        <td>@subItem.Observacion.ToUpper()</td>
+                        @item.fechaModificacion.Replace("/", "-")
+                    }
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.AprobadoPor))
+                    {
+                        @item.AprobadoPor.ToUpper()
+                    }
+                </td>
+                <td>
+                    @{ DateTime date = Convert.ToDateTime(item.FechaAprobado);}
+                    @if (date.ToString() != "1/1/0001 12:00:00 AM")
+                    {
+                        @date.ToString("dd-MM-yyyy")
+                    }
+                </td>
+                <td>
+                    @if (item.EstadoReporteCab)
+                    {
+                        <span class="badge badge-success">APROBADO</span>
                     }
                     else
-                    {
-                        <td></td>}
-                    <td>@subItem.UsuarioIngresoLog</td>
-                    <td>@subItem.fechaCreacion</td>
-                    <td>
-                        @if (!string.IsNullOrEmpty(subItem.AprobadoPor))
-                        {
-                            @subItem.AprobadoPor.ToUpper()
-                        }
-                    </td>
-
-                    <td>
-                        @if (subItem.EstadoReporteCab)
-                        {
-                            <span class="badge badge-success">APROBADO</span>
-                        }
-                        else
-                        { <span class="badge badge-danger">PENDIENTE</span>}
-                    </td>
-                }
-
+                    { <span class="badge badge-danger">PENDIENTE</span>}
+                </td>
             </tr>
         }
     </tbody>

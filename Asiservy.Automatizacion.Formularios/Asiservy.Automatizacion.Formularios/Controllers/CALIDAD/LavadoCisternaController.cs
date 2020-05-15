@@ -8,13 +8,14 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlLavadoCisterna;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoCisterna;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class LavadoCisternaController : Controller
     {
         clsDError clsDError { get; set; } = null;
-        
+        public clsDReporte ClsDReporte { get; set; } = null;
         clsDControlLavadoCisterna clsDControlLavadoCisterna { get; set; } = null;
         string[] lsUsuario { get; set; }=null;
         public ActionResult LavadoCisterna()
@@ -273,6 +274,13 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.DateRangePicker = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ClsDReporte = new clsDReporte();
+                var rep = ClsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                }
                 return View();
             }
             catch (DbEntityValidationException e)
