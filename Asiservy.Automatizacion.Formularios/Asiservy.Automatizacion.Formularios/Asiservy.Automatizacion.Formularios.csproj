@@ -2198,6 +2198,7 @@
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\BandejaCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ControlCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ReporteCalibracionPhMetro.js" />
+    <Content Include="Scripts\CALIDAD\CloroAguaAutoClave\BandejaCloroAguaAutoclave.js" />
     <Content Include="Scripts\CALIDAD\CloroAguaAutoClave\CloroAguaAutoClave.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
@@ -4003,6 +4004,8 @@
     <Content Include="Views\LavadoCisterna\ReporteLavadoCisternaCabeceraPartial.cshtml" />
     <Content Include="Views\CloroAguaAutoClave\CloroAguaAutoClave.cshtml" />
     <Content Include="Views\CloroAguaAutoClave\CloroAguaAutoClavePartial.cshtml" />
+    <Content Include="Views\CloroAguaAutoClave\BandejaCloroAguaAutoclave.cshtml" />
+    <Content Include="Views\CloroAguaAutoClave\BandejaCloroAguaAutoclavePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

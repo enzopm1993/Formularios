@@ -15,7 +15,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
     public class CloroAguaAutoClaveController : Controller
     {
 
-        private ClsDCloroAguaAutoclave ClsDCloroAguaAutoClave { get; set; } = null;
+        private ClsDCloroAguaAutoclave ClsDCloroAguaAutoclave { get; set; } = null;
         private clsDClasificador ClsDClasificador { get; set; } = null;
         private clsDError clsDError { get; set; } = null;
         private clsDReporte clsDReporte { get; set; } = null;
@@ -32,7 +32,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
                 ViewBag.MaskedInput = "1";
-                ClsDCloroAguaAutoClave = new ClsDCloroAguaAutoclave();
+                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
                 ClsDClasificador = new clsDClasificador();
                 ViewBag.AutoClaves = ClsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave);
                 lsUsuario = User.Identity.Name.Split('_');
@@ -70,12 +70,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
 
-                ClsDCloroAguaAutoClave = new ClsDCloroAguaAutoclave();
+                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
-                ClsDCloroAguaAutoClave.GuardarModificarCloroAguaAutoclave(model,Fecha);
+                ClsDCloroAguaAutoclave.GuardarModificarCloroAguaAutoclave(model,Fecha);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
             }
@@ -108,11 +108,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                ClsDCloroAguaAutoClave = new ClsDCloroAguaAutoclave();
+                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
                 // clsDEmpleado = new clsDEmpleado();
                 // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                //var control = ClsDCloroAguaAutoClave.con
-                var model = ClsDCloroAguaAutoClave.ConsultaCloroAguaAutoclave(Fecha);
+                //var control = ClsDCloroAguaAutoclave.con
+                var model = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclave(Fecha);
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -156,8 +156,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                ClsDCloroAguaAutoClave = new ClsDCloroAguaAutoclave();
-                ClsDCloroAguaAutoClave.EliminarCloroAguaAutoclave(model);
+                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
+                ClsDCloroAguaAutoclave.EliminarCloroAguaAutoclave(model);
                 return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -181,6 +181,205 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
         #endregion
 
+        #region BANDEJA DE APORBACION
+        //-----------------------------------------------------VISTA DE BANDEJA DE APROBACION----------------------------------------------------------------
+        [Authorize]
+        public ActionResult BandejaCloroAguaAutoclave()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult BandejaCloroAguaAutoclavePartial(DateTime? FechaDesde, DateTime? FechaHasta, bool Estado = false)
+        {
+            try
+            {
+                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
+                List<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> poCloroCisterna = null;
+                if (FechaDesde != null && FechaHasta != null)
+                {
+                    poCloroCisterna = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControl(FechaDesde.Value, FechaHasta.Value, Estado);
+                }
+                else
+                {
+                    poCloroCisterna = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControlPendiente();
+
+                }
+                if (poCloroCisterna != null && poCloroCisterna.Any())
+                {
+                    return PartialView(poCloroCisterna);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public ActionResult BandejaAprobarCloroAguaAutoclave(DateTime fecha)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
+                var poCloroCisterna = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclave(fecha);
+                if (poCloroCisterna != null && poCloroCisterna.Any())
+                {
+                    return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult AprobarBandejaControlCloro(CC_CLORO_AGUA_AUTOCLAVE_CONTROL model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
+                model.FechaAprobacion = DateTime.Now;
+                model.AprobadoPor = lsUsuario[0];
+                model.EstadoReporte = clsAtributos.EstadoReporteActivo;
+
+                model.FechaIngresoLog = DateTime.Now;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                ClsDCloroAguaAutoclave.Aprobar_ReporteCloroAguaAutoclave(model);
+                return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ReversarBandejaControl(CC_CLORO_AGUA_AUTOCLAVE_CONTROL model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
+                model.FechaAprobacion = null;
+                model.AprobadoPor = null;
+                model.EstadoReporte = clsAtributos.EstadoReportePendiente;
+
+                model.FechaIngresoLog = DateTime.Now;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                ClsDCloroAguaAutoclave.Aprobar_ReporteCloroAguaAutoclave(model);
+                return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
 
 
 
