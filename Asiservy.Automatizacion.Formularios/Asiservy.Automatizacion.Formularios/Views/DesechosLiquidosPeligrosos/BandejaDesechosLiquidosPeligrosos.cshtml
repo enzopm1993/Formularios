@@ -75,15 +75,7 @@
 
     #lgndestino {
         width: 60%;
-    }
-
-    canvas {
-        border: 1px solid black;
-    }
-
-    #ImgFirma {
-        border: 1px solid black;
-    }
+    }   
 </style>
 
 <div class="row">
@@ -96,7 +88,7 @@
     <div class="col-md-3 col-12 col-sm-12 text-md-left text-center">
         <label>ESTADO REPORTE:</label>
         <select id="selectEstadoReporte" class="form-control" onchange="CargarBandeja()">
-            <option value="false" default>PENDIENTE APROBACION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+            <option value="false" default>PENDIENTE APROBACION</option>
             <option value="true">APROBADO</option>
         </select>
     </div>
@@ -132,39 +124,21 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Aprobar</h5>
-                <button type="button" class="close" data-dismiss="modal" onclick="ClearPAd()" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarFecha()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <div class="col-md-4 col-12 col-sm-12">
+                    <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
+                </div>
+                <br />
                 <div class="table-responsive" id="divTblAprobarPendiente">
 
                 </div>
-            </div>
-            @* FIRMA DIGITAL *@
-            
-            <div class="card" id="firmaDigital">
-                <div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
-                    <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
-
-                    <div>
-                        <canvas width=400 height=200 id="firmacanvas"></canvas>
-                    </div>
-                    <div>
-                        <center> <button type="button" class="btn btn-primary" id="btnGuardarFirma" onclick="GuardarFirma()">Guardar Firma</button></center>
-                    </div>
-                </div>
-                <div id="div_ImagenFirma" class="align-self-md-center align-self-sm-center" hidden>
-
-
-                    <img id="ImgFirma" width="400" height="200" src="" />
-                    <div>
-                        <center> <button type="button" class="btn btn-primary" id="btnActualizarFirma" onclick="VolverAFirmar()">Rehacer Firma</button></center>
-                    </div>
-                </div>
-            </div>
+            </div>           
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="ClearPAd()" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="LimpiarFecha()" data-dismiss="modal">Cerrar</button>
                 <button type="button" id="btnAprobado" hidden class="btn btn-primary" onclick="AprobarPendiente(true)">Aprobar</button>
                 <button type="button" id="btnPendiente" hidden class="btn btn-primary" onclick="AprobarPendiente(false)">Reversar</button>
             </div>

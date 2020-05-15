@@ -42,10 +42,15 @@ function CargarBandeja() {
 function SeleccionarBandeja(model) {
     $('#cargac').show();
     listaDatos = model;
+    var date = new Date();
+    $('#txtFechaAprobado').val(moment(date).format('YYYY-MM-DDTHH:mm'));
+    $('#cargac').show();
     if (model.EstadoReporteCab == true) {
+        $('#txtFechaAprobado').prop('hidden', true);
         $('#btnAprobado').prop('hidden', true);
         $('#btnPendiente').prop('hidden', false);
     } else {
+        $('#txtFechaAprobado').prop('hidden', false);
         $('#btnPendiente').prop('hidden', true);
         $('#btnAprobado').prop('hidden', false);
     }
@@ -80,12 +85,24 @@ function SeleccionarBandeja(model) {
 }
 
 function AprobarPendiente(estadoReporte) {
+    if ($("#selectEstadoReporte").val() == 'false') {
+        var date = new Date();
+        if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') < moment(listaDatos.Fecha).format('YYYY-MM-DD')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser menor a la fecha de creacion del reporte: <span class="badge badge-danger">' + moment(listaDatos.Fecha).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+        if (moment($('#txtFechaAprobado').val()).format('YYYY-MM-DD') > moment(date).format('YYYY-MM-DD')) {
+            MensajeAdvertencia('La fecha de APROBACION no puede ser mayor a la fecha actual: <span class="badge badge-danger">' + moment(date).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+    } else { $('#txtFechaAprobado').val(''); }
     var siAprobar = 1;//en la condicion del la clase clsD se envia a actualizar solo la columna EstadoReporte 
     $.ajax({
         url: "../LavadoCisterna/GuardarBandejaModificarLavadoCisterna",
         type: "POST",
         data: {
             IdLavadoCisterna: listaDatos.IdLavadoCisterna,
+            FechaAprobado: $('#txtFechaAprobado').val(),
             EstadoReporte: estadoReporte,
             siAprobar: siAprobar
         },
@@ -93,7 +110,7 @@ function AprobarPendiente(estadoReporte) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == 1) {
+            if (resultado == 1 || resultado==2) {
                 MensajeCorrecto('¡Cambio de ESTADO realizado correctamente!');
             } else {
                 MensajeError('El registro no debe guardarse- solo actualizarce- Controller: GuardarModificarControlCuchilloPreparacion');
@@ -108,6 +125,20 @@ function AprobarPendiente(estadoReporte) {
             MensajeError(resultado.responseText, false);
         }
     });
+}
+
+function validar() {
+    if ($('#txtFechaAprobado').val() == '') {
+        $("#txtFechaAprobado").css('border', '1px dashed red');
+        MensajeAdvertencia('Fecha invalida');
+        return;
+    } else {
+        $("#txtFechaAprobado").css('border', '');
+    }
+}
+
+function LimpiarFecha() {
+    $("#txtFechaAprobado").css('border', '');
 }
 
 //DATE RANGE PICKER
