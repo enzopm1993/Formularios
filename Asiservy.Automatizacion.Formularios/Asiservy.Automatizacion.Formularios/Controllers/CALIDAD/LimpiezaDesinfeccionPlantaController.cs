@@ -6,17 +6,15 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Rotativa;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class LimpiezaDesinfeccionPlantaController : Controller
     {
 
-        clsDError clsDError = null;
-        clsDLimpiezaDesinfeccionPlanta clsDLimpiezaDesinfeccionPlanta = null;
+        clsDError clsDError { get; set; } = null;
+        clsDLimpiezaDesinfeccionPlanta clsDLimpiezaDesinfeccionPlanta { get; set; } = null;
         string[] lsUsuario;
         protected void SetSuccessMessage(string message)
         {
@@ -133,7 +131,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDLimpiezaDesinfeccionPlanta = new clsDLimpiezaDesinfeccionPlanta();
                 var lista = clsDLimpiezaDesinfeccionPlanta.ConsultarObjetos();
-                if (lista.Count() != 0)
+                if (lista.Count != 0)
                 {
                     return PartialView(lista);
                 }

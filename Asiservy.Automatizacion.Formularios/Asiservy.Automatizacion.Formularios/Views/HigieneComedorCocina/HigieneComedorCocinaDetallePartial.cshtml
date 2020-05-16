@@ -3,66 +3,70 @@
 
 @{ var json = JsonConvert.SerializeObject(Model);
     string ocultar = "";
-    if (ViewBag.Ocultar==1)//PARAMETRO PARA OCULTAR EL BOTON ACTUALIZAR YA QUE USU ESTE PARTIAL EN LA BANDEJA DE APROBACION-MOSTRAR DETALLES, EL PARAM LO ENVIO DESDE EL JS
+    if (ViewBag.Ocultar == 1)//PARAMETRO PARA OCULTAR EL BOTON ACTUALIZAR YA QUE USO ESTE PARTIAL EN LA BANDEJA DE APROBACION-MOSTRAR DETALLES, EL PARAM LO ENVIO DESDE EL JS
     {
         ocultar = "hidden";
     }
-    }
+    var listaCategoria = (from l in Model
+                          group l by new { l.Categoria } into x
+                          select new { x.Key.Categoria });
+}
 <div>
-    <button @ocultar id="btnActualizarDetalle" class="btn btn-link" onclick="ActualizarDetalle(@json)">Actualizar</button>
+    <button @ocultar id="btnActualizarDetalle" class="btn btn-outline-info" style="color:#00264c" onclick="ActualizarDetalle(@json)">Actualizar</button>
 </div>
-<table class="table table-bordered" id="tblDataTableVer">
-    <thead style="font-size:12px">
-        <tr>
-            <th hidden>
-                IdControlDetalle
-            </th>
-            <th>NOMBRE</th>
-            <th>
-                CATEGORIA
-            </th>
-            <th>
-                ESTADO
-            </th>
-            <th>
-                OBSERVACION
-            </th>
-            <th>
-                ACCION CORRECTIVA
-            </th>
-        </tr>
-    </thead>
-    <tbody style="font-size:11px">
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td hidden>
-                <input type="text" name="name" value="@item.IdControlDetalle" id="txtIdControlDetalle-@item.IdMantenimiento" class="form-control" />
-            </td>
-            <td>
-                @item.Nombre.ToUpper()
-            </td>
-            <td>
-                @item.Categoria.ToUpper()
-            </td>
-
-            <td>
-                @item.LimpiezaEstado
-            </td>
-            <td>
-                @if (!string.IsNullOrEmpty(item.Observacion))
+<br />
+@foreach (var categoria in listaCategoria)
+{
+    <table class="table table-bordered table-secondary table-striped" style="text-align:center" id="tblDataTableVer">
+        <thead style="font-size:11px">
+            <tr>
+                <th hidden>
+                    IdControlDetalle
+                </th>
+                <th width="150px">
+                    @categoria.Categoria.ToUpper()
+                </th>
+                <th width="50px">
+                    ESTADO
+                </th>
+                <th>
+                    OBSERVACION
+                </th>
+                <th>
+                    ACCION CORRECTIVA
+                </th>
+            </tr>
+        </thead>
+        <tbody style="font-size:10px">
+            @foreach (var item in Model)
+            {
+                if (categoria.Categoria == item.Categoria)
                 {
-                    @item.Observacion.ToUpper();
-                }               
-            </td>
-            <td>
-                @if (!string.IsNullOrEmpty(item.AccionCorrectiva))
-                {
-                    @item.AccionCorrectiva.ToUpper();
+                <tr>
+                    <td hidden>
+                        <input type="text" name="name" value="@item.IdControlDetalle" id="txtIdControlDetalle-@item.IdMantenimiento" class="form-control" />
+                    </td>
+                    <td>
+                        @item.Nombre.ToUpper()
+                    </td>                   
+                    <td>
+                        @item.LimpiezaEstado
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.Observacion))
+                        {
+                            @item.Observacion.ToUpper();
+                        }
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.AccionCorrectiva))
+                        {
+                            @item.AccionCorrectiva.ToUpper();
+                        }
+                    </td>
+                </tr>
                 }
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
-@*<script src="~/Scripts/General/dataTableJS.js"></script>*@
+            }
+        </tbody>
+    </table>
+}

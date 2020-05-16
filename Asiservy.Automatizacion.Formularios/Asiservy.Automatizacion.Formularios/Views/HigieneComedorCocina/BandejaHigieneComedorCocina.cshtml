@@ -41,42 +41,33 @@
 <div class="row">
     <div class="col-md-6 col-12 col-sm-12">
         <h4 class="text-md-left text-center" style="float:left">Bandeja Higiene de Comedor y Cocina</h4>
-    </div>
-    <div class="col-md-6 col-12 col-sm-12">
-        <div class="box_filters" style="padding-right:7.6%;width:62%">
-            <div class="itemFilter">
+    </div>    
+</div>
 
-                @*<div id="reportrange" class="selectbox">*@
-                <select id="selectEstadoReporte" style=" float:right" class="form-control" onchange="CargarBandeja()">
-                    <option value="false" default>PENDIENTE APROBACION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-                    <option value="true">APROBADO</option>
-                </select>
-                @*</div>*@
+<div class="row">
+    <div class="col-md-3 col-12 col-sm-12">
+        <select id="selectEstadoReporte" class="form-control" onchange="CargarBandeja()">
+            <option value="false" default>PENDIENTE APROBACION</option>
+            <option value="true">APROBADO</option>
+        </select>
+    </div>               
+    
+    <div class="box_filters col-md-5 col-12 col-sm-12">
+        <div class="itemFilter">
+            <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <div id="reportrange" class="selectbox text-md-left text-center">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
             </div>
-
+        </div>
+        <div class="itemFilter">
+            <a href="#" onclick="CargarBandeja()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
         </div>
     </div>
 </div>
 
-<div class="row float-right">
-    <div class="">
-        <div class="box_filters col-md-12 col-12 col-sm-12">
-            <div class="itemFilter">
-                <input type="hidden" id="fechaDesde" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                <input type="hidden" id="fechaHasta" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                <div id="reportrange" class="selectbox text-md-left text-center">
-                    <i class="fa fa-calendar"></i>&nbsp;
-                    <span></span> <i class="fa fa-caret-down"></i>
-                </div>
-            </div>
-            <div class="itemFilter">
-                <a href="#" onclick="CargarBandeja()" id="btnModalGenerarRegistro" class="btn btn-primary btn-sm"><i id="iconSearch" class="fas fa-search"></i></a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<br /><br /><br /><br />
+<br />
 @* DIV MOSTRAR PARTIALVIEW *@
 <div class="table-responsive" id="divTablaAprobados">
    
@@ -88,44 +79,21 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Aprobar</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" onclick="LimpiarFecha()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="col-md-3 col-12 col-sm-12">
-                    <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
+                <div class="col-md-4 col-12 col-sm-12">
+                    <input type="datetime-local" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" onchange="validar()" id="txtFechaAprobado" class="form-control" />
                 </div>
                 <br />
-
                 <div class="table-responsive" id="divAprobarPendientePartial">
 
                 </div>
-            </div>
-            @* FIRMA DIGITAL *@
-
-            @*<div class="card" id="firmaDigital">
-                <div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
-                    <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
-
-                    <div>
-                        <canvas width=400 height=200 id="firmacanvas"></canvas>
-                    </div>
-                    <div>
-                        <center> <button type="button" class="btn btn-primary" id="btnGuardarFirma" onclick="GuardarFirma()">Guardar Firma</button></center>
-                    </div>
-                </div>
-                <div id="div_ImagenFirma" class="align-self-md-center align-self-sm-center" hidden>
-
-
-                    <img id="ImgFirma" width="400" height="200" src="" />
-                    <div>
-                        <center> <button type="button" class="btn btn-primary" id="btnActualizarFirma" onclick="VolverAFirmar()">Rehacer Firma</button></center>
-                    </div>
-                </div>
-            </div>*@
+            </div>          
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarFecha()">Cerrar</button>
                 <button type="button" id="btnAprobado" hidden class="btn btn-primary" onclick="AprobarPendiente(true)">Aprobar</button>
                 <button type="button" id="btnPendiente" hidden class="btn btn-primary" onclick="AprobarPendiente(false)">Reversar</button>
             </div>

@@ -2194,10 +2194,12 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\BandejaCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ControlCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ReporteCalibracionPhMetro.js" />
+    <Content Include="Scripts\CALIDAD\CloroAguaAutoClave\BandejaCloroAguaAutoclave.js" />
     <Content Include="Scripts\CALIDAD\CloroAguaAutoClave\CloroAguaAutoClave.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
@@ -3376,6 +3378,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\CalibracionFluorometro\ClsDCalibracionFluorometro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionPhMetro\clsDCalibracionPhMetro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroAguaAutoclave\ClsDCloroAguaAutoclave.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
@@ -3471,6 +3474,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
+    <Compile Include="Controllers\CALIDAD\CalibracionFluorometroController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionPhMetroController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
@@ -4001,8 +4005,12 @@
     <Content Include="Views\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSelladoCabeceraPartial.cshtml" />
     <Content Include="Views\DesechosLiquidosPeligrosos\ReporteDesechosLiquidosPeligrososCabeceraPartial.cshtml" />
     <Content Include="Views\LavadoCisterna\ReporteLavadoCisternaCabeceraPartial.cshtml" />
+    <Content Include="Views\CalibracionFluorometro\MantenimientoEstandar.cshtml" />
+    <Content Include="Views\CalibracionFluorometro\MantenimientoEstandarPartial.cshtml" />
     <Content Include="Views\CloroAguaAutoClave\CloroAguaAutoClave.cshtml" />
     <Content Include="Views\CloroAguaAutoClave\CloroAguaAutoClavePartial.cshtml" />
+    <Content Include="Views\CloroAguaAutoClave\BandejaCloroAguaAutoclave.cshtml" />
+    <Content Include="Views\CloroAguaAutoClave\BandejaCloroAguaAutoclavePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

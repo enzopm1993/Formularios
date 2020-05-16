@@ -88,7 +88,7 @@
 </style>
 <div class="row">
     <div class="col-12">
-        <h4 style="float:left">Control Higiene Comedor Cocina <label id="lblAprobadoPendiente" class="badge badge-danger">MENSAJE</label></h4>
+        <h4 style="float:left">Control Higiene Comedor Cocina <label id="lblAprobadoPendiente" class="badge badge-danger"></label></h4>
         <div class="col.md-4 box_filters">
             <div class="itemFilter">
                 <input type="date" name="name" value="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="CargarCabecera(0)" id="txtFecha" class="form-control" />
@@ -238,25 +238,4 @@
         </div>
     </div>
 </div>
-@* FIRMA DIGITAL *@
-<br />
-<div class="card" id="firmaDigital">
-    <div id="signature-pad" class="align-self-md-center align-self-sm-center" hidden>
-        <button type="button" class="btn" data-action="clear" style="border-color:#2c3e50"><img style="width:100%" src="~/Content/icons/clear24.png" /></button>
 
-        <div>
-            <canvas width=400 height=200 id="firmacanvas"></canvas>
-        </div>
-        <div>
-            <center> <button type="button" class="btn btn-primary" id="btnGuardarFirma" onclick="GuardarFirma()">Guardar Firma</button></center>
-        </div>
-    </div>
-    <div id="div_ImagenFirma" class="align-self-md-center align-self-sm-center" hidden>
-
-
-        <img id="ImgFirma" width="400" height="200" src="" />
-        <div>
-            <center> <button type="button" class="btn btn-primary" id="btnActualizarFirma" onclick="VolverAFirmar()">Rehacer Firma</button></center>
-        </div>
-    </div>
-</div>

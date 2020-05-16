@@ -1,41 +1,28 @@
-﻿using Asiservy.Automatizacion.Datos.Datos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoclave;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
+﻿using Asiservy.Automatizacion.Formularios.AccesoDatos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFluorometro;
+using Asiservy.Automatizacion.Datos.Datos;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
-    public class CloroAguaAutoClaveController : Controller
+    public class CalibracionFluorometroController : Controller
     {
-
-        private ClsDCloroAguaAutoclave ClsDCloroAguaAutoclave { get; set; } = null;
-        private clsDClasificador ClsDClasificador { get; set; } = null;
-        private clsDError clsDError { get; set; } = null;
-        private clsDReporte clsDReporte { get; set; } = null;
-        private string[] lsUsuario { get; set; } = null;
-
-
-        #region CONTROL 
-        [Authorize]
-        public ActionResult CloroAguaAutoClave()
+        clsDError clsDError { get; set; } = null;
+        ClsDCalibracionFluorometro ClsDCalibracionFluorometro { get; set; } = null;
+        string[] lsUsuario { get; set; } = null;
+        public clsDReporte ClsDReporte { get; set; } = null;
+        public ActionResult MantenimientoEstandar()
         {
             try
             {
-                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                ViewBag.select2 = "1";
-                ViewBag.MaskedInput = "1";
-                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
-                ClsDClasificador = new clsDClasificador();
-                ViewBag.AutoClaves = ClsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoAutoclave);
-                lsUsuario = User.Identity.Name.Split('_');
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 return View();
             }
             catch (DbEntityValidationException e)
@@ -58,9 +45,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-
-        [HttpPost]
-        public ActionResult CloroAguaAutoClave(CC_CLORO_AGUA_AUTOCLAVE model, DateTime Fecha)
+        public ActionResult MantenimientoEstandarPartial()
         {
             try
             {
@@ -69,15 +54,225 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
+                ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+                var listaEstandar = ClsDCalibracionFluorometro.ListarEstandar();
+                if (listaEstandar.Count != 0)
+                {
+                    return PartialView(listaEstandar);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
 
-                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
-                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+        public JsonResult GuardarModificarEstandar(CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (!string.IsNullOrWhiteSpace(model.NombEstandar))
+                {
+                    ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+                    model.FechaIngresoLog = DateTime.Now;
+                    model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                    model.TerminalIngresoLog = Request.UserHostAddress;
+                    model.UsuarioIngresoLog = lsUsuario[0];
+                    var valor = ClsDCalibracionFluorometro.GuardarModificarEstandar(model);
+                    if (valor == 0)
+                    {
+                        return Json("0", JsonRequestBehavior.AllowGet);
+                    }
+                    else if (valor == 1)
+                    {
+                        return Json("1", JsonRequestBehavior.AllowGet);
+                    }
+                    else return Json("2", JsonRequestBehavior.AllowGet);
+                }
+                else return Json("3", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult EliminarEstandar(CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+               
+                    ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+                    model.FechaIngresoLog = DateTime.Now;
+                    model.TerminalIngresoLog = Request.UserHostAddress;
+                    model.UsuarioIngresoLog = lsUsuario[0];
+                    var valor = ClsDCalibracionFluorometro.EliminarEstandar(model);
+                    if (valor == 0)
+                    {
+                        return Json("0", JsonRequestBehavior.AllowGet);
+                    }
+                    else if (valor == 1)
+                    {
+                        return Json("1", JsonRequestBehavior.AllowGet);
+                    }
+                    else return Json("2", JsonRequestBehavior.AllowGet);
+               
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult CalibracionFluorometro()
+        {
+            try
+            {
+                ViewBag.dataTableJS = "1";
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult ConsultarCalibracionFluorometro(int idCalibracionFluor)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+                var calibracionFluorID = ClsDCalibracionFluorometro.ConsultarCalibracionFluorID(idCalibracionFluor);
+                if (calibracionFluorID != null)
+                {
+                    return PartialView(calibracionFluorID);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public JsonResult GuardarModificarCalibracionFluor(CC_CALIBRACION_FLUOROMETRO_CTRL model, bool siAprobar)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
                 model.FechaIngresoLog = DateTime.Now;
-                model.UsuarioIngresoLog = lsUsuario[0];
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
-                ClsDCloroAguaAutoclave.GuardarModificarCloroAguaAutoclave(model,Fecha);
-
-                return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
+                model.UsuarioIngresoLog = lsUsuario[0];
+                var valor = ClsDCalibracionFluorometro.GuardarModificarCalibracionFluor(model, siAprobar);
+                if (valor == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                else if (valor == 1)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+                else if (valor == 2) { return Json("2", JsonRequestBehavior.AllowGet); }
+                else return Json("3", JsonRequestBehavior.AllowGet);//ERROR DE FECHA
             }
             catch (DbEntityValidationException e)
             {
@@ -99,7 +294,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult CloroAguaAutoClavePartial(DateTime Fecha)
+        public JsonResult EliminarHigieneControl(CC_CALIBRACION_FLUOROMETRO_CTRL model)
         {
             try
             {
@@ -108,175 +303,17 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                //var control = ClsDCloroAguaAutoclave.con
-                var model = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclave(Fecha);
-                if (!model.Any())
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-                return PartialView(model);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-        [HttpPost]
-        public ActionResult EliminarCloroAguaAutoClave(CC_CLORO_AGUA_AUTOCLAVE model)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                if (model.IdCloroAguaAutoclave == 0)
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
+                ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
                 model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
-                ClsDCloroAguaAutoclave.EliminarCloroAguaAutoclave(model);
-                return Json("Registro Eliminado", JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-        #endregion
-
-        #region BANDEJA DE APORBACION
-        //-----------------------------------------------------VISTA DE BANDEJA DE APROBACION----------------------------------------------------------------
-        [Authorize]
-        public ActionResult BandejaCloroAguaAutoclave()
-        {
-            try
-            {
-                ViewBag.dataTableJS = "1";
-                ViewBag.DateRangePicker = "1";
-                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-                return View();
-            }
-            catch (DbEntityValidationException e)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
-            }
-            catch (Exception ex)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
-            }
-        }
-
-        public ActionResult BandejaCloroAguaAutoclavePartial(DateTime? FechaDesde, DateTime? FechaHasta, bool Estado = false)
-        {
-            try
-            {
-                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
-                List<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> poCloroCisterna = null;
-                if (FechaDesde != null && FechaHasta != null)
-                {
-                    poCloroCisterna = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControl(FechaDesde.Value, FechaHasta.Value, Estado);
-                }
-                else
-                {
-                    poCloroCisterna = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclaveControlPendiente();
-
-                }
-                if (poCloroCisterna != null && poCloroCisterna.Any())
-                {
-                    return PartialView(poCloroCisterna);
-                }
-                else
+                var valor = ClsDCalibracionFluorometro.EliminarCalibracionFluor(model);
+                if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
-            }
-            catch (DbEntityValidationException e)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                SetErrorMessage(Mensaje);
-                return RedirectToAction("Home", "Home");
-            }
-            catch (Exception ex)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                SetErrorMessage(Mensaje);
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-
-        public ActionResult BandejaAprobarCloroAguaAutoclave(DateTime fecha)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
-                var poCloroCisterna = ClsDCloroAguaAutoclave.ConsultaCloroAguaAutoclave(fecha);
-                if (poCloroCisterna != null && poCloroCisterna.Any())
-                {
-                    return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
+                else return Json("1", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -297,91 +334,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
-        public ActionResult AprobarBandejaControlCloro(CC_CLORO_AGUA_AUTOCLAVE_CONTROL model)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
-                model.FechaAprobacion = DateTime.Now;
-                model.AprobadoPor = lsUsuario[0];
-                model.EstadoReporte = clsAtributos.EstadoReporteActivo;
-
-                model.FechaIngresoLog = DateTime.Now;
-                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                model.TerminalIngresoLog = Request.UserHostAddress;
-                model.UsuarioIngresoLog = lsUsuario[0];
-                ClsDCloroAguaAutoclave.Aprobar_ReporteCloroAguaAutoclave(model);
-                return Json("Aprobación Exitosa", JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public ActionResult ReversarBandejaControl(CC_CLORO_AGUA_AUTOCLAVE_CONTROL model)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                ClsDCloroAguaAutoclave = new ClsDCloroAguaAutoclave();
-                model.FechaAprobacion = null;
-                model.AprobadoPor = null;
-                model.EstadoReporte = clsAtributos.EstadoReportePendiente;
-
-                model.FechaIngresoLog = DateTime.Now;
-                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                model.TerminalIngresoLog = Request.UserHostAddress;
-                model.UsuarioIngresoLog = lsUsuario[0];
-                ClsDCloroAguaAutoclave.Aprobar_ReporteCloroAguaAutoclave(model);
-                return Json("Reporte reversado exitosamente", JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-        #endregion
-
-
 
         protected void SetSuccessMessage(string message)
         {
