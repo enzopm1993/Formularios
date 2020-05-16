@@ -1,9 +1,9 @@
 ﻿var Error = 0;
-function ConsultarReporte() {
+function MostrarReporte(data) {
     $('#cargac').show();
     Error = 0;
     let params = {
-        Fecha: $('#txtFechaProduccion').val()
+        IdControl: data.IdEvaluacionProductoEnfundado
     }
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
@@ -19,15 +19,25 @@ function ConsultarReporte() {
             if (resultado == '"101"') {
                 window.location.reload();
             }
+            //console.log(resultado);
             if (resultado != '"0"') {
+                $('#DivReporte').prop('hidden', false);
+                $('#DivCabReportes').prop('hidden', true);
                 $('#DivReporte').empty();
+                
+                
                 $('#DivReporte').html(resultado);
+                
                 $('#mensajeRegistros').prop('hidden', true);
+                
                 //config.opcionesDT.pageLength = 30;
                 //$('#tblReporte').DataTable(config.opcionesDT);
                 //LimpiarDetalleControles();
             } else {
                 $('#DivReporte').empty();
+                $('#DivCabReportes').empty();
+            
+                $('#mensajeRegistros').text(Mensajes.SinRegistrosRangoFecha);
                 $('#mensajeRegistros').prop('hidden', false);
             }
             $('#cargac').hide();
@@ -43,8 +53,12 @@ function ConsultarReporte() {
 function imprimirw() {
     window.print();
 }
+function Atras() {
+    $('#DivReporte').prop('hidden', true);
+    $('#DivCabReportes').prop('hidden', false);
+}
 function CargarCabReportes() {
-    //Atras();
+    Atras();
     $('#cargac').show();
     var table = $("#tblDataTableReporte");
     //    table.DataTable().destroy();
@@ -68,9 +82,12 @@ function CargarCabReportes() {
                 window.location.reload();
             }
             if (resultado != '0') {
+                console.log(resultado);
+                $('#mensajeRegistros').prop('hidden', true);
                 $("#tblDataTableReporte tbody").empty();
                 $('#DivCabReportes').prop('hidden', false);
                 config.opcionesDT.columns = [
+                    { data:'IdEvaluacionProductoEnfundado'},
                     { data: 'FechaProduccion' },
                     { data: 'OrdenFabricacion' },
                     { data: 'Cliente' },
@@ -146,13 +163,13 @@ function CargarCabReportes() {
                     //}
                     row.EstadoControl = '<span class="' + estiloClass + '">' + estado + '</span>';
                 });
-                ////config.opcionesDT.columnDefs = [
-                ////    {
-                ////        "targets": [0, 10, 12, 13, 14, 15, 16, 17],
-                ////        "visible": false,
-                ////        "searchable": false
-                ////    }
-                ////];
+                config.opcionesDT.columnDefs = [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ];
                 //config.opcionesDT.scrollX = false;
                 table.DataTable().destroy();
 
@@ -170,6 +187,9 @@ function CargarCabReportes() {
             } else {
 
                 $('#DivReporte').empty();
+            
+                $('#DivCabReportes').prop('hidden',true);
+                $('#mensajeRegistros').text(Mensajes.SinRegistrosRangoFecha);
                 $('#mensajeRegistros').prop('hidden', false);
             }
             $('#cargac').hide();

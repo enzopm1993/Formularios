@@ -441,11 +441,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProd
         //        return resultado;
         //    }
         //}
-        public List<spReporteEvaluacionProductoEnfundado> ConsultarReporte(DateTime Fecha)
+        public List<spReporteEvaluacionProductoEnfundado> ConsultarReporte(int IdControl)
         {
             using (var db = new ASIS_PRODEntities())
             {
-                return db.spReporteEvaluacionProductoEnfundado(Fecha).ToList();
+                return db.spReporteEvaluacionProductoEnfundado(IdControl).ToList();
             }
         }
         public CC_EVALUACION_PRODUCTO_ENFUNDADO ConsultarFotosControl(int IdControl)

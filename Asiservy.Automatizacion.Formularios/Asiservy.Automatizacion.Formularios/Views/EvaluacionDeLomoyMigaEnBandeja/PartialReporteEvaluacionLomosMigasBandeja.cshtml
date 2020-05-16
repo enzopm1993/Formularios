@@ -330,7 +330,8 @@
                                 @Model.FirstOrDefault().UsuarioIngresoLog
                                 <br />
                                 <input type="text" value="Realizado Por" id="realizado" />
-                                
+                                <br />
+                                @Model.FirstOrDefault().FechaIngresoLog.ToString("yyyy-MM-dd hh:mm:ss")
                             </td>
                             <td>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -338,8 +339,20 @@
                             <td class="text-center">
                                 @Model.FirstOrDefault().AprobadoPor
                                 <br />
-                                <input type="text" value="Revisado Por" id="revisado"/>
-                                
+                                <input type="text" value="Revisado Por" id="revisado" />
+                                <br />
+                                @if (Model.FirstOrDefault().FechaAprobacion != null)
+                                {
+                                    <text>
+                                            @Model.FirstOrDefault().FechaAprobacion.Value.ToString("yyyy-MM-dd hh:mm:ss")
+                                    </text>
+                                }
+                                else
+                                {
+                                    <text>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </text>
+                                }
                             </td>
                         </tr>
                     </tbody>

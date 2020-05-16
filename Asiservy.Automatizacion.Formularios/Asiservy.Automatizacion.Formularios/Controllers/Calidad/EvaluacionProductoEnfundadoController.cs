@@ -4,6 +4,7 @@ using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionProducto
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoColor;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoOlor;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class EvaluacionProductoEnfundadoController : Controller
     {
+        clsDReporte clsDReporte { get; set; } = null;
         string[] lsUsuario { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         clsDClasificador clsDClasificador { get; set; } = null;
@@ -124,11 +126,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return RedirectToAction("Home", "Home");
             }
         }
-        public ActionResult PartialReporteEvaluacionProductoEnfundado(DateTime Fecha)
+        public ActionResult PartialReporteEvaluacionProductoEnfundado(int IdControl)
         {
             try
             {
-
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                }
+                else
+                {
+                    ViewBag.CodigoReporte = "AS-RG-CC-21";
+                    ViewBag.VersionReporte = "V 10.0";
+                }
                 lsUsuario = User.Identity.Name.Split('_');
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
@@ -137,7 +150,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                 List<spReporteEvaluacionProductoEnfundado> resultado;
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
-                resultado = clsDEvaluacionProductoEnfundado.ConsultarReporte(Fecha).OrderBy(x => x.Hora).ToList();
+                resultado = clsDEvaluacionProductoEnfundado.ConsultarReporte(IdControl).OrderBy(x => x.Hora).ToList();
                 if (resultado.Count == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -886,6 +899,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 //byte[] Firma = Convert.FromBase64String(imagen);
                 clsDEvaluacionProductoEnfundado = new clsDEvaluacionProductoEnfundado();
                 List<CabeceraEvaluacionProductoEnfundadoViewModel> Respuesta = clsDEvaluacionProductoEnfundado.ConsultarCabReportes(FechaDesde, FechaHasta);
+                if (Respuesta.Count == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
