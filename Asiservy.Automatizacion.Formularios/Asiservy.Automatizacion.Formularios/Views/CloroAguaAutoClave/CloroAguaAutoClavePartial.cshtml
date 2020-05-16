@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CLORO_AGUA_AUTOCLAVE>
+@using Asiservy.Automatizacion.Datos.Datos
+@using Newtonsoft.Json;
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Parada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autoclave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoConserva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Temperatura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cloro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+           
+        </tr>
+        </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            CC_CLORO_AGUA_AUTOCLAVE obj = new CC_CLORO_AGUA_AUTOCLAVE {
+                Autoclave = item.Autoclave,
+                Cloro = item.Cloro,
+                EstadoRegistro = item.EstadoRegistro,
+                FechaIngresoLog = item.FechaIngresoLog,
+                Hora = item.Hora,
+                IdCloroAguaAutoclave = item.IdCloroAguaAutoclave,
+                IdCloroAguaAutoclaveControl= item.IdCloroAguaAutoclaveControl,
+                Observacion = item.Observacion,
+                Parada = item.Parada,
+                Producto = item.Producto,
+                Temperatura= item.Temperatura,
+                TipoConserva = item.TipoConserva
+            };
+             string json = JsonConvert.SerializeObject(obj);
+            <tr onclick="SeleccionarControl(@json)">
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hora)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Parada)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Autoclave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoConserva)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Temperatura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cloro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>

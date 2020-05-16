@@ -32,7 +32,15 @@ namespace Asiservy.Automatizacion.Formularios.Models.CALIDAD
         public Nullable<bool> EstadoControl { get; set; }
         public string AprobadoPor { get; set; }
         public Nullable<System.DateTime> FechaAprobacion { get; set; }
-        public byte[] FirmaControl { get; set; }
-        public byte[] FirmaAprobacion { get; set; }
+        public string ImagenCodigo { get; set; }
+        public string ImagenProducto1 { get; set; }
+        public string ImagenProducto2 { get; set; }
+        public string ImagenProducto3 { get; set; }
+        public Nullable<int> RotacionImagenCod { get; set; }
+        public Nullable<int> RotacionImagenProd1 { get; set; }
+        public Nullable<int> RotacionImagenProd2 { get; set; }
+        public Nullable<int> RotacionImagenProd3 { get; set; }
+        //public byte[] FirmaControl { get; set; }
+        //public byte[] FirmaAprobacion { get; set; }
     }
 }

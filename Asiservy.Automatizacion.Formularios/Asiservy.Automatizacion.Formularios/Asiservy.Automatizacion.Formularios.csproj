@@ -2199,6 +2199,8 @@
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\BandejaCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ControlCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ReporteCalibracionPhMetro.js" />
+    <Content Include="Scripts\CALIDAD\CloroAguaAutoClave\BandejaCloroAguaAutoclave.js" />
+    <Content Include="Scripts\CALIDAD\CloroAguaAutoClave\CloroAguaAutoClave.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.js" />
@@ -3378,6 +3380,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionFluorometro\ClsDCalibracionFluorometro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionPhMetro\clsDCalibracionPhMetro.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\CloroAguaAutoclave\ClsDCloroAguaAutoclave.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CondicionPersonal\clsDCondicionPersonal.cs" />
@@ -3473,6 +3476,7 @@
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionFluorometroController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionPhMetroController.cs" />
+    <Compile Include="Controllers\CALIDAD\CloroAguaAutoClaveController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
     <Compile Include="Controllers\CALIDAD\DesechosLiquidosPeligrososController.cs" />
@@ -4003,6 +4007,10 @@
     <Content Include="Views\LavadoCisterna\ReporteLavadoCisternaCabeceraPartial.cshtml" />
     <Content Include="Views\CalibracionFluorometro\MantenimientoEstandar.cshtml" />
     <Content Include="Views\CalibracionFluorometro\MantenimientoEstandarPartial.cshtml" />
+    <Content Include="Views\CloroAguaAutoClave\CloroAguaAutoClave.cshtml" />
+    <Content Include="Views\CloroAguaAutoClave\CloroAguaAutoClavePartial.cshtml" />
+    <Content Include="Views\CloroAguaAutoClave\BandejaCloroAguaAutoclave.cshtml" />
+    <Content Include="Views\CloroAguaAutoClave\BandejaCloroAguaAutoclavePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,8 +1,6 @@
 ﻿
 @{
-                /**/
-
-                ViewBag.Title = "CondicionPersonal";
+    ViewBag.Title = "CloroAguaAutoClave";
 }
 
 <style>
@@ -16,52 +14,78 @@
     }
 </style>
 
-<h4> Control Condicion del Personal</h4>
+<h4>Cloro en Agua de AutoClave</h4>
 
 
 <hr />
 <div class="card shadow" id="divCabecera" style="padding:10px">
     <div class="row" id="divCabecera1">
-        <input type="hidden" id="txtIdCondicionPersonal" name="name" value="0" />
-        <div class="col-md-4 col-6 col-sm-6">
+        <input type="hidden" id="txtIdCloroAguaAutoclave" name="name" value="0" />
+        <div class="col-md-2 col-6 col-sm-6">
             <div class="form-group">
                 <label>Fecha</label>
                 <input type="date" class="form-control" id="txtFecha" name="name" onchange="ConsultarControl()" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             </div>
         </div>
-        <div class="col-md-4 col-6 col-sm-6">
-            <div class="form-group">
-                <label>Hora</label>
-                <input type="time" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("HH:mm")" />
-            </div>
-        </div>
-        <div class="col-md-4 col-6 col-sm-6">
-            <div class="form-group">
-                <label>Condición</label>
-                @Html.DropDownList("selectCondicion", new SelectList(ViewBag.Condiciones, "IdMantenimientoCondicion", "Descripcion"), "Seleccione", new { @class = "form-control" })
-            </div>
-        </div>
-
         <div class="col-md-3 col-6 col-sm-6">
             <div class="form-group">
-                <label class="label-control"> Linea</label>
-                @Html.DropDownList("Lineas", new SelectList(ViewBag.Lineas, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                <label>Hora</label>
+                <input type="datetime-local" class="form-control" id="txtHora" name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
             </div>
         </div>
-        <div class="col-md-3 col-12 col-sm-12">
+        <div class="col-md-2 col-4 col-sm-6">
             <div class="form-group">
-                <label class="control-label">Nombre</label>
-                <input type="hidden" id="Cedula" name="name" value="" />
-                <div id="" class="input-group">
-                    <input type="text" class="form-control" id="Nombre" readonly name="name" value="" />
-                    <button type="button" onclick="CargarEmpleados('CargarEmpleadoAS');" id="CargarEmpleadoAS">
-                        <img src="~/Content/images/buscar.png" />
-                    </button><br />
-                </div>
+                <label>Parada</label>
+                <input type="number" class="form-control" id="txtParada" autocomplete="off" min="0" name="name" value="" />
+            </div>
+        </div>
+        <div class="col-md-2 col-4 col-sm-6">
+            <div class="form-group">
+                <label>Autoclave</label>
+                @if (ViewBag.AutoClaves != null)
+                {
+                    @Html.DropDownList("selectAutoclave", new SelectList(ViewBag.AutoClaves, "Codigo", "Descripcion"), "Seleccione", new { @class = "form-control" })
+                }
+                else
+                {
+                    <select class="form-control" id="selectAutoclave">
+                        <option value="">Sin registros, Clasificador(Grupo:019)</option>
+                    </select>
+                }
+
             </div>
         </div>
 
-        <div class="col-md-6 col-6 col-sm-6">
+        <div class="col-md-3 col-4 col-sm-6">
+            <div class="form-group">
+                <label>Conserva</label>
+                <select class="form-control" id="selectConserva">
+                    <option value="">Seleccione</option>
+                    <option value="P">Pouch</option>
+                    <option value="L">Latas</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-8 col-sm-6">
+            <div class="form-group">
+                <label>Producto</label>
+                <input type="text" maxlength="100" class="form-control" autocomplete="off" id="txtProducto" min="0" name="name" value="" />
+            </div>
+        </div>
+        <div class="col-md-2 col-4 col-sm-6">
+            <div class="form-group">
+                <label>Temperatura</label>
+                <input type="number" class="form-control" id="txtTemperatura" autocomplete="off" min="0" name="name" value="" />
+            </div>
+        </div>
+        <div class="col-md-2 col-6 col-sm-6">
+            <div class="form-group">
+                <label>Cloro</label>
+                <input type="text" class="form-control" id="txtCloro" autocomplete="off" min="0" name="name" value="" />
+            </div>
+        </div>
+        <div class="col-md-4 col-6 col-sm-6">
             <div class="form-group">
                 <label class="label-control"> Observacion</label>
                 <input type="text" size="250" autocomplete="off" class="form-control" id="txtObservacion" name="name" value="" />
@@ -119,7 +143,7 @@
             <div class="modal-header">
                 <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">¿Eliminar este control de condición del personal?</h4>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar este control de cloro en agua de autoclave?</h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" id="modal-detalle-si">Si</button>
@@ -128,5 +152,7 @@
         </div>
     </div>
 </div>
+
+
 
 

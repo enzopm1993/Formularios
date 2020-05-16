@@ -1,7 +1,22 @@
 ﻿
 @model IEnumerable<Asiservy.Automatizacion.Formularios.Models.CALIDAD.DetalleEvaluacionProductoEnfundadoViewModel>
 
+<div class="row">
+    <div class="col-md-3 col-sm-6" id="divfechaap">
+        <div class="form-group">
+            <label>Fecha Aprobación:</label>
+            <input type="hidden" id="fechacontrol" value="@Model.FirstOrDefault().FechaControl.Value.ToString("yyyy-MM-dd HH:mm")" />
 
+            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="txtfechaaprob" />
+                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 <input type="hidden" value="@Model.FirstOrDefault().Aprobado.ToString()" id="txtAprobado" />
 <input type="hidden" value="@Model.FirstOrDefault().IdCabecera" id="txtIdCabecera" />
 <table class="table table-striped table-bordered table-hover" id="tblDetalleBandeja">
@@ -78,7 +93,7 @@
 
         <tr style="cursor:pointer">
             <td>
-                @Html.DisplayFor(modelItem => item.Hora)
+               @item.Hora.Value.ToString("yyyy-MM-dd HH:mm:ss")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NombreEmpacador)
@@ -156,6 +171,4 @@
     </tbody>
 
 </table>
-<div>
 
-</div>

@@ -35,5 +35,6 @@ namespace Asiservy.Automatizacion.Formularios.Models.CALIDAD
         public string empacador { get; set; }
         public decimal? Miga { get; set; }
         public int? Otro { get; set; }
+        public DateTime? FechaControl { get; set; }
     }
 }

@@ -46,7 +46,7 @@
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
 
-
+         
             <th>
                 Estado
             </th>
@@ -66,7 +66,7 @@
             <tr style="cursor:pointer" onclick="AbrirModalDetalle(@item.IdEvaluacionProductoEnfundado)">
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaProduccion)
+                    @item.FechaProduccion.Value.ToString("yyyy-MM-dd")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.OrdenFabricacion)
@@ -116,6 +116,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Observacion)
                 </td>
+              
 
                 <td class="text-center">
                     @if (item.EstadoControl == true)
