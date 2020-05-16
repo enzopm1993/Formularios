@@ -6,7 +6,7 @@ $(document).ready(function () {
 function CargarCabecera() {
     $('#cargac').show();
     $.ajax({
-        url: "../LimpiezaDesinfeccionPlanta/MantObjetosPartial",
+        url: "../CalibracionFluorometro/MantenimientoEstandarPartial",
         type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
@@ -32,12 +32,12 @@ function CargarCabecera() {
 function GuardarCabecera() {
     $('#cargac').show();
     $.ajax({
-        url: "../LimpiezaDesinfeccionPlanta/GuardarModificarObjeto",
+        url: "../CalibracionFluorometro/GuardarModificarEstandar",
         type: "POST",
         data: {
-            IdObjeto: itemEditar.IdObjeto,
-            NombreObjeto: $('#txtNombre').val(),
-            DescripcionObjeto: $("#txtDescripcion").val()
+            IdEstandar: itemEditar.IdEstandar,
+            NombEstandar: $('#txtNombre').val(),
+            DescEstandar: $("#txtDescripcion").val()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -72,14 +72,14 @@ function GuardarCabecera() {
 
 function ModalIngresoCabecera() {
     LimpiarCabecera();
-    $('#ModalIngresoCabecera').modal('show');    
+    $('#ModalIngresoCabecera').modal('show');   
     itemEditar = [];
 }
 
 function ActualizarCabecera(jdata) {
     if (jdata.EstadoRegistro == 'A') {
-        $("#txtNombre").val(jdata.NombreObjeto);
-        $("#txtDescripcion").val(jdata.DescripcionObjeto);
+        $("#txtNombre").val(jdata.NombEstandar);
+        $("#txtDescripcion").val(jdata.DescEstandar);
         $('#ModalIngresoCabecera').modal('show');
         itemEditar = jdata;
     } else {
@@ -110,10 +110,10 @@ function ActivarConfirmar(jdata) {
 function EliminarCabeceraSi() {
     $('#cargac').show();
     $.ajax({
-        url: "../LimpiezaDesinfeccionPlanta/EliminarObjeto",
+        url: "../CalibracionFluorometro/EliminarEstandar",
         type: "POST",
         data: {
-            IdObjeto: itemEditar.IdObjeto,
+            IdEstandar: itemEditar.IdEstandar,
             EstadoRegistro: itemEditar.EstadoRegistro
         },
         success: function (resultado) {
@@ -129,9 +129,7 @@ function EliminarCabeceraSi() {
                 $("#modalEliminarControl").modal("hide");
                 CargarCabecera();
                 MensajeCorrecto("Registro Actualizado con Éxito");
-                setTimeout(function () {
                     $('#cargac').hide();
-                }, 200);
             }
             itemEditar = 0;
         },

@@ -2194,6 +2194,7 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\BandejaCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ControlCalibracionPhMetro.js" />
@@ -3375,6 +3376,7 @@
     <Compile Include="AccesoDatos\Asistencia\clsDAsistencia.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDCambioPersonal.cs" />
     <Compile Include="AccesoDatos\Asistencia\clsDMovimientoPersonalNomina.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\CalibracionFluorometro\ClsDCalibracionFluorometro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CalibracionPhMetro\clsDCalibracionPhMetro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\CloroCisternaDescongelado\clsDCloroCisternaDescongelado.cs" />
     <Compile Include="AccesoDatos\BLZ\RegistroDescongeladoEmparrilladoMP.cs" />
@@ -3469,6 +3471,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AsistenciaController.cs" />
     <Compile Include="Controllers\AuditoriaSangreController.cs" />
+    <Compile Include="Controllers\CALIDAD\CalibracionFluorometroController.cs" />
     <Compile Include="Controllers\CALIDAD\CalibracionPhMetroController.cs" />
     <Compile Include="Controllers\CALIDAD\CloroCisternaDescongeladoController.cs" />
     <Compile Include="Controllers\BLZController.cs" />
@@ -3998,6 +4001,8 @@
     <Content Include="Views\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSelladoCabeceraPartial.cshtml" />
     <Content Include="Views\DesechosLiquidosPeligrosos\ReporteDesechosLiquidosPeligrososCabeceraPartial.cshtml" />
     <Content Include="Views\LavadoCisterna\ReporteLavadoCisternaCabeceraPartial.cshtml" />
+    <Content Include="Views\CalibracionFluorometro\MantenimientoEstandar.cshtml" />
+    <Content Include="Views\CalibracionFluorometro\MantenimientoEstandarPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -215,7 +215,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
                 var lista = clsDHigieneComedorCocina.ConsultarHigieneControl(fecha);
-                if (lista.Count() != 0)
+                if (lista.Count != 0)
                 {
                     return Json(lista, JsonRequestBehavior.AllowGet);
                 }
@@ -256,7 +256,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
                 var lista = clsDHigieneComedorCocina.ConsultaHigieneSP(idControlHigiene, fechaDesde, fechaHasta, op);
                 ViewBag.Ocultar = ocultar;
-                if (lista.Count() != 0)
+                if (lista.Count != 0)
                 {
                     return PartialView(lista);
                 }
@@ -283,87 +283,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 SetErrorMessage(Mensaje);
                 return RedirectToAction("Home", "Home");
             }
-        }
-
-        //public JsonResult HigieneComedorCocinaDetalle(int idControlHigiene, DateTime fechaDesde, DateTime fechaHasta, int op)
-        //{
-        //    try
-        //    {
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        if (string.IsNullOrEmpty(lsUsuario[0]))
-        //        {
-        //            return Json("101", JsonRequestBehavior.AllowGet);
-        //        }
-        //        clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-        //        var lista = clsDHigieneComedorCocina.ConsultaHigieneSP(idControlHigiene, fechaDesde, fechaHasta, op);
-        //        if (lista.Count() != 0)
-        //        {
-        //            return Json(lista, JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            return Json("0", JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        SetErrorMessage(Mensaje);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        SetErrorMessage(Mensaje);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-        //public JsonResult ConsultaHigieneMantActivos(string estadoRegistro)
-        //{
-        //    try
-        //    {
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        if (string.IsNullOrEmpty(lsUsuario[0]))
-        //        {
-        //            return Json("101", JsonRequestBehavior.AllowGet);
-        //        }
-        //        clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-        //        var lista = clsDHigieneComedorCocina.ConsultaHigieneMantActivos(estadoRegistro);
-        //        if (lista.Count() != 0)
-        //        {
-        //            return Json(lista,JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            return Json("0", JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        SetErrorMessage(Mensaje);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        SetErrorMessage(Mensaje);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        }        
 
         public ActionResult ConsultaHigieneMantActivosPartial(string estadoRegistro)
         {
@@ -376,7 +296,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
                 var lista = clsDHigieneComedorCocina.ConsultaHigieneMantActivos(estadoRegistro);
-                if (lista != null)
+                if (lista.Count != 0)
                 {
                     return PartialView(lista);
                 }
@@ -413,25 +333,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                if (model.Fecha!=null  || model.Hora!=null)
-                {
+                }               
                     clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
                     model.FechaIngresoLog = DateTime.Now;
                     model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                     model.TerminalIngresoLog = Request.UserHostAddress;
                     model.UsuarioIngresoLog = lsUsuario[0];
                     var valor = clsDHigieneComedorCocina.GuardarModificarHigieneControl(model, siAprobar);
-                    if (valor == 0)
-                    {
-                        return Json("0", JsonRequestBehavior.AllowGet);
-                    }
-                    else if (valor == 1)
-                    {
-                        return Json("1", JsonRequestBehavior.AllowGet);
-                    }
-                    else return Json("2", JsonRequestBehavior.AllowGet);
+                if (valor == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
                 }
+                else if (valor == 1)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+                else if (valor == 2) { return Json("2", JsonRequestBehavior.AllowGet); }
                 else return Json("3", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -552,141 +469,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
-        }
-
-        //public JsonResult EliminarHigieneControlDetalle(CC_HIGIENE_COMEDOR_COCINA_CTRL_DET model)
-        //{
-        //    try
-        //    {
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        if (string.IsNullOrEmpty(lsUsuario[0]))
-        //        {
-        //            return Json("101", JsonRequestBehavior.AllowGet);
-        //        }
-        //        clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-        //        model.FechaIngresoLog = DateTime.Now;
-        //        model.TerminalIngresoLog = Request.UserHostAddress;
-        //        model.UsuarioIngresoLog = lsUsuario[0];
-        //        model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
-        //        var valor = clsDHigieneComedorCocina.EliminarControlDetalle(model);
-        //        if (valor == 0)
-        //        {
-        //            return Json("0", JsonRequestBehavior.AllowGet);
-        //        }
-        //        else return Json("1", JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //        clsDError = new clsDError();
-        //        lsUsuario = User.Identity.Name.Split('_');
-        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-        [HttpPost]
-        public JsonResult GuardarImagenFirma(string image, int idControlHigiene)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                byte[] Firma = Convert.FromBase64String(image);
-                CC_HIGIENE_COMEDOR_COCINA_CTRL model = new CC_HIGIENE_COMEDOR_COCINA_CTRL();
-                clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-                model.FechaIngresoLog = DateTime.Now;
-                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                model.TerminalIngresoLog = Request.UserHostAddress;
-                model.UsuarioIngresoLog = lsUsuario[0];
-                model.FirmaControl = Firma;
-                model.IdControlHigiene = idControlHigiene;
-                var valor = clsDHigieneComedorCocina.GuardarImagenFirma(model, true);
-                if (valor == 1)
-                {
-                    var imagenfirma = String.Format("data:image/png;base64,{0}", image);
-                    return Json(imagenfirma, JsonRequestBehavior.AllowGet);
-                }
-                else return Json("0", JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public JsonResult ConsultarImagenFirma(int idControlHigiene)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-                var lista = clsDHigieneComedorCocina.ConsultarImagenFirma(idControlHigiene, true);
-                if (lista != null)
-                {
-                    if (lista.FirmaControl != null)
-                    {
-                        var base64 = Convert.ToBase64String(lista.FirmaControl);
-                        var imagenfirma = String.Format("data:image/png;base64,{0}", base64);
-                        return Json(imagenfirma, JsonRequestBehavior.AllowGet);
-                    }
-                    else return Json("0", JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                SetErrorMessage(Mensaje);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                SetErrorMessage(Mensaje);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
+        }     
 
         //---------------------------------------------------------BANDEJA------------------------------------------------------------------------
         public ActionResult BandejaHigieneComedorCocina()
@@ -694,7 +477,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 ViewBag.dataTableJS = "1";
-                ViewBag.FirmaPad = "1";
                 ViewBag.DateRangePicker = "1";
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 return View();
@@ -759,105 +541,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        [HttpPost]
-        public JsonResult BandejaGuardarImagenFirma(string image, int idControlHigiene)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                byte[] Firma = Convert.FromBase64String(image);
-                CC_HIGIENE_COMEDOR_COCINA_CTRL model = new CC_HIGIENE_COMEDOR_COCINA_CTRL();
-                clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-                model.FechaIngresoLog = DateTime.Now;
-                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
-                model.TerminalIngresoLog = Request.UserHostAddress;
-                model.UsuarioIngresoLog = lsUsuario[0];
-                model.FirmaAprobado = Firma;
-                model.IdControlHigiene = idControlHigiene;
-                var valor = clsDHigieneComedorCocina.GuardarImagenFirma(model, false);
-                if (valor == 1)
-                {
-                    var imagenfirma = String.Format("data:image/png;base64,{0}", image);
-                    return Json(imagenfirma, JsonRequestBehavior.AllowGet);
-                }
-                else return Json("0", JsonRequestBehavior.AllowGet);
-            }
-            catch (DbEntityValidationException e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public JsonResult BandejaConsultarImagenFirma(int idControlHigiene)
-        {
-            try
-            {
-                lsUsuario = User.Identity.Name.Split('_');
-                if (string.IsNullOrEmpty(lsUsuario[0]))
-                {
-                    return Json("101", JsonRequestBehavior.AllowGet);
-                }
-                clsDHigieneComedorCocina = new clsDHigieneComedorCocina();
-                var lista = clsDHigieneComedorCocina.ConsultarImagenFirma(idControlHigiene, false);
-                if (lista != null)
-                {
-                    if (lista.FirmaAprobado != null)
-                    {
-                        var base64 = Convert.ToBase64String(lista.FirmaAprobado);
-                        var imagenfirma = String.Format("data:image/png;base64,{0}", base64);
-                        return Json(imagenfirma, JsonRequestBehavior.AllowGet);
-                    }
-                    else return Json("0", JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json("0", JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
-                SetErrorMessage(Mensaje);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                clsDError = new clsDError();
-                lsUsuario = User.Identity.Name.Split('_');
-                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
-                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
-                SetErrorMessage(Mensaje);
-                return Json(Mensaje, JsonRequestBehavior.AllowGet);
-            }
-        }
-
         //---------------------------------------------------------REPORTE------------------------------------------------------------------------
         public ActionResult ReporteHigieneComedorCocina()
         {
             try
             {
-                ViewBag.FirmaPad = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.DateRangePicker = "1";
                 ClsDReporte = new clsDReporte();                

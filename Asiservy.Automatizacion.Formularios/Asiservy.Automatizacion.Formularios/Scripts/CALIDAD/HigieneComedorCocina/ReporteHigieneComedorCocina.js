@@ -15,9 +15,9 @@ function CargarCabecera(op) {
         shortDate += ' 23:59';
         $("#fechaDesde").val(moment(date).format('YYYY-MM-DD'));
         $("#fechaHasta").val(moment(shortDate).format('YYYY-MM-DDTHH:mm'));
-    } else {
-        var d = '';
-         d = $("#fechaHasta").val();
+    } else {           
+        var d = moment($("#fechaHasta").val()).format('YYYY-MM-DD');  
+        d += ' 23:59';
         $("#fechaHasta").val(moment(d).format('YYYY-MM-DDTHH:mm'));        
     }
    
@@ -197,55 +197,3 @@ $(function () {
     }, cb);
     cb(start, end);
 });
-
-//function PrintReport(op) {
-//    var url = $("#RedirectTo").val() + '?' + 'fechaDesde=' + $("#fechaDesde").val() + '&fechaHasta=' + $("#fechaHasta").val() + '&idControlHigiene=' + 0 + '&op=' + op;
-//    var win = window.open(url, '_blank');
-//}
-
-//function ConsultarID() {
-//    $.ajax({
-//        url: "../HigieneComedorCocina/ConsultarHigieneControl",
-//        type: "GET",
-//        data: {
-//            fecha: $("#fechaDesde").val()
-//        },
-//        success: function (resultado) {
-//            if (resultado == "101") {
-//                window.location.reload();
-//            }
-//            if (resultado.length != 0) {
-//                ConsultarFirma(resultado[0].IdControlHigiene, resultado[0].AprobadoPor);
-//            }          
-//        },
-//        error: function (resultado) {
-//            MensajeError("Error: Comuníquese con sistemas", false);
-//        }
-//    });
-//}
-
-//function ConsultarFirma(idControlHigiene, aprobadoPor) {
-//    $.ajax({
-//        url: "../HigieneComedorCocina/BandejaConsultarImagenFirma",
-//        type: "GET",
-//        data: {
-//            idControlHigiene: idControlHigiene
-//        },
-//        success: function (resultado) {
-//            $("#btnGuardarFirma").prop("hidden", true);
-//            if (resultado == "101") {
-//                window.location.reload();
-//            }
-//            if (resultado != '0') {
-//                $("#firmaDigital").prop("hidden", false);
-//                document.getElementById('ImgFirma').src = resultado;
-//                $('#div_ImagenFirma').prop('hidden', false);  
-//                $("#lblMostrarFirma").text(aprobadoPor);
-//                //lblMostrarFirma
-//            }          
-//        },
-//        error: function (resultado) {
-//            MensajeError("Error: Comuníquese con sistemas", false);
-//        }
-//    });
-//}
