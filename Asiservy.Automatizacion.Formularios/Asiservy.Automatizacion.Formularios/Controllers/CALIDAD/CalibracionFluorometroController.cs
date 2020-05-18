@@ -208,7 +208,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult ConsultarCalibracionFluorometro(int idCalibracionFluor)
+        public JsonResult ConsultarCalibracionFluorometroJson(int idCalibracionFluor = 0,DateTime? fecha=null)
         {
             try
             {
@@ -218,7 +218,56 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
-                var calibracionFluorID = ClsDCalibracionFluorometro.ConsultarCalibracionFluorID(idCalibracionFluor);
+                var calibracionFluorIdFecha = ClsDCalibracionFluorometro.ConsultarCalibracionFluorIdFecha(idCalibracionFluor, fecha);
+                if (calibracionFluorIdFecha != null)
+                {
+                    CC_CALIBRACION_FLUOROMETRO_CTRL cab = new CC_CALIBRACION_FLUOROMETRO_CTRL();
+                    cab.IdCalibracionFluor = calibracionFluorIdFecha.IdCalibracionFluor;
+                    cab.Fecha = calibracionFluorIdFecha.Fecha;
+                    cab.Observacion = calibracionFluorIdFecha.Observacion;
+                    cab.EstadoReporte = calibracionFluorIdFecha.EstadoReporte;
+                    cab.FechaAprobado = calibracionFluorIdFecha.FechaAprobado;
+                    cab.FechaAprobado = calibracionFluorIdFecha.FechaAprobado;
+                    cab.UsuarioIngresoLog = calibracionFluorIdFecha.UsuarioIngresoLog;
+                    cab.FechaIngresoLog = calibracionFluorIdFecha.FechaIngresoLog;
+                    return Json(cab, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }       
+
+        public ActionResult CalibracionFluorometroPartial(int idCalibracionFluorDetalle = 0)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+                var calibracionFluorID = ClsDCalibracionFluorometro.ConsultarCalibreFluorDetalleID(idCalibracionFluorDetalle);
                 if (calibracionFluorID != null)
                 {
                     return PartialView(calibracionFluorID);
@@ -309,6 +358,95 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
                 var valor = ClsDCalibracionFluorometro.EliminarCalibracionFluor(model);
+                if (valor == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                else return Json("1", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult GuardarModificarCalibracionFluorDetalle(CC_CALIBRACION_FLUOROMETRO_DET model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                if (model.Fecha != DateTime.MinValue && model.Hora != DateTime.MinValue && model.ValorEstandar >= 0)
+                {
+                    ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+                    model.FechaIngresoLog = DateTime.Now;
+                    model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
+                    model.TerminalIngresoLog = Request.UserHostAddress;
+                    model.UsuarioIngresoLog = lsUsuario[0];
+                    var valor = ClsDCalibracionFluorometro.GuardarModificarCalibracionFluorDetalle(model);
+                    if (valor == 0)
+                    {
+                        return Json("0", JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json("1", JsonRequestBehavior.AllowGet);
+                    }
+                }else return Json("2", JsonRequestBehavior.AllowGet);
+
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult EliminarHigieneControlDetalle(CC_CALIBRACION_FLUOROMETRO_DET model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsDCalibracionFluorometro = new ClsDCalibracionFluorometro();
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                model.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                var valor = ClsDCalibracionFluorometro.EliminarCalibracionFluorDetalle(model);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

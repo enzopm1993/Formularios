@@ -2194,6 +2194,7 @@
     <Content Include="Scripts\BLZ\ReporteDescongeladoEmparrilladoMP.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\CALIDAD\CalibracionFluorometro\CalibracionFluorometro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionFluorometro\MantenimientoEstandar.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\BandejaCalibracionPhMetro.js" />
@@ -4011,6 +4012,8 @@
     <Content Include="Views\CloroAguaAutoClave\CloroAguaAutoClavePartial.cshtml" />
     <Content Include="Views\CloroAguaAutoClave\BandejaCloroAguaAutoclave.cshtml" />
     <Content Include="Views\CloroAguaAutoClave\BandejaCloroAguaAutoclavePartial.cshtml" />
+    <Content Include="Views\CalibracionFluorometro\CalibracionFluorometro.cshtml" />
+    <Content Include="Views\CalibracionFluorometro\CalibracionFluorometroPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

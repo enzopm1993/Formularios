@@ -7,13 +7,13 @@ $(document).ready(function () {
 
 function CargarCabecera() {
     $('#cargac').show();
-    if ($('#txtFecha').val()=='') {
+    if ($('#txtFecha').val() == '') {
         MensajeAdvertencia('Fecha invalida');
         $('#cargac').hide();
         return;
     }
     $.ajax({
-        url: "../HigieneComedorCocina/ConsultarHigieneControl",
+        url: "../CalibracionFluorometro/ConsultarCalibracionFluorometroJson",
         data: {
             fecha: $("#txtFecha").val()
         },
@@ -23,26 +23,25 @@ function CargarCabecera() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                $('#firmaDigital').prop('hidden', true);
                 $('#divMostrarCabecera').prop('hidden', true);
                 $("#divMostarTablaCabecera").html("No existen registros");
                 $('#divBotonCrear').prop('hidden', false);
-                $('#divBotonCrearDetalle').prop('hidden', true); 
+                $('#divBotonCrearDetalle').prop('hidden', true);
                 $('#divMostarTablaDetallesVer').prop('hidden', true);
                 $('#divMostarTablaDetallesVer').html(resultado);
                 LimpiarCabecera();
-            } else {                
-                CambiarMensajeEstado(resultado[0].EstadoReporte);
-                $('#divBotonCrearDetalle').prop('hidden', false); 
-                CargarDetalle(resultado[0].IdControlHigiene, 0);
+            } else {
+                CambiarMensajeEstado(resultado.EstadoReporte);
+                $('#divBotonCrearDetalle').prop('hidden', false);
+                CargarDetalle(resultado.IdCalibracionFluorDetalle);
                 $('#divMostrarCabecera').prop('hidden', false);
                 $('#divMostarTablaDetalle').html(resultado);
                 $('#divBotonCrear').prop('hidden', true);
-                $("#txtFechaCabeceraVer").val(moment(resultado[0].Fecha).format('YYYY-MM-DDTHH:mm'));
-                $("#txtObservacionVer").val(resultado[0].Observacion);
-                itemEditar = resultado;             
-            }            
-                $('#cargac').hide();
+                $("#txtFechaCabeceraVer").val(moment(resultado.Fecha).format('YYYY-MM-DDTHH:mm'));
+                $("#txtObservacionVer").val(resultado.Observacion);
+                itemEditar = resultado;
+            }
+            $('#cargac').hide();
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -60,17 +59,13 @@ function GuardarCabecera(siAprobar) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
         } else {
-            var idControlHigiene = 0;
-            if (itemEditar.length != 0) {
-                idControlHigiene = itemEditar[0].IdControlHigiene;
-            }
+           
             $.ajax({
-                url: "../HigieneComedorCocina/GuardarModificarHigieneControl",
+                url: "../CalibracionFluorometro/GuardarModificarCalibracionFluor",
                 type: "POST",
                 data: {
-                    IdControlHigiene: idControlHigiene,
-                    Fecha: $("#txtIngresoFechaCabecera").val(),
-                    Hora: $("#txtIngresoFechaCabecera").val(),
+                    IdCalibracionFluor: itemEditar.IdCalibracionFluor,
+                    Fecha: $("#txtIngresoFechaCabecera").val(),                    
                     Observacion: $("#txtObservacion").val(),
                     siAprobar: siAprobar
                 },
@@ -90,7 +85,7 @@ function GuardarCabecera(siAprobar) {
                     LimpiarCabecera();
                     itemEditar = 0;
                     $('#cargac').hide();
-                    CargarCabecera(0);
+                    CargarCabecera();
                 },
                 error: function (resultado) {
                     $('#cargac').hide();
@@ -104,14 +99,14 @@ function GuardarCabecera(siAprobar) {
 function EliminarConfirmar() {
     ConsultarEstadoRegistro();
     setTimeout(function () {
-        if (estadoReporte== true) {
+        if (estadoReporte == true) {
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
         } else {
             $("#modalEliminarControl").modal("show");
             $("#myModalLabel").text("¿Desea Eliminar el registro?");
         }
-    },200);
+    }, 200);
 }
 
 function EliminarCabeceraSi() {
@@ -122,16 +117,12 @@ function EliminarCabeceraSi() {
             $('#cargac').hide();
             MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!', 5);
             return;
-        } else {
-            var idControlHigiene = 0;
-            if (itemEditar.length != 0) {
-                idControlHigiene = itemEditar[0].IdControlHigiene;
-            }
+        } else {           
             $.ajax({
-                url: "../HigieneComedorCocina/EliminarHigieneControl",
+                url: "../CalibracionFluorometro/EliminarHigieneControl",
                 type: "POST",
                 data: {
-                    IdControlHigiene: idControlHigiene
+                    IdCalibracionFluor: itemEditar.IdCalibracionFluor
                 },
                 success: function (resultado) {
                     if (resultado == "101") {
@@ -148,7 +139,7 @@ function EliminarCabeceraSi() {
                         CargarCabecera();
                         MensajeCorrecto("Registro eliminado con Éxito");
                         $('#cargac').hide();
-                    }else if (resultado == '2') {
+                    } else if (resultado == '2') {
                         MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                         $('#cargac').hide();
                         return;
@@ -176,8 +167,9 @@ function ActualizarCabecera() {
             return;
         } else {
             LimpiarModalIngresoCabecera();
-            $("#txtIngresoFechaCabecera").val(moment(itemEditar[0].Fecha).format("YYYY-MM-DDTHH:hh"));
-            $("#txtObservacion").val(itemEditar[0].Observacion);
+            var hora = moment(itemEditar.Hora).format('HH:mm');
+            $("#txtIngresoFechaCabecera").val(moment(itemEditar.Fecha +' '+hora).format("YYYY-MM-DDTHH:mm"));
+            $("#txtObservacion").val(itemEditar.Observacion);
             $('#ModalIngresoCabecera').modal('show');
         }
     }, 200);
@@ -199,7 +191,7 @@ function LimpiarCabecera() {
 
 function LimpiarModalIngresoCabecera() {
     $('#txtIngresoFechaCabecera').val(moment($('#txtFecha').val()).format('YYYY-MM-DDTHH:mm'));
-    $('#txtObservacion').val(''); 
+    $('#txtObservacion').val('');
 }
 
 function ValidarDatosVacios(siAprobar) {
@@ -215,37 +207,34 @@ function OnChangeTextBox() {
     if ($('#txtIngresoFechaCabecera').val() == '') {
         $("#txtIngresoFechaCabecera").css('border', '1px dashed red');
         con = 1;
-    } else { $("#txtIngresoFechaCabecera").css('border', '');}
+    } else { $("#txtIngresoFechaCabecera").css('border', ''); }
     return con;
 }
 
 //DETALLE
-function CargarDetalle(idControlHigiene, op) {
+function CargarDetalle(idCalibracionFluorDetalle) {
     $('#cargac').show();
     $.ajax({
-        url: "../HigieneComedorCocina/HigieneComedorCocinaDetallePartial",
+        url: "../CalibracionFluorometro/CalibracionFluorometroPartial",
         data: {
-            IdControlHigiene: idControlHigiene,
-            fechaDesde: $('#txtFecha').val(),
-            fechaHasta: $('#txtFecha').val(),
-            op: op
+            idCalibracionFluorDetalle: idCalibracionFluorDetalle            
         },
         type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == "0") {                
+            if (resultado == "0") {
                 $("#divMostarTablaDetallesVer").html("No existen registros");
                 $('#firmaDigital').prop('hidden', true);
             } else {
                 $('#firmaDigital').prop('hidden', false);
                 $('#divBotonCrearDetalle').prop('hidden', true);
-                $('#divMostarTablaDetallesVer').prop('hidden', false); 
+                $('#divMostarTablaDetallesVer').prop('hidden', false);
                 $('#divMostarTablaDetallesVer').html(resultado);
-               
+
             }
-                $('#cargac').hide();
+            $('#cargac').hide();
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -260,7 +249,7 @@ function ModalIngresoDetalle() {
     var estadoRegistro = 'A';
     //INICIO AJAX
     $.ajax({
-        url: "../HigieneComedorCocina/ConsultaHigieneMantActivosPartial",
+        url: "../CalibracionFluorometro/ConsultaHigieneMantActivosPartial",
         type: "GET",
         data: {
             estadoRegistro: estadoRegistro
@@ -272,9 +261,9 @@ function ModalIngresoDetalle() {
             if (resultado == "0") {
                 $("#divMostarTablaDetalles").html("No existen registros");
             } else {
-                
+
                 $("#divMostarTablaDetalles").html(resultado);
-               
+
             }
         },
         error: function (resultado) {
@@ -314,7 +303,7 @@ function GuardarDetalle(jdata) {
             });
 
             $.ajax({
-                url: "../HigieneComedorCocina/GuardarModificarHigieneControlDetalle",
+                url: "../CalibracionFluorometro/GuardarModificarHigieneControlDetalle",
                 type: "POST",
                 data: {
                     listaControlDetalle: jdata
@@ -343,7 +332,7 @@ function GuardarDetalle(jdata) {
     }, 200);
 }
 
-function ActualizarDetalle(jdata) {//LLAMADA DESDE EL PARTIAL HigieneComedorCocinaDetallePartial
+function ActualizarDetalle(jdata) {//LLAMADA DESDE EL PARTIAL CalibracionFluorometroDetallePartial
     ConsultarEstadoRegistro();
     setTimeout(function () {
         if (estadoReporte == true) {
@@ -356,7 +345,7 @@ function ActualizarDetalle(jdata) {//LLAMADA DESDE EL PARTIAL HigieneComedorCoci
                     document.getElementById('selectLimpiezaEstado-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.LimpiezaEstado;
                     document.getElementById('txtObservacionDetalle-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.Observacion;
                     document.getElementById('txtACorrectivaDetalle-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.AccionCorrectiva;
-                    document.getElementById('txtIdControlDetalle-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.IdControlDetalle;                    
+                    document.getElementById('txtIdControlDetalle-' + rowMantenimiento.IdMantenimiento).value = rowMantenimiento.IdControlDetalle;
                 });
             }, 1000);
         }
@@ -365,17 +354,17 @@ function ActualizarDetalle(jdata) {//LLAMADA DESDE EL PARTIAL HigieneComedorCoci
 
 function ConsultarEstadoRegistro() {
     $.ajax({
-        url: "../HigieneComedorCocina/ConsultarHigieneControl",
+        url: "../CalibracionFluorometro/ConsultarCalibracionFluorometroJson",
         data: {
-            fecha: $("#txtFecha").val()
+            idCalibracionFluor: itemEditar.IdCalibracionFluor
         },
         type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            estadoReporte = resultado[0].EstadoReporte;
-            CambiarMensajeEstado(resultado[0].EstadoReporte);
+            estadoReporte = resultado.EstadoReporte;
+            CambiarMensajeEstado(resultado.EstadoReporte);
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -388,11 +377,11 @@ function CambiarMensajeEstado(estadoReporteParametro) {
         $("#lblAprobadoPendiente").text("APROBADO");
         $("#lblAprobadoPendiente").removeClass('badge-danger');
         $("#lblAprobadoPendiente").addClass('badge badge-success');
-    } else if(estadoReporteParametro == false) {
+    } else if (estadoReporteParametro == false) {
         $("#lblAprobadoPendiente").text("PENDIENTE");
         $("#lblAprobadoPendiente").removeClass('badge-success');
         $("#lblAprobadoPendiente").addClass('badge badge-danger');
-    } else if (estadoReporteParametro == 'nada'){
+    } else if (estadoReporteParametro == 'nada') {
         $("#lblAprobadoPendiente").text("");
         $("#lblAprobadoPendiente").removeClass('badge-success');
         $("#lblAprobadoPendiente").removeClass('badge badge-danger');
