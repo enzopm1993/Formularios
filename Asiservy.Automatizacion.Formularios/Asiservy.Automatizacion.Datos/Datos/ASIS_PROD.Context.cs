@@ -160,6 +160,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_LAVADO_CISTERNA> CC_LAVADO_CISTERNA { get; set; }
         public virtual DbSet<CC_CLORO_AGUA_AUTOCLAVE_CONTROL> CC_CLORO_AGUA_AUTOCLAVE_CONTROL { get; set; }
         public virtual DbSet<CC_CLORO_AGUA_AUTOCLAVE> CC_CLORO_AGUA_AUTOCLAVE { get; set; }
+        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_CTRL> CC_CALIBRACION_FLUOROMETRO_CTRL { get; set; }
+        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
+        public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT> CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -1873,15 +1876,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteDetalle>("spConsultaReporteDetalle", idControlParameter);
         }
     
-        public virtual ObjectResult<spReporteEvaluacionProductoEnfundado> spReporteEvaluacionProductoEnfundado(Nullable<System.DateTime> fechaProduccion)
-        {
-            var fechaProduccionParameter = fechaProduccion.HasValue ?
-                new ObjectParameter("FechaProduccion", fechaProduccion) :
-                new ObjectParameter("FechaProduccion", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionProductoEnfundado>("spReporteEvaluacionProductoEnfundado", fechaProduccionParameter);
-        }
-    
         public virtual ObjectResult<spConsultaMovimientoPersonalDiario> spConsultaMovimientoPersonalDiario(Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, string codLinea, string turno)
         {
             var fechaParameter = fecha.HasValue ?
@@ -1988,15 +1982,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CloroCisternaDescongelado>("sp_CloroCisternaDescongelado", fechaDesdeParameter, fechaHastaParameter, idCloroCisternaParameter, opParameter);
-        }
-    
-        public virtual ObjectResult<spReporteEvaluacionLomosMigasBandeja> spReporteEvaluacionLomosMigasBandeja(Nullable<int> id)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionLomosMigasBandeja>("spReporteEvaluacionLomosMigasBandeja", idParameter);
         }
     
         public virtual ObjectResult<spReporteResidualCloro> spReporteResidualCloro(Nullable<System.DateTime> fecha, string area)
@@ -2120,6 +2105,24 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Cisterna>("sp_Control_Lavado_Cisterna", fechaDesdeParameter, fechaHastaParameter, idLavadoCisternaParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<spReporteEvaluacionLomosMigasBandeja> spReporteEvaluacionLomosMigasBandeja(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionLomosMigasBandeja>("spReporteEvaluacionLomosMigasBandeja", idParameter);
+        }
+    
+        public virtual ObjectResult<spReporteEvaluacionProductoEnfundado> spReporteEvaluacionProductoEnfundado(Nullable<int> idControl)
+        {
+            var idControlParameter = idControl.HasValue ?
+                new ObjectParameter("IdControl", idControl) :
+                new ObjectParameter("IdControl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionProductoEnfundado>("spReporteEvaluacionProductoEnfundado", idControlParameter);
         }
     }
 }

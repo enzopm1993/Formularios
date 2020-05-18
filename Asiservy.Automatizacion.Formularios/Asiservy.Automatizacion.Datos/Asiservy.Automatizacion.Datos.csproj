@@ -102,6 +102,15 @@
     <Compile Include="Datos\CAMBIO_PERSONAL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_CALIBRACION_FLUOROMETRO_CTRL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_CALIBRACION_FLUOROMETRO_DET.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_CALIBRACION_PHMETRO.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
