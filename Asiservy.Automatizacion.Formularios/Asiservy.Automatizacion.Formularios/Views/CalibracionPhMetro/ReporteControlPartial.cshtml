@@ -6,7 +6,7 @@
     </button><br />
 
 </div>
-<table class="table table-bordered">
+<table class="table table-bordered" id="tablaDatos">
     <thead>
         <tr id="cab1">
             <td colspan="2" rowspan="2" style="vertical-align: middle;text-align: center;">
@@ -15,6 +15,11 @@
             </td>
             <td colspan="7" style="vertical-align: middle;text-align: center;">
                 DEPARTAMENTO DE CONTROL DE CALIDAD
+            </td>
+            <td rowspan="2" class="text-center">
+                @ViewBag.CodigoReporte
+                <br />
+                @ViewBag.VersionReporte
             </td>
         </tr>
         <tr id="cab2">
@@ -33,10 +38,14 @@
                 Código del<br /> pHmetro
             </th>
             <th colspan="3" style="vertical-align: middle;text-align: center;">
-                SOLUCIONES PATRÓN <br />RESULTADO
+                SOLUCIONES PATRON <br />RESULTADO
             </th>
+
             <th rowspan="2" style="vertical-align: middle;text-align: center;">
                 Realizado por
+            </th>
+            <th rowspan="2" style="vertical-align: middle;text-align: center;">
+                Revisado por
             </th>
             <th rowspan="2" style="vertical-align: middle;text-align: center;">
                 Observaciones
@@ -79,10 +88,13 @@
             <td>
                 @item.ph10
             </td>
-            <td>
+            <td style="white-space:normal">
                 @item.UsuarioIngresoLog
             </td>
-            <td>
+            <td style="white-space:normal">
+                @item.UsuarioAprobacion
+            </td>
+            <td style="white-space:normal">
                 @item.observacion
             </td>
             @if (item.EstadoControl == true)
@@ -115,11 +127,5 @@
         </tr>
         }
     </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="9" class="text-center">
-                Revisado por: @Model.FirstOrDefault().UsuarioAprobacion
-            </td>
-        </tr>
-    </tfoot>
+    
 </table>
