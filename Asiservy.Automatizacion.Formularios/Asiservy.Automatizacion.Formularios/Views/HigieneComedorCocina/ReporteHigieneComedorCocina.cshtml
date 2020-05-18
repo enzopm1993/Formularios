@@ -36,10 +36,12 @@
     ._bloque {
         margin-bottom: 10px;
     }
-
+    .card{
+        padding:10px;
+    }
     @@media print {
         @@page {
-            size: A4;
+            size: landscape;
         }
 
         .shadow {
@@ -48,6 +50,7 @@
 
         .card {
             border: 0px;
+            padding:0px;
         }
 
         hr {
@@ -81,30 +84,12 @@
             display: none;
         }
 
-        #titulo {
-            display: none;
-        }
-
-        #tblTitulo2 {
-            display: none;
-        }
-
-        /*#tbltitulo {
-            display: block;
-            margin-bottom: 0rem;
-        }*/
-
         input, select, textarea {
             max-width: 100%
         }
     }
 
     @@media screen {
-
-        /*#tbltitulo {
-            display: none;
-        }*/
-
         input, select, textarea {
             max-width: 100%
         }
@@ -122,21 +107,6 @@
         .btnWait {
             cursor: no-drop !important;
         }
-
-        #divTableDetalle2 {
-            height: 300px;
-            overflow: auto;
-        }
-    }
-
-    .tbltitulo {
-        width: 100%;
-        margin-bottom: 1rem;
-        color: #858796;
-        border-top: 2px solid #e3e6f0;
-        /*border-right: 2px solid #e3e6f0;
-        border-left: 2px solid #e3e6f0;
-        border-bottom:0px;*/
     }
 
     table {
@@ -165,7 +135,7 @@
 </div>
 <hr />
 <br />
-<div hidden class="card" id="divBotones" style="padding:10px;">        
+<div hidden class="card" id="divBotones">        
     <div class="text-center">
         <label class="">Acción</label><br />
         <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnImprimir" onclick="printDiv()" style="border-color:#2c3e50;" type="button">
@@ -177,10 +147,10 @@
     </div>        
 </div>
     @*MODAL MOSTRAR TABLA CABECERA*@
-<div  class="card table-responsive" id="divMostarTablaCabecera" style="padding:10px;">
+<div  class="card table-responsive" id="divMostarTablaCabecera">
    
 </div>
-<div hidden class="card table-responsive" id="divCardMostrarDetalle" style="padding:10px;">
+<div hidden class="card" id="divCardMostrarDetalle" >
     @* ENCABEZADO *@
 
     <table id="tbltitulo" class="table table-bordered">
@@ -223,7 +193,7 @@
     </table>
 
     @*MODAL MOSTRAR TABLA DETALLE*@
-    <div id="divMostarTablaDetalle">
+    <div id="divMostarTablaDetalle" class="table-responsive">
     </div>
     <table class="table table-bordered" style="width:100%; font-size:10px;float:right">
         <thead class="text-center text-right" style="height:10px">
