@@ -572,7 +572,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 
                 //byte[] Firma = Convert.FromBase64String(imagen);
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
-                string Respuesta = clsDEvaluacionDeLomosYMigasEnBandeja.AprobarControl(IdCabecera,Request.UserHostAddress, lsUsuario[0],Fecha/*,Firma*/);
+                string Respuesta = clsDEvaluacionDeLomosYMigasEnBandeja.AprobarControl(IdCabecera, lsUsuario[0],Request.UserHostAddress,Fecha/*,Firma*/);
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
@@ -641,6 +641,10 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 //byte[] Firma = Convert.FromBase64String(imagen);
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
                 List<CabeceraEvaluacionLomosMigasViewModel> Respuesta = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarCabReportes(FechaDesde,FechaHasta);
+                if (Respuesta.Count == 0)
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
                 return Json(Respuesta, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

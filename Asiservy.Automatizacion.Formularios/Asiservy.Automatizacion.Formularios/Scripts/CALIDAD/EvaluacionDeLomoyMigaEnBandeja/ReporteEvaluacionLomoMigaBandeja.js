@@ -37,7 +37,7 @@ function MostrarReporte(data) {
         })
         .catch(function (resultado) {
             console.log(resultado);
-            MensajeError(resultado.responseText, false);
+            MensajeError(resultado, false);
             //$('#btnCargando').prop('hidden', true);
             //$('#btnConsultar').prop('hidden', false);
         })
@@ -74,6 +74,7 @@ function CargarCabReportes() {
                 window.location.reload();
             }
             if (resultado != '0') {
+                $('#mensajeRegistros').prop('hidden', true);
                 $("#tblDataTableReporte tbody").empty();
                 $('#DivCabReportes').prop('hidden', false);
                 config.opcionesDT.columns = [
@@ -104,7 +105,13 @@ function CargarCabReportes() {
                 resultado.forEach(function (row) {
                     row.FechaProduccion = moment(row.FechaProduccion).format('YYYY-MM-DD');
                     if (row.FechaAprobacion != null) {
-                        row.FechaAprobacion = moment(row.FechaAprobacion).format('YYYY-MM-DD');
+                        row.FechaAprobacion = moment(row.FechaAprobacion).format('YYYY-MM-DD HH:mm');
+                    }
+                    if (row.FechaIngresoLog != null) {
+                        row.FechaIngresoLog = moment(row.FechaIngresoLog).format('YYYY-MM-DD HH:mm');
+                    }
+                    if (row.FechaModificacionLog != null) {
+                        row.FechaModificacionLog = moment(row.FechaModificacionLog).format('YYYY-MM-DD HH:mm');
                     }
                     var estiloTrue ='<i class="fas fa-check-square" style="color:green"></i>'
                     var estiloClass = 'badge badge-danger';
@@ -145,7 +152,7 @@ function CargarCabReportes() {
                 });
                 config.opcionesDT.columnDefs = [
                 {
-                    "targets": [0,10,12,13,14,15,16,17],
+                    "targets": [0,10,12,15,18],
                     "visible": false,
                     "searchable": false
                 }
@@ -167,6 +174,8 @@ function CargarCabReportes() {
             } else {
            
                 $('#DivReporte').empty();
+                $('#DivCabReportes').prop('hidden', true);
+                $('#mensajeRegistros').text(Mensajes.SinRegistrosRangoFecha);
                 $('#mensajeRegistros').prop('hidden', false);
             }
             $('#cargac').hide();

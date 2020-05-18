@@ -9,9 +9,15 @@
         
         <div class="col-md-12 table-responsive">
             <div style="padding-bottom:10px;" id="DivBotonImpr">
-                <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnimprimir" onclick="imprimirw()" style="border-color:#2c3e50" type="button">
-                    <img style="width:100%" src="~/Content/icons/print24.png" />
-                </button><br />
+                <center>
+                    <button data-toggle="tooltip" data-placement="top" title="Atras" class="btn" id="btnimprimir" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/atras24.png" />
+                    </button>
+                    <button data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn" id="btnimprimir" onclick="imprimirw()" style="border-color:#2c3e50" type="button">
+                        <img style="width:100%" src="~/Content/icons/print24.png" />
+                    </button>
+                </center>
+
 
             </div>
             <table id="tbltitulo" class="table table-bordered">
@@ -23,13 +29,17 @@
                         <td width="90%" class="text-center">
                             <strong>DEPARTAMENTO DE CONTROL DE CALIDAD</strong>
                         </td>
-                       
+                        <td rowspan="2" class="text-center">
+                            @ViewBag.CodigoReporte
+                            <br />
+                            @ViewBag.VersionReporte
+                        </td>
                     </tr>
                     <tr>
                         <td width="90%" class="text-center">
                             <strong>EVALUACIÓN DE PRODUCTO ENFUNDADO</strong>
                         </td>
-                       
+
                     </tr>
                 </tbody>
             </table>
@@ -312,34 +322,80 @@
                     </tr>
                 </tfoot>
             </table>
-            @{
-                string FirmaControl = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAADICAIAAABJdyC1AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKJSURBVHhe7dQBDQAADMOg+ze962gCIrgBRAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAiK2BzRODTv+VPxzAAAAAElFTkSuQmCC";
-                string FirmaAprobacion = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAADICAIAAABJdyC1AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKJSURBVHhe7dQBDQAADMOg+ze962gCIrgBRAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAiK2BzRODTv+VPxzAAAAAElFTkSuQmCC";
-                if (Model.FirstOrDefault().FirmaControl != null)
-                {
-                    var base64 = Convert.ToBase64String(Model.FirstOrDefault().FirmaControl);
-                    FirmaControl = String.Format("data:image/png;base64,{0}", base64);
-                }
-                if (Model.FirstOrDefault().FirmaAprobacion != null)
-                {
-                    var base64 = Convert.ToBase64String(Model.FirstOrDefault().FirmaAprobacion);
-                    FirmaAprobacion = String.Format("data:image/png;base64,{0}", base64);
-                }
-
+            @*@{
+            string FirmaControl = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAADICAIAAABJdyC1AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKJSURBVHhe7dQBDQAADMOg+ze962gCIrgBRAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAiK2BzRODTv+VPxzAAAAAElFTkSuQmCC";
+            string FirmaAprobacion = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAADICAIAAABJdyC1AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKJSURBVHhe7dQBDQAADMOg+ze962gCIrgBRAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAjKEBWQIC8gQFpAhLCBDWECGsIAMYQEZwgIyhAVkCAvIEBaQISwgQ1hAhrCADGEBGcICMoQFZAgLyBAWkCEsIENYQIawgAxhARnCAiK2BzRODTv+VPxzAAAAAElFTkSuQmCC";
+            if (Model.FirstOrDefault().FirmaControl != null)
+            {
+                var base64 = Convert.ToBase64String(Model.FirstOrDefault().FirmaControl);
+                FirmaControl = String.Format("data:image/png;base64,{0}", base64);
             }
+            if (Model.FirstOrDefault().FirmaAprobacion != null)
+            {
+                var base64 = Convert.ToBase64String(Model.FirstOrDefault().FirmaAprobacion);
+                FirmaAprobacion = String.Format("data:image/png;base64,{0}", base64);
+            }
+
+        }*@
+            @*<center>
+            <table id="TablaFirmas">
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <img src="@FirmaControl" id="firma1" width="200" height="100" />
+                            <br />
+                            Realizado Por
+                        </td>
+                        <td class="text-center">
+                            <img src="@FirmaAprobacion" id="firma2" width="200" height="100" />
+                            <br />
+                            Revisado Por
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </center>*@
             <center>
-                <table id="TablaFirmas">
+                <table>
                     <tbody>
                         <tr>
                             <td class="text-center">
-                                <img src="@FirmaControl" id="firma1" width="200" height="100" />
+                                @Model.FirstOrDefault().UsuarioIngresoLog
                                 <br />
-                                Realizado Por
+                                <input type="text" value="Realizado Por" id="realizado" />
+                                <br />
+                                @Model.FirstOrDefault().FechaIngresoLog.ToString("yyyy-MM-dd hh:mm:ss")
+                            </td>
+                            <td>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </td>
                             <td class="text-center">
-                                <img src="@FirmaAprobacion" id="firma2" width="200" height="100" />
+                                @Model.FirstOrDefault().AprobadoPor
                                 <br />
-                                Revisado Por
+                                <input type="text" value="Revisado Por" id="revisado" />
+                                <br />
+                                @if (Model.FirstOrDefault().FechaAprobacion != null)
+                                {
+                                    <text>
+                                        @Model.FirstOrDefault().FechaAprobacion.Value.ToString("yyyy-MM-dd hh:mm:ss");
+                                    </text>
+
+                                }
+                                else
+                                {
+                                    <text>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </text>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+
                             </td>
                         </tr>
                     </tbody>

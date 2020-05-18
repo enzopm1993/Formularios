@@ -13,10 +13,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class spReporteEvaluacionProductoEnfundado
     {
+        public string AprobadoPor { get; set; }
+        public string UsuarioIngresoLog { get; set; }
+        public System.DateTime FechaIngresoLog { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
         public string NOMBRES { get; set; }
         public Nullable<int> OrdenFabricacion { get; set; }
-        public byte[] FirmaControl { get; set; }
-        public byte[] FirmaAprobacion { get; set; }
         public Nullable<System.DateTime> FechaProduccion { get; set; }
         public string Cliente { get; set; }
         public string Observacion { get; set; }

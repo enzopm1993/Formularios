@@ -58,9 +58,39 @@
         #firma2 {
             border-bottom: solid;
         }
+        #revisado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: black;
+        }
+
+        #realizado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: black;
+        }
     }
 
     @@media screen{
+        #revisado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: black;
+        }
+
+        #realizado {
+            text-align: center;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            border-top-color: black;
+        }
         #tblDataTableReporte tbody tr {
             cursor: pointer;
             text-align: center;
@@ -150,14 +180,14 @@
 
 </div>
 <br id="espacio"/>
-<center>   <h4 id="mensajeRegistros" class="text-warning" hidden> No se encontraron Registros</h4></center>
+<center>   <h4 id="mensajeRegistros" class="text-warning" hidden> </h4></center>
 <div id="DivCabReportes" class="card" hidden>
     <div class="row">
         <div class="table-responsive col-md-12 col-sm-12">
             <table id="tblDataTableReporte" class="table-bordered table-hover">
                 <thead>
                     <tr>
-                 
+                        <th>IdEvaluacionProductoEnfundado</th>
                         <th>Fecha Producción</th>
                         <th>Orden de fabricación</th>
                         <th>Cliente</th>
@@ -178,12 +208,7 @@
                         <th>UsuarioIngresoLog</th>
                         <th>FechaModificacionLog</th>
                         <th>UsuarioModificacionLog</th>
-               
-
-
-
                     </tr>
-
                 </thead>
                 <tbody></tbody>
             </table>
