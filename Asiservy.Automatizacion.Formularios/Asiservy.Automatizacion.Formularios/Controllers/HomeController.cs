@@ -60,8 +60,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
 
                 lsUsuario = User.Identity.Name.Split('_');
                 string psrolid = lsUsuario[1];
+                if (PsLogin.ValidarUsuarioRol(lsUsuario[1], clsAtributos.RolGarita))
+                {
+                    ViewBag.Garita = "1";
+                }
                 var resultado = PsLogin.ConsultarRolesDeUsuario(psrolid);
-                Session.Timeout = 480;
+                Session.Timeout = 1480;
                 Session["Padre"] = resultado[0];
                 Session["Hijo"] = resultado[1];
                 Session["Modulos"] = resultado[2];

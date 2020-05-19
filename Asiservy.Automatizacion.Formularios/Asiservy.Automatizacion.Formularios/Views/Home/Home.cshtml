@@ -120,38 +120,56 @@
         <div class="col-md-6 col-12 col-sm-12">
             <div class="card shadow">
                 <div class="card-header" style="background-color: #4286f4;color:white">
-
+                 
                     <div class="text-center">
-                        <b><label>@ViewBag.Nombre</label></b>
+                        @if (ViewBag.Garita != null)
+                        {
+                            @:GARITA
+                        }
+                        else
+                        {
+                            <b><label>@ViewBag.Nombre</label></b>
+
+                        }
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-8 col-12 col-sm-6" style="border-right:inset 1px">
-                            <div class="text-center"><b><label>VACACIONES</label></b> (<label id="TotalDiasVacciones"></label> días)</div>
-                            <div class="text-center" id="divOtros">
-                            </div>
-                            
+                    @if (ViewBag.Garita != null)
+                    {
+                        <div class="text-center">
+                            <img  style="height:150px;width:120px" src="~/Content/images/garita.jfif" alt="Alternate Text" />
                         </div>
-                        <div class="col-md-4 col-12 col-sm-6">
-                            <div class="text-center"><b><label>MARCACIÓN DE ENTRADA</label></b></div>
-                            
-                            <div class="card shadow text-center" style="">
-                                <div class="card-body">
-                                    @if (ViewBag.Marcacion != null && ViewBag.Marcacion.Hora != null)
-                                    {
-                                        @ViewBag.Marcacion.Hora
-                                    }
-                                    else
-                                    {
-                                        <i style="color:#f6c23e" class="fas fa-exclamation-triangle fa-3x"></i>
-                                    }
-
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-8 col-12 col-sm-6" style="border-right:inset 1px">
+                                <div class="text-center"><b><label>VACACIONES</label></b> (<label id="TotalDiasVacciones"></label> días)</div>
+                                <div class="text-center" id="divOtros">
                                 </div>
 
                             </div>
+                            <div class="col-md-4 col-12 col-sm-6">
+                                <div class="text-center"><b><label>MARCACIÓN DE ENTRADA</label></b></div>
+
+                                <div class="card shadow text-center" style="">
+                                    <div class="card-body">
+                                        @if (ViewBag.Marcacion != null && ViewBag.Marcacion.Hora != null)
+                                        {
+                                            @ViewBag.Marcacion.Hora
+                                        }
+                                        else
+                                        {
+                                            <i style="color:#f6c23e" class="fas fa-exclamation-triangle fa-3x"></i>
+                                        }
+
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    }
+
                 </div>
             </div>
         </div>
