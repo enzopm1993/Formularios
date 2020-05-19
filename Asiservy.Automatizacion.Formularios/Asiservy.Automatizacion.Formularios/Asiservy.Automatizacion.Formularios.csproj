@@ -2255,6 +2255,7 @@
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.js" />
+    <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\VerificacionPotenciometro.js" />
     <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\ReporteIngresoMateriaPrima.js" />
     <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\SOPMateriaPrima.js" />
     <Content Include="Scripts\ControlBalanza\ControlBalanza.js" />
@@ -3405,6 +3406,7 @@
     <Compile Include="AccesoDatos\CALIDAD\OperatividadMetal\clsDOperatividadMetal.cs" />
     <Compile Include="AccesoDatos\CALIDAD\ResidualCloro\clsDResidualCloro.cs" />
     <Compile Include="AccesoDatos\CALIDAD\TemperaturaTermoencogidoSellado\clsDTemperaturaTermoencogidoSellado.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\VerificacionPotenciometro\ClsdVerificacionPotenciometro.cs" />
     <Compile Include="AccesoDatos\ControlBalanza\clsDControlBalanza.cs" />
     <Compile Include="AccesoDatos\ControlConsumoInsumo\clsDControlConsumoInsumo.cs" />
     <Compile Include="AccesoDatos\ControlCuchillo\clsDCuchillo.cs" />
@@ -3500,6 +3502,7 @@
     <Compile Include="Controllers\CALIDAD\OperatividadMetalController.cs" />
     <Compile Include="Controllers\CALIDAD\ResidualCloroController.cs" />
     <Compile Include="Controllers\CALIDAD\TemperaturaTermoencogidoSelladoController.cs" />
+    <Compile Include="Controllers\CALIDAD\VerificacionPotenciometroController.cs" />
     <Compile Include="Controllers\COMERCIALIZACION\MateriaPrimaController.cs" />
     <Compile Include="Controllers\ComunicadosController.cs" />
     <Compile Include="Controllers\ControlBalanzaController.cs" />
@@ -4018,6 +4021,7 @@
     <Content Include="Views\CloroAguaAutoClave\ReporteCloroAguaAutoclave.cshtml" />
     <Content Include="Views\CloroAguaAutoClave\ReporteCloroAguaAutoclavePartial.cshtml" />
     <Content Include="Views\CloroAguaAutoClave\ReporteCloroAguaAutoclaveDetallePartial.cshtml" />
+    <Content Include="Views\VerificacionPotenciometro\VerificacionPotenciometro.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
