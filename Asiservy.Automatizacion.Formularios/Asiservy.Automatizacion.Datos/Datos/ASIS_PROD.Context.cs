@@ -1534,19 +1534,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("spInactivarAsistencia", lineaParameter, turnoParameter, fechaParameter, generadoParameter, usuarioParameter, terminalParameter);
         }
     
-        public virtual ObjectResult<sp_Consultar_Cuchillos_Preparacion> sp_Consultar_Cuchillos_Preparacion(string codigoCuchillo, Nullable<int> opcion)
-        {
-            var codigoCuchilloParameter = codigoCuchillo != null ?
-                new ObjectParameter("CodigoCuchillo", codigoCuchillo) :
-                new ObjectParameter("CodigoCuchillo", typeof(string));
-    
-            var opcionParameter = opcion.HasValue ?
-                new ObjectParameter("opcion", opcion) :
-                new ObjectParameter("opcion", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Consultar_Cuchillos_Preparacion>("sp_Consultar_Cuchillos_Preparacion", codigoCuchilloParameter, opcionParameter);
-        }
-    
         public virtual ObjectResult<spConsultaCondicionesPersonal> spConsultaCondicionesPersonal(Nullable<System.DateTime> fecha)
         {
             var fechaParameter = fecha.HasValue ?
@@ -1758,27 +1745,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Cuchillos_Preparacion>("sp_Control_Cuchillos_Preparacion", fechaDesdeParameter, fechaHastaParameter, idControlCuchilloParameter, opcionParameter);
         }
     
-        public virtual ObjectResult<sp_Control_Cuchillos_Preparacion_Detalle> sp_Control_Cuchillos_Preparacion_Detalle(Nullable<int> idCuchilloPreparacion, Nullable<int> idControlCuchilloDetalle, Nullable<int> idControlCuchillo, Nullable<int> opcion)
-        {
-            var idCuchilloPreparacionParameter = idCuchilloPreparacion.HasValue ?
-                new ObjectParameter("idCuchilloPreparacion", idCuchilloPreparacion) :
-                new ObjectParameter("idCuchilloPreparacion", typeof(int));
-    
-            var idControlCuchilloDetalleParameter = idControlCuchilloDetalle.HasValue ?
-                new ObjectParameter("idControlCuchilloDetalle", idControlCuchilloDetalle) :
-                new ObjectParameter("idControlCuchilloDetalle", typeof(int));
-    
-            var idControlCuchilloParameter = idControlCuchillo.HasValue ?
-                new ObjectParameter("idControlCuchillo", idControlCuchillo) :
-                new ObjectParameter("idControlCuchillo", typeof(int));
-    
-            var opcionParameter = opcion.HasValue ?
-                new ObjectParameter("opcion", opcion) :
-                new ObjectParameter("opcion", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Cuchillos_Preparacion_Detalle>("sp_Control_Cuchillos_Preparacion_Detalle", idCuchilloPreparacionParameter, idControlCuchilloDetalleParameter, idControlCuchilloParameter, opcionParameter);
-        }
-    
         public virtual ObjectResult<spConsultaReporteControlCochePorLineas> spConsultaReporteControlCochePorLineas(Nullable<System.DateTime> fecha, string turno)
         {
             var fechaParameter = fecha.HasValue ?
@@ -1799,57 +1765,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IDROL", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaOpcionesPorRol>("spConsultaOpcionesPorRol", iDROLParameter);
-        }
-    
-        public virtual ObjectResult<sp_Control_Lavado_Desinfeccion_Manos_Detalle> sp_Control_Lavado_Desinfeccion_Manos_Detalle(Nullable<int> idDesinfeccionManos, Nullable<int> opcion)
-        {
-            var idDesinfeccionManosParameter = idDesinfeccionManos.HasValue ?
-                new ObjectParameter("IdDesinfeccionManos", idDesinfeccionManos) :
-                new ObjectParameter("IdDesinfeccionManos", typeof(int));
-    
-            var opcionParameter = opcion.HasValue ?
-                new ObjectParameter("opcion", opcion) :
-                new ObjectParameter("opcion", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos_Detalle>("sp_Control_Lavado_Desinfeccion_Manos_Detalle", idDesinfeccionManosParameter, opcionParameter);
-        }
-    
-        public virtual ObjectResult<sp_Control_Termoencogido_Sellado> sp_Control_Termoencogido_Sellado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> op)
-        {
-            var fechaDesdeParameter = fechaDesde.HasValue ?
-                new ObjectParameter("fechaDesde", fechaDesde) :
-                new ObjectParameter("fechaDesde", typeof(System.DateTime));
-    
-            var fechaHastaParameter = fechaHasta.HasValue ?
-                new ObjectParameter("fechaHasta", fechaHasta) :
-                new ObjectParameter("fechaHasta", typeof(System.DateTime));
-    
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Termoencogido_Sellado>("sp_Control_Termoencogido_Sellado", fechaDesdeParameter, fechaHastaParameter, opParameter);
-        }
-    
-        public virtual ObjectResult<sp_Control_Termoencogido_Sellado_Detalle> sp_Control_Termoencogido_Sellado_Detalle(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCabecera, Nullable<int> op)
-        {
-            var fechaDesdeParameter = fechaDesde.HasValue ?
-                new ObjectParameter("fechaDesde", fechaDesde) :
-                new ObjectParameter("fechaDesde", typeof(System.DateTime));
-    
-            var fechaHastaParameter = fechaHasta.HasValue ?
-                new ObjectParameter("fechaHasta", fechaHasta) :
-                new ObjectParameter("fechaHasta", typeof(System.DateTime));
-    
-            var idCabeceraParameter = idCabecera.HasValue ?
-                new ObjectParameter("IdCabecera", idCabecera) :
-                new ObjectParameter("IdCabecera", typeof(int));
-    
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Termoencogido_Sellado_Detalle>("sp_Control_Termoencogido_Sellado_Detalle", fechaDesdeParameter, fechaHastaParameter, idCabeceraParameter, opParameter);
         }
     
         public virtual ObjectResult<spConsultaReporteDetalle> spConsultaReporteDetalle(Nullable<int> idControl)
@@ -1991,27 +1906,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaResidualCloroDetalle>("spConsultaResidualCloroDetalle", idControlParameter);
         }
     
-        public virtual ObjectResult<sp_Reporte_Control_Cuchillos_Preparacion> sp_Reporte_Control_Cuchillos_Preparacion(Nullable<System.DateTime> filtroFechaDesde, Nullable<System.DateTime> filtroFechaHasta, Nullable<int> idControlCuchillo, Nullable<int> op)
-        {
-            var filtroFechaDesdeParameter = filtroFechaDesde.HasValue ?
-                new ObjectParameter("FiltroFechaDesde", filtroFechaDesde) :
-                new ObjectParameter("FiltroFechaDesde", typeof(System.DateTime));
-    
-            var filtroFechaHastaParameter = filtroFechaHasta.HasValue ?
-                new ObjectParameter("FiltroFechaHasta", filtroFechaHasta) :
-                new ObjectParameter("FiltroFechaHasta", typeof(System.DateTime));
-    
-            var idControlCuchilloParameter = idControlCuchillo.HasValue ?
-                new ObjectParameter("idControlCuchillo", idControlCuchillo) :
-                new ObjectParameter("idControlCuchillo", typeof(int));
-    
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_Control_Cuchillos_Preparacion>("sp_Reporte_Control_Cuchillos_Preparacion", filtroFechaDesdeParameter, filtroFechaHastaParameter, idControlCuchilloParameter, opParameter);
-        }
-    
         public virtual ObjectResult<sp_Reporte_Lavado_Desinfeccion_Manos> sp_Reporte_Lavado_Desinfeccion_Manos(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idDesinfeccionManos, Nullable<int> op)
         {
             var fechaDesdeParameter = fechaDesde.HasValue ?
@@ -2031,23 +1925,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_Lavado_Desinfeccion_Manos>("sp_Reporte_Lavado_Desinfeccion_Manos", fechaDesdeParameter, fechaHastaParameter, idDesinfeccionManosParameter, opParameter);
-        }
-    
-        public virtual ObjectResult<sp_Control_Lavado_Desinfeccion_Manos> sp_Control_Lavado_Desinfeccion_Manos(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> opcion)
-        {
-            var fechaDesdeParameter = fechaDesde.HasValue ?
-                new ObjectParameter("FechaDesde", fechaDesde) :
-                new ObjectParameter("FechaDesde", typeof(System.DateTime));
-    
-            var fechaHastaParameter = fechaHasta.HasValue ?
-                new ObjectParameter("FechaHasta", fechaHasta) :
-                new ObjectParameter("FechaHasta", typeof(System.DateTime));
-    
-            var opcionParameter = opcion.HasValue ?
-                new ObjectParameter("opcion", opcion) :
-                new ObjectParameter("opcion", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos>("sp_Control_Lavado_Desinfeccion_Manos", fechaDesdeParameter, fechaHastaParameter, opcionParameter);
         }
     
         public virtual ObjectResult<sp_Control_Desechos_Liquidos_Peligrosos> sp_Control_Desechos_Liquidos_Peligrosos(Nullable<int> anioBusqueda, Nullable<int> mesBusqueda, Nullable<int> idDesechosLiquidos, Nullable<int> op)
@@ -2129,6 +2006,129 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("turno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalMovidoaLinea>("spConsultaPersonalMovidoaLinea", lINEAParameter, fechaParameter, horaParameter, turnoParameter);
+        }
+    
+        public virtual ObjectResult<sp_Consultar_Cuchillos_Preparacion> sp_Consultar_Cuchillos_Preparacion(string codigoCuchillo, Nullable<int> opcion)
+        {
+            var codigoCuchilloParameter = codigoCuchillo != null ?
+                new ObjectParameter("CodigoCuchillo", codigoCuchillo) :
+                new ObjectParameter("CodigoCuchillo", typeof(string));
+    
+            var opcionParameter = opcion.HasValue ?
+                new ObjectParameter("opcion", opcion) :
+                new ObjectParameter("opcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Consultar_Cuchillos_Preparacion>("sp_Consultar_Cuchillos_Preparacion", codigoCuchilloParameter, opcionParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Cuchillos_Preparacion_Detalle> sp_Control_Cuchillos_Preparacion_Detalle(Nullable<int> idCuchilloPreparacion, Nullable<int> idControlCuchilloDetalle, Nullable<int> idControlCuchillo, Nullable<int> opcion)
+        {
+            var idCuchilloPreparacionParameter = idCuchilloPreparacion.HasValue ?
+                new ObjectParameter("idCuchilloPreparacion", idCuchilloPreparacion) :
+                new ObjectParameter("idCuchilloPreparacion", typeof(int));
+    
+            var idControlCuchilloDetalleParameter = idControlCuchilloDetalle.HasValue ?
+                new ObjectParameter("idControlCuchilloDetalle", idControlCuchilloDetalle) :
+                new ObjectParameter("idControlCuchilloDetalle", typeof(int));
+    
+            var idControlCuchilloParameter = idControlCuchillo.HasValue ?
+                new ObjectParameter("idControlCuchillo", idControlCuchillo) :
+                new ObjectParameter("idControlCuchillo", typeof(int));
+    
+            var opcionParameter = opcion.HasValue ?
+                new ObjectParameter("opcion", opcion) :
+                new ObjectParameter("opcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Cuchillos_Preparacion_Detalle>("sp_Control_Cuchillos_Preparacion_Detalle", idCuchilloPreparacionParameter, idControlCuchilloDetalleParameter, idControlCuchilloParameter, opcionParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Lavado_Desinfeccion_Manos> sp_Control_Lavado_Desinfeccion_Manos(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> opcion)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("FechaDesde", fechaDesde) :
+                new ObjectParameter("FechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("FechaHasta", fechaHasta) :
+                new ObjectParameter("FechaHasta", typeof(System.DateTime));
+    
+            var opcionParameter = opcion.HasValue ?
+                new ObjectParameter("opcion", opcion) :
+                new ObjectParameter("opcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos>("sp_Control_Lavado_Desinfeccion_Manos", fechaDesdeParameter, fechaHastaParameter, opcionParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Lavado_Desinfeccion_Manos_Detalle> sp_Control_Lavado_Desinfeccion_Manos_Detalle(Nullable<int> idDesinfeccionManos, Nullable<int> opcion)
+        {
+            var idDesinfeccionManosParameter = idDesinfeccionManos.HasValue ?
+                new ObjectParameter("IdDesinfeccionManos", idDesinfeccionManos) :
+                new ObjectParameter("IdDesinfeccionManos", typeof(int));
+    
+            var opcionParameter = opcion.HasValue ?
+                new ObjectParameter("opcion", opcion) :
+                new ObjectParameter("opcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Lavado_Desinfeccion_Manos_Detalle>("sp_Control_Lavado_Desinfeccion_Manos_Detalle", idDesinfeccionManosParameter, opcionParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Termoencogido_Sellado> sp_Control_Termoencogido_Sellado(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> op)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Termoencogido_Sellado>("sp_Control_Termoencogido_Sellado", fechaDesdeParameter, fechaHastaParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Termoencogido_Sellado_Detalle> sp_Control_Termoencogido_Sellado_Detalle(Nullable<System.DateTime> fechaDesde, Nullable<System.DateTime> fechaHasta, Nullable<int> idCabecera, Nullable<int> op)
+        {
+            var fechaDesdeParameter = fechaDesde.HasValue ?
+                new ObjectParameter("fechaDesde", fechaDesde) :
+                new ObjectParameter("fechaDesde", typeof(System.DateTime));
+    
+            var fechaHastaParameter = fechaHasta.HasValue ?
+                new ObjectParameter("fechaHasta", fechaHasta) :
+                new ObjectParameter("fechaHasta", typeof(System.DateTime));
+    
+            var idCabeceraParameter = idCabecera.HasValue ?
+                new ObjectParameter("IdCabecera", idCabecera) :
+                new ObjectParameter("IdCabecera", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Termoencogido_Sellado_Detalle>("sp_Control_Termoencogido_Sellado_Detalle", fechaDesdeParameter, fechaHastaParameter, idCabeceraParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<sp_Reporte_Control_Cuchillos_Preparacion> sp_Reporte_Control_Cuchillos_Preparacion(Nullable<System.DateTime> filtroFechaDesde, Nullable<System.DateTime> filtroFechaHasta, Nullable<int> idControlCuchillo, Nullable<int> op)
+        {
+            var filtroFechaDesdeParameter = filtroFechaDesde.HasValue ?
+                new ObjectParameter("FiltroFechaDesde", filtroFechaDesde) :
+                new ObjectParameter("FiltroFechaDesde", typeof(System.DateTime));
+    
+            var filtroFechaHastaParameter = filtroFechaHasta.HasValue ?
+                new ObjectParameter("FiltroFechaHasta", filtroFechaHasta) :
+                new ObjectParameter("FiltroFechaHasta", typeof(System.DateTime));
+    
+            var idControlCuchilloParameter = idControlCuchillo.HasValue ?
+                new ObjectParameter("idControlCuchillo", idControlCuchillo) :
+                new ObjectParameter("idControlCuchillo", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_Control_Cuchillos_Preparacion>("sp_Reporte_Control_Cuchillos_Preparacion", filtroFechaDesdeParameter, filtroFechaHastaParameter, idControlCuchilloParameter, opParameter);
         }
     }
 }
