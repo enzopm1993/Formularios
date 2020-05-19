@@ -2,7 +2,7 @@
 
 
 <table class="table table-bordered" tabindex="1" id="tblDataTable">
-    <thead style="font-size:13px">
+    <thead style="font-size:12px">
         <tr>
             <th>FECHA</th>
             <th>Nº CISTERNA</th>
@@ -45,7 +45,7 @@
                                  f.Key.fechaModificacion
                              }).ToList();
     }
-    <tbody style="font-size:12px">
+    <tbody style="font-size:11px">
         @foreach (var item in listaFiltrada)
         {
             var listaNDescripcion = (from c in Model
@@ -62,11 +62,11 @@
                 <td>@item.Fecha.ToString("dd-MM-yyyy")</td>
 
                 <td>@nDescripcion</td>
-                <td>@item.QuimUtilizados.ToUpper()</td>
+                <td style="white-space:normal;width:350px">@item.QuimUtilizados.ToUpper()</td>
 
                 @if (!string.IsNullOrEmpty(item.Observacion))
                 {
-                    <td>@item.Observacion.ToUpper()</td>
+                    <td style="white-space:normal;">@item.Observacion.ToUpper()</td>
                 }
                 else
                 {

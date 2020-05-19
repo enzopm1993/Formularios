@@ -24,7 +24,7 @@
             </th>
         </tr>
     </thead>
-    <tbody style="font-size:12px">
+    <tbody style="font-size:11px">
 
         @foreach (var item in Model)
         {
@@ -55,7 +55,7 @@
                     <td> <span class="badge badge-danger">NO</span></td>
                 }
 
-                <td>
+                <td style="white-space:normal">
                     @if (!string.IsNullOrEmpty(item.Observacion))
                     {
                         <span>@item.Observacion.ToUpper()</span>

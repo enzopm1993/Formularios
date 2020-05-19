@@ -36,6 +36,7 @@ function CargarCabecera(opcion) {
                     $("#divCabecera1").prop("hidden", true);
                     $("#btnModalGenerar").prop("hidden", false);
                     $("#btnModalGenerarRegistro").prop("hidden", false);
+                    $("#lblAprobadoPendiente").text("");
                     ListaDatos = resultado;
                 } else {
                     $("#divDetalleControlCloro").prop("hidden", false);
@@ -52,17 +53,15 @@ function CargarCabecera(opcion) {
                         $("#lblAprobadoPendiente").text("APROBADO");
                         $("#lblAprobadoPendiente").removeClass('badge-danger');
                         $("#lblAprobadoPendiente").addClass('badge badge-success');
-                    } else {
+                    } else if (resultado.EstadoReporte == false) {
                         $("#lblAprobadoPendiente").text("PENDIENTE");
                         $("#lblAprobadoPendiente").removeClass('badge-success');
                         $("#lblAprobadoPendiente").addClass('badge badge-danger');
-                    }
+                    } 
                     CargarDetalle(0);
                 }
-                setTimeout(function () {
                     $('#cargac').hide();
                     return true;
-                }, 200);
             },
             error: function (resultado) {
                 MensajeError(resultado.responseText, false);
@@ -94,9 +93,7 @@ function GuardarCabecera() {
             $("#divDetalleProceso").prop("hidden", false);
             $("#divDetalleControlCloro").prop("hidden", false);
             $('#ModalIngresarCabecera').modal('hide');
-            setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -247,7 +244,6 @@ function GuardarDetalle() {
                 CargarCabecera(0);
                 CargarDetalle(0);
                 limpiarDetalle();
-                //$('#cargac').hide();
             },
             error: function (resultado) {
                 limpiarDetalle();

@@ -20,7 +20,7 @@
             var json = JsonConvert.SerializeObject(item);
             <tr onclick="SeleccionarCabecera(@json)">
                 <td>@item.Fecha.ToString("dd-MM-yyyy")</td>
-                <td>
+                <td style="white-space:normal">
                     @if (!string.IsNullOrEmpty(item.Observacion))
                     {
                         <span>@item.Observacion.ToUpper()</span>

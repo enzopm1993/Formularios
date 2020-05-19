@@ -37,9 +37,7 @@ function CargarCabecera(op) {
             } else {                
                 $("#divMostarTablaCabecera").html(resultado);
             }            
-            setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -91,9 +89,7 @@ function SeleccionarCabecera(jdata) {
                 $('#divBotones').prop('hidden', false);
                 $("#divMostarTablaDetalle").html(resultado);            
             }
-            setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
