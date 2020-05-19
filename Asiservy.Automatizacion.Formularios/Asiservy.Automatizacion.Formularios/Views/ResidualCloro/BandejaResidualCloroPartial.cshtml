@@ -35,10 +35,10 @@
         @foreach (var item in Model)
         {
             var json = JsonConvert.SerializeObject(item);
-            <tr onclick="SeleccionarBandeja(@json)">
+            <tr onclick="SeleccionarBandejaControl(@json)">
 
                 <td>
-                    @item.Fecha.ToString("yyyy-MM-dd")
+                    @item.Fecha.ToString("dd-MM-yyyy")
                 </td>
                 <td>
                     @{ 

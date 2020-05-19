@@ -208,6 +208,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 model.Tapa = result.TAPA??"";
                 model.Destino = result.DESTINO;
                 model.Marca = result.MARCA;
+                model.OrdenVenta = result.PEDIDO_VENTA!=null ? int.Parse(result.PEDIDO_VENTA):0;
                 var Mensaje = clsDControlConsumoInsumo.GuardarModificarControl(model);
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }

@@ -1,34 +1,12 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_OPERATIVIDAD_METAL>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CLORO_AGUA_AUTOCLAVE_CONTROL>
 @using Newtonsoft.Json
 @using Asiservy.Automatizacion.Datos.Datos
-
 
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pcc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Lomos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Latas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ferroso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoFerroso)
-            </th>
-            <th>
-                Acero Inoxidable
-            </th>
-            <th>
-                Detector Metal
             </th>
 
             <th>
@@ -59,23 +37,15 @@
         @foreach (var item in Model)
         {
 
-            var m = new CC_OPERATIVIDAD_METAL
+            var m = new CC_CLORO_AGUA_AUTOCLAVE_CONTROL
             {
-                AceroInoxidable = item.AceroInoxidable,
-                IdOperatividadMetal = item.IdOperatividadMetal,
+                IdCloroAguaAutoclaveControl = item.IdCloroAguaAutoclaveControl,
                 Fecha = item.Fecha,
                 AprobadoPor = item.AprobadoPor,
-                DetectorMetal = item.DetectorMetal,
                 EstadoReporte = item.EstadoReporte,
                 FechaAprobacion = item.FechaAprobacion,
-                FechaIngresoLog= item.FechaIngresoLog,
+                FechaIngresoLog = item.FechaIngresoLog,
                 FechaModificacionLog = item.FechaModificacionLog,
-                Ferroso = item.Ferroso,
-                Latas = item.Latas,
-                Lomos = item.Lomos,
-                NoFerroso = item.NoFerroso,
-                Observacion = item.Observacion,
-                Pcc=item.Pcc,
                 UsuarioIngresoLog = item.UsuarioIngresoLog,
                 UsuarioModificacionLog = item.UsuarioModificacionLog
             };
@@ -84,37 +54,9 @@
             var json = JsonConvert.SerializeObject(m);
             <tr onclick="SeleccionarBandeja(@json)">
                 <td>
-                    @item.Fecha.ToString("dd-MM-yyyy")
+                    @item.Fecha.ToString("yyyy-MM-dd")
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Pcc)
-                </td>
-                <td class="text-center">
-                    @if (item.Lomos)
-                    {
-                        <i style="color:#1cc88a" class="fas fa-check-square"></i>
-                    }
-                </td>
-                <td class="text-center">
-                    @if (item.Latas)
-                    {
-                        <i style="color:#1cc88a" class="fas fa-check-square"></i>
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ferroso)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NoFerroso)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AceroInoxidable)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DetectorMetal)
-                </td>
-
-
+             
                 @if (item.EstadoReporte == true)
                 {
                     <td><span class="badge badge-success">Aprobado</span></td>
@@ -135,7 +77,8 @@
                     @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
                 </td>
                 <td>
-                    @if (item.FechaModificacionLog != null) {
+                    @if (item.FechaModificacionLog != null)
+                    {
                         item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm");
                     }
                 </td>

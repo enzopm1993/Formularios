@@ -34,42 +34,48 @@
                     DateTime fecha = DateTime.Now;
                 }
                 <input type="date" class="form-control" id="txtFecha" value="@fecha.ToString("yyyy-MM-dd")" onchange="ConsultarControl()" />
+                <label id="msjfechaerror" class="text-danger" hidden>debe ingresar una fecha</label>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label>Hora</label>
                 <input type="time" class="form-control" id="txtHora" />
+                <label id="msjhoraerror" class="text-danger" hidden>debe ingresar una hora</label>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label>Código del PhMetro</label>
                 <input type="text" class="form-control" id="txtCodigoPhMetro" />
+                <label id="msjcodigoerror" class="text-danger" hidden>debe ingresar un código</label>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label>Ph = 4,0</label>
                 <input type="text" class="form-control" id="txtPh4" />
+                <label id="msjph40rror" class="text-danger" hidden>Campo obligatorio</label>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label>Ph = 7,0</label>
                 <input type="text" class="form-control" id="txtPh7" />
+                <label id="msjph70error" class="text-danger" hidden>Campo obligatorio</label>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label>Ph = 10,0</label>
                 <input type="text" class="form-control" id="txtPh10" />
+                <label id="msjph10error" class="text-danger" hidden>Campo obligatorio</label>
             </div>
         </div>
         <div class="col-md-6 col-sm-12">
             <div class="form-group">
                 <label>Observación</label>
-                <textarea id="txtObservacion" rows="3" cols="80"></textarea>
+                <textarea id="txtObservacion" rows="3" cols="80" class="form-control"></textarea>
             </div>
         </div>
     </div>
@@ -83,9 +89,9 @@
             <button data-toggle="tooltip" data-placement="top" title="Guardar" class="btn" id="btnGuardar" onclick="GuardarControl()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/save20.png" />
             </button>
-            <button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiar" onclick="LimpiarControles()" style="border-color:#2c3e50" type="button">
+            @*<button data-toggle="tooltip" data-placement="top" title="Limpiar" class="btn" id="btnLimpiar" onclick="LimpiarControles()" style="border-color:#2c3e50" type="button">
                 <img style="width:100%" src="~/Content/icons/clear24.png" />
-            </button>
+            </button>*@
             <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminarControl" onclick="ConfirmarEliminarControl()" style="border-color:#2c3e50" type="button" disabled>
                 <img style="width:100%" src="~/Content/icons/cancel24.png" />
             </button>
@@ -93,6 +99,7 @@
     </div>
 
 </div>
+<center><h4 id="msjregistros" class="text-warning"></h4></center>
 @*modal eliminar *@
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="ModalEliminarControl" data-backdrop="static">
     <div class="modal-dialog modal-sm">

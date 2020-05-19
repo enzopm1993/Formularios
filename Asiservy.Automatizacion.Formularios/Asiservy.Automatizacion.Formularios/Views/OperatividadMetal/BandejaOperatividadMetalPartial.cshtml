@@ -69,7 +69,7 @@
             var json = JsonConvert.SerializeObject(m);
                 <tr onclick="SeleccionarBandeja(@json)">
                     <td>
-                        @item.Fecha.ToString("yyyy-MM-dd")
+                        @item.Fecha.ToString("dd-MM-yyyy")
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Pcc)

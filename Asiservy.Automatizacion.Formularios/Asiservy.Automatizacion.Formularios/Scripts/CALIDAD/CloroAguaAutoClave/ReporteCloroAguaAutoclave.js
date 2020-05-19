@@ -1,48 +1,45 @@
 ﻿//$(document).ready(function () {
-    
+
 //});
 
 var model = [];
 
-function FiltrarAprobadosFecha() {   
+function FiltrarAprobadosFecha() {
     $('#divPartialControl').html('');
     $("#spinnerCargando").prop("hidden", false);
     $("#MensajeRegistros").html('');
 
-        $.ajax({
-            url: "../OperatividadMetal/ReporteOperatividadMetalPartial",
-            type: "GET",
-            data: {
-                FechaDesde: $("#fechaDesde").val(),
-                FechaHasta: $("#fechaHasta").val()
-            },
-            success: function (resultado) {
-                if (resultado == '0') {
-                    $('#MensajeRegistros').show();
-                    $("#MensajeRegistros").html(Mensajes.SinRegistros);
-                    $('#divPartialControl').html('');
+    $.ajax({
+        url: "../CloroAguaAutoclave/ReporteCloroAguaAutoclavePartial",
+        type: "GET",
+        data: {
+            FechaDesde: $("#fechaDesde").val(),
+            FechaHasta: $("#fechaHasta").val()
+        },
+        success: function (resultado) {
+            if (resultado == '0') {
+                $('#MensajeRegistros').show();
+                $("#MensajeRegistros").html(Mensajes.SinRegistros);
+                $('#divPartialControl').html('');
 
-                } else {
-                    $('#MensajeRegistros').hide();
-                    $('#divPartialControl').html(resultado);
-                }
-                $("#spinnerCargando").prop("hidden", true);
-                $("#btnPendiente").prop("hidden", false);
-                $("#btnReversar").prop("hidden", false);
-                $("#btnAprobado").prop("hidden", true);
-                $("#divDateRangePicker").prop('hidden', false);
-            },
-            error: function (resultado) {
-                $("#spinnerCargando").prop("hidden", true);
-                MensajeError(Mensajes.Error + resultado.responseText, false);
+            } else {
+                $('#MensajeRegistros').hide();
+                $('#divPartialControl').html(resultado);
             }
-        });
-   
+            $("#spinnerCargando").prop("hidden", true);
+            $("#divDateRangePicker").prop('hidden', false);
+        },
+        error: function (resultado) {
+            $("#spinnerCargando").prop("hidden", true);
+            MensajeError(Mensajes.Error + resultado.responseText, false);
+        }
+    });
+
 }
 
 function SeleccionarBandeja(Control) {
     //console.log(Control);
-    model = Control;   
+    model = Control;
 
     if (!model.EstadoReporte) {
         MensajeAdvertencia("Reporte se encuentra pendiente.");
@@ -54,10 +51,8 @@ function SeleccionarBandeja(Control) {
     $("#divMensaje").html('');
     $("#divCabeceras").prop("hidden", true);
     $("#divDetalle").prop("hidden", true);
-    $("#divDetalle2").prop("hidden", true);
     $("#lblLomos").html('');
     $("#divDetalle").prop("hidden", false);
-    $("#divDetalle2").prop("hidden", false);
 
     // console.log(model);
 
@@ -70,21 +65,20 @@ function SeleccionarBandeja(Control) {
     }
     $("#lblFerroro").html(model.Ferroso);
     $("#lblPCC").html(model.Pcc);
-    $("#lblFecha").html(moment(model.Fecha).format("DD-MM-YYYY"));
+    $("#lblFecha").html(moment(model.Fecha).format("YYYY-MM-DD"));
     $("#lblNoFerroso").html(model.NoFerroso);
     $("#lblAceroInoxidable").html(model.AceroInoxidable);
     $("#pObservacion").html(model.Observacion);
 
 
     $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
-    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("DD-MM-YYYY HH:mm"));
+    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));
     $("#txtUsuarioAprobacion").html(model.AprobadoPor);
-    $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("DD-MM-YYYY HH:mm"));
+    $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("YYYY-MM-DD HH:mm"));
     $("#txtCodDetectorMetal").val(model.DetectorMetal);
 
 
     CargarControlDetalle();
-    CargarControlDetalle2();
 }
 
 function Atras() {
@@ -92,7 +86,6 @@ function Atras() {
     $("#btnImprimir").prop("hidden", false);
     $("#divCabeceras").prop("hidden", false);
     $("#divDetalle").prop("hidden", true);
-    $("#divDetalle2").prop("hidden", true);
     $("#btnConsultar").prop("hidden", false);
 
 }
@@ -102,10 +95,10 @@ function CargarControlDetalle() {
     $("#divTableDetalle").html('');
     $("#spinnerCargandoDetalle").prop("hidden", false);
     $.ajax({
-        url: "../OperatividadMetal/ReporteOperatividadMetalDetallePartial",
+        url: "../CloroAguaAutoclave/ReporteCloroAguaAutoclaveDetallePartial",
         type: "GET",
         data: {
-            IdControl: model.IdOperatividadMetal
+            Fecha: model.Fecha
             //  Tipo: $("#txtLineaNegocio").val()
         },
         success: function (resultado) {
@@ -129,40 +122,6 @@ function CargarControlDetalle() {
         }
     });
 }
-
-
-function CargarControlDetalle2() {
-    $("#divTableDetalle2").html('');
-    $("#spinnerCargandoDetalle2").prop("hidden", false);
-    $.ajax({
-        url: "../OperatividadMetal/ReporteOperatividadMetalDetectorPartial",
-        type: "GET",
-        data: {
-            IdControl: model.IdOperatividadMetal
-            //  Tipo: $("#txtLineaNegocio").val()
-        },
-        success: function (resultado) {
-            if (resultado == "101") {
-                window.location.reload();
-            }
-            if (resultado == "0") {
-                $("#divTableDetalle2").html("<div class='text-center'>" + Mensajes.SinRegistros + "</div>");
-                $("#spinnerCargandoDetalle2").prop("hidden", true);
-            } else {
-                $("#spinnerCargandoDetalle2").prop("hidden", true);
-                $("#divTableDetalle2").html(resultado);
-                //config.opcionesDT.pageLength = 10;
-                //      config.opcionesDT.order = [[0, "asc"]];
-                //    $('#tblDataTable').DataTable(config.opcionesDT);
-            }
-        },
-        error: function (resultado) {
-            MensajeError(Mensajes.Error + resultado.responseText, false);
-            $("#spinnerCargandoDetalle2").prop("hidden", true);
-        }
-    });
-}
-
 
 function validarImg(rotacion, id, imagen) {
 
