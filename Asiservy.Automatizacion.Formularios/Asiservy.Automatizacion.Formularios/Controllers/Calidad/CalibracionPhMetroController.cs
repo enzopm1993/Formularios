@@ -379,7 +379,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     ViewBag.CodigoReporte = "AS-RG-CC-21";
                     ViewBag.VersionReporte = "V 10.0";
                 }
-                List<CC_CALIBRACION_PHMETRO> resultado = new List<CC_CALIBRACION_PHMETRO>();
+                List<CC_CALIBRACION_PHMETRO> resultado;
                 clsDCalibracionPhMetro = new clsDCalibracionPhMetro();
                 resultado = clsDCalibracionPhMetro.ConsultarReporte(FechaDesde, FechaHasta);
                 if (resultado.Count == 0)
