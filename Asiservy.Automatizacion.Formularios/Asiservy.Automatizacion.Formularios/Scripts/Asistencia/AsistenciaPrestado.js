@@ -213,8 +213,8 @@ function VerificarMovidosAMiLinea(IdLinea, bandera) {
             //BanderaExiste: bandera,
             //Turno: turno,
             Fecha: $('#txtFecha').val(),
-            Hora: $('#horaservidor').val()
-
+            Hora: $('#horaservidor').val(),
+            Turno: $('#TurnoGen').val()
         },
         success: function (resultado) {
             $("#spinnerCargando").prop("hidden", true);
