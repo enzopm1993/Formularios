@@ -180,6 +180,9 @@
     <Compile Include="Datos\CC_LAVADO_CISTERNA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>

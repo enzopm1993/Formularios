@@ -141,10 +141,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_OPERATIVIDAD_METAL> CC_OPERATIVIDAD_METAL { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_AREA_AUDITADA { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_INTERMEDIA { get; set; }
-        public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
         public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL> CC_HIGIENE_COMEDOR_COCINA_CTRL { get; set; }
         public virtual DbSet<CC_HIGIENE_COMEDOR_COCINA_CTRL_DET> CC_HIGIENE_COMEDOR_COCINA_CTRL_DET { get; set; }
-        public virtual DbSet<CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA> CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA { get; set; }
         public virtual DbSet<OPCION> OPCION { get; set; }
         public virtual DbSet<REPORTE_MAESTRO> REPORTE_MAESTRO { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_PEDILUVIO> CC_MANTENIMIENTO_PEDILUVIO { get; set; }
@@ -163,6 +161,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_CTRL> CC_CALIBRACION_FLUOROMETRO_CTRL { get; set; }
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_DET> CC_CALIBRACION_FLUOROMETRO_DET { get; set; }
         public virtual DbSet<CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT> CC_CALIBRACION_FLUOROMETRO_ESTANDAR_MANT { get; set; }
+        public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE> CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE { get; set; }
+        public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
+        public virtual DbSet<CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA> CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -576,23 +577,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("idControl", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaControlHoraMaquinaDetalle>("spConsultaControlHoraMaquinaDetalle", idControlParameter);
-        }
-    
-        public virtual ObjectResult<spConsultaPersonalMovidoaLinea> spConsultaPersonalMovidoaLinea(string lINEA, Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
-        {
-            var lINEAParameter = lINEA != null ?
-                new ObjectParameter("LINEA", lINEA) :
-                new ObjectParameter("LINEA", typeof(string));
-    
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("Fecha", fecha) :
-                new ObjectParameter("Fecha", typeof(System.DateTime));
-    
-            var horaParameter = hora.HasValue ?
-                new ObjectParameter("Hora", hora) :
-                new ObjectParameter("Hora", typeof(System.TimeSpan));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalMovidoaLinea>("spConsultaPersonalMovidoaLinea", lINEAParameter, fechaParameter, horaParameter);
         }
     
         public virtual ObjectResult<spConsultaControlPesoEnlatadoSubDetalle> spConsultaControlPesoEnlatadoSubDetalle(Nullable<int> idControlDetalle)
@@ -2123,6 +2107,27 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("IdControl", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spReporteEvaluacionProductoEnfundado>("spReporteEvaluacionProductoEnfundado", idControlParameter);
+        }
+    
+        public virtual ObjectResult<spConsultaPersonalMovidoaLinea> spConsultaPersonalMovidoaLinea(string lINEA, Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora, string turno)
+        {
+            var lINEAParameter = lINEA != null ?
+                new ObjectParameter("LINEA", lINEA) :
+                new ObjectParameter("LINEA", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var horaParameter = hora.HasValue ?
+                new ObjectParameter("Hora", hora) :
+                new ObjectParameter("Hora", typeof(System.TimeSpan));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("turno", turno) :
+                new ObjectParameter("turno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaPersonalMovidoaLinea>("spConsultaPersonalMovidoaLinea", lINEAParameter, fechaParameter, horaParameter, turnoParameter);
         }
     }
 }

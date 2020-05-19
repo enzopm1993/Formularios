@@ -14,10 +14,16 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA()
+        {
+            this.CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE = new HashSet<CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE>();
+        }
+    
         public int IdLimpiezaDesinfeccionPlanta { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
-        public byte[] FirmaControl { get; set; }
-        public byte[] FirmaAprobacion { get; set; }
+        public Nullable<System.TimeSpan> Hora { get; set; }
+        public string Inspector { get; set; }
         public string UsuarioAprobacion { get; set; }
         public Nullable<System.DateTime> FechaAprobacion { get; set; }
         public Nullable<bool> EstadoControl { get; set; }
@@ -28,5 +34,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE> CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE { get; set; }
     }
 }
