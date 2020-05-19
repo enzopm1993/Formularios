@@ -29,13 +29,12 @@ function CargarBandeja() {
     });
 }
 
-function SeleccionarBandeja(model) {
+function SeleccionarBandejaControl(model) {
     if ($("#selectEstadoRegistro").val() =="false") {
         $("#txtFechaAprobacion").prop("hidden", false);
     } else {
         $("#txtFechaAprobacion").prop("hidden", true);
     }
-    $("#ModalApruebaCntrolCloro").modal("show");
     $("#divTableReporte").html('');
     listaDatos = model;
     $.ajax({
@@ -49,8 +48,10 @@ function SeleccionarBandeja(model) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == "0") {
+            console.log(resultado);
+            if (resultado == 0) {
                 MensajeAdvertencia("¡El REGISTRO no tiene detalle, por favor ingrese los datos en el CONTROL!");
+                return;
             } else {
                 $("#divTableReporte").html(resultado);
                 $("#ModalApruebaCntrolCloro").modal("show");

@@ -65,7 +65,7 @@ function SeleccionarBandeja(model) {
                 table.DataTable().destroy();
                 table.DataTable(config.opcionesDT);
                 resultado.forEach(function (row) {
-                    row.Fecha = moment(row.Fecha).format('YYYY-MM-DD');
+                    row.Fecha = moment(row.Fecha).format('DD-MM-YYYY');
                     row.Hora = moment(row.Hora).format('HH:mm');
                 });
 

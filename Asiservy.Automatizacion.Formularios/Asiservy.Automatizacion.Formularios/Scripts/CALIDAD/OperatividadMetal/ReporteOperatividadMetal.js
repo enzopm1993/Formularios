@@ -70,16 +70,16 @@ function SeleccionarBandeja(Control) {
     }
     $("#lblFerroro").html(model.Ferroso);
     $("#lblPCC").html(model.Pcc);
-    $("#lblFecha").html(moment(model.Fecha).format("YYYY-MM-DD"));
+    $("#lblFecha").html(moment(model.Fecha).format("DD-MM-YYYY"));
     $("#lblNoFerroso").html(model.NoFerroso);
     $("#lblAceroInoxidable").html(model.AceroInoxidable);
     $("#pObservacion").html(model.Observacion);
 
 
     $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
-    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("YYYY-MM-DD HH:mm"));
+    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("DD-MM-YYYY HH:mm"));
     $("#txtUsuarioAprobacion").html(model.AprobadoPor);
-    $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("YYYY-MM-DD HH:mm"));
+    $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("DD-MM-YYYY HH:mm"));
     $("#txtCodDetectorMetal").val(model.DetectorMetal);
 
 
