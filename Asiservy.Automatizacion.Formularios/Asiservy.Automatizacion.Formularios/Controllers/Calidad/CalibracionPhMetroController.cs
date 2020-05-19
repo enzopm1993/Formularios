@@ -1,6 +1,7 @@
 ﻿using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
 using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionPhMetro;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -13,6 +14,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class CalibracionPhMetroController : Controller
     {
+        clsDReporte clsDReporte { get; set; } = null;
         string[] lsUsuario { get; set; } = null;
         clsDError clsDError { get; set; } = null;
         clsDCalibracionPhMetro clsDCalibracionPhMetro = null;
@@ -360,9 +362,22 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             try
             {
                 lsUsuario = User.Identity.Name.Split('_');
+
                 if (string.IsNullOrEmpty(lsUsuario[0]))
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                }
+                else
+                {
+                    ViewBag.CodigoReporte = "AS-RG-CC-21";
+                    ViewBag.VersionReporte = "V 10.0";
                 }
                 List<CC_CALIBRACION_PHMETRO> resultado = new List<CC_CALIBRACION_PHMETRO>();
                 clsDCalibracionPhMetro = new clsDCalibracionPhMetro();

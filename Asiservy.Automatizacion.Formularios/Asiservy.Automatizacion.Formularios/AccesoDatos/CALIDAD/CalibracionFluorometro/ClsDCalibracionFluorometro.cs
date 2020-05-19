@@ -143,6 +143,33 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
             }
         }
 
+        public int GuardarModificarCalibracionFluorDetalle(CC_CALIBRACION_FLUOROMETRO_DET guardarModificar)
+        {
+            int valor = 0;
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var model = db.CC_CALIBRACION_FLUOROMETRO_DET.FirstOrDefault(x => x.IdCalibracionFluorDetalle == guardarModificar.IdCalibracionFluorDetalle &&
+                  x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                if (model != null)
+                {
+                    model.ValorEstandar = guardarModificar.ValorEstandar;
+                    model.Fecha = guardarModificar.Fecha;
+                    model.Hora = guardarModificar.Hora;
+                    model.CoeficienteDeterminacion = guardarModificar.CoeficienteDeterminacion;
+                    model.FechaModificacionLog = guardarModificar.FechaIngresoLog;
+                    model.TerminalModificacionLog = guardarModificar.TerminalIngresoLog;
+                    model.UsuarioModificacionLog = guardarModificar.UsuarioIngresoLog;
+                    valor = 1;
+                }
+                else
+                {
+                    db.CC_CALIBRACION_FLUOROMETRO_DET.Add(guardarModificar);
+                }                
+                db.SaveChanges();
+                return valor;
+            }
+        }
+
         public int EliminarCalibracionFluorDetalle(CC_CALIBRACION_FLUOROMETRO_DET guardarModificar)
         {
             int valor = 0;
@@ -162,12 +189,22 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
             }
         }
 
-        public CC_CALIBRACION_FLUOROMETRO_CTRL ConsultarCalibracionFluorID(int idCalibracionFluor)
+        public CC_CALIBRACION_FLUOROMETRO_CTRL ConsultarCalibracionFluorIdFecha(int idCalibracionFluor, DateTime? fecha)
         {
+            CC_CALIBRACION_FLUOROMETRO_CTRL calibracionID;
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var calibracionID = db.CC_CALIBRACION_FLUOROMETRO_CTRL.FirstOrDefault(c => c.IdCalibracionFluor == idCalibracionFluor
-                                                                    && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                calibracionID = new CC_CALIBRACION_FLUOROMETRO_CTRL();
+                if (idCalibracionFluor != 0 && fecha==null)
+                {
+                    calibracionID = db.CC_CALIBRACION_FLUOROMETRO_CTRL.FirstOrDefault(c => c.IdCalibracionFluor == idCalibracionFluor
+                                                                        && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                }
+                else if(fecha!=null)
+                {
+                    calibracionID = db.CC_CALIBRACION_FLUOROMETRO_CTRL.FirstOrDefault(c => c.Fecha == fecha
+                                                                       && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
+                }
                 return calibracionID;
             }
         }
@@ -184,5 +221,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CalibracionFlu
             }
         }
 
+        public List<CC_CALIBRACION_FLUOROMETRO_DET> ConsultarCalibreFluorDetalleID(int idCalibracionFluorDetalle)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = db.CC_CALIBRACION_FLUOROMETRO_DET.Where(c => c.IdCalibracionFluorDetalle== idCalibracionFluorDetalle && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
+                                                                    .OrderBy(x => x.Fecha).ToList();
+                return lista;
+            }
+        }
     }
 }

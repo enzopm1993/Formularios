@@ -1,11 +1,38 @@
 ﻿IdControl = 0;
-
 $(document).ready(function () {
-    $('#txtPh4').mask("9.99");
-    $('#txtPh7').mask("9.99");
-    $('#txtPh10').mask("99.99");
+    $('#txtPh4').mask("9.9?9");
+    $('#txtPh7').mask("9.9?9");
+    $('#txtPh10').mask("99.9?9");
     ConsultarControl();
 });
+function Validar() {
+    var validar = true;
+    if ($('#txtFecha').val() == '') {
+        $('#msjfechaerror').prop('hidden', false);
+        validar = false;
+    }
+    if ($('#txtHora').val()=='') {
+        validar = false;
+        $('#msjhoraerror').prop('hidden', false);
+    }
+    if ($('#txtCodigoPhMetro').val() == '') {
+        validar = false;
+        $('#msjcodigoerror').prop('hidden', false);
+    }
+    if ($('#txtPh4').val() == '') {
+        $('#msjph40rror').prop('hidden', false);
+        validar = false;
+    }
+    if ($('#txtPh7').val() == '') {
+        $('#msjph70error').prop('hidden', false);
+        validar = false;
+    }
+    if ($('#txtPh10').val() == '') {
+        $('#msjph10error').prop('hidden', false);
+        validar = false;
+    }
+    return validar;
+}
 async function GuardarControlAjax() {
     var promesa= fetch("../CalibracionPhMetro/GuardarControl", {
         method: 'POST',
@@ -24,6 +51,9 @@ async function GuardarControlAjax() {
 }
 async function GuardarControl() {
     try {
+        if (!Validar()) {
+            return;
+        }
         $('#cargac').show();
         var PromesaGuardar = await GuardarControlAjax();
         $('#cargac').hide();
@@ -38,9 +68,10 @@ async function GuardarControl() {
         IdControl = RespuestaGuardar[2].IDPhMetro;
         if (RespuestaGuardar[0] == "002") {
             MensajeAdvertencia(RespuestaGuardar[1]);
+            
         } else {
             MensajeCorrecto(RespuestaGuardar[1]);
-            
+            $('#msjregistros').html('');
         }
     } catch (error) {
         MensajeError('Error comuníquese con el departamento de Sistemas', false);
@@ -60,6 +91,7 @@ async function ConsultarControlAjax() {
 }
 async function ConsultarControl() {
     try {
+        LimpiarControles();
         $('#cargac').show();
         var PromesaConsultar = await ConsultarControlAjax();
         $('#cargac').hide();
@@ -71,6 +103,22 @@ async function ConsultarControl() {
         if (RespuestaConsultar == "101") {
             window.location.reload();
         }
+        if (RespuestaConsultar == "0") {
+            $('#msjregistros').html(Mensajes.SinRegistros);
+            IdControl = 0;
+            $('#btnEliminarControl').prop('disabled', true);
+            LimpiarControles();
+            return;
+        } else {
+            IdControl = RespuestaConsultar.IDPhMetro;
+            $('#txtHora').val(moment(RespuestaConsultar.Hora).format('hh:mm'));
+            $('#txtCodigoPhMetro').val(RespuestaConsultar.CodigoPhMetro);
+            $('#txtPh4').val(RespuestaConsultar.Ph40);
+            $('#txtPh7').val(RespuestaConsultar.ph70);
+            $('#txtPh10').val(RespuestaConsultar.ph10);
+            $('#txtObservacion').val(RespuestaConsultar.observacion);
+            $('#msjregistros').html('');
+        }
         if (RespuestaConsultar.EstadoControl == true) {
             $("#estadocontrol").removeClass("badge-danger").addClass("badge-success");
             $('#estadocontrol').text('APROBADO');
@@ -81,21 +129,24 @@ async function ConsultarControl() {
             $("#DivContenido :input").prop("disabled", false);
             $('#estadocontrol').text('PENDIENTE');
             $("#estadocontrol").removeClass("badge-success").addClass("badge-danger");
+
+        
         }
-        if (RespuestaConsultar == 0) {
-            IdControl = 0;
-            $('#btnEliminarControl').prop('disabled', true);
-            LimpiarControles();
-        } else {
+        //if (RespuestaConsultar == 0) {
+        //    IdControl = 0;
+        //    $('#btnEliminarControl').prop('disabled', true);
+        //    LimpiarControles();
+           
+        //} else {
             
-            IdControl = RespuestaConsultar.IDPhMetro;
-            $('#txtHora').val(moment(RespuestaConsultar.Hora).format('hh:mm'));
-            $('#txtCodigoPhMetro').val(RespuestaConsultar.CodigoPhMetro);
-            $('#txtPh4').val(RespuestaConsultar.Ph40);
-            $('#txtPh7').val(RespuestaConsultar.ph70);
-            $('#txtPh10').val(RespuestaConsultar.ph10);
-            $('#txtObservacion').val(RespuestaConsultar.observacion);
-        }
+        //    IdControl = RespuestaConsultar.IDPhMetro;
+        //    $('#txtHora').val(moment(RespuestaConsultar.Hora).format('hh:mm'));
+        //    $('#txtCodigoPhMetro').val(RespuestaConsultar.CodigoPhMetro);
+        //    $('#txtPh4').val(RespuestaConsultar.Ph40);
+        //    $('#txtPh7').val(RespuestaConsultar.ph70);
+        //    $('#txtPh10').val(RespuestaConsultar.ph10);
+        //    $('#txtObservacion').val(RespuestaConsultar.observacion);
+        //}
         if (RespuestaConsultar.EstadoControl != true) {
 
             $('#btnEliminarControl').prop('disabled', false);
@@ -107,7 +158,8 @@ async function ConsultarControl() {
     }
 }
 function LimpiarControles() {
-    
+    $("#DivContenido :input").prop("disabled", false);
+    $('#btnEliminarControl').prop('disabled', true);
     $('#estadocontrol').text('');
     $('#txtHora').val('');
     $('#txtCodigoPhMetro').val('');
