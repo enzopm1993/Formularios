@@ -10,13 +10,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
 {
     public class clsDAsistencia
     {
-        List<sp_ConsultaAsistenciaDiaria> pListAsistencia = null;
-        List<sp_ConsultaAsistenciaGeneralDiaria> pListAsistenciaGeneral = null;
-        List<ASISTENCIA> pListAsistenciaExiste = null;
-        clsDCambioPersonal clsdCambioPersonal = null;
-        List<sp_ConsultaAsistenciaDiariaPersonalMovido> pListAsistenciaMovidos = null;
-        spConsutaEmpleados BuscarControlador = null;
-        clsDEmpleado ClsdEmpleado = null;
+        List<sp_ConsultaAsistenciaDiaria> pListAsistencia { get; set; } = null;
+        List<sp_ConsultaAsistenciaGeneralDiaria> pListAsistenciaGeneral { get; set; } = null;
+        List<ASISTENCIA> pListAsistenciaExiste { get; set; } = null;
+        clsDCambioPersonal clsdCambioPersonal { get; set; } = null;
+        List<sp_ConsultaAsistenciaDiariaPersonalMovido> pListAsistenciaMovidos { get; set; } = null;
+        spConsutaEmpleados BuscarControlador { get; set; } = null;
+        clsDEmpleado ClsdEmpleado { get; set; } = null;
 
         public Boolean CosultarAsistenciaEmpleado(string cedula, DateTime fecha)
         {
@@ -49,18 +49,19 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Asistencia
                 return db.spConsultaPersonalADondeFueronMovidos(codlinea, Fecha, Hora).ToList();
             }
         }
-        public List<spConsultaPersonalMovidoaLinea> ConsultaPersonalMovidoaLinea(string codlinea, DateTime? Fecha, TimeSpan? Hora)
+        //20200519
+        //public List<spConsultaPersonalMovidoaLinea> ConsultaPersonalMovidoaLinea(string codlinea, DateTime? Fecha, TimeSpan? Hora)
+        //{
+        //    using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+        //    {
+        //        return db.spConsultaPersonalMovidoaLinea(codlinea, Fecha, Hora).ToList();
+        //    }
+        //}
+        public List<spConsultaPersonalMovidoaLinea> ConsultaPersonalMovidoaLineaModal(string codlinea, DateTime? Fecha, TimeSpan? Hora, string Turno)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                return db.spConsultaPersonalMovidoaLinea(codlinea, Fecha, Hora).ToList();
-            }
-        }
-        public List<spConsultaPersonalMovidoaLinea> ConsultaPersonalMovidoaLineaModal(string codlinea, DateTime? Fecha, TimeSpan? Hora)
-        {
-            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-            {
-                var ConsultarPersonalMovido= db.spConsultaPersonalMovidoaLinea(codlinea, Fecha, Hora).ToList();
+                var ConsultarPersonalMovido= db.spConsultaPersonalMovidoaLinea(codlinea, Fecha, Hora,Turno).ToList();
                 var AsistenciaBuscar = db.ASISTENCIA.Where(x => x.Fecha == Fecha && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).ToList();//traigo la asistencia de todas las lineas en la fecha ingresada
                 List<spConsultaPersonalMovidoaLinea> PersonalMovidoAEstaLineaFiltrado = (from p in ConsultarPersonalMovido
                                                                                          join asis in AsistenciaBuscar

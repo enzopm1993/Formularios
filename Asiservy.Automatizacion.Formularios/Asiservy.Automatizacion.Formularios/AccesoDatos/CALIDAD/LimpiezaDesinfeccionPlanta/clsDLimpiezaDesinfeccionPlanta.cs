@@ -292,7 +292,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.LimpiezaDesinf
                 }
                 else
                 {
-                    buscarcabecera.FirmaControl = poCabControl.FirmaControl;
+                    //buscarcabecera.FirmaControl = poCabControl.FirmaControl;
                     buscarcabecera.UsuarioModificacionLog = poCabControl.UsuarioIngresoLog;
                     buscarcabecera.TerminalModificacionLog = poCabControl.TerminalIngresoLog;
                     buscarcabecera.FechaModificacionLog = DateTime.Now;

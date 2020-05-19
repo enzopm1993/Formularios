@@ -8,6 +8,7 @@ var IdCabecera = 0;
 var IdDetalle = 0;
 $(document).ready(function () {
     $('#cmbEmpacador').select2();
+    //$('#txtMonto').mask('000,000,000.00', { reverse: true });
     $('#txtVenas').mask("9?9");
     $('#txtEspinas').mask("9?9");
     $('#txtSangre').mask("9?9");
