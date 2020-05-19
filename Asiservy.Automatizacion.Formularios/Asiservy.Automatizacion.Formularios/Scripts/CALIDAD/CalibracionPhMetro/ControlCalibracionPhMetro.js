@@ -91,7 +91,14 @@ async function ConsultarControlAjax() {
 }
 async function ConsultarControl() {
     try {
+
         LimpiarControles();
+        if ($('#txtFecha').val() == '') {
+            $('#msjfechaerror').prop('hidden', false);
+            return;
+        } else {
+            $('#msjfechaerror').prop('hidden', true);
+        }
         $('#cargac').show();
         var PromesaConsultar = await ConsultarControlAjax();
         $('#cargac').hide();
