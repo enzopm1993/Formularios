@@ -66,7 +66,7 @@
             <tr style="cursor:pointer" onclick="AbrirModalDetalle(@item.IdEvaluacionProductoEnfundado)">
 
                 <td>
-                    @item.FechaProduccion.Value.ToString("yyyy-MM-dd")
+                    @item.FechaProduccion.Value.ToString("dd-MM-yyyy")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.OrdenFabricacion)

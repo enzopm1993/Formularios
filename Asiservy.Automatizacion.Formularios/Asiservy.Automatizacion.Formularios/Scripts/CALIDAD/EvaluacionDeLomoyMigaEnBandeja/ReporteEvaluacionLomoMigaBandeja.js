@@ -103,15 +103,15 @@ function CargarCabReportes() {
                 ];
                 
                 resultado.forEach(function (row) {
-                    row.FechaProduccion = moment(row.FechaProduccion).format('YYYY-MM-DD');
+                    row.FechaProduccion = moment(row.FechaProduccion).format('DD-MM-YYYY');
                     if (row.FechaAprobacion != null) {
-                        row.FechaAprobacion = moment(row.FechaAprobacion).format('YYYY-MM-DD HH:mm');
+                        row.FechaAprobacion = moment(row.FechaAprobacion).format('DD-MM-YYYY HH:mm');
                     }
                     if (row.FechaIngresoLog != null) {
-                        row.FechaIngresoLog = moment(row.FechaIngresoLog).format('YYYY-MM-DD HH:mm');
+                        row.FechaIngresoLog = moment(row.FechaIngresoLog).format('DD-MM-YYYY HH:mm');
                     }
                     if (row.FechaModificacionLog != null) {
-                        row.FechaModificacionLog = moment(row.FechaModificacionLog).format('YYYY-MM-DD HH:mm');
+                        row.FechaModificacionLog = moment(row.FechaModificacionLog).format('DD-MM-YYYY HH:mm');
                     }
                     var estiloTrue ='<i class="fas fa-check-square" style="color:green"></i>'
                     var estiloClass = 'badge badge-danger';

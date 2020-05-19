@@ -365,7 +365,7 @@
                                 <br />
                                 <input type="text" value="Realizado Por" id="realizado" />
                                 <br />
-                                @Model.FirstOrDefault().FechaIngresoLog.ToString("yyyy-MM-dd hh:mm:ss")
+                                @Model.FirstOrDefault().FechaIngresoLog.ToString("dd-MM-yyyy hh:mm:ss")
                             </td>
                             <td>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -378,7 +378,7 @@
                                 @if (Model.FirstOrDefault().FechaAprobacion != null)
                                 {
                                     <text>
-                                        @Model.FirstOrDefault().FechaAprobacion.Value.ToString("yyyy-MM-dd hh:mm:ss");
+                                        @Model.FirstOrDefault().FechaAprobacion.Value.ToString("dd-MM-yyyy hh:mm:ss");
                                     </text>
 
                                 }
