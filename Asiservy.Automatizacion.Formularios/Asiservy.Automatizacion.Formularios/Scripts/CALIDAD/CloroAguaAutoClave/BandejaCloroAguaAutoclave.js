@@ -44,6 +44,7 @@ function SeleccionarBandeja(model) {
     }
     $("#ModalApruebaCntrol").modal("show");
     listaDatos = model;
+    CargarControlDetalle();
 }
 
 function AprobarControl() {
@@ -146,14 +147,14 @@ function FiltrarAprobadosFecha() {
 
 
 ////////////////////////////////////// DETALLE
-function CargarControlDetalle(id) {
+function CargarControlDetalle() {
     $("#divTableDetalle").html('');
     $("#spinnerCargandoDetalle").prop("hidden", false);
     $.ajax({
         url: "../CloroAguaAutoclave/ReporteCloroAguaAutoclaveDetallePartial",
         type: "GET",
         data: {
-            IdControl: id
+            Fecha: listaDatos.Fecha
             //  Tipo: $("#txtLineaNegocio").val()
         },
         success: function (resultado) {

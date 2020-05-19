@@ -23,7 +23,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         public clsDReporte ClsDReporte { get; set; } = null;
 
 
-
+        #region CONTROL
         // GET: OperatividadMetal
         [Authorize]
         public ActionResult OperatividadMetal()
@@ -295,10 +295,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        #endregion
 
         #region DETECCION DE METALES EN BANDEJAS 
-
         public ActionResult OperatividadMetalDetectorPartial(int IdControl)
         {
             try

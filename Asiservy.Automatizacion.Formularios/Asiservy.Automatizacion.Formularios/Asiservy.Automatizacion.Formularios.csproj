@@ -2201,6 +2201,7 @@
     <Content Include="Scripts\CALIDAD\CalibracionPhMetro\ReporteCalibracionPhMetro.js" />
     <Content Include="Scripts\CALIDAD\CloroAguaAutoClave\BandejaCloroAguaAutoclave.js" />
     <Content Include="Scripts\CALIDAD\CloroAguaAutoClave\CloroAguaAutoClave.js" />
+    <Content Include="Scripts\CALIDAD\CloroAguaAutoClave\ReporteCloroAguaAutoclave.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\CloroCisternaDescongelado.js" />
     <Content Include="Scripts\CALIDAD\CloroCisternaDescongelado\ReporteCloroCisternaDescongelado.js" />
@@ -4011,6 +4012,9 @@
     <Content Include="Views\CloroAguaAutoClave\CloroAguaAutoClavePartial.cshtml" />
     <Content Include="Views\CloroAguaAutoClave\BandejaCloroAguaAutoclave.cshtml" />
     <Content Include="Views\CloroAguaAutoClave\BandejaCloroAguaAutoclavePartial.cshtml" />
+    <Content Include="Views\CloroAguaAutoClave\ReporteCloroAguaAutoclave.cshtml" />
+    <Content Include="Views\CloroAguaAutoClave\ReporteCloroAguaAutoclavePartial.cshtml" />
+    <Content Include="Views\CloroAguaAutoClave\ReporteCloroAguaAutoclaveDetallePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -2,14 +2,13 @@
 @using Newtonsoft.Json
 @using Asiservy.Automatizacion.Datos.Datos
 
-
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
-         
+
             <th>
                 Estado
             </th>
@@ -42,6 +41,13 @@
             {
                 IdCloroAguaAutoclaveControl = item.IdCloroAguaAutoclaveControl,
                 Fecha = item.Fecha,
+                AprobadoPor = item.AprobadoPor,
+                EstadoReporte = item.EstadoReporte,
+                FechaAprobacion = item.FechaAprobacion,
+                FechaIngresoLog = item.FechaIngresoLog,
+                FechaModificacionLog = item.FechaModificacionLog,
+                UsuarioIngresoLog = item.UsuarioIngresoLog,
+                UsuarioModificacionLog = item.UsuarioModificacionLog
             };
 
 
@@ -51,7 +57,6 @@
                     @item.Fecha.ToString("yyyy-MM-dd")
                 </td>
              
-
                 @if (item.EstadoReporte == true)
                 {
                     <td><span class="badge badge-success">Aprobado</span></td>
@@ -73,7 +78,9 @@
                 </td>
                 <td>
                     @if (item.FechaModificacionLog != null)
-                    { @item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm") }
+                    {
+                        item.FechaModificacionLog.Value.ToString("yyyy-MM-dd HH:mm");
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
