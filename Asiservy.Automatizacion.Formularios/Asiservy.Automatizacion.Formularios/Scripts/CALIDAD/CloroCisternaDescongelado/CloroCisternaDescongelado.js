@@ -30,18 +30,18 @@ function CargarCabecera() {
                     $("#btnModalEliminar").prop("hidden", true);
                     $("#btnModalGenerar").prop("hidden", false);
                     $("#btnModalGenerarRegistro").prop("hidden", false);
-                } else {                    
+                } else {       
                     if (resultado.EstadoReporte == true) {
-                        $("#txtEstado").html("(APROBADO)");
-                        $("#txtEstado").removeClass('text-danger');
-                        $("#txtEstado").addClass('text-success');
+                        $("#txtEstado").html("APROBADO");
+                        $("#txtEstado").removeClass('badge badge-danger');
+                        $("#txtEstado").addClass('badge badge-success');
                         $("#btnModalEditar").prop("hidden", true);
                         $("#btnModalEliminar").prop("hidden", true);                         
                         
                         $("#btnModalGenerar").prop("hidden", true);                        
                     } else {                        
-                        $("#txtEstado").html("(PENDIENTE)");
-                        $("#txtEstado").addClass('text-danger');
+                        $("#txtEstado").html("PENDIENTE");
+                        $("#txtEstado").addClass('badge badge-danger');
                         $("#divDetalleControlCloro").prop("hidden", false);                                               
                         $("#btnModalGenerar").prop("hidden", false);
                         $("#btnModalEditar").prop("hidden", false);
@@ -159,6 +159,10 @@ function limpiarDetalle() {
 }
 
 function GuardarControlCloroDetalle() {
+    if ($('#txtCisterna').val()==0) {
+        MensajeAdvertencia('El número de Cisterna debe ser mayor a 0');
+        return;
+    }
     if (ControlMayorA()!=false) {
         $.ajax({
             url: "../CloroCisternaDescongelado/ControlCloroCisternaDescongeladoDetalle",
@@ -175,10 +179,12 @@ function GuardarControlCloroDetalle() {
                 if (resultado == "101") {
                     window.location.reload();
                 }
-                $("#ModalGenerarHoraControlCloroCisterna").modal("hide");
+                $("#ModalGenerarHoraControlCloroCisterna").modal("hide");                
                 CargarCabecera();
                 CargarControlCloroCisternaDetalle();
                 limpiarDetalle();
+                ListaDatos = [];
+                ListaDatosDetalle = [];
             },
             error: function (resultado) {
                 MensajeError(resultado.responseText, false);
@@ -212,7 +218,7 @@ function CargarControlCloroCisternaDetalle() {
                 $("#divTableEntregaProductoDetalle").prop("hidden", false);   
                 $("#divTableEntregaProductoDetalle").html(resultado);       
                 $("#divDetalleControlCloro").prop("hidden", false);        
-            }
+            }            
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Cisterna>
 @using Newtonsoft.Json;
 <table class="table table-light table-striped table-hover" id="tblDataTable">
-    <thead>
+    <thead style="font-size:12px">
         <tr>
             <th>FECHA</th>
             <th>QUIMICOS UTILIZADOS</th>
@@ -11,17 +11,17 @@
         </tr>
     </thead>
    
-    <tbody style="font-size:14px">
+    <tbody style="font-size:11px">
         @foreach (var item in Model)
         {
             var json = JsonConvert.SerializeObject(item); 
             <tr onclick="SeleccionarBandeja(@json)">                
                 <td>@item.Fecha.ToString("dd-MM-yyyy")</td>
-                <td>@item.QuimUtilizados.ToUpper()</td>
+                <td style="white-space:normal;width:350px">@item.QuimUtilizados.ToUpper()</td>
 
                 @if (!string.IsNullOrEmpty(item.Observacion))
                 {
-                    <td>@item.Observacion.ToUpper()</td>
+                    <td style="white-space:normal;">@item.Observacion.ToUpper()</td>
                 }
                 else
                 {

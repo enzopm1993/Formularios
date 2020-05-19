@@ -30,9 +30,7 @@ function CargarCabecera(op) {
                 $("#divMostarTablaCabecera").html(resultado);
             }
             itemEditar = 0;
-            setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -64,11 +62,9 @@ function GuardarCabecera() {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
             }
             $('#ModalIngresoCabecera').modal('hide');
-            setTimeout(function () {
                 LimpiarCabecera();          
                 $('#cargac').hide();
                 CargarCabecera(0);
-            }, 200);
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -110,9 +106,7 @@ function EliminarCabeceraSi() {
                 $("#modalEliminarControl").modal("hide");
                 CargarCabecera(0);
                 MensajeCorrecto("Registro eliminado con Éxito");
-                setTimeout(function () {
                     $('#cargac').hide();
-                }, 200);
             } else if (resultado == '2') {
                 MensajeAdvertencia('¡El registro se encuentra APROBADO, para poder editar dirigase a la Bandeja y REVERSE el registro!');
                 $('#cargac').hide();

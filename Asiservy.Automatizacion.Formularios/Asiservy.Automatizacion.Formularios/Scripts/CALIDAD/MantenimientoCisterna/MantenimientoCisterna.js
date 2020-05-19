@@ -29,7 +29,13 @@ function CargarCabecera() {
 }
 
 function GuardarCabecera() {    
-    MostrarModalCargando();
+    $('#cargac').show();
+    console.log($('#txtCapacidad').val().length);
+    if ($('#txtCapacidad').val().length > 100) {
+        $('#cargac').hide();
+        MensajeAdvertencia('Paso e límite de caracteres en la Capacidad');
+        return;
+    }
     $.ajax({
         url: "../MantenimientoCisterna/GuardarModificarMantenimientoCisterna",
         type: "POST",
@@ -47,14 +53,12 @@ function GuardarCabecera() {
             }
             CargarCabecera();
             $("#txtDescripcion").val('');
-            setTimeout(function () {
                 LimpiarCabecera();
                 $('#ModalIngresoCabecera').modal('hide');
-                CerrarModalCargando();
-            }, 500);
+            $('#cargac').hide();
         },
         error: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });
@@ -75,7 +79,7 @@ function ActivarConfirmar(jdata) {
 }
 
 function EliminarCabeceraSi(estado) {
-    MostrarModalCargando();
+    $('#cargac').show();
     $.ajax({
         url: "../MantenimientoCisterna/EliminarMantenimientoCisterna",
         type: "POST",
@@ -96,14 +100,12 @@ function EliminarCabeceraSi(estado) {
                 $("#modalEliminarControl").modal("hide");
                 CargarCabecera();
                 MensajeCorrecto("Registro Actualizado con Éxito");
-                setTimeout(function () {
-                    CerrarModalCargando();
-                }, 500);
+                $('#cargac').hide();
             }
             itemEditar = 0;
         },
         error: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });

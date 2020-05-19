@@ -82,14 +82,10 @@ function ListarControlCuchillos(opcion) {
             });            
             table.DataTable().rows.add(resultado);
             table.DataTable().draw();
-            setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);
         },
         error: function (resultado) {
-            setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);
             MensajeError(resultado.responseText, false);
         }
     });
@@ -262,7 +258,6 @@ function GuardarControlDetalle(op) {
         var estado = $("#CheckEstadoRegistroOp").prop('checked');
         var idCuchillopreparacion = $('#txtCodigoCuchillo').val();
         var cedulaEmpleado = $('#txtEmpleado').val();
-        var p = $('#txtCodigoCuchilloDetalle').val();
         if ($('#txtActualizar').val() == '1') {
             if ($('#txtCodigoCuchilloDetalle').val() != '') {
                 idCuchillopreparacion = $('#txtCodigoCuchilloDetalle').val();
@@ -301,6 +296,10 @@ function GuardarControlDetalle(op) {
                     MensajeAdvertencia('El registro se encuentra APROBADO, por favor REVERSE el registro e intente nuevamente');
                     $("#ModalIngresoDetalle").modal('hide');
                     AtrasControlPrincipal();
+                }
+                if (datosCabecera.IdControlCuchillo == null) {
+                    MensajeAdvertencia('El registro se encuentra APROBADO, por favor REVERSE el registro e intente nuevamente');
+                    return;
                 }
                 ConsultarControlCuchilloDetalle(0, datosCabecera.IdControlCuchillo, 0, 1);
                 datosDetalle = [];

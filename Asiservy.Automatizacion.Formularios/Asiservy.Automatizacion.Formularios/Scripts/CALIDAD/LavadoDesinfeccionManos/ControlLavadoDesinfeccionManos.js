@@ -7,7 +7,6 @@ $(document).ready(function () {
 });
 
 function CargarCabecera(opcion) {
-    $('#cargac').show();
     $("#divTableEntregaProductoDetalle").html('');
     var op = opcion;
     if ($("#txtFecha").val() == '') {
@@ -55,10 +54,7 @@ function CargarCabecera(opcion) {
                         $("#lblAprobadoPendiente").removeClass('badge-success');
                         $("#lblAprobadoPendiente").addClass('badge badge-danger');}
                     CargarDetalle(0);                    
-                }
-                setTimeout(function () {
-                    $('#cargac').hide();
-                },200);               
+                }         
             },
             error: function (resultado) {
                 $('#cargac').hide();
@@ -253,6 +249,7 @@ function GuardarDetalle(jdata) {
 
 //Retorna PartialView
 function CargarDetalle(opcion) {
+    //$('#cargac').show();
     var op = opcion; 
     var idDesinfeccionManos = 0;
     if (ListaDatos.length!=0) {
@@ -277,6 +274,7 @@ function CargarDetalle(opcion) {
                 $("#divTableEntregaProductoDetalle").html(resultado);
                 $("#divDetalleControlCloro").prop("hidden", false);
             }
+            //$('#cargac').hide();
         },
         error: function (resultado) {
             $('#cargac').hide();

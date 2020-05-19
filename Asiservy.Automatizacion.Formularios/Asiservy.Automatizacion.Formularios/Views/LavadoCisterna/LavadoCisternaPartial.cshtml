@@ -2,7 +2,7 @@
 @using Newtonsoft.Json;
 
 <table class="table table-light table-striped" tabindex="1" id="tblDataTable">
-    <thead>
+    <thead style="font-size:12px">
         <tr>
             <th>FECHA</th>
             <th>Nº CISTERNA</th>
@@ -17,7 +17,7 @@
                              group x by new {x.IdLavadoCisterna } into f
                              select new { f.Key.IdLavadoCisterna}).ToList();        
     }
-    <tbody style="font-size:14px">
+    <tbody style="font-size:11px">
         @foreach (var item in listaFiltrada)
         {
             DateTime fecha = new DateTime(1900, 01, 01); string quimUtilizados = "";string observacion = "";
@@ -41,12 +41,12 @@
                     @fecha.ToString("dd-MM-yyyy")
                 </td>
                 <td>@NDescripcion.ToUpper()</td>
-                <td>
+                <td style="white-space:normal;width:350px">
                     @quimUtilizados.ToUpper()
                 </td>
                 @if (!string.IsNullOrEmpty(observacion))
                 {
-                    <td>@observacion.ToUpper()</td>
+                    <td style="white-space:normal">@observacion.ToUpper()</td>
                 }
                 else {
                     <td></td>
