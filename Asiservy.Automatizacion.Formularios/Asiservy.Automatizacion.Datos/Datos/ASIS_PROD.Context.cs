@@ -164,6 +164,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE> CC_LIMPIEZA_DESINFECCION_PLANTA_DETALLE { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA> CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA { get; set; }
+        public virtual DbSet<CC_VERIFICACION_POTENCIOMETRO> CC_VERIFICACION_POTENCIOMETRO { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
