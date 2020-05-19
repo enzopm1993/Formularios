@@ -23,8 +23,8 @@ function CargarBandeja() {
             $("#btnAprobado").prop("hidden", false);
             $("#btnReversar").prop("hidden", true);
             $("#spinnerCargando").prop("hidden", true);
-            config.opcionesDT.pageLength = 10;
-            $('#tblDataTable').DataTable(config.opcionesDT);
+            //config.opcionesDT.pageLength = 10;
+            //$('#tblDataTable').DataTable(config.opcionesDT);
 
         },
         error: function (resultado) {
