@@ -1,0 +1,89 @@
+﻿@model Asiservy.Automatizacion.Formularios.Models.DatosEmpleadosViewModel
+
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .datoCambia {
+        background: #379037 !important;
+        color: #fff;
+    }
+</style>
+<h4>Datos personales en nómina</h4>
+
+
+<div class="col-md-12 col-12">
+    <hr />
+    <div class="row">
+
+        <div class="col-md-6 col-12">
+            <div class="form-group">
+                <label>Nombres</label>
+                <input type="text" class="form-control" readonly value="@Model.DatosEmpleado.NOMBRES" />
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="form-group">
+                <label>Cédula</label>
+                <input type="text" class="form-control" id="txtCedula" readonly value="@Model.DatosEmpleado.CEDULA" />
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="form-group">
+                <label>Fecha de nacimiento</label>
+                <input type="text" class="form-control" readonly value="@Model.DatosEmpleado.FECNAC" />
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="form-group">
+                <label>Dirección</label>
+                <input type="text" class="form-control inputsEdita" id="txtDireccion" value="@Model.DatosEmpleado.DIRECCION" data-direccion="@Model.DatosEmpleado.DIRECCION" disabled />
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="form-group">
+                <label>Barrio</label>
+                <input type="text" class="form-control inputsEdita" id="txtBarrio" value="@Model.DatosEmpleado.BARRIO" data-barrio="@Model.DatosEmpleado.BARRIO" disabled />
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="form-group">
+                <label>Teléfono</label>
+                <input type="tel" class="form-control inputsEdita" id="txtTelf" value="@Model.DatosEmpleado.TELEFONO" data-telefono="@Model.DatosEmpleado.TELEFONO" disabled />
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="form-group">
+                <label>Celular</label>
+                <input type="tel" class="form-control inputsEdita" id="txtCelular" value="@Model.DatosEmpleado.CELULAR" data-celular="@Model.DatosEmpleado.CELULAR" disabled />
+            </div>
+        </div>
+        <div class="col-md-6  col-12">
+            <div class="form-group">
+                <label>Correo personal</label>
+                <input type="email" class="form-control inputsEdita" id="txtCorreo" value="@Model.DatosEmpleado.CORREO" data-correo="@Model.DatosEmpleado.CORREO" disabled />
+            </div>
+        </div>
+        <div class="col-md-12  col-12">
+            <input type="hidden" id="solicitudPendiente" value="@Model.idSolicitud" />
+            <div class="form-group">
+                @if (Model.idSolicitud > 0)
+                {
+                    <div class="alert alert-warning" role="alert">
+                        @Model.MensajeMuestra
+                    </div>
+                    <a class="btn btn-danger" title="Cancelar" alt="Anular" href="#" id="btnAnular" onclick="anular('@Model.idSolicitud')"><i class="fas fa-times"></i> Anular solicitud de cambio de datos</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary" title="Editar" alt="Editar" href="#" id="btnEditar" onclick="editarForm()"><i class="fas fa-pen"></i> Editar datos</a>
+                    <a class="btn btn-success" title="Enviar" alt="Enviar" href="#" id="btnEnviar" onclick="enviarDatos()"><i class="fas fa-check"></i> Enviar a verificación</a>
+                    <a class="btn btn-danger" title="Cancelar" alt="Cancelar" href="#" id="btnCancelar" onclick="cancelar()"><i class="fas fa-ban"></i> Cancelar edición</a>
+
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
