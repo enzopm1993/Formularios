@@ -51,11 +51,18 @@
             <div class="card-body">
                 <h5 hidden id="hMensaje"></h5>
                 <div class="row" id="divCabecera">
-                    <div class="col-md-2 col-sm-6 col-12">
+                    <div class="col-md-1 col-sm-6 col-12">
 
                         <div class="form-group">
                             <label>Id</label>
                             <input type="number" disabled class="form-control" name="name" id="txtIdControl" value="0" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-12">
+
+                        <div class="form-group">
+                            <label>Opcion</label>
+                            @Html.DropDownList("selectOpcion", new SelectList(ViewBag.Opciones, "IdOpcion", "Formulario"), "Seleccione", new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-12">
@@ -71,13 +78,7 @@
                             <input type="text" size="50" autocomplete="off" class="form-control" name="name" value="" id="txtCodigo" />
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-6 col-12">
 
-                        <div class="form-group">
-                            <label>Opcion</label>
-                            @Html.DropDownList("selectOpcion",new SelectList(ViewBag.Opciones,"IdOpcion","Formulario"),"Seleccione",new { @class="form-control"})
-                        </div>
-                    </div>
 
 
 
