@@ -12,11 +12,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_MANTENIMIENTO_TEXTURA
+    public partial class CC_VERIFICACION_POTENCIOMETRO
     {
-        public int IdTextura { get; set; }
-        public string Descripcion { get; set; }
-        public byte[] Abreviatura { get; set; }
+        public int IdVerificacionPotenciometroControl { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string Modelo { get; set; }
+        public int Serie { get; set; }
+        public decimal NaCI1 { get; set; }
+        public decimal NaCI2 { get; set; }
+        public decimal NaCI3 { get; set; }
+        public string Observacion { get; set; }
+        public bool EstadoReporte { get; set; }
+        public Nullable<System.DateTime> FechaAprobacion { get; set; }
+        public string AprobadoPor { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

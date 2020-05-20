@@ -16,6 +16,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
     {
         public int IdOlor { get; set; }
         public string Descripcion { get; set; }
+        public string Abreviatura { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }

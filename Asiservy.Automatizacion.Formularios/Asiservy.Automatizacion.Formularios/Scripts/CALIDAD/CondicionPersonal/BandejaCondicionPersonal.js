@@ -32,7 +32,11 @@ function CargarBandeja() {
 function SeleccionarBandeja(model) {
     var table = $("#tblDataTableAprobar");
     table.DataTable().clear();
-
+    if ($("#selectEstadoRegistro").val() == "false") {
+        $("#txtFechaAprobacion").prop("hidden", true);
+    } else {
+        $("#txtFechaAprobacion").prop("hidden", false);
+    }
     $("#ModalAgregarDetalle").modal("show");
     listaDatos = model;
     $.ajax({
@@ -105,6 +109,27 @@ function AprobarControlCloroDetalle(data) {
     });
 }
 
+function ReversarControl() {
+    $.ajax({
+        url: "../CondicionPersonal/ReversarBandejaControl",
+        type: "POST",
+        data: {
+            IdCloroAguaAutoclave: listaDatos.IdCloroAguaAutoclave,
+            Fecha: listaDatos.Fecha
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            MensajeCorrecto(resultado);
+            FiltrarAprobadosFecha();
+            $("#ModalApruebaCntrolCloro").modal("hide");
+        },
+        error: function (resultado) {
+            MensajeError('Error, Comuniquese con sistemas. ' + resultado.responseText, false);
+        }
+    });
+}
 function FiltrarAprobadosFecha() {
     if ($("#selectEstadoRegistro").val() == 'false') {
         $("#divDateRangePicker").prop('hidden', true);

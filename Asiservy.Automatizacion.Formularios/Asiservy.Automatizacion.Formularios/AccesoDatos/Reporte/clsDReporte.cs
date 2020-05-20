@@ -31,7 +31,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Reporte
         {
             using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
             {
-                var poReporte = entities.REPORTE_MAESTRO.FirstOrDefault(x => x.IdReporteMaestro == model.IdReporteMaestro);
+                var poReporte = entities.REPORTE_MAESTRO.FirstOrDefault(x => x.IdReporteMaestro == model.IdReporteMaestro || (x.IdOpcion == model.IdOpcion));
                 if (poReporte != null)
                 {
                     poReporte.EstadoRegistro = model.EstadoRegistro;

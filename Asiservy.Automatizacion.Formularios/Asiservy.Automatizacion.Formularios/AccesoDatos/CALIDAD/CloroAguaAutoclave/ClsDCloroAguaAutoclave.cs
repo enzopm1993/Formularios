@@ -18,7 +18,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroAguaAutoc
                             && x.EstadoRegistro==clsAtributos.EstadoRegistroActivo
                             select y);
  
-                //var lista = entities.CC_CLORO_AGUA_AUTOCLAVE.Where(x=>x.IdCloroAguaAutoclaveControl == id).ToList();
                 return query.ToList();
             }
         }

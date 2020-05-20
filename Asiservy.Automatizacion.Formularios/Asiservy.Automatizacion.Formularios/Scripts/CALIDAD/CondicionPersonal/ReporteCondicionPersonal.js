@@ -45,7 +45,7 @@ function FiltrarAprobadosFecha() {
 function ConsultarReporte(model) {
     if (!model.EstadoReporte) {
         MensajeAdvertencia(Mensajes.ReportePendiente);
-        return;
+        //return;
     }
 
     $("#txtMensaje").html('');
