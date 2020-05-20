@@ -2,7 +2,8 @@
 $(function () {
     $('#tblDataTable thead tr:eq(0) th:eq(0)').trigger('click');
    
-    $(".editarDatos").click(function () {
+
+    $("#contenidoTabla").on("click", '.editarDatos', function (e) {   
 
         $("#txtCodigoData").val('');
         $("#txtCedula").val('');

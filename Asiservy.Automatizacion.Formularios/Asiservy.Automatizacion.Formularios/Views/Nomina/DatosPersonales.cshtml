@@ -6,95 +6,98 @@
 
     
 </style>
-<table class="table-hover table-bordered table-striped table table-responsive" style="cursor: pointer" id="tblDataTable">
-    <thead>
-        <tr>
-
-            <th>
-                <label>Area</label>
-            </th>
-            <th>
-                <label>Línea</label>
-            </th>
-            <th>
-                <label>Cargo</label>
-            </th>
-            <th>
-                <label>Cédula</label>
-            </th>
-            <th>
-                <label>Nombres</label>
-            </th>
-            <th>
-                <label>Driección</label>
-            </th>
-            <th>
-                <label>Barrio</label>
-            </th>
-            <th>
-                <label>Teléfono</label>
-            </th>
-            <th>
-                <label>Celular</label>
-            </th>
-            <th>
-                <label>Correo personal</label>
-            </th>
-            <th>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div id="contenidoTabla">
+    <table class="table-hover table-bordered table-striped table table-responsive" style="cursor: pointer" id="tblDataTable">
+        <thead>
             <tr>
-                <td>
-                    @item.AREA
-                </td>
-                <td>
-                    @item.LINEA
-                </td>
-                <td>
-                    @item.CARGO
-                </td>
-                <td>
-                    @item.CEDULA
-                </td>
-                <td>
-                    @item.NOMBRES
-                </td>
-                <td>
-                    @item.DIRECCION
-                </td>
-                <td>
-                    @item.BARRIO
-                </td>
-                <td>
-                    @item.TELEFONO
-                </td>
-                <td>
-                    @item.CELULAR
-                </td>
-                <td>
-                    @item.CORREO
-                </td>
-                <td>
-                    <a class="btn btn-primary btn-sm editarDatos"
-                       data-nombres="@item.NOMBRES"
-                       data-direccion="@item.DIRECCION"
-                       data-barrio="@item.BARRIO"
-                       data-telefono="@item.TELEFONO"
-                       data-celular="@item.CELULAR"
-                       data-correo="@item.CORREO"
-                       data-codigodata="@item.CODTRA"
-                       data-cedula="@item.CEDULA"
-                       href="#">Editar datos</a>
-                </td>
-            </tr>
-        }
-    </tbody>
 
-</table>
+                <th>
+                    <label>Area</label>
+                </th>
+                <th>
+                    <label>Línea</label>
+                </th>
+                <th>
+                    <label>Cargo</label>
+                </th>
+                <th>
+                    <label>Cédula</label>
+                </th>
+                <th>
+                    <label>Nombres</label>
+                </th>
+                <th>
+                    <label>Driección</label>
+                </th>
+                <th>
+                    <label>Barrio</label>
+                </th>
+                <th>
+                    <label>Teléfono</label>
+                </th>
+                <th>
+                    <label>Celular</label>
+                </th>
+                <th>
+                    <label>Correo personal</label>
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.AREA
+                    </td>
+                    <td>
+                        @item.LINEA
+                    </td>
+                    <td>
+                        @item.CARGO
+                    </td>
+                    <td>
+                        @item.CEDULA
+                    </td>
+                    <td>
+                        @item.NOMBRES
+                    </td>
+                    <td>
+                        @item.DIRECCION
+                    </td>
+                    <td>
+                        @item.BARRIO
+                    </td>
+                    <td>
+                        @item.TELEFONO
+                    </td>
+                    <td>
+                        @item.CELULAR
+                    </td>
+                    <td>
+                        @item.CORREO
+                    </td>
+                    <td>
+                        <a class="btn btn-primary btn-sm editarDatos"
+                           data-nombres="@item.NOMBRES"
+                           data-direccion="@item.DIRECCION"
+                           data-barrio="@item.BARRIO"
+                           data-telefono="@item.TELEFONO"
+                           data-celular="@item.CELULAR"
+                           data-correo="@item.CORREO"
+                           data-codigodata="@item.CODTRA"
+                           data-cedula="@item.CEDULA"
+                           href="#">Editar datos</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>
 
 
 <div class="modal fade" id="DatosEmpleado" tabindex="-1" role="dialog" aria-labelledby="DatosEmpleado" aria-hidden="true">
