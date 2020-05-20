@@ -2,9 +2,7 @@
 $(document).ready(function () {
     CargarCabecera();    
 });
-function CargarCabecera() {
-    MostrarModalCargando();
-       
+function CargarCabecera() {  
         $.ajax({
             url: "../MantenimientoColor/MantenimientoColorPartial",
             type: "GET",
@@ -18,9 +16,7 @@ function CargarCabecera() {
                     $("#divMantenimientoColor").html(resultado);
                 }                
                 itemEditar = 0;
-                setTimeout(function () {
                     CerrarModalCargando();
-                }, 500);
             },
             error: function (resultado) {
                 CerrarModalCargando();
@@ -30,17 +26,22 @@ function CargarCabecera() {
 }
 
 function GuardarCabecera() {
-    if ($("#txtDescripcion").val()=='') {
-        MensajeAdvertencia("<span class='badge badge-danger'>!Ingrese una descripción al Color que desea ingresar¡</span>");
+    if ($("#txtDescripcion").val() == '' || $('#txtAbreviatura').val()=='') {
+        MensajeAdvertencia("<span class='badge badge-danger'>!Ingrese una Descripción/Abreviatura al Color que desea ingresar¡</span>");
         return;
     }
-    MostrarModalCargando();
+    if ($('#txtAbreviatura').val().length>5) {
+        MensajeAdvertencia("<span class='badge badge-danger'>!Exidio el maximo de caracteres: 5¡</span>");
+        return;
+    }
+    $('#cargac').show();
     $.ajax({
         url: "../MantenimientoColor/GuardarModificarMantenimientoColor",
         type: "POST",
         data: {
-            IdColor:itemEditar.IdColor,
-            Descripcion: $("#txtDescripcion").val()
+            IdColor: itemEditar.IdColor,
+            Abreviatura: $('#txtAbreviatura').val().toUpperCase(),
+            Descripcion: $("#txtDescripcion").val().toUpperCase()
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -48,12 +49,11 @@ function GuardarCabecera() {
             }
             CargarCabecera();  
             $("#txtDescripcion").val('');
-            setTimeout(function () {
-                CerrarModalCargando();
-            }, 500);
+            $('#txtAbreviatura').val('');
+            $('#cargac').hide();
         },
         error: function (resultado) {
-            CerrarModalCargando();
+            $('#cargac').hide();
             MensajeError(resultado.responseText, false);
         }
     });
@@ -113,7 +113,8 @@ function EliminarCabeceraNo() {
 }
 
 function ActualizarCabecera(jdata) {
-    $("#txtDescripcion").prop("disabled", false);
+    $("#txtDescripcion").prop("disabled", false);    
     $("#txtDescripcion").val(jdata.Descripcion);
+    $('#txtAbreviatura').val(jdata.Abreviatura)
     itemEditar = jdata;
 }

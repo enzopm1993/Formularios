@@ -101,7 +101,30 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.PRODUCCION.Esterilizac
                 db.SaveChanges();
                 resultado[0] = "000";
                 resultado[1] = "Registro ingresado con éxito";
-                resultado[2] = poDetalleEsterilizacion;
+                //resultado[2] = poDetalleEsterilizacion;
+                resultado[2] = new
+                {
+                    poDetalleEsterilizacion.EstadoRegistro,
+                    poDetalleEsterilizacion.FechaIngresoLog,
+                    poDetalleEsterilizacion.FechaModificacionLog,
+                    poDetalleEsterilizacion.HoraCierreViento,
+                    poDetalleEsterilizacion.HoraFinalEsterilizacion,
+                    poDetalleEsterilizacion.HoraInicioCalentamiento,
+                    poDetalleEsterilizacion.HoraInicioEsterilizacion,
+                    poDetalleEsterilizacion.HoraInicioLlenado,
+                    poDetalleEsterilizacion.HoraInicioViento,
+                    poDetalleEsterilizacion.IdCabControlEsterilizacionConservas,
+                    poDetalleEsterilizacion.IdCabeceraCoche,
+                    poDetalleEsterilizacion.IdDetalleControlEsterilizacionConserva,
+                    poDetalleEsterilizacion.TemperaturaInicial,
+                    poDetalleEsterilizacion.TemperaturaProductoSalida,
+                    poDetalleEsterilizacion.TemperaturaTermDigital,
+                    poDetalleEsterilizacion.TerminalIngresoLog,
+                    poDetalleEsterilizacion.TerminalModificacionLog,
+                    poDetalleEsterilizacion.TiempoEnfriamiento,
+                    poDetalleEsterilizacion.UsuarioIngresoLog,
+                    poDetalleEsterilizacion.UsuarioModificacionLog
+                };
                 return resultado;
             }
         }
