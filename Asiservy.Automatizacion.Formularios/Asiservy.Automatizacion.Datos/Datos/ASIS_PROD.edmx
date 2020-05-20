@@ -63,6 +63,21 @@
           <Property Name="UsuarioModificacionLog" Type="varchar" MaxLength="50" />
           <Property Name="TerminalModificacionLog" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="BITACORA_CAMBIO_DATOS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usuarioIngresa" Type="varchar" MaxLength="50" />
+          <Property Name="terminalIngresa" Type="varchar" MaxLength="50" />
+          <Property Name="fechaCrea" Type="datetime" />
+          <Property Name="CODTRA" Type="varchar" MaxLength="50" />
+          <Property Name="DIRECCION" Type="varchar" MaxLength="200" />
+          <Property Name="BARRIO" Type="varchar" MaxLength="100" />
+          <Property Name="TELEFONO" Type="varchar" MaxLength="50" />
+          <Property Name="CELULAR" Type="varchar" MaxLength="50" />
+          <Property Name="CORREO" Type="varchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="BITACORA_CAMBIO_PERSONAL">
           <Key>
             <PropertyRef Name="IdBitacoraCambioPersonal" />
@@ -3292,6 +3307,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="EmpleadosDatosPersonales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_CloroCisternaDescongelado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechaDesde" Type="date" Mode="In" />
           <Parameter Name="fechaHasta" Type="date" Mode="In" />
@@ -3892,6 +3908,7 @@
           <EntitySet Name="ASISTENCIA" EntityType="Self.ASISTENCIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AVANCE_KILOS_HORA" EntityType="Self.AVANCE_KILOS_HORA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BARCO" EntityType="Self.BARCO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BITACORA_CAMBIO_DATOS" EntityType="Self.BITACORA_CAMBIO_DATOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_CAMBIO_PERSONAL" EntityType="Self.BITACORA_CAMBIO_PERSONAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_EMPLEADO_TURNO" EntityType="Self.BITACORA_EMPLEADO_TURNO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_MOVER_EMPLEADO" EntityType="Self.BITACORA_MOVER_EMPLEADO" Schema="dbo" store:Type="Tables" />
@@ -5400,6 +5417,8 @@
           <EntitySet Name="CC_MANTENIMIENTO_PROTEINA" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" />
           <EntitySet Name="CC_MANTENIMIENTO_SABOR" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_SABOR" />
           <EntitySet Name="CC_MANTENIMIENTO_TEXTURA" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEXTURA" />
+          <FunctionImport Name="EmpleadosDatosPersonales" ReturnType="Collection(ASIS_PRODModel.EmpleadosDatosPersonales_Result)" />
+          <EntitySet Name="BITACORA_CAMBIO_DATOS" EntityType="ASIS_PRODModel.BITACORA_CAMBIO_DATOS" />
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -10545,6 +10564,34 @@
           <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="EmpleadosDatosPersonales_Result">
+          <Property Type="String" Name="CODTRA" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="AREA" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LINEA" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CARGO" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="CEDULA" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="NOMBRES" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="DIRECCION" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BARRIO" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="TELEFONO" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="CELULAR" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CORREO" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="BITACORA_CAMBIO_DATOS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usuarioIngresa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="terminalIngresa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fechaCrea" Type="DateTime" Precision="3" />
+          <Property Name="CODTRA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DIRECCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="BARRIO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TELEFONO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CELULAR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -15746,6 +15793,39 @@
                 <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="IdTextura" ColumnName="IdTextura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="EmpleadosDatosPersonales" FunctionName="ASIS_PRODModel.Store.EmpleadosDatosPersonales">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.EmpleadosDatosPersonales_Result">
+                <ScalarProperty Name="CODTRA" ColumnName="CODTRA" />
+                <ScalarProperty Name="AREA" ColumnName="AREA" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="CARGO" ColumnName="CARGO" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="BARRIO" ColumnName="BARRIO" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="CELULAR" ColumnName="CELULAR" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="BITACORA_CAMBIO_DATOS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.BITACORA_CAMBIO_DATOS">
+              <MappingFragment StoreEntitySet="BITACORA_CAMBIO_DATOS">
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="CELULAR" ColumnName="CELULAR" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="BARRIO" ColumnName="BARRIO" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="CODTRA" ColumnName="CODTRA" />
+                <ScalarProperty Name="fechaCrea" ColumnName="fechaCrea" />
+                <ScalarProperty Name="terminalIngresa" ColumnName="terminalIngresa" />
+                <ScalarProperty Name="usuarioIngresa" ColumnName="usuarioIngresa" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -165,6 +165,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_MANTENIMIENTO_PROTEINA> CC_MANTENIMIENTO_PROTEINA { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_SABOR> CC_MANTENIMIENTO_SABOR { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_TEXTURA> CC_MANTENIMIENTO_TEXTURA { get; set; }
+        public virtual DbSet<BITACORA_CAMBIO_DATOS> BITACORA_CAMBIO_DATOS { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2129,6 +2130,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual ObjectResult<spConsultaReporteMaestro> spConsultaReporteMaestro()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaReporteMaestro>("spConsultaReporteMaestro");
+        }
+    
+        public virtual ObjectResult<EmpleadosDatosPersonales_Result> EmpleadosDatosPersonales()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<EmpleadosDatosPersonales_Result>("EmpleadosDatosPersonales");
         }
     }
 }
