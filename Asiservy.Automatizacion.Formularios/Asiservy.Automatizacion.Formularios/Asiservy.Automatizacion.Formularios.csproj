@@ -3299,6 +3299,7 @@
     <Content Include="Scripts\Nomina\Asistencia.js" />
     <Content Include="Scripts\Nomina\Certificados.js" />
     <Content Include="Scripts\Nomina\DatosPersonales.js" />
+    <Content Include="Scripts\Nomina\DatosPersonales_BACK.js" />
     <Content Include="Scripts\Nomina\EmpleadosClientes.js" />
     <Content Include="Scripts\Nomina\RptAsistenciaInicialActuales.js" />
     <Content Include="Scripts\Periodo\Periodo.js" />
@@ -3445,6 +3446,7 @@
     <Compile Include="AccesoDatos\Nomina\ModeloVistaPersonalPresente.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaPersonalPresenteBiometrico.cs" />
     <Compile Include="AccesoDatos\Nomina\ModeloVistaRetornaAsistencia.cs" />
+    <Compile Include="AccesoDatos\Nomina\ModelViewDatosEmpleados.cs" />
     <Compile Include="AccesoDatos\Periodo\clsDPeriodo.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\CocheAutoclave\clsDCcocheAutoclave.cs" />
     <Compile Include="AccesoDatos\PRODUCCION\EsterilizacionConserva\clsDEsterilizacionConserva.cs" />
@@ -3873,7 +3875,7 @@
     <Content Include="Views\ResidualCloro\ReporteResidualCloroPartial.cshtml" />
     <Content Include="Views\ResidualCloro\ReporteResidualCloro.cshtml" />
     <Content Include="Views\Datalife\LineasTendencias.cshtml" />
-    <Content Include="Views\Nomina\DatosPersonales.cshtml" />
+    <Content Include="Views\Nomina\DatosPersonales_BACK.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\CloroCisternaDescongelado.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\ValidarCloroCisternaDescongeladoDetallePartial.cshtml" />
     <Content Include="Views\CloroCisternaDescongelado\BandejaCloroCisternaDescongelado.cshtml" />
@@ -4023,6 +4025,7 @@
     <Content Include="Views\CloroAguaAutoClave\ReporteCloroAguaAutoclavePartial.cshtml" />
     <Content Include="Views\CloroAguaAutoClave\ReporteCloroAguaAutoclaveDetallePartial.cshtml" />
     <Content Include="Views\VerificacionPotenciometro\VerificacionPotenciometro.cshtml" />
+    <Content Include="Views\Nomina\DatosPersonales.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

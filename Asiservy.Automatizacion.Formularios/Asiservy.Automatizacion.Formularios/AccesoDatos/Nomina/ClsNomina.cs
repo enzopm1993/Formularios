@@ -82,5 +82,70 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina
             return objTablas;
            
         }
+
+        public List<ModelViewDatosEmpleados> ListaEmpleadosDatosPersonales()
+        {
+            List<ModelViewDatosEmpleados> obtRespuesta = new List<ModelViewDatosEmpleados>();
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var results = db.EmpleadosDatosPersonales().ToList();
+
+                foreach (EmpleadosDatosPersonales_Result item in results)
+                {
+
+                    obtRespuesta.Add(new ModelViewDatosEmpleados
+                    {
+                        CODTRA = item.CODTRA.ToString(),
+                        AREA = item.AREA.ToString(),
+                        CARGO = item.CARGO.ToString(),
+                        LINEA = item.LINEA.ToString(),
+                        CEDULA = item.CEDULA.ToString(),
+                        NOMBRES = item.NOMBRES.ToString(),
+                        DIRECCION = item.DIRECCION.ToString(),
+                        BARRIO = item.BARRIO.ToString(),
+                        TELEFONO = item.TELEFONO.ToString(),
+                        CELULAR = item.CELULAR.ToString(),
+                        CORREO = item.CORREO.ToString()
+                    });
+                }
+
+            }
+
+            return obtRespuesta;
+
+        }
+
+        public bool insertarLogCambio(ModelViewDatosEmpleados datosNuevos, string usuario, string terminal)
+        {
+            bool resp = false;
+
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+
+                BITACORA_CAMBIO_DATOS objetoNuevo = new BITACORA_CAMBIO_DATOS();
+
+                objetoNuevo.usuarioIngresa = usuario;
+                objetoNuevo.fechaCrea = DateTime.Now;
+                objetoNuevo.terminalIngresa = terminal;
+                objetoNuevo.DIRECCION = datosNuevos.DIRECCION;
+                objetoNuevo.BARRIO = datosNuevos.BARRIO;
+                objetoNuevo.TELEFONO = datosNuevos.TELEFONO;
+                objetoNuevo.CELULAR = datosNuevos.CELULAR;
+                objetoNuevo.CORREO = datosNuevos.CORREO;
+                objetoNuevo.CODTRA = datosNuevos.CODTRA;
+
+                db.BITACORA_CAMBIO_DATOS.Add(objetoNuevo);
+                db.SaveChanges();
+                if (objetoNuevo.id > 0)
+                {
+                    resp = true;
+                }
+            }
+
+
+
+            return resp;
+        }
+
     }
 }

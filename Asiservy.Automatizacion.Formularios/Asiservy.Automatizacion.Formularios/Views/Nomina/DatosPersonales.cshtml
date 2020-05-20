@@ -1,89 +1,140 @@
-﻿@model Asiservy.Automatizacion.Formularios.Models.DatosEmpleadosViewModel
-
+﻿@model IEnumerable<Asiservy.Automatizacion.Formularios.AccesoDatos.Nomina.ModelViewDatosEmpleados>
 <style>
-    input, select, textarea {
+    input.form-control, select.form-control, textarea.form-control {
         max-width: 100%;
     }
 
-    .datoCambia {
-        background: #379037 !important;
-        color: #fff;
-    }
+    
 </style>
-<h4>Datos personales en nómina</h4>
+<table class="table-hover table-bordered table-striped table table-responsive" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
 
-
-<div class="col-md-12 col-12">
-    <hr />
-    <div class="row">
-
-        <div class="col-md-6 col-12">
-            <div class="form-group">
-                <label>Nombres</label>
-                <input type="text" class="form-control" readonly value="@Model.DatosEmpleado.NOMBRES" />
-            </div>
-        </div>
-        <div class="col-md-6 col-12">
-            <div class="form-group">
+            <th>
+                <label>Area</label>
+            </th>
+            <th>
+                <label>Línea</label>
+            </th>
+            <th>
+                <label>Cargo</label>
+            </th>
+            <th>
                 <label>Cédula</label>
-                <input type="text" class="form-control" id="txtCedula" readonly value="@Model.DatosEmpleado.CEDULA" />
-            </div>
-        </div>
-        <div class="col-md-6 col-12">
-            <div class="form-group">
-                <label>Fecha de nacimiento</label>
-                <input type="text" class="form-control" readonly value="@Model.DatosEmpleado.FECNAC" />
-            </div>
-        </div>
-        <div class="col-md-6 col-12">
-            <div class="form-group">
-                <label>Dirección</label>
-                <input type="text" class="form-control inputsEdita" id="txtDireccion" value="@Model.DatosEmpleado.DIRECCION" data-direccion="@Model.DatosEmpleado.DIRECCION" disabled />
-            </div>
-        </div>
-        <div class="col-md-6 col-12">
-            <div class="form-group">
+            </th>
+            <th>
+                <label>Nombres</label>
+            </th>
+            <th>
+                <label>Driección</label>
+            </th>
+            <th>
                 <label>Barrio</label>
-                <input type="text" class="form-control inputsEdita" id="txtBarrio" value="@Model.DatosEmpleado.BARRIO" data-barrio="@Model.DatosEmpleado.BARRIO" disabled />
-            </div>
-        </div>
-        <div class="col-md-6 col-12">
-            <div class="form-group">
+            </th>
+            <th>
                 <label>Teléfono</label>
-                <input type="tel" class="form-control inputsEdita" id="txtTelf" value="@Model.DatosEmpleado.TELEFONO" data-telefono="@Model.DatosEmpleado.TELEFONO" disabled />
-            </div>
-        </div>
-        <div class="col-md-6 col-12">
-            <div class="form-group">
+            </th>
+            <th>
                 <label>Celular</label>
-                <input type="tel" class="form-control inputsEdita" id="txtCelular" value="@Model.DatosEmpleado.CELULAR" data-celular="@Model.DatosEmpleado.CELULAR" disabled />
-            </div>
-        </div>
-        <div class="col-md-6  col-12">
-            <div class="form-group">
+            </th>
+            <th>
                 <label>Correo personal</label>
-                <input type="email" class="form-control inputsEdita" id="txtCorreo" value="@Model.DatosEmpleado.CORREO" data-correo="@Model.DatosEmpleado.CORREO" disabled />
-            </div>
-        </div>
-        <div class="col-md-12  col-12">
-            <input type="hidden" id="solicitudPendiente" value="@Model.idSolicitud" />
-            <div class="form-group">
-                @if (Model.idSolicitud > 0)
-                {
-                    <div class="alert alert-warning" role="alert">
-                        @Model.MensajeMuestra
-                    </div>
-                    <a class="btn btn-danger" title="Cancelar" alt="Anular" href="#" id="btnAnular" onclick="anular('@Model.idSolicitud')"><i class="fas fa-times"></i> Anular solicitud de cambio de datos</a>
-                }
-                else
-                {
-                    <a class="btn btn-primary" title="Editar" alt="Editar" href="#" id="btnEditar" onclick="editarForm()"><i class="fas fa-pen"></i> Editar datos</a>
-                    <a class="btn btn-success" title="Enviar" alt="Enviar" href="#" id="btnEnviar" onclick="enviarDatos()"><i class="fas fa-check"></i> Enviar a verificación</a>
-                    <a class="btn btn-danger" title="Cancelar" alt="Cancelar" href="#" id="btnCancelar" onclick="cancelar()"><i class="fas fa-ban"></i> Cancelar edición</a>
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.AREA
+                </td>
+                <td>
+                    @item.LINEA
+                </td>
+                <td>
+                    @item.CARGO
+                </td>
+                <td>
+                    @item.CEDULA
+                </td>
+                <td>
+                    @item.NOMBRES
+                </td>
+                <td>
+                    @item.DIRECCION
+                </td>
+                <td>
+                    @item.BARRIO
+                </td>
+                <td>
+                    @item.TELEFONO
+                </td>
+                <td>
+                    @item.CELULAR
+                </td>
+                <td>
+                    @item.CORREO
+                </td>
+                <td>
+                    <a class="btn btn-primary btn-sm editarDatos"
+                       data-nombres="@item.NOMBRES"
+                       data-direccion="@item.DIRECCION"
+                       data-barrio="@item.BARRIO"
+                       data-telefono="@item.TELEFONO"
+                       data-celular="@item.CELULAR"
+                       data-correo="@item.CORREO"
+                       data-codigodata="@item.CODTRA"
+                       data-cedula="@item.CEDULA"
+                       href="#">Editar datos</a>
+                </td>
+            </tr>
+        }
+    </tbody>
 
-                }
+</table>
+
+
+<div class="modal fade" id="DatosEmpleado" tabindex="-1" role="dialog" aria-labelledby="DatosEmpleado" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloModal"></h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="txtCodigoData" type="hidden" />
+                <input id="txtCedula" type="hidden" />
+                <div class="form-group">
+                    <label for="txtDireccion">Dirección</label>
+                    <input type="text" class="form-control campoSolicitud" id="txtDireccion" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="txtBarrio">Barrio</label>
+                    <input type="text" class="form-control campoSolicitud" id="txtBarrio" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="txtTelefono">Teléfono</label>
+                    <input type="text" class="form-control campoSolicitud" id="txtTelefono" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="txtCelular">Celular</label>
+                    <input type="text" class="form-control campoSolicitud" id="txtCelular" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="txtCorreo">Correo</label>
+                    <input type="text" class="form-control campoSolicitud" id="txtCorreo" value="" />
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-success" id="sincronizarDL" href="#">Sincronizar con DataLife</a>
             </div>
         </div>
     </div>
-
 </div>

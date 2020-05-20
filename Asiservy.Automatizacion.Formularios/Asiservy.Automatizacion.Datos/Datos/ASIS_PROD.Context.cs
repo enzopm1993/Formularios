@@ -165,6 +165,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS> CC_LIMPIEZA_DESINFECCION_PLANTA_MANT_OBJETOS { get; set; }
         public virtual DbSet<CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA> CC_LIMPIEZA_DESINFECION_PLANTA_CABECERA { get; set; }
         public virtual DbSet<CC_VERIFICACION_POTENCIOMETRO> CC_VERIFICACION_POTENCIOMETRO { get; set; }
+        public virtual DbSet<BITACORA_CAMBIO_DATOS> BITACORA_CAMBIO_DATOS { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
@@ -2129,6 +2130,11 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Reporte_Control_Cuchillos_Preparacion>("sp_Reporte_Control_Cuchillos_Preparacion", filtroFechaDesdeParameter, filtroFechaHastaParameter, idControlCuchilloParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<EmpleadosDatosPersonales_Result> EmpleadosDatosPersonales()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<EmpleadosDatosPersonales_Result>("EmpleadosDatosPersonales");
         }
     }
 }
