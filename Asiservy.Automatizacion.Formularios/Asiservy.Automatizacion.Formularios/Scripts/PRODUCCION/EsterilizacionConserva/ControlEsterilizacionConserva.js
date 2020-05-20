@@ -309,6 +309,12 @@ function ConsultarCoches() {
             if (resultado == "101") {
                 window.location.reload();
             }
+            if (resultado == "0") {
+                $('#MensajeRegistros').html('Es necesario generar Control de Coches Autoclave');
+                return;
+            } else {
+                $('#MensajeRegistros').html('');
+            }
             $('#DivCoches').html(resultado);
             config.opcionesDT.pageLength = 5;
             config.opcionesDT.buttons = [];
