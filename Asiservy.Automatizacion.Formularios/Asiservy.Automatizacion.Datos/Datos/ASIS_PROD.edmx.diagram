@@ -199,9 +199,9 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_VERIFICACION_POTENCIOMETRO" Width="1.5" PointX="39.375" PointY="5.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_COLOR" Width="1.5" PointX="13.75" PointY="34.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_OLOR" Width="1.5" PointX="22.75" PointY="34.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" Width="1.5" PointX="24.75" PointY="34.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_SABOR" Width="1.5" PointX="0.75" PointY="35.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEXTURA" Width="1.5" PointX="35.75" PointY="16.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" Width="1.5" PointX="0.75" PointY="35.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_SABOR" Width="1.5" PointX="35.75" PointY="16.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEXTURA" Width="1.5" PointX="41.75" PointY="5.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

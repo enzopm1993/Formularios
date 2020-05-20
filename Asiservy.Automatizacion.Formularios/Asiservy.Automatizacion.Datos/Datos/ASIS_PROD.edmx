@@ -886,7 +886,7 @@
           </Key>
           <Property Name="IdProteina" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="Abreviatura" Type="varbinary" MaxLength="5" Nullable="false" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -901,7 +901,7 @@
           </Key>
           <Property Name="IdSabor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="Abreviatura" Type="varbinary" MaxLength="5" Nullable="false" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -916,7 +916,7 @@
           </Key>
           <Property Name="IdTextura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="Abreviatura" Type="varbinary" MaxLength="5" Nullable="false" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="EstadoRegistro" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FechaIngresoLog" Type="datetime" Nullable="false" />
           <Property Name="UsuarioIngresoLog" Type="varchar" MaxLength="50" Nullable="false" />
@@ -5414,11 +5414,11 @@
           <FunctionImport Name="spConsultaReporteMaestro" ReturnType="Collection(ASIS_PRODModel.spConsultaReporteMaestro)" />
           <EntitySet Name="CC_MANTENIMIENTO_COLOR" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_COLOR" />
           <EntitySet Name="CC_MANTENIMIENTO_OLOR" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_OLOR" />
+          <FunctionImport Name="EmpleadosDatosPersonales" ReturnType="Collection(ASIS_PRODModel.EmpleadosDatosPersonales_Result)" />
+          <EntitySet Name="BITACORA_CAMBIO_DATOS" EntityType="ASIS_PRODModel.BITACORA_CAMBIO_DATOS" />
           <EntitySet Name="CC_MANTENIMIENTO_PROTEINA" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" />
           <EntitySet Name="CC_MANTENIMIENTO_SABOR" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_SABOR" />
           <EntitySet Name="CC_MANTENIMIENTO_TEXTURA" EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEXTURA" />
-          <FunctionImport Name="EmpleadosDatosPersonales" ReturnType="Collection(ASIS_PRODModel.EmpleadosDatosPersonales_Result)" />
-          <EntitySet Name="BITACORA_CAMBIO_DATOS" EntityType="ASIS_PRODModel.BITACORA_CAMBIO_DATOS" />
           </EntityContainer>
         <ComplexType Name="spConsultaCodigosEnfermedad">
           <Property Type="String" Name="Codigo" Nullable="true" MaxLength="20" />
@@ -10520,51 +10520,6 @@
           <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="CC_MANTENIMIENTO_PROTEINA">
-          <Key>
-            <PropertyRef Name="IdProteina" />
-          </Key>
-          <Property Name="IdProteina" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Abreviatura" Type="Binary" Nullable="false" MaxLength="5" FixedLength="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="CC_MANTENIMIENTO_SABOR">
-          <Key>
-            <PropertyRef Name="IdSabor" />
-          </Key>
-          <Property Name="IdSabor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Abreviatura" Type="Binary" Nullable="false" MaxLength="5" FixedLength="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="CC_MANTENIMIENTO_TEXTURA">
-          <Key>
-            <PropertyRef Name="IdTextura" />
-          </Key>
-          <Property Name="IdTextura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Abreviatura" Type="Binary" Nullable="false" MaxLength="5" FixedLength="false" />
-          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <ComplexType Name="EmpleadosDatosPersonales_Result">
           <Property Type="String" Name="CODTRA" Nullable="false" MaxLength="6" />
           <Property Type="String" Name="AREA" Nullable="true" MaxLength="100" />
@@ -10592,6 +10547,51 @@
           <Property Name="TELEFONO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CELULAR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CORREO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_PROTEINA">
+          <Key>
+            <PropertyRef Name="IdProteina" />
+          </Key>
+          <Property Name="IdProteina" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_SABOR">
+          <Key>
+            <PropertyRef Name="IdSabor" />
+          </Key>
+          <Property Name="IdSabor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CC_MANTENIMIENTO_TEXTURA">
+          <Key>
+            <PropertyRef Name="IdTextura" />
+          </Key>
+          <Property Name="IdTextura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoRegistro" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngresoLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalIngresoLog" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModificacionLog" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalModificacionLog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -15748,6 +15748,39 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="EmpleadosDatosPersonales" FunctionName="ASIS_PRODModel.Store.EmpleadosDatosPersonales">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ASIS_PRODModel.EmpleadosDatosPersonales_Result">
+                <ScalarProperty Name="CODTRA" ColumnName="CODTRA" />
+                <ScalarProperty Name="AREA" ColumnName="AREA" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="CARGO" ColumnName="CARGO" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="BARRIO" ColumnName="BARRIO" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="CELULAR" ColumnName="CELULAR" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="BITACORA_CAMBIO_DATOS">
+            <EntityTypeMapping TypeName="ASIS_PRODModel.BITACORA_CAMBIO_DATOS">
+              <MappingFragment StoreEntitySet="BITACORA_CAMBIO_DATOS">
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="CELULAR" ColumnName="CELULAR" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="BARRIO" ColumnName="BARRIO" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="CODTRA" ColumnName="CODTRA" />
+                <ScalarProperty Name="fechaCrea" ColumnName="fechaCrea" />
+                <ScalarProperty Name="terminalIngresa" ColumnName="terminalIngresa" />
+                <ScalarProperty Name="usuarioIngresa" ColumnName="usuarioIngresa" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CC_MANTENIMIENTO_PROTEINA">
             <EntityTypeMapping TypeName="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA">
               <MappingFragment StoreEntitySet="CC_MANTENIMIENTO_PROTEINA">
@@ -15793,39 +15826,6 @@
                 <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="IdTextura" ColumnName="IdTextura" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="EmpleadosDatosPersonales" FunctionName="ASIS_PRODModel.Store.EmpleadosDatosPersonales">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ASIS_PRODModel.EmpleadosDatosPersonales_Result">
-                <ScalarProperty Name="CODTRA" ColumnName="CODTRA" />
-                <ScalarProperty Name="AREA" ColumnName="AREA" />
-                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
-                <ScalarProperty Name="CARGO" ColumnName="CARGO" />
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
-                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
-                <ScalarProperty Name="BARRIO" ColumnName="BARRIO" />
-                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
-                <ScalarProperty Name="CELULAR" ColumnName="CELULAR" />
-                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <EntitySetMapping Name="BITACORA_CAMBIO_DATOS">
-            <EntityTypeMapping TypeName="ASIS_PRODModel.BITACORA_CAMBIO_DATOS">
-              <MappingFragment StoreEntitySet="BITACORA_CAMBIO_DATOS">
-                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
-                <ScalarProperty Name="CELULAR" ColumnName="CELULAR" />
-                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
-                <ScalarProperty Name="BARRIO" ColumnName="BARRIO" />
-                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
-                <ScalarProperty Name="CODTRA" ColumnName="CODTRA" />
-                <ScalarProperty Name="fechaCrea" ColumnName="fechaCrea" />
-                <ScalarProperty Name="terminalIngresa" ColumnName="terminalIngresa" />
-                <ScalarProperty Name="usuarioIngresa" ColumnName="usuarioIngresa" />
-                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

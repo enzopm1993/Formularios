@@ -25,7 +25,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                 if (poControl != null)
                 {
                     poControl.Descripcion = model.Descripcion;
-                    // poControl.Hora = model.Hora;
+                    poControl.Abreviatura = model.Abreviatura;
                     poControl.EstadoRegistro = model.EstadoRegistro;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;

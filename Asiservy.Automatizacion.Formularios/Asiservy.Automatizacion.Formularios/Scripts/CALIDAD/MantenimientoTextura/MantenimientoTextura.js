@@ -45,6 +45,19 @@ function GuardarControl() {
     } else {
         $("#SelectTipoLimpieza").css('borderCTextura', '#ced4da');
     }
+    if ($("#txtDescripcion").val() == "") {
+        $("#txtDescripcion").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#txtDescripcion").css('borderColor', '#ced4da');
+    }
+
+    if ($("#txtAbreviatura").val() == "") {
+        $("#txtAbreviatura").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#txtAbreviatura").css('borderColor', '#ced4da');
+    }
 
     var estado = 'A';
     if (!$("#CheckEstadoRegistro").prop("checked")) {
@@ -57,6 +70,7 @@ function GuardarControl() {
         data: {
             IdTextura: $("#txtIdControl").val(),
             Descripcion: $("#txtDescripcion").val(),
+            Abreviatura: $("#txtAbreviatura").val(),
             EstadoRegistro: estado
         },
         success: function (resultado) {
@@ -92,6 +106,7 @@ function CambioEstado(valor) {
 function NuevoControl() {
     $("#txtIdControl").val('0');
     $("#txtDescripcion").val('');
+    $("#txtAbreviatura").val('');
     $("#CheckEstadoRegistro").prop("checked", true);
     $('#LabelEstado').text('Activo');
 }
@@ -99,6 +114,7 @@ function NuevoControl() {
 function SeleccionarControl(model) {
     $("#txtIdControl").val(model.IdTextura);
     $("#txtDescripcion").val(model.Descripcion);
+    $("#txtAbreviatura").val(model.Abreviatura)
     if (model.EstadoRegistro == 'A') {
         $("#CheckEstadoRegistro").prop("checked", true);
         $('#LabelEstado').text('Activo');
