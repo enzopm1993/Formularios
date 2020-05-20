@@ -2256,6 +2256,7 @@
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.js" />
+    <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\BandejaVerificacionPotenciometro.js" />
     <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\VerificacionPotenciometro.js" />
     <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\ReporteIngresoMateriaPrima.js" />
     <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\SOPMateriaPrima.js" />
@@ -4026,6 +4027,8 @@
     <Content Include="Views\CloroAguaAutoClave\ReporteCloroAguaAutoclaveDetallePartial.cshtml" />
     <Content Include="Views\VerificacionPotenciometro\VerificacionPotenciometro.cshtml" />
     <Content Include="Views\Nomina\DatosPersonales.cshtml" />
+    <Content Include="Views\VerificacionPotenciometro\BandejaVerificacionPotenciometro.cshtml" />
+    <Content Include="Views\VerificacionPotenciometro\BandejaVerificacionPotenciometroPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
