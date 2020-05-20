@@ -162,10 +162,10 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_VERIFICACION_POTENCIOMETRO> CC_VERIFICACION_POTENCIOMETRO { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_COLOR> CC_MANTENIMIENTO_COLOR { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_OLOR> CC_MANTENIMIENTO_OLOR { get; set; }
+        public virtual DbSet<BITACORA_CAMBIO_DATOS> BITACORA_CAMBIO_DATOS { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_PROTEINA> CC_MANTENIMIENTO_PROTEINA { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_SABOR> CC_MANTENIMIENTO_SABOR { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_TEXTURA> CC_MANTENIMIENTO_TEXTURA { get; set; }
-        public virtual DbSet<BITACORA_CAMBIO_DATOS> BITACORA_CAMBIO_DATOS { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
