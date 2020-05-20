@@ -106,8 +106,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnAprobado" hidden class="btn btn-primary" onclick="AprobarControlCloroDetalle(true)">Aprobar</button>
-                <button type="button" id="btnPendiente" hidden class="btn btn-primary" onclick="AprobarControlCloroDetalle(false)">Reversar</button>
+                <input type="datetime-local" id="txtFechaAprobacion" style="width:300px" max="@DateTime.Now" class="form-control" hidden name="name" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                <button type="button" id="btnAprobado" hidden class="btn btn-primary" onclick="AprobarControlCloroDetalle()">Aprobar</button>
+                <button type="button" id="btnPendiente" hidden class="btn btn-primary" onclick="ReversarControl()">Reversar</button>
             </div>
         </div>
     </div>
