@@ -137,8 +137,6 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_CUCHILLO" Width="1.5" PointX="36.375" PointY="21.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONDICION_PERSONAL" Width="1.5" PointX="5.375" PointY="17.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.EMPLEADO_CUCHILLO_PRESTADO" Width="1.5" PointX="22.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" Width="1.5" PointX="38.625" PointY="16.375" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CUCHILLO" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CONTROL_COCHE_LINEA" Width="1.5" PointX="16.375" PointY="11.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.REPORTE_DETALLE" Width="1.5" PointX="39.625" PointY="1" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_DESECHOS_LIQUIDOS_PELIGROSOS_DETALLE" Width="1.5" PointX="40.625" PointY="11" />
@@ -174,7 +172,6 @@
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE_CC_EVALUACION_LOMOS_MIGAS_BANDEJA_CABECERA" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION" Width="1.5" PointX="36.375" PointY="11.25" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_LAVADO_DESINFECCION_MANOS" Width="1.5" PointX="8.75" PointY="34.75" />
-        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_LAVADO_DESINFECCION_MANOS_DETALLE_CC_CONTROL_LAVADO_DESINFECCION_MANOS" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" Width="1.5" PointX="3.75" PointY="35" />
         <AssociationConnector Association="ASIS_PRODModel.FK_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO_DETALLE_CC_TEMPERATURA_TERMOENCOGIDO_SELLADO" />
@@ -202,6 +199,9 @@
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_PROTEINA" Width="1.5" PointX="0.75" PointY="35.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_SABOR" Width="1.5" PointX="35.75" PointY="16.75" />
         <EntityTypeShape EntityType="ASIS_PRODModel.CC_MANTENIMIENTO_TEXTURA" Width="1.5" PointX="41.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ASIS_PRODModel.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" Width="1.5" PointX="38.625" PointY="16.25" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE" />
+        <AssociationConnector Association="ASIS_PRODModel.FK_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE_CUCHILLO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
