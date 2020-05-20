@@ -24,6 +24,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoC
                 if (model != null)
                 {
                     model.Descripcion = GuardarModigicar.Descripcion;
+                    model.Abreviatura = GuardarModigicar.Abreviatura;
                     model.EstadoRegistro = GuardarModigicar.EstadoRegistro;
                     model.FechaModificacionLog = GuardarModigicar.FechaIngresoLog;
                     model.TerminalModificacionLog = GuardarModigicar.TerminalIngresoLog;
