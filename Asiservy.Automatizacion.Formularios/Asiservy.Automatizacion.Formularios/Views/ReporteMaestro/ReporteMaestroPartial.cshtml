@@ -11,6 +11,9 @@
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
+                Opción
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Codigo)
             </th>
             <th>
@@ -26,7 +29,7 @@
                 Usuario Ingreso
             </th>
             <th>
-               Terminal Ingreso
+                Terminal Ingreso
             </th>
             <th>
                 Fecha Modificación
@@ -43,50 +46,53 @@
         @foreach (var item in Model)
         {
             string json = JsonConvert.SerializeObject(item); 
-            <tr onclick="SeleccionarReporteMaestro(@json)">
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdReporteMaestro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Codigo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UltimaVersion)
-                </td>
-                <td>
-                    @if (item.EstadoRegistro == "A")
-                    {
-                        <span class="badge badge-success">ACTIVO</span>
-                    }
-                    else
-                    {
-                        <span class="badge badge-danger">INACTIVO</span>
-                    }
+        <tr onclick="SeleccionarReporteMaestro(@json)">
+            <td>
+                @Html.DisplayFor(modelItem => item.IdReporteMaestro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reporte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UltimaVersion)
+            </td>
+            <td>
+                @if (item.EstadoRegistro == "A")
+                {
+                    <span class="badge badge-success">ACTIVO</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">INACTIVO</span>
+                }
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
-                </td>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+            </td>
 
-            </tr>
+        </tr>
         }
     </tbody>
 </table>
