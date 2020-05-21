@@ -153,7 +153,7 @@ function AbrirModalDetalle(IdCabecera) {
 function ConfirmarAprobar() {
     if ($('#txtFechaAprob').val() == '') {
         $('#msjerrorfechaaprobacion').prop('hidden', false);
-        return false;
+        return;
     } else {
         $('#msjerrorfechaaprobacion').prop('hidden', true);
         MensajeConfirmacion('divconfirm', 'ModalDetalle', 'AprobarControl()', '¿Está seguro que desea aprobar el control?');
@@ -216,6 +216,7 @@ function AprobarControl() {
                 //console.log(resultado);
                 MensajeError(resultado, false);
                 $('#btnAprobar').prop('disabled', false);
+                
                 $('#btnclose').prop('disabled', false);
                 $('#btncerrar').prop('disabled', false);
 
@@ -234,7 +235,7 @@ function ReversarControl() {
     $('#BtnNo').prop('hidden', true);
     $('#btnCargando').prop('hidden', false);
 
-    $('#btnAprobar').prop('disabled', true);
+    $('#btnReversar').prop('disabled', true);
     $('#btnclose').prop('disabled', true);
     $('#btncerrar').prop('disabled', true);
 
@@ -265,6 +266,7 @@ function ReversarControl() {
         }
         $('#BtnSi').prop('hidden', false);
         $('#BtnNo').prop('hidden', false);
+        $('#btnReversar').prop('disabled', false);
         $('#btnCargando').prop('hidden', true);
         $('#btnclose').prop('disabled', false);
         $('#btncerrar').prop('disabled', false);
@@ -273,7 +275,7 @@ function ReversarControl() {
         //console.log('error');
         //console.log(resultado);
         MensajeError(resultado, false);
-        $('#btnAprobar').prop('disabled', false);
+        $('#btnReversar').prop('disabled', true);
         $('#btnclose').prop('disabled', false);
         $('#btncerrar').prop('disabled', false);
 
