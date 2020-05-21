@@ -40,7 +40,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             try
             {
                 ViewBag.JavaScrip = "PRODUCCION/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-                ViewBag.MaskedInput = "1";
+                ViewBag.MascaraInput = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');

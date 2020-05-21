@@ -558,12 +558,17 @@
     @if (ViewBag.MaskedInput == "1")
     {
         <script src="~/Scripts/jquery.maskedinput.min.js"></script>
+
+    }
+    @if (ViewBag.MascaraInput == "1")
+    {
+        <script src="~/Scripts/inputmask/jquery.inputmask.js"></script>
     }
     @if (ViewBag.DateTimePicker == "1")
     {
 
         <script src="~/Scripts/tempusdominus-bootstrap-4.min.js"></script>
-        <link href="~/Content/tempusdominus-bootstrap-4.min.css" rel = "stylesheet"/>
+        <link href="~/Content/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
     }
 
     @if (ViewBag.JavaScrip != null)

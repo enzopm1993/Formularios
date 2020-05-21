@@ -103,21 +103,33 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
             using (var db = new ASIS_PRODEntities())
             {
                 object[] resultado = new object[3];
-                var buscarDetalle = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Where(x => x.Hora == poDetalleControl.Hora&&poDetalleControl.IdCabeceraEvaluacionLomosYMigasEnBandeja==x.IdCabeceraEvaluacionLomosYMigasEnBandeja).FirstOrDefault();
-                if (buscarDetalle == null)
+                var buscarabecera = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Find(poDetalleControl.IdCabeceraEvaluacionLomosYMigasEnBandeja);
+                if (buscarabecera.EstadoControl == true)
                 {
-                    db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Add(poDetalleControl);
-                    db.SaveChanges();
-                    resultado[0] = "000";
-                    resultado[1] = "Registro ingresado con éxito";
+                    resultado[0] = "003";
+                    resultado[1] = "El control se encuetra aprobado, no puede ser modificado";
                     resultado[2] = poDetalleControl;
                 }
                 else
                 {
-                    resultado[0] = "002";
-                    resultado[1] = "Error, el registro ya existe";
-                    resultado[2] = poDetalleControl;
+                    var buscarDetalle = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Where(x => x.Hora == poDetalleControl.Hora && poDetalleControl.IdCabeceraEvaluacionLomosYMigasEnBandeja == x.IdCabeceraEvaluacionLomosYMigasEnBandeja).FirstOrDefault();
+
+                    if (buscarDetalle == null)
+                    {
+                        db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Add(poDetalleControl);
+                        db.SaveChanges();
+                        resultado[0] = "000";
+                        resultado[1] = "Registro ingresado con éxito";
+                        resultado[2] = poDetalleControl;
+                    }
+                    else
+                    {
+                        resultado[0] = "002";
+                        resultado[1] = "Error, el registro ya existe";
+                        resultado[2] = poDetalleControl;
+                    }
                 }
+                
                 return resultado;
             }
         }
