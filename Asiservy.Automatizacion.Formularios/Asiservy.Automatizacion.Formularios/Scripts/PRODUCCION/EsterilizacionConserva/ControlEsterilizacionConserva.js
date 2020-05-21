@@ -130,6 +130,9 @@ var config3 = {
         ]
     }
 }
+$(document).ready(function () {
+  
+});
 function GuardarCabEsterilizacion() {
     $('#btnCargando').prop('hidden', false);
     $('#btnConsultar').prop('hidden', true);
@@ -158,9 +161,17 @@ function GuardarCabEsterilizacion() {
             $('#CabeceraControl').val(resultado[2].IdCabControlEsterilizado);
             if (resultado[0] == "000") {
                 MensajeCorrecto("Registro ingresado con éxito");
+                $('#btnEliminarCabeceraControl').prop('disabled', false);
+                $('#Fecha').prop('disabled', true);
+                $('#Turno').prop('disabled', true);
+                $('#Linea').prop('disabled', true);
             }
             if (resultado[0] == "001") {
                 MensajeCorrecto("Registro actualizado con éxito");
+                $('#btnEliminarCabeceraControl').prop('disabled', false);
+                $('#Fecha').prop('disabled', true);
+                $('#Turno').prop('disabled', true);
+                $('#Linea').prop('disabled', true);
             }
             if (resultado[0] == "002") {
                 MensajeAdvertencia("Error, el registro ya existe");
@@ -297,6 +308,7 @@ function ConsultarCabControl() {
     //
 }
 function ConsultarCoches() {
+   
     $.ajax({
         url: "../EsterilizacionConserva/PartialCocheAutoclave",
         type: "GET",
@@ -310,11 +322,13 @@ function ConsultarCoches() {
                 window.location.reload();
             }
             if (resultado == "0") {
-                $('#MensajeRegistros').html('Es necesario generar Control de Coches Autoclave');
+                $('#DivCoches').html('');
+                $('#MensajeRegistros').html('No hay Coches Autoclave disponibles');
                 return;
             } else {
                 $('#MensajeRegistros').html('');
             }
+            
             $('#DivCoches').html(resultado);
             config.opcionesDT.pageLength = 5;
             config.opcionesDT.buttons = [];
@@ -453,6 +467,7 @@ function GuardarDetalleEsterilizacion() {
             $('#btnGuardarDetalleControl').prop('hidden', false);
             $('#btnLimpiarDetalleControl').prop('hidden', false);
             $('#btnEliminarDetalleControl').prop('hidden', false);
+            ConsultarCoches();
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -773,6 +788,7 @@ function LimpiarControles() {
     $('#msjerrorfecha').prop('hidden', true);
     $('#msjerrorturno').prop('hidden', true);
     $('#msjerrorLinea').prop('hidden', true);
+    $('#DivNuevoDetalleEsterilizacion').prop('hidden',true);
 }
 function EliminarCabControl() {
     $('#btnsicab').prop('disabled', true);
