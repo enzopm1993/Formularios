@@ -112,16 +112,59 @@ function NuevoControl() {
     $('#LabelEstado').text('Activo');
 }
 
-function SeleccionarControl(model) {
+
+function ActualizarCabecera(model) {
     $("#txtIdControl").val(model.IdProteina);
     $("#txtDescripcion").val(model.Descripcion);
     $("#txtAbreviatura").val(model.Abreviatura)
-    if (model.EstadoRegistro == 'A') {
-        $("#CheckEstadoRegistro").prop("checked", true);
-        $('#LabelEstado').text('Activo');
-    } else {
-        $("#CheckEstadoRegistro").prop("checked", false);
-        $('#LabelEstado').text('Inactivo');
-    }
-    //console.log(model);
+}
+
+function InactivarConfirmar(jdata) {
+    $("#modalEliminarControl").modal("show");
+    itemEditar = jdata;
+    $("#myModalLabel").text("¿Desea inactivar el registro?");
+    itemEditar.EstadoRegistro = 'I';
+}
+
+function ActivarConfirmar(jdata) {
+    $("#modalEliminarControl").modal("show");
+    $("#myModalLabel").text("¿Desea activar el registro?");
+    itemEditar = jdata;
+    itemEditar.EstadoRegistro = 'A';
+}
+
+
+function EliminarCabeceraNo() {
+    $("#modalEliminarControl").modal("hide");
+}
+
+
+
+
+function EliminarCabeceraSi() {
+    MostrarModalCargando();
+    $.ajax({
+        url: "../MantenimientoProteina/EliminarMantenimientoProteina",
+        type: "POST",
+        data: {
+            IdProteina: itemEditar.IdProteina,
+            EstadoRegistro: itemEditar.EstadoRegistro
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "1") {
+                $("#modalEliminarControl").modal("hide");
+                ConsultarReporte();
+                MensajeCorrecto("Registro Actualizado con Éxito");
+                CerrarModalCargando();
+                itemEditar = 0;
+            }
+        },
+        error: function (resultado) {
+            CerrarModalCargando();
+            MensajeError(resultado.responseText, false);
+        }
+    });
 }

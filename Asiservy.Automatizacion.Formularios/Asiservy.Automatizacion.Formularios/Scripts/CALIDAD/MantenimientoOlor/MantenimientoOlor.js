@@ -1,4 +1,4 @@
-﻿
+﻿var itemEditar = [];
 $(document).ready(function () {
     ConsultarReporte();
 });
@@ -61,9 +61,9 @@ function GuardarControl() {
     }
 
     var estado = 'A';
-    if (!$("#CheckEstadoRegistro").prop("checked")) {
-        estado = 'I'
-    }
+    //if (!$("#CheckEstadoRegistro").prop("checked")) {
+    //    estado = 'I'
+    //}
 
     $.ajax({
         url: "../MantenimientoOlor/MantenimientoOlor",
@@ -113,16 +113,58 @@ function NuevoControl() {
 }
 
 
-function SeleccionarControl(model) {
+function ActualizarCabecera(model) {
     $("#txtIdControl").val(model.IdOlor);
     $("#txtDescripcion").val(model.Descripcion);
     $("#txtAbreviatura").val(model.Abreviatura)
-    if (model.EstadoRegistro == 'A') {
-        $("#CheckEstadoRegistro").prop("checked", true);
-        $('#LabelEstado').text('Activo');
-    } else {
-        $("#CheckEstadoRegistro").prop("checked", false);
-        $('#LabelEstado').text('Inactivo');
-    }
-    //console.log(model);
+}
+
+function InactivarConfirmar(jdata) {
+    $("#modalEliminarControl").modal("show");
+    itemEditar = jdata;
+    $("#myModalLabel").text("¿Desea inactivar el registro?");
+    itemEditar.EstadoRegistro = 'I';
+}
+
+function ActivarConfirmar(jdata) {
+    $("#modalEliminarControl").modal("show");
+    $("#myModalLabel").text("¿Desea activar el registro?");
+    itemEditar = jdata;
+    itemEditar.EstadoRegistro = 'A';
+}
+
+
+function EliminarCabeceraNo() {
+    $("#modalEliminarControl").modal("hide");
+}
+
+
+
+
+function EliminarCabeceraSi() {
+    MostrarModalCargando();
+    $.ajax({
+        url: "../MantenimientoOlor/EliminarMantenimientoOlor",
+        type: "POST",
+        data: {
+            IdOlor: itemEditar.IdOlor,
+            EstadoRegistro: itemEditar.EstadoRegistro
+        },
+        success: function (resultado) {
+            if (resultado == "101") {
+                window.location.reload();
+            }
+            if (resultado == "1") {
+                $("#modalEliminarControl").modal("hide");
+                ConsultarReporte();
+                MensajeCorrecto("Registro Actualizado con Éxito");
+                CerrarModalCargando();
+                itemEditar = 0;
+            }
+        },
+        error: function (resultado) {
+            CerrarModalCargando();
+            MensajeError(resultado.responseText, false);
+        }
+    });
 }

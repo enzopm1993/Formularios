@@ -46,7 +46,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                 var poControl = entities.CC_MANTENIMIENTO_PROTEINA.FirstOrDefault(x => x.IdProteina == model.IdProteina);
                 if (poControl != null)
                 {
-                    poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    poControl.EstadoRegistro = model.EstadoRegistro;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poControl.FechaModificacionLog = model.FechaIngresoLog;

@@ -6,6 +6,12 @@
     input, select, textarea {
         max-width: 100%;
     }
+
+    .btn-link:hover {
+        color: white;
+        text-decoration: underline;
+    }
+
 </style>
 
 <h4>Mantenimiento de Sabores</h4>
@@ -34,15 +40,7 @@
                 <input type="text" class="form-control" maxlength="5" id="txtAbreviatura" autocomplete="off" name="name" value="" />
             </div>
         </div>
-        <div class="col-md-3 col-sm-12">
-            <div class="form-group">
-                <label></label>
-                <div class="custom-control custom-checkbox mb-3">
-                    @Html.CheckBox("EstadoRegistro", true, new { @id = "CheckEstadoRegistro", @class = "custom-control-input", @onchange = "CambioEstado(this.checked)" })
-                    <label class="custom-control-label" for="CheckEstadoRegistro" id="LabelEstado">Estado Registro</label>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
 
@@ -83,6 +81,25 @@
             </div>
 
             <div id="chartCabecera2" class="table-responsive"></div>
+        </div>
+    </div>
+</div>
+
+
+@*MODAL ELIMINAR REGISTRO*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalEliminarControl">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel"></h4>
+                <input type="hidden" id="txtEliminarDetalle" name="name" value="" />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="EliminarCabeceraSi()" id="modal-detalle-si">Si</button>
+                <button type="button" class="btn btn-outline-primary" onclick="EliminarCabeceraNo()" id="modal-detalle-no">No</button>
+            </div>
         </div>
     </div>
 </div>

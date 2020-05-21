@@ -38,5 +38,21 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.Mantenimientos
                 entities.SaveChanges();
             }
         }
+        public void EliminarMantenimientoSabor(CC_MANTENIMIENTO_SABOR model)
+        {
+            using (ASIS_PRODEntities entities = new ASIS_PRODEntities())
+            {
+                var poControl = entities.CC_MANTENIMIENTO_SABOR.FirstOrDefault(x => x.IdSabor == model.IdSabor);
+                if (poControl != null)
+                {
+                    poControl.EstadoRegistro = model.EstadoRegistro;
+                    poControl.TerminalModificacionLog = model.TerminalIngresoLog;
+                    poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
+                    poControl.FechaModificacionLog = model.FechaIngresoLog;
+                    entities.SaveChanges();
+                }
+
+            }
+        }
     }
 }
