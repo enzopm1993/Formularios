@@ -23,16 +23,16 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int IdDetalleControlEsterilizacionConserva { get; set; }
         public int IdCabeceraCoche { get; set; }
         public int IdCabControlEsterilizacionConservas { get; set; }
-        public Nullable<int> TemperaturaInicial { get; set; }
+        public Nullable<decimal> TemperaturaInicial { get; set; }
         public Nullable<System.DateTime> HoraInicioViento { get; set; }
         public Nullable<System.DateTime> HoraCierreViento { get; set; }
-        public Nullable<int> TemperaturaTermDigital { get; set; }
+        public Nullable<decimal> TemperaturaTermDigital { get; set; }
         public Nullable<System.DateTime> HoraInicioLlenado { get; set; }
         public Nullable<System.DateTime> HoraInicioCalentamiento { get; set; }
         public Nullable<System.DateTime> HoraInicioEsterilizacion { get; set; }
         public Nullable<System.DateTime> HoraFinalEsterilizacion { get; set; }
         public Nullable<System.DateTime> TiempoEnfriamiento { get; set; }
-        public Nullable<int> TemperaturaProductoSalida { get; set; }
+        public Nullable<decimal> TemperaturaProductoSalida { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
