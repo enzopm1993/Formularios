@@ -43,10 +43,10 @@ function FiltrarAprobadosFecha() {
 
 
 function ConsultarReporte(model) {
-    if (!model.EstadoReporte) {
-        MensajeAdvertencia(Mensajes.ReportePendiente);
-        //return;
-    }
+    //if (!model.EstadoReporte) {
+    //    MensajeAdvertencia(Mensajes.ReportePendiente);
+    //    //return;
+    //}
 
     $("#txtMensaje").html('');
     $("#btnAtras").prop("hidden", false);

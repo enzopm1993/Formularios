@@ -3,12 +3,13 @@ $(document).ready(function () {
     
 });
 function CargarCabecera() {
+    $("#divMantenimientoPediluvio").html('');
+    $("#hMensaje").html('');
     if ($("#selectArea").val() == "") {
         return;
     }
     MostrarModalCargando();
-    $("#divMantenimientoPediluvio").html('');
-    $("#hMensaje").html('');
+   
     $.ajax({
         url: "../MantenimientoPediluvio/MantenimientoPediluvioPartial",
         type: "GET",
@@ -35,6 +36,11 @@ function CargarCabecera() {
     });
 }
 
+function Limpiar() {
+    $("#txtDescripcion").val('');
+    itemEditar = 0;
+    $("#txtIdMantenimientoPediluvio").val('0');
+}
 function GuardarCabecera() {
     if ($("#txtDescripcion").val() == '') {
         MensajeAdvertencia("Ingrese una descripción al Pediluvio que desea ingresar");

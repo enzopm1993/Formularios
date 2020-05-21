@@ -42,9 +42,13 @@ function SeleccionarBandeja(Control) {
     //console.log(Control);
     model = Control;
 
-    if (!model.EstadoReporte) {
-        MensajeAdvertencia("Reporte se encuentra pendiente.");
-        return;
+    if (model.EstadoReporte) {
+        $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
+        $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("DD-MM-YYYY HH:mm"));
+        $("#txtUsuarioAprobacion").html(model.AprobadoPor);
+        $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("DD-MM-YYYY HH:mm"));
+        $("#txtCodDetectorMetal").val(model.DetectorMetal);
+       // return;
     }
     $("#btnImprimir").prop("hidden", false);
     $("#btnAtras").prop("hidden", false);
@@ -67,11 +71,7 @@ function SeleccionarBandeja(Control) {
     }
    
 
-    $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
-    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("DD-MM-YYYY HH:mm"));
-    $("#txtUsuarioAprobacion").html(model.AprobadoPor);
-    $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("DD-MM-YYYY HH:mm"));
-    $("#txtCodDetectorMetal").val(model.DetectorMetal);
+  
 
 
     ConsultarReporte();
@@ -79,7 +79,7 @@ function SeleccionarBandeja(Control) {
 
 function Atras() {
     $("#btnAtras").prop("hidden", true);
-    $("#btnImprimir").prop("hidden", false);
+    $("#btnImprimir").prop("hidden", true);
     $("#divCabeceras").prop("hidden", false);
     $("#divDetalle").prop("hidden", true);
     $("#btnConsultar").prop("hidden", false);
