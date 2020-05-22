@@ -70,7 +70,7 @@ function AprobarControl() {
         url: "../VerificacionPotenciometro/AprobarBandejaControlCloro",
         type: "POST",
         data: {
-            IdVerificacionPotenciometro: listaDatos.IdVerificacionPotenciometro,
+            IdVerificacionPotenciometroControl: listaDatos.IdVerificacionPotenciometroControl,
             Fecha: listaDatos.Fecha,
             FechaAprobacion: $("#txtFechaAprobacion").val()
         },
@@ -95,7 +95,7 @@ function ReversarControl() {
         url: "../VerificacionPotenciometro/ReversarBandejaControl",
         type: "POST",
         data: {
-            IdVerificacionPotenciometro: listaDatos.IdVerificacionPotenciometro,
+            IdVerificacionPotenciometroControl: listaDatos.IdVerificacionPotenciometroControl,
             Fecha: listaDatos.Fecha
         },
         success: function (resultado) {
