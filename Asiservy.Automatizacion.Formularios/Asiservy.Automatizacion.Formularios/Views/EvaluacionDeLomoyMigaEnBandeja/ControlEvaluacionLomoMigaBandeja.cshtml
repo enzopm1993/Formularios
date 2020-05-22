@@ -265,7 +265,8 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>Moretones</label>
-                                <input type="number" id="txtMoretones" class="form-control" />
+                                @Html.DropDownList("cmbMoreton", (IEnumerable<SelectListItem>)ViewBag.Moreton, "Seleccione..", new { @class = "form-control" })
+                                <label id="msjMoreton" class="text-danger" hidden>El campo moretones es obligatorio</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
