@@ -71,7 +71,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDOperatividadMetal = new clsDOperatividadMetal();
                  var model = clsDOperatividadMetal.ConsultaOperatividadMetal(Fecha);
-                if (model == null)
+                if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
                 }
