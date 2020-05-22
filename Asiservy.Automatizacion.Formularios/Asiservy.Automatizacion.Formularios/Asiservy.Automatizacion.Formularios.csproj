@@ -4034,6 +4034,7 @@
     <Content Include="Views\Nomina\DatosPersonales.cshtml" />
     <Content Include="Views\VerificacionPotenciometro\BandejaVerificacionPotenciometro.cshtml" />
     <Content Include="Views\VerificacionPotenciometro\BandejaVerificacionPotenciometroPartial.cshtml" />
+    <Content Include="Views\OperatividadMetal\OperatividadMetalPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
