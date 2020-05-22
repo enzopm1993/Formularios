@@ -373,6 +373,163 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         #endregion
 
 
+        #region REPORTE 
+        [Authorize]
+        public ActionResult ReporteVerificacionPotenciometro()
+        {
+            try
+            {
+                ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.DateRangePicker = "1";
+                ViewBag.JqueryRotate = "1";
+                ViewBag.dataTableJS = "1";
+                clsDReporte = new clsDReporte();
+                var rep = clsDReporte.ConsultaCodigoReporte(RouteData.Values["action"].ToString());
+                if (rep != null)
+                {
+                    ViewBag.CodigoReporte = rep.Codigo;
+                    ViewBag.VersionReporte = rep.UltimaVersion;
+                }
+                lsUsuario = User.Identity.Name.Split('_');
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+        }
+
+        public ActionResult ReporteVerificacionPotenciometroPartial(DateTime FechaDesde, DateTime FechaHasta)
+        {
+            try
+            {
+                ClsdVerificacionPotenciometro = new ClsdVerificacionPotenciometro();
+                List<CC_VERIFICACION_POTENCIOMETRO> poControl = null;
+
+                poControl = ClsdVerificacionPotenciometro.ConsultaVerificacionPotenciometroControl(FechaDesde, FechaHasta);
+
+
+                if (poControl != null && poControl.Any())
+                {
+                    return PartialView(poControl);
+                }
+                else
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                SetErrorMessage(Mensaje);
+                return RedirectToAction("Home", "Home");
+            }
+            catch (Exception ex)
+            {
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                SetErrorMessage(Mensaje);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //public JsonResult ReporteVerificacionPotenciometroPartial(DateTime Fecha)
+        //{
+        //    try
+        //    {
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        if (string.IsNullOrEmpty(lsUsuario[0]))
+        //        {
+        //            return Json("101", JsonRequestBehavior.AllowGet);
+        //        }
+        //        clsDVerificacionPotenciometro = new clsDVerificacionPotenciometro();
+        //        var model = clsDVerificacionPotenciometro.ConsultaVerificacionPotenciometro(Fecha);
+        //        if (model == null)
+        //        {
+        //            return Json("0", JsonRequestBehavior.AllowGet);
+        //        }
+        //        return Json(model, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //        clsDError = new clsDError();
+        //        lsUsuario = User.Identity.Name.Split('_');
+        //        string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+        //            "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+        //        return Json(Mensaje, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+        public ActionResult ReporteVerificacionPotenciometroDetallePartial(DateTime Fecha)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                ClsdVerificacionPotenciometro = new ClsdVerificacionPotenciometro();
+                var model = ClsdVerificacionPotenciometro.ConsultaVerificacionPotenciometro(Fecha);
+                if (!model.Any())
+                {
+                    return Json("0", JsonRequestBehavior.AllowGet);
+                }
+                return PartialView(model);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+        #endregion
+
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;
