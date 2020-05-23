@@ -1727,19 +1727,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spConsultaClasificador>("spConsultaClasificador");
         }
     
-        public virtual ObjectResult<sp_Control_Cuchillos_Preparacion> sp_Control_Cuchillos_Preparacion(Nullable<int> idControlCuchillo, Nullable<int> op)
-        {
-            var idControlCuchilloParameter = idControlCuchillo.HasValue ?
-                new ObjectParameter("idControlCuchillo", idControlCuchillo) :
-                new ObjectParameter("idControlCuchillo", typeof(int));
-    
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Cuchillos_Preparacion>("sp_Control_Cuchillos_Preparacion", idControlCuchilloParameter, opParameter);
-        }
-    
         public virtual ObjectResult<spConsultaReporteControlCochePorLineas> spConsultaReporteControlCochePorLineas(Nullable<System.DateTime> fecha, string turno)
         {
             var fechaParameter = fecha.HasValue ?
@@ -2121,6 +2108,19 @@ namespace Asiservy.Automatizacion.Datos.Datos
                 new ObjectParameter("op", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Cuchillos_Preparacion_Det>("sp_Cuchillos_Preparacion_Det", idHoraParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<sp_Control_Cuchillos_Preparacion> sp_Control_Cuchillos_Preparacion(Nullable<int> idControlCuchillo, Nullable<int> op)
+        {
+            var idControlCuchilloParameter = idControlCuchillo.HasValue ?
+                new ObjectParameter("idControlCuchillo", idControlCuchillo) :
+                new ObjectParameter("idControlCuchillo", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Control_Cuchillos_Preparacion>("sp_Control_Cuchillos_Preparacion", idControlCuchilloParameter, opParameter);
         }
     }
 }
