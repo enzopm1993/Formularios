@@ -1,79 +1,78 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_MANTENIMIENTO_PROTEINA>
 @using Newtonsoft.Json;
 
-<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+<table class="table table-light table-striped table-hover" id="tblDataTable">
     <thead>
         <tr>
             <th>
-                Id
+                ID
             </th>
             <th>
-                Descripción
-            </th>
-            <th>Abreviatura</th>
-            <th>
-                Estado
+                DESCRIPCION
             </th>
             <th>
-                Fecha Ingresp
+                ABREVIATURA
             </th>
             <th>
-                Usuario Ingreso
+                FECHA CREACION
             </th>
+
             <th>
-                Terminal Ingreso
+                FECHA MODIFICACION
             </th>
-            <th>
-                Fecha Modificación
-            </th>
-            <th>
-                Usuario Modificación
-            </th>
-            <th>
-                Terminal Modificación
-            </th>
+            <th>ESTADO</th>
+            <th>ACCIONES</th>
         </tr>
     </thead>
-    <tbody>
+
+    <tbody style="font-size:14px">
         @foreach (var item in Model)
         {
-            string json = JsonConvert.SerializeObject(item);
-        <tr onclick="SeleccionarControl(@json)">
-            <td>
-                @Html.DisplayFor(modelItem => item.IdProteina)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Abreviatura)
-            </td>
-            @if (item.EstadoRegistro == "A")
-            {
-                <td><span class="badge badge-success">ACTIVO</span></td>}
-            else
-            {
-                <td><span class="badge badge-danger">INACTIVO</span></td>}
+            DateTime fecham = Convert.ToDateTime(item.FechaModificacionLog);
 
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaIngresoLog)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaModificacionLog)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
-            </td>
-        </tr>
+            string fecha = item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm");
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProteina)
+                </td>
+                <td>
+                    @item.Descripcion.ToUpper()
+                </td>
+                <td>@item.Abreviatura.ToUpper()</td>
+                <td>
+                    @fecha
+                </td>
+
+                <td>
+                    @if (fecham.ToString() != "1/1/0001 12:00:00 AM")
+                    {
+                        @fecham.ToString("dd-MM-yyyy HH:mm")
+                    }
+                </td>
+                <td>
+                    @if (item.EstadoRegistro == "A")
+                    {
+                        <span class="badge badge-success">ACTIVO</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">INACTIVO</span>
+                    }
+                </td>
+                <td>
+                    @{string json = JsonConvert.SerializeObject(item);
+                    }
+                    <button id="btnActualizar" class="btn btn-link" onclick="ActualizarCabecera(@json)">Editar</button>
+                    @if (item.EstadoRegistro == "A")
+                    {
+                        <button id="btnEliminar" class="btn btn-link" onclick="InactivarConfirmar(@json)">Inactivar</button>
+                    }
+                    else
+                    {
+                        <button id="btnEliminar" class="btn btn-link" onclick="ActivarConfirmar(@json)">Activar</button>
+                    }
+                </td>
+            </tr>
         }
     </tbody>
 </table>

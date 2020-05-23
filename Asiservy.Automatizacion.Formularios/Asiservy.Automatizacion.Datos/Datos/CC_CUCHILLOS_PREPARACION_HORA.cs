@@ -12,13 +12,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE
+    public partial class CC_CUCHILLOS_PREPARACION_HORA
     {
-        public int IdControlCuchilloDetalle { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CC_CUCHILLOS_PREPARACION_HORA()
+        {
+            this.CC_CUCHILLOS_PREPARACION_CTRL_DET = new HashSet<CC_CUCHILLOS_PREPARACION_CTRL_DET>();
+        }
+    
+        public int IdHora { get; set; }
         public int IdControlCuchillo { get; set; }
-        public int IdCuchilloPreparacion { get; set; }
-        public string CedulaEmpleado { get; set; }
-        public bool Estado { get; set; }
+        public System.DateTime Hora { get; set; }
+        public string Descripcion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -27,7 +32,8 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_CUCHILLOS_PREPARACION CC_CUCHILLOS_PREPARACION { get; set; }
-        public virtual CC_CONTROL_CUCHILLOS_PREPARACION CC_CONTROL_CUCHILLOS_PREPARACION { get; set; }
+        public virtual CC_CUCHILLOS_PREPARACION_CTRL CC_CUCHILLOS_PREPARACION_CTRL { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CC_CUCHILLOS_PREPARACION_CTRL_DET> CC_CUCHILLOS_PREPARACION_CTRL_DET { get; set; }
     }
 }

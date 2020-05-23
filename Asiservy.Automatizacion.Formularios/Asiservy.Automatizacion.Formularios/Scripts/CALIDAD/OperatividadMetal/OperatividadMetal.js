@@ -1,12 +1,17 @@
-﻿$(document).ready(function () {
+﻿var Model = [];
+var editar = false;
+$(document).ready(function () {
     ConsultarControl();
-
+    $("#txtFerroso").mask("9?.99");
+    $("#txtNoFerroso").mask("9?.99");
+    $("#txtAceroInoxidable").mask("9?.99");
 });
 
 var rotation = 0;
 
 
 function ConsultarControl() {
+    MostrarModalCargando();
     $("#divMensaje").html('');
     $("#divDetalle").prop("hidden", true);
     $("#divDetalle2").prop("hidden", true);
@@ -14,6 +19,7 @@ function ConsultarControl() {
     $("#btnEditar").prop("hidden", true);
     $("#btnEliminar").prop("hidden", true);
     $("#lblAprobadoPendiente").html('');
+    $("#divCabeceras").html('');
     if ($("#txtFecha").val() == "") {
         $("#txtFecha").css('borderColor', '#FA8072');
         return;
@@ -30,21 +36,21 @@ function ConsultarControl() {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == "1") {
-                $("#txtPcc").val('');
-                $("#txtIdControl").val('0');
-                $("#chkLomo").prop("checked", false);
-                $("#chkLata").prop("checked", false);
-                $("#txtFerroso").val('');
-                $("#txtNoFerroso").val('');
-                $("#txtAceroInoxidable").val('');
-                $("#txtCodDetectorMetal").val('');
-                $("#txtObservacion").val('');
-                $("#btnGenerar").prop("disabled", true);
-                $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
-                $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
-                //$("#divMensaje").html("<h3 class='text-info'>CONTROL SE ENCUENTRA APROBADO</h3>");
-            } else
+            //if (resultado == "1") {
+            //    $("#txtPcc").val('');
+            //    $("#txtIdControl").val('0');
+            //    $("#chkLomo").prop("checked", false);
+            //    $("#chkLata").prop("checked", false);
+            //    $("#txtFerroso").val('');
+            //    $("#txtNoFerroso").val('');
+            //    $("#txtAceroInoxidable").val('');
+            //    $("#txtCodDetectorMetal").val('');
+            //    $("#txtObservacion").val('');
+            //    $("#btnGenerar").prop("disabled", true);
+            //    $("#lblAprobadoPendiente").removeClass("badge-danger").addClass("badge-info");
+            //    $("#lblAprobadoPendiente").html(Mensajes.Aprobado);
+            //    //$("#divMensaje").html("<h3 class='text-info'>CONTROL SE ENCUENTRA APROBADO</h3>");
+            //} else
             if (resultado == "0") {               
                 $("#txtPcc").val('');
                 $("#txtIdControl").val('0');
@@ -57,41 +63,52 @@ function ConsultarControl() {
                 $("#txtObservacion").val('');
                 $("#divMensaje").html("<h3 class='text-warning'>"+Mensajes.SinRegistros+"</h3>");
             } else {
-                //$("#txtPcc").prop("disabled", true);
-                //$("#txtCodDetectorMetal").prop("disabled", true);
-                //$("#chkLomo").prop("disabled", true);
-                //$("#chkLata").prop("disabled", true);
-                $("#divDetalle").prop("hidden", false);
-                $("#divDetalle2").prop("hidden", false);
-                $("#btnEditar").prop("hidden", false);
-                $("#btnEliminar").prop("hidden", false);
-                $("#btnGenerar").prop("disabled", true);
-                //console.log(resultado);
-                $("#txtPcc").val(resultado.Pcc);
-                $("#txtIdControl").val(resultado.IdOperatividadMetal);
-                $("#chkLomo").prop("checked",resultado.Lomos);
-                $("#chkLata").prop("checked",resultado.Latas);
-                $("#txtFerroso").val(resultado.Ferroso);
-                $("#txtNoFerroso").val(resultado.NoFerroso);
-                $("#txtAceroInoxidable").val(resultado.AceroInoxidable);
-                $("#txtCodDetectorMetal").val(resultado.DetectorMetal);
-                $("#txtObservacion").val(resultado.Observacion);
-                $("#lblAprobadoPendiente").removeClass("badge-info").addClass("badge-danger");
-                $("#lblAprobadoPendiente").html(Mensajes.Pendiente);
-                CargarControlDetalle();
-                CargarControlDetalle2();
-              //  console.log(resultado);
 
+                $("#divCabeceras").html(resultado);
             }
-               
+            CerrarModalCargando();
+
         },
         error: function (resultado) {
             MensajeError(Mensajes.Error + resultado, false);
+            CerrarModalCargando();
         }
     });
 }
 
+function SeleccionarControl(resultado) {
+  
+    if (resultado.EstadoReporte) {
+        MensajeAdvertencia("Control ha sido aprobado no puede modificarse");
+    } else {
+        $("#btnAtras").prop("hidden", false);
+        $("#btnConsultar").prop("hidden", true);
+        Model = resultado;
+        $("#divCabeceras").prop("hidden", true);
+        $("#divDetalle").prop("hidden", false);
+        $("#divDetalle2").prop("hidden", false);
+        $("#btnEditar").prop("hidden", false);
+        $("#btnEliminar").prop("hidden", false);
+        $("#btnGenerar").prop("disabled", true);
+        $("#lblAprobadoPendiente").removeClass("badge-info").addClass("badge-danger");
+        $("#lblAprobadoPendiente").html(Mensajes.Pendiente);
+
+        CargarControlDetalle();
+        CargarControlDetalle2();
+    }  
+
+}
+
+function Atras() {
+    $("#btnAtras").prop("hidden", true);
+    $("#btnConsultar").prop("hidden", false);
+    Model = [];
+    $("#divCabeceras").prop("hidden", false);
+    ConsultarControl();
+}
+
 function AbrirModal() {
+    editar = false;
     if ($("#txtFecha").val() == "") {
         $("#txtFecha").css('borderColor', '#FA8072');
         return;
@@ -101,6 +118,28 @@ function AbrirModal() {
     }
 }
 
+function EditarModal() {
+    editar = true;
+    if ($("#txtFecha").val() == "") {
+        $("#txtFecha").css('borderColor', '#FA8072');
+        return;
+    } else {
+        $("#txtFecha").css('borderColor', '#ced4da');
+          $("#txtPcc").prop("disabled", true);
+        $("#txtCodDetectorMetal").prop("disabled", true);
+        $("#chkLomo").prop("disabled", true);
+        $("#chkLata").prop("disabled", true);
+        $("#txtPcc").val(Model.Pcc);
+        $("#chkLomo").prop("checked", Model.Lomos);
+        $("#chkLata").prop("checked", Model.Latas);
+        $("#txtFerroso").val(Model.Ferroso);
+        $("#txtNoFerroso").val(Model.NoFerroso);
+        $("#txtAceroInoxidable").val(Model.AceroInoxidable);
+        $("#txtCodDetectorMetal").val(Model.DetectorMetal);
+        $("#txtObservacion").val(Model.Observacion);
+        $("#ModalCabecera").modal("show");
+    }
+}
 
 
 function Validar() {
@@ -152,7 +191,7 @@ function GenerarControl() {
         type: "POST",
         data: {
             Fecha: $("#txtFecha").val(),
-            IdOperatividadMetal: $("#txtIdControl").val(),
+            IdOperatividadMetal: Model.IdOperatividadMetal,
             Pcc: $("#txtPcc").val(),
             Lomos: $("#chkLomo").prop("checked"),
             Latas: $("#chkLata").prop("checked"),
@@ -172,7 +211,7 @@ function GenerarControl() {
             } else {
                 $("#ModalCabecera").modal("hide");
                 MensajeCorrecto("Registro Exitoso.");
-                ConsultarControl();
+                if (!editar) { ConsultarControl(); }
             }
 
         },
@@ -187,7 +226,7 @@ function InactivarControl() {
         url: "../OperatividadMetal/EliminarOperatividadMetal",
         type: "POST",
         data: {
-            IdOperatividadMetal: $("#txtIdControl").val()
+            IdOperatividadMetal: Model.IdOperatividadMetal
         },
         success: function (resultado) {
           //  alert(resultado);
@@ -197,7 +236,7 @@ function InactivarControl() {
             if (resultado == "0") {
                 MensajeAdvertencia("Faltan Parametros");
             }
-            ConsultarControl();
+            Atras();
             MensajeCorrecto("Control Eliminado con Exito");
         },
         error: function (resultado) {
@@ -230,7 +269,7 @@ function CargarControlDetalle() {
         url: "../OperatividadMetal/OperatividadMetalDetallePartial",
         type: "GET",
         data: {
-            IdControl: $("#txtIdControl").val()
+            IdControl: Model.IdOperatividadMetal
             //  Tipo: $("#txtLineaNegocio").val()
         },
         success: function (resultado) {
@@ -290,13 +329,24 @@ function GenerarControlDetalle() {
     if (!ValidarGenerarControlDetalle()) {
         return;
     }
+
+    if (moment($("#txtHora").val()) < moment(Model.Fecha)) {
+        MensajeAdvertencia("Hora no puede ser menor a la fecha del control");
+        return;
+    }
+    if (moment($("#txtHora").val()) > moment(Model.Fecha).add(1, 'days')) {
+        MensajeAdvertencia("Hora no puede ser mayor a la fecha del control");
+        return;
+    }
+
+
  //   $("#spinnerCargandoDetalle").prop("hidden", false);
     $.ajax({
         url: "../OperatividadMetal/OperatividadMetalDetalle",
         type: "POST",
         data: {
             IdOperatividadMetalDetalle: $("#txtIdControlDetalle").val(),
-            IdOperatividadMetal: $("#txtIdControl").val(),
+            IdOperatividadMetal: Model.IdOperatividadMetal,
             Hora: $("#txtHora").val(),
             Ferroso: $("#chkFerroso").prop("checked"),
             NoFerroso: $("#chkNoFerroso").prop("checked"),
@@ -387,7 +437,7 @@ function CargarControlDetalle2() {
         url: "../OperatividadMetal/OperatividadMetalDetectorPartial",
         type: "GET",
         data: {
-            IdControl: $("#txtIdControl").val()
+            IdControl: Model.IdOperatividadMetal
             //  Tipo: $("#txtLineaNegocio").val()
         },
         success: function (resultado) {
@@ -449,7 +499,7 @@ function GenerarControlDetalle2() {
     var data = new FormData();
     data.append("dataImg", imagen);
     data.append("IdOperatividadDetectorMetal", $("#txtIdControlDetalle2").val());
-    data.append("IdOperatividadMetal", $("#txtIdControl").val());
+    data.append("IdOperatividadMetal", Model.IdOperatividadMetal);
     data.append("Novedad", $("#txtNovedad").val());
     data.append("Rotacion", rotation);
 

@@ -13,10 +13,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class MantenimientoSaborController : Controller
     {
-        string[] lsUsuario = null;
-        clsDError clsDError = null;
-        // clsDClasificador clsDClasificador = null;
-        clsDMantenimientoSabor clsDMantenimientoSabor = null;
+        string[] lsUsuario { get; set; } = null;
+        clsDError clsDError { get; set; } = null;
+        clsDMantenimientoSabor clsDMantenimientoSabor { get; set; } = null;
         // GET: MantenimientoSabor
         [Authorize]
         public ActionResult MantenimientoSabor()
@@ -25,7 +24,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                //  ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 return View();
             }
@@ -60,9 +58,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMantenimientoSabor = new clsDMantenimientoSabor();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
-                var model = clsDMantenimientoSabor.ConsultaManteminetoSabor();
+                 var model = clsDMantenimientoSabor.ConsultaManteminetoSabor();
                 if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -102,13 +98,49 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
 
                 clsDMantenimientoSabor = new clsDMantenimientoSabor();
-                //model.EstadoRegistro = model.EstadoRegistro;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 clsDMantenimientoSabor.GuardarModificarMantenimientoSabor(model);
 
                 return Json("Registro Exitoso", JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult EliminarMantenimientoSabor(CC_MANTENIMIENTO_SABOR model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDMantenimientoSabor = new clsDMantenimientoSabor();
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                clsDMantenimientoSabor.EliminarMantenimientoSabor(model);
+                return Json("1", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {

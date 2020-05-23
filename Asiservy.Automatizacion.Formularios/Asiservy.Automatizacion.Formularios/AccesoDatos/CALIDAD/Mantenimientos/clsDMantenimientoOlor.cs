@@ -47,7 +47,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoO
                 var poControl = entities.CC_MANTENIMIENTO_OLOR.FirstOrDefault(x => x.IdOlor == model.IdOlor);
                 if (poControl != null)
                 {
-                    poControl.EstadoRegistro = clsAtributos.EstadoRegistroInactivo;
+                    poControl.EstadoRegistro = model.EstadoRegistro;
                     poControl.TerminalModificacionLog = model.TerminalIngresoLog;
                     poControl.UsuarioModificacionLog = model.UsuarioIngresoLog;
                     poControl.FechaModificacionLog = model.FechaIngresoLog;

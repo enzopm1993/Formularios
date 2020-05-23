@@ -33,6 +33,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
                 ViewBag.JqueryRotate = "1";
+                ViewBag.MaskedInput = "1";
                 lsUsuario = User.Identity.Name.Split('_');
 
 
@@ -59,7 +60,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
 
-        public JsonResult OperatividadMetalPartial(DateTime Fecha)
+        public ActionResult OperatividadMetalPartial(DateTime Fecha)
         {
             try
             {
@@ -70,15 +71,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 clsDOperatividadMetal = new clsDOperatividadMetal();
                  var model = clsDOperatividadMetal.ConsultaOperatividadMetal(Fecha);
-                if (model == null)
+                if (!model.Any())
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
-                }else if (!string.IsNullOrEmpty(model.UsuarioAprobacion))
-                {
-                    return Json("1", JsonRequestBehavior.AllowGet);
-
                 }
-                return Json(model,JsonRequestBehavior.AllowGet);
+                return PartialView(model);
             }
             catch (DbEntityValidationException e)
             {

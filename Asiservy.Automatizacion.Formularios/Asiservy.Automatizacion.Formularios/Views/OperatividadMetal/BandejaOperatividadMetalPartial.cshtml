@@ -10,6 +10,9 @@
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
             <th>
+                Detector Metal
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Pcc)
             </th>
             <th>
@@ -27,10 +30,8 @@
             <th>
                 Acero Inoxidable
             </th>
-            <th>
-                Detector Metal
-            </th>
-          
+
+
             <th>
                 Estado
             </th>
@@ -44,13 +45,13 @@
                 Terminal Ingreso
             </th>
             <th>
-               Fecha Modificación
+                Fecha Modificación
             </th>
             <th>
-               Usuario Modificación
+                Usuario Modificación
             </th>
             <th>
-               Terminal Modificación
+                Terminal Modificación
             </th>
 
         </tr>
@@ -67,69 +68,78 @@
 
 
             var json = JsonConvert.SerializeObject(m);
-                <tr onclick="SeleccionarBandeja(@json)">
-                    <td>
-                        @item.Fecha.ToString("dd-MM-yyyy")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Pcc)
-                    </td>
-                    <td class="text-center">
-                        @if (item.Lomos)
-                        {
-                            <i style="color:#1cc88a" class="fas fa-check-square"></i>
-                        }
-                    </td>
-                    <td class="text-center">
-                        @if (item.Latas)
-                        {
-                            <i style="color:#1cc88a" class="fas fa-check-square"></i>
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Ferroso)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NoFerroso)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AceroInoxidable)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DetectorMetal)
-                    </td>
-                  
-                    
-                    @if (item.EstadoReporte == true)
-                    {
-                        <td><span class="badge badge-success">Aprobado</span></td>
-                    }
-                    else
-                    {
-                        <td><span class="badge badge-danger">Pendiente</span></td>
-                    }
+        <tr onclick="SeleccionarBandeja(@json)">
+            <td>
+                @item.Fecha.ToString("dd-MM-yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DetectorMetal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pcc)
+            </td>
 
-                   
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaIngresoLog)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaModificacionLog)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
-                    </td>
+            <td class="text-center text-info">
+                @if (item.Lomos)
+                {
+                    <i class="fas fa-check-circle"></i>
+                }
 
-                </tr>
+
+            </td>
+            <td class="text-center text-info">
+                @if (item.Latas)
+                {
+                    <i class="fas fa-check-circle"></i>
+                }
+
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ferroso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoFerroso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AceroInoxidable)
+            </td>
+
+
+
+            @if (item.EstadoReporte == true)
+            {
+                <td><span class="badge badge-success">Aprobado</span></td>
+            }
+            else
+            {
+                <td><span class="badge badge-danger">Pendiente</span></td>
+            }
+
+
+            <td>
+                @item.FechaIngresoLog.ToString("dd-MM-yyyy HH:mm")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalIngresoLog)
+            </td>
+            <td>
+                @if (item.FechaModificacionLog != null)
+                {
+                    @item.FechaModificacionLog.Value.ToString("dd-MM-yyyy HH:mm")
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminalModificacionLog)
+            </td>
+
+        </tr>
                         }
     </tbody>
 </table>

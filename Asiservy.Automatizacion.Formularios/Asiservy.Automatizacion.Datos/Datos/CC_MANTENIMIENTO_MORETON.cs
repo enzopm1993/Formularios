@@ -10,16 +10,19 @@
 namespace Asiservy.Automatizacion.Datos.Datos
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_Reporte_Control_Cuchillos_Preparacion
+    public partial class CC_MANTENIMIENTO_MORETON
     {
-        public System.DateTime Fecha { get; set; }
-        public System.DateTime Hora { get; set; }
-        public bool EstadoReporte { get; set; }
-        public int IdCuchilloPreparacion { get; set; }
-        public string CodigoCuchillo { get; set; }
-        public bool Estado { get; set; }
-        public string CedulaEmpleado { get; set; }
+        public int IdMoreton { get; set; }
+        public string Descripcion { get; set; }
+        public string Abreviatura { get; set; }
+        public string EstadoRegistro { get; set; }
+        public System.DateTime FechaIngresoLog { get; set; }
+        public string UsuarioIngresoLog { get; set; }
+        public string TerminalIngresoLog { get; set; }
+        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
+        public string TerminalModificacionLog { get; set; }
     }
 }

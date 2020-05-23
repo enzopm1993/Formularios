@@ -43,10 +43,11 @@ function FiltrarAprobadosFecha() {
 function SeleccionarBandeja(Control) {
     //console.log(Control);
     model = Control;   
-
-    if (!model.EstadoReporte) {
-        MensajeAdvertencia("Reporte se encuentra pendiente.");
-        return;
+    $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
+    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("DD-MM-YYYY HH:mm"));
+    if (model.EstadoReporte) {
+        $("#txtUsuarioAprobacion").html(model.AprobadoPor);
+        $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("DD-MM-YYYY HH:mm"));
     }
     $("#btnImprimir").prop("hidden", false);
     $("#btnAtras").prop("hidden", false);
@@ -74,13 +75,10 @@ function SeleccionarBandeja(Control) {
     $("#lblNoFerroso").html(model.NoFerroso);
     $("#lblAceroInoxidable").html(model.AceroInoxidable);
     $("#pObservacion").html(model.Observacion);
-
-
-    $("#txtUsuarioCreacion").html(model.UsuarioIngresoLog);
-    $("#txtFechaCreacion").html(moment(model.FechaIngresoLog).format("DD-MM-YYYY HH:mm"));
-    $("#txtUsuarioAprobacion").html(model.AprobadoPor);
-    $("#txtFechaAprobacion").html(moment(model.FechaAprobacion).format("DD-MM-YYYY HH:mm"));
     $("#txtCodDetectorMetal").val(model.DetectorMetal);
+
+
+ 
 
 
     CargarControlDetalle();

@@ -40,6 +40,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
             try
             {
                 ViewBag.JavaScrip = "PRODUCCION/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.MascaraInput = "1";
                 ViewBag.dataTableJS = "1";
                 ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
@@ -400,6 +401,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.PRODUCCION
                 if (poDetalleControl.IdDetalleControlEsterilizacionConserva == 0)
                 {
                     resultado = clsDEsterilizacionConserva.GuardarDetalleEsterilizacion(poDetalleControl);
+
                 }
                 else
                 {

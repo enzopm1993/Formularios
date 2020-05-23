@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_VERIFICACION_POTENCIOMETRO>
+@using Newtonsoft.Json
+@using Asiservy.Automatizacion.Datos.Datos
+
+
+<table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Modelo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Serie)
+            </th>
+            <th>
+                NaCI 1%
+            </th>
+            <th>
+                NaCI 2%
+            </th>
+            <th>
+                NaCI 3%
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+            <th>
+               Estado
+            </th>
+          
+         
+            <th>
+               Fecha Ingreso
+            </th>
+            <th>
+               Usuario Ingreso
+            </th>
+          
+            <th>
+              Fecha Modificación
+            </th>
+            <th>
+              Usuario Modificación
+            </th>
+          
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var json = JsonConvert.SerializeObject(item);
+        <tr onclick="SeleccionarBandeja(@json)">
+
+            <td>
+                @item.Fecha.ToString("dd-MM-yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Modelo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Serie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NaCI1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NaCI2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NaCI3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+            @if (item.EstadoReporte == true)
+            {
+                <td><span class="badge badge-success">Aprobado</span></td>
+            }
+            else
+            {
+                <td><span class="badge badge-danger">Pendiente</span></td>
+            }
+
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioIngresoLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaModificacionLog)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioModificacionLog)
+            </td>
+
+        </tr>
+            }
+        </tbody>
+</table>

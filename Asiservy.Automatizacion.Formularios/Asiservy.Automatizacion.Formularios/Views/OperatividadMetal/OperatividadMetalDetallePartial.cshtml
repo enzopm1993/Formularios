@@ -33,14 +33,28 @@
             <td>
                 @item.Hora.ToString("dd-MM-yyyy HH:mm")
             </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.Ferroso)
+            <td class="text-center text-info">
+                @if (item.Ferroso)
+                {
+                    <i class="fas fa-check-circle"></i>
+                }
+             
             </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.NoFerroso)
+            <td class="text-center text-info">
+                @if (item.NoFerroso)
+                {
+                    <i class="fas fa-check-circle"></i>
+                }
+
+
             </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.AceroInoxidable)
+            <td class="text-center text-info">
+                @if (item.AceroInoxidable)
+                {
+                    <i class="fas fa-check-circle"></i>
+                }
+
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Observacion)

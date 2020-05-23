@@ -17,7 +17,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CC_CUCHILLOS_PREPARACION()
         {
-            this.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE = new HashSet<CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE>();
+            this.CC_CUCHILLOS_PREPARACION_CTRL_DET = new HashSet<CC_CUCHILLOS_PREPARACION_CTRL_DET>();
         }
     
         public int IdCuchilloPreparacion { get; set; }
@@ -32,6 +32,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string TerminalModificacionLog { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE> CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE { get; set; }
+        public virtual ICollection<CC_CUCHILLOS_PREPARACION_CTRL_DET> CC_CUCHILLOS_PREPARACION_CTRL_DET { get; set; }
     }
 }

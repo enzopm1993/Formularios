@@ -60,15 +60,21 @@
             <label class="">Acción</label>
             <div class="form-group">
                 @*<input type="button" name="name" value="Consultar" id="btnConsultar" class="btn btn-primary" onclick="CargarReporteAvance()" />*@
+                <button data-toggle="tooltip" data-placement="top" title="Consultar" class="btn" id="btnConsultar" onclick="ConsultarControl()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/ver24.png" />
+                </button>
                 <button data-toggle="tooltip" data-placement="top" title="Generar" class="btn" id="btnGenerar" onclick="AbrirModal()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/add24.png" />
                 </button>
 
-                <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="AbrirModal()" style="border-color:#2c3e50" type="button">
+                <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnEditar" onclick="EditarModal()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/edit24.png" />
                 </button>
                 <button hidden data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn" id="btnEliminar" onclick="EliminarControl()" style="border-color:#2c3e50" type="button">
                     <img style="width:100%" src="~/Content/icons/cancel24.png" />
+                </button>
+                <button hidden data-toggle="tooltip" data-placement="top" title="Editar" class="btn" id="btnAtras" onclick="Atras()" style="border-color:#2c3e50" type="button">
+                    <img style="width:100%" src="~/Content/icons/atras24.png" />
                 </button>
             </div>
         </div>
@@ -86,6 +92,11 @@
 
 <br />
 <div class="text-center" id="divMensaje"></div>
+
+<div id="divCabeceras" class="shadow card table-responsive">
+
+</div>
+
 <div id="divDetalle" hidden class="">
     <div class="row">
         <div class="col-md-12 col-12 col-sm-12">
@@ -226,15 +237,15 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
                         <label>Ferroso</label>
-                        <input type="number" min="0" autocomplete="off" class="form-control" id="txtFerroso" name="name" value="" />
+                        <input type="text" min="0" autocomplete="off" class="form-control" id="txtFerroso" name="name" value="" />
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
                         <label>No Ferroso</label>
-                        <input type="number" min="0" autocomplete="off" class="form-control" id="txtNoFerroso" name="name" value="" />
+                        <input type="text" min="0" autocomplete="off" class="form-control" id="txtNoFerroso" name="name" value="" />
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
                         <label>Acero Inoxidable</label>
-                        <input type="number" min="0" autocomplete="off" class="form-control" id="txtAceroInoxidable" name="name" value="" />
+                        <input type="text" min="0" autocomplete="off" class="form-control" id="txtAceroInoxidable" name="name" value="" />
                     </div>
                     <div class="col-md-12 col-sm-12 col-12">
                         <label>Observación</label>

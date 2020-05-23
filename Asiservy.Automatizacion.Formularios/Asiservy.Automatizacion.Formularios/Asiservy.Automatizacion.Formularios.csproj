@@ -2256,6 +2256,8 @@
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\BandejaTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ControlTermoencogidoSellado.js" />
     <Content Include="Scripts\CALIDAD\TemperaturaTermoencogidoSellado\ReporteTermoencogidoSellado.js" />
+    <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\BandejaVerificacionPotenciometro.js" />
+    <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\ReporteVerificacionPotenciometro.js" />
     <Content Include="Scripts\CALIDAD\VerificacionPotenciometro\VerificacionPotenciometro.js" />
     <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\ReporteIngresoMateriaPrima.js" />
     <Content Include="Scripts\COMERCIALIZACION\MateriaPrima\SOPMateriaPrima.js" />
@@ -2433,6 +2435,11 @@
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
     <None Include="Scripts\linq-vsdoc.js" />
+    <Content Include="Scripts\inputmask\bindings\inputmask.binding.js" />
+    <Content Include="Scripts\inputmask\inputmask.js" />
+    <Content Include="Scripts\inputmask\inputmask.min.js" />
+    <Content Include="Scripts\inputmask\jquery.inputmask.js" />
+    <Content Include="Scripts\inputmask\jquery.inputmask.min.js" />
     <Content Include="Scripts\jquery.maskedinput.js" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\JqueryRotate.js" />
@@ -3399,6 +3406,7 @@
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoCisterna\clsDMantenimientoCisterna.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoColor\clsDMantenimientoColor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\MantenimientoPediluvio\ClsDMantenimientoPediluvio.cs" />
+    <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\ClsDMantenimientoMoreton.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoOlor.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoProteina.cs" />
     <Compile Include="AccesoDatos\CALIDAD\Mantenimientos\clsDMantenimientoSabor.cs" />
@@ -4027,6 +4035,11 @@
     <Content Include="Views\VerificacionPotenciometro\VerificacionPotenciometro.cshtml" />
     <Content Include="Views\Nomina\DatosPersonales.cshtml" />
     <Content Include="Views\ControlCuchillosPreparacion\ConsultarHoraPartial.cshtml" />
+    <Content Include="Views\VerificacionPotenciometro\BandejaVerificacionPotenciometro.cshtml" />
+    <Content Include="Views\VerificacionPotenciometro\BandejaVerificacionPotenciometroPartial.cshtml" />
+    <Content Include="Views\OperatividadMetal\OperatividadMetalPartial.cshtml" />
+    <Content Include="Views\VerificacionPotenciometro\ReporteVerificacionPotenciometro.cshtml" />
+    <Content Include="Views\VerificacionPotenciometro\ReporteVerificacionPotenciometroPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

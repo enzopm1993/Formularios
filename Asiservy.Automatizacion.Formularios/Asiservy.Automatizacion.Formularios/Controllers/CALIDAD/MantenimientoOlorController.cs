@@ -13,10 +13,9 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
     public class MantenimientoOlorController : Controller
     {
-        string[] lsUsuario = null;
-        clsDError clsDError = null;
-       // clsDClasificador clsDClasificador = null;
-        clsDMantenimientoOlor clsDMantenimientoOlor = null;
+        string[] lsUsuario { get; set; } = null;
+        clsDError clsDError { get; set; } = null;
+        clsDMantenimientoOlor clsDMantenimientoOlor { get; set; } = null;
         // GET: MantenimientoOlor
         [Authorize]
         public ActionResult MantenimientoOlor()
@@ -25,7 +24,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             {
                 ViewBag.JavaScrip = "CALIDAD/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dataTableJS = "1";
-                //  ViewBag.select2 = "1";
                 lsUsuario = User.Identity.Name.Split('_');
                 return View();
             }
@@ -60,8 +58,6 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
                 clsDMantenimientoOlor = new clsDMantenimientoOlor();
-                // clsDEmpleado = new clsDEmpleado();
-                // var Empleado = clsDEmpleado.ConsultaEmpleado(lsUsuario[1]).FirstOrDefault();
                 var model = clsDMantenimientoOlor.ConsultaManteminetoOlor();
                 if (!model.Any())
                 {
@@ -102,7 +98,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
 
                 clsDMantenimientoOlor = new clsDMantenimientoOlor();
-                //model.EstadoRegistro = model.EstadoRegistro;
+                model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.FechaIngresoLog = DateTime.Now;
                 model.UsuarioIngresoLog = lsUsuario[0];
                 model.TerminalIngresoLog = Request.UserHostAddress;
@@ -129,7 +125,41 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 return Json(Mensaje, JsonRequestBehavior.AllowGet);
             }
         }
-
+        public ActionResult EliminarMantenimientoOlor(CC_MANTENIMIENTO_OLOR model)
+        {
+            try
+            {
+                lsUsuario = User.Identity.Name.Split('_');
+                if (string.IsNullOrEmpty(lsUsuario[0]))
+                {
+                    return Json("101", JsonRequestBehavior.AllowGet);
+                }
+                clsDMantenimientoOlor = new clsDMantenimientoOlor();
+                model.FechaIngresoLog = DateTime.Now;
+                model.TerminalIngresoLog = Request.UserHostAddress;
+                model.UsuarioIngresoLog = lsUsuario[0];
+                clsDMantenimientoOlor.EliminarMantenimientoOlor(model);
+                return Json("1", JsonRequestBehavior.AllowGet); ;
+            }
+            catch (DbEntityValidationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), null, e);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                clsDError = new clsDError();
+                lsUsuario = User.Identity.Name.Split('_');
+                string Mensaje = clsDError.ControlError(lsUsuario[0], Request.UserHostAddress, this.ControllerContext.RouteData.Values["controller"].ToString(),
+                    "Metodo: " + this.ControllerContext.RouteData.Values["action"].ToString(), ex, null);
+                return Json(Mensaje, JsonRequestBehavior.AllowGet);
+            }
+        }
         protected void SetSuccessMessage(string message)
         {
             TempData["MensajeConfirmacion"] = message;

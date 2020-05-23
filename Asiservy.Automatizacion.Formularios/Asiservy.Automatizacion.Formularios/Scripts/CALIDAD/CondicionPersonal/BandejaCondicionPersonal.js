@@ -33,9 +33,9 @@ function SeleccionarBandeja(model) {
     var table = $("#tblDataTableAprobar");
     table.DataTable().clear();
     if ($("#selectEstadoRegistro").val() == "false") {
-        $("#txtFechaAprobacion").prop("hidden", true);
-    } else {
         $("#txtFechaAprobacion").prop("hidden", false);
+    } else {
+        $("#txtFechaAprobacion").prop("hidden", true);
     }
     $("#ModalAgregarDetalle").modal("show");
     listaDatos = model;

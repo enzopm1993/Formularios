@@ -538,14 +538,16 @@ function GuardarDetalleControl() {
         }
         if (Error == 0) {
 
-            if (resultado[0] == "002") {
+            if (resultado[0] == "002" || resultado[0] == "003") {
                 MensajeAdvertencia(resultado[1]);
-            } else {
+            }
+            if (resultado[0] == "000" || resultado[0] == "000") {
                 MensajeCorrecto(resultado[1]);
                 //$('#CardDetalle').prop('hidden', false);
                 //ConsultarDetalleControl();
                 ConsultarDetalleControl();
             }
+         
             LimpiarDetalleControles();
         }
         $('#btnGuardarDetalle').prop('hidden', false);
