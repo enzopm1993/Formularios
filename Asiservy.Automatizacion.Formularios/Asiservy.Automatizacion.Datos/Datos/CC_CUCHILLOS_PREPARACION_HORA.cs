@@ -12,19 +12,18 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_CONTROL_CUCHILLOS_PREPARACION
+    public partial class CC_CUCHILLOS_PREPARACION_HORA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CC_CONTROL_CUCHILLOS_PREPARACION()
+        public CC_CUCHILLOS_PREPARACION_HORA()
         {
-            this.CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE = new HashSet<CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE>();
+            this.CC_CUCHILLOS_PREPARACION_CTRL_DET = new HashSet<CC_CUCHILLOS_PREPARACION_CTRL_DET>();
         }
     
+        public int IdHora { get; set; }
         public int IdControlCuchillo { get; set; }
-        public System.DateTime Fecha { get; set; }
         public System.DateTime Hora { get; set; }
-        public string Observacion { get; set; }
-        public bool EstadoReporte { get; set; }
+        public string Descripcion { get; set; }
         public string EstadoRegistro { get; set; }
         public System.DateTime FechaIngresoLog { get; set; }
         public string UsuarioIngresoLog { get; set; }
@@ -32,10 +31,9 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public Nullable<System.DateTime> FechaModificacionLog { get; set; }
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
-        public string AprobadoPor { get; set; }
-        public Nullable<System.DateTime> FechaAprobado { get; set; }
     
+        public virtual CC_CUCHILLOS_PREPARACION_CTRL CC_CUCHILLOS_PREPARACION_CTRL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE> CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE { get; set; }
+        public virtual ICollection<CC_CUCHILLOS_PREPARACION_CTRL_DET> CC_CUCHILLOS_PREPARACION_CTRL_DET { get; set; }
     }
 }

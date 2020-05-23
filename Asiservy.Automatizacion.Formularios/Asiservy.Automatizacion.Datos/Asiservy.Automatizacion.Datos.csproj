@@ -135,12 +135,6 @@
     <Compile Include="Datos\CC_CONDICION_PERSONAL_CONTROL.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Datos\CC_CONTROL_CUCHILLOS_PREPARACION.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datos\CC_CONTROL_LAVADO_DESINFECCION_MANOS.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -148,6 +142,15 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_CUCHILLOS_PREPARACION.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_CUCHILLOS_PREPARACION_CTRL.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_CUCHILLOS_PREPARACION_CTRL_DET.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_CUCHILLOS_PREPARACION_HORA.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_DESECHOS_LIQUIDOS_PELIGROSOS.cs">
@@ -202,6 +205,9 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_COLOR.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CC_MANTENIMIENTO_MORETON.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CC_MANTENIMIENTO_OLOR.cs">
@@ -870,6 +876,9 @@
     <Compile Include="Datos\sp_Control_Termoencogido_Sellado_Detalle.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\sp_Cuchillos_Preparacion_Det.cs">
+      <DependentUpon>ASIS_PROD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\sp_GrupoEnfermedades.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
@@ -901,9 +910,6 @@
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_Reporte_CloroCisternaDescongeladoDetalle.cs">
-      <DependentUpon>ASIS_PROD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\sp_Reporte_Control_Cuchillos_Preparacion.cs">
       <DependentUpon>ASIS_PROD.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\sp_Reporte_Lavado_Desinfeccion_Manos.cs">

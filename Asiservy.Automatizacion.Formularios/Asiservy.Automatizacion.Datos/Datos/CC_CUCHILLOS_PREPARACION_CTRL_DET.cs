@@ -12,13 +12,12 @@ namespace Asiservy.Automatizacion.Datos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class CC_CONTROL_CUCHILLOS_PREPARACION_DETALLE
+    public partial class CC_CUCHILLOS_PREPARACION_CTRL_DET
     {
         public int IdControlCuchilloDetalle { get; set; }
-        public int IdControlCuchillo { get; set; }
+        public int IdHora { get; set; }
         public int IdCuchilloPreparacion { get; set; }
         public string CedulaEmpleado { get; set; }
-        public Nullable<System.DateTime> Hora { get; set; }
         public bool Estado { get; set; }
         public string Observacion { get; set; }
         public string EstadoRegistro { get; set; }
@@ -29,7 +28,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public string UsuarioModificacionLog { get; set; }
         public string TerminalModificacionLog { get; set; }
     
-        public virtual CC_CONTROL_CUCHILLOS_PREPARACION CC_CONTROL_CUCHILLOS_PREPARACION { get; set; }
         public virtual CC_CUCHILLOS_PREPARACION CC_CUCHILLOS_PREPARACION { get; set; }
+        public virtual CC_CUCHILLOS_PREPARACION_HORA CC_CUCHILLOS_PREPARACION_HORA { get; set; }
     }
 }
