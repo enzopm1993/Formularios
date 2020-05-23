@@ -4026,6 +4026,7 @@
     <Content Include="Views\CloroAguaAutoClave\ReporteCloroAguaAutoclaveDetallePartial.cshtml" />
     <Content Include="Views\VerificacionPotenciometro\VerificacionPotenciometro.cshtml" />
     <Content Include="Views\Nomina\DatosPersonales.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\ConsultarHoraPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

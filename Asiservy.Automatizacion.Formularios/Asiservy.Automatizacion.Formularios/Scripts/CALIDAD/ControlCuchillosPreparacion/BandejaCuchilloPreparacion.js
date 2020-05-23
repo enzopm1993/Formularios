@@ -6,17 +6,13 @@ $(document).ready(function () {
 //CARGAR BANDEJA
 function CargarBandeja() {
     $('#cargac').show();
-    var op = 2;
-    if ($('#selectEstadoReporte').val()=='true') {
-        op = 3;
-    }    
+    
     $.ajax({
         url: "../ControlCuchillosPreparacion/BandejaCuchilloPreparacionPartial",
         data: {
             fechaDesde: $('#fechaDesde').val(),
             fechaHasta: $('#fechaHasta').val(),
-            idControlCuchillo: 0,
-            op: op
+            estado: $('#selectEstadoReporte').val()
         },
         type: "GET",
         success: function (resultado) {
@@ -30,9 +26,7 @@ function CargarBandeja() {
             
             $('#divTablaAplrobados').empty();
             $('#divTablaAplrobados').html(resultado);
-            setTimeout(function () {
                 $('#cargac').hide();
-            }, 200);            
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -62,13 +56,11 @@ function SeleccionarBandeja(model) {
         $('#btnAprobado').prop('hidden', false);
     }
     $.ajax({
-        url: "../ControlCuchillosPreparacion/ConsultarControlCuchilloDetalle",
+        url: "../ControlCuchillosPreparacion/ConsultarBandeja",
         type: "GET",
         data: {
-            IdCuchilloPreparacion: 0,
-            IdControlCuchilloDetalle: 0,
-            IdControlCuchillo: model.IdControlCuchillo,
-            opcion: 1
+            idControlCuchillo: model.IdControlCuchillo,
+            op: 0
         },
         success: function (resultado) {
             if (resultado == "101") {
@@ -81,16 +73,16 @@ function SeleccionarBandeja(model) {
                 MensajeAdvertencia("No existen EMPLEADOS ingresados para este model.");                
             } else {
                 $("#tblDataTableAprobar tbody").empty();
-                config.opcionesDT.order = [];
-                config.opcionesDT.buttons = [];
-                config.opcionesDT.columns = [
+                configDetalle.opcionesDT.order = [];
+                configDetalle.opcionesDT.buttons = [];
+                configDetalle.opcionesDT.columns = [
                     { data: 'CodigoCuchillo' },
                     { data: 'Estado' },
                     { data: 'CedulaEmpleado' },
                     { data: 'UsuarioIngresoLog' }
                 ];                
                 table.DataTable().destroy();
-                table.DataTable(config.opcionesDT);
+                table.DataTable(configDetalle.opcionesDT);
                 resultado.forEach(function (row) {
                     var clscolor = "badge-danger"; //Aplico estilo a la columna Estado 
                     var checked = '';
@@ -110,12 +102,10 @@ function SeleccionarBandeja(model) {
                 table.DataTable().rows.add(resultado);
                 table.DataTable().draw();            
             }
-            setTimeout(function () {
                 $('#cargac').hide();
                 if (resultado.length != 0) {
                     $("#ModalApruebaPendiente").modal("show");
                 }
-            }, 200);
         },
         error: function (resultado) {
             $('#cargac').hide();
@@ -137,7 +127,7 @@ function AprobarPendiente(estadoReporte) {
         }
     } else { $('#txtFechaAprobado').val(''); }
         $.ajax({
-            url: "../ControlCuchillosPreparacion/GuardarModificarControlCuchilloPreparacion",
+            url: "../ControlCuchillosPreparacion/AprobarPendiente",
             type: "POST",
             data: {
                 IdControlCuchillo: listaDatos.IdControlCuchillo,
@@ -177,6 +167,47 @@ function LimpiarFecha() {
     $("#txtFechaAprobado").css('border', '');
 }
 
+var configDetalle = {
+    wsUrl: 'http://192.168.0.31:8870',
+    baseUrl: '@Url.Content("~/")',
+    opcionesDT: {
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            },
+            "buttons": {
+                "pageLength": "<img style='width:100%' src='../../Content/icons/show24.png' />"
+            }
+        },
+        "pageLength": 0,
+        "lengthMenu": [],
+        "pagingType": "full_numbers",
+        "dom": 'Bfrtip',
+        //"scrollX": "auto",
+        //"scrollY": "auto",
+        "order": [[0, "desc"], [1, "desc"]],
+        "buttons": []
+    }
+}
 //DATE RANGE PICKER
 $(function () {
     var start = moment();
