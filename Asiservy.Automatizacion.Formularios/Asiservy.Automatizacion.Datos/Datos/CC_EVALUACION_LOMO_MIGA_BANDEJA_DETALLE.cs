@@ -24,7 +24,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public int Color { get; set; }
         public int Olor { get; set; }
         public Nullable<int> Moretones { get; set; }
-        public Nullable<int> HematomasProfundos { get; set; }
         public int Proteina { get; set; }
         public Nullable<decimal> Trozo { get; set; }
         public Nullable<int> Venas { get; set; }

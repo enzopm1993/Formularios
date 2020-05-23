@@ -143,7 +143,6 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<RESIDUAL_CLORO_CONTROL> RESIDUAL_CLORO_CONTROL { get; set; }
         public virtual DbSet<RESIDUAL_CLORO_DETALLE> RESIDUAL_CLORO_DETALLE { get; set; }
         public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA> CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA { get; set; }
-        public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE> CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE { get; set; }
         public virtual DbSet<CC_CONTROL_LAVADO_DESINFECCION_MANOS> CC_CONTROL_LAVADO_DESINFECCION_MANOS { get; set; }
         public virtual DbSet<CC_TEMPERATURA_TERMOENCOGIDO_SELLADO> CC_TEMPERATURA_TERMOENCOGIDO_SELLADO { get; set; }
         public virtual DbSet<CC_EVALUACION_PRODUCTO_ENFUNDADO> CC_EVALUACION_PRODUCTO_ENFUNDADO { get; set; }
@@ -168,6 +167,7 @@ namespace Asiservy.Automatizacion.Datos.Datos
         public virtual DbSet<CC_CUCHILLOS_PREPARACION_CTRL_DET> CC_CUCHILLOS_PREPARACION_CTRL_DET { get; set; }
         public virtual DbSet<CC_CUCHILLOS_PREPARACION_HORA> CC_CUCHILLOS_PREPARACION_HORA { get; set; }
         public virtual DbSet<CC_MANTENIMIENTO_MORETON> CC_MANTENIMIENTO_MORETON { get; set; }
+        public virtual DbSet<CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE> CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE { get; set; }
     
         public virtual ObjectResult<spConsultaCodigosEnfermedad> spConsultaCodigosEnfermedad(string codigo)
         {
