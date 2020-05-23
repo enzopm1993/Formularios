@@ -29,6 +29,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         private clsDMantenimientoProteina clsDMantenimientoProteina { get; set; } = null;
         private clsDMantenimientoColor clsDMantenimientoColor { get; set; } = null;
         private clsDClasificador clsDClasificador { get; set; } = null;
+        private ClsDMantenimientoMoreton ClsDMantenimientoMoreton { get; set; } = null;
         private clsDEvaluacionDeLomosYMigasEnBandeja clsDEvaluacionDeLomosYMigasEnBandeja { get; set; } = null;
         protected void SetSuccessMessage(string message)
         {
@@ -88,6 +89,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 clsDMantenimientoProteina = new clsDMantenimientoProteina();
                 clsDMantenimientoColor = new clsDMantenimientoColor();
                 clsDClasificador = new clsDClasificador();
+                ClsDMantenimientoMoreton = new ClsDMantenimientoMoreton();
                 var ListaTiposLimpieza = clsDClasificador.ConsultarClasificador(clsAtributos.CodigoGrupoTipoLimpiezaPescado).OrderBy(x=>x.Codigo);
                 var Lineas = clsDClasificador.ConsultarClasificador(clsAtributos.CodGrupoLineaProduccion).OrderBy(x => x.Codigo);
                 var Olor = clsDMantenimientoOlor.ConsultaManteminetoOlor().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
@@ -95,6 +97,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 var Sabor = clsDMantenimientoSabor.ConsultaManteminetoSabor().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 var Proteina = clsDMantenimientoProteina.ConsultaManteminetoProteina().Where(x => x.EstadoRegistro == clsAtributos.EstadoRegistroActivo);
                 var Color = clsDMantenimientoColor.ConsultarMantenimientoColor().Where(x=>x.EstadoRegistro==clsAtributos.EstadoRegistroActivo);
+                var Moretones = ClsDMantenimientoMoreton.ConsultaManteminetoMoreton();
+                ViewBag.Moreton = new SelectList(Moretones, "IdMoreton", "Descripcion");
                 ViewBag.Olor = new SelectList(Olor, "IdOlor", "Descripcion");
                 ViewBag.Textura = new SelectList(Textura, "IdTextura", "Descripcion");
                 ViewBag.Sabor = new SelectList(Sabor, "IdSabor", "Descripcion");
