@@ -13,17 +13,20 @@ namespace Asiservy.Automatizacion.Datos.Datos
     
     public partial class sp_Control_Cuchillos_Preparacion
     {
-        public int IdControlCuchillo { get; set; }
         public System.DateTime Fecha { get; set; }
-        public System.DateTime Hora { get; set; }
-        public string Observacion { get; set; }
+        public string ObservacionCab { get; set; }
         public bool EstadoReporte { get; set; }
-        public string EstadoRegistro { get; set; }
-        public System.DateTime FechaIngresoLog { get; set; }
+        public int IdHora { get; set; }
+        public int IdControlCuchillo { get; set; }
+        public System.DateTime Hora { get; set; }
+        public string Descripcion { get; set; }
+        public int IdControlCuchilloDetalle { get; set; }
+        public string CedulaEmpleado { get; set; }
+        public bool Estado { get; set; }
+        public string Observacion { get; set; }
         public string UsuarioIngresoLog { get; set; }
-        public string TerminalIngresoLog { get; set; }
-        public Nullable<System.DateTime> FechaModificacionLog { get; set; }
-        public string UsuarioModificacionLog { get; set; }
-        public string TerminalModificacionLog { get; set; }
+        public int IdCuchilloPreparacion { get; set; }
+        public string CodigoCuchillo { get; set; }
+        public string DescripcionCuchillo { get; set; }
     }
 }
