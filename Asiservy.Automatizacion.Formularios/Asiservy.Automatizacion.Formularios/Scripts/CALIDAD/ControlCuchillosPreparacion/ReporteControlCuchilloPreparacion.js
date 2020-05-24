@@ -25,7 +25,8 @@ function CargarCabecera() {
         url: "../ControlCuchillosPreparacion/ReporteControlCuchilloPreparacionCabeceraPartial",
         data: {
             fechaDesde: $("#fechaDesde").val(),
-            fechaHasta: $("#fechaHasta").val()
+            fechaHasta: $("#fechaHasta").val(),
+            op: 1
         },
         type: "GET",
         success: function (resultado) {
@@ -48,15 +49,13 @@ function CargarCabecera() {
 function SeleccionarCabecera(jdata) {
     $('#cargac').show();
     var op = 0;
-
-    $('#lblMostrarFecha').text(moment(jdata.Fecha).format('DD-MM-YYYY'));
-   
+    $('#lblMostrarFecha').text(moment(jdata.Fecha).format('DD-MM-YYYY'));   
+    $('#lblMostrarFechaM').text(moment(jdata.Fecha).format('DD-MM-YYYY'));   
     $('#txtUsuarioCreacion').text('\u00a0' + jdata.UsuarioIngresoLog.toUpperCase());
     $('#txtFechaCreacion').text('\u00a0' + moment(jdata.FechaIngresoLog).format('DD-MM-YYYY'));
     if (jdata.AprobadoPor == null) {
         jdata.AprobadoPor = '';
     }
-
     if (jdata.FechaAprobado != null) {
         jdata.FechaAprobado = moment(jdata.FechaAprobado).format('DD-MM-YYYY');
     } else if (jdata.FechaAprobado == null) {
@@ -67,8 +66,6 @@ function SeleccionarCabecera(jdata) {
     $.ajax({
         url: "../ControlCuchillosPreparacion/ReporteControlCuchilloPreparacionPartial",//MUESTRO EL DETALLE DE LA FILA SELECCIONADA
         data: {
-            filtroFechaDesde: jdata.Fecha,
-            filtroFechaHasta: $('#fechaHasta').val(),
             idControlCuchillo: jdata.IdControlCuchillo,
             op: op
         },
@@ -88,7 +85,7 @@ function SeleccionarCabecera(jdata) {
                 $('#divBotones').prop('hidden', false);
                 $("#divMostarTablaDetalle").html(resultado);
             }
-                $('#cargac').hide();
+            $('#cargac').hide();
         },
         error: function (resultado) {
             MensajeError(resultado.responseText, false);
@@ -106,9 +103,7 @@ function Atras() {
     $("#divMostarTablaCabecera").prop('hidden', false);
     $("#divCardMostrarDetalle").prop('hidden', true);
     $("#divMostarTablaDetalle").html('');
-
     $('#cargac').hide();
-
 }
 
 //FECHA DataRangePicker

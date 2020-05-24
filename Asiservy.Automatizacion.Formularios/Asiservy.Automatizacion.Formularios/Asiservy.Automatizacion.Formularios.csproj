@@ -4040,6 +4040,7 @@
     <Content Include="Views\OperatividadMetal\OperatividadMetalPartial.cshtml" />
     <Content Include="Views\VerificacionPotenciometro\ReporteVerificacionPotenciometro.cshtml" />
     <Content Include="Views\VerificacionPotenciometro\ReporteVerificacionPotenciometroPartial.cshtml" />
+    <Content Include="Views\ControlCuchillosPreparacion\ConsultarCuchilloPreparacionPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

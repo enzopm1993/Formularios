@@ -118,3 +118,9 @@ function ActualizarCabecera(jdata) {
     $('#txtAbreviatura').val(jdata.Abreviatura)
     itemEditar = jdata;
 }
+
+function NuevoControl() {
+    $("#txtDescripcion").val('');
+    $("#txtAbreviatura").val('');
+    itemEditar = [];
+}

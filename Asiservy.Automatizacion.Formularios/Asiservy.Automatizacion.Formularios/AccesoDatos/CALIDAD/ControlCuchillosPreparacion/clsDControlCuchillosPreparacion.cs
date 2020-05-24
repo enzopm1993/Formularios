@@ -7,12 +7,49 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
 {
     public class clsDControlCuchillosPreparacion
     {
-        public List<sp_Consultar_Cuchillos_Preparacion> ConsultarCuchilloPreparacion(string CodigoCuchillo, int opcion)
+        public List<CC_CUCHILLOS_PREPARACION> ConsultarCuchilloPreparacion(string codigoCuchillo, int op)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
-                var listado = db.sp_Consultar_Cuchillos_Preparacion(CodigoCuchillo, opcion).ToList();
-                return listado;
+                var lista = (from c in db.CC_CUCHILLOS_PREPARACION                            
+                             orderby c.IdCuchilloPreparacion descending
+                             select new {c.IdCuchilloPreparacion, c.CodigoCuchillo, c.DescripcionCuchillo, c.EstadoRegistro, c.FechaIngresoLog,
+                             c.FechaModificacionLog, c.TerminalIngresoLog, c.TerminalModificacionLog, c.UsuarioIngresoLog, c.UsuarioModificacionLog}).ToList();
+                if (op==1)
+                {
+                    lista = (from c in db.CC_CUCHILLOS_PREPARACION
+                             where(c.CodigoCuchillo== codigoCuchillo)
+                                 orderby c.IdCuchilloPreparacion descending
+                                 select new
+                                 {
+                                     c.IdCuchilloPreparacion,
+                                     c.CodigoCuchillo,
+                                     c.DescripcionCuchillo,
+                                     c.EstadoRegistro,
+                                     c.FechaIngresoLog,
+                                     c.FechaModificacionLog,
+                                     c.TerminalIngresoLog,
+                                     c.TerminalModificacionLog,
+                                     c.UsuarioIngresoLog,
+                                     c.UsuarioModificacionLog
+                                 }).Take(1).ToList();
+                }
+                List<CC_CUCHILLOS_PREPARACION> listacabecera = new List<CC_CUCHILLOS_PREPARACION>();
+                CC_CUCHILLOS_PREPARACION cabecera;
+                foreach (var item in lista)
+                {
+                    cabecera = new CC_CUCHILLOS_PREPARACION();
+                    cabecera.IdCuchilloPreparacion = item.IdCuchilloPreparacion;
+                    cabecera.CodigoCuchillo = item.CodigoCuchillo;
+                    cabecera.DescripcionCuchillo = item.DescripcionCuchillo;
+                    cabecera.EstadoRegistro = item.EstadoRegistro;
+                    cabecera.FechaIngresoLog = item.FechaIngresoLog;
+                    cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
+                    cabecera.FechaModificacionLog = item.FechaModificacionLog;
+                    cabecera.UsuarioModificacionLog = item.UsuarioModificacionLog;
+                    listacabecera.Add(cabecera);
+                }
+                return listacabecera;
             }
         }
 
@@ -142,7 +179,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
                 var lista = (from c in db.CC_CUCHILLOS_PREPARACION_HORA
-                             where (c.IdControlCuchillo >= idControlCuchillo && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
+                             where (c.IdControlCuchillo == idControlCuchillo && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
                              orderby c.Hora descending
                              select new { c.IdControlCuchillo,c.IdHora, c.Hora, c.EstadoRegistro, c.Descripcion, c.FechaIngresoLog, c.UsuarioIngresoLog}).ToList();
                 List<CC_CUCHILLOS_PREPARACION_HORA> listacabecera = new List<CC_CUCHILLOS_PREPARACION_HORA>();
@@ -210,34 +247,6 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
             }
         }
 
-        //public List<CC_CUCHILLOS_PREPARACION_CTRL_DET> ConsultarDetallew(int idHora)
-        //{
-        //    using (ASIS_PRODEntities db = new ASIS_PRODEntities())
-        //    {
-        //        var lista = (from c in db.CC_CUCHILLOS_PREPARACION_CTRL_DET
-        //                     where (c.IdHora >= idHora && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
-        //                     select new { c.IdControlCuchilloDetalle, c.IdCuchilloPreparacion, c.IdHora, c.EstadoRegistro,c.Estado,  c.Observacion,c.CedulaEmpleado, c.FechaIngresoLog, c.UsuarioIngresoLog }).ToList();
-        //        List<CC_CUCHILLOS_PREPARACION_CTRL_DET> listacabecera = new List<CC_CUCHILLOS_PREPARACION_CTRL_DET>();
-        //        CC_CUCHILLOS_PREPARACION_CTRL_DET cabecera;
-        //        foreach (var item in lista)
-        //        {
-        //            cabecera = new CC_CUCHILLOS_PREPARACION_CTRL_DET();
-        //            cabecera.IdHora = item.IdHora;
-        //            cabecera.IdCuchilloPreparacion = item.IdCuchilloPreparacion;
-        //            cabecera.IdControlCuchilloDetalle = item.IdControlCuchilloDetalle;
-        //            cabecera.CedulaEmpleado = item.CedulaEmpleado;
-        //            cabecera.Estado = item.Estado;
-        //            cabecera.Observacion = item.Observacion;
-        //            cabecera.FechaIngresoLog = item.FechaIngresoLog;
-        //            cabecera.UsuarioIngresoLog = item.UsuarioIngresoLog;
-        //            cabecera.FechaModificacionLog = item.FechaIngresoLog;
-        //            cabecera.UsuarioModificacionLog = item.UsuarioIngresoLog;
-        //            listacabecera.Add(cabecera);
-        //        }
-        //        return listacabecera;
-        //    }
-        //}
-
         //--------------------------------------CONTROL CUCHILLO DETALLE--------------------------------------------------------------
         public List<sp_Cuchillos_Preparacion_Det> ConsultarDetalle(int idHora, int op)
         {
@@ -257,7 +266,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
             }
         }
 
-        public List<CC_CUCHILLOS_PREPARACION_CTRL> ConsultarcabeceraFechaID(DateTime fechaDesde, DateTime fechaHasta, bool estado)
+        public List<CC_CUCHILLOS_PREPARACION_CTRL> ConsultarcabeceraFechaID(DateTime fechaDesde, DateTime fechaHasta, bool estado, int op=0)
         {
             using (ASIS_PRODEntities db = new ASIS_PRODEntities())
             {
@@ -265,6 +274,13 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
                              where (c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo && c.EstadoReporte==estado)
                              orderby c.Fecha descending
                              select new { c.IdControlCuchillo, c.Fecha, c.EstadoReporte, c.Observacion, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobado, c.AprobadoPor }).ToList();
+                if (op==1)
+                {
+                    lista = (from c in db.CC_CUCHILLOS_PREPARACION_CTRL
+                                 where (c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
+                                 orderby c.Fecha descending
+                                 select new { c.IdControlCuchillo, c.Fecha, c.EstadoReporte, c.Observacion, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobado, c.AprobadoPor }).ToList();
+                }
                 List<CC_CUCHILLOS_PREPARACION_CTRL> listacabecera = new List<CC_CUCHILLOS_PREPARACION_CTRL>();
                 CC_CUCHILLOS_PREPARACION_CTRL cabecera;
                 foreach (var item in lista)
@@ -311,7 +327,5 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.ControlCuchill
                 return lista;
             }
         }
-
-        
     }
 }

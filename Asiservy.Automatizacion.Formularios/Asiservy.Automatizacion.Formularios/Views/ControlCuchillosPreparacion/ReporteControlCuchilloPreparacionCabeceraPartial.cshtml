@@ -1,13 +1,10 @@
-﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CONTROL_CUCHILLOS_PREPARACION>
+﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.CC_CUCHILLOS_PREPARACION_CTRL>
 @using Newtonsoft.Json;
 <table class="table-hover table-bordered table-striped table" style="cursor: pointer" id="tblDataTable">
     <thead  style="font-size:12px">
         <tr>
             <th>
                 FECHA
-            </th>
-            <th>
-                HORA
             </th>
             <th>
                 OBSERVACION
@@ -26,9 +23,6 @@
         <tr onclick="SeleccionarCabecera(@json)">
             <td>
                 @item.Fecha.ToString("dd-MM-yyyy")
-            </td>
-            <td>
-                @item.Hora.ToString("HH:mm")
             </td>
             <td style="white-space:normal">
                 @if (!string.IsNullOrEmpty(item.Observacion))

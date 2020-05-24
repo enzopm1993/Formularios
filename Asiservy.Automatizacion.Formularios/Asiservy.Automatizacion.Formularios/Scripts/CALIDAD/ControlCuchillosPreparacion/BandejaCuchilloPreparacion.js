@@ -36,12 +36,7 @@ function CargarBandeja() {
 }
 
 function SeleccionarBandeja(model) {
-    $('#cargac').show();
-    var table = $("#tblDataTableAprobar");
-    table.DataTable().clear();
-    table.DataTable().destroy();
-    table.DataTable().clear();
-    table.DataTable().draw(); 
+    $('#cargac').show();   
     listaDatos = model;
     var date = new Date();
     $('#txtFechaAprobado').val(moment(date).format('YYYY-MM-DDTHH:mm'));
@@ -56,63 +51,115 @@ function SeleccionarBandeja(model) {
         $('#btnAprobado').prop('hidden', false);
     }
     $.ajax({
-        url: "../ControlCuchillosPreparacion/ConsultarBandeja",
-        type: "GET",
+        url: "../ControlCuchillosPreparacion/ReporteControlCuchilloPreparacionPartial",//MUESTRO EL DETALLE DE LA FILA SELECCIONADA
         data: {
             idControlCuchillo: model.IdControlCuchillo,
             op: 0
         },
+        type: "GET",
         success: function (resultado) {
             if (resultado == "101") {
                 window.location.reload();
             }
-            if (resultado == "102") {
-                MensajeAdvertencia("No existen datos para este model.");
-            }
-            if (resultado.length == 0) {
-                MensajeAdvertencia("No existen EMPLEADOS ingresados para este model.");                
+            if (resultado == "0") {
+                $('#divBotones').prop('hidden', true);
+                $("#divMostarTablaCabecera").prop('hidden', false);
+                $("#tblAprobarPendientePartial").prop('hidden', true);
+                MensajeAdvertencia('No existen registro de DETALLE');
             } else {
-                $("#tblDataTableAprobar tbody").empty();
-                configDetalle.opcionesDT.order = [];
-                configDetalle.opcionesDT.buttons = [];
-                configDetalle.opcionesDT.columns = [
-                    { data: 'CodigoCuchillo' },
-                    { data: 'Estado' },
-                    { data: 'CedulaEmpleado' },
-                    { data: 'UsuarioIngresoLog' }
-                ];                
-                table.DataTable().destroy();
-                table.DataTable(configDetalle.opcionesDT);
-                resultado.forEach(function (row) {
-                    var clscolor = "badge-danger"; //Aplico estilo a la columna Estado 
-                    var checked = '';
-                    if (row.Estado == true) {
-                        clscolor = "badge-success";
-                        checked = 'checked';
-                    }
-                    row.Estado = '<center><span class="badge ' + clscolor + '"><input type="checkbox" ' + checked + ' disabled id="vehicle2" name="Estado" value="Estado"></span></center>';
-                    var colummCedula = "";
-                    colummCedula = row.CedulaEmpleado;
-                    var guion = colummCedula.includes("-");//Valido si la cadena tiene algun -, El - significa que hay un Empleado asignado
-                    if (guion == true) {
-                        colummCedula = colummCedula.split('-');
-                        row.CedulaEmpleado = colummCedula[1];
-                    } else { row.CedulaEmpleado = "<center><span class='badge badge-danger' >NO ASIGNADO</span></center>"; }                   
-                });
-                table.DataTable().rows.add(resultado);
-                table.DataTable().draw();            
+                $("#divMostarTablaCabecera").prop('hidden', true);
+                $("#ModalApruebaPendiente").modal('show');
+                $('#divBotones').prop('hidden', false);
+                $("#tblAprobarPendientePartial").html(resultado);
             }
-                $('#cargac').hide();
-                if (resultado.length != 0) {
-                    $("#ModalApruebaPendiente").modal("show");
-                }
+            $('#cargac').hide();
         },
         error: function (resultado) {
-            $('#cargac').hide();
-            MensajeError(resultado.responseText, false);            
+            MensajeError(resultado.responseText, false);
         }
     });
 }
+
+//function SeleccionarBandeja(model) {
+//    $('#cargac').show();
+//    var table = $("#tblDataTableAprobar");
+//    table.DataTable().clear();
+//    table.DataTable().destroy();
+//    table.DataTable().clear();
+//    table.DataTable().draw(); 
+//    listaDatos = model;
+//    var date = new Date();
+//    $('#txtFechaAprobado').val(moment(date).format('YYYY-MM-DDTHH:mm'));
+//    $('#cargac').show();
+//    if (model.EstadoReporte == true) {
+//        $('#txtFechaAprobado').prop('hidden', true);
+//        $('#btnAprobado').prop('hidden', true);
+//        $('#btnPendiente').prop('hidden', false);
+//    } else {
+//        $('#txtFechaAprobado').prop('hidden', false);
+//        $('#btnPendiente').prop('hidden', true);
+//        $('#btnAprobado').prop('hidden', false);
+//    }
+//    $.ajax({
+//        url: "../ControlCuchillosPreparacion/ConsultarBandeja",
+//        type: "GET",
+//        data: {
+//            idControlCuchillo: model.IdControlCuchillo,
+//            op: 0
+//        },
+//        success: function (resultado) {
+//            if (resultado == "101") {
+//                window.location.reload();
+//            }
+//            if (resultado == "102") {
+//                MensajeAdvertencia("No existen datos para este model.");
+//            }
+//            if (resultado.length == 0) {
+//                MensajeAdvertencia("No existen EMPLEADOS ingresados para este model.");                
+//            } else {
+//                $("#tblDataTableAprobar tbody").empty();
+//                configDetalle.opcionesDT.order = [];
+//                configDetalle.opcionesDT.buttons = [];
+//                configDetalle.opcionesDT.columns = [
+//                    { data: 'Hora' },
+//                    { data: 'CodigoCuchillo' },
+//                    { data: 'Estado' },
+//                    { data: 'CedulaEmpleado' },
+//                    { data: 'UsuarioIngresoLog' }
+//                ];                
+//                table.DataTable().destroy();
+//                table.DataTable(configDetalle.opcionesDT);
+//                resultado.forEach(function (row) {
+//                    row.Hora = moment(row.Hora).format('HH:mm');
+//                    var clscolor = "badge-danger"; //Aplico estilo a la columna Estado 
+//                    var checked = '';
+//                    if (row.Estado == true) {
+//                        clscolor = "badge-success";
+//                        checked = 'checked';
+//                    }
+//                    row.Estado = '<center><span class="badge ' + clscolor + '"><input type="checkbox" ' + checked + ' disabled id="vehicle2" name="Estado" value="Estado"></span></center>';
+//                    var colummCedula = "";
+//                    colummCedula = row.CedulaEmpleado;
+//                    var guion = colummCedula.includes("-");//Valido si la cadena tiene algun -, El - significa que hay un Empleado asignado
+//                    if (guion == true) {
+//                        colummCedula = colummCedula.split('-');
+//                        row.CedulaEmpleado = colummCedula[1];
+//                    } else { row.CedulaEmpleado = "<center><span class='badge badge-danger' >NO ASIGNADO</span></center>"; }                   
+//                });
+//                table.DataTable().rows.add(resultado);
+//                table.DataTable().draw();            
+//            }
+//                $('#cargac').hide();
+//                if (resultado.length != 0) {
+//                    $("#ModalApruebaPendiente").modal("show");
+//                }
+//        },
+//        error: function (resultado) {
+//            $('#cargac').hide();
+//            MensajeError(resultado.responseText, false);            
+//        }
+//    });
+//}
 
 function AprobarPendiente(estadoReporte) {
     if ($("#selectEstadoReporte").val() == 'false') {
