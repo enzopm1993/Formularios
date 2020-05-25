@@ -160,7 +160,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                     buscardetalle.Color = poDetalleControl.Color;
                     buscardetalle.Olor = poDetalleControl.Olor;
                     buscardetalle.Moretones = poDetalleControl.Moretones;
-                    buscardetalle.HematomasProfundos = poDetalleControl.HematomasProfundos;
+                    //buscardetalle.HematomasProfundos = poDetalleControl.HematomasProfundos;
                     buscardetalle.Proteina = poDetalleControl.Proteina;
                     buscardetalle.Trozo = poDetalleControl.Trozo;
                     buscardetalle.Venas = poDetalleControl.Venas;
@@ -246,8 +246,8 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                      Color = c.Descripcion,
                                      Escamas = d.Escamas,
                                      Espinas = d.Espinas,
-                                     HematomasProfundos = d.HematomasProfundos,
-                                     Hora = d.Hora,
+                                   //  HematomasProfundos = d.HematomasProfundos,
+                                     //Hora = d.Hora,
                                      Linea = d.Linea,
                                      Lote = d.Lote,
                                      Moretones = d.Moretones,
