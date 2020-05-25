@@ -167,5 +167,31 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.CloroCisternaD
                 return listacabecera;
             }
         }
+
+        public CC_CLORO_CISTERNA_DESCONGELADO ConsultarEstadoReporte(long idCloroCisterna)
+        {
+            using (ASIS_PRODEntities db = new ASIS_PRODEntities())
+            {
+                var lista = (from c in db.CC_CLORO_CISTERNA_DESCONGELADO
+                             where (c.IdCloroCisterna == idCloroCisterna && c.EstadoRegistro == clsAtributos.EstadoRegistroActivo)
+                             orderby c.Fecha descending
+                             select new { c.IdCloroCisterna, c.Fecha, c.EstadoReporte, c.Observaciones, c.FechaIngresoLog, c.UsuarioIngresoLog, c.FechaAprobacion, c.AprobadoPor }).FirstOrDefault();
+                
+                CC_CLORO_CISTERNA_DESCONGELADO cabecera= new CC_CLORO_CISTERNA_DESCONGELADO();
+               if(lista!=null)
+                {
+                    cabecera.IdCloroCisterna = lista.IdCloroCisterna;
+                    cabecera.Fecha = lista.Fecha;
+                    cabecera.EstadoReporte = lista.EstadoReporte;
+                    cabecera.Observaciones = lista.Observaciones;
+                    cabecera.FechaIngresoLog = lista.FechaIngresoLog;
+                    cabecera.UsuarioIngresoLog = lista.UsuarioIngresoLog;
+                    cabecera.FechaAprobacion = lista.FechaAprobacion;
+                    cabecera.AprobadoPor = lista.AprobadoPor;
+                    return cabecera;
+                }
+                return cabecera;
+            }
+        }
     }
 }

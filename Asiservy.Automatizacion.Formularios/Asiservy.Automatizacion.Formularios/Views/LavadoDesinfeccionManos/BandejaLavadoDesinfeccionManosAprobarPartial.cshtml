@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<Asiservy.Automatizacion.Datos.Datos.sp_Control_Lavado_Desinfeccion_Manos_Detalle>
 
 <table class="table table-light table-striped" tabindex="1" id="tblDataTableAprobar">
-    <thead>
+    <thead style="font-size:12px">
         <tr>
             <th>
-                Hora
+                HORA
             </th>
             @foreach (var item in ViewBag.cabeceraTable)
             {
                 <th>
-                    @item.Descripcion
+                    @item.Descripcion.ToUpper()
                 </th>
             }           
         </tr>
@@ -21,7 +21,7 @@
                          select new { Hora = g.Key.Hora, Count = g.Count() }).ToList();
         var ordenColumnasTabla = ViewBag.cabeceraTable;//Aqui obtengo como es el orden de muestreo del detalle ya que la cabecera esta dibujada. linea1, linea 2, etc
     }
-    <tbody style="font-size:14px">
+    <tbody style="font-size:11px">
         @foreach (var subListaHora in listaHora)
         {
             var itemColumna = (from x in Model

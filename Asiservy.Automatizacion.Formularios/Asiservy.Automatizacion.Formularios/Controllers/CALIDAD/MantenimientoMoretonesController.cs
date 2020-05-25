@@ -2,21 +2,21 @@
 using System.Linq;
 using System.Web.Mvc;
 using Asiservy.Automatizacion.Formularios.AccesoDatos;
-using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoColor;
+using Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.MantenimientoMoretones;
 using Asiservy.Automatizacion.Datos.Datos;
 using System.Data.Entity.Validation;
 using System.Net;
 
 namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
 {
-    public class MantenimientoColorController : Controller
+    public class MantenimientoMoretonesController : Controller
     {
-       private string[] lsUsuario { get; set; } = null;
-       private clsDError clsDError { get; set; } = null;
-       private clsDMantenimientoColor clsDMantenimientoColor { get; set; } = null;
+        private string[] lsUsuario { get; set; } = null;
+        private clsDError clsDError { get; set; } = null;
+        private ClsDMantenimientoMoretones ClsDMantenimientoMoretones { get; set; } = null;
 
-         
-        public ActionResult MantenimientoColor()
+
+        public ActionResult MantenimientoMoreton()
         {
             try
             {
@@ -44,7 +44,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult MantenimientoColorPartial()
+        public ActionResult MantenimientoMoretonPartial()
         {
             try
             {
@@ -53,8 +53,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoColor = new clsDMantenimientoColor();
-                var poCloroCisterna = clsDMantenimientoColor.ConsultarMantenimientoColor().ToList();
+                ClsDMantenimientoMoretones = new ClsDMantenimientoMoretones();
+                var poCloroCisterna = ClsDMantenimientoMoretones.ConsultarMantenimientoMoretones().ToList();
                 if (poCloroCisterna != null)
                 {
                     return PartialView(poCloroCisterna);
@@ -85,7 +85,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
         }
 
         //-------------------------------------------------MANTENIMIENTO DE COLOR-------------------------------------------
-        public ActionResult ConsultarMantenimientoColor()
+        public ActionResult ConsultarMantenimientoMoreton()
         {
             try
             {
@@ -94,8 +94,8 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoColor = new clsDMantenimientoColor();
-                var poCloroCisterna = clsDMantenimientoColor.ConsultarMantenimientoColor().FirstOrDefault();
+                ClsDMantenimientoMoretones = new ClsDMantenimientoMoretones();
+                var poCloroCisterna = ClsDMantenimientoMoretones.ConsultarMantenimientoMoretones().FirstOrDefault();
                 if (poCloroCisterna != null)
                 {
                     return Json(poCloroCisterna, JsonRequestBehavior.AllowGet);
@@ -125,7 +125,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult GuardarModificarMantenimientoColor(CC_MANTENIMIENTO_COLOR model)
+        public ActionResult GuardarModificarMantenimientoMoreton(CC_MANTENIMIENTO_MORETON model)
         {
             try
             {
@@ -134,12 +134,12 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoColor = new clsDMantenimientoColor();
+                ClsDMantenimientoMoretones = new ClsDMantenimientoMoretones();
                 model.FechaIngresoLog = DateTime.Now;
                 model.EstadoRegistro = clsAtributos.EstadoRegistroActivo;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDMantenimientoColor.GuardarModificarMantenimientoColor(model);
+                var valor = ClsDMantenimientoMoretones.GuardarModificarMantenimientoMoretones(model);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);
@@ -166,7 +166,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
             }
         }
 
-        public ActionResult EliminarMantenimientoColor(CC_MANTENIMIENTO_COLOR model)
+        public ActionResult EliminarMantenimientoMoreton(CC_MANTENIMIENTO_MORETON model)
         {
             try
             {
@@ -175,11 +175,11 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 {
                     return Json("101", JsonRequestBehavior.AllowGet);
                 }
-                clsDMantenimientoColor = new clsDMantenimientoColor();
-                model.FechaIngresoLog = DateTime.Now;                
+                ClsDMantenimientoMoretones = new ClsDMantenimientoMoretones();
+                model.FechaIngresoLog = DateTime.Now;
                 model.TerminalIngresoLog = Request.UserHostAddress;
                 model.UsuarioIngresoLog = lsUsuario[0];
-                var valor = clsDMantenimientoColor.EliminarMantenimientoColor(model);
+                var valor = ClsDMantenimientoMoretones.EliminarMantenimientoColor(model);
                 if (valor == 0)
                 {
                     return Json("0", JsonRequestBehavior.AllowGet);

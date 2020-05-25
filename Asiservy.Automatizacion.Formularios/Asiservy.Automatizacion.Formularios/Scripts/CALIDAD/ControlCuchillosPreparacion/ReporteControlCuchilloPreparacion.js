@@ -57,7 +57,7 @@ function SeleccionarCabecera(jdata) {
         jdata.AprobadoPor = '';
     }
     if (jdata.FechaAprobado != null) {
-        jdata.FechaAprobado = moment(jdata.FechaAprobado).format('DD-MM-YYYY');
+        jdata.FechaAprobado = moment(jdata.FechaAprobado).format('DD-MM-YYYY HH:mm');
     } else if (jdata.FechaAprobado == null) {
         jdata.FechaAprobado = '';
     }

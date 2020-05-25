@@ -52,7 +52,7 @@ function SeleccionarCabecera(jdata) {
     var op = 1;
 
     $('#lblMostrarFecha').text(moment(jdata.Fecha).format('DD-MM-YYYY'));
-
+    $('#lblMostrarFechaM').text(moment(jdata.Fecha).format('DD-MM-YYYY'));
     $('#txtUsuarioCreacion').text('\u00a0' + jdata.UsuarioIngresoLog.toUpperCase());
     $('#txtFechaCreacion').text('\u00a0' + moment(jdata.FechaIngresoLog).format('DD-MM-YYYY'));
     if (jdata.AprobadoPor == null) {
@@ -60,7 +60,7 @@ function SeleccionarCabecera(jdata) {
     }
 
     if (jdata.FechaAprobado != null) {
-        jdata.FechaAprobado = moment(jdata.FechaAprobado).format('DD-MM-YYYY');
+        jdata.FechaAprobado = moment(jdata.FechaAprobado).format('DD-MM-YYYY HH:mm');
     } else if (jdata.FechaAprobado == null) {
         jdata.FechaAprobado = '';
     }
