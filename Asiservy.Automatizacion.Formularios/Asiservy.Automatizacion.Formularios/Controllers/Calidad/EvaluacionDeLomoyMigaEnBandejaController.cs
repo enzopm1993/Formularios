@@ -220,7 +220,7 @@ namespace Asiservy.Automatizacion.Formularios.Controllers.CALIDAD
                 }
                 CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA resultado = null;
                 clsDEvaluacionDeLomosYMigasEnBandeja = new clsDEvaluacionDeLomosYMigasEnBandeja();
-                resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarCabeceraControl(poCabControl.FechaProduccion.Value);
+                resultado = clsDEvaluacionDeLomosYMigasEnBandeja.ConsultarCabeceraControl(poCabControl.FechaProduccion.Value,poCabControl.OrdenFabricacion.Value);
                 if (resultado != null)
                 {
                     return Json(new

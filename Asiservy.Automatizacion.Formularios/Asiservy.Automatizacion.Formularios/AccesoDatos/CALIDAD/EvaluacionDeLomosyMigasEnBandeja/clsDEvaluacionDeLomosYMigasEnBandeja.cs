@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Asiservy.Automatizacion.Datos.Datos;
 using Asiservy.Automatizacion.Formularios.Models.Calidad;
 using Asiservy.Automatizacion.Formularios.Models.CALIDAD;
@@ -10,11 +9,11 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
 {
     public class clsDEvaluacionDeLomosYMigasEnBandeja
     {
-        public CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA ConsultarCabeceraControl(DateTime FechaProduccion)
+        public CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA ConsultarCabeceraControl(DateTime FechaProduccion,int OrdenFabricacion)
         {
             using (var db = new ASIS_PRODEntities())
             {
-                return db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => x.FechaProduccion == FechaProduccion && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                return db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => x.FechaProduccion == FechaProduccion&&x.OrdenFabricacion== OrdenFabricacion && x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
             }
         }
         public object[] GuardarCabeceraControl(CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA poCabeceraControl)
@@ -23,7 +22,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
             {
                 object[] resultado = new object[3];
                 var buscarCabecera = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Where(x => x.FechaProduccion == poCabeceraControl.FechaProduccion &&
-                x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
+                x.OrdenFabricacion==poCabeceraControl.OrdenFabricacion&&x.EstadoRegistro == clsAtributos.EstadoRegistroActivo).FirstOrDefault();
                 if (buscarCabecera == null)
                 {
                     db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA.Add(poCabeceraControl);
@@ -36,7 +35,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 {
                     resultado[0] = "002";
                     resultado[1] = "Error, el registro ya existe";
-                    resultado[2] = buscarCabecera;
+                    resultado[2] = poCabeceraControl;
                 }
                 return resultado;
             }
@@ -112,7 +111,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                 }
                 else
                 {
-                    var buscarDetalle = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Where(x => x.Hora == poDetalleControl.Hora && poDetalleControl.IdCabeceraEvaluacionLomosYMigasEnBandeja == x.IdCabeceraEvaluacionLomosYMigasEnBandeja).FirstOrDefault();
+                    var buscarDetalle = db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE.Where(x => x.Hora == poDetalleControl.Hora && poDetalleControl.IdCabeceraEvaluacionLomosYMigasEnBandeja == x.IdCabeceraEvaluacionLomosYMigasEnBandeja&&x.EstadoRegistro==clsAtributos.EstadoRegistroActivo).FirstOrDefault();
 
                     if (buscarDetalle == null)
                     {
@@ -120,7 +119,32 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                         db.SaveChanges();
                         resultado[0] = "000";
                         resultado[1] = "Registro ingresado con éxito";
-                        resultado[2] = poDetalleControl;
+                        resultado[2] = new { poDetalleControl.buque,
+                            poDetalleControl.Color,
+                            poDetalleControl.Escamas,
+                            poDetalleControl.Espinas,
+                            poDetalleControl.EstadoRegistro,
+                            poDetalleControl.FechaIngresoLog,
+                            poDetalleControl.FechaModificacionLog,
+                            poDetalleControl.Hora,
+                            poDetalleControl.IdCabeceraEvaluacionLomosYMigasEnBandeja,
+                            poDetalleControl.IdDetalleEvaluacionLomoyMigasEnBandeja,
+                            poDetalleControl.Linea,
+                            poDetalleControl.Lote,
+                            poDetalleControl.Moretones,
+                            poDetalleControl.Olor,
+                            poDetalleControl.Piel,
+                            poDetalleControl.Proteina,
+                            poDetalleControl.Sabor,
+                            poDetalleControl.Sangre,
+                            poDetalleControl.TerminalIngresoLog,
+                            poDetalleControl.TerminalModificacionLog,
+                            poDetalleControl.Textura,
+                            poDetalleControl.Trozo,
+                            poDetalleControl.UsuarioIngresoLog,
+                            poDetalleControl.UsuarioModificacionLog,
+                            poDetalleControl.Venas
+                        };
                     }
                     else
                     {
@@ -160,7 +184,7 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                     buscardetalle.Color = poDetalleControl.Color;
                     buscardetalle.Olor = poDetalleControl.Olor;
                     buscardetalle.Moretones = poDetalleControl.Moretones;
-                    buscardetalle.HematomasProfundos = poDetalleControl.HematomasProfundos;
+                    //buscardetalle.HematomasProfundos = poDetalleControl.HematomasProfundos;
                     buscardetalle.Proteina = poDetalleControl.Proteina;
                     buscardetalle.Trozo = poDetalleControl.Trozo;
                     buscardetalle.Venas = poDetalleControl.Venas;
@@ -227,12 +251,14 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
             using (var db = new ASIS_PRODEntities())
             {
                 var resultado = (from d in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_DETALLE
+                                 join mo in db.CC_MANTENIMIENTO_MORETON on new { IdMoreton=d.Moretones.Value, EstadoRegistro=clsAtributos.EstadoRegistroActivo } equals new { mo.IdMoreton, mo.EstadoRegistro }
                                  join c in db.CC_MANTENIMIENTO_COLOR on new { d.Color, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Color = c.IdColor, c.EstadoRegistro }
                                  join o in db.CC_MANTENIMIENTO_OLOR on new { d.Olor, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Olor = o.IdOlor, o.EstadoRegistro }
                                  join s in db.CC_MANTENIMIENTO_SABOR on new { d.Sabor, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Sabor = s.IdSabor, s.EstadoRegistro }
                                  join t in db.CC_MANTENIMIENTO_TEXTURA on new { d.Textura, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Textura = t.IdTextura, t.EstadoRegistro }
                                  join p in db.CC_MANTENIMIENTO_PROTEINA on new { d.Proteina, EstadoRegistro = clsAtributos.EstadoRegistroActivo } equals new { Proteina = p.IdProteina, p.EstadoRegistro }
                                  join cab in db.CC_EVALUACION_LOMO_MIGA_BANDEJA_CABECERA on new { IdEvaluacionDeLomosYMigasEnBandejas=d.IdCabeceraEvaluacionLomosYMigasEnBandeja, EstadoRegistro =clsAtributos.EstadoRegistroActivo} equals new {cab.IdEvaluacionDeLomosYMigasEnBandejas, cab.EstadoRegistro }
+
                                  where d.IdCabeceraEvaluacionLomosYMigasEnBandeja == idCabeceraControl && d.EstadoRegistro == clsAtributos.EstadoRegistroActivo
                                  select new DetalleEvaluacionLomosMIgasBandejaViewModel
                                  {
@@ -246,11 +272,12 @@ namespace Asiservy.Automatizacion.Formularios.AccesoDatos.CALIDAD.EvaluacionDeLo
                                      Color = c.Descripcion,
                                      Escamas = d.Escamas,
                                      Espinas = d.Espinas,
-                                     HematomasProfundos = d.HematomasProfundos,
+                                     //HematomasProfundos = d.HematomasProfundos,
+                                     Moretones=mo.Descripcion,
                                      Hora = d.Hora,
                                      Linea = d.Linea,
                                      Lote = d.Lote,
-                                     Moretones = d.Moretones,
+                                     CodMoretones = d.Moretones,
                                      Olor = o.Descripcion,
                                      Piel = d.Piel,
                                      Proteinas = p.Descripcion,
