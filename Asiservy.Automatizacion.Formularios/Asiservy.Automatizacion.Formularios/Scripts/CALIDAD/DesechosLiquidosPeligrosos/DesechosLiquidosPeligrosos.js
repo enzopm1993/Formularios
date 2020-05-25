@@ -88,7 +88,27 @@ function CargarCabecera(op) {
     });
 }
 
-function GuardarCabecera() {
+function GuardarCabecera() {    
+    var date = new Date();
+    var m = new Date().getMonth()+1;
+    var mingreso = moment($("#txtFechaCabecera").val()).format('DD-MM-YYYY');
+    var mactual = moment(date).format('DD-MM-YYYY');
+    if (m == moment($("#txtFechaCabecera").val()).format('MM')) {
+        if (mingreso > mactual) {
+            MensajeAdvertencia('La fecha no puede ser mayor a la fecha actual: <span class="badge badge-danger">' + moment(date).format('DD-MM-YYYY') + '</span>');
+            return;
+        }
+    }
+   
+    
+    if (moment($("#txtFechaCabecera").val()).format('MM') > m) {
+        MensajeAdvertencia('El Mes no puede ser mayor al mes actual <span class="badge badge-danger">' + moment(date).format('MM') + '</span>');
+        return;
+    }
+    if (moment($("#txtFechaCabecera").val()).format('MM') < $('#selectMonth').val() || moment($("#txtFechaCabecera").val()).format('MM') > $('#selectMonth').val()) {
+        MensajeAdvertencia('El Mes no puede ser menor/mayor al mes seleccionado <span class="badge badge-danger">' + $('#selectMonth').val() + '</span>');
+        return;
+    }
     $('#cargac').show();
     $.ajax({
         url: "../DesechosLiquidosPeligrosos/GuardarModificarDesechosLiquidos",

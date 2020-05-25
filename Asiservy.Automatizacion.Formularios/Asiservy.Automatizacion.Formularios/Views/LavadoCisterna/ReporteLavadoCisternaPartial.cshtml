@@ -2,7 +2,7 @@
 
 
 <table class="table table-bordered" tabindex="1" id="tblDataTable">
-    <thead style="font-size:12px">
+    <thead style="font-size:11px">
         <tr>
             <th>FECHA</th>
             <th>Nº CISTERNA</th>
@@ -45,7 +45,7 @@
                                  f.Key.fechaModificacion
                              }).ToList();
     }
-    <tbody style="font-size:11px">
+    <tbody style="font-size:10px">
         @foreach (var item in listaFiltrada)
         {
             var listaNDescripcion = (from c in Model
@@ -88,9 +88,9 @@
                 </td>
                 <td>
                     @{ DateTime date = Convert.ToDateTime(item.FechaAprobado);}
-                    @if (date.ToString() != "1/1/0001 12:00:00 AM")
+                    @if (date!= DateTime.MinValue)
                     {
-                        @date.ToString("dd-MM-yyyy")
+                        @date.ToString("dd-MM-yyyy HH:mm")
                     }
                 </td>
                 <td>
