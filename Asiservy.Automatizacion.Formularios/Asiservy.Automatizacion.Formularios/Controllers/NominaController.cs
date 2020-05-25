@@ -115,23 +115,23 @@ namespace Asiservy.Automatizacion.Formularios.Controllers
                 using (DataLifeService.ServicioAsiservySoapClient servicio = new DataLifeService.ServicioAsiservySoapClient())
                 {
 
-                    if (string.IsNullOrEmpty(parametros.direccion.Trim()))
+                    if (string.IsNullOrEmpty(parametros.direccion))
                     {
                         parametros.direccion = "*";
                     }
-                    if (string.IsNullOrEmpty(parametros.barrio.Trim()))
+                    if (string.IsNullOrEmpty(parametros.barrio))
                     {
                         parametros.barrio = "*";
                     }
-                    if (string.IsNullOrEmpty(parametros.telefono.Trim()))
+                    if (string.IsNullOrEmpty(parametros.telefono))
                     {
                         parametros.telefono = "*";
                     }
-                    if (string.IsNullOrEmpty(parametros.celular.Trim()))
+                    if (string.IsNullOrEmpty(parametros.celular))
                     {
                         parametros.celular = "*";
                     }
-                    if (string.IsNullOrEmpty(parametros.correoPersonal.Trim()))
+                    if (string.IsNullOrEmpty(parametros.correoPersonal))
                     {
                         parametros.correoPersonal = "*";
                     }
